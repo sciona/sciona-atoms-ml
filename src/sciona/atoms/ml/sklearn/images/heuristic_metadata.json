@@ -1,0 +1,171 @@
+{
+  "records": [
+    {
+      "atom_fqdn": "sciona.atoms.ml.sklearn.images.extract_patches_2d",
+      "summary": "Extract a sliding 2D patch view from an image tensor.",
+      "dejargonized_summary": "Break an image into local patches so later stages can inspect or reuse small neighborhoods directly.",
+      "heuristic_outputs": [
+        {
+          "output_name": "patches",
+          "output_path": "patches",
+          "role": "structural",
+          "semantic_kind": "patch_tensor",
+          "heuristic": {
+            "heuristic_id": "boundary_discontinuity",
+            "display_name": "Boundary Discontinuity",
+            "dejargonized_meaning": "The current boundary handling or local neighborhood split may need cleanup before later stages trust it.",
+            "evidence_type": "structured_summary",
+            "value_kind": "patch_tensor",
+            "value_shape": "tensor",
+            "confidence": 0.74,
+            "producer_kind": "atom_output",
+            "applicability_scope": "cross_family",
+            "supported_action_classes": [
+              "precondition",
+              "replace_stage"
+            ],
+            "provenance_requirements": [
+              "patch_size",
+              "image_shape"
+            ]
+          }
+        }
+      ],
+      "references": [
+        {
+          "title": "sklearn.feature_extraction.image.extract_patches_2d",
+          "citation": "Upstream wrapper surface for local patch extraction.",
+          "note": "Migrated clear-cut ML wrapper."
+        }
+      ],
+      "maintainers": [
+        "sciona-atoms-ml"
+      ]
+    },
+    {
+      "atom_fqdn": "sciona.atoms.ml.sklearn.images.reconstruct_from_patches_2d",
+      "summary": "Reconstruct an image tensor from local patches.",
+      "dejargonized_summary": "Assemble a full image again from a patch tensor so downstream consumers can inspect the reconstructed spatial layout.",
+      "heuristic_outputs": [
+        {
+          "output_name": "image",
+          "output_path": "image",
+          "role": "structural",
+          "semantic_kind": "image_tensor",
+          "heuristic": {
+            "heuristic_id": "alignment_error",
+            "display_name": "Alignment Error",
+            "dejargonized_meaning": "The output structure may not line up with the layout the next stage expects.",
+            "evidence_type": "structured_summary",
+            "value_kind": "image_tensor",
+            "value_shape": "tensor",
+            "confidence": 0.79,
+            "producer_kind": "atom_output",
+            "applicability_scope": "cross_family",
+            "supported_action_classes": [
+              "gate_or_validate",
+              "replace_stage"
+            ],
+            "provenance_requirements": [
+              "patch_count",
+              "image_size"
+            ]
+          }
+        }
+      ],
+      "references": [
+        {
+          "title": "sklearn.feature_extraction.image.reconstruct_from_patches_2d",
+          "citation": "Upstream reconstruction helper for patch-based image assembly.",
+          "note": "Migrated clear-cut ML wrapper."
+        }
+      ],
+      "maintainers": [
+        "sciona-atoms-ml"
+      ]
+    },
+    {
+      "atom_fqdn": "sciona.atoms.ml.sklearn.images.img_to_graph",
+      "summary": "Materialize a voxel adjacency graph from a 3D image volume.",
+      "dejargonized_summary": "Turn a 3D image into a sparse neighborhood graph so local differences can be inspected as structure.",
+      "heuristic_outputs": [
+        {
+          "output_name": "graph",
+          "output_path": "graph",
+          "role": "structural",
+          "semantic_kind": "sparse_graph",
+          "heuristic": {
+            "heuristic_id": "dominant_nuisance_structure",
+            "display_name": "Dominant Nuisance Structure",
+            "dejargonized_meaning": "The current representation may still be dominated by structure that should be filtered or replaced before later stages trust it.",
+            "evidence_type": "scalar_score",
+            "value_kind": "graph_weight",
+            "value_shape": "sparse_matrix",
+            "confidence": 0.71,
+            "producer_kind": "atom_output",
+            "applicability_scope": "cross_family",
+            "supported_action_classes": [
+              "precondition",
+              "replace_stage"
+            ],
+            "provenance_requirements": [
+              "image_shape",
+              "graph_density"
+            ]
+          }
+        }
+      ],
+      "references": [
+        {
+          "title": "sklearn.feature_extraction.image.img_to_graph",
+          "citation": "Upstream sparse graph materialization helper.",
+          "note": "Migrated clear-cut ML wrapper."
+        }
+      ],
+      "maintainers": [
+        "sciona-atoms-ml"
+      ]
+    },
+    {
+      "atom_fqdn": "sciona.atoms.ml.sklearn.images.grid_to_graph",
+      "summary": "Materialize a regular grid adjacency graph.",
+      "dejargonized_summary": "Turn grid dimensions into a sparse adjacency graph so later stages can work with the lattice directly.",
+      "heuristic_outputs": [
+        {
+          "output_name": "graph",
+          "output_path": "graph",
+          "role": "structural",
+          "semantic_kind": "sparse_graph",
+          "heuristic": {
+            "heuristic_id": "boundary_discontinuity",
+            "display_name": "Boundary Discontinuity",
+            "dejargonized_meaning": "Grid boundaries or adjacency constraints may need extra validation before the graph is trusted.",
+            "evidence_type": "structured_summary",
+            "value_kind": "graph_weight",
+            "value_shape": "sparse_matrix",
+            "confidence": 0.7,
+            "producer_kind": "atom_output",
+            "applicability_scope": "cross_family",
+            "supported_action_classes": [
+              "precondition",
+              "gate_or_validate"
+            ],
+            "provenance_requirements": [
+              "grid_shape"
+            ]
+          }
+        }
+      ],
+      "references": [
+        {
+          "title": "sklearn.feature_extraction.image.grid_to_graph",
+          "citation": "Upstream regular-grid graph helper.",
+          "note": "Migrated clear-cut ML wrapper."
+        }
+      ],
+      "maintainers": [
+        "sciona-atoms-ml"
+      ]
+    }
+  ]
+}

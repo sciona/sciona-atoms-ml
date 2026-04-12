@@ -1,0 +1,282 @@
+[
+  {
+    "pdg_node": {
+      "predicate_id": "image_patch_sampling_and_assembly",
+      "statement": "(image: Any, patch_size: Any, max_patches: Any, random_state: Any) -> array of extracted 2D patches",
+      "informal_desc": "Computes valid patch counts, extracts sliding 2D patches from an image tensor, and optionally subsamples patches when max_patches is specified. [query]",
+      "prover": "python",
+      "context": {
+        "source_language": "python",
+        "canonical_semantics": "true",
+        "concept_type": "data_assembly"
+      }
+    },
+    "verified_match": {
+      "candidate": {
+        "declaration": {
+          "name": "image_patch_sampling_and_assembly",
+          "type_signature": "(image: Any, patch_size: Any, max_patches: Any, random_state: Any) -> array of extracted 2D patches",
+          "docstring": "Computes valid patch counts, extracts sliding 2D patches from an image tensor, and optionally subsamples patches when max_patches is specified. [query]",
+          "conceptual_summary": "Canonical query operation via extract_patches_2d.",
+          "source_lib": "ingester:python",
+          "prover": "python",
+          "raw_code": ""
+        },
+        "score": 1.0,
+        "retrieval_method": "ingester"
+      },
+      "verified": true,
+      "compiler_output": "",
+      "proof_term": "",
+      "error_message": "",
+      "verification_level": "type_checked"
+    },
+    "all_candidates": [
+      {
+        "declaration": {
+          "name": "image_patch_sampling_and_assembly",
+          "type_signature": "(image: Any, patch_size: Any, max_patches: Any, random_state: Any) -> array of extracted 2D patches",
+          "docstring": "Computes valid patch counts, extracts sliding 2D patches from an image tensor, and optionally subsamples patches when max_patches is specified. [query]",
+          "conceptual_summary": "Canonical query operation via extract_patches_2d.",
+          "source_lib": "ingester:python",
+          "prover": "python",
+          "raw_code": ""
+        },
+        "score": 1.0,
+        "retrieval_method": "ingester"
+      }
+    ],
+    "all_verifications": [
+      {
+        "candidate": {
+          "declaration": {
+            "name": "image_patch_sampling_and_assembly",
+            "type_signature": "(image: Any, patch_size: Any, max_patches: Any, random_state: Any) -> array of extracted 2D patches",
+            "docstring": "Computes valid patch counts, extracts sliding 2D patches from an image tensor, and optionally subsamples patches when max_patches is specified. [query]",
+            "conceptual_summary": "Canonical query operation via extract_patches_2d.",
+            "source_lib": "ingester:python",
+            "prover": "python",
+            "raw_code": ""
+          },
+          "score": 1.0,
+          "retrieval_method": "ingester"
+        },
+        "verified": true,
+        "compiler_output": "",
+        "proof_term": "",
+        "error_message": "",
+        "verification_level": "type_checked"
+      }
+    ]
+  },
+  {
+    "pdg_node": {
+      "predicate_id": "patches_to_image_reconstruction",
+      "statement": "(patches: Any, image_size: Any) -> array-like",
+      "informal_desc": "Reconstructs a full 2D image tensor by assembling provided patches into the requested image size. [query]",
+      "prover": "python",
+      "context": {
+        "source_language": "python",
+        "canonical_semantics": "true",
+        "concept_type": "data_assembly"
+      }
+    },
+    "verified_match": {
+      "candidate": {
+        "declaration": {
+          "name": "patches_to_image_reconstruction",
+          "type_signature": "(patches: Any, image_size: Any) -> array-like",
+          "docstring": "Reconstructs a full 2D image tensor by assembling provided patches into the requested image size. [query]",
+          "conceptual_summary": "Canonical query operation via reconstruct_from_patches_2d.",
+          "source_lib": "ingester:python",
+          "prover": "python",
+          "raw_code": ""
+        },
+        "score": 1.0,
+        "retrieval_method": "ingester"
+      },
+      "verified": true,
+      "compiler_output": "",
+      "proof_term": "",
+      "error_message": "",
+      "verification_level": "type_checked"
+    },
+    "all_candidates": [
+      {
+        "declaration": {
+          "name": "patches_to_image_reconstruction",
+          "type_signature": "(patches: Any, image_size: Any) -> array-like",
+          "docstring": "Reconstructs a full 2D image tensor by assembling provided patches into the requested image size. [query]",
+          "conceptual_summary": "Canonical query operation via reconstruct_from_patches_2d.",
+          "source_lib": "ingester:python",
+          "prover": "python",
+          "raw_code": ""
+        },
+        "score": 1.0,
+        "retrieval_method": "ingester"
+      }
+    ],
+    "all_verifications": [
+      {
+        "candidate": {
+          "declaration": {
+            "name": "patches_to_image_reconstruction",
+            "type_signature": "(patches: Any, image_size: Any) -> array-like",
+            "docstring": "Reconstructs a full 2D image tensor by assembling provided patches into the requested image size. [query]",
+            "conceptual_summary": "Canonical query operation via reconstruct_from_patches_2d.",
+            "source_lib": "ingester:python",
+            "prover": "python",
+            "raw_code": ""
+          },
+          "score": 1.0,
+          "retrieval_method": "ingester"
+        },
+        "verified": true,
+        "compiler_output": "",
+        "proof_term": "",
+        "error_message": "",
+        "verification_level": "type_checked"
+      }
+    ]
+  },
+  {
+    "pdg_node": {
+      "predicate_id": "3d_image_graph_materialization",
+      "statement": "(img: Any, mask: Any, return_as: Any, dtype: Any) -> weighted adjacency graph/sparse matrix",
+      "informal_desc": "Converts a 3D image volume into a weighted voxel-adjacency graph by constructing neighborhood edges, computing gradient-based edge weights, optionally masking invalid edges, and returning the graph in the requested representation. [query]",
+      "prover": "python",
+      "context": {
+        "source_language": "python",
+        "canonical_semantics": "true",
+        "concept_type": "data_assembly"
+      }
+    },
+    "verified_match": {
+      "candidate": {
+        "declaration": {
+          "name": "3d_image_graph_materialization",
+          "type_signature": "(img: Any, mask: Any, return_as: Any, dtype: Any) -> weighted adjacency graph/sparse matrix",
+          "docstring": "Converts a 3D image volume into a weighted voxel-adjacency graph by constructing neighborhood edges, computing gradient-based edge weights, optionally masking invalid edges, and returning the graph in the requested representation. [query]",
+          "conceptual_summary": "Canonical query operation via img_to_graph. Planned group: 3d_image_graph_materialization.",
+          "source_lib": "ingester:python",
+          "prover": "python",
+          "raw_code": ""
+        },
+        "score": 1.0,
+        "retrieval_method": "ingester"
+      },
+      "verified": true,
+      "compiler_output": "",
+      "proof_term": "",
+      "error_message": "",
+      "verification_level": "type_checked"
+    },
+    "all_candidates": [
+      {
+        "declaration": {
+          "name": "3d_image_graph_materialization",
+          "type_signature": "(img: Any, mask: Any, return_as: Any, dtype: Any) -> weighted adjacency graph/sparse matrix",
+          "docstring": "Converts a 3D image volume into a weighted voxel-adjacency graph by constructing neighborhood edges, computing gradient-based edge weights, optionally masking invalid edges, and returning the graph in the requested representation. [query]",
+          "conceptual_summary": "Canonical query operation via img_to_graph. Planned group: 3d_image_graph_materialization.",
+          "source_lib": "ingester:python",
+          "prover": "python",
+          "raw_code": ""
+        },
+        "score": 1.0,
+        "retrieval_method": "ingester"
+      }
+    ],
+    "all_verifications": [
+      {
+        "candidate": {
+          "declaration": {
+            "name": "3d_image_graph_materialization",
+            "type_signature": "(img: Any, mask: Any, return_as: Any, dtype: Any) -> weighted adjacency graph/sparse matrix",
+            "docstring": "Converts a 3D image volume into a weighted voxel-adjacency graph by constructing neighborhood edges, computing gradient-based edge weights, optionally masking invalid edges, and returning the graph in the requested representation. [query]",
+            "conceptual_summary": "Canonical query operation via img_to_graph. Planned group: 3d_image_graph_materialization.",
+            "source_lib": "ingester:python",
+            "prover": "python",
+            "raw_code": ""
+          },
+          "score": 1.0,
+          "retrieval_method": "ingester"
+        },
+        "verified": true,
+        "compiler_output": "",
+        "proof_term": "",
+        "error_message": "",
+        "verification_level": "type_checked"
+      }
+    ]
+  },
+  {
+    "pdg_node": {
+      "predicate_id": "voxel_grid_graph_assembly",
+      "statement": "(n_x: Any, n_y: Any, n_z: Any, mask: Any, return_as: Any, dtype: Any) -> sparse graph / adjacency matrix",
+      "informal_desc": "Constructs a 3D grid adjacency graph by generating lattice edges, optionally computing gradient-based edge weights, optionally masking invalid connections, and returning the graph in the requested representation. [query]",
+      "prover": "python",
+      "context": {
+        "source_language": "python",
+        "canonical_semantics": "true",
+        "concept_type": "data_assembly"
+      }
+    },
+    "verified_match": {
+      "candidate": {
+        "declaration": {
+          "name": "voxel_grid_graph_assembly",
+          "type_signature": "(n_x: Any, n_y: Any, n_z: Any, mask: Any, return_as: Any, dtype: Any) -> sparse graph / adjacency matrix",
+          "docstring": "Constructs a 3D grid adjacency graph by generating lattice edges, optionally computing gradient-based edge weights, optionally masking invalid connections, and returning the graph in the requested representation. [query]",
+          "conceptual_summary": "Canonical query operation via grid_to_graph. Planned group: voxel_grid_graph_assembly.",
+          "source_lib": "ingester:python",
+          "prover": "python",
+          "raw_code": ""
+        },
+        "score": 1.0,
+        "retrieval_method": "ingester"
+      },
+      "verified": true,
+      "compiler_output": "",
+      "proof_term": "",
+      "error_message": "",
+      "verification_level": "type_checked"
+    },
+    "all_candidates": [
+      {
+        "declaration": {
+          "name": "voxel_grid_graph_assembly",
+          "type_signature": "(n_x: Any, n_y: Any, n_z: Any, mask: Any, return_as: Any, dtype: Any) -> sparse graph / adjacency matrix",
+          "docstring": "Constructs a 3D grid adjacency graph by generating lattice edges, optionally computing gradient-based edge weights, optionally masking invalid connections, and returning the graph in the requested representation. [query]",
+          "conceptual_summary": "Canonical query operation via grid_to_graph. Planned group: voxel_grid_graph_assembly.",
+          "source_lib": "ingester:python",
+          "prover": "python",
+          "raw_code": ""
+        },
+        "score": 1.0,
+        "retrieval_method": "ingester"
+      }
+    ],
+    "all_verifications": [
+      {
+        "candidate": {
+          "declaration": {
+            "name": "voxel_grid_graph_assembly",
+            "type_signature": "(n_x: Any, n_y: Any, n_z: Any, mask: Any, return_as: Any, dtype: Any) -> sparse graph / adjacency matrix",
+            "docstring": "Constructs a 3D grid adjacency graph by generating lattice edges, optionally computing gradient-based edge weights, optionally masking invalid connections, and returning the graph in the requested representation. [query]",
+            "conceptual_summary": "Canonical query operation via grid_to_graph. Planned group: voxel_grid_graph_assembly.",
+            "source_lib": "ingester:python",
+            "prover": "python",
+            "raw_code": ""
+          },
+          "score": 1.0,
+          "retrieval_method": "ingester"
+        },
+        "verified": true,
+        "compiler_output": "",
+        "proof_term": "",
+        "error_message": "",
+        "verification_level": "type_checked"
+      }
+    ]
+  }
+]
