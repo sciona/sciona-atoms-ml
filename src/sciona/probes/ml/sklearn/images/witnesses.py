@@ -6,6 +6,15 @@ from typing import Any
 
 import numpy as np
 import scipy.sparse as sp
+from dataclasses import dataclass
+
+
+@dataclass(frozen=True)
+class ProbeTarget:
+    atom_fqdn: str
+    module_import_path: str
+    wrapper_symbol: str
+    parity_expected: bool = True
 
 
 def witness_image_patch_sampling_and_assembly(
@@ -14,6 +23,7 @@ def witness_image_patch_sampling_and_assembly(
     max_patches: int | float | None = None,
     random_state: int | np.random.RandomState | np.random.Generator | None = None,
 ) -> np.ndarray:
+    """Validate metadata for extracting 2D image patches."""
     del max_patches, random_state
     if image.ndim != 2:
         raise ValueError("image must be 2D")
@@ -29,6 +39,7 @@ def witness_patches_to_image_reconstruction(
     patches: np.ndarray,
     image_size: tuple[int, int],
 ) -> np.ndarray:
+    """Validate metadata for reconstructing an image from patches."""
     if patches.ndim != 3:
         raise ValueError("patches must be 3D")
     image_h, image_w = int(image_size[0]), int(image_size[1])
@@ -43,6 +54,7 @@ def witness_3d_image_graph_materialization(
     return_as: type[sp.spmatrix] | None = None,
     dtype: np.dtype[Any] | None = None,
 ) -> sp.spmatrix:
+    """Validate metadata for converting an image volume into a sparse graph."""
     del mask, return_as, dtype
     if img.ndim != 3:
         raise ValueError("img must be 3D")
@@ -58,8 +70,32 @@ def witness_voxel_grid_graph_assembly(
     return_as: type[sp.spmatrix] | None = None,
     dtype: np.dtype[Any] | None = None,
 ) -> sp.spmatrix:
+    """Validate metadata for building a sparse graph over a voxel grid."""
     del mask, return_as, dtype
     if n_x <= 0 or n_y <= 0 or n_z <= 0:
         raise ValueError("grid dimensions must be positive")
     total = int(n_x * n_y * n_z)
     return sp.csr_matrix((total, total), dtype=np.float64)
+
+
+_MODULE = "sciona.probes.ml.sklearn.images.witnesses"
+
+IMAGES_PROBE_TARGETS: tuple[ProbeTarget, ...] = (
+    ProbeTarget(f"{_MODULE}.witness_image_patch_sampling_and_assembly", _MODULE, "witness_image_patch_sampling_and_assembly"),
+    ProbeTarget(f"{_MODULE}.witness_patches_to_image_reconstruction", _MODULE, "witness_patches_to_image_reconstruction"),
+    ProbeTarget(f"{_MODULE}.witness_3d_image_graph_materialization", _MODULE, "witness_3d_image_graph_materialization"),
+    ProbeTarget(f"{_MODULE}.witness_voxel_grid_graph_assembly", _MODULE, "witness_voxel_grid_graph_assembly"),
+)
+
+
+def probe_records() -> list[dict[str, object]]:
+    """Return structural probe records for the sklearn image witness surface."""
+    return [
+        {
+            "atom_fqdn": target.atom_fqdn,
+            "module_import_path": target.module_import_path,
+            "wrapper_symbol": target.wrapper_symbol,
+            "parity_expected": target.parity_expected,
+        }
+        for target in IMAGES_PROBE_TARGETS
+    ]

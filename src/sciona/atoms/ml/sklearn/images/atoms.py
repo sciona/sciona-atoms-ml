@@ -173,6 +173,7 @@ def extract_patches_2d(
     max_patches: int | float | None = None,
     random_state: OptionalRandomState = None,
 ) -> np.ndarray:
+    """Extract fixed-size patches from a 2D image."""
     if _SKLEARN_IMAGE_MODULE is not None:
         result = _SKLEARN_IMAGE_MODULE.extract_patches_2d(
             image,
@@ -190,6 +191,7 @@ def extract_patches_2d(
 
 
 def reconstruct_from_patches_2d(patches: np.ndarray, image_size: ImageSize) -> np.ndarray:
+    """Reconstruct an image by averaging overlapping patches."""
     if _SKLEARN_IMAGE_MODULE is not None:
         return np.asarray(_SKLEARN_IMAGE_MODULE.reconstruct_from_patches_2d(patches, image_size))
     return _reconstruct_from_patches_2d_fallback(patches, image_size)
@@ -202,6 +204,7 @@ def img_to_graph(
     return_as: OptionalSparseCtor = None,
     dtype: OptionalDType = None,
 ) -> sp.spmatrix:
+    """Build a sparse adjacency graph from image pixels or voxels."""
     if _SKLEARN_IMAGE_MODULE is not None:
         graph = _SKLEARN_IMAGE_MODULE.img_to_graph(
             img,
@@ -230,6 +233,7 @@ def grid_to_graph(
     return_as: OptionalSparseCtor = None,
     dtype: OptionalDType = None,
 ) -> sp.spmatrix:
+    """Build a sparse lattice graph for a regular 2D or 3D grid."""
     if _SKLEARN_IMAGE_MODULE is not None:
         graph = _SKLEARN_IMAGE_MODULE.grid_to_graph(
             n_x,
