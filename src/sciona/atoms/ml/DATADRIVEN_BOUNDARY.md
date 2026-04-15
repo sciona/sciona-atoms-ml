@@ -1,7 +1,7 @@
 # `datadriven` Boundary
 
-`ageoa.datadriven` was inspected during the ML migration pass, but it remains
-out of scope for now.
+The legacy `datadriven` surface was inspected during the ML migration pass, but
+it remains out of scope for now.
 
 Reason:
 

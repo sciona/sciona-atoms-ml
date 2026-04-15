@@ -9,7 +9,7 @@ import icontract
 import numpy as np
 from pydantic import BaseModel, Field
 
-from ageoa_julia_runtime import configure_juliacall_env
+from sciona.julia_runtime import configure_juliacall_env
 
 from sciona.ghost.registry import register_atom
 from .witnesses import witness_discover_equations
