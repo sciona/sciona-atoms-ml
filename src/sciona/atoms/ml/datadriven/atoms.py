@@ -11,7 +11,7 @@ from pydantic import BaseModel, Field
 
 from ageoa_julia_runtime import configure_juliacall_env
 
-from ageoa.ghost.registry import register_atom
+from sciona.ghost.registry import register_atom
 from .witnesses import witness_discover_equations
 
 _IDENTIFIER_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
