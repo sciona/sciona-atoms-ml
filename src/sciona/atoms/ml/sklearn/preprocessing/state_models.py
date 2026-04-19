@@ -118,3 +118,15 @@ class PowerTransformerState:
     mean: NDArray[np.float64] | None
     scale: NDArray[np.float64] | None
     n_features_in: int
+
+
+@dataclass(frozen=True)
+class QuantileTransformerState:
+    """Learned empirical quantiles for feature-wise distribution mapping."""
+
+    quantiles: NDArray[np.float64]
+    references: NDArray[np.float64]
+    n_quantiles: int
+    output_distribution: str
+    ignore_implicit_zeros: bool
+    n_features_in: int

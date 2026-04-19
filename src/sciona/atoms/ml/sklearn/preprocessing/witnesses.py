@@ -15,6 +15,7 @@ from .state_models import (
     MultiLabelBinarizerState,
     PolynomialFeaturesState,
     PowerTransformerState,
+    QuantileTransformerState,
     RobustScalerState,
     StandardScalerState,
 )
@@ -612,6 +613,102 @@ def witness_power_transform(
         copy=copy,
     )
     return transformed
+
+
+def witness_quantile_transformer_fit(
+    X: AbstractArray,
+    *,
+    n_quantiles: int = 1000,
+    output_distribution: str = "uniform",
+    ignore_implicit_zeros: bool = False,
+    subsample: int | None = 10_000,
+    random_state: int | None = None,
+) -> AbstractArray:
+    """Describe learning empirical quantiles for each feature."""
+    del ignore_implicit_zeros, random_state
+    n_samples, n_features = _check_2d(X)
+    if n_quantiles < 1:
+        raise ValueError("n_quantiles must be at least one")
+    if output_distribution not in {"uniform", "normal"}:
+        raise ValueError("output_distribution must be 'uniform' or 'normal'")
+    if subsample is not None and subsample < 1:
+        raise ValueError("subsample must be at least one or None")
+    if subsample is not None and n_quantiles > subsample:
+        raise ValueError("n_quantiles cannot exceed subsample")
+    return AbstractArray(shape=(min(n_quantiles, n_samples), n_features), dtype="float64")
+
+
+def witness_quantile_transformer_transform(
+    X: AbstractArray,
+    state: QuantileTransformerState,
+    copy: bool = True,
+) -> AbstractArray:
+    """Describe applying fitted quantile distribution mapping."""
+    del copy
+    n_samples, n_features = _check_2d(X)
+    if n_features != state.n_features_in:
+        raise ValueError("X feature count must match fitted state")
+    return AbstractArray(shape=(n_samples, n_features), dtype=X.dtype)
+
+
+def witness_quantile_transformer_inverse_transform(
+    X: AbstractArray,
+    state: QuantileTransformerState,
+    copy: bool = True,
+) -> AbstractArray:
+    """Describe undoing fitted quantile distribution mapping."""
+    return witness_quantile_transformer_transform(X, state, copy=copy)
+
+
+def witness_quantile_transformer_fit_transform(
+    X: AbstractArray,
+    *,
+    n_quantiles: int = 1000,
+    output_distribution: str = "uniform",
+    ignore_implicit_zeros: bool = False,
+    subsample: int | None = 10_000,
+    random_state: int | None = None,
+    copy: bool = True,
+) -> tuple[AbstractArray, AbstractArray]:
+    """Describe learning quantiles and transforming the same features."""
+    del copy
+    quantiles = witness_quantile_transformer_fit(
+        X,
+        n_quantiles=n_quantiles,
+        output_distribution=output_distribution,
+        ignore_implicit_zeros=ignore_implicit_zeros,
+        subsample=subsample,
+        random_state=random_state,
+    )
+    n_samples, n_features = _check_2d(X)
+    return quantiles, AbstractArray(shape=(n_samples, n_features), dtype=X.dtype)
+
+
+def witness_quantile_transform(
+    X: AbstractArray,
+    *,
+    axis: int = 0,
+    n_quantiles: int = 1000,
+    output_distribution: str = "uniform",
+    ignore_implicit_zeros: bool = False,
+    subsample: int | None = 100_000,
+    random_state: int | None = None,
+    copy: bool = True,
+) -> AbstractArray:
+    """Describe stateless quantile fitting and distribution mapping."""
+    del ignore_implicit_zeros, random_state, copy
+    n_samples, n_features = _check_2d(X)
+    if axis not in {0, 1}:
+        raise ValueError("axis must be 0 or 1")
+    if n_quantiles < 1:
+        raise ValueError("n_quantiles must be at least one")
+    if output_distribution not in {"uniform", "normal"}:
+        raise ValueError("output_distribution must be 'uniform' or 'normal'")
+    if subsample is not None and subsample < 1:
+        raise ValueError("subsample must be at least one or None")
+    if subsample is not None and n_quantiles > subsample:
+        raise ValueError("n_quantiles cannot exceed subsample")
+    return AbstractArray(shape=(n_samples, n_features), dtype=X.dtype)
 
 
 def _polynomial_degree_bounds(degree: int | tuple[int, int], include_bias: bool) -> tuple[int, int]:

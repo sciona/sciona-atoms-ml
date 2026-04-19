@@ -14,6 +14,7 @@ from sklearn.preprocessing import (
     Normalizer,
     PolynomialFeatures,
     PowerTransformer,
+    QuantileTransformer,
     RobustScaler,
     StandardScaler,
 )
@@ -24,6 +25,7 @@ from sklearn.preprocessing import maxabs_scale as sklearn_maxabs_scale
 from sklearn.preprocessing import minmax_scale as sklearn_minmax_scale
 from sklearn.preprocessing import normalize as sklearn_normalize
 from sklearn.preprocessing import power_transform as sklearn_power_transform
+from sklearn.preprocessing import quantile_transform as sklearn_quantile_transform
 from sklearn.preprocessing import robust_scale as sklearn_robust_scale
 from sklearn.preprocessing import scale as sklearn_scale
 
@@ -68,6 +70,11 @@ def test_preprocessing_basic_atoms_import() -> None:
         power_transformer_fit_transform,
         power_transformer_inverse_transform,
         power_transformer_transform,
+        quantile_transform,
+        quantile_transformer_fit,
+        quantile_transformer_fit_transform,
+        quantile_transformer_inverse_transform,
+        quantile_transformer_transform,
         robust_scale,
         robust_scaler_fit,
         robust_scaler_inverse_transform,
@@ -117,6 +124,11 @@ def test_preprocessing_basic_atoms_import() -> None:
     assert callable(power_transformer_fit_transform)
     assert callable(power_transformer_inverse_transform)
     assert callable(power_transformer_transform)
+    assert callable(quantile_transform)
+    assert callable(quantile_transformer_fit)
+    assert callable(quantile_transformer_fit_transform)
+    assert callable(quantile_transformer_inverse_transform)
+    assert callable(quantile_transformer_transform)
     assert callable(robust_scale)
     assert callable(robust_scaler_fit)
     assert callable(robust_scaler_inverse_transform)
@@ -656,6 +668,104 @@ def test_power_transformer_errors_match_sklearn() -> None:
         power_transformer_transform(np.ones((3, 3), dtype=np.float64), state)
     with pytest.raises(ValueError):
         PowerTransformer().fit(np.ones((3, 2), dtype=np.float64)).transform(np.ones((3, 3), dtype=np.float64))
+
+
+def test_quantile_transform_matches_sklearn_dense_axes_and_distributions() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import quantile_transform
+
+    X = np.array([[0.0, 1.0, 5.0], [2.0, 1.0, 3.0], [4.0, 2.0, 1.0], [8.0, 3.0, 0.0]], dtype=np.float64)
+    assert np.allclose(
+        quantile_transform(X, n_quantiles=4, random_state=0),
+        sklearn_quantile_transform(X, n_quantiles=4, random_state=0),
+    )
+    assert np.allclose(
+        quantile_transform(X, axis=1, n_quantiles=3, output_distribution="normal", random_state=0),
+        sklearn_quantile_transform(X, axis=1, n_quantiles=3, output_distribution="normal", random_state=0),
+    )
+
+
+def test_quantile_transformer_fit_transform_matches_sklearn_state() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import quantile_transformer_fit_transform
+
+    X = np.array([[0.0, 1.0], [2.0, 1.0], [4.0, 2.0], [8.0, 3.0]], dtype=np.float64)
+    state, transformed = quantile_transformer_fit_transform(
+        X,
+        n_quantiles=4,
+        output_distribution="normal",
+        random_state=0,
+    )
+    expected = QuantileTransformer(n_quantiles=4, output_distribution="normal", random_state=0).fit(X)
+
+    assert np.allclose(state.quantiles, expected.quantiles_)
+    assert np.allclose(state.references, expected.references_)
+    assert state.n_quantiles == expected.n_quantiles_
+    assert np.allclose(transformed, expected.transform(X))
+
+
+def test_quantile_transformer_transform_and_inverse_match_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import (
+        quantile_transformer_fit,
+        quantile_transformer_inverse_transform,
+        quantile_transformer_transform,
+    )
+
+    X = np.array([[0.0, 1.0], [2.0, 1.0], [4.0, 2.0], [8.0, 3.0]], dtype=np.float64)
+    state = quantile_transformer_fit(X, n_quantiles=4, output_distribution="uniform", random_state=0)
+    expected = QuantileTransformer(n_quantiles=4, output_distribution="uniform", random_state=0).fit(X)
+    query = np.array([[-1.0, 0.5], [2.0, 1.5], [10.0, 4.0]], dtype=np.float64)
+
+    transformed = quantile_transformer_transform(query, state)
+    expected_transformed = expected.transform(query)
+    assert np.allclose(transformed, expected_transformed)
+    assert np.allclose(quantile_transformer_inverse_transform(transformed, state), expected.inverse_transform(expected_transformed))
+
+
+def test_quantile_transformer_sparse_and_nan_behavior_matches_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import quantile_transformer_fit, quantile_transformer_transform
+
+    X = sp.csc_matrix([[0.0, 1.0, np.nan], [2.0, 0.0, 3.0], [4.0, 2.0, 0.0]], dtype=np.float64)
+    state = quantile_transformer_fit(X, n_quantiles=3, ignore_implicit_zeros=True, random_state=0)
+    expected = QuantileTransformer(n_quantiles=3, ignore_implicit_zeros=True, random_state=0).fit(X)
+    result = quantile_transformer_transform(X, state)
+    expected_result = expected.transform(X)
+
+    assert sp.issparse(result)
+    assert result.getformat() == expected_result.getformat()
+    assert np.allclose(state.quantiles, expected.quantiles_, equal_nan=True)
+    assert np.allclose(result.toarray(), expected_result.toarray(), equal_nan=True)
+
+
+def test_quantile_transformer_warnings_and_errors_match_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import quantile_transformer_fit, quantile_transformer_transform
+
+    X = np.array([[0.0, 1.0], [2.0, 3.0]], dtype=np.float64)
+    with pytest.warns(UserWarning, match="n_quantiles"):
+        state = quantile_transformer_fit(X, n_quantiles=5)
+    with pytest.warns(UserWarning, match="n_quantiles"):
+        expected = QuantileTransformer(n_quantiles=5).fit(X)
+    assert state.n_quantiles == expected.n_quantiles_
+
+    with pytest.warns(UserWarning, match="ignore_implicit_zeros"):
+        quantile_transformer_fit(X, n_quantiles=2, ignore_implicit_zeros=True)
+    with pytest.warns(UserWarning, match="ignore_implicit_zeros"):
+        QuantileTransformer(n_quantiles=2, ignore_implicit_zeros=True).fit(X)
+
+    with pytest.raises(ValueError, match="cannot be greater"):
+        quantile_transformer_fit(X, n_quantiles=3, subsample=2)
+    with pytest.raises(ValueError, match="cannot be greater"):
+        QuantileTransformer(n_quantiles=3, subsample=2).fit(X)
+
+    X_sparse_negative = sp.csc_matrix([[0.0, -1.0], [2.0, 0.0]], dtype=np.float64)
+    with pytest.raises(ValueError, match="non-negative sparse"):
+        quantile_transformer_fit(X_sparse_negative, n_quantiles=2, ignore_implicit_zeros=False)
+    with pytest.raises(ValueError, match="non-negative sparse"):
+        QuantileTransformer(n_quantiles=2, ignore_implicit_zeros=False).fit(X_sparse_negative)
+
+    state = quantile_transformer_fit(np.ones((3, 2), dtype=np.float64), n_quantiles=3)
+    with pytest.raises(Exception, match="feature"):
+        quantile_transformer_transform(np.ones((3, 3), dtype=np.float64), state)
+    with pytest.raises(ValueError):
+        QuantileTransformer(n_quantiles=3).fit(np.ones((3, 2), dtype=np.float64)).transform(np.ones((3, 3), dtype=np.float64))
 
 
 def test_scale_matches_sklearn_dense_axes_and_options() -> None:

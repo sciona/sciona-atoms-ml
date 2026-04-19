@@ -1604,6 +1604,226 @@
           "type_desc": "NDArray[np.float64]"
         }
       ]
+    },
+    {
+      "node_id": "quantile_transformer_fit",
+      "name": "quantile_transformer_fit",
+      "description": "Estimate empirical per-feature quantiles for fitted distribution mapping.",
+      "concept_type": "fit_state_builder",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, n_quantiles: int = 1000, output_distribution: str = 'uniform', ignore_implicit_zeros: bool = False, subsample: int | None = 10000, random_state: int | numpy.random.RandomState | None = None) -> QuantileTransformerState",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix",
+          "required": true
+        },
+        {
+          "name": "n_quantiles",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "output_distribution",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "ignore_implicit_zeros",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "subsample",
+          "type_desc": "int | None",
+          "required": false
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int | numpy.random.RandomState | None",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "QuantileTransformerState"
+        }
+      ]
+    },
+    {
+      "node_id": "quantile_transformer_transform",
+      "name": "quantile_transformer_transform",
+      "description": "Map features through fitted empirical quantiles to uniform or normal marginals.",
+      "concept_type": "array_transform",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, state: QuantileTransformerState, copy: bool = True) -> NDArray[np.float64] | scipy.sparse.spmatrix",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "QuantileTransformerState",
+          "required": true
+        },
+        {
+          "name": "copy",
+          "type_desc": "bool",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"
+        }
+      ]
+    },
+    {
+      "node_id": "quantile_transformer_inverse_transform",
+      "name": "quantile_transformer_inverse_transform",
+      "description": "Map quantile-transformed values back to the fitted original feature scale.",
+      "concept_type": "array_transform",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, state: QuantileTransformerState, copy: bool = True) -> NDArray[np.float64] | scipy.sparse.spmatrix",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "QuantileTransformerState",
+          "required": true
+        },
+        {
+          "name": "copy",
+          "type_desc": "bool",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"
+        }
+      ]
+    },
+    {
+      "node_id": "quantile_transformer_fit_transform",
+      "name": "quantile_transformer_fit_transform",
+      "description": "Estimate empirical quantiles and transform the same matrix in one pass.",
+      "concept_type": "fit_transform",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, n_quantiles: int = 1000, output_distribution: str = 'uniform', ignore_implicit_zeros: bool = False, subsample: int | None = 10000, random_state: int | numpy.random.RandomState | None = None, copy: bool = True) -> tuple[QuantileTransformerState, NDArray[np.float64] | scipy.sparse.spmatrix]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix",
+          "required": true
+        },
+        {
+          "name": "n_quantiles",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "output_distribution",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "ignore_implicit_zeros",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "subsample",
+          "type_desc": "int | None",
+          "required": false
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int | numpy.random.RandomState | None",
+          "required": false
+        },
+        {
+          "name": "copy",
+          "type_desc": "bool",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "tuple[QuantileTransformerState, NDArray[np.float64] | scipy.sparse.spmatrix]"
+        }
+      ]
+    },
+    {
+      "node_id": "quantile_transform",
+      "name": "quantile_transform",
+      "description": "Fit empirical quantiles on one axis and return transformed values without exposing state.",
+      "concept_type": "array_transform",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, axis: int = 0, n_quantiles: int = 1000, output_distribution: str = 'uniform', ignore_implicit_zeros: bool = False, subsample: int | None = 100000, random_state: int | numpy.random.RandomState | None = None, copy: bool = True) -> NDArray[np.float64] | scipy.sparse.spmatrix",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix",
+          "required": true
+        },
+        {
+          "name": "axis",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "n_quantiles",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "output_distribution",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "ignore_implicit_zeros",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "subsample",
+          "type_desc": "int | None",
+          "required": false
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int | numpy.random.RandomState | None",
+          "required": false
+        },
+        {
+          "name": "copy",
+          "type_desc": "bool",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"
+        }
+      ]
     }
   ],
   "edges": [
@@ -1755,6 +1975,26 @@
     {
       "source_id": "power_transformer_fit_transform",
       "target_id": "power_transform",
+      "edge_type": "implementation_dependency"
+    },
+    {
+      "source_id": "quantile_transformer_fit",
+      "target_id": "quantile_transformer_transform",
+      "edge_type": "fit_state_dependency"
+    },
+    {
+      "source_id": "quantile_transformer_fit",
+      "target_id": "quantile_transformer_inverse_transform",
+      "edge_type": "fit_state_dependency"
+    },
+    {
+      "source_id": "quantile_transformer_fit",
+      "target_id": "quantile_transformer_fit_transform",
+      "edge_type": "implementation_dependency"
+    },
+    {
+      "source_id": "quantile_transformer_fit_transform",
+      "target_id": "quantile_transform",
       "edge_type": "implementation_dependency"
     }
   ],

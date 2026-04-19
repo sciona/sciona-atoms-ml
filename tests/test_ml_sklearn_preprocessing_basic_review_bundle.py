@@ -53,6 +53,11 @@ EXPECTED_ATOM_NAMES = {
     "sciona.atoms.ml.sklearn.preprocessing.power_transformer_fit_transform",
     "sciona.atoms.ml.sklearn.preprocessing.power_transformer_inverse_transform",
     "sciona.atoms.ml.sklearn.preprocessing.power_transformer_transform",
+    "sciona.atoms.ml.sklearn.preprocessing.quantile_transform",
+    "sciona.atoms.ml.sklearn.preprocessing.quantile_transformer_fit",
+    "sciona.atoms.ml.sklearn.preprocessing.quantile_transformer_fit_transform",
+    "sciona.atoms.ml.sklearn.preprocessing.quantile_transformer_inverse_transform",
+    "sciona.atoms.ml.sklearn.preprocessing.quantile_transformer_transform",
     "sciona.atoms.ml.sklearn.preprocessing.robust_scale",
     "sciona.atoms.ml.sklearn.preprocessing.robust_scaler_fit",
     "sciona.atoms.ml.sklearn.preprocessing.robust_scaler_inverse_transform",
@@ -69,10 +74,10 @@ def _bundle() -> dict:
     return json.loads(BUNDLE_PATH.read_text(encoding="utf-8"))
 
 
-def test_bundle_exists_and_has_forty_seven_atoms() -> None:
+def test_bundle_exists_and_has_fifty_two_atoms() -> None:
     assert BUNDLE_PATH.exists()
     bundle = _bundle()
-    assert len(bundle["rows"]) == 47
+    assert len(bundle["rows"]) == 52
     assert {row["atom_key"] for row in bundle["rows"]} == EXPECTED_ATOM_NAMES
 
 
@@ -153,6 +158,11 @@ def test_cdg_atomic_nodes_have_publishable_io_specs() -> None:
         "power_transformer_fit_transform",
         "power_transformer_inverse_transform",
         "power_transformer_transform",
+        "quantile_transform",
+        "quantile_transformer_fit",
+        "quantile_transformer_fit_transform",
+        "quantile_transformer_inverse_transform",
+        "quantile_transformer_transform",
         "robust_scale",
         "robust_scaler_fit",
         "robust_scaler_inverse_transform",

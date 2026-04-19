@@ -10,8 +10,8 @@ import scipy.sparse as sp
 import scipy.special as special
 import scipy.stats as stats
 from numpy.typing import NDArray
-from sklearn.preprocessing._data import _handle_zeros_in_scale, _is_constant_feature
-from sklearn.utils import check_array
+from sklearn.preprocessing._data import BOUNDS_THRESHOLD, _handle_zeros_in_scale, _is_constant_feature
+from sklearn.utils import check_array, check_random_state, resample
 from sklearn.utils.extmath import _incremental_mean_and_var, row_norms
 from sklearn.utils.sparsefuncs import incr_mean_variance_axis, inplace_column_scale, mean_variance_axis, min_max_axis
 from sklearn.utils.sparsefuncs_fast import inplace_csr_row_normalize_l1, inplace_csr_row_normalize_l2
@@ -1194,6 +1194,7 @@ from .state_models import (
     MultiLabelBinarizerState,
     PolynomialFeaturesState,
     PowerTransformerState,
+    QuantileTransformerState,
 )
 from .witnesses import (
     witness_label_encoder_fit,
@@ -2255,3 +2256,396 @@ def power_transform(
         copy=copy,
     )
     return transformed
+
+
+from .witnesses import (
+    witness_quantile_transform,
+    witness_quantile_transformer_fit,
+    witness_quantile_transformer_fit_transform,
+    witness_quantile_transformer_inverse_transform,
+    witness_quantile_transformer_transform,
+)
+
+RandomStateLike = int | np.random.RandomState | None
+QuantileTransformerFitTransformResult = tuple[QuantileTransformerState, MatrixLike]
+
+
+def _quantile_distribution_valid(output_distribution: str) -> bool:
+    return output_distribution in {"uniform", "normal"}
+
+
+def _subsample_valid(subsample: int | None) -> bool:
+    return subsample is None or subsample >= 1
+
+
+def _quantile_state_valid(state: QuantileTransformerState) -> bool:
+    expected_shape = (state.n_quantiles, state.n_features_in)
+    return bool(
+        state.n_quantiles >= 1
+        and _quantile_distribution_valid(state.output_distribution)
+        and state.quantiles.ndim == 2
+        and state.quantiles.shape == expected_shape
+        and state.references.ndim == 1
+        and state.references.shape == (state.n_quantiles,)
+    )
+
+
+def _quantile_transform_shape_matches(result: MatrixLike, X: MatrixLike) -> bool:
+    return bool(result.shape == X.shape)
+
+
+def _quantile_fit_transform_valid(result: QuantileTransformerFitTransformResult, X: MatrixLike) -> bool:
+    state, transformed = result
+    return bool(_quantile_state_valid(state) and _quantile_transform_shape_matches(transformed, X))
+
+
+def _quantile_check_inputs(
+    X: MatrixLike,
+    *,
+    in_fit: bool,
+    ignore_implicit_zeros: bool,
+    accept_sparse_negative: bool = False,
+    copy: bool = False,
+) -> MatrixLike:
+    checked_x = check_array(
+        X,
+        accept_sparse="csc",
+        copy=copy,
+        dtype=FLOAT_DTYPES,
+        force_writeable=True if not in_fit else None,
+        ensure_all_finite="allow-nan",
+    )
+    with np.errstate(invalid="ignore"):
+        if (
+            not accept_sparse_negative
+            and not ignore_implicit_zeros
+            and sp.issparse(checked_x)
+            and np.any(checked_x.data < 0)
+        ):
+            raise ValueError("QuantileTransformer only accepts non-negative sparse matrices.")
+    return checked_x
+
+
+def _quantile_dense_fit(
+    X: NDArray[np.float64],
+    references: NDArray[np.float64],
+    *,
+    ignore_implicit_zeros: bool,
+    subsample: int | None,
+    random_state: np.random.RandomState,
+) -> NDArray[np.float64]:
+    if ignore_implicit_zeros:
+        warnings.warn(
+            "'ignore_implicit_zeros' takes effect only with sparse matrix. This parameter has no effect.",
+            UserWarning,
+            stacklevel=2,
+        )
+    fitting_x = X
+    if subsample is not None and subsample < X.shape[0]:
+        fitting_x = resample(X, replace=False, n_samples=subsample, random_state=random_state)
+    return np.asarray(np.nanpercentile(fitting_x, references * 100, axis=0), dtype=np.float64)
+
+
+def _quantile_sparse_fit(
+    X: sp.spmatrix,
+    references: NDArray[np.float64],
+    *,
+    ignore_implicit_zeros: bool,
+    subsample: int | None,
+    random_state: np.random.RandomState,
+) -> NDArray[np.float64]:
+    csc_x = X.tocsc()
+    n_samples, n_features = csc_x.shape
+    quantiles: list[NDArray[np.float64] | list[float]] = []
+    for feature_idx in range(n_features):
+        column_nnz_data = csc_x.data[csc_x.indptr[feature_idx] : csc_x.indptr[feature_idx + 1]]
+        if subsample is not None and len(column_nnz_data) > subsample:
+            column_subsample = subsample * len(column_nnz_data) // n_samples
+            if ignore_implicit_zeros:
+                column_data = np.zeros(shape=column_subsample, dtype=csc_x.dtype)
+            else:
+                column_data = np.zeros(shape=subsample, dtype=csc_x.dtype)
+            column_data[:column_subsample] = random_state.choice(
+                column_nnz_data,
+                size=column_subsample,
+                replace=False,
+            )
+        else:
+            if ignore_implicit_zeros:
+                column_data = np.zeros(shape=len(column_nnz_data), dtype=csc_x.dtype)
+            else:
+                column_data = np.zeros(shape=n_samples, dtype=csc_x.dtype)
+            column_data[: len(column_nnz_data)] = column_nnz_data
+
+        if not column_data.size:
+            quantiles.append([0.0] * len(references))
+        else:
+            quantiles.append(np.nanpercentile(column_data, references * 100))
+    return np.asarray(quantiles, dtype=np.float64).T
+
+
+def _quantile_transform_col(
+    X_col: NDArray[np.float64],
+    quantiles: NDArray[np.float64],
+    references: NDArray[np.float64],
+    output_distribution: str,
+    *,
+    inverse: bool,
+) -> NDArray[np.float64]:
+    if not inverse:
+        lower_bound_x = quantiles[0]
+        upper_bound_x = quantiles[-1]
+        lower_bound_y = 0.0
+        upper_bound_y = 1.0
+    else:
+        lower_bound_x = 0.0
+        upper_bound_x = 1.0
+        lower_bound_y = quantiles[0]
+        upper_bound_y = quantiles[-1]
+        with np.errstate(invalid="ignore"):
+            if output_distribution == "normal":
+                X_col = stats.norm.cdf(X_col)
+
+    with np.errstate(invalid="ignore"):
+        if output_distribution == "normal":
+            lower_bounds_idx = X_col - BOUNDS_THRESHOLD < lower_bound_x
+            upper_bounds_idx = X_col + BOUNDS_THRESHOLD > upper_bound_x
+        else:
+            lower_bounds_idx = X_col == lower_bound_x
+            upper_bounds_idx = X_col == upper_bound_x
+
+    isfinite_mask = ~np.isnan(X_col)
+    x_col_finite = X_col[isfinite_mask]
+    if not inverse:
+        X_col[isfinite_mask] = 0.5 * (
+            np.interp(x_col_finite, quantiles, references)
+            - np.interp(-x_col_finite, -quantiles[::-1], -references[::-1])
+        )
+    else:
+        X_col[isfinite_mask] = np.interp(x_col_finite, references, quantiles)
+
+    X_col[upper_bounds_idx] = upper_bound_y
+    X_col[lower_bounds_idx] = lower_bound_y
+    if not inverse:
+        with np.errstate(invalid="ignore"):
+            if output_distribution == "normal":
+                X_col = stats.norm.ppf(X_col)
+                clip_min = stats.norm.ppf(BOUNDS_THRESHOLD - np.spacing(1))
+                clip_max = stats.norm.ppf(1 - (BOUNDS_THRESHOLD - np.spacing(1)))
+                X_col = np.clip(X_col, clip_min, clip_max)
+    return X_col
+
+
+def _quantile_transform_matrix(
+    X: MatrixLike,
+    state: QuantileTransformerState,
+    *,
+    inverse: bool,
+) -> MatrixLike:
+    if sp.issparse(X):
+        transformed = X.tocsc(copy=True)
+        for feature_idx in range(transformed.shape[1]):
+            column_slice = slice(transformed.indptr[feature_idx], transformed.indptr[feature_idx + 1])
+            transformed.data[column_slice] = _quantile_transform_col(
+                np.asarray(transformed.data[column_slice], dtype=np.float64),
+                state.quantiles[:, feature_idx],
+                state.references,
+                state.output_distribution,
+                inverse=inverse,
+            )
+        return transformed
+
+    dense = np.asarray(X, dtype=np.float64).copy()
+    for feature_idx in range(dense.shape[1]):
+        dense[:, feature_idx] = _quantile_transform_col(
+            dense[:, feature_idx],
+            state.quantiles[:, feature_idx],
+            state.references,
+            state.output_distribution,
+            inverse=inverse,
+        )
+    return dense
+
+
+@register_atom(witness_quantile_transformer_fit)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
+@icontract.require(lambda n_quantiles: n_quantiles >= 1, "n_quantiles must be at least one")
+@icontract.require(lambda output_distribution: _quantile_distribution_valid(output_distribution), "output_distribution must be 'uniform' or 'normal'")
+@icontract.require(lambda subsample: _subsample_valid(subsample), "subsample must be at least one or None")
+@icontract.ensure(lambda result: _quantile_state_valid(result), "quantile state must contain fitted feature quantiles")
+@icontract.ensure(lambda result, X: result.n_features_in == X.shape[1], "state feature count must match input columns")
+def quantile_transformer_fit(
+    X: MatrixLike,
+    *,
+    n_quantiles: int = 1000,
+    output_distribution: str = "uniform",
+    ignore_implicit_zeros: bool = False,
+    subsample: int | None = 10_000,
+    random_state: RandomStateLike = None,
+) -> QuantileTransformerState:
+    """Estimate empirical per-feature quantiles for distribution mapping."""
+    if subsample is not None and n_quantiles > subsample:
+        raise ValueError(
+            "The number of quantiles cannot be greater than the number of samples used. "
+            f"Got {n_quantiles} quantiles and {subsample} samples."
+        )
+    checked_x = _quantile_check_inputs(
+        X,
+        in_fit=True,
+        ignore_implicit_zeros=ignore_implicit_zeros,
+        copy=False,
+    )
+    n_samples = int(checked_x.shape[0])
+    if n_quantiles > n_samples:
+        warnings.warn(
+            "n_quantiles ({0}) is greater than the total number of samples ({1}). n_quantiles is set to n_samples.".format(
+                n_quantiles,
+                n_samples,
+            ),
+            UserWarning,
+            stacklevel=2,
+        )
+    n_quantiles_fit = max(1, min(n_quantiles, n_samples))
+    references = np.linspace(0, 1, n_quantiles_fit, endpoint=True, dtype=np.float64)
+    rng = check_random_state(random_state)
+    if sp.issparse(checked_x):
+        quantiles = _quantile_sparse_fit(
+            checked_x,
+            references,
+            ignore_implicit_zeros=ignore_implicit_zeros,
+            subsample=subsample,
+            random_state=rng,
+        )
+    else:
+        quantiles = _quantile_dense_fit(
+            np.asarray(checked_x, dtype=np.float64),
+            references,
+            ignore_implicit_zeros=ignore_implicit_zeros,
+            subsample=subsample,
+            random_state=rng,
+        )
+    return QuantileTransformerState(
+        quantiles=quantiles,
+        references=references,
+        n_quantiles=int(n_quantiles_fit),
+        output_distribution=output_distribution,
+        ignore_implicit_zeros=bool(ignore_implicit_zeros),
+        n_features_in=int(checked_x.shape[1]),
+    )
+
+
+@register_atom(witness_quantile_transformer_transform)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
+@icontract.require(lambda state: _quantile_state_valid(state), "quantile state must contain fitted feature quantiles")
+@icontract.require(lambda X, state: X.shape[1] == state.n_features_in, "X feature count must match fitted state")
+@icontract.ensure(lambda result, X: _quantile_transform_shape_matches(result, X), "quantile transform output must preserve shape")
+def quantile_transformer_transform(
+    X: MatrixLike,
+    state: QuantileTransformerState,
+    copy: bool = True,
+) -> MatrixLike:
+    """Map features through fitted empirical quantiles to uniform or normal marginals."""
+    checked_x = _quantile_check_inputs(
+        X,
+        in_fit=False,
+        ignore_implicit_zeros=state.ignore_implicit_zeros,
+        copy=copy,
+    )
+    if checked_x.shape[1] != state.n_features_in:
+        raise ValueError("Input data has a different number of features than fitting data.")
+    return _quantile_transform_matrix(checked_x, state, inverse=False)
+
+
+@register_atom(witness_quantile_transformer_inverse_transform)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
+@icontract.require(lambda state: _quantile_state_valid(state), "quantile state must contain fitted feature quantiles")
+@icontract.require(lambda X, state: X.shape[1] == state.n_features_in, "X feature count must match fitted state")
+@icontract.ensure(lambda result, X: _quantile_transform_shape_matches(result, X), "inverse quantile transform output must preserve shape")
+def quantile_transformer_inverse_transform(
+    X: MatrixLike,
+    state: QuantileTransformerState,
+    copy: bool = True,
+) -> MatrixLike:
+    """Map fitted uniform or normal marginal values back to original feature space."""
+    checked_x = _quantile_check_inputs(
+        X,
+        in_fit=False,
+        ignore_implicit_zeros=state.ignore_implicit_zeros,
+        accept_sparse_negative=True,
+        copy=copy,
+    )
+    if checked_x.shape[1] != state.n_features_in:
+        raise ValueError("Input data has a different number of features than fitting data.")
+    return _quantile_transform_matrix(checked_x, state, inverse=True)
+
+
+@register_atom(witness_quantile_transformer_fit_transform)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
+@icontract.require(lambda n_quantiles: n_quantiles >= 1, "n_quantiles must be at least one")
+@icontract.require(lambda output_distribution: _quantile_distribution_valid(output_distribution), "output_distribution must be 'uniform' or 'normal'")
+@icontract.require(lambda subsample: _subsample_valid(subsample), "subsample must be at least one or None")
+@icontract.ensure(lambda result, X: _quantile_fit_transform_valid(result, X), "fit-transform output must match learned quantile state")
+def quantile_transformer_fit_transform(
+    X: MatrixLike,
+    *,
+    n_quantiles: int = 1000,
+    output_distribution: str = "uniform",
+    ignore_implicit_zeros: bool = False,
+    subsample: int | None = 10_000,
+    random_state: RandomStateLike = None,
+    copy: bool = True,
+) -> QuantileTransformerFitTransformResult:
+    """Estimate empirical quantiles and transform the same feature matrix."""
+    state = quantile_transformer_fit(
+        X,
+        n_quantiles=n_quantiles,
+        output_distribution=output_distribution,
+        ignore_implicit_zeros=ignore_implicit_zeros,
+        subsample=subsample,
+        random_state=random_state,
+    )
+    return state, quantile_transformer_transform(X, state, copy=copy)
+
+
+@register_atom(witness_quantile_transform)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
+@icontract.require(lambda axis: _valid_axis(axis), "axis must be 0 or 1")
+@icontract.require(lambda n_quantiles: n_quantiles >= 1, "n_quantiles must be at least one")
+@icontract.require(lambda output_distribution: _quantile_distribution_valid(output_distribution), "output_distribution must be 'uniform' or 'normal'")
+@icontract.require(lambda subsample: _subsample_valid(subsample), "subsample must be at least one or None")
+@icontract.ensure(lambda result, X: _quantile_transform_shape_matches(result, X), "quantile transformed output must preserve shape")
+def quantile_transform(
+    X: MatrixLike,
+    *,
+    axis: int = 0,
+    n_quantiles: int = 1000,
+    output_distribution: str = "uniform",
+    ignore_implicit_zeros: bool = False,
+    subsample: int | None = 100_000,
+    random_state: RandomStateLike = None,
+    copy: bool = True,
+) -> MatrixLike:
+    """Fit empirical quantiles on one axis and map values to uniform or normal marginals."""
+    if axis == 0:
+        _, transformed = quantile_transformer_fit_transform(
+            X,
+            n_quantiles=n_quantiles,
+            output_distribution=output_distribution,
+            ignore_implicit_zeros=ignore_implicit_zeros,
+            subsample=subsample,
+            random_state=random_state,
+            copy=copy,
+        )
+        return transformed
+
+    transposed = X.T if sp.issparse(X) else np.asarray(X).T
+    _, transformed_t = quantile_transformer_fit_transform(
+        transposed,
+        n_quantiles=n_quantiles,
+        output_distribution=output_distribution,
+        ignore_implicit_zeros=ignore_implicit_zeros,
+        subsample=subsample,
+        random_state=random_state,
+        copy=copy,
+    )
+    return transformed_t.T
