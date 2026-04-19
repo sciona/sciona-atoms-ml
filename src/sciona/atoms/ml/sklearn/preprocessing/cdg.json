@@ -31,7 +31,11 @@
         "robust_scaler_fit",
         "robust_scaler_transform",
         "robust_scaler_inverse_transform",
-        "robust_scale"
+        "robust_scale",
+        "label_encoder_fit",
+        "label_encoder_fit_transform",
+        "label_encoder_transform",
+        "label_encoder_inverse_transform"
       ],
       "depth": 0
     },
@@ -485,6 +489,68 @@
       "outputs": [
         {"name": "result", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"}
       ]
+    },
+    {
+      "node_id": "label_encoder_fit",
+      "name": "label_encoder_fit",
+      "description": "Learn sorted unique target-label classes for integer encoding.",
+      "concept_type": "estimator_fit_state",
+      "status": "atomic",
+      "type_signature": "(y: NDArray[np.object_] | list[object] | tuple[object, ...]) -> LabelEncoderState",
+      "depth": 1,
+      "inputs": [
+        {"name": "y", "type_desc": "NDArray[np.object_] | list[object] | tuple[object, ...]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "LabelEncoderState"}
+      ]
+    },
+    {
+      "node_id": "label_encoder_fit_transform",
+      "name": "label_encoder_fit_transform",
+      "description": "Learn target-label classes and encode labels to integer class positions in one pass.",
+      "concept_type": "estimator_fit_transform_method",
+      "status": "atomic",
+      "type_signature": "(y: NDArray[np.object_] | list[object] | tuple[object, ...]) -> tuple[LabelEncoderState, NDArray[np.int_]]",
+      "depth": 1,
+      "inputs": [
+        {"name": "y", "type_desc": "NDArray[np.object_] | list[object] | tuple[object, ...]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[LabelEncoderState, NDArray[np.int_]]"}
+      ]
+    },
+    {
+      "node_id": "label_encoder_transform",
+      "name": "label_encoder_transform",
+      "description": "Map target labels to fitted integer class positions.",
+      "concept_type": "estimator_transform_method",
+      "status": "atomic",
+      "type_signature": "(y: NDArray[np.object_] | list[object] | tuple[object, ...], state: LabelEncoderState) -> NDArray[np.int_]",
+      "depth": 1,
+      "inputs": [
+        {"name": "y", "type_desc": "NDArray[np.object_] | list[object] | tuple[object, ...]", "required": true},
+        {"name": "state", "type_desc": "LabelEncoderState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.int_]"}
+      ]
+    },
+    {
+      "node_id": "label_encoder_inverse_transform",
+      "name": "label_encoder_inverse_transform",
+      "description": "Map fitted integer class positions back to original target labels.",
+      "concept_type": "estimator_inverse_transform_method",
+      "status": "atomic",
+      "type_signature": "(y: NDArray[np.int_] | list[int] | tuple[int, ...], state: LabelEncoderState) -> NDArray[np.object_]",
+      "depth": 1,
+      "inputs": [
+        {"name": "y", "type_desc": "NDArray[np.int_] | list[int] | tuple[int, ...]", "required": true},
+        {"name": "state", "type_desc": "LabelEncoderState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.object_]"}
+      ]
     }
   ],
   "edges": [
@@ -557,6 +623,21 @@
       "source_id": "robust_scaler_fit",
       "target_id": "robust_scaler_inverse_transform",
       "edge_type": "fit_state_dependency"
+    },
+    {
+      "source_id": "label_encoder_fit",
+      "target_id": "label_encoder_transform",
+      "edge_type": "fit_state_dependency"
+    },
+    {
+      "source_id": "label_encoder_fit",
+      "target_id": "label_encoder_inverse_transform",
+      "edge_type": "fit_state_dependency"
+    },
+    {
+      "source_id": "label_encoder_fit",
+      "target_id": "label_encoder_fit_transform",
+      "edge_type": "semantic_equivalence"
     }
   ],
   "metadata": {

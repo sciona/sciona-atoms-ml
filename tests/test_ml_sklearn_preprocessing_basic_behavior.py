@@ -3,7 +3,16 @@ from __future__ import annotations
 import numpy as np
 import pytest
 import scipy.sparse as sp
-from sklearn.preprocessing import Binarizer, KernelCenterer, MaxAbsScaler, MinMaxScaler, Normalizer, RobustScaler, StandardScaler
+from sklearn.preprocessing import (
+    Binarizer,
+    KernelCenterer,
+    LabelEncoder,
+    MaxAbsScaler,
+    MinMaxScaler,
+    Normalizer,
+    RobustScaler,
+    StandardScaler,
+)
 from sklearn.preprocessing import add_dummy_feature as sklearn_add_dummy_feature
 from sklearn.preprocessing import binarize as sklearn_binarize
 from sklearn.preprocessing import maxabs_scale as sklearn_maxabs_scale
@@ -20,6 +29,10 @@ def test_preprocessing_basic_atoms_import() -> None:
         binarizer_transform,
         kernel_centerer_fit,
         kernel_centerer_transform,
+        label_encoder_fit,
+        label_encoder_fit_transform,
+        label_encoder_inverse_transform,
+        label_encoder_transform,
         maxabs_scale,
         maxabs_scaler_fit,
         maxabs_scaler_inverse_transform,
@@ -48,6 +61,10 @@ def test_preprocessing_basic_atoms_import() -> None:
     assert callable(binarizer_transform)
     assert callable(kernel_centerer_fit)
     assert callable(kernel_centerer_transform)
+    assert callable(label_encoder_fit)
+    assert callable(label_encoder_fit_transform)
+    assert callable(label_encoder_inverse_transform)
+    assert callable(label_encoder_transform)
     assert callable(maxabs_scale)
     assert callable(maxabs_scaler_fit)
     assert callable(maxabs_scaler_inverse_transform)
@@ -216,6 +233,64 @@ def test_kernel_centerer_errors_match_sklearn_shape_requirements() -> None:
         kernel_centerer_transform(np.ones((2, 2), dtype=np.float64), state)
     with pytest.raises(ValueError):
         KernelCenterer().fit(np.eye(3, dtype=np.float64)).transform(np.ones((2, 2), dtype=np.float64))
+
+
+def test_label_encoder_fit_and_transform_match_sklearn_numeric_labels() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import label_encoder_fit, label_encoder_transform
+
+    y = np.array([2, 2, 6, 1, 6])
+    state = label_encoder_fit(y)
+    expected = LabelEncoder().fit(y)
+
+    assert np.array_equal(state.classes, expected.classes_)
+    assert np.array_equal(label_encoder_transform([6, 1, 2], state), expected.transform([6, 1, 2]))
+
+
+def test_label_encoder_fit_transform_matches_sklearn_string_labels() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import label_encoder_fit_transform
+
+    y = np.array(["paris", "tokyo", "paris", "amsterdam"], dtype=object)
+    state, encoded = label_encoder_fit_transform(y)
+    expected = LabelEncoder()
+    expected_encoded = expected.fit_transform(y)
+
+    assert np.array_equal(state.classes, expected.classes_)
+    assert np.array_equal(encoded, expected_encoded)
+
+
+def test_label_encoder_inverse_transform_matches_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import label_encoder_fit, label_encoder_inverse_transform
+
+    y = np.array(["low", "medium", "high", "medium"], dtype=object)
+    state = label_encoder_fit(y)
+    expected = LabelEncoder().fit(y)
+    encoded = np.array([2, 0, 1, 2])
+
+    assert np.array_equal(label_encoder_inverse_transform(encoded, state), expected.inverse_transform(encoded))
+
+
+def test_label_encoder_empty_and_unseen_label_behaviors_match_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import (
+        label_encoder_fit,
+        label_encoder_inverse_transform,
+        label_encoder_transform,
+    )
+
+    state = label_encoder_fit(["a", "b"])
+    expected = LabelEncoder().fit(["a", "b"])
+
+    assert np.array_equal(label_encoder_transform([], state), expected.transform([]))
+    assert np.array_equal(label_encoder_inverse_transform([], state), expected.inverse_transform([]))
+
+    with pytest.raises(ValueError, match="previously unseen labels"):
+        label_encoder_transform(["c"], state)
+    with pytest.raises(ValueError, match="previously unseen labels"):
+        expected.transform(["c"])
+
+    with pytest.raises(ValueError, match="previously unseen labels"):
+        label_encoder_inverse_transform([2], state)
+    with pytest.raises(ValueError, match="previously unseen labels"):
+        expected.inverse_transform([2])
 
 
 def test_scale_matches_sklearn_dense_axes_and_options() -> None:

@@ -65,3 +65,10 @@ class StandardScalerState:
     with_mean: bool
     with_std: bool
     n_features_in: int
+
+
+@dataclass(frozen=True)
+class LabelEncoderState:
+    """Learned sorted label classes for target encoding."""
+
+    classes: NDArray[np.object_]

@@ -6,6 +6,10 @@ from .atoms import (
     binarizer_transform,
     kernel_centerer_fit,
     kernel_centerer_transform,
+    label_encoder_fit,
+    label_encoder_fit_transform,
+    label_encoder_inverse_transform,
+    label_encoder_transform,
     maxabs_scale,
     maxabs_scaler_fit,
     maxabs_scaler_inverse_transform,
@@ -30,6 +34,7 @@ from .atoms import (
 )
 from .state_models import (
     KernelCentererState,
+    LabelEncoderState,
     MaxAbsScalerState,
     MinMaxScalerState,
     RobustScalerState,
@@ -38,6 +43,7 @@ from .state_models import (
 
 __all__ = [
     "KernelCentererState",
+    "LabelEncoderState",
     "MaxAbsScalerState",
     "MinMaxScalerState",
     "RobustScalerState",
@@ -47,6 +53,10 @@ __all__ = [
     "binarizer_transform",
     "kernel_centerer_fit",
     "kernel_centerer_transform",
+    "label_encoder_fit",
+    "label_encoder_fit_transform",
+    "label_encoder_inverse_transform",
+    "label_encoder_transform",
     "maxabs_scale",
     "maxabs_scaler_fit",
     "maxabs_scaler_inverse_transform",

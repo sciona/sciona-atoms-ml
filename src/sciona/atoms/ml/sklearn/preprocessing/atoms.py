@@ -1185,3 +1185,117 @@ def robust_scale(
     if original_ndim == 1:
         scaled = scaled.ravel()
     return scaled
+
+
+from .state_models import LabelEncoderState
+from .witnesses import (
+    witness_label_encoder_fit,
+    witness_label_encoder_fit_transform,
+    witness_label_encoder_inverse_transform,
+    witness_label_encoder_transform,
+)
+
+LabelInput = NDArray[np.object_] | list[object] | tuple[object, ...]
+EncodedLabelInput = NDArray[np.int_] | list[int] | tuple[int, ...]
+LabelEncoderFitTransformResult = tuple[LabelEncoderState, NDArray[np.int_]]
+
+
+def _label_input_is_vector_like(y: LabelInput | EncodedLabelInput) -> bool:
+    array = np.asarray(y, dtype=object)
+    return bool(array.ndim == 1 or (array.ndim == 2 and 1 in array.shape))
+
+
+def _label_sample_count(y: LabelInput | EncodedLabelInput) -> int:
+    array = np.asarray(y, dtype=object)
+    return int(array.shape[0]) if array.ndim > 0 else 0
+
+
+def _label_encoder_state_valid(state: LabelEncoderState) -> bool:
+    return bool(state.classes.ndim == 1)
+
+
+def _encoded_labels_valid(result: NDArray[np.int_], state: LabelEncoderState) -> bool:
+    if result.ndim != 1:
+        return False
+    if result.size == 0:
+        return True
+    return bool(np.all(result >= 0) and np.all(result < state.classes.shape[0]))
+
+
+def _label_encoder_fit_transform_valid(result: LabelEncoderFitTransformResult, y: LabelInput) -> bool:
+    state, encoded = result
+    return bool(
+        _label_encoder_state_valid(state)
+        and encoded.ndim == 1
+        and encoded.shape == (_label_sample_count(y),)
+        and _encoded_labels_valid(encoded, state)
+    )
+
+
+@register_atom(witness_label_encoder_fit)
+@icontract.require(lambda y: _label_input_is_vector_like(y), "y must be 1D or a column vector")
+@icontract.ensure(lambda result: _label_encoder_state_valid(result), "classes must be a one-dimensional array")
+def label_encoder_fit(y: LabelInput) -> LabelEncoderState:
+    """Learn sorted unique classes for one-dimensional target labels."""
+    from sklearn.utils import column_or_1d
+    from sklearn.utils._encode import _unique
+
+    y_checked = column_or_1d(y, warn=True)
+    classes = _unique(y_checked)
+    return LabelEncoderState(classes=np.asarray(classes))
+
+
+@register_atom(witness_label_encoder_fit_transform)
+@icontract.require(lambda y: _label_input_is_vector_like(y), "y must be 1D or a column vector")
+@icontract.ensure(lambda result, y: _label_encoder_fit_transform_valid(result, y), "encoded labels must match learned classes")
+def label_encoder_fit_transform(y: LabelInput) -> LabelEncoderFitTransformResult:
+    """Learn sorted unique classes and encode target labels in one pass."""
+    from sklearn.utils import column_or_1d
+    from sklearn.utils._encode import _unique
+
+    y_checked = column_or_1d(y, warn=True)
+    classes, encoded = _unique(y_checked, return_inverse=True)
+    state = LabelEncoderState(classes=np.asarray(classes))
+    return state, np.asarray(encoded, dtype=np.int_)
+
+
+@register_atom(witness_label_encoder_transform)
+@icontract.require(lambda y: _label_input_is_vector_like(y), "y must be 1D or a column vector")
+@icontract.require(lambda state: _label_encoder_state_valid(state), "classes must be a one-dimensional array")
+@icontract.ensure(lambda result, y: result.shape == (_label_sample_count(y),), "encoded labels must preserve sample count")
+@icontract.ensure(lambda result, state: _encoded_labels_valid(result, state), "encoded labels must be valid class positions")
+def label_encoder_transform(y: LabelInput, state: LabelEncoderState) -> NDArray[np.int_]:
+    """Map target labels to integer positions in fitted class order."""
+    from sklearn.utils import column_or_1d
+    from sklearn.utils._encode import _encode
+    from sklearn.utils.validation import _num_samples
+
+    y_checked = column_or_1d(y, dtype=state.classes.dtype, warn=True)
+    if _num_samples(y_checked) == 0:
+        return np.asarray([], dtype=np.int_)
+    return np.asarray(_encode(y_checked, uniques=state.classes), dtype=np.int_)
+
+
+@register_atom(witness_label_encoder_inverse_transform)
+@icontract.require(lambda y: _label_input_is_vector_like(y), "y must be 1D or a column vector")
+@icontract.require(lambda state: _label_encoder_state_valid(state), "classes must be a one-dimensional array")
+@icontract.ensure(lambda result, y: result.shape == (_label_sample_count(y),), "decoded labels must preserve sample count")
+def label_encoder_inverse_transform(y: EncodedLabelInput, state: LabelEncoderState) -> NDArray[np.object_]:
+    """Map integer class positions back to the original target labels."""
+    from sklearn.utils import column_or_1d
+    from sklearn.utils._array_api import device, get_namespace, xpx
+    from sklearn.utils.validation import _num_samples
+
+    xp, _ = get_namespace(y)
+    y_checked = column_or_1d(y, warn=True)
+    if _num_samples(y_checked) == 0:
+        return np.asarray([])
+    diff = xpx.setdiff1d(
+        y_checked,
+        xp.arange(state.classes.shape[0], device=device(y_checked)),
+        xp=xp,
+    )
+    if diff.shape[0]:
+        raise ValueError("y contains previously unseen labels: %s" % str(diff))
+    decoded = xp.take(state.classes, xp.asarray(y_checked), axis=0)
+    return np.asarray(decoded)

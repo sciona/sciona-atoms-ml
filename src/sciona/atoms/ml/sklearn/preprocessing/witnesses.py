@@ -6,6 +6,7 @@ from sciona.ghost.abstract import AbstractArray
 
 from .state_models import (
     KernelCentererState,
+    LabelEncoderState,
     MaxAbsScalerState,
     MinMaxScalerState,
     RobustScalerState,
@@ -312,6 +313,42 @@ def witness_standard_scaler_inverse_transform(
     if n_features != state.n_features_in:
         raise ValueError("X feature count must match fitted state")
     return AbstractArray(shape=(n_samples, n_features), dtype=X.dtype)
+
+
+def witness_label_encoder_fit(y: AbstractArray) -> AbstractArray:
+    """Describe learning sorted unique labels from a target vector."""
+    if len(y.shape) not in {1, 2}:
+        raise ValueError("y must be 1D or a column vector")
+    n_samples = int(y.shape[0])
+    return AbstractArray(shape=(n_samples,), dtype=y.dtype)
+
+
+def witness_label_encoder_fit_transform(y: AbstractArray) -> tuple[AbstractArray, AbstractArray]:
+    """Describe learning classes and encoded targets in one pass."""
+    classes = witness_label_encoder_fit(y)
+    return classes, AbstractArray(shape=(int(y.shape[0]),), dtype="int64", min_val=0.0)
+
+
+def witness_label_encoder_transform(
+    y: AbstractArray,
+    state: LabelEncoderState,
+) -> AbstractArray:
+    """Describe mapping labels to integer class positions."""
+    del state
+    if len(y.shape) not in {1, 2}:
+        raise ValueError("y must be 1D or a column vector")
+    return AbstractArray(shape=(int(y.shape[0]),), dtype="int64", min_val=0.0)
+
+
+def witness_label_encoder_inverse_transform(
+    y: AbstractArray,
+    state: LabelEncoderState,
+) -> AbstractArray:
+    """Describe mapping integer class positions back to labels."""
+    del state
+    if len(y.shape) not in {1, 2}:
+        raise ValueError("y must be 1D or a column vector")
+    return AbstractArray(shape=(int(y.shape[0]),), dtype="object")
 
 
 def witness_scale(
