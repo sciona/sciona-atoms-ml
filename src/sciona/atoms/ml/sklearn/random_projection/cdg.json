@@ -1,0 +1,134 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_random_projection_root",
+      "name": "Sklearn Random Projection Atoms",
+      "description": "Fitted-state decomposition of sklearn.random_projection GaussianRandomProjection and SparseRandomProjection",
+      "status": "decomposed",
+      "children": [
+        "gaussian_random_projection_fit",
+        "gaussian_random_projection_transform",
+        "sparse_random_projection_fit",
+        "sparse_random_projection_transform",
+        "random_projection_inverse_transform"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "gaussian_random_projection_fit",
+      "name": "gaussian_random_projection_fit",
+      "description": "Generate fitted Gaussian random projection state from a training matrix.",
+      "concept_type": "fit_state",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, n_components: int | str = 'auto', eps: float = 0.1, compute_inverse_components: bool = False, random_state: object | None = None) -> RandomProjectionState",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
+        {"name": "n_components", "type_desc": "int | str", "required": false},
+        {"name": "eps", "type_desc": "float", "required": false},
+        {"name": "compute_inverse_components", "type_desc": "bool", "required": false},
+        {"name": "random_state", "type_desc": "object | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "RandomProjectionState"}
+      ]
+    },
+    {
+      "node_id": "gaussian_random_projection_transform",
+      "name": "gaussian_random_projection_transform",
+      "description": "Project samples with fitted Gaussian random projection state.",
+      "concept_type": "array_transform",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, state: RandomProjectionState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
+        {"name": "state", "type_desc": "RandomProjectionState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "sparse_random_projection_fit",
+      "name": "sparse_random_projection_fit",
+      "description": "Generate fitted sparse random projection state from a training matrix.",
+      "concept_type": "fit_state",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, n_components: int | str = 'auto', density: float | str = 'auto', eps: float = 0.1, dense_output: bool = False, compute_inverse_components: bool = False, random_state: object | None = None) -> RandomProjectionState",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
+        {"name": "n_components", "type_desc": "int | str", "required": false},
+        {"name": "density", "type_desc": "float | str", "required": false},
+        {"name": "eps", "type_desc": "float", "required": false},
+        {"name": "dense_output", "type_desc": "bool", "required": false},
+        {"name": "compute_inverse_components", "type_desc": "bool", "required": false},
+        {"name": "random_state", "type_desc": "object | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "RandomProjectionState"}
+      ]
+    },
+    {
+      "node_id": "sparse_random_projection_transform",
+      "name": "sparse_random_projection_transform",
+      "description": "Project samples with fitted sparse random projection state.",
+      "concept_type": "array_transform",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, state: RandomProjectionState) -> NDArray[np.float64] | scipy.sparse.spmatrix",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
+        {"name": "state", "type_desc": "RandomProjectionState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"}
+      ]
+    },
+    {
+      "node_id": "random_projection_inverse_transform",
+      "name": "random_projection_inverse_transform",
+      "description": "Project random projection coordinates back to the original feature space.",
+      "concept_type": "array_transform",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, state: RandomProjectionState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
+        {"name": "state", "type_desc": "RandomProjectionState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source_id": "gaussian_random_projection_fit",
+      "target_id": "gaussian_random_projection_transform",
+      "edge_type": "state_dependency"
+    },
+    {
+      "source_id": "sparse_random_projection_fit",
+      "target_id": "sparse_random_projection_transform",
+      "edge_type": "state_dependency"
+    },
+    {
+      "source_id": "gaussian_random_projection_fit",
+      "target_id": "random_projection_inverse_transform",
+      "edge_type": "state_dependency"
+    },
+    {
+      "source_id": "sparse_random_projection_fit",
+      "target_id": "random_projection_inverse_transform",
+      "edge_type": "state_dependency"
+    }
+  ],
+  "metadata": {
+    "source": "agent_ingestion",
+    "source_module": "sklearn.random_projection",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause"
+  }
+}
