@@ -6,7 +6,14 @@
       "description": "Function decomposition for selected sklearn.calibration helpers",
       "status": "decomposed",
       "children": [
-        "calibration_curve"
+        "calibration_curve",
+        "sigmoid_calibration_fit",
+        "sigmoid_calibration_predict",
+        "temperature_scaling_fit",
+        "temperature_scaling_predict",
+        "calibrated_classifier_cv_fit",
+        "calibrated_classifier_cv_predict_proba",
+        "calibrated_classifier_cv_predict"
       ],
       "depth": 0
     },
@@ -19,18 +26,286 @@
       "type_signature": "(y_true: NDArray[np.float64], y_prob: NDArray[np.float64], pos_label: int | float | bool | str | None = None, n_bins: int = 5, strategy: str = 'uniform') -> tuple[NDArray[np.float64], NDArray[np.float64]]",
       "depth": 1,
       "inputs": [
-        {"name": "y_true", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "y_prob", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "pos_label", "type_desc": "int | float | bool | str | None", "required": false},
-        {"name": "n_bins", "type_desc": "int", "required": false},
-        {"name": "strategy", "type_desc": "str", "required": false}
+        {
+          "name": "y_true",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y_prob",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "pos_label",
+          "type_desc": "int | float | bool | str | None",
+          "required": false
+        },
+        {
+          "name": "n_bins",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "strategy",
+          "type_desc": "str",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "tuple[NDArray[np.float64], NDArray[np.float64]]"}
+        {
+          "name": "result",
+          "type_desc": "tuple[NDArray[np.float64], NDArray[np.float64]]"
+        }
+      ]
+    },
+    {
+      "node_id": "sigmoid_calibration_fit",
+      "name": "sigmoid_calibration_fit",
+      "description": "Fit Platt sigmoid calibration slope and intercept.",
+      "concept_type": "calibrator_fit",
+      "status": "atomic",
+      "type_signature": "(predictions: NDArray[np.float64], y: NDArray[np.float64], sample_weight: NDArray[np.float64] | None = None) -> SigmoidCalibrationState",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "predictions",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "sample_weight",
+          "type_desc": "NDArray[np.float64] | None",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "SigmoidCalibrationState"
+        }
+      ]
+    },
+    {
+      "node_id": "sigmoid_calibration_predict",
+      "name": "sigmoid_calibration_predict",
+      "description": "Apply fitted Platt sigmoid calibration to raw predictions.",
+      "concept_type": "calibrator_predict",
+      "status": "atomic",
+      "type_signature": "(predictions: NDArray[np.float64], state: SigmoidCalibrationState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "predictions",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "SigmoidCalibrationState",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
+    },
+    {
+      "node_id": "temperature_scaling_fit",
+      "name": "temperature_scaling_fit",
+      "description": "Fit the inverse temperature for softmax probability calibration.",
+      "concept_type": "calibrator_fit",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | list[float] | list[list[float]], y: NDArray[np.float64], sample_weight: NDArray[np.float64] | None = None) -> TemperatureScalingState",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | list[float] | list[list[float]]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "sample_weight",
+          "type_desc": "NDArray[np.float64] | None",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "TemperatureScalingState"
+        }
+      ]
+    },
+    {
+      "node_id": "temperature_scaling_predict",
+      "name": "temperature_scaling_predict",
+      "description": "Apply fitted inverse temperature scaling to logits or probabilities.",
+      "concept_type": "calibrator_predict",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | list[float] | list[list[float]], state: TemperatureScalingState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | list[float] | list[list[float]]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "TemperatureScalingState",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
+    },
+    {
+      "node_id": "calibrated_classifier_cv_fit",
+      "name": "calibrated_classifier_cv_fit",
+      "description": "Fit a calibrated classifier CV meta-estimator and return immutable state.",
+      "concept_type": "fit_state_builder",
+      "status": "atomic",
+      "type_signature": "(estimator: object | None, X: NDArray[np.float64] | list[list[float]], y: NDArray[np.float64], method: str = 'sigmoid', cv: int | None = None, n_jobs: int | None = None, ensemble: bool | str = 'auto') -> CalibratedClassifierCVState",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "estimator",
+          "type_desc": "object | None",
+          "required": true
+        },
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | list[list[float]]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "method",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "cv",
+          "type_desc": "int | None",
+          "required": false
+        },
+        {
+          "name": "n_jobs",
+          "type_desc": "int | None",
+          "required": false
+        },
+        {
+          "name": "ensemble",
+          "type_desc": "bool | str",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "CalibratedClassifierCVState"
+        }
+      ]
+    },
+    {
+      "node_id": "calibrated_classifier_cv_predict_proba",
+      "name": "calibrated_classifier_cv_predict_proba",
+      "description": "Predict calibrated class probabilities from fitted CV state.",
+      "concept_type": "predict_proba",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | list[list[float]], state: CalibratedClassifierCVState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | list[list[float]]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "CalibratedClassifierCVState",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
+    },
+    {
+      "node_id": "calibrated_classifier_cv_predict",
+      "name": "calibrated_classifier_cv_predict",
+      "description": "Predict labels from fitted calibrated probabilities.",
+      "concept_type": "predict",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | list[list[float]], state: CalibratedClassifierCVState) -> NDArray[np.object_]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | list[list[float]]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "CalibratedClassifierCVState",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.object_]"
+        }
       ]
     }
   ],
-  "edges": [],
+  "edges": [
+    {
+      "source_id": "sigmoid_calibration_fit",
+      "target_id": "sigmoid_calibration_predict",
+      "edge_type": "fit_state_dependency"
+    },
+    {
+      "source_id": "temperature_scaling_fit",
+      "target_id": "temperature_scaling_predict",
+      "edge_type": "fit_state_dependency"
+    },
+    {
+      "source_id": "calibrated_classifier_cv_fit",
+      "target_id": "calibrated_classifier_cv_predict_proba",
+      "edge_type": "fit_state_dependency"
+    },
+    {
+      "source_id": "calibrated_classifier_cv_predict_proba",
+      "target_id": "calibrated_classifier_cv_predict",
+      "edge_type": "implementation_dependency"
+    }
+  ],
   "metadata": {
     "source": "agent_ingestion",
     "source_module": "sklearn.calibration",

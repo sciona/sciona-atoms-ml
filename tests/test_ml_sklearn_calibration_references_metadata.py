@@ -12,15 +12,22 @@ REFERENCES_PATH = ROOT / "src" / "sciona" / "atoms" / "ml" / "sklearn" / "calibr
 REGISTRY_PATH = ROOT / "data" / "references" / "registry.json"
 
 EXPECTED_FQDNS = {
+    "sciona.atoms.ml.sklearn.calibration.calibrated_classifier_cv_fit",
+    "sciona.atoms.ml.sklearn.calibration.calibrated_classifier_cv_predict",
+    "sciona.atoms.ml.sklearn.calibration.calibrated_classifier_cv_predict_proba",
     "sciona.atoms.ml.sklearn.calibration.calibration_curve",
+    "sciona.atoms.ml.sklearn.calibration.sigmoid_calibration_fit",
+    "sciona.atoms.ml.sklearn.calibration.sigmoid_calibration_predict",
+    "sciona.atoms.ml.sklearn.calibration.temperature_scaling_fit",
+    "sciona.atoms.ml.sklearn.calibration.temperature_scaling_predict",
 }
 
 
-def test_references_json_exists_and_has_calibration_curve_fqdn() -> None:
+def test_references_json_exists_and_has_calibration_fqdns() -> None:
     assert REFERENCES_PATH.exists()
     payload = json.loads(REFERENCES_PATH.read_text(encoding="utf-8"))
     atom_keys = set(payload["atoms"])
-    assert len(atom_keys) == 1
+    assert len(atom_keys) == 8
     assert {key.partition("@")[0] for key in atom_keys} == EXPECTED_FQDNS
 
 
@@ -52,4 +59,6 @@ def test_each_reference_has_match_metadata() -> None:
 def test_atom_leaf_name_is_registered() -> None:
     import_module("sciona.atoms.ml.sklearn.calibration.atoms")
     registered = {name for name in REGISTRY if not name.startswith("witness_")}
-    assert "calibration_curve" in registered
+    for fqdn in EXPECTED_FQDNS:
+        leaf = fqdn.removeprefix("sciona.atoms.ml.sklearn.calibration.")
+        assert leaf in registered

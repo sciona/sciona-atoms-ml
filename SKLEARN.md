@@ -12,13 +12,13 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 - Scope for this first ingestion pass: public algorithmic estimators, transformers, kernels, and algorithmic helper functions in the selected sklearn modules below.
 - Intentionally excluded for now: datasets, metrics, displays, exceptions, low-level utils, orchestration/composition (`compose`, `pipeline`), and model-selection/search APIs.
 - Source locations come from each object page's official `[source]` link. `BallTree` and `KDTree` use the matching source files from the same scikit-learn revision because their generated docs pages do not expose a direct `[source]` link.
-- Total targets in this inventory: 213
+- Total targets in this inventory: 212
 
 ## Module Summary
 
 | Module | Targets |
 | --- | ---: |
-| `sklearn.calibration` | 1 |
+| `sklearn.calibration` | 0 |
 | `sklearn.cluster` | 25 |
 | `sklearn.covariance` | 12 |
 | `sklearn.cross_decomposition` | 4 |
@@ -53,7 +53,6 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 
 | Target | Description | Source |
 | --- | --- | --- |
-| `CalibratedClassifierCV` | Calibrate probabilities using isotonic, sigmoid, or temperature scaling. | `sklearn/calibration.py:L72` |
 
 ## `sklearn.cluster`
 

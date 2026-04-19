@@ -15,7 +15,14 @@ CDG_PATH = ROOT / "src" / "sciona" / "atoms" / "ml" / "sklearn" / "calibration" 
 MANIFEST_PATH = ROOT / "data" / "audit_manifest.json"
 
 EXPECTED_ATOM_NAMES = {
+    "sciona.atoms.ml.sklearn.calibration.calibrated_classifier_cv_fit",
+    "sciona.atoms.ml.sklearn.calibration.calibrated_classifier_cv_predict",
+    "sciona.atoms.ml.sklearn.calibration.calibrated_classifier_cv_predict_proba",
     "sciona.atoms.ml.sklearn.calibration.calibration_curve",
+    "sciona.atoms.ml.sklearn.calibration.sigmoid_calibration_fit",
+    "sciona.atoms.ml.sklearn.calibration.sigmoid_calibration_predict",
+    "sciona.atoms.ml.sklearn.calibration.temperature_scaling_fit",
+    "sciona.atoms.ml.sklearn.calibration.temperature_scaling_predict",
 }
 
 
@@ -23,10 +30,10 @@ def _bundle() -> dict:
     return json.loads(BUNDLE_PATH.read_text(encoding="utf-8"))
 
 
-def test_bundle_exists_and_has_one_atom() -> None:
+def test_bundle_exists_and_has_eight_atoms() -> None:
     assert BUNDLE_PATH.exists()
     bundle = _bundle()
-    assert len(bundle["rows"]) == 1
+    assert len(bundle["rows"]) == 8
     assert {row["atom_key"] for row in bundle["rows"]} == EXPECTED_ATOM_NAMES
 
 
@@ -68,7 +75,16 @@ def test_scores_and_enums_are_db_compatible() -> None:
 def test_cdg_atomic_nodes_have_publishable_io_specs() -> None:
     cdg = json.loads(CDG_PATH.read_text(encoding="utf-8"))
     atomic = [node for node in cdg["nodes"] if node.get("status") == "atomic"]
-    assert {node["name"] for node in atomic} == {"calibration_curve"}
+    assert {node["name"] for node in atomic} == {
+        "calibrated_classifier_cv_fit",
+        "calibrated_classifier_cv_predict",
+        "calibrated_classifier_cv_predict_proba",
+        "calibration_curve",
+        "sigmoid_calibration_fit",
+        "sigmoid_calibration_predict",
+        "temperature_scaling_fit",
+        "temperature_scaling_predict",
+    }
     for node in atomic:
         assert node["node_id"] == node["name"]
         assert node["inputs"]
