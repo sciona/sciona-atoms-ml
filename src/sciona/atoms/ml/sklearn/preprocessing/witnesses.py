@@ -351,6 +351,26 @@ def witness_label_encoder_inverse_transform(
     return AbstractArray(shape=(int(y.shape[0]),), dtype="object")
 
 
+def witness_label_binarize(
+    y: AbstractArray,
+    *,
+    classes: AbstractArray,
+    neg_label: int = 0,
+    pos_label: int = 1,
+    sparse_output: bool = False,
+) -> AbstractArray:
+    """Describe one-vs-all target-label binarization."""
+    del sparse_output
+    if neg_label >= pos_label:
+        raise ValueError("neg_label must be strictly less than pos_label")
+    if len(y.shape) not in {1, 2}:
+        raise ValueError("y must be 1D or 2D")
+    if len(classes.shape) != 1:
+        raise ValueError("classes must be 1D")
+    n_outputs = 1 if int(classes.shape[0]) == 2 else int(classes.shape[0])
+    return AbstractArray(shape=(int(y.shape[0]), n_outputs), dtype="int64", min_val=float(neg_label), max_val=float(pos_label))
+
+
 def witness_scale(
     X: AbstractArray,
     *,

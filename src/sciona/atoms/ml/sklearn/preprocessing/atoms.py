@@ -1299,3 +1299,149 @@ def label_encoder_inverse_transform(y: EncodedLabelInput, state: LabelEncoderSta
         raise ValueError("y contains previously unseen labels: %s" % str(diff))
     decoded = xp.take(state.classes, xp.asarray(y_checked), axis=0)
     return np.asarray(decoded)
+
+
+from .witnesses import witness_label_binarize
+
+LabelBinarizeInput = LabelInput | MatrixLike
+LabelBinarizeResult = NDArray[np.int_] | sp.csr_matrix
+
+
+def _label_binarize_input_valid(y: LabelBinarizeInput) -> bool:
+    if sp.issparse(y):
+        return bool(y.ndim == 2)
+    array = np.asarray(y, dtype=object)
+    return bool(array.ndim in {1, 2})
+
+
+def _classes_input_valid(classes: LabelInput) -> bool:
+    return bool(np.asarray(classes, dtype=object).ndim == 1)
+
+
+def _label_binarize_sample_count(y: LabelBinarizeInput) -> int:
+    return int(y.shape[0]) if hasattr(y, "shape") else len(y)
+
+
+def _label_binarize_shape_matches(result: LabelBinarizeResult, y: LabelBinarizeInput, classes: LabelInput) -> bool:
+    n_classes = int(np.asarray(classes, dtype=object).shape[0])
+    n_outputs = 1 if n_classes == 2 else n_classes
+    return bool(result.shape == (_label_binarize_sample_count(y), n_outputs))
+
+
+@register_atom(witness_label_binarize)
+@icontract.require(lambda y: _label_binarize_input_valid(y), "y must be a 1D label vector or 2D multilabel indicator")
+@icontract.require(lambda classes: _classes_input_valid(classes), "classes must be a 1D label vector")
+@icontract.ensure(lambda result, y, classes: _label_binarize_shape_matches(result, y, classes), "binarized labels must have sklearn-compatible shape")
+def label_binarize(
+    y: LabelBinarizeInput,
+    *,
+    classes: LabelInput,
+    neg_label: int = 0,
+    pos_label: int = 1,
+    sparse_output: bool = False,
+) -> LabelBinarizeResult:
+    """Encode labels as one-vs-all indicator columns for fixed classes."""
+    from sklearn.utils import check_array, column_or_1d
+    from sklearn.utils.multiclass import type_of_target, unique_labels
+
+    if not isinstance(y, list):
+        y_checked = check_array(
+            y,
+            input_name="y",
+            accept_sparse="csr",
+            ensure_2d=False,
+            dtype=None,
+        )
+    else:
+        if len(y) == 0:
+            raise ValueError("y has 0 samples: %r" % y)
+        y_checked = y
+
+    if neg_label >= pos_label:
+        raise ValueError(f"neg_label={neg_label} must be strictly less than pos_label={pos_label}.")
+
+    if sparse_output and (pos_label == 0 or neg_label != 0):
+        raise ValueError(
+            "Sparse binarization is only supported with non zero pos_label and zero neg_label, got "
+            f"pos_label={pos_label} and neg_label={neg_label}"
+        )
+
+    pos_switch = pos_label == 0
+    effective_pos_label = -neg_label if pos_switch else pos_label
+
+    y_type = type_of_target(y_checked)
+    if "multioutput" in y_type:
+        raise ValueError("Multioutput target data is not supported with label binarization")
+    if y_type == "unknown":
+        raise ValueError("The type of target data is not known")
+
+    class_array = np.asarray(classes)
+    n_samples = y_checked.shape[0] if hasattr(y_checked, "shape") else len(y_checked)
+    n_classes = int(class_array.shape[0])
+    int_dtype = y_checked.dtype if hasattr(y_checked, "dtype") and np.issubdtype(y_checked.dtype, np.integer) else int
+
+    if y_type == "binary":
+        if n_classes == 1:
+            if sparse_output:
+                return sp.csr_matrix((n_samples, 1), dtype=int)
+            Y_single = np.zeros((n_samples, 1), dtype=int_dtype)
+            Y_single += neg_label
+            return Y_single
+        if n_classes >= 3:
+            y_type = "multiclass"
+
+    sorted_class = np.sort(class_array)
+    if y_type == "multilabel-indicator":
+        y_n_classes = y_checked.shape[1] if hasattr(y_checked, "shape") else len(y_checked[0])
+        if n_classes != y_n_classes:
+            raise ValueError(
+                "classes {0} mismatch with the labels {1} found in the data".format(
+                    class_array,
+                    unique_labels(y_checked),
+                )
+            )
+
+    if y_type in ("binary", "multiclass"):
+        y_vector = column_or_1d(y_checked)
+        y_in_classes = np.isin(y_vector, class_array)
+        y_seen = y_vector[y_in_classes]
+        indices = np.searchsorted(sorted_class, y_seen)
+        indptr = np.concatenate(([0], np.cumsum(y_in_classes.astype(int), axis=0)))
+        data = np.full_like(indices, effective_pos_label)
+        Y: LabelBinarizeResult = sp.csr_matrix((data, indices, indptr), shape=(n_samples, n_classes))
+        if not sparse_output:
+            Y = np.asarray(Y.toarray())
+    elif y_type == "multilabel-indicator":
+        if sparse_output:
+            Y = sp.csr_matrix(y_checked)
+            if effective_pos_label != 1:
+                Y.data = np.full_like(Y.data, effective_pos_label)
+        else:
+            dense_y = y_checked.toarray() if sp.issparse(y_checked) else y_checked
+            Y = np.asarray(dense_y, copy=True)
+            if effective_pos_label != 1:
+                Y[Y != 0] = effective_pos_label
+    else:
+        raise ValueError("%s target data is not supported with label binarization" % y_type)
+
+    if not sparse_output:
+        dense_y = np.asarray(Y)
+        if neg_label != 0:
+            dense_y[dense_y == 0] = neg_label
+        if pos_switch:
+            dense_y[dense_y == effective_pos_label] = 0
+        Y = dense_y.astype(int_dtype, copy=False)
+    else:
+        Y.data = Y.data.astype(int, copy=False)
+
+    if np.any(class_array != sorted_class):
+        indices = np.searchsorted(sorted_class, class_array)
+        Y = Y[:, indices]
+
+    if y_type == "binary":
+        if sparse_output:
+            Y = Y[:, [-1]]
+        else:
+            Y = np.reshape(np.asarray(Y)[:, -1], (-1, 1))
+
+    return Y

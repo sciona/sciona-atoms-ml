@@ -20,6 +20,7 @@ EXPECTED_ATOM_NAMES = {
     "sciona.atoms.ml.sklearn.preprocessing.binarizer_transform",
     "sciona.atoms.ml.sklearn.preprocessing.kernel_centerer_fit",
     "sciona.atoms.ml.sklearn.preprocessing.kernel_centerer_transform",
+    "sciona.atoms.ml.sklearn.preprocessing.label_binarize",
     "sciona.atoms.ml.sklearn.preprocessing.label_encoder_fit",
     "sciona.atoms.ml.sklearn.preprocessing.label_encoder_fit_transform",
     "sciona.atoms.ml.sklearn.preprocessing.label_encoder_inverse_transform",
@@ -52,10 +53,10 @@ def _bundle() -> dict:
     return json.loads(BUNDLE_PATH.read_text(encoding="utf-8"))
 
 
-def test_bundle_exists_and_has_thirty_atoms() -> None:
+def test_bundle_exists_and_has_thirty_one_atoms() -> None:
     assert BUNDLE_PATH.exists()
     bundle = _bundle()
-    assert len(bundle["rows"]) == 30
+    assert len(bundle["rows"]) == 31
     assert {row["atom_key"] for row in bundle["rows"]} == EXPECTED_ATOM_NAMES
 
 
@@ -103,6 +104,7 @@ def test_cdg_atomic_nodes_have_publishable_io_specs() -> None:
         "binarizer_transform",
         "kernel_centerer_fit",
         "kernel_centerer_transform",
+        "label_binarize",
         "label_encoder_fit",
         "label_encoder_fit_transform",
         "label_encoder_inverse_transform",

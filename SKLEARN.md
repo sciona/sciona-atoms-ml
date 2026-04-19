@@ -12,7 +12,7 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 - Scope for this first ingestion pass: public algorithmic estimators, transformers, kernels, and algorithmic helper functions in the selected sklearn modules below.
 - Intentionally excluded for now: datasets, metrics, displays, exceptions, low-level utils, orchestration/composition (`compose`, `pipeline`), and model-selection/search APIs.
 - Source locations come from each object page's official `[source]` link. `BallTree` and `KDTree` use the matching source files from the same scikit-learn revision because their generated docs pages do not expose a direct `[source]` link.
-- Total targets in this inventory: 240
+- Total targets in this inventory: 239
 
 ## Module Summary
 
@@ -44,7 +44,7 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 | `sklearn.naive_bayes` | 5 |
 | `sklearn.neighbors` | 15 |
 | `sklearn.neural_network` | 3 |
-| `sklearn.preprocessing` | 13 |
+| `sklearn.preprocessing` | 12 |
 | `sklearn.semi_supervised` | 3 |
 | `sklearn.svm` | 7 |
 | `sklearn.tree` | 4 |
@@ -397,7 +397,6 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 | Target | Description | Source |
 | --- | --- | --- |
 | `KBinsDiscretizer` | Bin continuous data into intervals. | `sklearn/preprocessing/_discretization.py:L24` |
-| `label_binarize` | Binarize labels in a one-vs-all fashion. | `sklearn/preprocessing/_label.py:L465` |
 | `LabelBinarizer` | Binarize labels in a one-vs-all fashion. | `sklearn/preprocessing/_label.py:L184` |
 | `MultiLabelBinarizer` | Transform between iterable of iterables and a multilabel format. | `sklearn/preprocessing/_label.py:L795` |
 | `OneHotEncoder` | Encode categorical features as a one-hot numeric array. | `sklearn/preprocessing/_encoders.py:L473` |

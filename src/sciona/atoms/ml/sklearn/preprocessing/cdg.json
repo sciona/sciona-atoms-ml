@@ -32,6 +32,7 @@
         "robust_scaler_transform",
         "robust_scaler_inverse_transform",
         "robust_scale",
+        "label_binarize",
         "label_encoder_fit",
         "label_encoder_fit_transform",
         "label_encoder_transform",
@@ -503,6 +504,25 @@
       ],
       "outputs": [
         {"name": "result", "type_desc": "LabelEncoderState"}
+      ]
+    },
+    {
+      "node_id": "label_binarize",
+      "name": "label_binarize",
+      "description": "Encode fixed target classes as one-vs-all indicator columns.",
+      "concept_type": "target_transform",
+      "status": "atomic",
+      "type_signature": "(y: NDArray[np.object_] | list[object] | tuple[object, ...] | scipy.sparse.spmatrix, classes: NDArray[np.object_] | list[object] | tuple[object, ...], neg_label: int = 0, pos_label: int = 1, sparse_output: bool = False) -> NDArray[np.int_] | scipy.sparse.csr_matrix",
+      "depth": 1,
+      "inputs": [
+        {"name": "y", "type_desc": "NDArray[np.object_] | list[object] | tuple[object, ...] | scipy.sparse.spmatrix", "required": true},
+        {"name": "classes", "type_desc": "NDArray[np.object_] | list[object] | tuple[object, ...]", "required": true},
+        {"name": "neg_label", "type_desc": "int", "required": false},
+        {"name": "pos_label", "type_desc": "int", "required": false},
+        {"name": "sparse_output", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.int_] | scipy.sparse.csr_matrix"}
       ]
     },
     {

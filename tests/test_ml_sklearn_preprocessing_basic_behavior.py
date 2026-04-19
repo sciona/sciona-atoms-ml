@@ -15,6 +15,7 @@ from sklearn.preprocessing import (
 )
 from sklearn.preprocessing import add_dummy_feature as sklearn_add_dummy_feature
 from sklearn.preprocessing import binarize as sklearn_binarize
+from sklearn.preprocessing import label_binarize as sklearn_label_binarize
 from sklearn.preprocessing import maxabs_scale as sklearn_maxabs_scale
 from sklearn.preprocessing import minmax_scale as sklearn_minmax_scale
 from sklearn.preprocessing import normalize as sklearn_normalize
@@ -29,6 +30,7 @@ def test_preprocessing_basic_atoms_import() -> None:
         binarizer_transform,
         kernel_centerer_fit,
         kernel_centerer_transform,
+        label_binarize,
         label_encoder_fit,
         label_encoder_fit_transform,
         label_encoder_inverse_transform,
@@ -61,6 +63,7 @@ def test_preprocessing_basic_atoms_import() -> None:
     assert callable(binarizer_transform)
     assert callable(kernel_centerer_fit)
     assert callable(kernel_centerer_transform)
+    assert callable(label_binarize)
     assert callable(label_encoder_fit)
     assert callable(label_encoder_fit_transform)
     assert callable(label_encoder_inverse_transform)
@@ -291,6 +294,60 @@ def test_label_encoder_empty_and_unseen_label_behaviors_match_sklearn() -> None:
         label_encoder_inverse_transform([2], state)
     with pytest.raises(ValueError, match="previously unseen labels"):
         expected.inverse_transform([2])
+
+
+def test_label_binarize_multiclass_and_ordering_match_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import label_binarize
+
+    y = np.array([1, 6, 2, 6])
+    classes = np.array([1, 6, 4, 2])
+    assert np.array_equal(label_binarize(y, classes=classes), sklearn_label_binarize(y, classes=classes))
+
+
+def test_label_binarize_binary_and_custom_labels_match_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import label_binarize
+
+    y = np.array(["yes", "no", "no", "yes"], dtype=object)
+    classes = np.array(["no", "yes"], dtype=object)
+    result = label_binarize(y, classes=classes, neg_label=-1, pos_label=2)
+    expected = sklearn_label_binarize(y, classes=classes, neg_label=-1, pos_label=2)
+
+    assert np.array_equal(result, expected)
+
+
+def test_label_binarize_sparse_output_matches_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import label_binarize
+
+    y = np.array([1, 3, 2, 1])
+    classes = np.array([1, 2, 3])
+    result = label_binarize(y, classes=classes, sparse_output=True)
+    expected = sklearn_label_binarize(y, classes=classes, sparse_output=True)
+
+    assert sp.issparse(result)
+    assert np.array_equal(result.toarray(), expected.toarray())
+
+
+def test_label_binarize_multilabel_indicator_matches_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import label_binarize
+
+    y = np.array([[1, 0, 1], [0, 1, 0]])
+    classes = np.array([0, 1, 2])
+
+    assert np.array_equal(label_binarize(y, classes=classes), sklearn_label_binarize(y, classes=classes))
+
+
+def test_label_binarize_errors_match_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import label_binarize
+
+    with pytest.raises(ValueError, match="strictly less"):
+        label_binarize([1, 2], classes=[1, 2], neg_label=1, pos_label=1)
+    with pytest.raises(ValueError, match="strictly less"):
+        sklearn_label_binarize([1, 2], classes=[1, 2], neg_label=1, pos_label=1)
+
+    with pytest.raises(ValueError, match="Sparse binarization"):
+        label_binarize([1, 2], classes=[1, 2], neg_label=-1, sparse_output=True)
+    with pytest.raises(ValueError, match="Sparse binarization"):
+        sklearn_label_binarize([1, 2], classes=[1, 2], neg_label=-1, sparse_output=True)
 
 
 def test_scale_matches_sklearn_dense_axes_and_options() -> None:
