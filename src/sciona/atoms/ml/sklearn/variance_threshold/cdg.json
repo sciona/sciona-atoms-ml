@@ -1,0 +1,86 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_variance_threshold_root",
+      "name": "Sklearn VarianceThreshold Atoms",
+      "description": "Fitted-state decomposition of sklearn.feature_selection.VarianceThreshold",
+      "status": "decomposed",
+      "children": [
+        "variance_threshold_fit",
+        "variance_threshold_support_mask",
+        "variance_threshold_transform"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "variance_threshold_fit",
+      "name": "variance_threshold_fit",
+      "description": "Learn per-feature variances and threshold state from a training matrix.",
+      "concept_type": "fit_state",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, threshold: float = 0.0) -> VarianceThresholdState",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
+        {"name": "threshold", "type_desc": "float", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "VarianceThresholdState"}
+      ]
+    },
+    {
+      "node_id": "variance_threshold_support_mask",
+      "name": "variance_threshold_support_mask",
+      "description": "Return the boolean feature mask from fitted variance state.",
+      "concept_type": "state_query",
+      "status": "atomic",
+      "type_signature": "(state: VarianceThresholdState) -> NDArray[np.bool_]",
+      "depth": 1,
+      "inputs": [
+        {"name": "state", "type_desc": "VarianceThresholdState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.bool_]"}
+      ]
+    },
+    {
+      "node_id": "variance_threshold_transform",
+      "name": "variance_threshold_transform",
+      "description": "Filter matrix columns according to fitted variance-threshold state.",
+      "concept_type": "array_transform",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, state: VarianceThresholdState) -> NDArray[np.float64] | scipy.sparse.spmatrix",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
+        {"name": "state", "type_desc": "VarianceThresholdState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"}
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source_id": "variance_threshold_fit",
+      "target_id": "variance_threshold_support_mask",
+      "edge_type": "state_dependency"
+    },
+    {
+      "source_id": "variance_threshold_fit",
+      "target_id": "variance_threshold_transform",
+      "edge_type": "state_dependency"
+    },
+    {
+      "source_id": "variance_threshold_support_mask",
+      "target_id": "variance_threshold_transform",
+      "edge_type": "data_dependency"
+    }
+  ],
+  "metadata": {
+    "source": "agent_ingestion",
+    "source_module": "sklearn.feature_selection._variance_threshold",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause"
+  }
+}
