@@ -8,6 +8,7 @@ from sciona.ghost.abstract import AbstractArray
 
 from .state_models import (
     KernelCentererState,
+    KBinsDiscretizerState,
     LabelBinarizerState,
     LabelEncoderState,
     MaxAbsScalerState,
@@ -114,6 +115,89 @@ def witness_kernel_centerer_transform(
     if n_features != state.n_features_in:
         raise ValueError("kernel columns must match fitted training samples")
     return AbstractArray(shape=(n_samples, n_features), dtype=K.dtype)
+
+
+def witness_kbins_discretizer_fit(
+    X: AbstractArray,
+    n_bins: int | tuple[int, ...] = 5,
+    *,
+    encode: str = "onehot",
+    strategy: str = "quantile",
+    quantile_method: str = "warn",
+    dtype: type | None = None,
+    subsample: int | None = 200_000,
+    random_state: int | None = None,
+    sample_weight: AbstractArray | None = None,
+) -> AbstractArray:
+    """Describe learning per-feature discretization bin edges."""
+    del n_bins, quantile_method, dtype, subsample, random_state
+    n_samples, n_features = _check_2d(X)
+    if encode not in {"onehot", "onehot-dense", "ordinal"}:
+        raise ValueError("invalid encode mode")
+    if strategy not in {"uniform", "quantile", "kmeans"}:
+        raise ValueError("invalid discretization strategy")
+    if sample_weight is not None and tuple(sample_weight.shape) != (n_samples,):
+        raise ValueError("sample_weight must have one value per sample")
+    return AbstractArray(shape=(n_features,), dtype="object")
+
+
+def witness_kbins_discretizer_transform(
+    X: AbstractArray,
+    state: KBinsDiscretizerState,
+) -> AbstractArray:
+    """Describe mapping continuous features to ordinal or one-hot bins."""
+    n_samples, n_features = _check_2d(X)
+    if n_features != state.n_features_in:
+        raise ValueError("X feature count must match fitted state")
+    if state.encode == "ordinal":
+        return AbstractArray(shape=(n_samples, n_features), dtype=X.dtype, min_val=0.0)
+    return AbstractArray(shape=(n_samples, int(sum(state.n_bins))), dtype=X.dtype, min_val=0.0, max_val=1.0)
+
+
+def witness_kbins_discretizer_inverse_transform(
+    X: AbstractArray,
+    state: KBinsDiscretizerState,
+) -> AbstractArray:
+    """Describe mapping ordinal or one-hot bins back to bin centers."""
+    n_samples, n_features = _check_2d(X)
+    expected = state.n_features_in if state.encode == "ordinal" else int(sum(state.n_bins))
+    if n_features != expected:
+        raise ValueError("X feature count must match encoded fitted state")
+    return AbstractArray(shape=(n_samples, state.n_features_in), dtype="float64")
+
+
+def witness_kbins_discretizer_fit_transform(
+    X: AbstractArray,
+    n_bins: int | tuple[int, ...] = 5,
+    *,
+    encode: str = "onehot",
+    strategy: str = "quantile",
+    quantile_method: str = "warn",
+    dtype: type | None = None,
+    subsample: int | None = 200_000,
+    random_state: int | None = None,
+    sample_weight: AbstractArray | None = None,
+) -> tuple[AbstractArray, AbstractArray]:
+    """Describe fitting discretization bin edges and transforming features."""
+    edges = witness_kbins_discretizer_fit(
+        X,
+        n_bins=n_bins,
+        encode=encode,
+        strategy=strategy,
+        quantile_method=quantile_method,
+        dtype=dtype,
+        subsample=subsample,
+        random_state=random_state,
+        sample_weight=sample_weight,
+    )
+    n_samples, n_features = _check_2d(X)
+    if encode == "ordinal":
+        width = n_features
+    elif isinstance(n_bins, int):
+        width = n_features * n_bins
+    else:
+        width = int(sum(n_bins))
+    return edges, AbstractArray(shape=(n_samples, width), dtype=X.dtype)
 
 
 def witness_maxabs_scaler_partial_fit(

@@ -18,6 +18,19 @@ class KernelCentererState:
 
 
 @dataclass(frozen=True)
+class KBinsDiscretizerState:
+    """Learned bin edges and encoding mode for discretizing continuous features."""
+
+    bin_edges: NDArray[np.object_]
+    n_bins: NDArray[np.int_]
+    encode: str
+    strategy: str
+    quantile_method: str
+    dtype: type | None
+    n_features_in: int
+
+
+@dataclass(frozen=True)
 class MaxAbsScalerState:
     """Learned maximum-absolute-value scale factors for each feature."""
 

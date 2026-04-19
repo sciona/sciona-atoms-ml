@@ -1824,6 +1824,184 @@
           "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"
         }
       ]
+    },
+    {
+      "node_id": "kbins_discretizer_fit",
+      "name": "kbins_discretizer_fit",
+      "description": "Learn per-feature bin edges for continuous-feature discretization.",
+      "concept_type": "fit_state_builder",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, n_bins: int | NDArray[np.int_] | list[int] | tuple[int, ...] = 5, encode: str = 'onehot', strategy: str = 'quantile', quantile_method: str = 'warn', dtype: type | None = None, subsample: int | None = 200000, random_state: int | numpy.random.RandomState | None = None, sample_weight: NDArray[np.float64] | None = None) -> KBinsDiscretizerState",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix",
+          "required": true
+        },
+        {
+          "name": "n_bins",
+          "type_desc": "int | NDArray[np.int_] | list[int] | tuple[int, ...]",
+          "required": false
+        },
+        {
+          "name": "encode",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "strategy",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "quantile_method",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "dtype",
+          "type_desc": "type | None",
+          "required": false
+        },
+        {
+          "name": "subsample",
+          "type_desc": "int | None",
+          "required": false
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int | numpy.random.RandomState | None",
+          "required": false
+        },
+        {
+          "name": "sample_weight",
+          "type_desc": "NDArray[np.float64] | None",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "KBinsDiscretizerState"
+        }
+      ]
+    },
+    {
+      "node_id": "kbins_discretizer_transform",
+      "name": "kbins_discretizer_transform",
+      "description": "Discretize features into fitted ordinal or one-hot bins.",
+      "concept_type": "array_transform",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, state: KBinsDiscretizerState) -> NDArray[np.float64] | scipy.sparse.spmatrix",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "KBinsDiscretizerState",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"
+        }
+      ]
+    },
+    {
+      "node_id": "kbins_discretizer_inverse_transform",
+      "name": "kbins_discretizer_inverse_transform",
+      "description": "Map fitted ordinal or one-hot bins back to bin centers.",
+      "concept_type": "array_transform",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, state: KBinsDiscretizerState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "KBinsDiscretizerState",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
+    },
+    {
+      "node_id": "kbins_discretizer_fit_transform",
+      "name": "kbins_discretizer_fit_transform",
+      "description": "Learn discretization bins and transform the same matrix.",
+      "concept_type": "fit_transform",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, n_bins: int | NDArray[np.int_] | list[int] | tuple[int, ...] = 5, encode: str = 'onehot', strategy: str = 'quantile', quantile_method: str = 'warn', dtype: type | None = None, subsample: int | None = 200000, random_state: int | numpy.random.RandomState | None = None, sample_weight: NDArray[np.float64] | None = None) -> tuple[KBinsDiscretizerState, NDArray[np.float64] | scipy.sparse.spmatrix]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix",
+          "required": true
+        },
+        {
+          "name": "n_bins",
+          "type_desc": "int | NDArray[np.int_] | list[int] | tuple[int, ...]",
+          "required": false
+        },
+        {
+          "name": "encode",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "strategy",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "quantile_method",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "dtype",
+          "type_desc": "type | None",
+          "required": false
+        },
+        {
+          "name": "subsample",
+          "type_desc": "int | None",
+          "required": false
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int | numpy.random.RandomState | None",
+          "required": false
+        },
+        {
+          "name": "sample_weight",
+          "type_desc": "NDArray[np.float64] | None",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "tuple[KBinsDiscretizerState, NDArray[np.float64] | scipy.sparse.spmatrix]"
+        }
+      ]
     }
   ],
   "edges": [
@@ -1995,6 +2173,21 @@
     {
       "source_id": "quantile_transformer_fit_transform",
       "target_id": "quantile_transform",
+      "edge_type": "implementation_dependency"
+    },
+    {
+      "source_id": "kbins_discretizer_fit",
+      "target_id": "kbins_discretizer_transform",
+      "edge_type": "fit_state_dependency"
+    },
+    {
+      "source_id": "kbins_discretizer_fit",
+      "target_id": "kbins_discretizer_inverse_transform",
+      "edge_type": "fit_state_dependency"
+    },
+    {
+      "source_id": "kbins_discretizer_fit",
+      "target_id": "kbins_discretizer_fit_transform",
       "edge_type": "implementation_dependency"
     }
   ],

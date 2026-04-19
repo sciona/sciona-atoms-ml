@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from numbers import Integral
 import warnings
 
 import icontract
@@ -15,12 +16,14 @@ from sklearn.utils import check_array, check_random_state, resample
 from sklearn.utils.extmath import _incremental_mean_and_var, row_norms
 from sklearn.utils.sparsefuncs import incr_mean_variance_axis, inplace_column_scale, mean_variance_axis, min_max_axis
 from sklearn.utils.sparsefuncs_fast import inplace_csr_row_normalize_l1, inplace_csr_row_normalize_l2
+from sklearn.utils.stats import _weighted_percentile
 from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight
 
 from sciona.ghost.registry import register_atom
 
 from .state_models import (
     KernelCentererState,
+    KBinsDiscretizerState,
     MaxAbsScalerState,
     MinMaxScalerState,
     RobustScalerState,
@@ -30,6 +33,10 @@ from .witnesses import (
     witness_add_dummy_feature,
     witness_binarize,
     witness_binarizer_transform,
+    witness_kbins_discretizer_fit,
+    witness_kbins_discretizer_fit_transform,
+    witness_kbins_discretizer_inverse_transform,
+    witness_kbins_discretizer_transform,
     witness_kernel_centerer_fit,
     witness_kernel_centerer_transform,
     witness_maxabs_scale,
@@ -366,6 +373,340 @@ def kernel_centerer_transform(
     checked_k -= k_pred_cols
     checked_k += state.k_fit_all
     return checked_k
+
+
+BinsLike = int | NDArray[np.int_] | list[int] | tuple[int, ...]
+KBinsDiscretizerFitTransformResult = tuple[KBinsDiscretizerState, MatrixLike]
+
+
+def _kbins_encode_valid(encode: str) -> bool:
+    return encode in {"onehot", "onehot-dense", "ordinal"}
+
+
+def _kbins_strategy_valid(strategy: str) -> bool:
+    return strategy in {"uniform", "quantile", "kmeans"}
+
+
+def _kbins_quantile_method_valid(quantile_method: str) -> bool:
+    return quantile_method in {
+        "warn",
+        "inverted_cdf",
+        "averaged_inverted_cdf",
+        "closest_observation",
+        "interpolated_inverted_cdf",
+        "hazen",
+        "weibull",
+        "linear",
+        "median_unbiased",
+        "normal_unbiased",
+    }
+
+
+def _kbins_dtype_valid(dtype: type | None) -> bool:
+    return dtype is None or dtype in {np.float32, np.float64}
+
+
+def _kbins_n_bins_valid(n_bins: BinsLike) -> bool:
+    if isinstance(n_bins, Integral):
+        return int(n_bins) >= 2
+    array = np.asarray(n_bins)
+    return bool(array.ndim == 1 and len(array) > 0 and np.all(array >= 2) and np.all(array == array.astype(int)))
+
+
+def _kbins_state_valid(state: KBinsDiscretizerState) -> bool:
+    if not (
+        state.bin_edges.ndim == 1
+        and state.n_bins.ndim == 1
+        and state.bin_edges.shape == state.n_bins.shape
+        and state.n_bins.shape[0] == state.n_features_in
+        and _kbins_encode_valid(state.encode)
+        and _kbins_strategy_valid(state.strategy)
+        and _kbins_quantile_method_valid(state.quantile_method)
+        and _kbins_dtype_valid(state.dtype)
+    ):
+        return False
+    return bool(
+        all(np.asarray(edges).ndim == 1 and len(edges) == int(n_bins) + 1 for edges, n_bins in zip(state.bin_edges, state.n_bins))
+    )
+
+
+def _kbins_encoded_feature_count(state: KBinsDiscretizerState) -> int:
+    return state.n_features_in if state.encode == "ordinal" else int(np.sum(state.n_bins))
+
+
+def _kbins_transform_shape_matches(result: MatrixLike, X: MatrixLike, state: KBinsDiscretizerState) -> bool:
+    return bool(result.shape == (X.shape[0], _kbins_encoded_feature_count(state)))
+
+
+def _kbins_inverse_shape_matches(result: NDArray[np.float64], X: MatrixLike, state: KBinsDiscretizerState) -> bool:
+    return bool(result.shape == (X.shape[0], state.n_features_in))
+
+
+def _kbins_fit_transform_valid(result: KBinsDiscretizerFitTransformResult, X: MatrixLike) -> bool:
+    state, transformed = result
+    return bool(_kbins_state_valid(state) and _kbins_transform_shape_matches(transformed, X, state))
+
+
+def _kbins_validate_n_bins(n_bins: BinsLike, n_features: int) -> NDArray[np.int_]:
+    if isinstance(n_bins, Integral):
+        if int(n_bins) < 2:
+            raise ValueError("KBinsDiscretizer received an invalid number of bins. Number of bins must be at least 2.")
+        return np.full(n_features, int(n_bins), dtype=int)
+    bins = check_array(n_bins, dtype=int, copy=True, ensure_2d=False)
+    original = np.asarray(n_bins)
+    if bins.ndim > 1 or bins.shape[0] != n_features:
+        raise ValueError("n_bins must be a scalar or array of shape (n_features,).")
+    bad_nbins_value = (bins < 2) | (bins != original)
+    violating_indices = np.where(bad_nbins_value)[0]
+    if violating_indices.shape[0] > 0:
+        indices = ", ".join(str(i) for i in violating_indices)
+        raise ValueError(
+            "KBinsDiscretizer received an invalid number of bins at indices {0}. Number of bins must be at least 2, and must be an int.".format(
+                indices
+            )
+        )
+    return np.asarray(bins, dtype=int)
+
+
+def _kbins_output_dtype(dtype: type | None, X: NDArray[np.float64]) -> type:
+    if dtype in (np.float64, np.float32):
+        return dtype
+    return np.float32 if X.dtype == np.float32 else np.float64
+
+
+def _kbins_ordinal_transform(X: NDArray[np.float64], state: KBinsDiscretizerState) -> NDArray[np.float64]:
+    output_dtype = _kbins_output_dtype(state.dtype, X)
+    transformed = X.astype(output_dtype, copy=True)
+    for feature_idx in range(transformed.shape[1]):
+        transformed[:, feature_idx] = np.searchsorted(
+            np.asarray(state.bin_edges[feature_idx])[1:-1],
+            transformed[:, feature_idx],
+            side="right",
+        )
+    return transformed
+
+
+def _kbins_onehot_encode(ordinal: NDArray[np.float64], state: KBinsDiscretizerState) -> MatrixLike:
+    n_samples = ordinal.shape[0]
+    offsets = np.r_[0, np.cumsum(state.n_bins[:-1])]
+    cols = (ordinal.astype(np.int64) + offsets).ravel()
+    rows = np.repeat(np.arange(n_samples), state.n_features_in)
+    data = np.ones(rows.shape[0], dtype=ordinal.dtype)
+    encoded = sp.csr_matrix((data, (rows, cols)), shape=(n_samples, int(np.sum(state.n_bins))), dtype=ordinal.dtype)
+    if state.encode == "onehot-dense":
+        return encoded.toarray()
+    return encoded
+
+
+def _kbins_decode_onehot(X: MatrixLike, state: KBinsDiscretizerState) -> NDArray[np.float64]:
+    if X.shape[1] != int(np.sum(state.n_bins)):
+        raise ValueError("Incorrect number of features. Expecting {0}, received {1}.".format(int(np.sum(state.n_bins)), X.shape[1]))
+    dense = X.toarray() if sp.issparse(X) else np.asarray(X)
+    decoded = np.empty((dense.shape[0], state.n_features_in), dtype=np.float64)
+    start = 0
+    for feature_idx, n_bins in enumerate(state.n_bins):
+        stop = start + int(n_bins)
+        decoded[:, feature_idx] = np.argmax(dense[:, start:stop], axis=1)
+        start = stop
+    return decoded
+
+
+@register_atom(witness_kbins_discretizer_fit)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
+@icontract.require(lambda n_bins: _kbins_n_bins_valid(n_bins), "n_bins must be at least 2 for every feature")
+@icontract.require(lambda encode: _kbins_encode_valid(encode), "encode must be 'onehot', 'onehot-dense', or 'ordinal'")
+@icontract.require(lambda strategy: _kbins_strategy_valid(strategy), "strategy must be 'uniform', 'quantile', or 'kmeans'")
+@icontract.require(lambda quantile_method: _kbins_quantile_method_valid(quantile_method), "invalid quantile method")
+@icontract.require(lambda dtype: _kbins_dtype_valid(dtype), "dtype must be None, np.float32, or np.float64")
+@icontract.require(lambda subsample: _subsample_valid(subsample), "subsample must be at least one or None")
+@icontract.require(lambda sample_weight, X: _sample_weight_valid(sample_weight, X), "sample_weight must have one value per sample")
+@icontract.ensure(lambda result: _kbins_state_valid(result), "discretizer state must contain valid per-feature bin edges")
+@icontract.ensure(lambda result, X: result.n_features_in == X.shape[1], "state feature count must match input columns")
+def kbins_discretizer_fit(
+    X: MatrixLike,
+    n_bins: BinsLike = 5,
+    *,
+    encode: str = "onehot",
+    strategy: str = "quantile",
+    quantile_method: str = "warn",
+    dtype: type | None = None,
+    subsample: int | None = 200_000,
+    random_state: RandomStateLike = None,
+    sample_weight: NDArray[np.float64] | None = None,
+) -> KBinsDiscretizerState:
+    """Learn per-feature bin edges for continuous-feature discretization."""
+    checked_x = check_array(X, dtype="numeric")
+    output_dtype = _kbins_output_dtype(dtype, checked_x)
+    checked_x = checked_x.astype(output_dtype, copy=False)
+    n_samples, n_features = checked_x.shape
+    weights = _check_sample_weight(sample_weight, checked_x, dtype=checked_x.dtype) if sample_weight is not None else None
+    if subsample is not None and n_samples > subsample:
+        checked_x = resample(
+            checked_x,
+            replace=True,
+            n_samples=subsample,
+            random_state=random_state,
+            sample_weight=weights,
+        )
+        weights = None
+    n_bins_array = _kbins_validate_n_bins(n_bins, n_features)
+    bin_edges = np.zeros(n_features, dtype=object)
+
+    effective_quantile_method = quantile_method
+    if strategy == "quantile" and effective_quantile_method == "warn":
+        warnings.warn(
+            "The current default behavior, quantile_method='linear', will be changed to quantile_method='averaged_inverted_cdf' in scikit-learn version 1.9 to naturally support sample weight equivalence properties by default. Pass quantile_method='averaged_inverted_cdf' explicitly to silence this warning.",
+            FutureWarning,
+            stacklevel=2,
+        )
+        effective_quantile_method = "linear"
+    if (
+        strategy == "quantile"
+        and effective_quantile_method not in {"inverted_cdf", "averaged_inverted_cdf"}
+        and weights is not None
+    ):
+        raise ValueError(
+            "When fitting with strategy='quantile' and sample weights, quantile_method should either be set to 'averaged_inverted_cdf' or 'inverted_cdf', got quantile_method='{0}' instead.".format(
+                effective_quantile_method
+            )
+        )
+    nnz_weight_mask = weights != 0 if strategy != "quantile" and weights is not None else slice(None)
+
+    for feature_idx in range(n_features):
+        column = checked_x[:, feature_idx]
+        col_min = column[nnz_weight_mask].min()
+        col_max = column[nnz_weight_mask].max()
+        if col_min == col_max:
+            warnings.warn("Feature {0} is constant and will be replaced with 0.".format(feature_idx), UserWarning, stacklevel=2)
+            n_bins_array[feature_idx] = 1
+            bin_edges[feature_idx] = np.array([-np.inf, np.inf], dtype=np.float64)
+            continue
+        if strategy == "uniform":
+            bin_edges[feature_idx] = np.linspace(col_min, col_max, n_bins_array[feature_idx] + 1, dtype=np.float64)
+        elif strategy == "quantile":
+            percentile_levels = np.linspace(0, 100, n_bins_array[feature_idx] + 1)
+            if weights is None:
+                percentile_kwargs = {}
+                if effective_quantile_method != "linear":
+                    percentile_kwargs["method"] = effective_quantile_method
+                bin_edges[feature_idx] = np.asarray(
+                    np.percentile(column, percentile_levels, **percentile_kwargs),
+                    dtype=np.float64,
+                )
+            else:
+                average = effective_quantile_method == "averaged_inverted_cdf"
+                bin_edges[feature_idx] = _weighted_percentile(column, weights, percentile_levels, average=average)
+        else:
+            from sklearn.cluster import KMeans
+
+            uniform_edges = np.linspace(col_min, col_max, n_bins_array[feature_idx] + 1)
+            init = (uniform_edges[1:] + uniform_edges[:-1])[:, None] * 0.5
+            km = KMeans(n_clusters=int(n_bins_array[feature_idx]), init=init, n_init=1)
+            centers = km.fit(column[:, None], sample_weight=weights).cluster_centers_[:, 0]
+            centers.sort()
+            bin_edges[feature_idx] = np.r_[col_min, (centers[1:] + centers[:-1]) * 0.5, col_max]
+
+        if strategy in {"quantile", "kmeans"}:
+            mask = np.ediff1d(bin_edges[feature_idx], to_begin=np.inf) > 1e-8
+            bin_edges[feature_idx] = bin_edges[feature_idx][mask]
+            if len(bin_edges[feature_idx]) - 1 != n_bins_array[feature_idx]:
+                warnings.warn(
+                    "Bins whose width are too small (i.e., <= 1e-8) in feature {0} are removed. Consider decreasing the number of bins.".format(
+                        feature_idx
+                    ),
+                    UserWarning,
+                    stacklevel=2,
+                )
+                n_bins_array[feature_idx] = len(bin_edges[feature_idx]) - 1
+
+    return KBinsDiscretizerState(
+        bin_edges=bin_edges,
+        n_bins=np.asarray(n_bins_array, dtype=int),
+        encode=encode,
+        strategy=strategy,
+        quantile_method=quantile_method,
+        dtype=dtype,
+        n_features_in=int(n_features),
+    )
+
+
+@register_atom(witness_kbins_discretizer_transform)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
+@icontract.require(lambda state: _kbins_state_valid(state), "discretizer state must contain valid per-feature bin edges")
+@icontract.require(lambda X, state: X.shape[1] == state.n_features_in, "X feature count must match fitted state")
+@icontract.ensure(lambda result, X, state: _kbins_transform_shape_matches(result, X, state), "discretized output must match fitted encoding width")
+def kbins_discretizer_transform(
+    X: MatrixLike,
+    state: KBinsDiscretizerState,
+) -> MatrixLike:
+    """Discretize continuous features into fitted ordinal or one-hot bins."""
+    dtype = (np.float64, np.float32) if state.dtype is None else state.dtype
+    checked_x = check_array(X, copy=True, dtype=dtype)
+    if checked_x.shape[1] != state.n_features_in:
+        raise ValueError("Input data has a different number of features than fitting data.")
+    ordinal = _kbins_ordinal_transform(checked_x, state)
+    if state.encode == "ordinal":
+        return ordinal
+    return _kbins_onehot_encode(ordinal, state)
+
+
+@register_atom(witness_kbins_discretizer_inverse_transform)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
+@icontract.require(lambda X, state: X.shape[1] == _kbins_encoded_feature_count(state), "X encoded width must match fitted state")
+@icontract.require(lambda state: _kbins_state_valid(state), "discretizer state must contain valid per-feature bin edges")
+@icontract.ensure(lambda result, X, state: _kbins_inverse_shape_matches(result, X, state), "inverse discretizer output must restore fitted feature count")
+def kbins_discretizer_inverse_transform(
+    X: MatrixLike,
+    state: KBinsDiscretizerState,
+) -> NDArray[np.float64]:
+    """Map ordinal or one-hot bin indicators back to fitted bin centers."""
+    ordinal = _kbins_decode_onehot(X, state) if "onehot" in state.encode else check_array(X, copy=True, dtype=(np.float64, np.float32))
+    if ordinal.shape[1] != state.n_features_in:
+        raise ValueError("Incorrect number of features. Expecting {0}, received {1}.".format(state.n_features_in, ordinal.shape[1]))
+    output_dtype = np.float32 if state.dtype == np.float32 else np.float64
+    inverse = ordinal.astype(output_dtype, copy=True)
+    for feature_idx in range(state.n_features_in):
+        edges = np.asarray(state.bin_edges[feature_idx], dtype=output_dtype)
+        centers = (edges[1:] + edges[:-1]) * 0.5
+        inverse[:, feature_idx] = centers[ordinal[:, feature_idx].astype(np.int64)]
+    return inverse
+
+
+@register_atom(witness_kbins_discretizer_fit_transform)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
+@icontract.require(lambda n_bins: _kbins_n_bins_valid(n_bins), "n_bins must be at least 2 for every feature")
+@icontract.require(lambda encode: _kbins_encode_valid(encode), "encode must be 'onehot', 'onehot-dense', or 'ordinal'")
+@icontract.require(lambda strategy: _kbins_strategy_valid(strategy), "strategy must be 'uniform', 'quantile', or 'kmeans'")
+@icontract.require(lambda quantile_method: _kbins_quantile_method_valid(quantile_method), "invalid quantile method")
+@icontract.require(lambda dtype: _kbins_dtype_valid(dtype), "dtype must be None, np.float32, or np.float64")
+@icontract.require(lambda subsample: _subsample_valid(subsample), "subsample must be at least one or None")
+@icontract.require(lambda sample_weight, X: _sample_weight_valid(sample_weight, X), "sample_weight must have one value per sample")
+@icontract.ensure(lambda result, X: _kbins_fit_transform_valid(result, X), "fit-transform output must match learned bin state")
+def kbins_discretizer_fit_transform(
+    X: MatrixLike,
+    n_bins: BinsLike = 5,
+    *,
+    encode: str = "onehot",
+    strategy: str = "quantile",
+    quantile_method: str = "warn",
+    dtype: type | None = None,
+    subsample: int | None = 200_000,
+    random_state: RandomStateLike = None,
+    sample_weight: NDArray[np.float64] | None = None,
+) -> KBinsDiscretizerFitTransformResult:
+    """Learn discretization bins and transform the same feature matrix."""
+    state = kbins_discretizer_fit(
+        X,
+        n_bins=n_bins,
+        encode=encode,
+        strategy=strategy,
+        quantile_method=quantile_method,
+        dtype=dtype,
+        subsample=subsample,
+        random_state=random_state,
+        sample_weight=sample_weight,
+    )
+    return state, kbins_discretizer_transform(X, state)
 
 
 @register_atom(witness_scale)

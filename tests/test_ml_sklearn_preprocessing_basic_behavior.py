@@ -5,6 +5,7 @@ import pytest
 import scipy.sparse as sp
 from sklearn.preprocessing import (
     Binarizer,
+    KBinsDiscretizer,
     KernelCenterer,
     LabelBinarizer,
     LabelEncoder,
@@ -35,6 +36,10 @@ def test_preprocessing_basic_atoms_import() -> None:
         add_dummy_feature,
         binarize,
         binarizer_transform,
+        kbins_discretizer_fit,
+        kbins_discretizer_fit_transform,
+        kbins_discretizer_inverse_transform,
+        kbins_discretizer_transform,
         kernel_centerer_fit,
         kernel_centerer_transform,
         label_binarize,
@@ -89,6 +94,10 @@ def test_preprocessing_basic_atoms_import() -> None:
     assert callable(add_dummy_feature)
     assert callable(binarize)
     assert callable(binarizer_transform)
+    assert callable(kbins_discretizer_fit)
+    assert callable(kbins_discretizer_fit_transform)
+    assert callable(kbins_discretizer_inverse_transform)
+    assert callable(kbins_discretizer_transform)
     assert callable(kernel_centerer_fit)
     assert callable(kernel_centerer_transform)
     assert callable(label_binarize)
@@ -285,6 +294,80 @@ def test_kernel_centerer_errors_match_sklearn_shape_requirements() -> None:
         kernel_centerer_transform(np.ones((2, 2), dtype=np.float64), state)
     with pytest.raises(ValueError):
         KernelCenterer().fit(np.eye(3, dtype=np.float64)).transform(np.ones((2, 2), dtype=np.float64))
+
+
+def test_kbins_discretizer_uniform_ordinal_and_inverse_match_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import (
+        kbins_discretizer_fit,
+        kbins_discretizer_inverse_transform,
+        kbins_discretizer_transform,
+    )
+
+    X = np.array([[-2.0, 1.0], [-1.0, 2.0], [0.0, 3.0], [1.0, 4.0]], dtype=np.float64)
+    state = kbins_discretizer_fit(X, n_bins=3, encode="ordinal", strategy="uniform")
+    expected = KBinsDiscretizer(n_bins=3, encode="ordinal", strategy="uniform").fit(X)
+    transformed = kbins_discretizer_transform(X, state)
+    expected_transformed = expected.transform(X)
+
+    assert np.array_equal(state.n_bins, expected.n_bins_)
+    for result_edges, expected_edges in zip(state.bin_edges, expected.bin_edges_):
+        assert np.allclose(result_edges, expected_edges)
+    assert np.allclose(transformed, expected_transformed)
+    assert np.allclose(kbins_discretizer_inverse_transform(transformed, state), expected.inverse_transform(expected_transformed))
+
+
+def test_kbins_discretizer_quantile_onehot_dense_matches_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import kbins_discretizer_fit_transform
+
+    X = np.array([[0.0, 10.0], [1.0, 11.0], [2.0, 12.0], [3.0, 20.0], [4.0, 21.0]], dtype=np.float64)
+    with pytest.warns(FutureWarning, match="quantile_method"):
+        state, transformed = kbins_discretizer_fit_transform(
+            X,
+            n_bins=np.array([3, 2]),
+            encode="onehot-dense",
+            strategy="quantile",
+        )
+    with pytest.warns(FutureWarning, match="quantile_method"):
+        expected = KBinsDiscretizer(n_bins=np.array([3, 2]), encode="onehot-dense", strategy="quantile").fit(X)
+
+    assert np.array_equal(state.n_bins, expected.n_bins_)
+    assert np.allclose(transformed, expected.transform(X))
+
+
+def test_kbins_discretizer_onehot_sparse_and_kmeans_match_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import kbins_discretizer_fit, kbins_discretizer_transform
+
+    X = np.array([[-3.0, 0.0], [-2.0, 0.5], [-1.0, 1.0], [2.0, 3.0], [3.0, 4.0], [4.0, 5.0]], dtype=np.float64)
+    state = kbins_discretizer_fit(X, n_bins=3, encode="onehot", strategy="kmeans", random_state=0)
+    expected = KBinsDiscretizer(n_bins=3, encode="onehot", strategy="kmeans", random_state=0).fit(X)
+    result = kbins_discretizer_transform(X, state)
+    expected_result = expected.transform(X)
+
+    assert sp.issparse(result)
+    assert result.getformat() == expected_result.getformat()
+    assert np.allclose(result.toarray(), expected_result.toarray())
+
+
+def test_kbins_discretizer_constant_feature_and_errors_match_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import kbins_discretizer_fit, kbins_discretizer_transform
+
+    X = np.array([[1.0, 0.0], [1.0, 1.0], [1.0, 2.0]], dtype=np.float64)
+    with pytest.warns(UserWarning, match="constant"):
+        state = kbins_discretizer_fit(X, n_bins=3, encode="ordinal", strategy="uniform")
+    with pytest.warns(UserWarning, match="constant"):
+        expected = KBinsDiscretizer(n_bins=3, encode="ordinal", strategy="uniform").fit(X)
+    assert np.array_equal(state.n_bins, expected.n_bins_)
+    assert np.allclose(kbins_discretizer_transform(X, state), expected.transform(X))
+
+    with pytest.raises(Exception, match="at least 2"):
+        kbins_discretizer_fit(X, n_bins=1)
+    with pytest.raises(ValueError, match="range \\[2"):
+        KBinsDiscretizer(n_bins=1).fit(X)
+
+    with pytest.raises(Exception, match="feature"):
+        kbins_discretizer_transform(np.ones((2, 3), dtype=np.float64), state)
+    with pytest.raises(ValueError):
+        expected.transform(np.ones((2, 3), dtype=np.float64))
 
 
 def test_label_encoder_fit_and_transform_match_sklearn_numeric_labels() -> None:

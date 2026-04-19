@@ -15,6 +15,10 @@ EXPECTED_FQDNS = {
     "sciona.atoms.ml.sklearn.preprocessing.add_dummy_feature",
     "sciona.atoms.ml.sklearn.preprocessing.binarize",
     "sciona.atoms.ml.sklearn.preprocessing.binarizer_transform",
+    "sciona.atoms.ml.sklearn.preprocessing.kbins_discretizer_fit",
+    "sciona.atoms.ml.sklearn.preprocessing.kbins_discretizer_fit_transform",
+    "sciona.atoms.ml.sklearn.preprocessing.kbins_discretizer_inverse_transform",
+    "sciona.atoms.ml.sklearn.preprocessing.kbins_discretizer_transform",
     "sciona.atoms.ml.sklearn.preprocessing.kernel_centerer_fit",
     "sciona.atoms.ml.sklearn.preprocessing.kernel_centerer_transform",
     "sciona.atoms.ml.sklearn.preprocessing.label_binarize",
@@ -71,7 +75,7 @@ def test_references_json_exists_and_has_all_preprocessing_fqdns() -> None:
     assert REFERENCES_PATH.exists()
     payload = json.loads(REFERENCES_PATH.read_text(encoding="utf-8"))
     atom_keys = set(payload["atoms"])
-    assert len(atom_keys) == 52
+    assert len(atom_keys) == 56
     assert {key.partition("@")[0] for key in atom_keys} == EXPECTED_FQDNS
 
 

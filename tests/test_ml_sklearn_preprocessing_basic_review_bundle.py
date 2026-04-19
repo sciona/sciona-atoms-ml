@@ -18,6 +18,10 @@ EXPECTED_ATOM_NAMES = {
     "sciona.atoms.ml.sklearn.preprocessing.add_dummy_feature",
     "sciona.atoms.ml.sklearn.preprocessing.binarize",
     "sciona.atoms.ml.sklearn.preprocessing.binarizer_transform",
+    "sciona.atoms.ml.sklearn.preprocessing.kbins_discretizer_fit",
+    "sciona.atoms.ml.sklearn.preprocessing.kbins_discretizer_fit_transform",
+    "sciona.atoms.ml.sklearn.preprocessing.kbins_discretizer_inverse_transform",
+    "sciona.atoms.ml.sklearn.preprocessing.kbins_discretizer_transform",
     "sciona.atoms.ml.sklearn.preprocessing.kernel_centerer_fit",
     "sciona.atoms.ml.sklearn.preprocessing.kernel_centerer_transform",
     "sciona.atoms.ml.sklearn.preprocessing.label_binarize",
@@ -74,10 +78,10 @@ def _bundle() -> dict:
     return json.loads(BUNDLE_PATH.read_text(encoding="utf-8"))
 
 
-def test_bundle_exists_and_has_fifty_two_atoms() -> None:
+def test_bundle_exists_and_has_fifty_six_atoms() -> None:
     assert BUNDLE_PATH.exists()
     bundle = _bundle()
-    assert len(bundle["rows"]) == 52
+    assert len(bundle["rows"]) == 56
     assert {row["atom_key"] for row in bundle["rows"]} == EXPECTED_ATOM_NAMES
 
 
@@ -123,6 +127,10 @@ def test_cdg_atomic_nodes_have_publishable_io_specs() -> None:
         "add_dummy_feature",
         "binarize",
         "binarizer_transform",
+        "kbins_discretizer_fit",
+        "kbins_discretizer_fit_transform",
+        "kbins_discretizer_inverse_transform",
+        "kbins_discretizer_transform",
         "kernel_centerer_fit",
         "kernel_centerer_transform",
         "label_binarize",

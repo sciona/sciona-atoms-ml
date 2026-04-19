@@ -4,6 +4,10 @@ from .atoms import (
     add_dummy_feature,
     binarize,
     binarizer_transform,
+    kbins_discretizer_fit,
+    kbins_discretizer_fit_transform,
+    kbins_discretizer_inverse_transform,
+    kbins_discretizer_transform,
     kernel_centerer_fit,
     kernel_centerer_transform,
     label_binarize,
@@ -56,6 +60,7 @@ from .atoms import (
 )
 from .state_models import (
     KernelCentererState,
+    KBinsDiscretizerState,
     LabelBinarizerState,
     LabelEncoderState,
     MaxAbsScalerState,
@@ -70,6 +75,7 @@ from .state_models import (
 
 __all__ = [
     "KernelCentererState",
+    "KBinsDiscretizerState",
     "LabelBinarizerState",
     "LabelEncoderState",
     "MaxAbsScalerState",
@@ -83,6 +89,10 @@ __all__ = [
     "add_dummy_feature",
     "binarize",
     "binarizer_transform",
+    "kbins_discretizer_fit",
+    "kbins_discretizer_fit_transform",
+    "kbins_discretizer_inverse_transform",
+    "kbins_discretizer_transform",
     "kernel_centerer_fit",
     "kernel_centerer_transform",
     "label_binarize",
