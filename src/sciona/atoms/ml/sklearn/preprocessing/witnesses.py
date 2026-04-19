@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from sciona.ghost.abstract import AbstractArray
 
-from .state_models import KernelCentererState, MaxAbsScalerState, MinMaxScalerState
+from .state_models import KernelCentererState, MaxAbsScalerState, MinMaxScalerState, RobustScalerState
 
 
 def _check_2d(X: AbstractArray) -> tuple[int, int]:
@@ -193,6 +193,51 @@ def witness_minmax_scaler_inverse_transform(
     copy: bool = True,
 ) -> AbstractArray:
     """Describe undoing fitted min-max scaling."""
+    del copy
+    n_samples, n_features = _check_2d(X)
+    if n_features != state.n_features_in:
+        raise ValueError("X feature count must match fitted state")
+    return AbstractArray(shape=(n_samples, n_features), dtype=X.dtype)
+
+
+def witness_robust_scaler_fit(
+    X: AbstractArray,
+    *,
+    with_centering: bool = True,
+    with_scaling: bool = True,
+    quantile_range: tuple[float, float] = (25.0, 75.0),
+    unit_variance: bool = False,
+) -> AbstractArray:
+    """Describe fitting robust per-feature center and scale statistics."""
+    del with_centering, with_scaling, unit_variance
+    n_samples, n_features = _check_2d(X)
+    if n_samples < 1:
+        raise ValueError("X must contain at least one sample")
+    q_min, q_max = quantile_range
+    if not 0 <= q_min <= q_max <= 100:
+        raise ValueError("invalid quantile range")
+    return AbstractArray(shape=(n_features,), dtype="float64")
+
+
+def witness_robust_scaler_transform(
+    X: AbstractArray,
+    state: RobustScalerState,
+    copy: bool = True,
+) -> AbstractArray:
+    """Describe applying fitted robust center and scale statistics."""
+    del copy
+    n_samples, n_features = _check_2d(X)
+    if n_features != state.n_features_in:
+        raise ValueError("X feature count must match fitted state")
+    return AbstractArray(shape=(n_samples, n_features), dtype=X.dtype)
+
+
+def witness_robust_scaler_inverse_transform(
+    X: AbstractArray,
+    state: RobustScalerState,
+    copy: bool = True,
+) -> AbstractArray:
+    """Describe undoing fitted robust center and scale statistics."""
     del copy
     n_samples, n_features = _check_2d(X)
     if n_features != state.n_features_in:

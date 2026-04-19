@@ -24,6 +24,9 @@
         "minmax_scaler_fit",
         "minmax_scaler_transform",
         "minmax_scaler_inverse_transform",
+        "robust_scaler_fit",
+        "robust_scaler_transform",
+        "robust_scaler_inverse_transform",
         "robust_scale"
       ],
       "depth": 0
@@ -335,6 +338,59 @@
       ]
     },
     {
+      "node_id": "robust_scaler_fit",
+      "name": "robust_scaler_fit",
+      "description": "Fit robust per-feature medians and quantile-range scale factors.",
+      "concept_type": "estimator_fit_state",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, with_centering: bool = True, with_scaling: bool = True, quantile_range: tuple[float, float] = (25.0, 75.0), unit_variance: bool = False) -> RobustScalerState",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
+        {"name": "with_centering", "type_desc": "bool", "required": false},
+        {"name": "with_scaling", "type_desc": "bool", "required": false},
+        {"name": "quantile_range", "type_desc": "tuple[float, float]", "required": false},
+        {"name": "unit_variance", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "RobustScalerState"}
+      ]
+    },
+    {
+      "node_id": "robust_scaler_transform",
+      "name": "robust_scaler_transform",
+      "description": "Center and scale data using fitted robust per-feature statistics.",
+      "concept_type": "estimator_transform_method",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, state: RobustScalerState, copy: bool = True) -> NDArray[np.float64] | scipy.sparse.spmatrix",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
+        {"name": "state", "type_desc": "RobustScalerState", "required": true},
+        {"name": "copy", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"}
+      ]
+    },
+    {
+      "node_id": "robust_scaler_inverse_transform",
+      "name": "robust_scaler_inverse_transform",
+      "description": "Undo fitted robust centering and quantile-range scaling.",
+      "concept_type": "estimator_inverse_transform_method",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, state: RobustScalerState, copy: bool = True) -> NDArray[np.float64] | scipy.sparse.spmatrix",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
+        {"name": "state", "type_desc": "RobustScalerState", "required": true},
+        {"name": "copy", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"}
+      ]
+    },
+    {
       "node_id": "robust_scale",
       "name": "robust_scale",
       "description": "Center by median and scale by quantile range along rows or columns.",
@@ -400,6 +456,16 @@
     {
       "source_id": "minmax_scaler_fit",
       "target_id": "minmax_scaler_inverse_transform",
+      "edge_type": "fit_state_dependency"
+    },
+    {
+      "source_id": "robust_scaler_fit",
+      "target_id": "robust_scaler_transform",
+      "edge_type": "fit_state_dependency"
+    },
+    {
+      "source_id": "robust_scaler_fit",
+      "target_id": "robust_scaler_inverse_transform",
       "edge_type": "fit_state_dependency"
     }
   ],

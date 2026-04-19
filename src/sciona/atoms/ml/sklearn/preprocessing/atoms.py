@@ -18,7 +18,7 @@ from sklearn.utils.validation import FLOAT_DTYPES
 
 from sciona.ghost.registry import register_atom
 
-from .state_models import KernelCentererState, MaxAbsScalerState, MinMaxScalerState
+from .state_models import KernelCentererState, MaxAbsScalerState, MinMaxScalerState, RobustScalerState
 from .witnesses import (
     witness_add_dummy_feature,
     witness_binarize,
@@ -38,6 +38,9 @@ from .witnesses import (
     witness_normalize,
     witness_normalizer_transform,
     witness_robust_scale,
+    witness_robust_scaler_fit,
+    witness_robust_scaler_inverse_transform,
+    witness_robust_scaler_transform,
     witness_scale,
 )
 
@@ -122,6 +125,18 @@ def _minmax_state_valid(state: MinMaxScalerState) -> bool:
         and shape[0] == state.n_features_in
         and state.n_samples_seen >= 1
         and _valid_feature_range(state.feature_range)
+    )
+
+
+def _robust_state_valid(state: RobustScalerState) -> bool:
+    center_ok = state.center is None or (state.center.ndim == 1 and state.center.shape[0] == state.n_features_in)
+    scale_ok = state.scale is None or (state.scale.ndim == 1 and state.scale.shape[0] == state.n_features_in)
+    return bool(
+        center_ok
+        and scale_ok
+        and (state.center is not None) == state.with_centering
+        and (state.scale is not None) == state.with_scaling
+        and _valid_quantile_range(state.quantile_range)
     )
 
 
@@ -745,6 +760,135 @@ def _robust_scale_axis0(
                 scale_ = scale_ / adjust
             X /= scale_
     return X
+
+
+@register_atom(witness_robust_scaler_fit)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
+@icontract.require(lambda X: _row_count(X) >= 1, "X must contain at least one sample")
+@icontract.require(lambda quantile_range: _valid_quantile_range(quantile_range), "quantile_range must satisfy 0 <= q_min <= q_max <= 100")
+@icontract.ensure(lambda result: _robust_state_valid(result), "state arrays must match fitted feature count")
+@icontract.ensure(lambda result, X: result.n_features_in == _feature_count(X), "state feature count must match input columns")
+def robust_scaler_fit(
+    X: MatrixLike,
+    *,
+    with_centering: bool = True,
+    with_scaling: bool = True,
+    quantile_range: tuple[float, float] = (25.0, 75.0),
+    unit_variance: bool = False,
+) -> RobustScalerState:
+    """Fit robust per-feature medians and quantile-range scales."""
+    checked_x = check_array(
+        X,
+        accept_sparse="csc",
+        dtype=FLOAT_DTYPES,
+        ensure_all_finite="allow-nan",
+    )
+    q_min, q_max = quantile_range
+    if not 0 <= q_min <= q_max <= 100:
+        raise ValueError("Invalid quantile range: %s" % str(quantile_range))
+
+    if with_centering:
+        if sp.issparse(checked_x):
+            raise ValueError(
+                "Cannot center sparse matrices: use `with_centering=False` instead. See docstring for motivation and alternatives."
+            )
+        center = np.nanmedian(checked_x, axis=0)
+    else:
+        center = None
+
+    if with_scaling:
+        quantiles = []
+        for feature_idx in range(checked_x.shape[1]):
+            if sp.issparse(checked_x):
+                column_nnz_data = checked_x.data[checked_x.indptr[feature_idx] : checked_x.indptr[feature_idx + 1]]
+                column_data = np.zeros(shape=checked_x.shape[0], dtype=checked_x.dtype)
+                column_data[: len(column_nnz_data)] = column_nnz_data
+            else:
+                column_data = checked_x[:, feature_idx]
+            quantiles.append(np.nanpercentile(column_data, quantile_range))
+        quantile_array = np.transpose(quantiles)
+        scale = _handle_zeros_in_scale(quantile_array[1] - quantile_array[0], copy=False)
+        if unit_variance:
+            adjust = stats.norm.ppf(q_max / 100.0) - stats.norm.ppf(q_min / 100.0)
+            scale = scale / adjust
+        scale_array = np.asarray(scale, dtype=np.float64)
+    else:
+        scale_array = None
+
+    center_array = None if center is None else np.asarray(center, dtype=np.float64)
+    return RobustScalerState(
+        center=center_array,
+        scale=scale_array,
+        with_centering=bool(with_centering),
+        with_scaling=bool(with_scaling),
+        quantile_range=(float(q_min), float(q_max)),
+        unit_variance=bool(unit_variance),
+        n_features_in=int(checked_x.shape[1]),
+    )
+
+
+@register_atom(witness_robust_scaler_transform)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
+@icontract.require(lambda state: _robust_state_valid(state), "state arrays must match fitted feature count")
+@icontract.require(lambda X, state: _feature_count(X) == state.n_features_in, "X feature count must match fitted state")
+@icontract.ensure(lambda result, X: result.shape == X.shape, "transformed output must preserve shape")
+def robust_scaler_transform(
+    X: MatrixLike,
+    state: RobustScalerState,
+    copy: bool = True,
+) -> MatrixLike:
+    """Center and scale data with fitted robust per-feature statistics."""
+    checked_x = check_array(
+        X,
+        accept_sparse=("csr", "csc"),
+        copy=copy,
+        dtype=FLOAT_DTYPES,
+        force_writeable=True,
+        ensure_all_finite="allow-nan",
+    )
+    if checked_x.shape[1] != state.n_features_in:
+        raise ValueError("X feature count does not match fitted state")
+    if sp.issparse(checked_x):
+        if state.with_scaling and state.scale is not None:
+            inplace_column_scale(checked_x, 1.0 / state.scale)
+    else:
+        if state.with_centering and state.center is not None:
+            checked_x -= state.center
+        if state.with_scaling and state.scale is not None:
+            checked_x /= state.scale
+    return checked_x
+
+
+@register_atom(witness_robust_scaler_inverse_transform)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
+@icontract.require(lambda state: _robust_state_valid(state), "state arrays must match fitted feature count")
+@icontract.require(lambda X, state: _feature_count(X) == state.n_features_in, "X feature count must match fitted state")
+@icontract.ensure(lambda result, X: result.shape == X.shape, "inverse transformed output must preserve shape")
+def robust_scaler_inverse_transform(
+    X: MatrixLike,
+    state: RobustScalerState,
+    copy: bool = True,
+) -> MatrixLike:
+    """Undo fitted robust per-feature centering and scaling."""
+    checked_x = check_array(
+        X,
+        accept_sparse=("csr", "csc"),
+        copy=copy,
+        dtype=FLOAT_DTYPES,
+        force_writeable=True,
+        ensure_all_finite="allow-nan",
+    )
+    if checked_x.shape[1] != state.n_features_in:
+        raise ValueError("X feature count does not match fitted state")
+    if sp.issparse(checked_x):
+        if state.with_scaling and state.scale is not None:
+            inplace_column_scale(checked_x, state.scale)
+    else:
+        if state.with_scaling and state.scale is not None:
+            checked_x *= state.scale
+        if state.with_centering and state.center is not None:
+            checked_x += state.center
+    return checked_x
 
 
 @register_atom(witness_robust_scale)

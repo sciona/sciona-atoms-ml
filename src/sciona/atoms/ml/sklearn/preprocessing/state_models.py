@@ -39,3 +39,16 @@ class MinMaxScalerState:
     feature_range: tuple[float, float]
     n_features_in: int
     n_samples_seen: int
+
+
+@dataclass(frozen=True)
+class RobustScalerState:
+    """Learned medians and quantile-range scales for robust feature scaling."""
+
+    center: NDArray[np.float64] | None
+    scale: NDArray[np.float64] | None
+    with_centering: bool
+    with_scaling: bool
+    quantile_range: tuple[float, float]
+    unit_variance: bool
+    n_features_in: int

@@ -3,7 +3,7 @@ from __future__ import annotations
 import numpy as np
 import pytest
 import scipy.sparse as sp
-from sklearn.preprocessing import Binarizer, KernelCenterer, MaxAbsScaler, MinMaxScaler, Normalizer
+from sklearn.preprocessing import Binarizer, KernelCenterer, MaxAbsScaler, MinMaxScaler, Normalizer, RobustScaler
 from sklearn.preprocessing import add_dummy_feature as sklearn_add_dummy_feature
 from sklearn.preprocessing import binarize as sklearn_binarize
 from sklearn.preprocessing import maxabs_scale as sklearn_maxabs_scale
@@ -33,6 +33,9 @@ def test_preprocessing_basic_atoms_import() -> None:
         normalize,
         normalizer_transform,
         robust_scale,
+        robust_scaler_fit,
+        robust_scaler_inverse_transform,
+        robust_scaler_transform,
         scale,
     )
 
@@ -54,6 +57,9 @@ def test_preprocessing_basic_atoms_import() -> None:
     assert callable(normalize)
     assert callable(normalizer_transform)
     assert callable(robust_scale)
+    assert callable(robust_scaler_fit)
+    assert callable(robust_scaler_inverse_transform)
+    assert callable(robust_scaler_transform)
     assert callable(scale)
 
 
@@ -486,3 +492,91 @@ def test_robust_scale_sparse_centering_error_matches_sklearn() -> None:
         robust_scale(X, with_centering=True)
     with pytest.raises(ValueError, match="Cannot center sparse matrices"):
         sklearn_robust_scale(X, with_centering=True)
+
+
+def test_robust_scaler_fit_matches_sklearn_state_dense_options() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import robust_scaler_fit
+
+    X = np.array([[-2.0, 1.0, 2.0], [-1.0, 0.0, 1.0], [10.0, 2.0, np.nan]], dtype=np.float64)
+    state = robust_scaler_fit(X, quantile_range=(10.0, 90.0), unit_variance=True)
+    expected = RobustScaler(quantile_range=(10.0, 90.0), unit_variance=True).fit(X)
+
+    assert np.allclose(state.center, expected.center_, equal_nan=True)
+    assert np.allclose(state.scale, expected.scale_, equal_nan=True)
+    assert state.with_centering is True
+    assert state.with_scaling is True
+    assert state.quantile_range == (10.0, 90.0)
+    assert state.unit_variance is True
+    assert state.n_features_in == expected.n_features_in_
+
+    no_center_state = robust_scaler_fit(X, with_centering=False, with_scaling=False)
+    no_center_expected = RobustScaler(with_centering=False, with_scaling=False).fit(X)
+    assert no_center_state.center is None
+    assert no_center_state.scale is None
+    assert no_center_expected.center_ is None
+    assert no_center_expected.scale_ is None
+
+
+def test_robust_scaler_sparse_fit_without_centering_matches_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import robust_scaler_fit
+
+    X = sp.csr_matrix([[0.0, 1.0, 2.0], [1.0, 0.0, 0.0], [0.0, 3.0, 1.0]], dtype=np.float64)
+    state = robust_scaler_fit(X, with_centering=False)
+    expected = RobustScaler(with_centering=False).fit(X)
+    assert state.center is None
+    assert np.allclose(state.scale, expected.scale_)
+
+
+def test_robust_scaler_transform_inverse_match_sklearn_dense() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import (
+        robust_scaler_fit,
+        robust_scaler_inverse_transform,
+        robust_scaler_transform,
+    )
+
+    X = np.array([[-2.0, 1.0, 2.0], [-1.0, 0.0, 1.0], [10.0, 2.0, -3.0]], dtype=np.float64)
+    X_test = np.array([[3.0, 1.5, 5.0], [-5.0, 0.5, 0.0]], dtype=np.float64)
+    state = robust_scaler_fit(X, quantile_range=(20.0, 80.0))
+    scaler = RobustScaler(quantile_range=(20.0, 80.0)).fit(X)
+    transformed = robust_scaler_transform(X_test, state)
+    expected = scaler.transform(X_test)
+    assert np.allclose(transformed, expected)
+    assert np.allclose(robust_scaler_inverse_transform(transformed, state), scaler.inverse_transform(expected))
+
+
+def test_robust_scaler_sparse_transform_inverse_match_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import (
+        robust_scaler_fit,
+        robust_scaler_inverse_transform,
+        robust_scaler_transform,
+    )
+
+    X = sp.csr_matrix([[0.0, 1.0, 2.0], [1.0, 0.0, 0.0], [0.0, 3.0, 1.0]], dtype=np.float64)
+    state = robust_scaler_fit(X, with_centering=False)
+    scaler = RobustScaler(with_centering=False).fit(X)
+    result = robust_scaler_transform(X, state)
+    expected = scaler.transform(X)
+    assert np.allclose(result.toarray(), expected.toarray())
+    assert np.allclose(robust_scaler_inverse_transform(result, state).toarray(), scaler.inverse_transform(expected).toarray())
+
+
+def test_robust_scaler_errors_match_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import robust_scaler_fit, robust_scaler_transform
+
+    X = np.array([[0.0, 1.0], [2.0, 3.0]], dtype=np.float64)
+    with pytest.raises(Exception, match="quantile"):
+        robust_scaler_fit(X, quantile_range=(-1.0, 75.0))
+    with pytest.raises(ValueError, match="Invalid quantile range"):
+        RobustScaler(quantile_range=(-1.0, 75.0)).fit(X)
+
+    X_sparse = sp.csr_matrix(X)
+    with pytest.raises(ValueError, match="Cannot center sparse matrices"):
+        robust_scaler_fit(X_sparse, with_centering=True)
+    with pytest.raises(ValueError, match="Cannot center sparse matrices"):
+        RobustScaler(with_centering=True).fit(X_sparse)
+
+    state = robust_scaler_fit(np.eye(3, dtype=np.float64))
+    with pytest.raises(Exception, match="feature count"):
+        robust_scaler_transform(np.ones((2, 2), dtype=np.float64), state)
+    with pytest.raises(ValueError):
+        RobustScaler().fit(np.eye(3, dtype=np.float64)).transform(np.ones((2, 2), dtype=np.float64))
