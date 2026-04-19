@@ -1,0 +1,156 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_semi_supervised_root",
+      "name": "Sklearn Semi-Supervised Atoms",
+      "description": "Function decomposition for selected sklearn.semi_supervised estimators",
+      "status": "decomposed",
+      "children": [
+        "label_propagation_fit",
+        "label_propagation_predict_proba",
+        "label_propagation_predict",
+        "label_spreading_fit",
+        "label_spreading_predict_proba",
+        "label_spreading_predict"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "label_propagation_fit",
+      "name": "label_propagation_fit",
+      "description": "Fit hard-clamped graph label propagation and return immutable state.",
+      "concept_type": "fit_state_builder",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, y: NDArray[np.object_] | NDArray[np.int_] | list[object] | tuple[object, ...], kernel: str | callable = 'rbf', gamma: float = 20.0, n_neighbors: int = 7, max_iter: int = 1000, tol: float = 1e-3, n_jobs: int | None = None) -> LabelPropagationState",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
+        {"name": "y", "type_desc": "NDArray[np.object_] | NDArray[np.int_] | list[object] | tuple[object, ...]", "required": true},
+        {"name": "kernel", "type_desc": "str | callable", "required": false},
+        {"name": "gamma", "type_desc": "float", "required": false},
+        {"name": "n_neighbors", "type_desc": "int", "required": false},
+        {"name": "max_iter", "type_desc": "int", "required": false},
+        {"name": "tol", "type_desc": "float", "required": false},
+        {"name": "n_jobs", "type_desc": "int | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "LabelPropagationState"}
+      ]
+    },
+    {
+      "node_id": "label_propagation_predict_proba",
+      "name": "label_propagation_predict_proba",
+      "description": "Predict class probabilities from a fitted label-propagation state.",
+      "concept_type": "predict_proba",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, state: LabelPropagationState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
+        {"name": "state", "type_desc": "LabelPropagationState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "label_propagation_predict",
+      "name": "label_propagation_predict",
+      "description": "Predict class labels from a fitted label-propagation state.",
+      "concept_type": "predict",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, state: LabelPropagationState) -> NDArray[np.object_]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
+        {"name": "state", "type_desc": "LabelPropagationState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.object_]"}
+      ]
+    },
+    {
+      "node_id": "label_spreading_fit",
+      "name": "label_spreading_fit",
+      "description": "Fit soft-clamped graph label spreading and return immutable state.",
+      "concept_type": "fit_state_builder",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, y: NDArray[np.object_] | NDArray[np.int_] | list[object] | tuple[object, ...], kernel: str | callable = 'rbf', gamma: float = 20.0, n_neighbors: int = 7, alpha: float = 0.2, max_iter: int = 30, tol: float = 1e-3, n_jobs: int | None = None) -> LabelPropagationState",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
+        {"name": "y", "type_desc": "NDArray[np.object_] | NDArray[np.int_] | list[object] | tuple[object, ...]", "required": true},
+        {"name": "kernel", "type_desc": "str | callable", "required": false},
+        {"name": "gamma", "type_desc": "float", "required": false},
+        {"name": "n_neighbors", "type_desc": "int", "required": false},
+        {"name": "alpha", "type_desc": "float", "required": false},
+        {"name": "max_iter", "type_desc": "int", "required": false},
+        {"name": "tol", "type_desc": "float", "required": false},
+        {"name": "n_jobs", "type_desc": "int | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "LabelPropagationState"}
+      ]
+    },
+    {
+      "node_id": "label_spreading_predict_proba",
+      "name": "label_spreading_predict_proba",
+      "description": "Predict class probabilities from a fitted label-spreading state.",
+      "concept_type": "predict_proba",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, state: LabelPropagationState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
+        {"name": "state", "type_desc": "LabelPropagationState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "label_spreading_predict",
+      "name": "label_spreading_predict",
+      "description": "Predict class labels from a fitted label-spreading state.",
+      "concept_type": "predict",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, state: LabelPropagationState) -> NDArray[np.object_]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
+        {"name": "state", "type_desc": "LabelPropagationState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.object_]"}
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source_id": "label_propagation_fit",
+      "target_id": "label_propagation_predict_proba",
+      "edge_type": "fit_state_dependency"
+    },
+    {
+      "source_id": "label_propagation_predict_proba",
+      "target_id": "label_propagation_predict",
+      "edge_type": "implementation_dependency"
+    },
+    {
+      "source_id": "label_spreading_fit",
+      "target_id": "label_spreading_predict_proba",
+      "edge_type": "fit_state_dependency"
+    },
+    {
+      "source_id": "label_spreading_predict_proba",
+      "target_id": "label_spreading_predict",
+      "edge_type": "implementation_dependency"
+    }
+  ],
+  "metadata": {
+    "source": "agent_ingestion",
+    "source_module": "sklearn.semi_supervised",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause"
+  }
+}
