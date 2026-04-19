@@ -10,6 +10,7 @@ from sklearn.preprocessing import (
     LabelEncoder,
     MaxAbsScaler,
     MinMaxScaler,
+    MultiLabelBinarizer,
     Normalizer,
     RobustScaler,
     StandardScaler,
@@ -50,6 +51,10 @@ def test_preprocessing_basic_atoms_import() -> None:
         minmax_scaler_inverse_transform,
         minmax_scaler_partial_fit,
         minmax_scaler_transform,
+        multi_label_binarizer_fit,
+        multi_label_binarizer_fit_transform,
+        multi_label_binarizer_inverse_transform,
+        multi_label_binarizer_transform,
         normalize,
         normalizer_transform,
         robust_scale,
@@ -87,6 +92,10 @@ def test_preprocessing_basic_atoms_import() -> None:
     assert callable(minmax_scaler_inverse_transform)
     assert callable(minmax_scaler_partial_fit)
     assert callable(minmax_scaler_transform)
+    assert callable(multi_label_binarizer_fit)
+    assert callable(multi_label_binarizer_fit_transform)
+    assert callable(multi_label_binarizer_inverse_transform)
+    assert callable(multi_label_binarizer_transform)
     assert callable(normalize)
     assert callable(normalizer_transform)
     assert callable(robust_scale)
@@ -430,6 +439,76 @@ def test_label_binarizer_errors_match_sklearn() -> None:
         label_binarizer_transform(y_multilabel, state)
     with pytest.raises(ValueError, match="not fitted with multilabel"):
         LabelBinarizer().fit([1, 2]).transform(y_multilabel)
+
+
+def test_multi_label_binarizer_fit_transform_matches_sklearn_default_classes() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import multi_label_binarizer_fit_transform
+
+    y = [("sci-fi", "thriller"), ("comedy",), ("thriller", "comedy")]
+    state, transformed = multi_label_binarizer_fit_transform(y)
+    expected = MultiLabelBinarizer()
+    expected_transformed = expected.fit_transform(y)
+
+    assert np.array_equal(state.classes, expected.classes_)
+    assert np.array_equal(transformed, expected_transformed)
+
+
+def test_multi_label_binarizer_fit_and_transform_match_sklearn_with_classes() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import multi_label_binarizer_fit, multi_label_binarizer_transform
+
+    y = [(1, 3), (2,), (1, 2, 3)]
+    classes = [3, 2, 1, 4]
+    state = multi_label_binarizer_fit(y, classes=classes)
+    expected = MultiLabelBinarizer(classes=classes).fit(y)
+
+    assert np.array_equal(state.classes, expected.classes_)
+    assert np.array_equal(multi_label_binarizer_transform(y, state), expected.transform(y))
+
+
+def test_multi_label_binarizer_sparse_output_and_unknown_warning_match_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import multi_label_binarizer_fit, multi_label_binarizer_transform
+
+    train = [("red",), ("blue",)]
+    test = [("red", "green"), ("blue",)]
+    state = multi_label_binarizer_fit(train, sparse_output=True)
+    expected = MultiLabelBinarizer(sparse_output=True).fit(train)
+
+    with pytest.warns(UserWarning, match="unknown class"):
+        result = multi_label_binarizer_transform(test, state)
+    with pytest.warns(UserWarning, match="unknown class"):
+        expected_result = expected.transform(test)
+
+    assert sp.issparse(result)
+    assert np.array_equal(result.toarray(), expected_result.toarray())
+
+
+def test_multi_label_binarizer_inverse_transform_matches_sklearn_dense_and_sparse() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import multi_label_binarizer_fit, multi_label_binarizer_inverse_transform
+
+    y = [("a", "b"), ("c",)]
+    state = multi_label_binarizer_fit(y)
+    expected = MultiLabelBinarizer().fit(y)
+    indicator = np.array([[1, 1, 0], [0, 0, 1]])
+
+    assert multi_label_binarizer_inverse_transform(indicator, state) == expected.inverse_transform(indicator)
+    sparse_indicator = sp.csr_matrix(indicator)
+    assert multi_label_binarizer_inverse_transform(sparse_indicator, state) == expected.inverse_transform(sparse_indicator)
+
+
+def test_multi_label_binarizer_errors_match_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import multi_label_binarizer_fit, multi_label_binarizer_inverse_transform
+
+    with pytest.raises(ValueError, match="duplicate"):
+        multi_label_binarizer_fit([("a",)], classes=["a", "a"])
+    with pytest.raises(ValueError, match="duplicate"):
+        MultiLabelBinarizer(classes=["a", "a"]).fit([("a",)])
+
+    state = multi_label_binarizer_fit([("a",), ("b",)])
+    bad_indicator = np.array([[1, 2]])
+    with pytest.raises(ValueError, match="Expected only 0s and 1s"):
+        multi_label_binarizer_inverse_transform(bad_indicator, state)
+    with pytest.raises(ValueError, match="Expected only 0s and 1s"):
+        MultiLabelBinarizer().fit([("a",), ("b",)]).inverse_transform(bad_indicator)
 
 
 def test_scale_matches_sklearn_dense_axes_and_options() -> None:

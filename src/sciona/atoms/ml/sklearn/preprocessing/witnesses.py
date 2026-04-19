@@ -10,6 +10,7 @@ from .state_models import (
     LabelEncoderState,
     MaxAbsScalerState,
     MinMaxScalerState,
+    MultiLabelBinarizerState,
     RobustScalerState,
     StandardScalerState,
 )
@@ -440,6 +441,58 @@ def witness_label_binarizer_inverse_transform(
     if state.y_type == "multilabel-indicator":
         return AbstractArray(shape=Y.shape, dtype="int64", min_val=0.0, max_val=1.0)
     return AbstractArray(shape=(int(Y.shape[0]),), dtype="object")
+
+
+def witness_multi_label_binarizer_fit(
+    y: AbstractArray,
+    *,
+    classes: AbstractArray | None = None,
+    sparse_output: bool = False,
+) -> AbstractArray:
+    """Describe learning the multilabel class ordering."""
+    del sparse_output
+    if classes is not None:
+        if len(classes.shape) != 1:
+            raise ValueError("classes must be 1D")
+        return AbstractArray(shape=classes.shape, dtype=classes.dtype)
+    if len(y.shape) not in {1, 2}:
+        raise ValueError("y must describe samples of label iterables")
+    n_classes = int(y.shape[1]) if len(y.shape) == 2 else int(y.shape[0])
+    return AbstractArray(shape=(n_classes,), dtype="object")
+
+
+def witness_multi_label_binarizer_transform(
+    y: AbstractArray,
+    state: MultiLabelBinarizerState,
+) -> AbstractArray:
+    """Describe transforming label sets to an indicator matrix."""
+    if len(y.shape) not in {1, 2}:
+        raise ValueError("y must describe samples of label iterables")
+    return AbstractArray(shape=(int(y.shape[0]), int(state.classes.shape[0])), dtype="int64", min_val=0.0, max_val=1.0)
+
+
+def witness_multi_label_binarizer_fit_transform(
+    y: AbstractArray,
+    *,
+    classes: AbstractArray | None = None,
+    sparse_output: bool = False,
+) -> tuple[AbstractArray, AbstractArray]:
+    """Describe fitting multilabel classes and returning indicators."""
+    fitted_classes = witness_multi_label_binarizer_fit(y, classes=classes, sparse_output=sparse_output)
+    indicators = AbstractArray(shape=(int(y.shape[0]), int(fitted_classes.shape[0])), dtype="int64", min_val=0.0, max_val=1.0)
+    return fitted_classes, indicators
+
+
+def witness_multi_label_binarizer_inverse_transform(
+    yt: AbstractArray,
+    state: MultiLabelBinarizerState,
+) -> AbstractArray:
+    """Describe converting multilabel indicators back to label tuples."""
+    if len(yt.shape) != 2:
+        raise ValueError("yt must be 2D")
+    if int(yt.shape[1]) != int(state.classes.shape[0]):
+        raise ValueError("indicator width must match fitted classes")
+    return AbstractArray(shape=(int(yt.shape[0]),), dtype="object")
 
 
 def witness_scale(

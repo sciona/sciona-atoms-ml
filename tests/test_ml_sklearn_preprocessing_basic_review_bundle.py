@@ -39,6 +39,10 @@ EXPECTED_ATOM_NAMES = {
     "sciona.atoms.ml.sklearn.preprocessing.minmax_scaler_inverse_transform",
     "sciona.atoms.ml.sklearn.preprocessing.minmax_scaler_partial_fit",
     "sciona.atoms.ml.sklearn.preprocessing.minmax_scaler_transform",
+    "sciona.atoms.ml.sklearn.preprocessing.multi_label_binarizer_fit",
+    "sciona.atoms.ml.sklearn.preprocessing.multi_label_binarizer_fit_transform",
+    "sciona.atoms.ml.sklearn.preprocessing.multi_label_binarizer_inverse_transform",
+    "sciona.atoms.ml.sklearn.preprocessing.multi_label_binarizer_transform",
     "sciona.atoms.ml.sklearn.preprocessing.normalize",
     "sciona.atoms.ml.sklearn.preprocessing.normalizer_transform",
     "sciona.atoms.ml.sklearn.preprocessing.robust_scale",
@@ -57,10 +61,10 @@ def _bundle() -> dict:
     return json.loads(BUNDLE_PATH.read_text(encoding="utf-8"))
 
 
-def test_bundle_exists_and_has_thirty_five_atoms() -> None:
+def test_bundle_exists_and_has_thirty_nine_atoms() -> None:
     assert BUNDLE_PATH.exists()
     bundle = _bundle()
-    assert len(bundle["rows"]) == 35
+    assert len(bundle["rows"]) == 39
     assert {row["atom_key"] for row in bundle["rows"]} == EXPECTED_ATOM_NAMES
 
 
@@ -127,6 +131,10 @@ def test_cdg_atomic_nodes_have_publishable_io_specs() -> None:
         "minmax_scaler_inverse_transform",
         "minmax_scaler_partial_fit",
         "minmax_scaler_transform",
+        "multi_label_binarizer_fit",
+        "multi_label_binarizer_fit_transform",
+        "multi_label_binarizer_inverse_transform",
+        "multi_label_binarizer_transform",
         "normalize",
         "normalizer_transform",
         "robust_scale",

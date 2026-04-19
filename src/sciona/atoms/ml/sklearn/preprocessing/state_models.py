@@ -84,3 +84,11 @@ class LabelBinarizerState:
     neg_label: int
     pos_label: int
     sparse_output: bool
+
+
+@dataclass(frozen=True)
+class MultiLabelBinarizerState:
+    """Learned class ordering for multilabel indicator encoding."""
+
+    classes: NDArray[np.object_]
+    sparse_output: bool

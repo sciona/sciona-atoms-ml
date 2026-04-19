@@ -1187,7 +1187,7 @@ def robust_scale(
     return scaled
 
 
-from .state_models import LabelBinarizerState, LabelEncoderState
+from .state_models import LabelBinarizerState, LabelEncoderState, MultiLabelBinarizerState
 from .witnesses import (
     witness_label_encoder_fit,
     witness_label_encoder_fit_transform,
@@ -1589,3 +1589,159 @@ def label_binarizer_inverse_transform(
     if sp.issparse(y_inv):
         return y_inv.toarray()
     return np.asarray(y_inv)
+
+
+from collections.abc import Iterable
+import array
+import itertools
+
+from .witnesses import (
+    witness_multi_label_binarizer_fit,
+    witness_multi_label_binarizer_fit_transform,
+    witness_multi_label_binarizer_inverse_transform,
+    witness_multi_label_binarizer_transform,
+)
+
+LabelSet = Iterable[object]
+MultiLabelInput = Iterable[LabelSet]
+MultiLabelClassesInput = LabelInput | None
+MultiLabelBinarizeResult = NDArray[np.int_] | sp.csr_matrix
+MultiLabelBinarizerFitTransformResult = tuple[MultiLabelBinarizerState, MultiLabelBinarizeResult]
+MultiLabelInverseResult = list[tuple[object, ...]]
+
+
+def _multi_label_classes_valid(classes: MultiLabelClassesInput) -> bool:
+    return classes is None or np.asarray(classes, dtype=object).ndim == 1
+
+
+def _multi_label_state_valid(state: MultiLabelBinarizerState) -> bool:
+    return bool(state.classes.ndim == 1)
+
+
+def _multi_label_result_width_matches(result: MultiLabelBinarizeResult, state: MultiLabelBinarizerState) -> bool:
+    return bool(result.ndim == 2 and result.shape[1] == state.classes.shape[0])
+
+
+def _multi_label_fit_transform_valid(result: MultiLabelBinarizerFitTransformResult) -> bool:
+    state, transformed = result
+    return bool(_multi_label_state_valid(state) and _multi_label_result_width_matches(transformed, state))
+
+
+def _multi_label_indicator_valid(yt: MatrixLike, state: MultiLabelBinarizerState) -> bool:
+    return bool(getattr(yt, "ndim", 0) == 2 and yt.shape[1] == state.classes.shape[0])
+
+
+def _materialize_label_sets(y: MultiLabelInput) -> list[LabelSet]:
+    return list(y)
+
+
+def _multi_label_classes_array(classes: Iterable[object]) -> NDArray[np.object_]:
+    class_list = list(classes)
+    dtype = int if all(isinstance(c, int) for c in class_list) else object
+    result = np.empty(len(class_list), dtype=dtype)
+    result[:] = class_list
+    return np.asarray(result)
+
+
+def _multi_label_transform_csr(y: MultiLabelInput, class_mapping: dict[object, int]) -> sp.csr_matrix:
+    indices = array.array("i")
+    indptr = array.array("i", [0])
+    unknown: set[object] = set()
+    for labels in y:
+        index: set[int] = set()
+        for label in labels:
+            try:
+                index.add(class_mapping[label])
+            except KeyError:
+                unknown.add(label)
+        indices.extend(index)
+        indptr.append(len(indices))
+    if unknown:
+        warnings.warn(
+            "unknown class(es) {0} will be ignored".format(sorted(unknown, key=str)),
+            stacklevel=2,
+        )
+    data = np.ones(len(indices), dtype=int)
+    return sp.csr_matrix((data, indices, indptr), shape=(len(indptr) - 1, len(class_mapping)))
+
+
+@register_atom(witness_multi_label_binarizer_fit)
+@icontract.require(lambda classes: _multi_label_classes_valid(classes), "classes must be a 1D label vector when provided")
+@icontract.ensure(lambda result: _multi_label_state_valid(result), "state classes must be one-dimensional")
+def multi_label_binarizer_fit(
+    y: MultiLabelInput,
+    *,
+    classes: MultiLabelClassesInput = None,
+    sparse_output: bool = False,
+) -> MultiLabelBinarizerState:
+    """Learn a class ordering for iterable multilabel target sets."""
+    if classes is None:
+        class_values = sorted(set(itertools.chain.from_iterable(y)))
+    else:
+        class_values = list(classes)
+        if len(set(class_values)) < len(class_values):
+            raise ValueError(
+                "The classes argument contains duplicate classes. Remove these duplicates before passing them to MultiLabelBinarizer."
+            )
+    return MultiLabelBinarizerState(
+        classes=_multi_label_classes_array(class_values),
+        sparse_output=bool(sparse_output),
+    )
+
+
+@register_atom(witness_multi_label_binarizer_fit_transform)
+@icontract.require(lambda classes: _multi_label_classes_valid(classes), "classes must be a 1D label vector when provided")
+@icontract.ensure(lambda result: _multi_label_fit_transform_valid(result), "fit-transform output must match fitted classes")
+def multi_label_binarizer_fit_transform(
+    y: MultiLabelInput,
+    *,
+    classes: MultiLabelClassesInput = None,
+    sparse_output: bool = False,
+) -> MultiLabelBinarizerFitTransformResult:
+    """Learn multilabel classes and transform label sets to indicators."""
+    y_list = _materialize_label_sets(y)
+    state = multi_label_binarizer_fit(y_list, classes=classes, sparse_output=sparse_output)
+    transformed = multi_label_binarizer_transform(y_list, state)
+    return state, transformed
+
+
+@register_atom(witness_multi_label_binarizer_transform)
+@icontract.require(lambda state: _multi_label_state_valid(state), "state classes must be one-dimensional")
+@icontract.ensure(lambda result, state: _multi_label_result_width_matches(result, state), "indicator matrix width must match fitted classes")
+def multi_label_binarizer_transform(
+    y: MultiLabelInput,
+    state: MultiLabelBinarizerState,
+) -> MultiLabelBinarizeResult:
+    """Transform iterable label sets to a binary indicator matrix."""
+    class_mapping = dict(zip(state.classes, range(len(state.classes))))
+    indicator = _multi_label_transform_csr(y, class_mapping)
+    if state.sparse_output:
+        return indicator
+    return indicator.toarray()
+
+
+@register_atom(witness_multi_label_binarizer_inverse_transform)
+@icontract.require(lambda yt, state: _multi_label_indicator_valid(yt, state), "indicator width must match fitted classes")
+@icontract.ensure(lambda result, yt: len(result) == yt.shape[0], "inverse output must preserve sample count")
+def multi_label_binarizer_inverse_transform(
+    yt: MatrixLike,
+    state: MultiLabelBinarizerState,
+) -> MultiLabelInverseResult:
+    """Convert a multilabel indicator matrix back to tuples of class labels."""
+    if yt.shape[1] != len(state.classes):
+        raise ValueError("Expected indicator for {0} classes, but got {1}".format(len(state.classes), yt.shape[1]))
+
+    if sp.issparse(yt):
+        yt_csr = yt.tocsr()
+        if len(yt_csr.data) != 0 and len(np.setdiff1d(yt_csr.data, [0, 1])) > 0:
+            raise ValueError("Expected only 0s and 1s in label indicator.")
+        return [
+            tuple(state.classes.take(yt_csr.indices[start:end]))
+            for start, end in zip(yt_csr.indptr[:-1], yt_csr.indptr[1:])
+        ]
+
+    dense_yt = np.asarray(yt)
+    unexpected = np.setdiff1d(dense_yt, [0, 1])
+    if len(unexpected) > 0:
+        raise ValueError("Expected only 0s and 1s in label indicator. Also got {0}".format(unexpected))
+    return [tuple(state.classes.compress(indicators)) for indicators in dense_yt]
