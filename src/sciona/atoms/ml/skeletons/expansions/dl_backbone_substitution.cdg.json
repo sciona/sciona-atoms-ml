@@ -1,0 +1,59 @@
+{
+  "expansion_id": "sciona.expansions.ml.dl_backbone_substitution",
+  "name": "Deep Learning Backbone Substitution",
+  "description": "Replaces the feature_engineering + model_training pair with a pretrained backbone + finetune pattern. This is a rewrite, not an expansion — the feature engineering is absorbed into the pretrained backbone's learned representations.",
+  "version": "1.0",
+  "applies_to": "tabular_pipeline",
+  "expansion_type": "rewrite",
+  "replaces_nodes": ["feature_engineering", "model_training"],
+  "with_nodes": [
+    {
+      "node_id": "load_pretrained",
+      "name": "load_pretrained",
+      "description": "Load a pretrained backbone (ImageNet, BERT, etc.) and optionally freeze early layers",
+      "status": "placeholder",
+      "placeholder_examples": ["resnet50_pretrained", "bert_base"],
+      "inputs": [
+        {"name": "model_name", "type_desc": "str", "required": true},
+        {"name": "freeze_layers", "type_desc": "int", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "nn.Module"}
+      ]
+    },
+    {
+      "node_id": "finetune",
+      "name": "finetune",
+      "description": "Finetune the backbone on competition training data with appropriate learning rate schedule, augmentation, and regularization",
+      "status": "placeholder",
+      "inputs": [
+        {"name": "backbone", "type_desc": "nn.Module", "required": true},
+        {"name": "train_data", "type_desc": "DataLoader", "required": true},
+        {"name": "epochs", "type_desc": "int", "required": false},
+        {"name": "lr", "type_desc": "float", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "nn.Module"}
+      ]
+    },
+    {
+      "node_id": "test_time_augmentation",
+      "name": "test_time_augmentation",
+      "description": "Optional: apply augmentations at test time and average predictions for robustness",
+      "status": "placeholder",
+      "is_optional": true,
+      "inputs": [
+        {"name": "model", "type_desc": "nn.Module", "required": true},
+        {"name": "test_data", "type_desc": "DataLoader", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray"}
+      ]
+    }
+  ],
+  "with_edges": [
+    {"source_id": "load_pretrained", "target_id": "finetune", "edge_type": "data_dependency"},
+    {"source_id": "finetune", "target_id": "test_time_augmentation", "edge_type": "data_dependency"}
+  ],
+  "notes": "After rewrite, the pipeline looks like: load_data → load_pretrained → finetune → [TTA] → prediction_ensemble → output. This is the dominant pattern for image and NLP competitions."
+}

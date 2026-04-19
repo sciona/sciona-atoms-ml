@@ -1,0 +1,129 @@
+{
+  "skeleton_id": "sciona.skeletons.ml.tabular_pipeline",
+  "name": "Tabular ML Pipeline",
+  "description": "The dominant pattern for tabular competitions: load data, engineer features, train one or more models, ensemble predictions. Covers ~60% of Kaggle winning solutions. Patterns 4 (DL) and 5 (constrained) are derived from this via expansion rules.",
+  "version": "1.0",
+  "domain": "ml",
+  "tags": ["tabular", "supervised", "classification", "regression", "ensemble"],
+  "applicable_when": [
+    "Input is structured/tabular data (not images, text, or time series)",
+    "Target is classification or regression",
+    "Multiple model types can be ensembled for robustness"
+  ],
+  "nodes": [
+    {
+      "node_id": "root",
+      "name": "tabular_pipeline",
+      "status": "decomposed",
+      "children": ["load_data", "feature_engineering", "model_training", "prediction_ensemble", "output"],
+      "depth": 0
+    },
+    {
+      "node_id": "load_data",
+      "name": "load_data",
+      "description": "Load and split raw data into train/validation/test sets",
+      "status": "placeholder",
+      "placeholder_family": "sciona.atoms.ml.sklearn.model_selection",
+      "placeholder_examples": ["train_test_split", "StratifiedKFold"],
+      "depth": 1,
+      "inputs": [
+        {"name": "raw_data", "type_desc": "DataFrame", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[DataFrame, DataFrame, Series, Series]"}
+      ]
+    },
+    {
+      "node_id": "feature_engineering",
+      "name": "feature_engineering",
+      "description": "Transform raw features into model-ready representations. This is where domain-specific cleverness lives — target encoding, interaction features, aggregations, embeddings.",
+      "status": "placeholder",
+      "placeholder_family": "sciona.atoms.ml.sklearn.preprocessing",
+      "placeholder_examples": ["StandardScaler", "TargetEncoder", "PolynomialFeatures"],
+      "placeholder_also": [
+        "sciona.atoms.causal_inference.feature_primitives",
+        "sciona.atoms.ml.sklearn.feature_extraction",
+        "sciona.atoms.ml.sklearn.feature_selection"
+      ],
+      "depth": 1,
+      "inputs": [
+        {"name": "train_data", "type_desc": "DataFrame", "required": true},
+        {"name": "test_data", "type_desc": "DataFrame", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[NDArray, NDArray]"}
+      ],
+      "expansion_points": [
+        "Can be expanded with domain-specific feature atoms",
+        "Can be replaced entirely by a pretrained backbone (see dl_backbone_substitution)"
+      ]
+    },
+    {
+      "node_id": "model_training",
+      "name": "model_training",
+      "description": "Train one or more models on the engineered features. In the base skeleton this is a single model; the kfold_ensemble expansion replaces it with k-fold cross-validation producing k models + out-of-fold predictions.",
+      "status": "placeholder",
+      "placeholder_family": "sciona.atoms.ml.sklearn.ensemble",
+      "placeholder_examples": ["GradientBoostingClassifier", "RandomForestRegressor", "HistGradientBoostingClassifier"],
+      "placeholder_also": [
+        "sciona.atoms.ml.sklearn.linear_model",
+        "sciona.atoms.ml.sklearn.svm",
+        "sciona.atoms.ml.sklearn.neighbors"
+      ],
+      "depth": 1,
+      "inputs": [
+        {"name": "X_train", "type_desc": "NDArray", "required": true},
+        {"name": "y_train", "type_desc": "NDArray", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "trained_model"}
+      ],
+      "expansion_points": [
+        "kfold_ensemble: replace single model with k-fold CV producing k models",
+        "stacking: replace with two-level stacking ensemble",
+        "constraint_injection: add decorrelation constraint after training"
+      ]
+    },
+    {
+      "node_id": "prediction_ensemble",
+      "name": "prediction_ensemble",
+      "description": "Generate predictions from trained model(s) and optionally ensemble them. In the base skeleton this is a single model.predict(); expansions add blending, stacking, or weighted averaging.",
+      "status": "placeholder",
+      "placeholder_family": "sciona.atoms.causal_inference.estimators",
+      "placeholder_examples": ["weighted_ensemble_combination", "symmetrized_prediction_fusion"],
+      "depth": 1,
+      "inputs": [
+        {"name": "models", "type_desc": "list[trained_model]", "required": true},
+        {"name": "X_test", "type_desc": "NDArray", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray"}
+      ]
+    },
+    {
+      "node_id": "output",
+      "name": "output",
+      "description": "Format predictions for submission or downstream use",
+      "status": "placeholder",
+      "depth": 1,
+      "inputs": [
+        {"name": "predictions", "type_desc": "NDArray", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "DataFrame"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source_id": "load_data", "target_id": "feature_engineering", "edge_type": "data_dependency"},
+    {"source_id": "feature_engineering", "target_id": "model_training", "edge_type": "data_dependency"},
+    {"source_id": "model_training", "target_id": "prediction_ensemble", "edge_type": "data_dependency"},
+    {"source_id": "feature_engineering", "target_id": "prediction_ensemble", "edge_type": "data_dependency"},
+    {"source_id": "prediction_ensemble", "target_id": "output", "edge_type": "data_dependency"}
+  ],
+  "metadata": {
+    "source": "kaggle_solution_analysis",
+    "derived_from": "Analysis of 230+ Kaggle GitHub solutions",
+    "coverage_estimate": "~60% of tabular competition winning solutions"
+  }
+}

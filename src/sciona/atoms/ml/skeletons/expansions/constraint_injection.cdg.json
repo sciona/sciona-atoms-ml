@@ -1,0 +1,46 @@
+{
+  "expansion_id": "sciona.expansions.ml.constraint_injection",
+  "name": "Constraint Injection",
+  "description": "Inserts a constraint verification node into the pipeline that enforces decorrelation, fairness, or physics-invariance. Predictions must satisfy a statistical test (KS, CvM, etc.) against a protected variable. Two strategies: training-time (modify loss function) or post-hoc (noise injection).",
+  "version": "1.0",
+  "applies_to": "tabular_pipeline",
+  "expansion_type": "insert",
+  "insert_after": "model_training",
+  "insert_before": "prediction_ensemble",
+  "inserted_nodes": [
+    {
+      "node_id": "verify_constraint",
+      "name": "verify_constraint",
+      "description": "Test whether predictions are statistically independent of the protected variable. If the test fails, apply a decorrelation strategy.",
+      "status": "placeholder",
+      "placeholder_examples": ["compute_cvm_mass_decorrelation", "compute_ks_agreement"],
+      "placeholder_family": "sciona.atoms.constrained_ml.decorrelation",
+      "inputs": [
+        {"name": "predictions", "type_desc": "NDArray", "required": true},
+        {"name": "protected_variable", "type_desc": "NDArray", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[bool, float]"}
+      ]
+    },
+    {
+      "node_id": "apply_decorrelation",
+      "name": "apply_decorrelation",
+      "description": "If the constraint test fails, apply decorrelation. Options: noise injection (post-hoc, trades accuracy for constraint satisfaction) or retrain with flatness loss (training-time, modifies the gradient).",
+      "status": "placeholder",
+      "placeholder_examples": ["noise_injection_decorrelation", "flatness_constrained_gradient_boosting"],
+      "placeholder_family": "sciona.atoms.constrained_ml.decorrelation",
+      "inputs": [
+        {"name": "predictions", "type_desc": "NDArray", "required": true},
+        {"name": "constraint_result", "type_desc": "tuple[bool, float]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray"}
+      ]
+    }
+  ],
+  "inserted_edges": [
+    {"source_id": "verify_constraint", "target_id": "apply_decorrelation", "edge_type": "data_dependency"}
+  ],
+  "notes": "The Flavours of Physics competition demonstrated that noise injection on a powerful full-feature model (AUC 0.982 → 0.881 after noise) beats a feature-restricted model (AUC 0.834). The constraint injection expansion formalizes this insight."
+}

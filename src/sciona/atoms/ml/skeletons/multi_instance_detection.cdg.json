@@ -1,0 +1,125 @@
+{
+  "skeleton_id": "sciona.skeletons.ml.multi_instance_detection",
+  "name": "Multi-Instance Detection Pipeline",
+  "description": "Detect candidates in input data, classify each candidate independently, then aggregate instance-level predictions to produce a bag-level output. The DSB2017 lung cancer solution is the canonical example: detect nodules in CT, classify each nodule, aggregate via noisy-OR. Generalizes to any multi-instance learning problem.",
+  "version": "1.0",
+  "domain": "ml",
+  "tags": ["detection", "multi_instance", "aggregate", "medical_imaging", "object_detection"],
+  "applicable_when": [
+    "Input contains multiple instances (objects, regions, candidates) per sample",
+    "Each instance needs independent scoring",
+    "Final prediction aggregates instance-level scores to a sample-level prediction"
+  ],
+  "relationship_to_tabular": "This is an expansion of the tabular pipeline where model_training is replaced by a detect → classify → aggregate sub-CDG. The feature_engineering and output nodes remain the same.",
+  "nodes": [
+    {
+      "node_id": "root",
+      "name": "multi_instance_detection",
+      "status": "decomposed",
+      "children": ["preprocess", "detect_candidates", "extract_instance_features", "classify_instances", "aggregate_to_sample", "output"],
+      "depth": 0
+    },
+    {
+      "node_id": "preprocess",
+      "name": "preprocess",
+      "description": "Domain-specific preprocessing. For medical imaging: segmentation, resampling, normalization. For object detection: resize, augment.",
+      "status": "placeholder",
+      "placeholder_examples": ["lung_mask_with_bone_removal", "StandardScaler"],
+      "depth": 1,
+      "inputs": [
+        {"name": "raw_input", "type_desc": "NDArray", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray"}
+      ]
+    },
+    {
+      "node_id": "detect_candidates",
+      "name": "detect_candidates",
+      "description": "Detect candidate instances in the preprocessed input. Produces a list of candidate locations/proposals with confidence scores. For 3D medical imaging, this is a 3D anchor-based detector with NMS.",
+      "status": "placeholder",
+      "placeholder_examples": ["coordinate_aware_3d_unet", "region_proposal_network"],
+      "depth": 1,
+      "inputs": [
+        {"name": "preprocessed", "type_desc": "NDArray", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "list[Proposal]"}
+      ]
+    },
+    {
+      "node_id": "extract_instance_features",
+      "name": "extract_instance_features",
+      "description": "For each detected candidate, extract a feature representation. This may be a crop from a feature map, a pooled vector, or hand-crafted features.",
+      "status": "placeholder",
+      "placeholder_examples": ["center_feature_extraction_3d", "roi_pool"],
+      "depth": 1,
+      "inputs": [
+        {"name": "proposals", "type_desc": "list[Proposal]", "required": true},
+        {"name": "feature_map", "type_desc": "NDArray", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray"}
+      ]
+    },
+    {
+      "node_id": "classify_instances",
+      "name": "classify_instances",
+      "description": "Score each candidate instance independently. Produces per-instance probabilities.",
+      "status": "placeholder",
+      "placeholder_family": "sciona.atoms.ml.sklearn.linear_model",
+      "placeholder_examples": ["LogisticRegression", "MLPClassifier"],
+      "depth": 1,
+      "inputs": [
+        {"name": "instance_features", "type_desc": "NDArray", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray"}
+      ]
+    },
+    {
+      "node_id": "aggregate_to_sample",
+      "name": "aggregate_to_sample",
+      "description": "Aggregate instance-level predictions to a sample-level prediction. The choice of aggregation is critical: max, mean, and noisy-OR have very different behavior. Noisy-OR with a learned baseline (from DSB2017) is the most principled for detection problems because it handles the 'detector missed everything' case.",
+      "status": "placeholder",
+      "placeholder_examples": ["noisy_or_pooling_with_learned_baseline", "max_pooling", "mean_pooling"],
+      "placeholder_family": "sciona.atoms.medical_imaging_3d.aggregation",
+      "depth": 1,
+      "inputs": [
+        {"name": "instance_scores", "type_desc": "NDArray", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "float"}
+      ]
+    },
+    {
+      "node_id": "output",
+      "name": "output",
+      "description": "Format the sample-level prediction",
+      "status": "placeholder",
+      "depth": 1,
+      "inputs": [
+        {"name": "prediction", "type_desc": "float", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "Any"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source_id": "preprocess", "target_id": "detect_candidates", "edge_type": "data_dependency"},
+    {"source_id": "preprocess", "target_id": "extract_instance_features", "edge_type": "data_dependency"},
+    {"source_id": "detect_candidates", "target_id": "extract_instance_features", "edge_type": "data_dependency"},
+    {"source_id": "extract_instance_features", "target_id": "classify_instances", "edge_type": "data_dependency"},
+    {"source_id": "classify_instances", "target_id": "aggregate_to_sample", "edge_type": "data_dependency"},
+    {"source_id": "aggregate_to_sample", "target_id": "output", "edge_type": "data_dependency"}
+  ],
+  "metadata": {
+    "source": "kaggle_solution_analysis",
+    "canonical_example": "DSB2017 1st place (lung cancer detection)",
+    "canonical_atoms": [
+      "sciona.atoms.medical_imaging_3d.aggregation.noisy_or_pooling_with_learned_baseline",
+      "sciona.atoms.medical_imaging_3d.detection.coordinate_aware_3d_unet"
+    ]
+  }
+}

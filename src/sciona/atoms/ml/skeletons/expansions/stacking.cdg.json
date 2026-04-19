@@ -1,0 +1,57 @@
+{
+  "expansion_id": "sciona.expansions.ml.stacking",
+  "name": "Two-Level Stacking",
+  "description": "Replaces the flat prediction_ensemble node with a two-level stacking architecture. Level 1 models produce out-of-fold predictions that become features for a level 2 meta-learner. This is the 'stacking' pattern used in most top Kaggle ensembles.",
+  "version": "1.0",
+  "applies_to": "tabular_pipeline.prediction_ensemble",
+  "expansion_type": "replace",
+  "replaces_node": "prediction_ensemble",
+  "prerequisite_expansions": ["kfold_ensemble"],
+  "with_nodes": [
+    {
+      "node_id": "collect_oof_predictions",
+      "name": "collect_oof_predictions",
+      "description": "Collect out-of-fold predictions from all level 1 models into a meta-feature matrix. Each column is one model's OOF predictions.",
+      "status": "placeholder",
+      "inputs": [
+        {"name": "oof_predictions", "type_desc": "list[NDArray]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray"}
+      ]
+    },
+    {
+      "node_id": "train_meta_learner",
+      "name": "train_meta_learner",
+      "description": "Train a simple meta-learner (typically Ridge, LogisticRegression, or linear blend) on the meta-feature matrix. Must be simple to avoid overfitting to the stacking layer.",
+      "status": "placeholder",
+      "placeholder_examples": ["Ridge", "LogisticRegression", "ElasticNet"],
+      "inputs": [
+        {"name": "meta_features", "type_desc": "NDArray", "required": true},
+        {"name": "y_train", "type_desc": "NDArray", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "trained_model"}
+      ]
+    },
+    {
+      "node_id": "meta_predict",
+      "name": "meta_predict",
+      "description": "Generate test predictions from all level 1 models, stack them, and predict with the meta-learner.",
+      "status": "placeholder",
+      "inputs": [
+        {"name": "level1_models", "type_desc": "list[trained_model]", "required": true},
+        {"name": "meta_learner", "type_desc": "trained_model", "required": true},
+        {"name": "X_test", "type_desc": "NDArray", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray"}
+      ]
+    }
+  ],
+  "with_edges": [
+    {"source_id": "collect_oof_predictions", "target_id": "train_meta_learner", "edge_type": "data_dependency"},
+    {"source_id": "train_meta_learner", "target_id": "meta_predict", "edge_type": "data_dependency"}
+  ],
+  "notes": "Requires kfold_ensemble expansion first (to produce OOF predictions). The meta-learner must be simple — complex meta-learners overfit to the stacking signal. Ridge or linear blend with optimized weights is standard."
+}

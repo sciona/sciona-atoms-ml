@@ -1,0 +1,120 @@
+{
+  "skeleton_id": "sciona.skeletons.ml.graph_inference_pipeline",
+  "name": "Graph Inference Pipeline",
+  "description": "Infer a graph structure from multivariate observations. Preprocess signals, compute pairwise scores between all variable pairs, then construct the graph via thresholding or optimization. The connectomics solution is the canonical example: preprocess calcium signals, compute partial correlations, threshold to produce a connectivity graph. Also covers causal graph discovery and correlation network inference.",
+  "version": "1.0",
+  "domain": "ml",
+  "tags": ["graph_inference", "pairwise", "correlation", "causal", "network"],
+  "applicable_when": [
+    "Input is multivariate time series or paired observations",
+    "Goal is to infer a graph/network structure between variables",
+    "Pairwise scoring is the core operation"
+  ],
+  "relationship_to_tabular": "Structurally different from the tabular pipeline. There is no train/test split — all data is used to infer the graph. The 'model' is the scoring function, not a learned classifier.",
+  "nodes": [
+    {
+      "node_id": "root",
+      "name": "graph_inference_pipeline",
+      "status": "decomposed",
+      "children": ["preprocess_signals", "compute_pairwise_scores", "apply_directionality", "threshold_and_construct", "output_graph"],
+      "depth": 0
+    },
+    {
+      "node_id": "preprocess_signals",
+      "name": "preprocess_signals",
+      "description": "Domain-specific signal preprocessing. For calcium imaging: lowpass filtering, differencing, thresholding, burst deconfounding. For time series: detrending, normalization, bandpass filtering.",
+      "status": "placeholder",
+      "placeholder_examples": ["calcium_lowpass_filter", "fluorescence_hard_threshold", "global_activity_sample_reweighting"],
+      "placeholder_family": "sciona.atoms.graph_inference.connectome",
+      "depth": 1,
+      "inputs": [
+        {"name": "observations", "type_desc": "NDArray", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray"}
+      ]
+    },
+    {
+      "node_id": "compute_pairwise_scores",
+      "name": "compute_pairwise_scores",
+      "description": "Compute a score for each pair of variables. For graph inference, this is typically partial correlation (via precision matrix), mutual information, or HSIC. For causal discovery, this uses the asymmetric feature primitives (IGCI, conditional entropy variance, etc.).",
+      "status": "placeholder",
+      "placeholder_examples": ["pca_precision_matrix", "hsic_independence_test", "igci_asymmetry_score"],
+      "placeholder_family": "sciona.atoms.graph_inference.connectome",
+      "placeholder_also": [
+        "sciona.atoms.causal_inference.feature_primitives",
+        "sciona.atoms.causal_inference.conditional_statistics"
+      ],
+      "depth": 1,
+      "inputs": [
+        {"name": "preprocessed", "type_desc": "NDArray", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray"}
+      ],
+      "expansion_points": [
+        "threshold_sweep_ensemble: average over dense grid of thresholds instead of selecting one",
+        "Can be replaced with learned pairwise scoring (GNN, attention)"
+      ]
+    },
+    {
+      "node_id": "apply_directionality",
+      "name": "apply_directionality",
+      "description": "Optional: convert symmetric pairwise scores to directed edges. For causal inference, this uses the asymmetric feature difference pattern (f(X→Y) - f(Y→X)). For connectomics, this uses temporal precedence counting.",
+      "status": "placeholder",
+      "placeholder_examples": ["temporal_precedence_directivity", "symmetrized_prediction_fusion"],
+      "placeholder_also": ["sciona.atoms.causal_inference.estimators"],
+      "is_optional": true,
+      "depth": 1,
+      "inputs": [
+        {"name": "symmetric_scores", "type_desc": "NDArray", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray"}
+      ]
+    },
+    {
+      "node_id": "threshold_and_construct",
+      "name": "threshold_and_construct",
+      "description": "Convert pairwise scores to a graph by thresholding, ranking, or optimization. The threshold can be fixed, adaptive (Bayesian), or swept and ensembled.",
+      "status": "placeholder",
+      "placeholder_examples": ["score_matrix_normalization", "bayesian_neighbor_evaluation"],
+      "depth": 1,
+      "inputs": [
+        {"name": "pairwise_scores", "type_desc": "NDArray", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray"}
+      ]
+    },
+    {
+      "node_id": "output_graph",
+      "name": "output_graph",
+      "description": "Format the inferred graph as an adjacency matrix, edge list, or domain-specific format",
+      "status": "placeholder",
+      "depth": 1,
+      "inputs": [
+        {"name": "graph", "type_desc": "NDArray", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source_id": "preprocess_signals", "target_id": "compute_pairwise_scores", "edge_type": "data_dependency"},
+    {"source_id": "compute_pairwise_scores", "target_id": "apply_directionality", "edge_type": "data_dependency"},
+    {"source_id": "apply_directionality", "target_id": "threshold_and_construct", "edge_type": "data_dependency"},
+    {"source_id": "compute_pairwise_scores", "target_id": "threshold_and_construct", "edge_type": "data_dependency"},
+    {"source_id": "threshold_and_construct", "target_id": "output_graph", "edge_type": "data_dependency"}
+  ],
+  "metadata": {
+    "source": "kaggle_solution_analysis",
+    "canonical_example": "Connectomics 1st place (neural circuit reconstruction)",
+    "canonical_atoms": [
+      "sciona.atoms.graph_inference.connectome.pca_precision_matrix",
+      "sciona.atoms.graph_inference.connectome.global_activity_sample_reweighting",
+      "sciona.atoms.graph_inference.connectome.temporal_precedence_directivity"
+    ]
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "expansion_id": "sciona.expansions.ml.kfold_ensemble",
+  "name": "K-Fold Cross-Validated Ensemble",
+  "description": "Replaces a single model_training node with a k-fold cross-validation loop that produces k models and out-of-fold predictions for stacking. The most common Kaggle technique — nearly every winning tabular solution uses 5-fold CV.",
+  "version": "1.0",
+  "applies_to": "tabular_pipeline.model_training",
+  "expansion_type": "replace",
+  "replaces_node": "model_training",
+  "with_nodes": [
+    {
+      "node_id": "split_folds",
+      "name": "split_folds",
+      "description": "Split training data into k folds using stratified splitting",
+      "status": "placeholder",
+      "placeholder_examples": ["StratifiedKFold", "GroupKFold"],
+      "inputs": [
+        {"name": "X_train", "type_desc": "NDArray", "required": true},
+        {"name": "y_train", "type_desc": "NDArray", "required": true},
+        {"name": "n_folds", "type_desc": "int", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "list[tuple[NDArray, NDArray, NDArray, NDArray]]"}
+      ]
+    },
+    {
+      "node_id": "train_fold_models",
+      "name": "train_fold_models",
+      "description": "Train one model per fold on the fold's training split. Produces k models and k out-of-fold prediction arrays.",
+      "status": "placeholder",
+      "placeholder_examples": ["GradientBoostingClassifier.fit", "HistGradientBoostingRegressor.fit"],
+      "inputs": [
+        {"name": "folds", "type_desc": "list[tuple[NDArray, NDArray, NDArray, NDArray]]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[list[trained_model], NDArray]"}
+      ],
+      "notes": "Out-of-fold predictions are used for stacking. Each sample appears exactly once in the OOF predictions."
+    }
+  ],
+  "with_edges": [
+    {"source_id": "split_folds", "target_id": "train_fold_models", "edge_type": "data_dependency"}
+  ],
+  "preserves_edges": true,
+  "notes": "After expansion, the prediction_ensemble node receives k models instead of 1. OOF predictions can feed a meta-learner (see stacking expansion)."
+}
