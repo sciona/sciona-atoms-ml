@@ -1,0 +1,213 @@
+"""Selected preprocessing atoms adapted from scikit-learn."""
+
+from __future__ import annotations
+
+import icontract
+import numpy as np
+import scipy.sparse as sp
+from numpy.typing import NDArray
+from sklearn.preprocessing._data import _handle_zeros_in_scale
+from sklearn.utils import check_array
+from sklearn.utils.extmath import row_norms
+from sklearn.utils.sparsefuncs import min_max_axis
+from sklearn.utils.sparsefuncs_fast import inplace_csr_row_normalize_l1, inplace_csr_row_normalize_l2
+from sklearn.utils.validation import FLOAT_DTYPES
+
+from sciona.ghost.registry import register_atom
+
+from .witnesses import (
+    witness_add_dummy_feature,
+    witness_binarize,
+    witness_binarizer_transform,
+    witness_normalize,
+    witness_normalizer_transform,
+)
+
+MatrixLike = NDArray[np.float64] | sp.spmatrix
+NormalizeResult = MatrixLike | tuple[MatrixLike, NDArray[np.float64]]
+
+
+def _is_2d(X: MatrixLike) -> bool:
+    return bool(getattr(X, "ndim", 0) == 2)
+
+
+def _row_count(X: MatrixLike) -> int:
+    return int(X.shape[0])
+
+
+def _feature_count(X: MatrixLike) -> int:
+    return int(X.shape[1])
+
+
+def _valid_norm(norm: str) -> bool:
+    return norm in {"l1", "l2", "max"}
+
+
+def _valid_axis(axis: int) -> bool:
+    return axis in {0, 1}
+
+
+def _is_binary_matrix(X: MatrixLike) -> bool:
+    values = X.data if sp.issparse(X) else np.asarray(X)
+    return bool(np.all((values == 0) | (values == 1)))
+
+
+def _leading_column_matches(X: MatrixLike, value: float) -> bool:
+    column = X.getcol(0).toarray().ravel() if sp.issparse(X) else X[:, 0]
+    return bool(np.all(column == value))
+
+
+def _normalize_shape_matches(result: NormalizeResult, X: MatrixLike, axis: int, return_norm: bool) -> bool:
+    if return_norm:
+        if not isinstance(result, tuple) or len(result) != 2:
+            return False
+        normalized, norms = result
+        norm_count = _feature_count(X) if axis == 0 else _row_count(X)
+        return normalized.shape == X.shape and norms.shape == (norm_count,)
+    return not isinstance(result, tuple) and result.shape == X.shape
+
+
+@register_atom(witness_add_dummy_feature)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
+@icontract.ensure(lambda result, X: result.shape == (_row_count(X), _feature_count(X) + 1), "output must add one feature column")
+@icontract.ensure(lambda result, value: _leading_column_matches(result, value), "first column must contain the dummy value")
+def add_dummy_feature(
+    X: MatrixLike,
+    value: float = 1.0,
+) -> MatrixLike:
+    """Add a leading constant feature column to a dense or sparse matrix."""
+    checked_x = check_array(X, accept_sparse=["csc", "csr", "coo"], dtype=FLOAT_DTYPES)
+    n_samples, n_features = checked_x.shape
+    shape = (n_samples, n_features + 1)
+    if sp.issparse(checked_x):
+        if checked_x.format == "coo":
+            col = np.concatenate((np.zeros(n_samples), checked_x.col + 1))
+            row = np.concatenate((np.arange(n_samples), checked_x.row))
+            data = np.concatenate((np.full(n_samples, value), checked_x.data))
+            return sp.coo_matrix((data, (row, col)), shape)
+        if checked_x.format == "csc":
+            indptr = np.concatenate((np.array([0]), checked_x.indptr + n_samples))
+            indices = np.concatenate((np.arange(n_samples), checked_x.indices))
+            data = np.concatenate((np.full(n_samples, value), checked_x.data))
+            return sp.csc_matrix((data, indices, indptr), shape)
+        klass = checked_x.__class__
+        return klass(add_dummy_feature(checked_x.tocoo(), value))
+    return np.hstack((np.full((n_samples, 1), value), checked_x))
+
+
+@register_atom(witness_binarize)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
+@icontract.ensure(lambda result, X: result.shape == X.shape, "binarized output must preserve shape")
+@icontract.ensure(lambda result: _is_binary_matrix(result), "binarized output must contain only 0 and 1 values")
+def binarize(
+    X: MatrixLike,
+    *,
+    threshold: float = 0.0,
+    copy: bool = True,
+) -> MatrixLike:
+    """Threshold each matrix entry to 0 or 1."""
+    checked_x = check_array(X, accept_sparse=["csr", "csc"], force_writeable=True, copy=copy)
+    if sp.issparse(checked_x):
+        if threshold < 0:
+            raise ValueError("Cannot binarize a sparse matrix with threshold < 0")
+        cond = checked_x.data > threshold
+        checked_x.data[cond] = 1
+        checked_x.data[np.logical_not(cond)] = 0
+        checked_x.eliminate_zeros()
+    else:
+        cond = checked_x.astype(np.result_type(checked_x.dtype, float, type(threshold)), copy=False) > threshold
+        checked_x[cond] = 1
+        checked_x[np.logical_not(cond)] = 0
+    return checked_x
+
+
+@register_atom(witness_binarizer_transform)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
+@icontract.ensure(lambda result, X: result.shape == X.shape, "binarizer output must preserve shape")
+@icontract.ensure(lambda result: _is_binary_matrix(result), "binarizer output must contain only 0 and 1 values")
+def binarizer_transform(
+    X: MatrixLike,
+    *,
+    threshold: float = 0.0,
+    copy: bool = True,
+) -> MatrixLike:
+    """Apply stateless Binarizer.transform semantics to a matrix."""
+    checked_x = check_array(X, accept_sparse=["csr", "csc"], force_writeable=True, copy=copy)
+    return binarize(checked_x, threshold=threshold, copy=False)
+
+
+@register_atom(witness_normalize)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
+@icontract.require(lambda norm: _valid_norm(norm), "norm must be 'l1', 'l2', or 'max'")
+@icontract.require(lambda axis: _valid_axis(axis), "axis must be 0 or 1")
+@icontract.ensure(lambda result, X, axis, return_norm: _normalize_shape_matches(result, X, axis, return_norm), "normalized output must preserve matrix shape and norm vector shape")
+def normalize(
+    X: MatrixLike,
+    norm: str = "l2",
+    *,
+    axis: int = 1,
+    copy: bool = True,
+    return_norm: bool = False,
+) -> NormalizeResult:
+    """Scale rows or columns of a matrix to unit l1, l2, or max norm."""
+    sparse_format = "csc" if axis == 0 else "csr"
+    checked_x = check_array(
+        X,
+        accept_sparse=sparse_format,
+        copy=copy,
+        estimator="the normalize function",
+        dtype=FLOAT_DTYPES,
+        force_writeable=True,
+    )
+    if axis == 0:
+        checked_x = checked_x.T
+
+    if sp.issparse(checked_x):
+        if return_norm and norm in ("l1", "l2"):
+            raise ValueError(
+                "return_norm=True is not implemented for sparse matrices with norm 'l1' or norm 'l2'"
+            )
+        if norm == "l1":
+            inplace_csr_row_normalize_l1(checked_x)
+        elif norm == "l2":
+            inplace_csr_row_normalize_l2(checked_x)
+        elif norm == "max":
+            mins, maxes = min_max_axis(checked_x, 1)
+            norms = np.maximum(abs(mins), maxes)
+            norms_elementwise = norms.repeat(np.diff(checked_x.indptr))
+            mask = norms_elementwise != 0
+            checked_x.data[mask] /= norms_elementwise[mask]
+    else:
+        if norm == "l1":
+            norms = np.sum(np.abs(checked_x), axis=1)
+        elif norm == "l2":
+            norms = row_norms(checked_x)
+        elif norm == "max":
+            norms = np.max(np.abs(checked_x), axis=1)
+        norms = _handle_zeros_in_scale(norms, copy=False)
+        checked_x /= norms[:, None]
+
+    if axis == 0:
+        checked_x = checked_x.T
+
+    if return_norm:
+        return checked_x, np.asarray(norms)
+    return checked_x
+
+
+@register_atom(witness_normalizer_transform)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
+@icontract.require(lambda norm: _valid_norm(norm), "norm must be 'l1', 'l2', or 'max'")
+@icontract.ensure(lambda result, X: result.shape == X.shape, "normalizer output must preserve shape")
+def normalizer_transform(
+    X: MatrixLike,
+    norm: str = "l2",
+    *,
+    copy: bool = True,
+) -> MatrixLike:
+    """Apply stateless Normalizer.transform semantics row-wise."""
+    checked_x = check_array(X, accept_sparse="csr", force_writeable=True, copy=copy)
+    result = normalize(checked_x, norm=norm, axis=1, copy=False, return_norm=False)
+    if isinstance(result, tuple):
+        return result[0]
+    return result

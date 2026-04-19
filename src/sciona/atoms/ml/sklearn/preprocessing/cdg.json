@@ -1,0 +1,122 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_preprocessing_basic_root",
+      "name": "Sklearn Basic Preprocessing Atoms",
+      "description": "Function and stateless-transform decomposition for selected sklearn.preprocessing matrix transforms",
+      "status": "decomposed",
+      "children": [
+        "add_dummy_feature",
+        "binarize",
+        "binarizer_transform",
+        "normalize",
+        "normalizer_transform"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "add_dummy_feature",
+      "name": "add_dummy_feature",
+      "description": "Add a leading constant-valued feature column to a dense or sparse matrix.",
+      "concept_type": "array_transform",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, value: float = 1.0) -> NDArray[np.float64] | scipy.sparse.spmatrix",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
+        {"name": "value", "type_desc": "float", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"}
+      ]
+    },
+    {
+      "node_id": "binarize",
+      "name": "binarize",
+      "description": "Map entries greater than a threshold to 1 and all other entries to 0.",
+      "concept_type": "array_transform",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, threshold: float = 0.0, copy: bool = True) -> NDArray[np.float64] | scipy.sparse.spmatrix",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
+        {"name": "threshold", "type_desc": "float", "required": false},
+        {"name": "copy", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"}
+      ]
+    },
+    {
+      "node_id": "binarizer_transform",
+      "name": "binarizer_transform",
+      "description": "Apply the stateless sklearn.preprocessing.Binarizer transform.",
+      "concept_type": "stateless_transformer_method",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, threshold: float = 0.0, copy: bool = True) -> NDArray[np.float64] | scipy.sparse.spmatrix",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
+        {"name": "threshold", "type_desc": "float", "required": false},
+        {"name": "copy", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"}
+      ]
+    },
+    {
+      "node_id": "normalize",
+      "name": "normalize",
+      "description": "Scale rows or columns to unit l1, l2, or max norm.",
+      "concept_type": "array_transform",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, norm: str = 'l2', axis: int = 1, copy: bool = True, return_norm: bool = False) -> NDArray[np.float64] | scipy.sparse.spmatrix | tuple[NDArray[np.float64] | scipy.sparse.spmatrix, NDArray[np.float64]]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
+        {"name": "norm", "type_desc": "str", "required": false},
+        {"name": "axis", "type_desc": "int", "required": false},
+        {"name": "copy", "type_desc": "bool", "required": false},
+        {"name": "return_norm", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | tuple[MatrixLike, NDArray[np.float64]]"}
+      ]
+    },
+    {
+      "node_id": "normalizer_transform",
+      "name": "normalizer_transform",
+      "description": "Apply the stateless sklearn.preprocessing.Normalizer row transform.",
+      "concept_type": "stateless_transformer_method",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, norm: str = 'l2', copy: bool = True) -> NDArray[np.float64] | scipy.sparse.spmatrix",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
+        {"name": "norm", "type_desc": "str", "required": false},
+        {"name": "copy", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"}
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source_id": "binarize",
+      "target_id": "binarizer_transform",
+      "edge_type": "semantic_equivalence"
+    },
+    {
+      "source_id": "normalize",
+      "target_id": "normalizer_transform",
+      "edge_type": "semantic_equivalence"
+    }
+  ],
+  "metadata": {
+    "source": "agent_ingestion",
+    "source_module": "sklearn.preprocessing._data",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause"
+  }
+}
