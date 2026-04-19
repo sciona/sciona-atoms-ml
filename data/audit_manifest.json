@@ -1,11 +1,129 @@
 {
   "schema_version": "1.1",
   "metadata": {
-    "generated_at": "2026-04-19T20:34:39.044306+00:00",
+    "generated_at": "2026-04-19T20:38:21.644348+00:00",
     "generator": "scripts/apply_audit_review_bundles.py",
     "phase": "phase_1_review_bundle_merge"
   },
   "atoms": [
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.calibration.calibration_curve",
+      "atom_key": "sciona.atoms.ml.sklearn.calibration.calibration_curve",
+      "atom_id": "sciona.atoms.ml.sklearn.calibration.calibration_curve",
+      "module_import_path": "sciona.atoms.ml.sklearn.calibration",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/calibration/atoms.py",
+      "module_family": "sklearn",
+      "domain_family": "ml.sklearn",
+      "wrapper_symbol": "calibration_curve",
+      "argument_names": [
+        "y_true",
+        "y_prob",
+        "pos_label",
+        "n_bins",
+        "strategy"
+      ],
+      "argument_details": [
+        {
+          "name": "y_true",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "y_prob",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "pos_label",
+          "annotation": "int | float | bool | str | None",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "n_bins",
+          "annotation": "int",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "strategy",
+          "annotation": "str",
+          "required": false,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "CurveResult",
+      "docstring_summary": "Compute positive rate and mean predicted probability by calibration bin.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/calibration/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/calibration/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/calibration/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/calibration/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_calibration_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_calibration_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_calibration_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 11,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 91,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 4,
+      "parity_case_count": 6,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_calibration.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
     {
       "atom_name": "sciona.atoms.ml.sklearn.covariance.empirical_covariance",
       "atom_key": "sciona.atoms.ml.sklearn.covariance.empirical_covariance",

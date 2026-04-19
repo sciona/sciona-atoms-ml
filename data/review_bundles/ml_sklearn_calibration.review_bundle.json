@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "sciona.atoms.review_bundle.ml.sklearn_calibration.v1",
+  "provider_repo": "sciona-atoms-ml",
+  "family_batch": "ml_sklearn_calibration",
+  "review_status": "reviewed",
+  "review_semantic_verdict": "pass_with_limits",
+  "review_developer_semantic_verdict": "pass_with_limits",
+  "trust_readiness": "reviewed_with_limits",
+  "authoritative_sources": [
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/sklearn/calibration/atoms.py"},
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/sklearn/calibration/witnesses.py"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/sklearn/calibration/references.json"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/sklearn/calibration/cdg.json"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_calibration_behavior.py"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_calibration_references_metadata.py"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_calibration_review_bundle.py"}
+  ],
+  "limitations": [
+    "This batch covers calibration_curve only; CalibratedClassifierCV remains a separate estimator target."
+  ],
+  "blocking_findings": [],
+  "required_actions": [],
+  "review_record_path": "data/review_bundles/ml_sklearn_calibration.review_bundle.json",
+  "rows": [
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.calibration.calibration_curve",
+      "atom_name": "sciona.atoms.ml.sklearn.calibration.calibration_curve",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/calibration/atoms.py",
+        "src/sciona/atoms/ml/sklearn/calibration/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/calibration/references.json",
+        "src/sciona/atoms/ml/sklearn/calibration/cdg.json",
+        "tests/test_ml_sklearn_calibration_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_calibration.review_bundle.json",
+      "overall_verdict": "pass",
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass_with_limits",
+      "risk_tier": "low",
+      "risk_score": 11,
+      "risk_dimensions": {"provenance": "low", "semantic_drift": "low", "runtime": "low", "api_surface": "low"},
+      "risk_reasons": [],
+      "acceptability_score": 91,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 4,
+      "parity_case_count": 6,
+      "review_limitations": ["Empty bins are omitted from outputs, matching sklearn behavior."],
+      "review_required_actions": [],
+      "trust_blockers": [],
+      "has_references": true,
+      "references_status": "pass",
+      "limitations": [],
+      "blocking_findings": [],
+      "required_actions": []
+    }
+  ]
+}

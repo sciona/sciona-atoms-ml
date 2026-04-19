@@ -1,0 +1,40 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_calibration_root",
+      "name": "Sklearn Calibration Atoms",
+      "description": "Function decomposition for selected sklearn.calibration helpers",
+      "status": "decomposed",
+      "children": [
+        "calibration_curve"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "calibration_curve",
+      "name": "calibration_curve",
+      "description": "Aggregate binary classifier probabilities into calibration-curve bins.",
+      "concept_type": "evaluation_curve",
+      "status": "atomic",
+      "type_signature": "(y_true: NDArray[np.float64], y_prob: NDArray[np.float64], pos_label: int | float | bool | str | None = None, n_bins: int = 5, strategy: str = 'uniform') -> tuple[NDArray[np.float64], NDArray[np.float64]]",
+      "depth": 1,
+      "inputs": [
+        {"name": "y_true", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "y_prob", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "pos_label", "type_desc": "int | float | bool | str | None", "required": false},
+        {"name": "n_bins", "type_desc": "int", "required": false},
+        {"name": "strategy", "type_desc": "str", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[NDArray[np.float64], NDArray[np.float64]]"}
+      ]
+    }
+  ],
+  "edges": [],
+  "metadata": {
+    "source": "agent_ingestion",
+    "source_module": "sklearn.calibration",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause"
+  }
+}
