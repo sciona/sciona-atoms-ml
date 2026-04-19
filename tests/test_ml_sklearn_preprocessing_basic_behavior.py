@@ -3,7 +3,7 @@ from __future__ import annotations
 import numpy as np
 import pytest
 import scipy.sparse as sp
-from sklearn.preprocessing import Binarizer, KernelCenterer, MaxAbsScaler, Normalizer
+from sklearn.preprocessing import Binarizer, KernelCenterer, MaxAbsScaler, MinMaxScaler, Normalizer
 from sklearn.preprocessing import add_dummy_feature as sklearn_add_dummy_feature
 from sklearn.preprocessing import binarize as sklearn_binarize
 from sklearn.preprocessing import maxabs_scale as sklearn_maxabs_scale
@@ -26,6 +26,10 @@ def test_preprocessing_basic_atoms_import() -> None:
         maxabs_scaler_partial_fit,
         maxabs_scaler_transform,
         minmax_scale,
+        minmax_scaler_fit,
+        minmax_scaler_inverse_transform,
+        minmax_scaler_partial_fit,
+        minmax_scaler_transform,
         normalize,
         normalizer_transform,
         robust_scale,
@@ -43,6 +47,10 @@ def test_preprocessing_basic_atoms_import() -> None:
     assert callable(maxabs_scaler_partial_fit)
     assert callable(maxabs_scaler_transform)
     assert callable(minmax_scale)
+    assert callable(minmax_scaler_fit)
+    assert callable(minmax_scaler_inverse_transform)
+    assert callable(minmax_scaler_partial_fit)
+    assert callable(minmax_scaler_transform)
     assert callable(normalize)
     assert callable(normalizer_transform)
     assert callable(robust_scale)
@@ -361,6 +369,83 @@ def test_minmax_scale_rejects_invalid_range_like_sklearn() -> None:
         minmax_scale(X, feature_range=(1.0, 1.0))
     with pytest.raises(ValueError):
         sklearn_minmax_scale(X, feature_range=(1.0, 1.0))
+
+
+def test_minmax_scaler_fit_matches_sklearn_state() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import minmax_scaler_fit
+
+    X = np.array([[-1.0, 2.0], [-0.5, 6.0], [0.0, 10.0], [1.0, np.nan]], dtype=np.float64)
+    state = minmax_scaler_fit(X, feature_range=(-2.0, 3.0))
+    expected = MinMaxScaler(feature_range=(-2.0, 3.0)).fit(X)
+
+    assert np.allclose(state.scale, expected.scale_, equal_nan=True)
+    assert np.allclose(state.min_, expected.min_, equal_nan=True)
+    assert np.allclose(state.data_min, expected.data_min_, equal_nan=True)
+    assert np.allclose(state.data_max, expected.data_max_, equal_nan=True)
+    assert np.allclose(state.data_range, expected.data_range_, equal_nan=True)
+    assert state.feature_range == (-2.0, 3.0)
+    assert state.n_features_in == expected.n_features_in_
+    assert state.n_samples_seen == expected.n_samples_seen_
+
+
+def test_minmax_scaler_partial_fit_accumulates_like_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import minmax_scaler_partial_fit
+
+    X1 = np.array([[-1.0, 2.0], [0.0, 6.0]], dtype=np.float64)
+    X2 = np.array([[1.0, 10.0], [-0.5, 18.0]], dtype=np.float64)
+    state = minmax_scaler_partial_fit(X1, feature_range=(-1.0, 2.0))
+    state = minmax_scaler_partial_fit(X2, state=state)
+
+    expected = MinMaxScaler(feature_range=(-1.0, 2.0)).partial_fit(X1).partial_fit(X2)
+    assert np.allclose(state.scale, expected.scale_)
+    assert np.allclose(state.min_, expected.min_)
+    assert np.allclose(state.data_min, expected.data_min_)
+    assert np.allclose(state.data_max, expected.data_max_)
+    assert state.n_samples_seen == expected.n_samples_seen_
+
+
+def test_minmax_scaler_transform_inverse_and_clip_match_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import (
+        minmax_scaler_fit,
+        minmax_scaler_inverse_transform,
+        minmax_scaler_transform,
+    )
+
+    X = np.array([[-1.0, 2.0], [-0.5, 6.0], [0.0, 10.0], [1.0, 18.0]], dtype=np.float64)
+    X_test = np.array([[2.0, 2.0], [-2.0, 20.0]], dtype=np.float64)
+    state = minmax_scaler_fit(X, feature_range=(-1.0, 2.0))
+    scaler = MinMaxScaler(feature_range=(-1.0, 2.0)).fit(X)
+
+    transformed = minmax_scaler_transform(X_test, state)
+    expected = scaler.transform(X_test)
+    assert np.allclose(transformed, expected)
+    assert np.allclose(minmax_scaler_inverse_transform(transformed, state), scaler.inverse_transform(expected))
+
+    clipped = minmax_scaler_transform(X_test, state, clip=True)
+    expected_clipped = MinMaxScaler(feature_range=(-1.0, 2.0), clip=True).fit(X).transform(X_test)
+    assert np.allclose(clipped, expected_clipped)
+
+
+def test_minmax_scaler_errors_match_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import minmax_scaler_fit, minmax_scaler_transform
+
+    X = np.array([[0.0, 1.0], [2.0, 3.0]], dtype=np.float64)
+    with pytest.raises(Exception, match="feature_range"):
+        minmax_scaler_fit(X, feature_range=(1.0, 1.0))
+    with pytest.raises(ValueError, match="feature range"):
+        MinMaxScaler(feature_range=(1.0, 1.0)).fit(X)
+
+    X_sparse = sp.csr_matrix(X)
+    with pytest.raises(TypeError, match="sparse input"):
+        minmax_scaler_fit(X_sparse)
+    with pytest.raises(TypeError, match="sparse input"):
+        MinMaxScaler().fit(X_sparse)
+
+    state = minmax_scaler_fit(np.eye(3, dtype=np.float64))
+    with pytest.raises(Exception, match="feature count"):
+        minmax_scaler_transform(np.ones((2, 2), dtype=np.float64), state)
+    with pytest.raises(ValueError):
+        MinMaxScaler().fit(np.eye(3, dtype=np.float64)).transform(np.ones((2, 2), dtype=np.float64))
 
 
 def test_robust_scale_matches_sklearn_dense_axes_options_and_1d() -> None:

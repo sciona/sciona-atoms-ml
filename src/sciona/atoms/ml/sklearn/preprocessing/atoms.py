@@ -18,7 +18,7 @@ from sklearn.utils.validation import FLOAT_DTYPES
 
 from sciona.ghost.registry import register_atom
 
-from .state_models import KernelCentererState, MaxAbsScalerState
+from .state_models import KernelCentererState, MaxAbsScalerState, MinMaxScalerState
 from .witnesses import (
     witness_add_dummy_feature,
     witness_binarize,
@@ -31,6 +31,10 @@ from .witnesses import (
     witness_maxabs_scaler_partial_fit,
     witness_maxabs_scaler_transform,
     witness_minmax_scale,
+    witness_minmax_scaler_fit,
+    witness_minmax_scaler_inverse_transform,
+    witness_minmax_scaler_partial_fit,
+    witness_minmax_scaler_transform,
     witness_normalize,
     witness_normalizer_transform,
     witness_robust_scale,
@@ -96,6 +100,28 @@ def _maxabs_state_valid(state: MaxAbsScalerState) -> bool:
         and state.scale.shape == state.max_abs.shape
         and state.scale.shape[0] == state.n_features_in
         and state.n_samples_seen >= 1
+    )
+
+
+def _valid_feature_range(feature_range: tuple[float, float]) -> bool:
+    return bool(feature_range[0] < feature_range[1])
+
+
+def _minmax_state_valid(state: MinMaxScalerState) -> bool:
+    shape = state.scale.shape
+    return bool(
+        state.min_.ndim == 1
+        and state.scale.ndim == 1
+        and state.data_min.ndim == 1
+        and state.data_max.ndim == 1
+        and state.data_range.ndim == 1
+        and state.min_.shape == shape
+        and state.data_min.shape == shape
+        and state.data_max.shape == shape
+        and state.data_range.shape == shape
+        and shape[0] == state.n_features_in
+        and state.n_samples_seen >= 1
+        and _valid_feature_range(state.feature_range)
     )
 
 
@@ -521,6 +547,117 @@ def maxabs_scale(
     if original_ndim == 1:
         scaled = scaled.ravel()
     return scaled
+
+
+@register_atom(witness_minmax_scaler_partial_fit)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
+@icontract.require(lambda X: _row_count(X) >= 1, "X must contain at least one sample")
+@icontract.require(lambda feature_range: _valid_feature_range(feature_range), "feature_range minimum must be smaller than maximum")
+@icontract.require(lambda X, state: state is None or _feature_count(X) == state.n_features_in, "X feature count must match fitted state")
+@icontract.ensure(lambda result: _minmax_state_valid(result), "state arrays must match fitted feature count")
+@icontract.ensure(lambda result, X, state: result.n_samples_seen == _row_count(X) + (0 if state is None else state.n_samples_seen), "sample count must accumulate")
+def minmax_scaler_partial_fit(
+    X: NDArray[np.float64],
+    feature_range: tuple[float, float] = (0, 1),
+    state: MinMaxScalerState | None = None,
+) -> MinMaxScalerState:
+    """Update MinMaxScaler state from one dense training batch."""
+    if sp.issparse(X):
+        raise TypeError("MinMaxScaler does not support sparse input. Consider using MaxAbsScaler instead.")
+    checked_x = check_array(X, dtype=FLOAT_DTYPES, ensure_all_finite="allow-nan")
+    data_min = np.nanmin(checked_x, axis=0)
+    data_max = np.nanmax(checked_x, axis=0)
+
+    if state is not None:
+        if checked_x.shape[1] != state.n_features_in:
+            raise ValueError("X feature count does not match fitted state")
+        data_min = np.minimum(state.data_min, data_min)
+        data_max = np.maximum(state.data_max, data_max)
+        n_samples_seen = state.n_samples_seen + int(checked_x.shape[0])
+        feature_range = state.feature_range
+    else:
+        n_samples_seen = int(checked_x.shape[0])
+
+    data_range = data_max - data_min
+    scale = (feature_range[1] - feature_range[0]) / _handle_zeros_in_scale(data_range, copy=True)
+    min_ = feature_range[0] - data_min * scale
+    return MinMaxScalerState(
+        min_=np.asarray(min_, dtype=np.float64),
+        scale=np.asarray(scale, dtype=np.float64),
+        data_min=np.asarray(data_min, dtype=np.float64),
+        data_max=np.asarray(data_max, dtype=np.float64),
+        data_range=np.asarray(data_range, dtype=np.float64),
+        feature_range=(float(feature_range[0]), float(feature_range[1])),
+        n_features_in=int(checked_x.shape[1]),
+        n_samples_seen=n_samples_seen,
+    )
+
+
+@register_atom(witness_minmax_scaler_fit)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
+@icontract.require(lambda X: _row_count(X) >= 1, "X must contain at least one sample")
+@icontract.require(lambda feature_range: _valid_feature_range(feature_range), "feature_range minimum must be smaller than maximum")
+@icontract.ensure(lambda result: _minmax_state_valid(result), "state arrays must match fitted feature count")
+@icontract.ensure(lambda result, X: result.n_samples_seen == _row_count(X), "fresh fit sample count must match input rows")
+def minmax_scaler_fit(
+    X: NDArray[np.float64],
+    feature_range: tuple[float, float] = (0, 1),
+) -> MinMaxScalerState:
+    """Fit MinMaxScaler state from a complete dense training matrix."""
+    return minmax_scaler_partial_fit(X, feature_range=feature_range, state=None)
+
+
+@register_atom(witness_minmax_scaler_transform)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
+@icontract.require(lambda state: _minmax_state_valid(state), "state arrays must match fitted feature count")
+@icontract.require(lambda X, state: _feature_count(X) == state.n_features_in, "X feature count must match fitted state")
+@icontract.ensure(lambda result, X: result.shape == X.shape, "transformed output must preserve shape")
+def minmax_scaler_transform(
+    X: NDArray[np.float64],
+    state: MinMaxScalerState,
+    copy: bool = True,
+    clip: bool = False,
+) -> NDArray[np.float64]:
+    """Scale dense features into the fitted MinMaxScaler feature range."""
+    checked_x = check_array(
+        X,
+        copy=copy,
+        dtype=FLOAT_DTYPES,
+        force_writeable=True,
+        ensure_all_finite="allow-nan",
+    )
+    if checked_x.shape[1] != state.n_features_in:
+        raise ValueError("X feature count does not match fitted state")
+    checked_x *= state.scale
+    checked_x += state.min_
+    if clip:
+        np.clip(checked_x, state.feature_range[0], state.feature_range[1], out=checked_x)
+    return checked_x
+
+
+@register_atom(witness_minmax_scaler_inverse_transform)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
+@icontract.require(lambda state: _minmax_state_valid(state), "state arrays must match fitted feature count")
+@icontract.require(lambda X, state: _feature_count(X) == state.n_features_in, "X feature count must match fitted state")
+@icontract.ensure(lambda result, X: result.shape == X.shape, "inverse transformed output must preserve shape")
+def minmax_scaler_inverse_transform(
+    X: NDArray[np.float64],
+    state: MinMaxScalerState,
+    copy: bool = True,
+) -> NDArray[np.float64]:
+    """Undo fitted MinMaxScaler feature-range scaling."""
+    checked_x = check_array(
+        X,
+        copy=copy,
+        dtype=FLOAT_DTYPES,
+        force_writeable=True,
+        ensure_all_finite="allow-nan",
+    )
+    if checked_x.shape[1] != state.n_features_in:
+        raise ValueError("X feature count does not match fitted state")
+    checked_x -= state.min_
+    checked_x /= state.scale
+    return checked_x
 
 
 @register_atom(witness_minmax_scale)

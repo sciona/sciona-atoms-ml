@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from sciona.ghost.abstract import AbstractArray
 
-from .state_models import KernelCentererState, MaxAbsScalerState
+from .state_models import KernelCentererState, MaxAbsScalerState, MinMaxScalerState
 
 
 def _check_2d(X: AbstractArray) -> tuple[int, int]:
@@ -142,6 +142,57 @@ def witness_maxabs_scaler_inverse_transform(
     copy: bool = True,
 ) -> AbstractArray:
     """Describe undoing fitted maximum-absolute-value scaling."""
+    del copy
+    n_samples, n_features = _check_2d(X)
+    if n_features != state.n_features_in:
+        raise ValueError("X feature count must match fitted state")
+    return AbstractArray(shape=(n_samples, n_features), dtype=X.dtype)
+
+
+def witness_minmax_scaler_partial_fit(
+    X: AbstractArray,
+    feature_range: tuple[float, float] = (0, 1),
+    state: MinMaxScalerState | None = None,
+) -> AbstractArray:
+    """Describe fitting per-feature minima and maxima."""
+    n_samples, n_features = _check_2d(X)
+    if n_samples < 1:
+        raise ValueError("X must contain at least one sample")
+    if feature_range[0] >= feature_range[1]:
+        raise ValueError("feature_range minimum must be smaller than maximum")
+    if state is not None and state.n_features_in != n_features:
+        raise ValueError("X feature count must match fitted state")
+    return AbstractArray(shape=(n_features,), dtype="float64")
+
+
+def witness_minmax_scaler_fit(
+    X: AbstractArray,
+    feature_range: tuple[float, float] = (0, 1),
+) -> AbstractArray:
+    """Describe fresh fitting for MinMaxScaler state."""
+    return witness_minmax_scaler_partial_fit(X, feature_range=feature_range, state=None)
+
+
+def witness_minmax_scaler_transform(
+    X: AbstractArray,
+    state: MinMaxScalerState,
+    copy: bool = True,
+    clip: bool = False,
+) -> AbstractArray:
+    """Describe applying fitted min-max scaling."""
+    del copy, clip
+    n_samples, n_features = _check_2d(X)
+    if n_features != state.n_features_in:
+        raise ValueError("X feature count must match fitted state")
+    return AbstractArray(shape=(n_samples, n_features), dtype=X.dtype)
+
+
+def witness_minmax_scaler_inverse_transform(
+    X: AbstractArray,
+    state: MinMaxScalerState,
+    copy: bool = True,
+) -> AbstractArray:
+    """Describe undoing fitted min-max scaling."""
     del copy
     n_samples, n_features = _check_2d(X)
     if n_features != state.n_features_in:

@@ -12,16 +12,21 @@ from .atoms import (
     maxabs_scaler_partial_fit,
     maxabs_scaler_transform,
     minmax_scale,
+    minmax_scaler_fit,
+    minmax_scaler_inverse_transform,
+    minmax_scaler_partial_fit,
+    minmax_scaler_transform,
     normalize,
     normalizer_transform,
     robust_scale,
     scale,
 )
-from .state_models import KernelCentererState, MaxAbsScalerState
+from .state_models import KernelCentererState, MaxAbsScalerState, MinMaxScalerState
 
 __all__ = [
     "KernelCentererState",
     "MaxAbsScalerState",
+    "MinMaxScalerState",
     "add_dummy_feature",
     "binarize",
     "binarizer_transform",
@@ -33,6 +38,10 @@ __all__ = [
     "maxabs_scaler_partial_fit",
     "maxabs_scaler_transform",
     "minmax_scale",
+    "minmax_scaler_fit",
+    "minmax_scaler_inverse_transform",
+    "minmax_scaler_partial_fit",
+    "minmax_scaler_transform",
     "normalize",
     "normalizer_transform",
     "robust_scale",

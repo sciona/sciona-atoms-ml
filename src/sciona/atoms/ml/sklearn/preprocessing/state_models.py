@@ -25,3 +25,17 @@ class MaxAbsScalerState:
     max_abs: NDArray[np.float64]
     n_features_in: int
     n_samples_seen: int
+
+
+@dataclass(frozen=True)
+class MinMaxScalerState:
+    """Learned min/max scale factors for mapping features into a range."""
+
+    min_: NDArray[np.float64]
+    scale: NDArray[np.float64]
+    data_min: NDArray[np.float64]
+    data_max: NDArray[np.float64]
+    data_range: NDArray[np.float64]
+    feature_range: tuple[float, float]
+    n_features_in: int
+    n_samples_seen: int
