@@ -18,6 +18,10 @@ EXPECTED_FQDNS = {
     "sciona.atoms.ml.sklearn.semi_supervised.label_spreading_fit",
     "sciona.atoms.ml.sklearn.semi_supervised.label_spreading_predict",
     "sciona.atoms.ml.sklearn.semi_supervised.label_spreading_predict_proba",
+    "sciona.atoms.ml.sklearn.semi_supervised.self_training_fit",
+    "sciona.atoms.ml.sklearn.semi_supervised.self_training_predict",
+    "sciona.atoms.ml.sklearn.semi_supervised.self_training_predict_proba",
+    "sciona.atoms.ml.sklearn.semi_supervised.self_training_select_pseudo_labels",
 }
 
 
@@ -25,7 +29,7 @@ def test_references_json_exists_and_has_all_semi_supervised_fqdns() -> None:
     assert REFERENCES_PATH.exists()
     payload = json.loads(REFERENCES_PATH.read_text(encoding="utf-8"))
     atom_keys = set(payload["atoms"])
-    assert len(atom_keys) == 6
+    assert len(atom_keys) == 10
     assert {key.partition("@")[0] for key in atom_keys} == EXPECTED_FQDNS
 
 

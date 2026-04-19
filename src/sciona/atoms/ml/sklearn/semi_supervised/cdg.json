@@ -11,7 +11,11 @@
         "label_propagation_predict",
         "label_spreading_fit",
         "label_spreading_predict_proba",
-        "label_spreading_predict"
+        "label_spreading_predict",
+        "self_training_select_pseudo_labels",
+        "self_training_fit",
+        "self_training_predict",
+        "self_training_predict_proba"
       ],
       "depth": 0
     },
@@ -123,6 +127,78 @@
       "outputs": [
         {"name": "result", "type_desc": "NDArray[np.object_]"}
       ]
+    },
+    {
+      "node_id": "self_training_select_pseudo_labels",
+      "name": "self_training_select_pseudo_labels",
+      "description": "Select unlabeled samples eligible for pseudo-labeling.",
+      "concept_type": "selection",
+      "status": "atomic",
+      "type_signature": "(max_proba: NDArray[np.float64], threshold: float = 0.75, criterion: str = 'threshold', k_best: int = 10) -> NDArray[np.bool_] | NDArray[np.int_]",
+      "depth": 1,
+      "inputs": [
+        {"name": "max_proba", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "threshold", "type_desc": "float", "required": false},
+        {"name": "criterion", "type_desc": "str", "required": false},
+        {"name": "k_best", "type_desc": "int", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.bool_] | NDArray[np.int_]"}
+      ]
+    },
+    {
+      "node_id": "self_training_fit",
+      "name": "self_training_fit",
+      "description": "Fit a self-training classifier and record pseudo-label history.",
+      "concept_type": "fit_state_builder",
+      "status": "atomic",
+      "type_signature": "(estimator: object, X: NDArray[np.float64] | scipy.sparse.spmatrix, y: NDArray[np.object_] | NDArray[np.int_] | list[object] | tuple[object, ...], threshold: float = 0.75, criterion: str = 'threshold', k_best: int = 10, max_iter: int | None = 10, verbose: bool = False) -> SelfTrainingClassifierState",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator", "type_desc": "object", "required": true},
+        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
+        {"name": "y", "type_desc": "NDArray[np.object_] | NDArray[np.int_] | list[object] | tuple[object, ...]", "required": true},
+        {"name": "threshold", "type_desc": "float", "required": false},
+        {"name": "criterion", "type_desc": "str", "required": false},
+        {"name": "k_best", "type_desc": "int", "required": false},
+        {"name": "max_iter", "type_desc": "int | None", "required": false},
+        {"name": "verbose", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "SelfTrainingClassifierState"}
+      ]
+    },
+    {
+      "node_id": "self_training_predict",
+      "name": "self_training_predict",
+      "description": "Predict labels by delegating to the fitted self-training estimator.",
+      "concept_type": "predict",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, state: SelfTrainingClassifierState) -> NDArray[np.object_]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
+        {"name": "state", "type_desc": "SelfTrainingClassifierState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.object_]"}
+      ]
+    },
+    {
+      "node_id": "self_training_predict_proba",
+      "name": "self_training_predict_proba",
+      "description": "Predict probabilities by delegating to the fitted self-training estimator.",
+      "concept_type": "predict_proba",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, state: SelfTrainingClassifierState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
+        {"name": "state", "type_desc": "SelfTrainingClassifierState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
     }
   ],
   "edges": [
@@ -145,6 +221,21 @@
       "source_id": "label_spreading_predict_proba",
       "target_id": "label_spreading_predict",
       "edge_type": "implementation_dependency"
+    },
+    {
+      "source_id": "self_training_select_pseudo_labels",
+      "target_id": "self_training_fit",
+      "edge_type": "implementation_dependency"
+    },
+    {
+      "source_id": "self_training_fit",
+      "target_id": "self_training_predict",
+      "edge_type": "fit_state_dependency"
+    },
+    {
+      "source_id": "self_training_fit",
+      "target_id": "self_training_predict_proba",
+      "edge_type": "fit_state_dependency"
     }
   ],
   "metadata": {

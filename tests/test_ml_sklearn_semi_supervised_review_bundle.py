@@ -21,6 +21,10 @@ EXPECTED_ATOM_NAMES = {
     "sciona.atoms.ml.sklearn.semi_supervised.label_spreading_fit",
     "sciona.atoms.ml.sklearn.semi_supervised.label_spreading_predict",
     "sciona.atoms.ml.sklearn.semi_supervised.label_spreading_predict_proba",
+    "sciona.atoms.ml.sklearn.semi_supervised.self_training_fit",
+    "sciona.atoms.ml.sklearn.semi_supervised.self_training_predict",
+    "sciona.atoms.ml.sklearn.semi_supervised.self_training_predict_proba",
+    "sciona.atoms.ml.sklearn.semi_supervised.self_training_select_pseudo_labels",
 }
 
 
@@ -28,10 +32,10 @@ def _bundle() -> dict:
     return json.loads(BUNDLE_PATH.read_text(encoding="utf-8"))
 
 
-def test_bundle_exists_and_has_six_atoms() -> None:
+def test_bundle_exists_and_has_ten_atoms() -> None:
     assert BUNDLE_PATH.exists()
     bundle = _bundle()
-    assert len(bundle["rows"]) == 6
+    assert len(bundle["rows"]) == 10
     assert {row["atom_key"] for row in bundle["rows"]} == EXPECTED_ATOM_NAMES
 
 
@@ -80,6 +84,10 @@ def test_cdg_atomic_nodes_have_publishable_io_specs() -> None:
         "label_spreading_fit",
         "label_spreading_predict",
         "label_spreading_predict_proba",
+        "self_training_fit",
+        "self_training_predict",
+        "self_training_predict_proba",
+        "self_training_select_pseudo_labels",
     }
     for node in atomic:
         assert node["node_id"] == node["name"]

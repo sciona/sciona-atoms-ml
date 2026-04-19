@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "atoms": {
-    "sciona.atoms.ml.sklearn.semi_supervised.label_propagation_fit@sciona/atoms/ml/sklearn/semi_supervised/atoms.py:275": {
+    "sciona.atoms.ml.sklearn.semi_supervised.label_propagation_fit@sciona/atoms/ml/sklearn/semi_supervised/atoms.py:335": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -36,7 +36,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.semi_supervised.label_propagation_predict_proba@sciona/atoms/ml/sklearn/semi_supervised/atoms.py:306": {
+    "sciona.atoms.ml.sklearn.semi_supervised.label_propagation_predict_proba@sciona/atoms/ml/sklearn/semi_supervised/atoms.py:366": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -71,7 +71,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.semi_supervised.label_propagation_predict@sciona/atoms/ml/sklearn/semi_supervised/atoms.py:319": {
+    "sciona.atoms.ml.sklearn.semi_supervised.label_propagation_predict@sciona/atoms/ml/sklearn/semi_supervised/atoms.py:379": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -106,7 +106,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.semi_supervised.label_spreading_fit@sciona/atoms/ml/sklearn/semi_supervised/atoms.py:338": {
+    "sciona.atoms.ml.sklearn.semi_supervised.label_spreading_fit@sciona/atoms/ml/sklearn/semi_supervised/atoms.py:398": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -141,7 +141,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.semi_supervised.label_spreading_predict_proba@sciona/atoms/ml/sklearn/semi_supervised/atoms.py:370": {
+    "sciona.atoms.ml.sklearn.semi_supervised.label_spreading_predict_proba@sciona/atoms/ml/sklearn/semi_supervised/atoms.py:430": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -176,7 +176,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.semi_supervised.label_spreading_predict@sciona/atoms/ml/sklearn/semi_supervised/atoms.py:383": {
+    "sciona.atoms.ml.sklearn.semi_supervised.label_spreading_predict@sciona/atoms/ml/sklearn/semi_supervised/atoms.py:443": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -206,6 +206,146 @@
             "matched_nodes": [],
             "confidence": "high",
             "notes": "Algorithm reference cited by scikit-learn LabelSpreading documentation."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.semi_supervised.self_training_select_pseudo_labels@sciona/atoms/ml/sklearn/semi_supervised/atoms.py:458": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.semi_supervised.SelfTrainingClassifier.fit pseudo-label selection logic in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        },
+        {
+          "ref_id": "yarowsky1995selftraining",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Algorithm reference cited by scikit-learn SelfTrainingClassifier documentation."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.semi_supervised.self_training_fit@sciona/atoms/ml/sklearn/semi_supervised/atoms.py:485": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.semi_supervised.SelfTrainingClassifier.fit in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        },
+        {
+          "ref_id": "yarowsky1995selftraining",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Algorithm reference cited by scikit-learn SelfTrainingClassifier documentation."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.semi_supervised.self_training_predict@sciona/atoms/ml/sklearn/semi_supervised/atoms.py:564": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.semi_supervised.SelfTrainingClassifier.predict delegation in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        },
+        {
+          "ref_id": "yarowsky1995selftraining",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Algorithm reference cited by scikit-learn SelfTrainingClassifier documentation."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.semi_supervised.self_training_predict_proba@sciona/atoms/ml/sklearn/semi_supervised/atoms.py:580": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.semi_supervised.SelfTrainingClassifier.predict_proba delegation in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        },
+        {
+          "ref_id": "yarowsky1995selftraining",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Algorithm reference cited by scikit-learn SelfTrainingClassifier documentation."
           }
         }
       ],

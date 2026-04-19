@@ -30,3 +30,20 @@ class LabelPropagationState:
     variant: str
     n_jobs: int | None
     n_features_in: int
+
+
+@dataclass(frozen=True)
+class SelfTrainingClassifierState:
+    """Fitted self-training classifier state and pseudo-label history."""
+
+    estimator: object
+    classes: NDArray[np.object_]
+    transduction: NDArray[np.object_]
+    labeled_iter: NDArray[np.int_]
+    n_iter: int
+    termination_condition: str
+    threshold: float
+    criterion: str
+    k_best: int
+    max_iter: int | None
+    n_features_in: int

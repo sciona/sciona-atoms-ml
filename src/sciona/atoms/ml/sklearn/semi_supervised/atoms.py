@@ -9,17 +9,18 @@ import numpy as np
 import scipy.sparse as sp
 from numpy.typing import NDArray
 from scipy import sparse
+from sklearn.base import clone
 from sklearn.exceptions import ConvergenceWarning
 from sklearn.metrics.pairwise import rbf_kernel
 from sklearn.neighbors import NearestNeighbors
-from sklearn.utils import check_array, check_consistent_length
+from sklearn.utils import check_array, check_consistent_length, safe_mask
 from sklearn.utils.extmath import safe_sparse_dot
 from sklearn.utils.fixes import laplacian as csgraph_laplacian
 from sklearn.utils.multiclass import check_classification_targets
 
 from sciona.ghost.registry import register_atom
 
-from .state_models import GraphKernel, LabelPropagationState, MatrixLike
+from .state_models import GraphKernel, LabelPropagationState, MatrixLike, SelfTrainingClassifierState
 from .witnesses import (
     witness_label_propagation_fit,
     witness_label_propagation_predict,
@@ -27,9 +28,14 @@ from .witnesses import (
     witness_label_spreading_fit,
     witness_label_spreading_predict,
     witness_label_spreading_predict_proba,
+    witness_self_training_fit,
+    witness_self_training_predict,
+    witness_self_training_predict_proba,
+    witness_self_training_select_pseudo_labels,
 )
 
 LabelVector = NDArray[np.object_] | NDArray[np.int_] | list[object] | tuple[object, ...]
+SelfTrainingSelection = NDArray[np.bool_] | NDArray[np.int_]
 
 
 def _is_2d(X: MatrixLike) -> bool:
@@ -72,6 +78,22 @@ def _alpha_valid(alpha: float) -> bool:
     return 0.0 < float(alpha) < 1.0
 
 
+def _threshold_valid(threshold: float) -> bool:
+    return 0.0 <= float(threshold) < 1.0
+
+
+def _self_training_criterion_valid(criterion: str) -> bool:
+    return criterion in {"threshold", "k_best"}
+
+
+def _nonnegative_int_or_none(value: int | None) -> bool:
+    return value is None or (isinstance(value, int) and value >= 0)
+
+
+def _estimator_has_fit(estimator: object) -> bool:
+    return callable(getattr(estimator, "fit", None))
+
+
 def _state_valid(state: LabelPropagationState) -> bool:
     return bool(
         _is_2d(state.X)
@@ -100,6 +122,44 @@ def _proba_valid(result: NDArray[np.float64], X: MatrixLike, state: LabelPropaga
 
 def _prediction_valid(result: NDArray[np.object_], X: MatrixLike, state: LabelPropagationState) -> bool:
     return bool(result.shape == (_sample_count(X),) and np.isin(result, state.classes).all())
+
+
+def _self_training_selection_valid(result: SelfTrainingSelection, max_proba: NDArray[np.float64], criterion: str, k_best: int) -> bool:
+    values = np.asarray(result)
+    n_samples = int(np.asarray(max_proba).shape[0])
+    if criterion == "threshold" or k_best >= n_samples:
+        return bool(values.dtype == np.bool_ and values.shape == (n_samples,))
+    return bool(np.issubdtype(values.dtype, np.integer) and values.ndim == 1 and values.shape[0] == min(k_best, n_samples))
+
+
+def _self_training_state_valid(state: SelfTrainingClassifierState) -> bool:
+    return bool(
+        _estimator_has_fit(state.estimator)
+        and state.classes.ndim == 1
+        and state.transduction.ndim == 1
+        and state.labeled_iter.shape == state.transduction.shape
+        and state.n_iter >= 0
+        and state.termination_condition in {"max_iter", "no_change", "all_labeled"}
+        and _threshold_valid(state.threshold)
+        and _self_training_criterion_valid(state.criterion)
+        and _positive_int(state.k_best)
+        and _nonnegative_int_or_none(state.max_iter)
+        and state.n_features_in > 0
+    )
+
+
+def _self_training_prediction_valid(result: NDArray[np.object_], X: MatrixLike) -> bool:
+    return bool(np.asarray(result).shape == (_sample_count(X),))
+
+
+def _self_training_proba_valid(result: NDArray[np.float64], X: MatrixLike, state: SelfTrainingClassifierState) -> bool:
+    row_sums = np.sum(result, axis=1)
+    return bool(
+        result.shape == (_sample_count(X), state.classes.shape[0])
+        and np.all(np.isfinite(result))
+        and np.all(result >= 0.0)
+        and np.allclose(row_sums, np.ones_like(row_sums))
+    )
 
 
 def _get_kernel(
@@ -387,3 +447,142 @@ def label_spreading_predict(
     """Predict class labels from a fitted label-spreading state."""
     probabilities = label_spreading_predict_proba(X, state)
     return np.asarray(state.classes[np.argmax(probabilities, axis=1)].ravel(), dtype=object)
+
+
+@register_atom(witness_self_training_select_pseudo_labels)
+@icontract.require(lambda max_proba: bool(np.asarray(max_proba).ndim == 1), "max_proba must be a 1D vector")
+@icontract.require(lambda threshold: _threshold_valid(threshold), "threshold must be in [0, 1)")
+@icontract.require(lambda criterion: _self_training_criterion_valid(criterion), "criterion must be 'threshold' or 'k_best'")
+@icontract.require(lambda k_best: _positive_int(k_best), "k_best must be positive")
+@icontract.ensure(lambda result, max_proba, criterion, k_best: _self_training_selection_valid(result, max_proba, criterion, k_best), "selection must match criterion shape")
+def self_training_select_pseudo_labels(
+    max_proba: NDArray[np.float64],
+    *,
+    threshold: float = 0.75,
+    criterion: str = "threshold",
+    k_best: int = 10,
+) -> SelfTrainingSelection:
+    """Select unlabeled samples eligible for pseudo-labeling."""
+    checked_proba = np.asarray(max_proba, dtype=np.float64)
+    if criterion == "threshold":
+        return checked_proba > threshold
+    n_to_select = min(k_best, checked_proba.shape[0])
+    if n_to_select == checked_proba.shape[0]:
+        return np.ones_like(checked_proba, dtype=bool)
+    return np.argpartition(-checked_proba, n_to_select)[:n_to_select].astype(np.int_, copy=False)
+
+
+@register_atom(witness_self_training_fit)
+@icontract.require(lambda estimator: _estimator_has_fit(estimator), "estimator must implement fit")
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D feature matrix")
+@icontract.require(lambda y: _is_label_vector(y), "y must be a 1D label vector")
+@icontract.require(lambda X, y: _same_sample_count(X, y), "X and y must have equal sample count")
+@icontract.require(lambda threshold: _threshold_valid(threshold), "threshold must be in [0, 1)")
+@icontract.require(lambda criterion: _self_training_criterion_valid(criterion), "criterion must be 'threshold' or 'k_best'")
+@icontract.require(lambda k_best: _positive_int(k_best), "k_best must be positive")
+@icontract.require(lambda max_iter: _nonnegative_int_or_none(max_iter), "max_iter must be non-negative or None")
+@icontract.ensure(lambda result: _self_training_state_valid(result), "self-training state must contain fitted estimator and pseudo-label history")
+def self_training_fit(
+    estimator: object,
+    X: MatrixLike,
+    y: LabelVector,
+    *,
+    threshold: float = 0.75,
+    criterion: str = "threshold",
+    k_best: int = 10,
+    max_iter: int | None = 10,
+    verbose: bool = False,
+) -> SelfTrainingClassifierState:
+    """Fit a self-training classifier and record pseudo-label history."""
+    estimator_ = clone(estimator)
+    checked_x = check_array(X, accept_sparse=["csr", "csc", "lil", "dok"], ensure_all_finite=False)
+    checked_y = np.asarray(y)
+    check_consistent_length(checked_x, checked_y)
+    if checked_y.dtype.kind in ["U", "S"]:
+        raise ValueError("y has dtype string. If you wish to predict on string targets, use dtype object, and use -1 as the label for unlabeled samples.")
+
+    has_label = checked_y != -1
+    if np.all(has_label):
+        warnings.warn("y contains no unlabeled samples", UserWarning)
+    if criterion == "k_best" and k_best > checked_x.shape[0] - np.sum(has_label):
+        warnings.warn("k_best is larger than the amount of unlabeled samples. All unlabeled samples will be labeled in the first iteration", UserWarning)
+
+    transduction = np.copy(checked_y)
+    labeled_iter = np.full_like(checked_y, -1)
+    labeled_iter[has_label] = 0
+    n_iter = 0
+    termination_condition = "max_iter"
+
+    while not np.all(has_label) and (max_iter is None or n_iter < max_iter):
+        n_iter += 1
+        estimator_.fit(checked_x[safe_mask(checked_x, has_label)], transduction[has_label])
+        probabilities = estimator_.predict_proba(checked_x[safe_mask(checked_x, ~has_label)])
+        pred = estimator_.classes_[np.argmax(probabilities, axis=1)]
+        max_proba = np.max(probabilities, axis=1)
+        selected = self_training_select_pseudo_labels(
+            max_proba,
+            threshold=threshold,
+            criterion=criterion,
+            k_best=k_best,
+        )
+        selected_full = np.nonzero(~has_label)[0][selected]
+        transduction[selected_full] = pred[selected]
+        has_label[selected_full] = True
+        labeled_iter[selected_full] = n_iter
+        if selected_full.shape[0] == 0:
+            termination_condition = "no_change"
+            break
+        if verbose:
+            print(f"End of iteration {n_iter}, added {selected_full.shape[0]} new labels.")
+
+    if n_iter == max_iter:
+        termination_condition = "max_iter"
+    if np.all(has_label):
+        termination_condition = "all_labeled"
+
+    estimator_.fit(checked_x[safe_mask(checked_x, has_label)], transduction[has_label])
+    return SelfTrainingClassifierState(
+        estimator=estimator_,
+        classes=np.asarray(estimator_.classes_, dtype=object),
+        transduction=np.asarray(transduction, dtype=object),
+        labeled_iter=np.asarray(labeled_iter, dtype=np.int_),
+        n_iter=int(n_iter),
+        termination_condition=termination_condition,
+        threshold=float(threshold),
+        criterion=criterion,
+        k_best=int(k_best),
+        max_iter=max_iter,
+        n_features_in=int(checked_x.shape[1]),
+    )
+
+
+@register_atom(witness_self_training_predict)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D feature matrix")
+@icontract.require(lambda state: _self_training_state_valid(state), "state must contain fitted self-training estimator")
+@icontract.require(lambda X, state: _feature_count(X) == state.n_features_in, "X feature count must match fitted state")
+@icontract.ensure(lambda result, X: _self_training_prediction_valid(result, X), "predictions must match query sample count")
+def self_training_predict(
+    X: MatrixLike,
+    state: SelfTrainingClassifierState,
+) -> NDArray[np.object_]:
+    """Predict labels by delegating to the fitted self-training estimator."""
+    checked_x = check_array(X, accept_sparse=True, ensure_all_finite=False)
+    if checked_x.shape[1] != state.n_features_in:
+        raise ValueError("X feature count must match fitted state")
+    return np.asarray(state.estimator.predict(checked_x), dtype=object)
+
+
+@register_atom(witness_self_training_predict_proba)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D feature matrix")
+@icontract.require(lambda state: _self_training_state_valid(state), "state must contain fitted self-training estimator")
+@icontract.require(lambda X, state: _feature_count(X) == state.n_features_in, "X feature count must match fitted state")
+@icontract.ensure(lambda result, X, state: _self_training_proba_valid(result, X, state), "probability rows must sum to one")
+def self_training_predict_proba(
+    X: MatrixLike,
+    state: SelfTrainingClassifierState,
+) -> NDArray[np.float64]:
+    """Predict probabilities by delegating to the fitted self-training estimator."""
+    checked_x = check_array(X, accept_sparse=True, ensure_all_finite=False)
+    if checked_x.shape[1] != state.n_features_in:
+        raise ValueError("X feature count must match fitted state")
+    return np.asarray(state.estimator.predict_proba(checked_x), dtype=np.float64)
