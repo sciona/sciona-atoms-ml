@@ -1,289 +1,102 @@
 {
   "nodes": [
     {
-      "node_id": "extract_patches_2d_root",
-      "parent_id": null,
+      "node_id": "sklearn_image_functions_root",
+      "name": "Sklearn Image Function Atoms",
+      "description": "Pure image patch and grid graph functions adapted from sklearn.feature_extraction.image",
+      "status": "decomposed",
+      "children": [
+        "extract_patches_2d",
+        "reconstruct_from_patches_2d",
+        "img_to_graph",
+        "grid_to_graph"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "extract_patches_2d",
       "name": "extract_patches_2d",
-      "description": "Extract 2D image patches with optional subsampling.",
-      "concept_type": "custom",
-      "inputs": [],
-      "outputs": [],
-      "status": "decomposed",
-      "children": [
-        "image_patch_sampling_and_assembly"
-      ],
-      "depth": 0,
-      "type_signature": "",
-      "matched_primitive": null,
-      "is_optional": false,
-      "is_opaque": false,
-      "is_external": false,
-      "parallelizable": false,
-      "conceptual_summary": "",
-      "critic_notes": "",
-      "decomposition_rationale": ""
-    },
-    {
-      "node_id": "image_patch_sampling_and_assembly",
-      "parent_id": "extract_patches_2d_root",
-      "name": "image_patch_sampling_and_assembly",
-      "description": "Extract sliding 2D patches from an image and optionally subsample them.",
+      "description": "Extract all sliding 2D image patches, or a seeded random subset.",
       "concept_type": "array_transform",
+      "status": "atomic",
+      "type_signature": "(image: NDArray[np.float64], patch_size: tuple[int, int], max_patches: int | float | None = None, random_state: int | np.random.RandomState | None = None) -> NDArray[np.float64]",
+      "depth": 1,
       "inputs": [
-        {
-          "name": "image",
-          "type_desc": "array",
-          "constraints": "2-D or 3-D image array with spatial dimensions at least patch_size"
-        },
-        {
-          "name": "patch_size",
-          "type_desc": "tuple",
-          "constraints": "two positive integers (patch_height, patch_width)"
-        },
-        {
-          "name": "max_patches",
-          "type_desc": "int | float | None",
-          "constraints": "optional positive integer count or fraction in (0, 1]"
-        },
-        {
-          "name": "random_state",
-          "type_desc": "int | np.random.RandomState | np.random.Generator | None",
-          "constraints": "optional deterministic random seed or RNG handle"
-        }
+        {"name": "image", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "patch_size", "type_desc": "tuple[int, int]", "required": true},
+        {"name": "max_patches", "type_desc": "int | float | None", "required": false},
+        {"name": "random_state", "type_desc": "int | np.random.RandomState | None", "required": false}
       ],
       "outputs": [
-        {
-          "name": "patches",
-          "type_desc": "array",
-          "constraints": "stack of extracted patches with trailing shape patch_size"
-        }
-      ],
-      "status": "atomic",
-      "children": [],
-      "depth": 1,
-      "type_signature": "(image: array, patch_size: tuple, max_patches: scalar, random_state: scalar) -> array",
-      "matched_primitive": null,
-      "is_optional": false,
-      "is_opaque": false,
-      "is_external": false,
-      "parallelizable": false,
-      "conceptual_summary": "Extract local image neighborhoods as a patch tensor.",
-      "critic_notes": "",
-      "decomposition_rationale": ""
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
     },
     {
-      "node_id": "reconstruct_from_patches_2d_root",
-      "parent_id": null,
+      "node_id": "reconstruct_from_patches_2d",
       "name": "reconstruct_from_patches_2d",
-      "description": "Reconstruct an image by averaging overlapping 2D patches.",
-      "concept_type": "custom",
-      "inputs": [],
-      "outputs": [],
-      "status": "decomposed",
-      "children": [
-        "patches_to_image_reconstruction"
-      ],
-      "depth": 0,
-      "type_signature": "",
-      "matched_primitive": null,
-      "is_optional": false,
-      "is_opaque": false,
-      "is_external": false,
-      "parallelizable": false,
-      "conceptual_summary": "",
-      "critic_notes": "",
-      "decomposition_rationale": ""
-    },
-    {
-      "node_id": "patches_to_image_reconstruction",
-      "parent_id": "reconstruct_from_patches_2d_root",
-      "name": "patches_to_image_reconstruction",
-      "description": "Reconstruct a 2D image tensor from overlapping patches.",
+      "description": "Average a complete patch sequence back into an image.",
       "concept_type": "array_transform",
+      "status": "atomic",
+      "type_signature": "(patches: NDArray[np.float64], image_size: tuple[int, ...]) -> NDArray[np.float64]",
+      "depth": 1,
       "inputs": [
-        {
-          "name": "patches",
-          "type_desc": "array",
-          "constraints": "patch tensor produced by extract_patches_2d"
-        },
-        {
-          "name": "image_size",
-          "type_desc": "tuple",
-          "constraints": "two integers defining the reconstructed image size"
-        }
+        {"name": "patches", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "image_size", "type_desc": "tuple[int, ...]", "required": true}
       ],
       "outputs": [
-        {
-          "name": "reconstructed_image",
-          "type_desc": "array",
-          "constraints": "array whose shape matches image_size"
-        }
-      ],
-      "status": "atomic",
-      "children": [],
-      "depth": 1,
-      "type_signature": "(patches: array, image_size: tuple) -> array",
-      "matched_primitive": null,
-      "is_optional": false,
-      "is_opaque": false,
-      "is_external": false,
-      "parallelizable": false,
-      "conceptual_summary": "Reassemble a 2D image from a patch tensor.",
-      "critic_notes": "",
-      "decomposition_rationale": ""
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
     },
     {
-      "node_id": "img_to_graph_root",
-      "parent_id": null,
+      "node_id": "img_to_graph",
       "name": "img_to_graph",
-      "description": "Convert a 3D image into a sparse voxel adjacency graph.",
-      "concept_type": "custom",
-      "inputs": [],
-      "outputs": [],
-      "status": "decomposed",
-      "children": [
-        "3d_image_graph_materialization"
-      ],
-      "depth": 0,
-      "type_signature": "",
-      "matched_primitive": null,
-      "is_optional": false,
-      "is_opaque": false,
-      "is_external": false,
-      "parallelizable": false,
-      "conceptual_summary": "",
-      "critic_notes": "",
-      "decomposition_rationale": ""
-    },
-    {
-      "node_id": "3d_image_graph_materialization",
-      "parent_id": "img_to_graph_root",
-      "name": "3d_image_graph_materialization",
-      "description": "Build a sparse voxel-neighborhood graph from an image volume.",
+      "description": "Build a pixel-neighbor graph weighted by image differences.",
       "concept_type": "graph_construction",
+      "status": "atomic",
+      "type_signature": "(img: NDArray[np.float64], mask: NDArray[np.bool_] | None = None, return_as: type = scipy.sparse.coo_matrix, dtype: npt.DTypeLike | None = None) -> scipy.sparse.spmatrix | NDArray[np.float64]",
+      "depth": 1,
       "inputs": [
-        {
-          "name": "img",
-          "type_desc": "array",
-          "constraints": "3-D numeric image array"
-        },
-        {
-          "name": "mask",
-          "type_desc": "np.ndarray | None",
-          "constraints": "optional boolean mask broadcastable to img"
-        },
-        {
-          "name": "return_as",
-          "type_desc": "type[scipy.sparse.spmatrix] | None",
-          "constraints": "optional sparse matrix constructor"
-        },
-        {
-          "name": "dtype",
-          "type_desc": "np.dtype | None",
-          "constraints": "optional numeric dtype for edge weights"
-        }
+        {"name": "img", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "mask", "type_desc": "NDArray[np.bool_] | None", "required": false},
+        {"name": "return_as", "type_desc": "type[scipy.sparse.spmatrix] | type[np.ndarray]", "required": false},
+        {"name": "dtype", "type_desc": "npt.DTypeLike | None", "required": false}
       ],
       "outputs": [
-        {
-          "name": "graph",
-          "type_desc": "array",
-          "constraints": "sparse adjacency representation over active voxels"
-        }
-      ],
-      "status": "atomic",
-      "children": [],
-      "depth": 1,
-      "type_signature": "(img: array, mask: array, return_as: scalar, dtype: scalar) -> array",
-      "matched_primitive": null,
-      "is_optional": false,
-      "is_opaque": false,
-      "is_external": false,
-      "parallelizable": false,
-      "conceptual_summary": "Construct a sparse graph from voxel neighbors and image values.",
-      "critic_notes": "",
-      "decomposition_rationale": ""
+        {"name": "result", "type_desc": "scipy.sparse.spmatrix | NDArray[np.float64]"}
+      ]
     },
     {
-      "node_id": "grid_to_graph_root",
-      "parent_id": null,
+      "node_id": "grid_to_graph",
       "name": "grid_to_graph",
-      "description": "Construct a sparse adjacency graph over a rectangular voxel grid.",
-      "concept_type": "custom",
-      "inputs": [],
-      "outputs": [],
-      "status": "decomposed",
-      "children": [
-        "voxel_grid_graph_assembly"
-      ],
-      "depth": 0,
-      "type_signature": "",
-      "matched_primitive": null,
-      "is_optional": false,
-      "is_opaque": false,
-      "is_external": false,
-      "parallelizable": false,
-      "conceptual_summary": "",
-      "critic_notes": "",
-      "decomposition_rationale": ""
-    },
-    {
-      "node_id": "voxel_grid_graph_assembly",
-      "parent_id": "grid_to_graph_root",
-      "name": "voxel_grid_graph_assembly",
-      "description": "Build a sparse adjacency graph for a rectangular grid with optional masking.",
+      "description": "Build a sparse adjacency graph for a regular 2D or 3D grid.",
       "concept_type": "graph_construction",
+      "status": "atomic",
+      "type_signature": "(n_x: int, n_y: int, n_z: int = 1, mask: NDArray[np.bool_] | None = None, return_as: type = scipy.sparse.coo_matrix, dtype: npt.DTypeLike = int) -> scipy.sparse.spmatrix | NDArray[np.float64]",
+      "depth": 1,
       "inputs": [
-        {
-          "name": "n_x",
-          "type_desc": "int",
-          "constraints": "positive grid size along the x axis"
-        },
-        {
-          "name": "n_y",
-          "type_desc": "int",
-          "constraints": "positive grid size along the y axis"
-        },
-        {
-          "name": "n_z",
-          "type_desc": "int",
-          "constraints": "positive grid size along the z axis"
-        },
-        {
-          "name": "mask",
-          "type_desc": "np.ndarray | None",
-          "constraints": "optional boolean mask over the grid"
-        },
-        {
-          "name": "return_as",
-          "type_desc": "type[scipy.sparse.spmatrix] | None",
-          "constraints": "optional sparse matrix constructor"
-        },
-        {
-          "name": "dtype",
-          "type_desc": "np.dtype | None",
-          "constraints": "optional numeric dtype for edge values"
-        }
+        {"name": "n_x", "type_desc": "int", "required": true},
+        {"name": "n_y", "type_desc": "int", "required": true},
+        {"name": "n_z", "type_desc": "int", "required": false},
+        {"name": "mask", "type_desc": "NDArray[np.bool_] | None", "required": false},
+        {"name": "return_as", "type_desc": "type[scipy.sparse.spmatrix] | type[np.ndarray]", "required": false},
+        {"name": "dtype", "type_desc": "npt.DTypeLike", "required": false}
       ],
       "outputs": [
-        {
-          "name": "graph",
-          "type_desc": "array",
-          "constraints": "sparse adjacency representation over grid nodes"
-        }
-      ],
-      "status": "atomic",
-      "children": [],
-      "depth": 1,
-      "type_signature": "(n_x: int, n_y: int, n_z: int, mask: array, return_as: scalar, dtype: scalar) -> array",
-      "matched_primitive": null,
-      "is_optional": false,
-      "is_opaque": false,
-      "is_external": false,
-      "parallelizable": false,
-      "conceptual_summary": "Construct a sparse voxel-grid graph from grid dimensions.",
-      "critic_notes": "",
-      "decomposition_rationale": ""
+        {"name": "result", "type_desc": "scipy.sparse.spmatrix | NDArray[np.float64]"}
+      ]
     }
   ],
-  "edges": []
+  "edges": [
+    {
+      "source_id": "extract_patches_2d",
+      "target_id": "reconstruct_from_patches_2d",
+      "edge_type": "usage_pair"
+    }
+  ],
+  "metadata": {
+    "source": "agent_ingestion",
+    "source_module": "sklearn.feature_extraction.image",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause"
+  }
 }

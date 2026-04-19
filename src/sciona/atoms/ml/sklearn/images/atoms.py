@@ -1,254 +1,341 @@
-"""sklearn-backed atom wrappers with local fallbacks.
+"""Image patch and grid graph atoms adapted from scikit-learn.
 
-The upstream `sklearn.feature_extraction.image` module is used when available,
-but this environment does not currently have a compatible wheel. The fallback
-implementations keep the provider importable and preserve the clear surface.
+The implementations mirror the public function behavior of
+``sklearn.feature_extraction.image`` for the pure function targets in the
+sklearn 1.8.0 image module. The source project is BSD-3-Clause licensed.
 """
 
 from __future__ import annotations
 
-from collections.abc import Iterable, Sequence
-from typing import Any
+from itertools import product
+from numbers import Integral, Real
 
-import importlib
-
+import icontract
 import numpy as np
 import numpy.typing as npt
 import scipy.sparse as sp
+from numpy.lib.stride_tricks import as_strided
+from numpy.typing import NDArray
+from sklearn.utils import check_array, check_random_state
 
-_SKLEARN_IMAGE_MODULE: Any | None = None
-try:  # pragma: no cover - exercised only when sklearn imports cleanly
-    _SKLEARN_IMAGE_MODULE = importlib.import_module("sklearn.feature_extraction.image")
-except Exception:
-    _SKLEARN_IMAGE_MODULE = None
+from sciona.ghost.registry import register_atom
+
+from .witnesses import (
+    witness_extract_patches_2d,
+    witness_grid_to_graph,
+    witness_img_to_graph,
+    witness_reconstruct_from_patches_2d,
+)
 
 PatchSize = tuple[int, int]
-ImageSize = tuple[int, int]
-OptionalDType = npt.DTypeLike | None
-OptionalRandomState = int | np.random.RandomState | np.random.Generator | None
-OptionalSparseCtor = type[sp.spmatrix] | None
+ImageSize = tuple[int, ...]
+RandomStateArg = int | np.random.RandomState | None
+SparseReturn = type[sp.spmatrix] | type[np.ndarray]
+GraphResult = sp.spmatrix | NDArray[np.float64]
 
 
-def _coerce_patch_size(patch_size: Sequence[int]) -> PatchSize:
-    if len(patch_size) != 2:
-        raise ValueError("patch_size must contain exactly two dimensions")
-    height = int(patch_size[0])
-    width = int(patch_size[1])
-    if height <= 0 or width <= 0:
-        raise ValueError("patch_size must be positive")
-    return height, width
+def _valid_max_patches(max_patches: int | float | None) -> bool:
+    if max_patches is None:
+        return True
+    if isinstance(max_patches, Integral):
+        return int(max_patches) >= 1
+    if isinstance(max_patches, Real):
+        return 0.0 < float(max_patches) < 1.0
+    return False
 
 
-def _coerce_rng(
-    random_state: OptionalRandomState,
-) -> np.random.Generator:
-    if isinstance(random_state, np.random.Generator):
-        return random_state
-    if isinstance(random_state, np.random.RandomState):
-        seed = int(random_state.randint(0, 2**32 - 1))
-        return np.random.default_rng(seed)
-    return np.random.default_rng(random_state)
-
-
-def _extract_patches_2d_fallback(
-    image: np.ndarray,
-    patch_size: PatchSize,
-    *,
+def _compute_n_patches(
+    image_height: int,
+    image_width: int,
+    patch_height: int,
+    patch_width: int,
     max_patches: int | float | None = None,
-    random_state: OptionalRandomState = None,
-) -> np.ndarray:
-    image = np.asarray(image)
-    if image.ndim != 2:
-        raise ValueError("image must be a 2D array")
-    patch_h, patch_w = _coerce_patch_size(patch_size)
-    if patch_h > image.shape[0] or patch_w > image.shape[1]:
-        raise ValueError("patch_size cannot exceed image dimensions")
+) -> int:
+    n_h = image_height - patch_height + 1
+    n_w = image_width - patch_width + 1
+    all_patches = n_h * n_w
 
-    patches: list[np.ndarray] = []
-    for row in range(image.shape[0] - patch_h + 1):
-        for col in range(image.shape[1] - patch_w + 1):
-            patches.append(np.array(image[row : row + patch_h, col : col + patch_w], copy=True))
-
-    if max_patches is not None:
-        if isinstance(max_patches, float):
-            if not 0.0 < max_patches <= 1.0:
-                raise ValueError("max_patches as a fraction must be in (0, 1]")
-            limit = max(1, int(round(len(patches) * max_patches)))
-        else:
-            limit = max(0, int(max_patches))
-        if limit < len(patches):
-            rng = _coerce_rng(random_state)
-            indices = np.sort(rng.choice(len(patches), size=limit, replace=False))
-            patches = [patches[index] for index in indices]
-
-    if not patches:
-        return np.empty((0, patch_h, patch_w), dtype=image.dtype)
-    return np.stack(patches, axis=0)
+    if max_patches:
+        if isinstance(max_patches, Integral) and max_patches < all_patches:
+            return int(max_patches)
+        if isinstance(max_patches, Integral) and max_patches >= all_patches:
+            return int(all_patches)
+        if isinstance(max_patches, Real) and 0.0 < float(max_patches) < 1.0:
+            return int(float(max_patches) * all_patches)
+        raise ValueError(f"Invalid value for max_patches: {max_patches!r}")
+    return int(all_patches)
 
 
-def _reconstruct_from_patches_2d_fallback(
-    patches: np.ndarray,
-    image_size: ImageSize,
-) -> np.ndarray:
-    patches = np.asarray(patches)
-    if patches.ndim != 3:
-        raise ValueError("patches must be a 3D array")
-    image_h, image_w = int(image_size[0]), int(image_size[1])
-    if image_h <= 0 or image_w <= 0:
-        raise ValueError("image_size must be positive")
-    patch_h, patch_w = int(patches.shape[1]), int(patches.shape[2])
-    grid_h = image_h - patch_h + 1
-    grid_w = image_w - patch_w + 1
-    expected = grid_h * grid_w
-    if expected != patches.shape[0]:
-        raise ValueError("patch count does not match the requested image size")
-
-    reconstructed = np.zeros((image_h, image_w), dtype=patches.dtype)
-    weights = np.zeros((image_h, image_w), dtype=np.int32)
-    patch_index = 0
-    for row in range(grid_h):
-        for col in range(grid_w):
-            reconstructed[row : row + patch_h, col : col + patch_w] += patches[patch_index]
-            weights[row : row + patch_h, col : col + patch_w] += 1
-            patch_index += 1
-    return reconstructed / np.maximum(weights, 1)
+def _extract_patches(
+    array: NDArray[np.float64],
+    patch_shape: tuple[int, ...],
+    extraction_step: int = 1,
+) -> NDArray[np.float64]:
+    array_ndim = array.ndim
+    step = tuple([extraction_step] * array_ndim)
+    patch_strides = array.strides
+    slices = tuple(slice(None, None, item) for item in step)
+    indexing_strides = array[slices].strides
+    patch_indices_shape = (
+        (np.array(array.shape) - np.array(patch_shape)) // np.array(step)
+    ) + 1
+    shape = tuple(list(patch_indices_shape) + list(patch_shape))
+    strides = tuple(list(indexing_strides) + list(patch_strides))
+    return as_strided(array, shape=shape, strides=strides)
 
 
-def _adjacency_from_grid(
-    grid_shape: tuple[int, ...],
-    *,
-    values: np.ndarray | None = None,
-    mask: np.ndarray | None = None,
-    dtype: OptionalDType = None,
-) -> sp.csr_matrix:
-    total = int(np.prod(grid_shape))
-    if total <= 0:
-        raise ValueError("grid shape must be positive")
-
-    value_array = None if values is None else np.asarray(values, dtype=np.float64)
-    mask_array = None if mask is None else np.asarray(mask, dtype=bool)
-    coordinates: list[tuple[int, int]] = []
-    weights: list[float] = []
-
-    def flat_index(index: tuple[int, ...]) -> int:
-        return int(np.ravel_multi_index(index, grid_shape))
-
-    for index in np.ndindex(grid_shape):
-        if mask_array is not None and not bool(mask_array[index]):
-            continue
-        source = flat_index(index)
-        for axis in range(len(grid_shape)):
-            if index[axis] + 1 >= grid_shape[axis]:
-                continue
-            neighbor = list(index)
-            neighbor[axis] += 1
-            neighbor_t = tuple(neighbor)
-            if mask_array is not None and not bool(mask_array[neighbor_t]):
-                continue
-            target = flat_index(neighbor_t)
-            if value_array is None:
-                weight = 1.0
-            else:
-                weight = 1.0 / (1.0 + abs(float(value_array[index]) - float(value_array[neighbor_t])))
-            coordinates.extend(((source, target), (target, source)))
-            weights.extend((weight, weight))
-
-    if not coordinates:
-        graph = sp.csr_matrix((total, total), dtype=dtype or np.float64)
-    else:
-        rows, cols = zip(*coordinates, strict=False)
-        graph = sp.coo_matrix(
-            (np.asarray(weights, dtype=dtype or np.float64), (rows, cols)),
-            shape=(total, total),
-        ).tocsr()
-    if dtype is not None:
-        graph = graph.astype(dtype)
-    return graph
+def _make_edges_3d(n_x: int, n_y: int, n_z: int = 1) -> NDArray[np.int64]:
+    vertices = np.arange(n_x * n_y * n_z).reshape((n_x, n_y, n_z))
+    edges_deep = np.vstack((vertices[:, :, :-1].ravel(), vertices[:, :, 1:].ravel()))
+    edges_right = np.vstack((vertices[:, :-1].ravel(), vertices[:, 1:].ravel()))
+    edges_down = np.vstack((vertices[:-1].ravel(), vertices[1:].ravel()))
+    return np.hstack((edges_deep, edges_right, edges_down)).astype(np.int64)
 
 
-def extract_patches_2d(
-    image: np.ndarray,
-    patch_size: PatchSize,
-    *,
-    max_patches: int | float | None = None,
-    random_state: OptionalRandomState = None,
-) -> np.ndarray:
-    """Extract fixed-size patches from a 2D image."""
-    if _SKLEARN_IMAGE_MODULE is not None:
-        result = _SKLEARN_IMAGE_MODULE.extract_patches_2d(
-            image,
-            patch_size,
-            max_patches=max_patches,
-            random_state=random_state,
-        )
-        return np.asarray(result)
-    return _extract_patches_2d_fallback(
-        image,
-        patch_size,
-        max_patches=max_patches,
-        random_state=random_state,
+def _compute_gradient_3d(
+    edges: NDArray[np.int64],
+    image: NDArray[np.float64],
+) -> NDArray[np.float64]:
+    _, n_y, n_z = image.shape
+    gradient = np.abs(
+        image[
+            edges[0] // (n_y * n_z),
+            (edges[0] % (n_y * n_z)) // n_z,
+            (edges[0] % (n_y * n_z)) % n_z,
+        ]
+        - image[
+            edges[1] // (n_y * n_z),
+            (edges[1] % (n_y * n_z)) // n_z,
+            (edges[1] % (n_y * n_z)) % n_z,
+        ]
     )
+    return np.asarray(gradient)
 
 
-def reconstruct_from_patches_2d(patches: np.ndarray, image_size: ImageSize) -> np.ndarray:
-    """Reconstruct an image by averaging overlapping patches."""
-    if _SKLEARN_IMAGE_MODULE is not None:
-        return np.asarray(_SKLEARN_IMAGE_MODULE.reconstruct_from_patches_2d(patches, image_size))
-    return _reconstruct_from_patches_2d_fallback(patches, image_size)
+def _mask_edges(
+    mask: NDArray[np.bool_],
+    edges: NDArray[np.int64],
+) -> NDArray[np.int64]:
+    indices = np.arange(mask.size)
+    active_indices = indices[mask.ravel()]
+    edge_mask = np.logical_and(
+        np.isin(edges[0], active_indices),
+        np.isin(edges[1], active_indices),
+    )
+    masked_edges = edges[:, edge_mask]
+    max_value = int(masked_edges.max()) if len(masked_edges.ravel()) else 0
+    order = np.searchsorted(np.flatnonzero(mask), np.arange(max_value + 1))
+    return np.asarray(order[masked_edges], dtype=np.int64)
 
 
-def img_to_graph(
-    img: np.ndarray,
+def _mask_edges_and_weights(
+    mask: NDArray[np.bool_],
+    edges: NDArray[np.int64],
+    weights: NDArray[np.float64],
+) -> tuple[NDArray[np.int64], NDArray[np.float64]]:
+    indices = np.arange(mask.size)
+    active_indices = indices[mask.ravel()]
+    edge_mask = np.logical_and(
+        np.isin(edges[0], active_indices),
+        np.isin(edges[1], active_indices),
+    )
+    masked_edges = edges[:, edge_mask]
+    masked_weights = weights[edge_mask]
+    max_value = int(masked_edges.max()) if len(masked_edges.ravel()) else 0
+    order = np.searchsorted(np.flatnonzero(mask), np.arange(max_value + 1))
+    return np.asarray(order[masked_edges], dtype=np.int64), np.asarray(masked_weights)
+
+
+def _coo_or_dense(
+    graph: sp.coo_matrix,
+    return_as: SparseReturn,
+) -> GraphResult:
+    if return_as is np.ndarray:
+        return np.asarray(graph.toarray())
+    return return_as(graph)
+
+
+def _to_graph(
+    n_x: int,
+    n_y: int,
+    n_z: int,
     *,
-    mask: np.ndarray | None = None,
-    return_as: OptionalSparseCtor = None,
-    dtype: OptionalDType = None,
-) -> sp.spmatrix:
-    """Build a sparse adjacency graph from image pixels or voxels."""
-    if _SKLEARN_IMAGE_MODULE is not None:
-        graph = _SKLEARN_IMAGE_MODULE.img_to_graph(
-            img,
-            mask=mask,
-            return_as=return_as or sp.coo_matrix,
-            dtype=dtype,
-        )
-        return graph
-    graph = _adjacency_from_grid(
-        np.asarray(img).shape,
-        values=np.asarray(img),
+    mask: NDArray[np.bool_] | None = None,
+    image: NDArray[np.float64] | None = None,
+    return_as: SparseReturn = sp.coo_matrix,
+    dtype: npt.DTypeLike | None = None,
+) -> GraphResult:
+    edges = _make_edges_3d(n_x, n_y, n_z)
+    graph_dtype = image.dtype if dtype is None and image is not None else dtype
+    if graph_dtype is None:
+        graph_dtype = int
+
+    if image is not None:
+        image_3d = np.atleast_3d(image)
+        weights = _compute_gradient_3d(edges, image_3d)
+        if mask is not None:
+            edges, weights = _mask_edges_and_weights(mask, edges, weights)
+            diagonal = image_3d.squeeze()[mask]
+        else:
+            diagonal = image_3d.ravel()
+        n_voxels = int(diagonal.size)
+    else:
+        if mask is not None:
+            bool_mask = mask.astype(dtype=bool, copy=False)
+            edges = _mask_edges(bool_mask, edges)
+            n_voxels = int(np.sum(bool_mask))
+        else:
+            n_voxels = int(n_x * n_y * n_z)
+        weights = np.ones(edges.shape[1], dtype=graph_dtype)
+        diagonal = np.ones(n_voxels, dtype=graph_dtype)
+
+    diagonal_index = np.arange(n_voxels)
+    row_index = np.hstack((edges[0], edges[1]))
+    col_index = np.hstack((edges[1], edges[0]))
+    graph = sp.coo_matrix(
+        (
+            np.hstack((weights, weights, diagonal)),
+            (np.hstack((row_index, diagonal_index)), np.hstack((col_index, diagonal_index))),
+        ),
+        (n_voxels, n_voxels),
+        dtype=graph_dtype,
+    )
+    return _coo_or_dense(graph, return_as)
+
+
+@register_atom(witness_extract_patches_2d)
+@icontract.require(lambda image: image.ndim in {2, 3}, "image must be 2D or 3D")
+@icontract.require(lambda patch_size: len(patch_size) == 2, "patch_size must have two entries")
+@icontract.require(lambda patch_size: patch_size[0] > 0 and patch_size[1] > 0, "patch dimensions must be positive")
+@icontract.require(lambda image, patch_size: patch_size[0] <= image.shape[0], "patch height must fit image")
+@icontract.require(lambda image, patch_size: patch_size[1] <= image.shape[1], "patch width must fit image")
+@icontract.require(lambda max_patches: _valid_max_patches(max_patches), "max_patches must be None, a positive integer, or a fraction in (0, 1)")
+@icontract.ensure(lambda result: result.ndim in {3, 4}, "patch tensor must be 3D or 4D")
+@icontract.ensure(lambda result, patch_size: result.shape[1] == patch_size[0] and result.shape[2] == patch_size[1], "patch dimensions must match patch_size")
+def extract_patches_2d(
+    image: NDArray[np.float64],
+    patch_size: PatchSize,
+    *,
+    max_patches: int | float | None = None,
+    random_state: RandomStateArg = None,
+) -> NDArray[np.float64]:
+    """Return all sliding 2D image patches, or a random subset of them."""
+    image_height, image_width = image.shape[:2]
+    patch_height, patch_width = patch_size
+
+    checked_image = check_array(image, allow_nd=True)
+    reshaped = checked_image.reshape((image_height, image_width, -1))
+    n_channels = reshaped.shape[-1]
+    extracted_patches = _extract_patches(
+        reshaped,
+        patch_shape=(patch_height, patch_width, n_channels),
+        extraction_step=1,
+    )
+    n_patches = _compute_n_patches(
+        image_height,
+        image_width,
+        patch_height,
+        patch_width,
+        max_patches,
+    )
+    if max_patches:
+        rng = check_random_state(random_state)
+        row_indices = rng.randint(image_height - patch_height + 1, size=n_patches)
+        col_indices = rng.randint(image_width - patch_width + 1, size=n_patches)
+        patches = extracted_patches[row_indices, col_indices, 0]
+    else:
+        patches = extracted_patches
+
+    patch_array = patches.reshape(-1, patch_height, patch_width, n_channels)
+    if patch_array.shape[-1] == 1:
+        return np.asarray(patch_array.reshape((n_patches, patch_height, patch_width)))
+    return np.asarray(patch_array)
+
+
+@register_atom(witness_reconstruct_from_patches_2d)
+@icontract.require(lambda patches: patches.ndim in {3, 4}, "patches must be 3D or 4D")
+@icontract.require(lambda image_size: len(image_size) in {2, 3}, "image_size must have two or three entries")
+@icontract.require(lambda image_size: image_size[0] > 0 and image_size[1] > 0, "image dimensions must be positive")
+@icontract.require(lambda patches, image_size: patches.shape[1] <= image_size[0], "patch height must fit output image")
+@icontract.require(lambda patches, image_size: patches.shape[2] <= image_size[1], "patch width must fit output image")
+@icontract.ensure(lambda result, image_size: result.shape == tuple(image_size), "image shape must equal image_size")
+@icontract.ensure(lambda result: np.all(np.isfinite(result)), "reconstructed pixels must be finite")
+def reconstruct_from_patches_2d(
+    patches: NDArray[np.float64],
+    image_size: ImageSize,
+) -> NDArray[np.float64]:
+    """Average overlapping patches back into an image with the requested shape."""
+    image_height, image_width = image_size[:2]
+    patch_height, patch_width = patches.shape[1:3]
+    image = np.zeros(image_size)
+    n_h = image_height - patch_height + 1
+    n_w = image_width - patch_width + 1
+    for patch, (row, col) in zip(patches, product(range(n_h), range(n_w)), strict=False):
+        image[row : row + patch_height, col : col + patch_width] += patch
+
+    for row in range(image_height):
+        for col in range(image_width):
+            image[row, col] /= float(
+                min(row + 1, patch_height, image_height - row)
+                * min(col + 1, patch_width, image_width - col)
+            )
+    return np.asarray(image)
+
+
+@register_atom(witness_img_to_graph)
+@icontract.require(lambda img: img.ndim in {2, 3}, "img must be a 2D or 3D image")
+@icontract.require(lambda img: img.size > 0, "img must contain at least one pixel")
+@icontract.require(
+    lambda mask, img: mask is None
+    or mask.shape == img.shape
+    or mask.shape == np.atleast_3d(img).shape,
+    "mask must match the image shape",
+)
+@icontract.ensure(lambda result: result.shape[0] == result.shape[1], "graph must be square")
+@icontract.ensure(lambda result: result.shape[0] > 0, "graph must contain at least one node")
+def img_to_graph(
+    img: NDArray[np.float64],
+    *,
+    mask: NDArray[np.bool_] | None = None,
+    return_as: SparseReturn = sp.coo_matrix,
+    dtype: npt.DTypeLike | None = None,
+) -> GraphResult:
+    """Build a pixel-neighbor graph whose edge weights are image differences."""
+    image = np.atleast_3d(img)
+    n_x, n_y, n_z = image.shape
+    return _to_graph(
+        int(n_x),
+        int(n_y),
+        int(n_z),
         mask=mask,
+        image=image,
+        return_as=return_as,
         dtype=dtype,
     )
-    if return_as is not None:
-        return return_as(graph)
-    return graph
 
 
+@register_atom(witness_grid_to_graph)
+@icontract.require(lambda n_x: n_x >= 1, "n_x must be positive")
+@icontract.require(lambda n_y: n_y >= 1, "n_y must be positive")
+@icontract.require(lambda n_z: n_z >= 1, "n_z must be positive")
+@icontract.require(lambda mask, n_x, n_y, n_z: mask is None or mask.size == n_x * n_y * n_z, "mask must match grid size")
+@icontract.ensure(lambda result: result.shape[0] == result.shape[1], "graph must be square")
+@icontract.ensure(lambda result: result.shape[0] >= 0, "graph node count must be non-negative")
 def grid_to_graph(
     n_x: int,
     n_y: int,
     n_z: int = 1,
     *,
-    mask: np.ndarray | None = None,
-    return_as: OptionalSparseCtor = None,
-    dtype: OptionalDType = None,
-) -> sp.spmatrix:
-    """Build a sparse lattice graph for a regular 2D or 3D grid."""
-    if _SKLEARN_IMAGE_MODULE is not None:
-        graph = _SKLEARN_IMAGE_MODULE.grid_to_graph(
-            n_x,
-            n_y,
-            n_z=n_z,
-            mask=mask,
-            return_as=return_as or sp.coo_matrix,
-            dtype=dtype,
-        )
-        return graph
-    graph = _adjacency_from_grid(
-        (int(n_x), int(n_y), int(n_z)),
+    mask: NDArray[np.bool_] | None = None,
+    return_as: SparseReturn = sp.coo_matrix,
+    dtype: npt.DTypeLike = int,
+) -> GraphResult:
+    """Build a sparse adjacency graph for a 2D or 3D rectangular grid."""
+    return _to_graph(
+        int(n_x),
+        int(n_y),
+        int(n_z),
         mask=mask,
+        return_as=return_as,
         dtype=dtype,
     )
-    if return_as is not None:
-        return return_as(graph)
-    return graph

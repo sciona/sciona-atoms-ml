@@ -1,0 +1,57 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_covariance_functions_root",
+      "name": "Sklearn Covariance Function Atoms",
+      "description": "Covariance helper functions adapted from sklearn.covariance",
+      "status": "decomposed",
+      "children": ["empirical_covariance", "shrunk_covariance"],
+      "depth": 0
+    },
+    {
+      "node_id": "empirical_covariance",
+      "name": "empirical_covariance",
+      "description": "Compute a maximum-likelihood empirical covariance matrix from samples.",
+      "concept_type": "statistical_estimator",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], assume_centered: bool = False) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "assume_centered", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "shrunk_covariance",
+      "name": "shrunk_covariance",
+      "description": "Shrink covariance matrices toward their average diagonal variance.",
+      "concept_type": "statistical_estimator",
+      "status": "atomic",
+      "type_signature": "(emp_cov: NDArray[np.float64], shrinkage: float = 0.1) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "emp_cov", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "shrinkage", "type_desc": "float", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source_id": "empirical_covariance",
+      "target_id": "shrunk_covariance",
+      "edge_type": "usage_pair"
+    }
+  ],
+  "metadata": {
+    "source": "agent_ingestion",
+    "source_module": "sklearn.covariance",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause"
+  }
+}
