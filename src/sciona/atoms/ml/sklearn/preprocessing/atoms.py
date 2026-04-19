@@ -18,10 +18,13 @@ from sklearn.utils.validation import FLOAT_DTYPES
 
 from sciona.ghost.registry import register_atom
 
+from .state_models import KernelCentererState
 from .witnesses import (
     witness_add_dummy_feature,
     witness_binarize,
     witness_binarizer_transform,
+    witness_kernel_centerer_fit,
+    witness_kernel_centerer_transform,
     witness_maxabs_scale,
     witness_minmax_scale,
     witness_normalize,
@@ -76,6 +79,10 @@ def _normalize_shape_matches(result: NormalizeResult, X: MatrixLike, axis: int, 
         norm_count = _feature_count(X) if axis == 0 else _row_count(X)
         return normalized.shape == X.shape and norms.shape == (norm_count,)
     return not isinstance(result, tuple) and result.shape == X.shape
+
+
+def _kernel_state_valid(state: KernelCentererState) -> bool:
+    return bool(state.k_fit_rows.ndim == 1 and state.k_fit_rows.shape[0] == state.n_features_in)
 
 
 @register_atom(witness_add_dummy_feature)
@@ -222,6 +229,55 @@ def normalizer_transform(
     if isinstance(result, tuple):
         return result[0]
     return result
+
+
+@register_atom(witness_kernel_centerer_fit)
+@icontract.require(lambda K: _is_2d(K), "K must be a 2D kernel matrix")
+@icontract.require(lambda K: _row_count(K) == _feature_count(K), "K must be square")
+@icontract.ensure(lambda result, K: result.k_fit_rows.shape == (_row_count(K),), "one fitted mean per training sample")
+@icontract.ensure(lambda result, K: result.n_features_in == _feature_count(K), "state feature count must match kernel columns")
+@icontract.ensure(lambda result: _kernel_state_valid(result), "state means must match fitted feature count")
+def kernel_centerer_fit(
+    K: NDArray[np.float64],
+) -> KernelCentererState:
+    """Learn column and global means from a square training kernel matrix."""
+    checked_k = check_array(K, dtype=FLOAT_DTYPES)
+    if checked_k.shape[0] != checked_k.shape[1]:
+        raise ValueError(
+            "Kernel matrix must be a square matrix. Input is a {}x{} matrix.".format(
+                checked_k.shape[0],
+                checked_k.shape[1],
+            )
+        )
+    n_samples = checked_k.shape[0]
+    k_fit_rows = np.sum(checked_k, axis=0) / n_samples
+    k_fit_all = float(np.sum(k_fit_rows) / n_samples)
+    return KernelCentererState(
+        k_fit_rows=np.asarray(k_fit_rows, dtype=np.float64),
+        k_fit_all=k_fit_all,
+        n_features_in=int(checked_k.shape[1]),
+    )
+
+
+@register_atom(witness_kernel_centerer_transform)
+@icontract.require(lambda K: _is_2d(K), "K must be a 2D kernel matrix")
+@icontract.require(lambda state: _kernel_state_valid(state), "state means must match fitted feature count")
+@icontract.require(lambda K, state: _feature_count(K) == state.n_features_in, "K columns must match fitted training samples")
+@icontract.ensure(lambda result, K: result.shape == K.shape, "centered kernel output must preserve shape")
+def kernel_centerer_transform(
+    K: NDArray[np.float64],
+    state: KernelCentererState,
+    copy: bool = True,
+) -> NDArray[np.float64]:
+    """Center a kernel matrix block using fitted training-kernel means."""
+    checked_k = check_array(K, copy=copy, force_writeable=True, dtype=FLOAT_DTYPES)
+    if checked_k.shape[1] != state.n_features_in:
+        raise ValueError("K columns must match fitted training samples")
+    k_pred_cols = (np.sum(checked_k, axis=1) / state.k_fit_rows.shape[0])[:, None]
+    checked_k -= state.k_fit_rows
+    checked_k -= k_pred_cols
+    checked_k += state.k_fit_all
+    return checked_k
 
 
 @register_atom(witness_scale)

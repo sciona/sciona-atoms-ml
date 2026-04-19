@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from sciona.ghost.abstract import AbstractArray
 
+from .state_models import KernelCentererState
+
 
 def _check_2d(X: AbstractArray) -> tuple[int, int]:
     if len(X.shape) != 2:
@@ -75,6 +77,29 @@ def witness_normalizer_transform(
     if isinstance(result, tuple):
         return result[0]
     return result
+
+
+def witness_kernel_centerer_fit(
+    K: AbstractArray,
+) -> AbstractArray:
+    """Describe the per-training-sample kernel means learned during fitting."""
+    n_samples, n_features = _check_2d(K)
+    if n_samples != n_features:
+        raise ValueError("kernel matrix must be square")
+    return AbstractArray(shape=(n_samples,), dtype=K.dtype)
+
+
+def witness_kernel_centerer_transform(
+    K: AbstractArray,
+    state: KernelCentererState,
+    copy: bool = True,
+) -> AbstractArray:
+    """Describe centering a kernel block with fitted training-kernel means."""
+    del copy
+    n_samples, n_features = _check_2d(K)
+    if n_features != state.n_features_in:
+        raise ValueError("kernel columns must match fitted training samples")
+    return AbstractArray(shape=(n_samples, n_features), dtype=K.dtype)
 
 
 def witness_scale(

@@ -3,7 +3,7 @@ from __future__ import annotations
 import numpy as np
 import pytest
 import scipy.sparse as sp
-from sklearn.preprocessing import Binarizer, Normalizer
+from sklearn.preprocessing import Binarizer, KernelCenterer, Normalizer
 from sklearn.preprocessing import add_dummy_feature as sklearn_add_dummy_feature
 from sklearn.preprocessing import binarize as sklearn_binarize
 from sklearn.preprocessing import maxabs_scale as sklearn_maxabs_scale
@@ -18,6 +18,8 @@ def test_preprocessing_basic_atoms_import() -> None:
         add_dummy_feature,
         binarize,
         binarizer_transform,
+        kernel_centerer_fit,
+        kernel_centerer_transform,
         maxabs_scale,
         minmax_scale,
         normalize,
@@ -29,6 +31,8 @@ def test_preprocessing_basic_atoms_import() -> None:
     assert callable(add_dummy_feature)
     assert callable(binarize)
     assert callable(binarizer_transform)
+    assert callable(kernel_centerer_fit)
+    assert callable(kernel_centerer_transform)
     assert callable(maxabs_scale)
     assert callable(minmax_scale)
     assert callable(normalize)
@@ -142,6 +146,46 @@ def test_normalizer_transform_matches_sklearn_transform() -> None:
     sparse_result = normalizer_transform(X_sparse, norm="l2")
     sparse_expected = Normalizer(norm="l2").fit(X_sparse).transform(X_sparse)
     assert np.allclose(sparse_result.toarray(), sparse_expected.toarray())
+
+
+def test_kernel_centerer_fit_matches_sklearn_state() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import kernel_centerer_fit
+
+    K = np.array([[9.0, 2.0, -2.0], [2.0, 14.0, -13.0], [-2.0, -13.0, 21.0]], dtype=np.float64)
+    state = kernel_centerer_fit(K)
+    expected = KernelCenterer().fit(K)
+
+    assert np.allclose(state.k_fit_rows, expected.K_fit_rows_)
+    assert np.isclose(state.k_fit_all, expected.K_fit_all_)
+    assert state.n_features_in == expected.n_features_in_
+
+
+def test_kernel_centerer_transform_matches_sklearn_square_and_rectangular() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import kernel_centerer_fit, kernel_centerer_transform
+
+    K_train = np.array([[9.0, 2.0, -2.0], [2.0, 14.0, -13.0], [-2.0, -13.0, 21.0]], dtype=np.float64)
+    state = kernel_centerer_fit(K_train)
+    transformer = KernelCenterer().fit(K_train)
+    assert np.allclose(kernel_centerer_transform(K_train, state), transformer.transform(K_train))
+
+    K_test = np.array([[1.0, 4.0, 5.0], [2.0, -1.0, 3.0]], dtype=np.float64)
+    assert np.allclose(kernel_centerer_transform(K_test, state), transformer.transform(K_test))
+
+
+def test_kernel_centerer_errors_match_sklearn_shape_requirements() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import kernel_centerer_fit, kernel_centerer_transform
+
+    K_rectangular = np.array([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]], dtype=np.float64)
+    with pytest.raises(Exception, match="square"):
+        kernel_centerer_fit(K_rectangular)
+    with pytest.raises(ValueError, match="square"):
+        KernelCenterer().fit(K_rectangular)
+
+    state = kernel_centerer_fit(np.eye(3, dtype=np.float64))
+    with pytest.raises(Exception, match="columns"):
+        kernel_centerer_transform(np.ones((2, 2), dtype=np.float64), state)
+    with pytest.raises(ValueError):
+        KernelCenterer().fit(np.eye(3, dtype=np.float64)).transform(np.ones((2, 2), dtype=np.float64))
 
 
 def test_scale_matches_sklearn_dense_axes_and_options() -> None:
