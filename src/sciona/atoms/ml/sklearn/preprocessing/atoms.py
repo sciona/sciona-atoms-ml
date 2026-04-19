@@ -21,6 +21,8 @@ from .witnesses import (
     witness_add_dummy_feature,
     witness_binarize,
     witness_binarizer_transform,
+    witness_maxabs_scale,
+    witness_minmax_scale,
     witness_normalize,
     witness_normalizer_transform,
     witness_scale,
@@ -286,3 +288,90 @@ def scale(
                     )
                     Xr -= mean_2
     return checked_x
+
+
+def _maxabs_scale_axis0(X: MatrixLike) -> MatrixLike:
+    if sp.issparse(X):
+        mins, maxes = min_max_axis(X, axis=0, ignore_nan=True)
+        max_abs = np.maximum(np.abs(mins), np.abs(maxes))
+        scale_ = _handle_zeros_in_scale(max_abs, copy=True)
+        inplace_column_scale(X, 1.0 / scale_)
+    else:
+        scale_ = _handle_zeros_in_scale(np.nanmax(np.abs(X), axis=0), copy=True)
+        X /= scale_
+    return X
+
+
+@register_atom(witness_maxabs_scale)
+@icontract.require(lambda X: _is_1d_or_2d(X), "X must be a 1D or 2D array")
+@icontract.require(lambda axis: _valid_axis(axis), "axis must be 0 or 1")
+@icontract.ensure(lambda result, X: result.shape == X.shape, "maxabs scaled output must preserve shape")
+def maxabs_scale(
+    X: MatrixLike,
+    *,
+    axis: int = 0,
+    copy: bool = True,
+) -> MatrixLike:
+    """Scale rows or columns by their maximum absolute values."""
+    checked_x = check_array(
+        X,
+        accept_sparse=("csr", "csc"),
+        copy=False,
+        ensure_2d=False,
+        dtype=FLOAT_DTYPES,
+        ensure_all_finite="allow-nan",
+    )
+    original_ndim = checked_x.ndim
+    if original_ndim == 1:
+        checked_x = checked_x.reshape(checked_x.shape[0], 1)
+    if copy:
+        checked_x = checked_x.copy()
+
+    if axis == 0:
+        scaled = _maxabs_scale_axis0(checked_x)
+    else:
+        scaled = _maxabs_scale_axis0(checked_x.T).T
+
+    if original_ndim == 1:
+        scaled = scaled.ravel()
+    return scaled
+
+
+@register_atom(witness_minmax_scale)
+@icontract.require(lambda X: _is_1d_or_2d(X), "X must be a 1D or 2D array")
+@icontract.require(lambda feature_range: feature_range[0] < feature_range[1], "feature_range minimum must be smaller than maximum")
+@icontract.require(lambda axis: _valid_axis(axis), "axis must be 0 or 1")
+@icontract.ensure(lambda result, X: result.shape == X.shape, "minmax scaled output must preserve shape")
+def minmax_scale(
+    X: NDArray[np.float64],
+    feature_range: tuple[float, float] = (0, 1),
+    *,
+    axis: int = 0,
+    copy: bool = True,
+) -> NDArray[np.float64]:
+    """Scale rows or columns into a fixed feature range."""
+    checked_x = check_array(
+        X,
+        copy=False,
+        ensure_2d=False,
+        dtype=FLOAT_DTYPES,
+        ensure_all_finite="allow-nan",
+    )
+    original_ndim = checked_x.ndim
+    if original_ndim == 1:
+        checked_x = checked_x.reshape(checked_x.shape[0], 1)
+    if copy:
+        checked_x = checked_x.copy()
+
+    work = checked_x if axis == 0 else checked_x.T
+    data_min = np.nanmin(work, axis=0)
+    data_max = np.nanmax(work, axis=0)
+    data_range = data_max - data_min
+    scale_ = (feature_range[1] - feature_range[0]) / _handle_zeros_in_scale(data_range, copy=True)
+    work *= scale_
+    work += feature_range[0] - data_min * scale_
+
+    scaled = work if axis == 0 else work.T
+    if original_ndim == 1:
+        scaled = scaled.ravel()
+    return scaled

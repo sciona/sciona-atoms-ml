@@ -90,3 +90,32 @@ def witness_scale(
     if axis not in {0, 1}:
         raise ValueError("axis must be 0 or 1")
     return AbstractArray(shape=_check_1d_or_2d(X), dtype=X.dtype)
+
+
+def witness_maxabs_scale(
+    X: AbstractArray,
+    *,
+    axis: int = 0,
+    copy: bool = True,
+) -> AbstractArray:
+    """Describe maximum-absolute-value scaling output."""
+    del copy
+    if axis not in {0, 1}:
+        raise ValueError("axis must be 0 or 1")
+    return AbstractArray(shape=_check_1d_or_2d(X), dtype=X.dtype)
+
+
+def witness_minmax_scale(
+    X: AbstractArray,
+    feature_range: tuple[float, float] = (0, 1),
+    *,
+    axis: int = 0,
+    copy: bool = True,
+) -> AbstractArray:
+    """Describe min-max scaling output."""
+    del copy
+    if feature_range[0] >= feature_range[1]:
+        raise ValueError("feature_range minimum must be smaller than maximum")
+    if axis not in {0, 1}:
+        raise ValueError("axis must be 0 or 1")
+    return AbstractArray(shape=_check_1d_or_2d(X), dtype=X.dtype)

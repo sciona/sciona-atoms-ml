@@ -6,6 +6,8 @@ import scipy.sparse as sp
 from sklearn.preprocessing import Binarizer, Normalizer
 from sklearn.preprocessing import add_dummy_feature as sklearn_add_dummy_feature
 from sklearn.preprocessing import binarize as sklearn_binarize
+from sklearn.preprocessing import maxabs_scale as sklearn_maxabs_scale
+from sklearn.preprocessing import minmax_scale as sklearn_minmax_scale
 from sklearn.preprocessing import normalize as sklearn_normalize
 from sklearn.preprocessing import scale as sklearn_scale
 
@@ -15,6 +17,8 @@ def test_preprocessing_basic_atoms_import() -> None:
         add_dummy_feature,
         binarize,
         binarizer_transform,
+        maxabs_scale,
+        minmax_scale,
         normalize,
         normalizer_transform,
         scale,
@@ -23,6 +27,8 @@ def test_preprocessing_basic_atoms_import() -> None:
     assert callable(add_dummy_feature)
     assert callable(binarize)
     assert callable(binarizer_transform)
+    assert callable(maxabs_scale)
+    assert callable(minmax_scale)
     assert callable(normalize)
     assert callable(normalizer_transform)
     assert callable(scale)
@@ -174,3 +180,49 @@ def test_scale_sparse_centering_and_axis_errors_match_sklearn() -> None:
         scale(X, axis=1, with_mean=False)
     with pytest.raises(ValueError, match="axis=0"):
         sklearn_scale(X, axis=1, with_mean=False)
+
+
+def test_maxabs_scale_matches_sklearn_dense_axes_and_1d() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import maxabs_scale
+
+    X = np.array([[-2.0, 1.0, 2.0], [-1.0, 0.0, 1.0], [np.nan, 2.0, 0.0]], dtype=np.float64)
+    assert np.allclose(maxabs_scale(X, axis=0), sklearn_maxabs_scale(X, axis=0), equal_nan=True)
+    assert np.allclose(maxabs_scale(X, axis=1), sklearn_maxabs_scale(X, axis=1), equal_nan=True)
+
+    x = np.array([-2.0, 0.0, 4.0], dtype=np.float64)
+    assert np.allclose(maxabs_scale(x), sklearn_maxabs_scale(x))
+
+
+def test_maxabs_scale_matches_sklearn_sparse_axes() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import maxabs_scale
+
+    X = sp.csr_matrix([[0.0, 1.0, 2.0], [1.0, 0.0, 0.0], [0.0, 3.0, 1.0]], dtype=np.float64)
+    for axis in (0, 1):
+        result = maxabs_scale(X, axis=axis)
+        expected = sklearn_maxabs_scale(X, axis=axis)
+        assert np.allclose(result.toarray(), expected.toarray())
+
+
+def test_minmax_scale_matches_sklearn_dense_axes_and_range() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import minmax_scale
+
+    X = np.array([[-2.0, 1.0, 2.0], [-1.0, 0.0, 1.0], [np.nan, 2.0, 0.0]], dtype=np.float64)
+    assert np.allclose(minmax_scale(X, axis=0), sklearn_minmax_scale(X, axis=0), equal_nan=True)
+    assert np.allclose(
+        minmax_scale(X, feature_range=(-1.0, 2.0), axis=1),
+        sklearn_minmax_scale(X, feature_range=(-1.0, 2.0), axis=1),
+        equal_nan=True,
+    )
+
+    x = np.array([-2.0, 0.0, 4.0], dtype=np.float64)
+    assert np.allclose(minmax_scale(x, feature_range=(-2.0, 3.0)), sklearn_minmax_scale(x, feature_range=(-2.0, 3.0)))
+
+
+def test_minmax_scale_rejects_invalid_range_like_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import minmax_scale
+
+    X = np.array([[0.0, 1.0], [2.0, 3.0]], dtype=np.float64)
+    with pytest.raises(Exception):
+        minmax_scale(X, feature_range=(1.0, 1.0))
+    with pytest.raises(ValueError):
+        sklearn_minmax_scale(X, feature_range=(1.0, 1.0))

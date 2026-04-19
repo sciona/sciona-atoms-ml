@@ -11,7 +11,9 @@
         "binarizer_transform",
         "normalize",
         "normalizer_transform",
-        "scale"
+        "scale",
+        "maxabs_scale",
+        "minmax_scale"
       ],
       "depth": 0
     },
@@ -118,6 +120,41 @@
       ],
       "outputs": [
         {"name": "result", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"}
+      ]
+    },
+    {
+      "node_id": "maxabs_scale",
+      "name": "maxabs_scale",
+      "description": "Scale rows or columns by their maximum absolute values without centering.",
+      "concept_type": "array_transform",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, axis: int = 0, copy: bool = True) -> NDArray[np.float64] | scipy.sparse.spmatrix",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
+        {"name": "axis", "type_desc": "int", "required": false},
+        {"name": "copy", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"}
+      ]
+    },
+    {
+      "node_id": "minmax_scale",
+      "name": "minmax_scale",
+      "description": "Scale rows or columns into a fixed numeric range.",
+      "concept_type": "array_transform",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], feature_range: tuple[float, float] = (0, 1), axis: int = 0, copy: bool = True) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "feature_range", "type_desc": "tuple[float, float]", "required": false},
+        {"name": "axis", "type_desc": "int", "required": false},
+        {"name": "copy", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
       ]
     }
   ],
