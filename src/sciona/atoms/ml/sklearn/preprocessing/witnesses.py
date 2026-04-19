@@ -14,6 +14,7 @@ from .state_models import (
     MaxAbsScalerState,
     MinMaxScalerState,
     MultiLabelBinarizerState,
+    OrdinalEncoderState,
     PolynomialFeaturesState,
     PowerTransformerState,
     QuantileTransformerState,
@@ -774,6 +775,67 @@ def witness_power_transform(
         copy=copy,
     )
     return transformed
+
+
+def witness_ordinal_encoder_fit(
+    X: AbstractArray,
+    *,
+    categories: str = "auto",
+    dtype: type = float,
+    handle_unknown: str = "error",
+    unknown_value: int | float | None = None,
+    encoded_missing_value: int | float = math.nan,
+) -> AbstractArray:
+    """Describe learning per-feature categorical levels for ordinal encoding."""
+    del categories, dtype, unknown_value, encoded_missing_value
+    _, n_features = _check_2d(X)
+    if handle_unknown not in {"error", "use_encoded_value"}:
+        raise ValueError("invalid unknown-category mode")
+    return AbstractArray(shape=(n_features,), dtype="object")
+
+
+def witness_ordinal_encoder_transform(
+    X: AbstractArray,
+    state: OrdinalEncoderState,
+) -> AbstractArray:
+    """Describe mapping categorical feature values to ordinal codes."""
+    n_samples, n_features = _check_2d(X)
+    if n_features != state.n_features_in:
+        raise ValueError("X feature count must match fitted state")
+    return AbstractArray(shape=(n_samples, n_features), dtype="float64")
+
+
+def witness_ordinal_encoder_inverse_transform(
+    X: AbstractArray,
+    state: OrdinalEncoderState,
+) -> AbstractArray:
+    """Describe mapping ordinal codes back to categorical feature values."""
+    n_samples, n_features = _check_2d(X)
+    if n_features != state.n_features_in:
+        raise ValueError("X feature count must match fitted state")
+    return AbstractArray(shape=(n_samples, n_features), dtype="object")
+
+
+def witness_ordinal_encoder_fit_transform(
+    X: AbstractArray,
+    *,
+    categories: str = "auto",
+    dtype: type = float,
+    handle_unknown: str = "error",
+    unknown_value: int | float | None = None,
+    encoded_missing_value: int | float = math.nan,
+) -> tuple[AbstractArray, AbstractArray]:
+    """Describe fitting categories and ordinal-encoding the same features."""
+    learned = witness_ordinal_encoder_fit(
+        X,
+        categories=categories,
+        dtype=dtype,
+        handle_unknown=handle_unknown,
+        unknown_value=unknown_value,
+        encoded_missing_value=encoded_missing_value,
+    )
+    n_samples, n_features = _check_2d(X)
+    return learned, AbstractArray(shape=(n_samples, n_features), dtype="float64")
 
 
 def witness_quantile_transformer_fit(

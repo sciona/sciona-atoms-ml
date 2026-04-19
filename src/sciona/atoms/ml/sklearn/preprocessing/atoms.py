@@ -1534,6 +1534,7 @@ from .state_models import (
     LabelBinarizerState,
     LabelEncoderState,
     MultiLabelBinarizerState,
+    OrdinalEncoderState,
     PolynomialFeaturesState,
     PowerTransformerState,
     QuantileTransformerState,
@@ -2096,6 +2097,274 @@ def multi_label_binarizer_inverse_transform(
     if len(unexpected) > 0:
         raise ValueError("Expected only 0s and 1s in label indicator. Also got {0}".format(unexpected))
     return [tuple(state.classes.compress(indicators)) for indicators in dense_yt]
+
+
+from .witnesses import (
+    witness_ordinal_encoder_fit,
+    witness_ordinal_encoder_fit_transform,
+    witness_ordinal_encoder_inverse_transform,
+    witness_ordinal_encoder_transform,
+)
+
+OrdinalInput = NDArray[np.object_] | list[list[object]] | tuple[tuple[object, ...], ...]
+OrdinalCategories = str | list[list[object]] | tuple[tuple[object, ...], ...]
+OrdinalEncoderFitTransformResult = tuple[OrdinalEncoderState, NDArray[np.float64]]
+
+
+def _ordinal_input_is_2d(X: OrdinalInput | MatrixLike) -> bool:
+    return bool(np.asarray(X, dtype=object).ndim == 2)
+
+
+def _ordinal_feature_count(X: OrdinalInput | MatrixLike) -> int:
+    return int(np.asarray(X, dtype=object).shape[1])
+
+
+def _ordinal_handle_unknown_valid(handle_unknown: str) -> bool:
+    return handle_unknown in {"error", "use_encoded_value"}
+
+
+def _ordinal_is_nan(value: object) -> bool:
+    try:
+        return bool(np.isnan(value))  # type: ignore[arg-type]
+    except TypeError:
+        return False
+
+
+def _ordinal_dtype_valid(dtype: type) -> bool:
+    try:
+        np.dtype(dtype)
+    except TypeError:
+        return False
+    return True
+
+
+def _ordinal_state_valid(state: OrdinalEncoderState) -> bool:
+    return bool(
+        len(state.categories) == state.n_features_in
+        and state.missing_indices.shape == (state.n_features_in,)
+        and _ordinal_dtype_valid(state.dtype)
+        and _ordinal_handle_unknown_valid(state.handle_unknown)
+        and all(categories.ndim == 1 and len(categories) >= 1 for categories in state.categories)
+    )
+
+
+def _ordinal_transform_shape_matches(result: NDArray[np.float64], X: OrdinalInput | MatrixLike) -> bool:
+    array = np.asarray(X, dtype=object)
+    return bool(result.shape == array.shape)
+
+
+def _ordinal_fit_transform_valid(result: OrdinalEncoderFitTransformResult, X: OrdinalInput | MatrixLike) -> bool:
+    state, transformed = result
+    return bool(_ordinal_state_valid(state) and _ordinal_transform_shape_matches(transformed, X))
+
+
+def _ordinal_unique(values: NDArray[np.object_]) -> NDArray[np.object_]:
+    from sklearn.utils._encode import _unique
+
+    return np.asarray(_unique(values), dtype=object)
+
+
+def _ordinal_check_unknown(values: NDArray[np.object_], categories: NDArray[np.object_]) -> tuple[list[object], NDArray[np.bool_]]:
+    from sklearn.utils._encode import _check_unknown
+
+    diff, valid = _check_unknown(values, categories, return_mask=True)
+    return list(diff), np.asarray(valid, dtype=bool)
+
+
+def _ordinal_encode_known(values: NDArray[np.object_], categories: NDArray[np.object_]) -> NDArray[np.int_]:
+    from sklearn.utils._encode import _encode
+
+    return np.asarray(_encode(values, uniques=categories, check_unknown=False), dtype=np.int_)
+
+
+def _ordinal_categories_valid(categories: OrdinalCategories, n_features: int | None = None) -> bool:
+    if categories == "auto":
+        return True
+    if isinstance(categories, str):
+        return False
+    if n_features is not None and len(categories) != n_features:
+        return False
+    return bool(len(categories) > 0)
+
+
+@register_atom(witness_ordinal_encoder_fit)
+@icontract.require(lambda X: _ordinal_input_is_2d(X), "X must be a 2D categorical matrix")
+@icontract.require(lambda categories: _ordinal_categories_valid(categories), "categories must be 'auto' or one category list per feature")
+@icontract.require(lambda dtype: _ordinal_dtype_valid(dtype), "dtype must be a valid numpy dtype")
+@icontract.require(lambda handle_unknown: _ordinal_handle_unknown_valid(handle_unknown), "handle_unknown must be 'error' or 'use_encoded_value'")
+@icontract.ensure(lambda result: _ordinal_state_valid(result), "ordinal state must contain one category vector per feature")
+@icontract.ensure(lambda result, X: result.n_features_in == _ordinal_feature_count(X), "state feature count must match input columns")
+def ordinal_encoder_fit(
+    X: OrdinalInput,
+    *,
+    categories: OrdinalCategories = "auto",
+    dtype: type = np.float64,
+    handle_unknown: str = "error",
+    unknown_value: int | float | None = None,
+    encoded_missing_value: int | float = np.nan,
+) -> OrdinalEncoderState:
+    """Learn per-feature categories for sklearn-style ordinal encoding."""
+    checked_x = check_array(X, dtype=None, ensure_all_finite="allow-nan")
+    if checked_x.ndim != 2:
+        raise ValueError("X must be a 2D categorical matrix")
+    n_features = int(checked_x.shape[1])
+    if not _ordinal_categories_valid(categories, n_features):
+        raise ValueError("Shape mismatch: if categories is an array, it has to be of shape (n_features,).")
+    if handle_unknown == "use_encoded_value":
+        if _ordinal_is_nan(unknown_value):
+            if np.dtype(dtype).kind != "f":
+                raise ValueError("When unknown_value is np.nan, the dtype parameter should be a float dtype.")
+        elif not isinstance(unknown_value, Integral):
+            raise TypeError("unknown_value should be an integer or np.nan when handle_unknown is 'use_encoded_value'.")
+    elif unknown_value is not None:
+        raise TypeError("unknown_value should only be set when handle_unknown is 'use_encoded_value'.")
+
+    learned_categories: list[NDArray[np.object_]] = []
+    missing_indices = np.full(n_features, -1, dtype=np.int_)
+    for feature_idx in range(n_features):
+        column = np.asarray(checked_x[:, feature_idx], dtype=object)
+        if categories == "auto":
+            cats = _ordinal_unique(column)
+        else:
+            cats = np.asarray(categories[feature_idx], dtype=object)
+            if cats.size == 0:
+                raise ValueError("Found empty category list for feature {0}.".format(feature_idx))
+            for category in cats[:-1]:
+                if _ordinal_is_nan(category):
+                    raise ValueError("Nan should be the last element in user provided categories")
+            if len(cats) != len(_ordinal_unique(cats)):
+                raise ValueError("In column {0}, the predefined categories contain duplicate elements.".format(feature_idx))
+            if cats.dtype.kind not in "OUS":
+                sorted_cats = np.sort(cats)
+                stop_idx = -1 if _ordinal_is_nan(sorted_cats[-1]) else None
+                if np.any(sorted_cats[:stop_idx] != cats[:stop_idx]):
+                    raise ValueError("Unsorted categories are not supported for numerical categories")
+            if handle_unknown == "error":
+                diff, _ = _ordinal_check_unknown(column, cats)
+                if diff:
+                    raise ValueError("Found unknown categories {0} in column {1} during fit".format(diff, feature_idx))
+        if _ordinal_is_nan(cats[-1]):
+            missing_indices[feature_idx] = len(cats) - 1
+        learned_categories.append(np.asarray(cats, dtype=object))
+
+    cardinalities = [len(cats) - (1 if missing_indices[idx] >= 0 else 0) for idx, cats in enumerate(learned_categories)]
+    if handle_unknown == "use_encoded_value" and not _ordinal_is_nan(unknown_value):
+        for cardinality in cardinalities:
+            if unknown_value is not None and 0 <= unknown_value < cardinality:
+                raise ValueError("The used value for unknown_value {0} is one of the values already used for encoding the seen categories.".format(unknown_value))
+    if np.any(missing_indices >= 0):
+        if np.dtype(dtype).kind != "f" and _ordinal_is_nan(encoded_missing_value):
+            raise ValueError("There are missing values in features. Set encoded_missing_value to a non-nan value, or set dtype to a float")
+        if not _ordinal_is_nan(encoded_missing_value):
+            invalid = [
+                idx
+                for idx, cardinality in enumerate(cardinalities)
+                if missing_indices[idx] >= 0 and 0 <= encoded_missing_value < cardinality
+            ]
+            if invalid:
+                raise ValueError("encoded_missing_value ({0}) is already used to encode a known category in features: {1}".format(encoded_missing_value, invalid))
+
+    return OrdinalEncoderState(
+        categories=learned_categories,
+        dtype=dtype,
+        handle_unknown=handle_unknown,
+        unknown_value=unknown_value,
+        encoded_missing_value=encoded_missing_value,
+        missing_indices=missing_indices,
+        n_features_in=n_features,
+    )
+
+
+@register_atom(witness_ordinal_encoder_transform)
+@icontract.require(lambda X: _ordinal_input_is_2d(X), "X must be a 2D categorical matrix")
+@icontract.require(lambda state: _ordinal_state_valid(state), "ordinal state must contain one category vector per feature")
+@icontract.require(lambda X, state: _ordinal_feature_count(X) == state.n_features_in, "X feature count must match fitted state")
+@icontract.ensure(lambda result, X: _ordinal_transform_shape_matches(result, X), "ordinal encoded output must preserve matrix shape")
+def ordinal_encoder_transform(
+    X: OrdinalInput,
+    state: OrdinalEncoderState,
+) -> NDArray[np.float64]:
+    """Map categorical feature values to fitted ordinal codes."""
+    checked_x = check_array(X, dtype=None, ensure_all_finite="allow-nan")
+    if checked_x.shape[1] != state.n_features_in:
+        raise ValueError("Input data has a different number of features than fitting data.")
+    encoded = np.zeros(checked_x.shape, dtype=np.dtype(state.dtype))
+    mask = np.ones(checked_x.shape, dtype=bool)
+    for feature_idx, categories in enumerate(state.categories):
+        column = np.asarray(checked_x[:, feature_idx], dtype=object)
+        diff, valid = _ordinal_check_unknown(column, categories)
+        if not np.all(valid):
+            if state.handle_unknown == "error":
+                raise ValueError("Found unknown categories {0} in column {1} during transform".format(diff, feature_idx))
+            mask[:, feature_idx] = valid
+            safe_column = column.copy()
+            safe_column[~valid] = categories[0]
+        else:
+            safe_column = column
+        encoded[:, feature_idx] = _ordinal_encode_known(safe_column, categories).astype(np.dtype(state.dtype), copy=False)
+    for feature_idx, missing_idx in enumerate(state.missing_indices):
+        if missing_idx >= 0:
+            missing_mask = encoded[:, feature_idx] == missing_idx
+            encoded[missing_mask, feature_idx] = state.encoded_missing_value
+    if state.handle_unknown == "use_encoded_value":
+        encoded[~mask] = state.unknown_value
+    return encoded
+
+
+@register_atom(witness_ordinal_encoder_inverse_transform)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D encoded matrix")
+@icontract.require(lambda state: _ordinal_state_valid(state), "ordinal state must contain one category vector per feature")
+@icontract.require(lambda X, state: X.shape[1] == state.n_features_in, "X feature count must match fitted state")
+@icontract.ensure(lambda result, X, state: result.shape == (X.shape[0], state.n_features_in), "inverse output must restore feature count")
+def ordinal_encoder_inverse_transform(
+    X: MatrixLike,
+    state: OrdinalEncoderState,
+) -> NDArray[np.object_]:
+    """Map fitted ordinal codes back to categorical feature values."""
+    checked_x = check_array(X, ensure_all_finite="allow-nan")
+    if checked_x.shape[1] != state.n_features_in:
+        raise ValueError("Shape of the passed X data is not correct. Expected {0} columns, got {1}.".format(state.n_features_in, checked_x.shape[1]))
+    decoded = np.empty(checked_x.shape, dtype=object)
+    for feature_idx, categories in enumerate(state.categories):
+        labels = np.asarray(checked_x[:, feature_idx], copy=True)
+        if state.missing_indices[feature_idx] >= 0:
+            missing_mask = np.isnan(labels) if _ordinal_is_nan(state.encoded_missing_value) else labels == state.encoded_missing_value
+            labels[missing_mask] = state.missing_indices[feature_idx]
+        if state.handle_unknown == "use_encoded_value":
+            unknown_mask = np.isnan(labels) if _ordinal_is_nan(state.unknown_value) else labels == state.unknown_value
+        else:
+            unknown_mask = np.zeros(labels.shape, dtype=bool)
+        known_mask = ~unknown_mask
+        decoded[known_mask, feature_idx] = categories[labels[known_mask].astype(np.int64)]
+        decoded[unknown_mask, feature_idx] = None
+    return decoded
+
+
+@register_atom(witness_ordinal_encoder_fit_transform)
+@icontract.require(lambda X: _ordinal_input_is_2d(X), "X must be a 2D categorical matrix")
+@icontract.require(lambda categories: _ordinal_categories_valid(categories), "categories must be 'auto' or one category list per feature")
+@icontract.require(lambda dtype: _ordinal_dtype_valid(dtype), "dtype must be a valid numpy dtype")
+@icontract.require(lambda handle_unknown: _ordinal_handle_unknown_valid(handle_unknown), "handle_unknown must be 'error' or 'use_encoded_value'")
+@icontract.ensure(lambda result, X: _ordinal_fit_transform_valid(result, X), "fit-transform output must match learned ordinal state")
+def ordinal_encoder_fit_transform(
+    X: OrdinalInput,
+    *,
+    categories: OrdinalCategories = "auto",
+    dtype: type = np.float64,
+    handle_unknown: str = "error",
+    unknown_value: int | float | None = None,
+    encoded_missing_value: int | float = np.nan,
+) -> OrdinalEncoderFitTransformResult:
+    """Learn categories and ordinal-encode the same categorical matrix."""
+    state = ordinal_encoder_fit(
+        X,
+        categories=categories,
+        dtype=dtype,
+        handle_unknown=handle_unknown,
+        unknown_value=unknown_value,
+        encoded_missing_value=encoded_missing_value,
+    )
+    return state, ordinal_encoder_transform(X, state)
 
 
 import math

@@ -108,6 +108,19 @@ class MultiLabelBinarizerState:
 
 
 @dataclass(frozen=True)
+class OrdinalEncoderState:
+    """Learned per-feature categories and missing/unknown ordinal-code policy."""
+
+    categories: list[NDArray[np.object_]]
+    dtype: type
+    handle_unknown: str
+    unknown_value: int | float | None
+    encoded_missing_value: int | float
+    missing_indices: NDArray[np.int_]
+    n_features_in: int
+
+
+@dataclass(frozen=True)
 class PolynomialFeaturesState:
     """Learned polynomial expansion powers and feature-count metadata."""
 

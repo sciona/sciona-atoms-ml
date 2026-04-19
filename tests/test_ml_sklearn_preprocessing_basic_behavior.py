@@ -13,6 +13,7 @@ from sklearn.preprocessing import (
     MinMaxScaler,
     MultiLabelBinarizer,
     Normalizer,
+    OrdinalEncoder,
     PolynomialFeatures,
     PowerTransformer,
     QuantileTransformer,
@@ -68,6 +69,10 @@ def test_preprocessing_basic_atoms_import() -> None:
         multi_label_binarizer_transform,
         normalize,
         normalizer_transform,
+        ordinal_encoder_fit,
+        ordinal_encoder_fit_transform,
+        ordinal_encoder_inverse_transform,
+        ordinal_encoder_transform,
         polynomial_features_fit,
         polynomial_features_fit_transform,
         polynomial_features_transform,
@@ -129,6 +134,10 @@ def test_preprocessing_basic_atoms_import() -> None:
     assert callable(multi_label_binarizer_transform)
     assert callable(normalize)
     assert callable(normalizer_transform)
+    assert callable(ordinal_encoder_fit)
+    assert callable(ordinal_encoder_fit_transform)
+    assert callable(ordinal_encoder_inverse_transform)
+    assert callable(ordinal_encoder_transform)
     assert callable(polynomial_features_fit)
     assert callable(polynomial_features_fit_transform)
     assert callable(polynomial_features_transform)
@@ -630,6 +639,66 @@ def test_multi_label_binarizer_errors_match_sklearn() -> None:
         multi_label_binarizer_inverse_transform(bad_indicator, state)
     with pytest.raises(ValueError, match="Expected only 0s and 1s"):
         MultiLabelBinarizer().fit([("a",), ("b",)]).inverse_transform(bad_indicator)
+
+
+def test_ordinal_encoder_fit_transform_matches_sklearn_auto_categories() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import ordinal_encoder_fit_transform
+
+    X = np.array([["Male", 1], ["Female", 3], ["Female", 2]], dtype=object)
+    state, transformed = ordinal_encoder_fit_transform(X)
+    expected = OrdinalEncoder().fit(X)
+
+    for result_categories, expected_categories in zip(state.categories, expected.categories_):
+        assert np.array_equal(result_categories, expected_categories)
+    assert np.allclose(transformed, expected.transform(X))
+
+
+def test_ordinal_encoder_transform_and_inverse_with_unknowns_match_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import (
+        ordinal_encoder_fit,
+        ordinal_encoder_inverse_transform,
+        ordinal_encoder_transform,
+    )
+
+    X = np.array([["a", 1], ["b", 2], ["a", 3]], dtype=object)
+    query = np.array([["a", 1], ["z", 4]], dtype=object)
+    state = ordinal_encoder_fit(X, handle_unknown="use_encoded_value", unknown_value=-1)
+    expected = OrdinalEncoder(handle_unknown="use_encoded_value", unknown_value=-1).fit(X)
+    transformed = ordinal_encoder_transform(query, state)
+    expected_transformed = expected.transform(query)
+
+    assert np.allclose(transformed, expected_transformed)
+    assert np.array_equal(ordinal_encoder_inverse_transform(transformed, state), expected.inverse_transform(expected_transformed))
+
+
+def test_ordinal_encoder_missing_value_policy_matches_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import ordinal_encoder_fit, ordinal_encoder_transform
+
+    X = np.array([["low", 1.0], ["high", np.nan], ["low", 2.0]], dtype=object)
+    state = ordinal_encoder_fit(X, encoded_missing_value=-2, dtype=np.float64)
+    expected = OrdinalEncoder(encoded_missing_value=-2, dtype=np.float64).fit(X)
+
+    assert np.allclose(ordinal_encoder_transform(X, state), expected.transform(X), equal_nan=True)
+
+
+def test_ordinal_encoder_predefined_categories_and_errors_match_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import ordinal_encoder_fit, ordinal_encoder_transform
+
+    X = np.array([["b", 2], ["a", 1]], dtype=object)
+    categories = [["a", "b"], [1, 2, 3]]
+    state = ordinal_encoder_fit(X, categories=categories)
+    expected = OrdinalEncoder(categories=categories).fit(X)
+    assert np.allclose(ordinal_encoder_transform(X, state), expected.transform(X))
+
+    with pytest.raises(ValueError, match="duplicate"):
+        ordinal_encoder_fit(X, categories=[["a", "a"], [1, 2]])
+    with pytest.raises(ValueError, match="duplicate"):
+        OrdinalEncoder(categories=[["a", "a"], [1, 2]]).fit(X)
+
+    with pytest.raises(ValueError, match="unknown"):
+        ordinal_encoder_transform(np.array([["c", 1]], dtype=object), state)
+    with pytest.raises(ValueError, match="unknown"):
+        expected.transform(np.array([["c", 1]], dtype=object))
 
 
 def test_polynomial_features_fit_transform_matches_sklearn_dense_degree_two() -> None:
