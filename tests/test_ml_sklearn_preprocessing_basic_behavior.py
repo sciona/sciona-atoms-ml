@@ -21,6 +21,7 @@ from sklearn.preprocessing import (
     RobustScaler,
     SplineTransformer,
     StandardScaler,
+    TargetEncoder,
 )
 from sklearn.preprocessing import add_dummy_feature as sklearn_add_dummy_feature
 from sklearn.preprocessing import binarize as sklearn_binarize
@@ -103,6 +104,9 @@ def test_preprocessing_basic_atoms_import() -> None:
         standard_scaler_inverse_transform,
         standard_scaler_partial_fit,
         standard_scaler_transform,
+        target_encoder_fit,
+        target_encoder_fit_transform,
+        target_encoder_transform,
     )
 
     assert callable(add_dummy_feature)
@@ -172,6 +176,9 @@ def test_preprocessing_basic_atoms_import() -> None:
     assert callable(standard_scaler_inverse_transform)
     assert callable(standard_scaler_partial_fit)
     assert callable(standard_scaler_transform)
+    assert callable(target_encoder_fit)
+    assert callable(target_encoder_fit_transform)
+    assert callable(target_encoder_transform)
 
 
 def test_add_dummy_feature_matches_sklearn_dense() -> None:
@@ -784,6 +791,85 @@ def test_onehot_encoder_predefined_categories_and_drop_errors_match_sklearn() ->
         onehot_encoder_transform(np.array([["c", 1]], dtype=object), state)
     with pytest.raises(ValueError, match="unknown"):
         expected.transform(np.array([["c", 1]], dtype=object))
+
+
+def test_target_encoder_continuous_fit_and_transform_match_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import target_encoder_fit, target_encoder_transform
+
+    X = np.array([["dog"], ["dog"], ["cat"], ["cat"], ["snake"], ["snake"]], dtype=object)
+    y = np.array([90.0, 80.0, 20.0, 21.0, 30.0, 50.0], dtype=np.float64)
+    query = np.array([["dog"], ["wolf"]], dtype=object)
+
+    state = target_encoder_fit(X, y, target_type="continuous", smooth=2.0)
+    expected = TargetEncoder(target_type="continuous", smooth=2.0).fit(X, y)
+
+    assert np.array_equal(state.categories[0], expected.categories_[0])
+    assert np.allclose(state.encodings[0], expected.encodings_[0])
+    assert np.isclose(state.target_mean, expected.target_mean_)
+    assert np.allclose(target_encoder_transform(query, state), expected.transform(query))
+
+
+def test_target_encoder_binary_fit_transform_cross_fit_matches_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import target_encoder_fit_transform
+
+    X = np.array(
+        [["a", "x"], ["a", "y"], ["b", "x"], ["b", "y"], ["c", "x"], ["c", "y"], ["a", "x"], ["b", "y"]],
+        dtype=object,
+    )
+    y = np.array(["no", "yes", "no", "yes", "yes", "no", "no", "yes"], dtype=object)
+
+    state, transformed = target_encoder_fit_transform(
+        X,
+        y,
+        target_type="binary",
+        smooth=2.0,
+        cv=2,
+        shuffle=True,
+        random_state=0,
+    )
+    expected = TargetEncoder(target_type="binary", smooth=2.0, cv=2, shuffle=True, random_state=0)
+    expected_transformed = expected.fit_transform(X, y)
+
+    assert np.array_equal(state.classes, expected.classes_)
+    assert np.allclose(transformed, expected_transformed)
+
+
+def test_target_encoder_multiclass_transform_matches_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import target_encoder_fit, target_encoder_transform
+
+    X = np.array(
+        [["a", "x"], ["a", "y"], ["b", "x"], ["b", "y"], ["c", "x"], ["c", "y"], ["a", "x"], ["b", "y"], ["c", "x"]],
+        dtype=object,
+    )
+    y = np.array(["red", "blue", "green", "red", "blue", "green", "red", "blue", "green"], dtype=object)
+    query = np.array([["a", "x"], ["z", "y"]], dtype=object)
+
+    state = target_encoder_fit(X, y, target_type="multiclass", smooth=2.0)
+    expected = TargetEncoder(target_type="multiclass", smooth=2.0).fit(X, y)
+
+    assert np.array_equal(state.classes, expected.classes_)
+    assert target_encoder_transform(query, state).shape == (2, 6)
+    assert np.allclose(target_encoder_transform(query, state), expected.transform(query))
+
+
+def test_target_encoder_errors_match_sklearn() -> None:
+    from icontract.errors import ViolationError
+
+    from sciona.atoms.ml.sklearn.preprocessing import target_encoder_fit, target_encoder_fit_transform
+
+    X = np.array([["a"], ["b"], ["c"]], dtype=object)
+    y = np.array([1.0, 2.0], dtype=np.float64)
+
+    with pytest.raises(ValueError, match="inconsistent"):
+        target_encoder_fit(X, y, target_type="continuous")
+    with pytest.raises(ValueError, match="inconsistent"):
+        TargetEncoder(target_type="continuous").fit(X, y)
+
+    with pytest.raises(ViolationError, match="invalid target type"):
+        target_encoder_fit(X, np.array([1.0, 2.0, 3.0]), target_type="unknown")
+
+    with pytest.raises(ViolationError, match="cv must be at least two"):
+        target_encoder_fit_transform(X, np.array([1.0, 2.0, 3.0]), target_type="continuous", cv=1)
 
 
 def test_polynomial_features_fit_transform_matches_sklearn_dense_degree_two() -> None:

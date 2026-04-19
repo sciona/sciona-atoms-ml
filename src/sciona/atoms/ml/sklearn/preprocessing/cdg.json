@@ -2459,6 +2459,132 @@
           "type_desc": "tuple[OneHotEncoderState, NDArray[np.float64] | scipy.sparse.spmatrix]"
         }
       ]
+    },
+    {
+      "node_id": "target_encoder_fit",
+      "name": "target_encoder_fit",
+      "description": "Learn target-conditioned category encodings from all samples.",
+      "concept_type": "fit_state_builder",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.object_] | list[list[object]] | tuple[tuple[object, ...], ...], y: NDArray[np.object_] | list[object] | tuple[object, ...], categories: str | list[list[object]] | tuple[tuple[object, ...], ...] = 'auto', target_type: str = 'auto', smooth: str | float = 'auto') -> TargetEncoderState",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.object_] | list[list[object]] | tuple[tuple[object, ...], ...]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.object_] | list[object] | tuple[object, ...]",
+          "required": true
+        },
+        {
+          "name": "categories",
+          "type_desc": "str | list[list[object]] | tuple[tuple[object, ...], ...]",
+          "required": false
+        },
+        {
+          "name": "target_type",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "smooth",
+          "type_desc": "str | float",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "TargetEncoderState"
+        }
+      ]
+    },
+    {
+      "node_id": "target_encoder_transform",
+      "name": "target_encoder_transform",
+      "description": "Apply fitted target-conditioned encodings to categorical features.",
+      "concept_type": "transform",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.object_] | list[list[object]] | tuple[tuple[object, ...], ...], state: TargetEncoderState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.object_] | list[list[object]] | tuple[tuple[object, ...], ...]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "TargetEncoderState",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
+    },
+    {
+      "node_id": "target_encoder_fit_transform",
+      "name": "target_encoder_fit_transform",
+      "description": "Learn target encodings and return cross-fitted training encodings.",
+      "concept_type": "fit_transform",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.object_] | list[list[object]] | tuple[tuple[object, ...], ...], y: NDArray[np.object_] | list[object] | tuple[object, ...], categories: str | list[list[object]] | tuple[tuple[object, ...], ...] = 'auto', target_type: str = 'auto', smooth: str | float = 'auto', cv: int = 5, shuffle: bool = True, random_state: int | None = None) -> tuple[TargetEncoderState, NDArray[np.float64]]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.object_] | list[list[object]] | tuple[tuple[object, ...], ...]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.object_] | list[object] | tuple[object, ...]",
+          "required": true
+        },
+        {
+          "name": "categories",
+          "type_desc": "str | list[list[object]] | tuple[tuple[object, ...], ...]",
+          "required": false
+        },
+        {
+          "name": "target_type",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "smooth",
+          "type_desc": "str | float",
+          "required": false
+        },
+        {
+          "name": "cv",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "shuffle",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int | None",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "tuple[TargetEncoderState, NDArray[np.float64]]"
+        }
+      ]
     }
   ],
   "edges": [
@@ -2685,6 +2811,16 @@
     {
       "source_id": "onehot_encoder_fit",
       "target_id": "onehot_encoder_fit_transform",
+      "edge_type": "implementation_dependency"
+    },
+    {
+      "source_id": "target_encoder_fit",
+      "target_id": "target_encoder_transform",
+      "edge_type": "fit_state_dependency"
+    },
+    {
+      "source_id": "target_encoder_fit",
+      "target_id": "target_encoder_fit_transform",
       "edge_type": "implementation_dependency"
     }
   ],

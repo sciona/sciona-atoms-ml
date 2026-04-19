@@ -82,6 +82,9 @@ EXPECTED_ATOM_NAMES = {
     "sciona.atoms.ml.sklearn.preprocessing.standard_scaler_inverse_transform",
     "sciona.atoms.ml.sklearn.preprocessing.standard_scaler_partial_fit",
     "sciona.atoms.ml.sklearn.preprocessing.standard_scaler_transform",
+    "sciona.atoms.ml.sklearn.preprocessing.target_encoder_fit",
+    "sciona.atoms.ml.sklearn.preprocessing.target_encoder_fit_transform",
+    "sciona.atoms.ml.sklearn.preprocessing.target_encoder_transform",
 }
 
 
@@ -89,10 +92,10 @@ def _bundle() -> dict:
     return json.loads(BUNDLE_PATH.read_text(encoding="utf-8"))
 
 
-def test_bundle_exists_and_has_sixty_seven_atoms() -> None:
+def test_bundle_exists_and_has_seventy_atoms() -> None:
     assert BUNDLE_PATH.exists()
     bundle = _bundle()
-    assert len(bundle["rows"]) == 67
+    assert len(bundle["rows"]) == 70
     assert {row["atom_key"] for row in bundle["rows"]} == EXPECTED_ATOM_NAMES
 
 
@@ -202,6 +205,9 @@ def test_cdg_atomic_nodes_have_publishable_io_specs() -> None:
         "standard_scaler_inverse_transform",
         "standard_scaler_partial_fit",
         "standard_scaler_transform",
+        "target_encoder_fit",
+        "target_encoder_fit_transform",
+        "target_encoder_transform",
     }
     for node in atomic:
         assert node["node_id"] == node["name"]

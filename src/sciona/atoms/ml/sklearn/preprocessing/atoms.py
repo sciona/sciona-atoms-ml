@@ -13,12 +13,14 @@ import scipy.stats as stats
 from scipy.interpolate import BSpline
 from numpy.typing import NDArray
 from sklearn.preprocessing._data import BOUNDS_THRESHOLD, _handle_zeros_in_scale, _is_constant_feature
+from sklearn.preprocessing._target_encoder_fast import _fit_encoding_fast, _fit_encoding_fast_auto_smooth
 from sklearn.utils import check_array, check_random_state, resample
 from sklearn.utils.extmath import _incremental_mean_and_var, row_norms
+from sklearn.utils.multiclass import type_of_target
 from sklearn.utils.sparsefuncs import incr_mean_variance_axis, inplace_column_scale, mean_variance_axis, min_max_axis
 from sklearn.utils.sparsefuncs_fast import inplace_csr_row_normalize_l1, inplace_csr_row_normalize_l2
 from sklearn.utils.stats import _weighted_percentile
-from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight
+from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
 
 from sciona.ghost.registry import register_atom
 
@@ -1540,6 +1542,7 @@ from .state_models import (
     PowerTransformerState,
     QuantileTransformerState,
     SplineTransformerState,
+    TargetEncoderState,
 )
 from .witnesses import (
     witness_label_encoder_fit,
@@ -2635,6 +2638,319 @@ def onehot_encoder_fit_transform(
         handle_unknown=handle_unknown,
     )
     return state, onehot_encoder_transform(X, state)
+
+
+from .witnesses import (
+    witness_target_encoder_fit,
+    witness_target_encoder_fit_transform,
+    witness_target_encoder_transform,
+)
+
+TargetInput = NDArray[np.object_] | list[object] | tuple[object, ...]
+TargetEncoderFitTransformResult = tuple[TargetEncoderState, NDArray[np.float64]]
+
+
+def _target_type_valid(target_type: str) -> bool:
+    return target_type in {"auto", "continuous", "binary", "multiclass"}
+
+
+def _target_resolved_type_valid(target_type: str) -> bool:
+    return target_type in {"continuous", "binary", "multiclass"}
+
+
+def _target_smooth_valid(smooth: str | float) -> bool:
+    return smooth == "auto" or (isinstance(smooth, (int, float)) and float(smooth) >= 0)
+
+
+def _target_cv_valid(cv: int) -> bool:
+    return cv >= 2
+
+
+def _target_state_valid(state: TargetEncoderState) -> bool:
+    expected = state.n_features_in if state.target_type != "multiclass" else state.n_features_in * (0 if state.classes is None else len(state.classes))
+    return bool(
+        len(state.categories) == state.n_features_in
+        and len(state.encodings) == expected
+        and _target_resolved_type_valid(state.target_type)
+        and _target_smooth_valid(state.smooth)
+        and all(categories.ndim == 1 and len(categories) >= 1 for categories in state.categories)
+        and all(encoding.ndim == 1 for encoding in state.encodings)
+    )
+
+
+def _target_output_width(state: TargetEncoderState) -> int:
+    return state.n_features_in if state.target_type != "multiclass" else state.n_features_in * (0 if state.classes is None else len(state.classes))
+
+
+def _target_transform_shape_matches(result: NDArray[np.float64], X: OrdinalInput | MatrixLike, state: TargetEncoderState) -> bool:
+    return bool(result.shape == (np.asarray(X, dtype=object).shape[0], _target_output_width(state)))
+
+
+def _target_fit_transform_valid(result: TargetEncoderFitTransformResult, X: OrdinalInput | MatrixLike) -> bool:
+    state, transformed = result
+    return bool(_target_state_valid(state) and _target_transform_shape_matches(transformed, X, state))
+
+
+def _target_categories_from_X(X: NDArray[np.object_], categories: OrdinalCategories) -> list[NDArray[np.object_]]:
+    n_features = int(X.shape[1])
+    if not _ordinal_categories_valid(categories, n_features):
+        raise ValueError("Shape mismatch: if categories is an array, it has to be of shape (n_features,).")
+    learned: list[NDArray[np.object_]] = []
+    for feature_idx in range(n_features):
+        column = np.asarray(X[:, feature_idx], dtype=object)
+        if categories == "auto":
+            cats = _ordinal_unique(column)
+        else:
+            cats = np.asarray(categories[feature_idx], dtype=object)
+            if cats.size == 0:
+                raise ValueError("Found empty category list for feature {0}.".format(feature_idx))
+            for category in cats[:-1]:
+                if _ordinal_is_nan(category):
+                    raise ValueError("Nan should be the last element in user provided categories")
+            if len(cats) != len(_ordinal_unique(cats)):
+                raise ValueError("In column {0}, the predefined categories contain duplicate elements.".format(feature_idx))
+            if cats.dtype.kind not in "OUS":
+                sorted_cats = np.sort(cats)
+                stop_idx = -1 if _ordinal_is_nan(sorted_cats[-1]) else None
+                if np.any(sorted_cats[:stop_idx] != cats[:stop_idx]):
+                    raise ValueError("Unsorted categories are not supported for numerical categories")
+        learned.append(np.asarray(cats, dtype=object))
+    return learned
+
+
+def _target_transform_ordinal(
+    X: OrdinalInput,
+    categories: list[NDArray[np.object_]],
+) -> tuple[NDArray[np.int64], NDArray[np.bool_]]:
+    checked_x = check_array(X, dtype=None, ensure_all_finite="allow-nan")
+    if checked_x.shape[1] != len(categories):
+        raise ValueError("Input data has a different number of features than fitting data.")
+    x_ordinal = np.zeros(checked_x.shape, dtype=np.int64)
+    known_mask = np.ones(checked_x.shape, dtype=bool)
+    for feature_idx, cats in enumerate(categories):
+        column = np.asarray(checked_x[:, feature_idx], dtype=object)
+        _, valid = _ordinal_check_unknown(column, cats)
+        safe_column = column.copy()
+        safe_column[~valid] = cats[0]
+        x_ordinal[:, feature_idx] = _ordinal_encode_known(safe_column, cats).astype(np.int64, copy=False)
+        known_mask[:, feature_idx] = valid
+    return x_ordinal, known_mask
+
+
+def _target_encode_y(y: TargetInput, target_type: str) -> tuple[str, NDArray[np.float64], float | NDArray[np.float64], NDArray[np.object_] | None]:
+    from sklearn.preprocessing import LabelBinarizer, LabelEncoder
+
+    if target_type == "auto":
+        accepted = ("binary", "multiclass", "continuous")
+        inferred = type_of_target(y, input_name="y")
+        if inferred not in accepted:
+            raise ValueError("Unknown label type: Target type was inferred to be {0!r}. Only {1} are supported.".format(inferred, accepted))
+        resolved = inferred
+    else:
+        resolved = target_type
+    if resolved == "binary":
+        encoder = LabelEncoder()
+        encoded = encoder.fit_transform(y).astype(np.float64)
+        classes = np.asarray(encoder.classes_, dtype=object)
+    elif resolved == "multiclass":
+        binarizer = LabelBinarizer()
+        encoded = np.asarray(binarizer.fit_transform(y), dtype=np.float64)
+        classes = np.asarray(binarizer.classes_, dtype=object)
+    else:
+        encoded = np.asarray(_check_y(y, y_numeric=True), dtype=np.float64)
+        classes = None
+    return resolved, encoded, np.mean(encoded, axis=0), classes
+
+
+def _target_fit_encodings(
+    X_ordinal: NDArray[np.int64],
+    y: NDArray[np.float64],
+    n_categories: NDArray[np.int64],
+    target_mean: float | NDArray[np.float64],
+    target_type: str,
+    classes: NDArray[np.object_] | None,
+    smooth: str | float,
+) -> list[NDArray[np.float64]]:
+    def fit_one(y_one: NDArray[np.float64], mean_one: float) -> list[NDArray[np.float64]]:
+        if smooth == "auto":
+            return [
+                np.asarray(item, dtype=np.float64)
+                for item in _fit_encoding_fast_auto_smooth(
+                    X_ordinal,
+                    y_one,
+                    n_categories,
+                    mean_one,
+                    float(np.var(y_one)),
+                )
+            ]
+        return [
+            np.asarray(item, dtype=np.float64)
+            for item in _fit_encoding_fast(
+                X_ordinal,
+                y_one,
+                n_categories,
+                float(smooth),
+                mean_one,
+            )
+        ]
+
+    if target_type != "multiclass":
+        return fit_one(np.asarray(y, dtype=np.float64), float(target_mean))
+    assert classes is not None
+    per_class: list[NDArray[np.float64]] = []
+    for class_idx in range(len(classes)):
+        per_class.extend(fit_one(np.asarray(y[:, class_idx], dtype=np.float64), float(np.asarray(target_mean)[class_idx])))
+    n_features = X_ordinal.shape[1]
+    n_classes = len(classes)
+    return [per_class[idx] for start in range(n_features) for idx in range(start, n_classes * n_features, n_features)]
+
+
+def _target_apply_encodings(
+    X_ordinal: NDArray[np.int64],
+    known_mask: NDArray[np.bool_],
+    state: TargetEncoderState,
+    row_indices: slice | NDArray[np.int_],
+    encodings: list[NDArray[np.float64]],
+    target_mean: float | NDArray[np.float64],
+) -> NDArray[np.float64]:
+    if state.target_type == "multiclass":
+        assert state.classes is not None
+        output = np.empty((X_ordinal.shape[0], X_ordinal.shape[1] * len(state.classes)), dtype=np.float64)
+        for encoding_idx, encoding in enumerate(encodings):
+            feature_idx = encoding_idx // len(state.classes)
+            mean_idx = encoding_idx % len(state.classes)
+            output[row_indices, encoding_idx] = encoding[X_ordinal[row_indices, feature_idx]]
+            output[~known_mask[:, feature_idx], encoding_idx] = np.asarray(target_mean)[mean_idx]
+    else:
+        output = np.empty_like(X_ordinal, dtype=np.float64)
+        for feature_idx, encoding in enumerate(encodings):
+            output[row_indices, feature_idx] = encoding[X_ordinal[row_indices, feature_idx]]
+            output[~known_mask[:, feature_idx], feature_idx] = float(target_mean)
+    return output
+
+
+def _target_fit_state_and_arrays(
+    X: OrdinalInput,
+    y: TargetInput,
+    *,
+    categories: OrdinalCategories,
+    target_type: str,
+    smooth: str | float,
+) -> tuple[TargetEncoderState, NDArray[np.int64], NDArray[np.bool_], NDArray[np.float64], NDArray[np.int64]]:
+    check_consistent_length(X, y)
+    checked_x = check_array(X, dtype=None, ensure_all_finite="allow-nan")
+    learned_categories = _target_categories_from_X(np.asarray(checked_x, dtype=object), categories)
+    resolved_type, encoded_y, target_mean, classes = _target_encode_y(y, target_type)
+    x_ordinal, known_mask = _target_transform_ordinal(checked_x, learned_categories)
+    n_categories = np.asarray([len(cats) for cats in learned_categories], dtype=np.int64)
+    encodings = _target_fit_encodings(x_ordinal, encoded_y, n_categories, target_mean, resolved_type, classes, smooth)
+    state = TargetEncoderState(
+        categories=learned_categories,
+        encodings=encodings,
+        target_type=resolved_type,
+        target_mean=target_mean,
+        classes=classes,
+        smooth=smooth,
+        n_features_in=int(checked_x.shape[1]),
+    )
+    return state, x_ordinal, known_mask, encoded_y, n_categories
+
+
+@register_atom(witness_target_encoder_fit)
+@icontract.require(lambda X: _ordinal_input_is_2d(X), "X must be a 2D categorical matrix")
+@icontract.require(lambda categories: _ordinal_categories_valid(categories), "categories must be 'auto' or one category list per feature")
+@icontract.require(lambda target_type: _target_type_valid(target_type), "invalid target type")
+@icontract.require(lambda smooth: _target_smooth_valid(smooth), "smooth must be 'auto' or a non-negative number")
+@icontract.ensure(lambda result: _target_state_valid(result), "target encoder state must contain fitted category encodings")
+@icontract.ensure(lambda result, X: result.n_features_in == _ordinal_feature_count(X), "state feature count must match input columns")
+def target_encoder_fit(
+    X: OrdinalInput,
+    y: TargetInput,
+    *,
+    categories: OrdinalCategories = "auto",
+    target_type: str = "auto",
+    smooth: str | float = "auto",
+) -> TargetEncoderState:
+    """Learn target-conditioned category encodings from all samples."""
+    state, _, _, _, _ = _target_fit_state_and_arrays(
+        X,
+        y,
+        categories=categories,
+        target_type=target_type,
+        smooth=smooth,
+    )
+    return state
+
+
+@register_atom(witness_target_encoder_transform)
+@icontract.require(lambda X: _ordinal_input_is_2d(X), "X must be a 2D categorical matrix")
+@icontract.require(lambda state: _target_state_valid(state), "target encoder state must contain fitted category encodings")
+@icontract.require(lambda X, state: _ordinal_feature_count(X) == state.n_features_in, "X feature count must match fitted state")
+@icontract.ensure(lambda result, X, state: _target_transform_shape_matches(result, X, state), "target encoded output must match fitted width")
+def target_encoder_transform(
+    X: OrdinalInput,
+    state: TargetEncoderState,
+) -> NDArray[np.float64]:
+    """Apply fitted target-conditioned encodings to categorical features."""
+    x_ordinal, known_mask = _target_transform_ordinal(X, state.categories)
+    return _target_apply_encodings(x_ordinal, known_mask, state, slice(None), state.encodings, state.target_mean)
+
+
+@register_atom(witness_target_encoder_fit_transform)
+@icontract.require(lambda X: _ordinal_input_is_2d(X), "X must be a 2D categorical matrix")
+@icontract.require(lambda categories: _ordinal_categories_valid(categories), "categories must be 'auto' or one category list per feature")
+@icontract.require(lambda target_type: _target_type_valid(target_type), "invalid target type")
+@icontract.require(lambda smooth: _target_smooth_valid(smooth), "smooth must be 'auto' or a non-negative number")
+@icontract.require(lambda cv: _target_cv_valid(cv), "cv must be at least two")
+@icontract.ensure(lambda result, X: _target_fit_transform_valid(result, X), "fit-transform output must match learned target encoder state")
+def target_encoder_fit_transform(
+    X: OrdinalInput,
+    y: TargetInput,
+    *,
+    categories: OrdinalCategories = "auto",
+    target_type: str = "auto",
+    smooth: str | float = "auto",
+    cv: int = 5,
+    shuffle: bool = True,
+    random_state: RandomStateLike = None,
+) -> TargetEncoderFitTransformResult:
+    """Learn target encodings and return sklearn-style cross-fitted training encodings."""
+    from sklearn.model_selection import KFold, StratifiedKFold
+
+    state, x_ordinal, known_mask, encoded_y, n_categories = _target_fit_state_and_arrays(
+        X,
+        y,
+        categories=categories,
+        target_type=target_type,
+        smooth=smooth,
+    )
+    if state.target_type == "continuous":
+        splitter = KFold(cv, shuffle=shuffle, random_state=random_state)
+    else:
+        splitter = StratifiedKFold(cv, shuffle=shuffle, random_state=random_state)
+    output = np.empty((x_ordinal.shape[0], _target_output_width(state)), dtype=np.float64)
+    y_for_split = np.asarray(y)
+    for train_idx, test_idx in splitter.split(np.asarray(X, dtype=object), y_for_split):
+        train_mean = np.mean(encoded_y[train_idx], axis=0)
+        fold_encodings = _target_fit_encodings(
+            x_ordinal[train_idx, :],
+            encoded_y[train_idx],
+            n_categories,
+            train_mean,
+            state.target_type,
+            state.classes,
+            smooth,
+        )
+        fold_values = _target_apply_encodings(
+            x_ordinal,
+            known_mask,
+            state,
+            test_idx,
+            fold_encodings,
+            train_mean,
+        )
+        output[test_idx, :] = fold_values[test_idx, :]
+    return state, output
 
 
 import math

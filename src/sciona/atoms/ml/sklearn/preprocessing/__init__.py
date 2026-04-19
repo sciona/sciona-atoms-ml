@@ -68,6 +68,9 @@ from .atoms import (
     standard_scaler_inverse_transform,
     standard_scaler_partial_fit,
     standard_scaler_transform,
+    target_encoder_fit,
+    target_encoder_fit_transform,
+    target_encoder_transform,
 )
 from .state_models import (
     KernelCentererState,
@@ -85,6 +88,7 @@ from .state_models import (
     RobustScalerState,
     SplineTransformerState,
     StandardScalerState,
+    TargetEncoderState,
 )
 
 __all__ = [
@@ -103,6 +107,7 @@ __all__ = [
     "RobustScalerState",
     "SplineTransformerState",
     "StandardScalerState",
+    "TargetEncoderState",
     "add_dummy_feature",
     "binarize",
     "binarizer_transform",
@@ -170,4 +175,7 @@ __all__ = [
     "standard_scaler_inverse_transform",
     "standard_scaler_partial_fit",
     "standard_scaler_transform",
+    "target_encoder_fit",
+    "target_encoder_fit_transform",
+    "target_encoder_transform",
 ]

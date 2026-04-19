@@ -22,6 +22,7 @@ from .state_models import (
     RobustScalerState,
     SplineTransformerState,
     StandardScalerState,
+    TargetEncoderState,
 )
 
 
@@ -898,6 +899,54 @@ def witness_onehot_encoder_fit_transform(
     )
     n_samples, n_features = _check_2d(X)
     return learned, AbstractArray(shape=(n_samples, n_features), dtype="float64", min_val=0.0, max_val=1.0)
+
+
+def witness_target_encoder_fit(
+    X: AbstractArray,
+    y: AbstractArray,
+    *,
+    categories: str = "auto",
+    target_type: str = "auto",
+    smooth: str | float = "auto",
+) -> AbstractArray:
+    """Describe learning target-conditioned category encodings."""
+    del categories, smooth
+    n_samples, n_features = _check_2d(X)
+    if tuple(y.shape) != (n_samples,):
+        raise ValueError("y must have one value per sample")
+    if target_type not in {"auto", "continuous", "binary", "multiclass"}:
+        raise ValueError("invalid target type")
+    return AbstractArray(shape=(n_features,), dtype="object")
+
+
+def witness_target_encoder_transform(
+    X: AbstractArray,
+    state: TargetEncoderState,
+) -> AbstractArray:
+    """Describe applying fitted target-conditioned category encodings."""
+    n_samples, n_features = _check_2d(X)
+    if n_features != state.n_features_in:
+        raise ValueError("X feature count must match fitted state")
+    width = n_features if state.target_type != "multiclass" else n_features * (0 if state.classes is None else len(state.classes))
+    return AbstractArray(shape=(n_samples, width), dtype="float64")
+
+
+def witness_target_encoder_fit_transform(
+    X: AbstractArray,
+    y: AbstractArray,
+    *,
+    categories: str = "auto",
+    target_type: str = "auto",
+    smooth: str | float = "auto",
+    cv: int = 5,
+    shuffle: bool = True,
+    random_state: int | None = None,
+) -> tuple[AbstractArray, AbstractArray]:
+    """Describe fitting encodings and cross-fitted training transforms."""
+    del cv, shuffle, random_state
+    learned = witness_target_encoder_fit(X, y, categories=categories, target_type=target_type, smooth=smooth)
+    n_samples, n_features = _check_2d(X)
+    return learned, AbstractArray(shape=(n_samples, n_features), dtype="float64")
 
 
 def witness_quantile_transformer_fit(

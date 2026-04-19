@@ -134,6 +134,19 @@ class OneHotEncoderState:
 
 
 @dataclass(frozen=True)
+class TargetEncoderState:
+    """Learned target-conditioned encodings for categorical features."""
+
+    categories: list[NDArray[np.object_]]
+    encodings: list[NDArray[np.float64]]
+    target_type: str
+    target_mean: float | NDArray[np.float64]
+    classes: NDArray[np.object_] | None
+    smooth: str | float
+    n_features_in: int
+
+
+@dataclass(frozen=True)
 class PolynomialFeaturesState:
     """Learned polynomial expansion powers and feature-count metadata."""
 
