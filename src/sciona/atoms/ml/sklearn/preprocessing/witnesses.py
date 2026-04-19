@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from sciona.ghost.abstract import AbstractArray
 
-from .state_models import KernelCentererState
+from .state_models import KernelCentererState, MaxAbsScalerState
 
 
 def _check_2d(X: AbstractArray) -> tuple[int, int]:
@@ -100,6 +100,53 @@ def witness_kernel_centerer_transform(
     if n_features != state.n_features_in:
         raise ValueError("kernel columns must match fitted training samples")
     return AbstractArray(shape=(n_samples, n_features), dtype=K.dtype)
+
+
+def witness_maxabs_scaler_partial_fit(
+    X: AbstractArray,
+    state: MaxAbsScalerState | None = None,
+) -> AbstractArray:
+    """Describe fitting per-feature maximum absolute values."""
+    n_samples, n_features = _check_2d(X)
+    if n_samples < 1:
+        raise ValueError("X must contain at least one sample")
+    if state is not None and state.n_features_in != n_features:
+        raise ValueError("X feature count must match fitted state")
+    return AbstractArray(shape=(n_features,), dtype="float64", min_val=0.0)
+
+
+def witness_maxabs_scaler_fit(
+    X: AbstractArray,
+) -> AbstractArray:
+    """Describe fresh fitting for MaxAbsScaler state."""
+    return witness_maxabs_scaler_partial_fit(X, state=None)
+
+
+def witness_maxabs_scaler_transform(
+    X: AbstractArray,
+    state: MaxAbsScalerState,
+    copy: bool = True,
+    clip: bool = False,
+) -> AbstractArray:
+    """Describe applying fitted maximum-absolute-value scaling."""
+    del copy, clip
+    n_samples, n_features = _check_2d(X)
+    if n_features != state.n_features_in:
+        raise ValueError("X feature count must match fitted state")
+    return AbstractArray(shape=(n_samples, n_features), dtype=X.dtype)
+
+
+def witness_maxabs_scaler_inverse_transform(
+    X: AbstractArray,
+    state: MaxAbsScalerState,
+    copy: bool = True,
+) -> AbstractArray:
+    """Describe undoing fitted maximum-absolute-value scaling."""
+    del copy
+    n_samples, n_features = _check_2d(X)
+    if n_features != state.n_features_in:
+        raise ValueError("X feature count must match fitted state")
+    return AbstractArray(shape=(n_samples, n_features), dtype=X.dtype)
 
 
 def witness_scale(

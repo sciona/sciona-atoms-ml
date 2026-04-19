@@ -3,7 +3,7 @@ from __future__ import annotations
 import numpy as np
 import pytest
 import scipy.sparse as sp
-from sklearn.preprocessing import Binarizer, KernelCenterer, Normalizer
+from sklearn.preprocessing import Binarizer, KernelCenterer, MaxAbsScaler, Normalizer
 from sklearn.preprocessing import add_dummy_feature as sklearn_add_dummy_feature
 from sklearn.preprocessing import binarize as sklearn_binarize
 from sklearn.preprocessing import maxabs_scale as sklearn_maxabs_scale
@@ -21,6 +21,10 @@ def test_preprocessing_basic_atoms_import() -> None:
         kernel_centerer_fit,
         kernel_centerer_transform,
         maxabs_scale,
+        maxabs_scaler_fit,
+        maxabs_scaler_inverse_transform,
+        maxabs_scaler_partial_fit,
+        maxabs_scaler_transform,
         minmax_scale,
         normalize,
         normalizer_transform,
@@ -34,6 +38,10 @@ def test_preprocessing_basic_atoms_import() -> None:
     assert callable(kernel_centerer_fit)
     assert callable(kernel_centerer_transform)
     assert callable(maxabs_scale)
+    assert callable(maxabs_scaler_fit)
+    assert callable(maxabs_scaler_inverse_transform)
+    assert callable(maxabs_scaler_partial_fit)
+    assert callable(maxabs_scaler_transform)
     assert callable(minmax_scale)
     assert callable(normalize)
     assert callable(normalizer_transform)
@@ -248,6 +256,86 @@ def test_maxabs_scale_matches_sklearn_sparse_axes() -> None:
         result = maxabs_scale(X, axis=axis)
         expected = sklearn_maxabs_scale(X, axis=axis)
         assert np.allclose(result.toarray(), expected.toarray())
+
+
+def test_maxabs_scaler_fit_matches_sklearn_state_dense_and_sparse() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import maxabs_scaler_fit
+
+    X = np.array([[-2.0, 1.0, 2.0], [-1.0, 0.0, 1.0], [np.nan, 2.0, 0.0]], dtype=np.float64)
+    state = maxabs_scaler_fit(X)
+    expected = MaxAbsScaler().fit(X)
+    assert np.allclose(state.scale, expected.scale_, equal_nan=True)
+    assert np.allclose(state.max_abs, expected.max_abs_, equal_nan=True)
+    assert state.n_features_in == expected.n_features_in_
+    assert state.n_samples_seen == expected.n_samples_seen_
+
+    X_sparse = sp.csr_matrix([[0.0, 1.0, 2.0], [1.0, 0.0, 0.0], [0.0, 3.0, 1.0]], dtype=np.float64)
+    sparse_state = maxabs_scaler_fit(X_sparse)
+    sparse_expected = MaxAbsScaler().fit(X_sparse)
+    assert np.allclose(sparse_state.scale, sparse_expected.scale_)
+    assert np.allclose(sparse_state.max_abs, sparse_expected.max_abs_)
+
+
+def test_maxabs_scaler_partial_fit_accumulates_like_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import maxabs_scaler_partial_fit
+
+    X1 = np.array([[1.0, -2.0, 0.0], [0.0, 1.0, 3.0]], dtype=np.float64)
+    X2 = np.array([[4.0, -1.0, -5.0]], dtype=np.float64)
+    state = maxabs_scaler_partial_fit(X1)
+    state = maxabs_scaler_partial_fit(X2, state)
+
+    expected = MaxAbsScaler().partial_fit(X1).partial_fit(X2)
+    assert np.allclose(state.scale, expected.scale_)
+    assert np.allclose(state.max_abs, expected.max_abs_)
+    assert state.n_samples_seen == expected.n_samples_seen_
+
+
+def test_maxabs_scaler_transform_inverse_and_clip_match_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import (
+        maxabs_scaler_fit,
+        maxabs_scaler_inverse_transform,
+        maxabs_scaler_transform,
+    )
+
+    X = np.array([[1.0, -1.0, 2.0], [2.0, 0.0, 0.0], [0.0, 1.0, -1.0]], dtype=np.float64)
+    X_test = np.array([[4.0, -2.0, 4.0], [1.0, 0.5, -3.0]], dtype=np.float64)
+    state = maxabs_scaler_fit(X)
+    scaler = MaxAbsScaler().fit(X)
+
+    transformed = maxabs_scaler_transform(X_test, state)
+    expected = scaler.transform(X_test)
+    assert np.allclose(transformed, expected)
+    assert np.allclose(maxabs_scaler_inverse_transform(transformed, state), scaler.inverse_transform(expected))
+
+    clipped = maxabs_scaler_transform(X_test, state, clip=True)
+    expected_clipped = MaxAbsScaler(clip=True).fit(X).transform(X_test)
+    assert np.allclose(clipped, expected_clipped)
+
+
+def test_maxabs_scaler_sparse_transform_inverse_match_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import (
+        maxabs_scaler_fit,
+        maxabs_scaler_inverse_transform,
+        maxabs_scaler_transform,
+    )
+
+    X = sp.csr_matrix([[0.0, 1.0, 2.0], [1.0, 0.0, 0.0], [0.0, 3.0, 1.0]], dtype=np.float64)
+    state = maxabs_scaler_fit(X)
+    scaler = MaxAbsScaler().fit(X)
+    result = maxabs_scaler_transform(X, state)
+    expected = scaler.transform(X)
+    assert np.allclose(result.toarray(), expected.toarray())
+    assert np.allclose(maxabs_scaler_inverse_transform(result, state).toarray(), scaler.inverse_transform(expected).toarray())
+
+
+def test_maxabs_scaler_feature_mismatch_rejected_like_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import maxabs_scaler_fit, maxabs_scaler_transform
+
+    state = maxabs_scaler_fit(np.eye(3, dtype=np.float64))
+    with pytest.raises(Exception, match="feature count"):
+        maxabs_scaler_transform(np.ones((2, 2), dtype=np.float64), state)
+    with pytest.raises(ValueError):
+        MaxAbsScaler().fit(np.eye(3, dtype=np.float64)).transform(np.ones((2, 2), dtype=np.float64))
 
 
 def test_minmax_scale_matches_sklearn_dense_axes_and_range() -> None:

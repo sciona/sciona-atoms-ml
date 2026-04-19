@@ -18,7 +18,7 @@ from sklearn.utils.validation import FLOAT_DTYPES
 
 from sciona.ghost.registry import register_atom
 
-from .state_models import KernelCentererState
+from .state_models import KernelCentererState, MaxAbsScalerState
 from .witnesses import (
     witness_add_dummy_feature,
     witness_binarize,
@@ -26,6 +26,10 @@ from .witnesses import (
     witness_kernel_centerer_fit,
     witness_kernel_centerer_transform,
     witness_maxabs_scale,
+    witness_maxabs_scaler_fit,
+    witness_maxabs_scaler_inverse_transform,
+    witness_maxabs_scaler_partial_fit,
+    witness_maxabs_scaler_transform,
     witness_minmax_scale,
     witness_normalize,
     witness_normalizer_transform,
@@ -83,6 +87,16 @@ def _normalize_shape_matches(result: NormalizeResult, X: MatrixLike, axis: int, 
 
 def _kernel_state_valid(state: KernelCentererState) -> bool:
     return bool(state.k_fit_rows.ndim == 1 and state.k_fit_rows.shape[0] == state.n_features_in)
+
+
+def _maxabs_state_valid(state: MaxAbsScalerState) -> bool:
+    return bool(
+        state.scale.ndim == 1
+        and state.max_abs.ndim == 1
+        and state.scale.shape == state.max_abs.shape
+        and state.scale.shape[0] == state.n_features_in
+        and state.n_samples_seen >= 1
+    )
 
 
 @register_atom(witness_add_dummy_feature)
@@ -358,6 +372,120 @@ def _maxabs_scale_axis0(X: MatrixLike) -> MatrixLike:
         scale_ = _handle_zeros_in_scale(np.nanmax(np.abs(X), axis=0), copy=True)
         X /= scale_
     return X
+
+
+@register_atom(witness_maxabs_scaler_partial_fit)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
+@icontract.require(lambda X: _row_count(X) >= 1, "X must contain at least one sample")
+@icontract.require(lambda X, state: state is None or _feature_count(X) == state.n_features_in, "X feature count must match fitted state")
+@icontract.ensure(lambda result: _maxabs_state_valid(result), "state arrays must match fitted feature count")
+@icontract.ensure(lambda result, X, state: result.n_samples_seen == _row_count(X) + (0 if state is None else state.n_samples_seen), "sample count must accumulate")
+def maxabs_scaler_partial_fit(
+    X: MatrixLike,
+    state: MaxAbsScalerState | None = None,
+) -> MaxAbsScalerState:
+    """Update MaxAbsScaler state from one batch of training samples."""
+    checked_x = check_array(
+        X,
+        accept_sparse=("csr", "csc"),
+        dtype=FLOAT_DTYPES,
+        ensure_all_finite="allow-nan",
+    )
+    if sp.issparse(checked_x):
+        mins, maxes = min_max_axis(checked_x, axis=0, ignore_nan=True)
+        max_abs = np.maximum(np.abs(mins), np.abs(maxes))
+    else:
+        max_abs = np.nanmax(np.abs(checked_x), axis=0)
+
+    if state is not None:
+        if checked_x.shape[1] != state.n_features_in:
+            raise ValueError("X feature count does not match fitted state")
+        max_abs = np.maximum(state.max_abs, max_abs)
+        n_samples_seen = state.n_samples_seen + int(checked_x.shape[0])
+    else:
+        n_samples_seen = int(checked_x.shape[0])
+
+    max_abs_array = np.asarray(max_abs, dtype=np.float64)
+    scale = _handle_zeros_in_scale(max_abs_array, copy=True)
+    return MaxAbsScalerState(
+        scale=np.asarray(scale, dtype=np.float64),
+        max_abs=max_abs_array,
+        n_features_in=int(checked_x.shape[1]),
+        n_samples_seen=n_samples_seen,
+    )
+
+
+@register_atom(witness_maxabs_scaler_fit)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
+@icontract.require(lambda X: _row_count(X) >= 1, "X must contain at least one sample")
+@icontract.ensure(lambda result: _maxabs_state_valid(result), "state arrays must match fitted feature count")
+@icontract.ensure(lambda result, X: result.n_samples_seen == _row_count(X), "fresh fit sample count must match input rows")
+def maxabs_scaler_fit(
+    X: MatrixLike,
+) -> MaxAbsScalerState:
+    """Fit MaxAbsScaler state from a complete training matrix."""
+    return maxabs_scaler_partial_fit(X, state=None)
+
+
+@register_atom(witness_maxabs_scaler_transform)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
+@icontract.require(lambda state: _maxabs_state_valid(state), "state arrays must match fitted feature count")
+@icontract.require(lambda X, state: _feature_count(X) == state.n_features_in, "X feature count must match fitted state")
+@icontract.ensure(lambda result, X: result.shape == X.shape, "transformed output must preserve shape")
+def maxabs_scaler_transform(
+    X: MatrixLike,
+    state: MaxAbsScalerState,
+    copy: bool = True,
+    clip: bool = False,
+) -> MatrixLike:
+    """Scale features by fitted maximum absolute values."""
+    checked_x = check_array(
+        X,
+        accept_sparse=("csr", "csc"),
+        copy=copy,
+        dtype=FLOAT_DTYPES,
+        force_writeable=True,
+        ensure_all_finite="allow-nan",
+    )
+    if checked_x.shape[1] != state.n_features_in:
+        raise ValueError("X feature count does not match fitted state")
+    if sp.issparse(checked_x):
+        inplace_column_scale(checked_x, 1.0 / state.scale)
+        if clip:
+            np.clip(checked_x.data, -1.0, 1.0, out=checked_x.data)
+    else:
+        checked_x /= state.scale
+        if clip:
+            np.clip(checked_x, -1.0, 1.0, out=checked_x)
+    return checked_x
+
+
+@register_atom(witness_maxabs_scaler_inverse_transform)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
+@icontract.require(lambda state: _maxabs_state_valid(state), "state arrays must match fitted feature count")
+@icontract.require(lambda X, state: _feature_count(X) == state.n_features_in, "X feature count must match fitted state")
+@icontract.ensure(lambda result, X: result.shape == X.shape, "inverse transformed output must preserve shape")
+def maxabs_scaler_inverse_transform(
+    X: MatrixLike,
+    state: MaxAbsScalerState,
+    copy: bool = True,
+) -> MatrixLike:
+    """Undo scaling by fitted maximum absolute values."""
+    checked_x = check_array(
+        X,
+        accept_sparse=("csr", "csc"),
+        copy=copy,
+        dtype=FLOAT_DTYPES,
+        force_writeable=True,
+        ensure_all_finite="allow-nan",
+    )
+    if checked_x.shape[1] != state.n_features_in:
+        raise ValueError("X feature count does not match fitted state")
+    if sp.issparse(checked_x):
+        inplace_column_scale(checked_x, state.scale)
+    else:
+        checked_x *= state.scale
+    return checked_x
 
 
 @register_atom(witness_maxabs_scale)

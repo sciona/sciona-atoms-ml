@@ -21,6 +21,10 @@ EXPECTED_ATOM_NAMES = {
     "sciona.atoms.ml.sklearn.preprocessing.kernel_centerer_fit",
     "sciona.atoms.ml.sklearn.preprocessing.kernel_centerer_transform",
     "sciona.atoms.ml.sklearn.preprocessing.maxabs_scale",
+    "sciona.atoms.ml.sklearn.preprocessing.maxabs_scaler_fit",
+    "sciona.atoms.ml.sklearn.preprocessing.maxabs_scaler_inverse_transform",
+    "sciona.atoms.ml.sklearn.preprocessing.maxabs_scaler_partial_fit",
+    "sciona.atoms.ml.sklearn.preprocessing.maxabs_scaler_transform",
     "sciona.atoms.ml.sklearn.preprocessing.minmax_scale",
     "sciona.atoms.ml.sklearn.preprocessing.normalize",
     "sciona.atoms.ml.sklearn.preprocessing.normalizer_transform",
@@ -33,10 +37,10 @@ def _bundle() -> dict:
     return json.loads(BUNDLE_PATH.read_text(encoding="utf-8"))
 
 
-def test_bundle_exists_and_has_eleven_atoms() -> None:
+def test_bundle_exists_and_has_fifteen_atoms() -> None:
     assert BUNDLE_PATH.exists()
     bundle = _bundle()
-    assert len(bundle["rows"]) == 11
+    assert len(bundle["rows"]) == 15
     assert {row["atom_key"] for row in bundle["rows"]} == EXPECTED_ATOM_NAMES
 
 
@@ -85,6 +89,10 @@ def test_cdg_atomic_nodes_have_publishable_io_specs() -> None:
         "kernel_centerer_fit",
         "kernel_centerer_transform",
         "maxabs_scale",
+        "maxabs_scaler_fit",
+        "maxabs_scaler_inverse_transform",
+        "maxabs_scaler_partial_fit",
+        "maxabs_scaler_transform",
         "minmax_scale",
         "normalize",
         "normalizer_transform",

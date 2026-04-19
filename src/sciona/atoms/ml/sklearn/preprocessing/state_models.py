@@ -15,3 +15,13 @@ class KernelCentererState:
     k_fit_rows: NDArray[np.float64]
     k_fit_all: float
     n_features_in: int
+
+
+@dataclass(frozen=True)
+class MaxAbsScalerState:
+    """Learned maximum-absolute-value scale factors for each feature."""
+
+    scale: NDArray[np.float64]
+    max_abs: NDArray[np.float64]
+    n_features_in: int
+    n_samples_seen: int

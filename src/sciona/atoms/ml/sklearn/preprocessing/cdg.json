@@ -15,6 +15,10 @@
         "kernel_centerer_transform",
         "scale",
         "maxabs_scale",
+        "maxabs_scaler_partial_fit",
+        "maxabs_scaler_fit",
+        "maxabs_scaler_transform",
+        "maxabs_scaler_inverse_transform",
         "minmax_scale",
         "robust_scale"
       ],
@@ -175,6 +179,72 @@
       ]
     },
     {
+      "node_id": "maxabs_scaler_partial_fit",
+      "name": "maxabs_scaler_partial_fit",
+      "description": "Update fitted maximum absolute values for each feature from one training batch.",
+      "concept_type": "estimator_partial_fit_state",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, state: MaxAbsScalerState | None = None) -> MaxAbsScalerState",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
+        {"name": "state", "type_desc": "MaxAbsScalerState | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "MaxAbsScalerState"}
+      ]
+    },
+    {
+      "node_id": "maxabs_scaler_fit",
+      "name": "maxabs_scaler_fit",
+      "description": "Fit maximum absolute values and scale factors for every feature.",
+      "concept_type": "estimator_fit_state",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix) -> MaxAbsScalerState",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "MaxAbsScalerState"}
+      ]
+    },
+    {
+      "node_id": "maxabs_scaler_transform",
+      "name": "maxabs_scaler_transform",
+      "description": "Scale each feature using fitted maximum absolute values, optionally clipping to [-1, 1].",
+      "concept_type": "estimator_transform_method",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, state: MaxAbsScalerState, copy: bool = True, clip: bool = False) -> NDArray[np.float64] | scipy.sparse.spmatrix",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
+        {"name": "state", "type_desc": "MaxAbsScalerState", "required": true},
+        {"name": "copy", "type_desc": "bool", "required": false},
+        {"name": "clip", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"}
+      ]
+    },
+    {
+      "node_id": "maxabs_scaler_inverse_transform",
+      "name": "maxabs_scaler_inverse_transform",
+      "description": "Undo fitted maximum-absolute-value scaling.",
+      "concept_type": "estimator_inverse_transform_method",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, state: MaxAbsScalerState, copy: bool = True) -> NDArray[np.float64] | scipy.sparse.spmatrix",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
+        {"name": "state", "type_desc": "MaxAbsScalerState", "required": true},
+        {"name": "copy", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"}
+      ]
+    },
+    {
       "node_id": "minmax_scale",
       "name": "minmax_scale",
       "description": "Scale rows or columns into a fixed numeric range.",
@@ -228,6 +298,21 @@
     {
       "source_id": "kernel_centerer_fit",
       "target_id": "kernel_centerer_transform",
+      "edge_type": "fit_state_dependency"
+    },
+    {
+      "source_id": "maxabs_scaler_partial_fit",
+      "target_id": "maxabs_scaler_fit",
+      "edge_type": "implementation_dependency"
+    },
+    {
+      "source_id": "maxabs_scaler_fit",
+      "target_id": "maxabs_scaler_transform",
+      "edge_type": "fit_state_dependency"
+    },
+    {
+      "source_id": "maxabs_scaler_fit",
+      "target_id": "maxabs_scaler_inverse_transform",
       "edge_type": "fit_state_dependency"
     }
   ],
