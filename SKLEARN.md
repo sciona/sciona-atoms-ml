@@ -12,7 +12,7 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 - Scope for this first ingestion pass: public algorithmic estimators, transformers, kernels, and algorithmic helper functions in the selected sklearn modules below.
 - Intentionally excluded for now: datasets, metrics, displays, exceptions, low-level utils, orchestration/composition (`compose`, `pipeline`), and model-selection/search APIs.
 - Source locations come from each object page's official `[source]` link. `BallTree` and `KDTree` use the matching source files from the same scikit-learn revision because their generated docs pages do not expose a direct `[source]` link.
-- Total targets in this inventory: 224
+- Total targets in this inventory: 217
 
 ## Module Summary
 
@@ -46,7 +46,7 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 | `sklearn.neural_network` | 3 |
 | `sklearn.preprocessing` | 0 |
 | `sklearn.semi_supervised` | 0 |
-| `sklearn.svm` | 7 |
+| `sklearn.svm` | 0 |
 | `sklearn.tree` | 4 |
 
 ## `sklearn.calibration`
@@ -406,13 +406,6 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 
 | Target | Description | Source |
 | --- | --- | --- |
-| `LinearSVC` | Linear Support Vector Classification. | `sklearn/svm/_classes.py:L44` |
-| `LinearSVR` | Linear Support Vector Regression. | `sklearn/svm/_classes.py:L367` |
-| `NuSVC` | Nu-Support Vector Classification. | `sklearn/svm/_classes.py:L900` |
-| `NuSVR` | Nu Support Vector Regression. | `sklearn/svm/_classes.py:L1357` |
-| `OneClassSVM` | Unsupervised Outlier Detection. | `sklearn/svm/_classes.py:L1544` |
-| `SVC` | C-Support Vector Classification. | `sklearn/svm/_classes.py:L623` |
-| `SVR` | Epsilon-Support Vector Regression. | `sklearn/svm/_classes.py:L1163` |
 
 ## `sklearn.tree`
 
