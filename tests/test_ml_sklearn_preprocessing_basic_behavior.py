@@ -3,7 +3,7 @@ from __future__ import annotations
 import numpy as np
 import pytest
 import scipy.sparse as sp
-from sklearn.preprocessing import Binarizer, KernelCenterer, MaxAbsScaler, MinMaxScaler, Normalizer, RobustScaler
+from sklearn.preprocessing import Binarizer, KernelCenterer, MaxAbsScaler, MinMaxScaler, Normalizer, RobustScaler, StandardScaler
 from sklearn.preprocessing import add_dummy_feature as sklearn_add_dummy_feature
 from sklearn.preprocessing import binarize as sklearn_binarize
 from sklearn.preprocessing import maxabs_scale as sklearn_maxabs_scale
@@ -37,6 +37,10 @@ def test_preprocessing_basic_atoms_import() -> None:
         robust_scaler_inverse_transform,
         robust_scaler_transform,
         scale,
+        standard_scaler_fit,
+        standard_scaler_inverse_transform,
+        standard_scaler_partial_fit,
+        standard_scaler_transform,
     )
 
     assert callable(add_dummy_feature)
@@ -61,6 +65,10 @@ def test_preprocessing_basic_atoms_import() -> None:
     assert callable(robust_scaler_inverse_transform)
     assert callable(robust_scaler_transform)
     assert callable(scale)
+    assert callable(standard_scaler_fit)
+    assert callable(standard_scaler_inverse_transform)
+    assert callable(standard_scaler_partial_fit)
+    assert callable(standard_scaler_transform)
 
 
 def test_add_dummy_feature_matches_sklearn_dense() -> None:
@@ -249,6 +257,101 @@ def test_scale_sparse_centering_and_axis_errors_match_sklearn() -> None:
         scale(X, axis=1, with_mean=False)
     with pytest.raises(ValueError, match="axis=0"):
         sklearn_scale(X, axis=1, with_mean=False)
+
+
+def test_standard_scaler_fit_matches_sklearn_dense_with_weights() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import standard_scaler_fit
+
+    X = np.array([[0.0, 0.0], [1.0, np.nan], [2.0, 4.0], [3.0, 6.0]], dtype=np.float64)
+    weights = np.array([1.0, 0.5, 2.0, 1.5], dtype=np.float64)
+    state = standard_scaler_fit(X, sample_weight=weights)
+    expected = StandardScaler().fit(X, sample_weight=weights)
+    expected_seen = np.asarray(expected.n_samples_seen_, dtype=np.float64)
+    if expected_seen.ndim == 0:
+        expected_seen = np.repeat(expected_seen, X.shape[1])
+
+    assert np.allclose(state.mean, expected.mean_, equal_nan=True)
+    assert np.allclose(state.var, expected.var_, equal_nan=True)
+    assert np.allclose(state.scale, expected.scale_, equal_nan=True)
+    assert np.allclose(state.n_samples_seen, expected_seen)
+    assert state.with_mean is True
+    assert state.with_std is True
+    assert state.n_features_in == expected.n_features_in_
+
+
+def test_standard_scaler_partial_fit_accumulates_like_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import standard_scaler_partial_fit
+
+    X1 = np.array([[0.0, 0.0], [1.0, 1.0]], dtype=np.float64)
+    X2 = np.array([[2.0, 4.0], [3.0, 6.0]], dtype=np.float64)
+    state = standard_scaler_partial_fit(X1)
+    state = standard_scaler_partial_fit(X2, state)
+    expected = StandardScaler().partial_fit(X1).partial_fit(X2)
+    expected_seen = np.asarray(expected.n_samples_seen_, dtype=np.float64)
+    if expected_seen.ndim == 0:
+        expected_seen = np.repeat(expected_seen, X1.shape[1])
+
+    assert np.allclose(state.mean, expected.mean_)
+    assert np.allclose(state.var, expected.var_)
+    assert np.allclose(state.scale, expected.scale_)
+    assert np.allclose(state.n_samples_seen, expected_seen)
+
+
+def test_standard_scaler_transform_inverse_match_sklearn_dense() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import (
+        standard_scaler_fit,
+        standard_scaler_inverse_transform,
+        standard_scaler_transform,
+    )
+
+    X = np.array([[0.0, 0.0], [1.0, 1.0], [2.0, 4.0], [3.0, 6.0]], dtype=np.float64)
+    X_test = np.array([[4.0, 8.0], [-1.0, 2.0]], dtype=np.float64)
+    state = standard_scaler_fit(X)
+    scaler = StandardScaler().fit(X)
+    transformed = standard_scaler_transform(X_test, state)
+    expected = scaler.transform(X_test)
+    assert np.allclose(transformed, expected)
+    assert np.allclose(standard_scaler_inverse_transform(transformed, state), scaler.inverse_transform(expected))
+
+
+def test_standard_scaler_sparse_without_mean_matches_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import (
+        standard_scaler_fit,
+        standard_scaler_inverse_transform,
+        standard_scaler_transform,
+    )
+
+    X = sp.csr_matrix([[0.0, 1.0, 2.0], [1.0, 0.0, 0.0], [0.0, 3.0, 1.0]], dtype=np.float64)
+    state = standard_scaler_fit(X, with_mean=False)
+    scaler = StandardScaler(with_mean=False).fit(X)
+    expected_seen = np.asarray(scaler.n_samples_seen_, dtype=np.float64)
+    if expected_seen.ndim == 0:
+        expected_seen = np.repeat(expected_seen, X.shape[1])
+
+    assert np.allclose(state.mean, scaler.mean_)
+    assert np.allclose(state.var, scaler.var_)
+    assert np.allclose(state.scale, scaler.scale_)
+    assert np.allclose(state.n_samples_seen, expected_seen)
+    result = standard_scaler_transform(X, state)
+    expected = scaler.transform(X)
+    assert np.allclose(result.toarray(), expected.toarray())
+    assert np.allclose(standard_scaler_inverse_transform(result, state).toarray(), scaler.inverse_transform(expected).toarray())
+
+
+def test_standard_scaler_errors_match_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import standard_scaler_fit, standard_scaler_transform
+
+    X_sparse = sp.csr_matrix([[0.0, 1.0], [2.0, 3.0]], dtype=np.float64)
+    with pytest.raises(ValueError, match="Cannot center sparse matrices"):
+        standard_scaler_fit(X_sparse, with_mean=True)
+    with pytest.raises(ValueError, match="Cannot center sparse matrices"):
+        StandardScaler(with_mean=True).fit(X_sparse)
+
+    state = standard_scaler_fit(np.eye(3, dtype=np.float64))
+    with pytest.raises(Exception, match="feature count"):
+        standard_scaler_transform(np.ones((2, 2), dtype=np.float64), state)
+    with pytest.raises(ValueError):
+        StandardScaler().fit(np.eye(3, dtype=np.float64)).transform(np.ones((2, 2), dtype=np.float64))
 
 
 def test_maxabs_scale_matches_sklearn_dense_axes_and_1d() -> None:

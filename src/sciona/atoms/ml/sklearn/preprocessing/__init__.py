@@ -23,14 +23,25 @@ from .atoms import (
     robust_scaler_inverse_transform,
     robust_scaler_transform,
     scale,
+    standard_scaler_fit,
+    standard_scaler_inverse_transform,
+    standard_scaler_partial_fit,
+    standard_scaler_transform,
 )
-from .state_models import KernelCentererState, MaxAbsScalerState, MinMaxScalerState, RobustScalerState
+from .state_models import (
+    KernelCentererState,
+    MaxAbsScalerState,
+    MinMaxScalerState,
+    RobustScalerState,
+    StandardScalerState,
+)
 
 __all__ = [
     "KernelCentererState",
     "MaxAbsScalerState",
     "MinMaxScalerState",
     "RobustScalerState",
+    "StandardScalerState",
     "add_dummy_feature",
     "binarize",
     "binarizer_transform",
@@ -53,4 +64,8 @@ __all__ = [
     "robust_scaler_inverse_transform",
     "robust_scaler_transform",
     "scale",
+    "standard_scaler_fit",
+    "standard_scaler_inverse_transform",
+    "standard_scaler_partial_fit",
+    "standard_scaler_transform",
 ]

@@ -52,3 +52,16 @@ class RobustScalerState:
     quantile_range: tuple[float, float]
     unit_variance: bool
     n_features_in: int
+
+
+@dataclass(frozen=True)
+class StandardScalerState:
+    """Learned means, variances, and scales for standard feature scaling."""
+
+    mean: NDArray[np.float64] | None
+    var: NDArray[np.float64] | None
+    scale: NDArray[np.float64] | None
+    n_samples_seen: NDArray[np.float64]
+    with_mean: bool
+    with_std: bool
+    n_features_in: int

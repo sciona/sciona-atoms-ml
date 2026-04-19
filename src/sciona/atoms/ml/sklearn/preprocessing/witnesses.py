@@ -4,7 +4,13 @@ from __future__ import annotations
 
 from sciona.ghost.abstract import AbstractArray
 
-from .state_models import KernelCentererState, MaxAbsScalerState, MinMaxScalerState, RobustScalerState
+from .state_models import (
+    KernelCentererState,
+    MaxAbsScalerState,
+    MinMaxScalerState,
+    RobustScalerState,
+    StandardScalerState,
+)
 
 
 def _check_2d(X: AbstractArray) -> tuple[int, int]:
@@ -238,6 +244,69 @@ def witness_robust_scaler_inverse_transform(
     copy: bool = True,
 ) -> AbstractArray:
     """Describe undoing fitted robust center and scale statistics."""
+    del copy
+    n_samples, n_features = _check_2d(X)
+    if n_features != state.n_features_in:
+        raise ValueError("X feature count must match fitted state")
+    return AbstractArray(shape=(n_samples, n_features), dtype=X.dtype)
+
+
+def witness_standard_scaler_partial_fit(
+    X: AbstractArray,
+    state: StandardScalerState | None = None,
+    *,
+    with_mean: bool = True,
+    with_std: bool = True,
+    sample_weight: AbstractArray | None = None,
+) -> AbstractArray:
+    """Describe fitting mean and variance statistics for standard scaling."""
+    del with_mean, with_std
+    n_samples, n_features = _check_2d(X)
+    if n_samples < 1:
+        raise ValueError("X must contain at least one sample")
+    if state is not None and state.n_features_in != n_features:
+        raise ValueError("X feature count must match fitted state")
+    if sample_weight is not None and tuple(sample_weight.shape) != (n_samples,):
+        raise ValueError("sample_weight must have one value per sample")
+    return AbstractArray(shape=(n_features,), dtype="float64")
+
+
+def witness_standard_scaler_fit(
+    X: AbstractArray,
+    *,
+    with_mean: bool = True,
+    with_std: bool = True,
+    sample_weight: AbstractArray | None = None,
+) -> AbstractArray:
+    """Describe fresh fitting for StandardScaler state."""
+    return witness_standard_scaler_partial_fit(
+        X,
+        state=None,
+        with_mean=with_mean,
+        with_std=with_std,
+        sample_weight=sample_weight,
+    )
+
+
+def witness_standard_scaler_transform(
+    X: AbstractArray,
+    state: StandardScalerState,
+    copy: bool = True,
+) -> AbstractArray:
+    """Describe applying fitted standard scaling."""
+    del copy
+    n_samples, n_features = _check_2d(X)
+    if n_features != state.n_features_in:
+        raise ValueError("X feature count must match fitted state")
+    return AbstractArray(shape=(n_samples, n_features), dtype=X.dtype)
+
+
+def witness_standard_scaler_inverse_transform(
+    X: AbstractArray,
+    state: StandardScalerState,
+    copy: bool = True,
+) -> AbstractArray:
+    """Describe undoing fitted standard scaling."""
     del copy
     n_samples, n_features = _check_2d(X)
     if n_features != state.n_features_in:

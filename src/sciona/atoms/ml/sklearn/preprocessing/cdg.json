@@ -14,6 +14,10 @@
         "kernel_centerer_fit",
         "kernel_centerer_transform",
         "scale",
+        "standard_scaler_partial_fit",
+        "standard_scaler_fit",
+        "standard_scaler_transform",
+        "standard_scaler_inverse_transform",
         "maxabs_scale",
         "maxabs_scaler_partial_fit",
         "maxabs_scaler_fit",
@@ -162,6 +166,77 @@
         {"name": "axis", "type_desc": "int", "required": false},
         {"name": "with_mean", "type_desc": "bool", "required": false},
         {"name": "with_std", "type_desc": "bool", "required": false},
+        {"name": "copy", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"}
+      ]
+    },
+    {
+      "node_id": "standard_scaler_partial_fit",
+      "name": "standard_scaler_partial_fit",
+      "description": "Update fitted per-feature mean, variance, and scale statistics from one training batch.",
+      "concept_type": "estimator_partial_fit_state",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, state: StandardScalerState | None = None, with_mean: bool = True, with_std: bool = True, sample_weight: NDArray[np.float64] | None = None) -> StandardScalerState",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
+        {"name": "state", "type_desc": "StandardScalerState | None", "required": false},
+        {"name": "with_mean", "type_desc": "bool", "required": false},
+        {"name": "with_std", "type_desc": "bool", "required": false},
+        {"name": "sample_weight", "type_desc": "NDArray[np.float64] | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "StandardScalerState"}
+      ]
+    },
+    {
+      "node_id": "standard_scaler_fit",
+      "name": "standard_scaler_fit",
+      "description": "Fit per-feature mean, variance, and scale statistics for standardization.",
+      "concept_type": "estimator_fit_state",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, with_mean: bool = True, with_std: bool = True, sample_weight: NDArray[np.float64] | None = None) -> StandardScalerState",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
+        {"name": "with_mean", "type_desc": "bool", "required": false},
+        {"name": "with_std", "type_desc": "bool", "required": false},
+        {"name": "sample_weight", "type_desc": "NDArray[np.float64] | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "StandardScalerState"}
+      ]
+    },
+    {
+      "node_id": "standard_scaler_transform",
+      "name": "standard_scaler_transform",
+      "description": "Center and scale data using fitted per-feature standardization statistics.",
+      "concept_type": "estimator_transform_method",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, state: StandardScalerState, copy: bool = True) -> NDArray[np.float64] | scipy.sparse.spmatrix",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
+        {"name": "state", "type_desc": "StandardScalerState", "required": true},
+        {"name": "copy", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"}
+      ]
+    },
+    {
+      "node_id": "standard_scaler_inverse_transform",
+      "name": "standard_scaler_inverse_transform",
+      "description": "Undo fitted standard centering and variance scaling.",
+      "concept_type": "estimator_inverse_transform_method",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, state: StandardScalerState, copy: bool = True) -> NDArray[np.float64] | scipy.sparse.spmatrix",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
+        {"name": "state", "type_desc": "StandardScalerState", "required": true},
         {"name": "copy", "type_desc": "bool", "required": false}
       ],
       "outputs": [
@@ -426,6 +501,21 @@
     {
       "source_id": "kernel_centerer_fit",
       "target_id": "kernel_centerer_transform",
+      "edge_type": "fit_state_dependency"
+    },
+    {
+      "source_id": "standard_scaler_partial_fit",
+      "target_id": "standard_scaler_fit",
+      "edge_type": "implementation_dependency"
+    },
+    {
+      "source_id": "standard_scaler_fit",
+      "target_id": "standard_scaler_transform",
+      "edge_type": "fit_state_dependency"
+    },
+    {
+      "source_id": "standard_scaler_fit",
+      "target_id": "standard_scaler_inverse_transform",
       "edge_type": "fit_state_dependency"
     },
     {

@@ -9,16 +9,22 @@ import numpy as np
 import scipy.sparse as sp
 import scipy.stats as stats
 from numpy.typing import NDArray
-from sklearn.preprocessing._data import _handle_zeros_in_scale
+from sklearn.preprocessing._data import _handle_zeros_in_scale, _is_constant_feature
 from sklearn.utils import check_array
-from sklearn.utils.extmath import row_norms
-from sklearn.utils.sparsefuncs import inplace_column_scale, mean_variance_axis, min_max_axis
+from sklearn.utils.extmath import _incremental_mean_and_var, row_norms
+from sklearn.utils.sparsefuncs import incr_mean_variance_axis, inplace_column_scale, mean_variance_axis, min_max_axis
 from sklearn.utils.sparsefuncs_fast import inplace_csr_row_normalize_l1, inplace_csr_row_normalize_l2
-from sklearn.utils.validation import FLOAT_DTYPES
+from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight
 
 from sciona.ghost.registry import register_atom
 
-from .state_models import KernelCentererState, MaxAbsScalerState, MinMaxScalerState, RobustScalerState
+from .state_models import (
+    KernelCentererState,
+    MaxAbsScalerState,
+    MinMaxScalerState,
+    RobustScalerState,
+    StandardScalerState,
+)
 from .witnesses import (
     witness_add_dummy_feature,
     witness_binarize,
@@ -42,6 +48,10 @@ from .witnesses import (
     witness_robust_scaler_inverse_transform,
     witness_robust_scaler_transform,
     witness_scale,
+    witness_standard_scaler_fit,
+    witness_standard_scaler_inverse_transform,
+    witness_standard_scaler_partial_fit,
+    witness_standard_scaler_transform,
 )
 
 MatrixLike = NDArray[np.float64] | sp.spmatrix
@@ -138,6 +148,28 @@ def _robust_state_valid(state: RobustScalerState) -> bool:
         and (state.scale is not None) == state.with_scaling
         and _valid_quantile_range(state.quantile_range)
     )
+
+
+def _standard_state_valid(state: StandardScalerState) -> bool:
+    shape = (state.n_features_in,)
+    mean_ok = state.mean is None or (state.mean.ndim == 1 and state.mean.shape == shape)
+    var_ok = state.var is None or (state.var.ndim == 1 and state.var.shape == shape)
+    scale_ok = state.scale is None or (state.scale.ndim == 1 and state.scale.shape == shape)
+    return bool(
+        mean_ok
+        and var_ok
+        and scale_ok
+        and state.n_samples_seen.ndim == 1
+        and state.n_samples_seen.shape == shape
+        and np.all(state.n_samples_seen >= 0)
+        and (state.scale is not None) == state.with_std
+        and (state.var is not None) == state.with_std
+        and (state.mean is not None) == (state.with_mean or state.with_std)
+    )
+
+
+def _sample_weight_valid(sample_weight: NDArray[np.float64] | None, X: MatrixLike) -> bool:
+    return sample_weight is None or tuple(sample_weight.shape) == (_row_count(X),)
 
 
 @register_atom(witness_add_dummy_feature)
@@ -400,6 +432,218 @@ def scale(
                         stacklevel=2,
                     )
                     Xr -= mean_2
+    return checked_x
+
+
+@register_atom(witness_standard_scaler_partial_fit)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
+@icontract.require(lambda X: _row_count(X) >= 1, "X must contain at least one sample")
+@icontract.require(lambda X, state: state is None or _feature_count(X) == state.n_features_in, "X feature count must match fitted state")
+@icontract.require(lambda X, sample_weight: _sample_weight_valid(sample_weight, X), "sample_weight must have one value per sample")
+@icontract.ensure(lambda result: _standard_state_valid(result), "state arrays must match fitted feature count")
+@icontract.ensure(lambda result, X: result.n_features_in == _feature_count(X), "state feature count must match input columns")
+def standard_scaler_partial_fit(
+    X: MatrixLike,
+    state: StandardScalerState | None = None,
+    *,
+    with_mean: bool = True,
+    with_std: bool = True,
+    sample_weight: NDArray[np.float64] | None = None,
+) -> StandardScalerState:
+    """Update StandardScaler mean and variance state from one batch."""
+    checked_x = check_array(
+        X,
+        accept_sparse=("csr", "csc"),
+        dtype=FLOAT_DTYPES,
+        ensure_all_finite="allow-nan",
+    )
+    n_features = int(checked_x.shape[1])
+    checked_weight = None
+    if sample_weight is not None:
+        checked_weight = _check_sample_weight(sample_weight, checked_x, dtype=checked_x.dtype)
+
+    if state is not None:
+        if checked_x.shape[1] != state.n_features_in:
+            raise ValueError("X feature count does not match fitted state")
+        with_mean = state.with_mean
+        with_std = state.with_std
+        n_samples_seen = state.n_samples_seen.astype(np.float64, copy=True)
+        mean = None if state.mean is None else state.mean.astype(np.float64, copy=True)
+        var = None if state.var is None else state.var.astype(np.float64, copy=True)
+    else:
+        n_samples_seen = np.zeros(n_features, dtype=np.float64)
+        mean = None
+        var = None
+
+    if sp.issparse(checked_x):
+        if with_mean:
+            raise ValueError(
+                "Cannot center sparse matrices: pass `with_mean=False` instead. See docstring for motivation and alternatives."
+            )
+        sparse_constructor = sp.csr_matrix if checked_x.format == "csr" else sp.csc_matrix
+        if with_std:
+            if state is None:
+                mean, var, n_samples_seen = mean_variance_axis(
+                    checked_x,
+                    axis=0,
+                    weights=checked_weight,
+                    return_sum_weights=True,
+                )
+            else:
+                if mean is None or var is None:
+                    raise ValueError("Existing StandardScaler state is missing mean or variance")
+                mean, var, n_samples_seen = incr_mean_variance_axis(
+                    checked_x,
+                    axis=0,
+                    last_mean=mean,
+                    last_var=var,
+                    last_n=n_samples_seen,
+                    weights=checked_weight,
+                )
+            mean = mean.astype(np.float64, copy=False)
+            var = var.astype(np.float64, copy=False)
+        else:
+            mean = None
+            var = None
+            weights = _check_sample_weight(sample_weight, checked_x)
+            sum_weights_nan = weights @ sparse_constructor(
+                (np.isnan(checked_x.data), checked_x.indices, checked_x.indptr),
+                shape=checked_x.shape,
+            )
+            n_samples_seen += (np.sum(weights) - sum_weights_nan).astype(np.float64)
+    else:
+        dense_x = np.asarray(checked_x)
+        if not with_mean and not with_std:
+            mean = None
+            var = None
+            n_samples_seen += dense_x.shape[0] - np.isnan(dense_x).sum(axis=0)
+        else:
+            last_mean = np.zeros(n_features, dtype=np.float64) if mean is None else mean
+            last_var = np.zeros(n_features, dtype=np.float64) if with_std and var is None else var
+            mean, var, n_samples_seen = _incremental_mean_and_var(
+                dense_x,
+                last_mean,
+                last_var,
+                n_samples_seen,
+                sample_weight=checked_weight,
+            )
+
+    n_samples_seen_array = np.asarray(n_samples_seen, dtype=np.float64)
+    if with_std:
+        if mean is None or var is None:
+            raise ValueError("StandardScaler variance state is missing")
+        constant_mask = _is_constant_feature(var, mean, n_samples_seen_array)
+        scale = _handle_zeros_in_scale(np.sqrt(var), copy=False, constant_mask=constant_mask)
+        scale_array = np.asarray(scale, dtype=np.float64)
+        var_array = np.asarray(var, dtype=np.float64)
+    else:
+        scale_array = None
+        var_array = None
+
+    mean_array = None if mean is None else np.asarray(mean, dtype=np.float64)
+    return StandardScalerState(
+        mean=mean_array,
+        var=var_array,
+        scale=scale_array,
+        n_samples_seen=n_samples_seen_array,
+        with_mean=bool(with_mean),
+        with_std=bool(with_std),
+        n_features_in=n_features,
+    )
+
+
+@register_atom(witness_standard_scaler_fit)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
+@icontract.require(lambda X: _row_count(X) >= 1, "X must contain at least one sample")
+@icontract.require(lambda X, sample_weight: _sample_weight_valid(sample_weight, X), "sample_weight must have one value per sample")
+@icontract.ensure(lambda result: _standard_state_valid(result), "state arrays must match fitted feature count")
+@icontract.ensure(lambda result, X: result.n_features_in == _feature_count(X), "state feature count must match input columns")
+def standard_scaler_fit(
+    X: MatrixLike,
+    *,
+    with_mean: bool = True,
+    with_std: bool = True,
+    sample_weight: NDArray[np.float64] | None = None,
+) -> StandardScalerState:
+    """Fit StandardScaler mean and variance state from a complete batch."""
+    return standard_scaler_partial_fit(
+        X,
+        state=None,
+        with_mean=with_mean,
+        with_std=with_std,
+        sample_weight=sample_weight,
+    )
+
+
+@register_atom(witness_standard_scaler_transform)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
+@icontract.require(lambda state: _standard_state_valid(state), "state arrays must match fitted feature count")
+@icontract.require(lambda X, state: _feature_count(X) == state.n_features_in, "X feature count must match fitted state")
+@icontract.ensure(lambda result, X: result.shape == X.shape, "transformed output must preserve shape")
+def standard_scaler_transform(
+    X: MatrixLike,
+    state: StandardScalerState,
+    copy: bool = True,
+) -> MatrixLike:
+    """Center and scale data with fitted standard mean and variance statistics."""
+    checked_x = check_array(
+        X,
+        accept_sparse="csr",
+        copy=copy,
+        dtype=FLOAT_DTYPES,
+        force_writeable=True,
+        ensure_all_finite="allow-nan",
+    )
+    if checked_x.shape[1] != state.n_features_in:
+        raise ValueError("X feature count does not match fitted state")
+    if sp.issparse(checked_x):
+        if state.with_mean:
+            raise ValueError(
+                "Cannot center sparse matrices: pass `with_mean=False` instead. See docstring for motivation and alternatives."
+            )
+        if state.scale is not None:
+            inplace_column_scale(checked_x, 1.0 / state.scale)
+    else:
+        if state.with_mean and state.mean is not None:
+            checked_x -= state.mean.astype(checked_x.dtype, copy=False)
+        if state.with_std and state.scale is not None:
+            checked_x /= state.scale.astype(checked_x.dtype, copy=False)
+    return checked_x
+
+
+@register_atom(witness_standard_scaler_inverse_transform)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
+@icontract.require(lambda state: _standard_state_valid(state), "state arrays must match fitted feature count")
+@icontract.require(lambda X, state: _feature_count(X) == state.n_features_in, "X feature count must match fitted state")
+@icontract.ensure(lambda result, X: result.shape == X.shape, "inverse transformed output must preserve shape")
+def standard_scaler_inverse_transform(
+    X: MatrixLike,
+    state: StandardScalerState,
+    copy: bool = True,
+) -> MatrixLike:
+    """Undo fitted standard centering and variance scaling."""
+    checked_x = check_array(
+        X,
+        accept_sparse="csr",
+        copy=copy,
+        dtype=FLOAT_DTYPES,
+        force_writeable=True,
+        ensure_all_finite="allow-nan",
+    )
+    if checked_x.shape[1] != state.n_features_in:
+        raise ValueError("X feature count does not match fitted state")
+    if sp.issparse(checked_x):
+        if state.with_mean:
+            raise ValueError(
+                "Cannot uncenter sparse matrices: pass `with_mean=False` instead See docstring for motivation and alternatives."
+            )
+        if state.scale is not None:
+            inplace_column_scale(checked_x, state.scale)
+    else:
+        if state.with_std and state.scale is not None:
+            checked_x *= state.scale.astype(checked_x.dtype, copy=False)
+        if state.with_mean and state.mean is not None:
+            checked_x += state.mean.astype(checked_x.dtype, copy=False)
     return checked_x
 
 

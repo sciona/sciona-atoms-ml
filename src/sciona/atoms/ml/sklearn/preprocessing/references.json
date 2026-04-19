@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "atoms": {
-    "sciona.atoms.ml.sklearn.preprocessing.add_dummy_feature@sciona/atoms/ml/sklearn/preprocessing/atoms.py:147": {
+    "sciona.atoms.ml.sklearn.preprocessing.add_dummy_feature@sciona/atoms/ml/sklearn/preprocessing/atoms.py:179": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -26,7 +26,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.preprocessing.binarize@sciona/atoms/ml/sklearn/preprocessing/atoms.py:175": {
+    "sciona.atoms.ml.sklearn.preprocessing.binarize@sciona/atoms/ml/sklearn/preprocessing/atoms.py:207": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -51,7 +51,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.preprocessing.binarizer_transform@sciona/atoms/ml/sklearn/preprocessing/atoms.py:201": {
+    "sciona.atoms.ml.sklearn.preprocessing.binarizer_transform@sciona/atoms/ml/sklearn/preprocessing/atoms.py:233": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -76,7 +76,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.preprocessing.normalize@sciona/atoms/ml/sklearn/preprocessing/atoms.py:217": {
+    "sciona.atoms.ml.sklearn.preprocessing.normalize@sciona/atoms/ml/sklearn/preprocessing/atoms.py:249": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -101,7 +101,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.preprocessing.normalizer_transform@sciona/atoms/ml/sklearn/preprocessing/atoms.py:275": {
+    "sciona.atoms.ml.sklearn.preprocessing.normalizer_transform@sciona/atoms/ml/sklearn/preprocessing/atoms.py:307": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -126,7 +126,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.preprocessing.kernel_centerer_fit@sciona/atoms/ml/sklearn/preprocessing/atoms.py:295": {
+    "sciona.atoms.ml.sklearn.preprocessing.kernel_centerer_fit@sciona/atoms/ml/sklearn/preprocessing/atoms.py:327": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -161,7 +161,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.preprocessing.kernel_centerer_transform@sciona/atoms/ml/sklearn/preprocessing/atoms.py:322": {
+    "sciona.atoms.ml.sklearn.preprocessing.kernel_centerer_transform@sciona/atoms/ml/sklearn/preprocessing/atoms.py:354": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -196,7 +196,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.preprocessing.scale@sciona/atoms/ml/sklearn/preprocessing/atoms.py:342": {
+    "sciona.atoms.ml.sklearn.preprocessing.scale@sciona/atoms/ml/sklearn/preprocessing/atoms.py:374": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -221,7 +221,107 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.preprocessing.maxabs_scaler_partial_fit@sciona/atoms/ml/sklearn/preprocessing/atoms.py:424": {
+    "sciona.atoms.ml.sklearn.preprocessing.standard_scaler_partial_fit@sciona/atoms/ml/sklearn/preprocessing/atoms.py:445": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.preprocessing.StandardScaler.partial_fit in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.preprocessing.standard_scaler_fit@sciona/atoms/ml/sklearn/preprocessing/atoms.py:561": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.preprocessing.StandardScaler.fit in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.preprocessing.standard_scaler_transform@sciona/atoms/ml/sklearn/preprocessing/atoms.py:583": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.preprocessing.StandardScaler.transform in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.preprocessing.standard_scaler_inverse_transform@sciona/atoms/ml/sklearn/preprocessing/atoms.py:619": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.preprocessing.StandardScaler.inverse_transform in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.preprocessing.maxabs_scaler_partial_fit@sciona/atoms/ml/sklearn/preprocessing/atoms.py:668": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -246,7 +346,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.preprocessing.maxabs_scaler_fit@sciona/atoms/ml/sklearn/preprocessing/atoms.py:464": {
+    "sciona.atoms.ml.sklearn.preprocessing.maxabs_scaler_fit@sciona/atoms/ml/sklearn/preprocessing/atoms.py:708": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -271,7 +371,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.preprocessing.maxabs_scaler_transform@sciona/atoms/ml/sklearn/preprocessing/atoms.py:476": {
+    "sciona.atoms.ml.sklearn.preprocessing.maxabs_scaler_transform@sciona/atoms/ml/sklearn/preprocessing/atoms.py:720": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -296,7 +396,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.preprocessing.maxabs_scaler_inverse_transform@sciona/atoms/ml/sklearn/preprocessing/atoms.py:509": {
+    "sciona.atoms.ml.sklearn.preprocessing.maxabs_scaler_inverse_transform@sciona/atoms/ml/sklearn/preprocessing/atoms.py:753": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -321,7 +421,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.preprocessing.maxabs_scale@sciona/atoms/ml/sklearn/preprocessing/atoms.py:536": {
+    "sciona.atoms.ml.sklearn.preprocessing.maxabs_scale@sciona/atoms/ml/sklearn/preprocessing/atoms.py:780": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -346,7 +446,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.preprocessing.minmax_scaler_partial_fit@sciona/atoms/ml/sklearn/preprocessing/atoms.py:574": {
+    "sciona.atoms.ml.sklearn.preprocessing.minmax_scaler_partial_fit@sciona/atoms/ml/sklearn/preprocessing/atoms.py:818": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -371,7 +471,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.preprocessing.minmax_scaler_fit@sciona/atoms/ml/sklearn/preprocessing/atoms.py:617": {
+    "sciona.atoms.ml.sklearn.preprocessing.minmax_scaler_fit@sciona/atoms/ml/sklearn/preprocessing/atoms.py:861": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -396,7 +496,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.preprocessing.minmax_scaler_transform@sciona/atoms/ml/sklearn/preprocessing/atoms.py:630": {
+    "sciona.atoms.ml.sklearn.preprocessing.minmax_scaler_transform@sciona/atoms/ml/sklearn/preprocessing/atoms.py:874": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -421,7 +521,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.preprocessing.minmax_scaler_inverse_transform@sciona/atoms/ml/sklearn/preprocessing/atoms.py:658": {
+    "sciona.atoms.ml.sklearn.preprocessing.minmax_scaler_inverse_transform@sciona/atoms/ml/sklearn/preprocessing/atoms.py:902": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -446,7 +546,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.preprocessing.minmax_scale@sciona/atoms/ml/sklearn/preprocessing/atoms.py:683": {
+    "sciona.atoms.ml.sklearn.preprocessing.minmax_scale@sciona/atoms/ml/sklearn/preprocessing/atoms.py:927": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -471,7 +571,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.preprocessing.robust_scaler_fit@sciona/atoms/ml/sklearn/preprocessing/atoms.py:771": {
+    "sciona.atoms.ml.sklearn.preprocessing.robust_scaler_fit@sciona/atoms/ml/sklearn/preprocessing/atoms.py:1015": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -496,7 +596,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.preprocessing.robust_scaler_transform@sciona/atoms/ml/sklearn/preprocessing/atoms.py:835": {
+    "sciona.atoms.ml.sklearn.preprocessing.robust_scaler_transform@sciona/atoms/ml/sklearn/preprocessing/atoms.py:1079": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -521,7 +621,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.preprocessing.robust_scaler_inverse_transform@sciona/atoms/ml/sklearn/preprocessing/atoms.py:867": {
+    "sciona.atoms.ml.sklearn.preprocessing.robust_scaler_inverse_transform@sciona/atoms/ml/sklearn/preprocessing/atoms.py:1111": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -546,7 +646,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.preprocessing.robust_scale@sciona/atoms/ml/sklearn/preprocessing/atoms.py:899": {
+    "sciona.atoms.ml.sklearn.preprocessing.robust_scale@sciona/atoms/ml/sklearn/preprocessing/atoms.py:1143": {
       "references": [
         {
           "ref_id": "repo_sklearn",
