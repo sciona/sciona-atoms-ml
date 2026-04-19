@@ -6,6 +6,7 @@ from sciona.ghost.abstract import AbstractArray
 
 from .state_models import (
     KernelCentererState,
+    LabelBinarizerState,
     LabelEncoderState,
     MaxAbsScalerState,
     MinMaxScalerState,
@@ -369,6 +370,76 @@ def witness_label_binarize(
         raise ValueError("classes must be 1D")
     n_outputs = 1 if int(classes.shape[0]) == 2 else int(classes.shape[0])
     return AbstractArray(shape=(int(y.shape[0]), n_outputs), dtype="int64", min_val=float(neg_label), max_val=float(pos_label))
+
+
+def witness_label_binarizer_fit(
+    y: AbstractArray,
+    *,
+    neg_label: int = 0,
+    pos_label: int = 1,
+    sparse_output: bool = False,
+) -> AbstractArray:
+    """Describe learning label-binarizer classes and target type."""
+    del sparse_output
+    if neg_label >= pos_label:
+        raise ValueError("neg_label must be strictly less than pos_label")
+    if len(y.shape) not in {1, 2}:
+        raise ValueError("y must be 1D or 2D")
+    n_classes = int(y.shape[1]) if len(y.shape) == 2 else int(y.shape[0])
+    return AbstractArray(shape=(n_classes,), dtype=y.dtype)
+
+
+def witness_label_binarizer_transform(
+    y: AbstractArray,
+    state: LabelBinarizerState,
+) -> AbstractArray:
+    """Describe transforming labels with fitted binarizer state."""
+    classes = AbstractArray(shape=(int(state.classes.shape[0]),), dtype="object")
+    return witness_label_binarize(
+        y,
+        classes=classes,
+        neg_label=state.neg_label,
+        pos_label=state.pos_label,
+        sparse_output=state.sparse_output,
+    )
+
+
+def witness_label_binarizer_fit_transform(
+    y: AbstractArray,
+    *,
+    neg_label: int = 0,
+    pos_label: int = 1,
+    sparse_output: bool = False,
+) -> tuple[AbstractArray, AbstractArray]:
+    """Describe fitting label-binarizer state and transforming labels."""
+    classes = witness_label_binarizer_fit(
+        y,
+        neg_label=neg_label,
+        pos_label=pos_label,
+        sparse_output=sparse_output,
+    )
+    transformed = witness_label_binarize(
+        y,
+        classes=classes,
+        neg_label=neg_label,
+        pos_label=pos_label,
+        sparse_output=sparse_output,
+    )
+    return classes, transformed
+
+
+def witness_label_binarizer_inverse_transform(
+    Y: AbstractArray,
+    state: LabelBinarizerState,
+    threshold: float | None = None,
+) -> AbstractArray:
+    """Describe inverse label-binarization output."""
+    del threshold
+    if len(Y.shape) != 2:
+        raise ValueError("Y must be 2D")
+    if state.y_type == "multilabel-indicator":
+        return AbstractArray(shape=Y.shape, dtype="int64", min_val=0.0, max_val=1.0)
+    return AbstractArray(shape=(int(Y.shape[0]),), dtype="object")
 
 
 def witness_scale(

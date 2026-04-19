@@ -33,6 +33,10 @@
         "robust_scaler_inverse_transform",
         "robust_scale",
         "label_binarize",
+        "label_binarizer_fit",
+        "label_binarizer_fit_transform",
+        "label_binarizer_transform",
+        "label_binarizer_inverse_transform",
         "label_encoder_fit",
         "label_encoder_fit_transform",
         "label_encoder_transform",
@@ -526,6 +530,75 @@
       ]
     },
     {
+      "node_id": "label_binarizer_fit",
+      "name": "label_binarizer_fit",
+      "description": "Learn target classes, target type, and sparse-input mode for label binarization.",
+      "concept_type": "estimator_fit_state",
+      "status": "atomic",
+      "type_signature": "(y: NDArray[np.object_] | list[object] | tuple[object, ...] | scipy.sparse.spmatrix, neg_label: int = 0, pos_label: int = 1, sparse_output: bool = False) -> LabelBinarizerState",
+      "depth": 1,
+      "inputs": [
+        {"name": "y", "type_desc": "NDArray[np.object_] | list[object] | tuple[object, ...] | scipy.sparse.spmatrix", "required": true},
+        {"name": "neg_label", "type_desc": "int", "required": false},
+        {"name": "pos_label", "type_desc": "int", "required": false},
+        {"name": "sparse_output", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "LabelBinarizerState"}
+      ]
+    },
+    {
+      "node_id": "label_binarizer_fit_transform",
+      "name": "label_binarizer_fit_transform",
+      "description": "Learn label-binarizer state and transform labels to one-vs-all indicators.",
+      "concept_type": "estimator_fit_transform_method",
+      "status": "atomic",
+      "type_signature": "(y: NDArray[np.object_] | list[object] | tuple[object, ...] | scipy.sparse.spmatrix, neg_label: int = 0, pos_label: int = 1, sparse_output: bool = False) -> tuple[LabelBinarizerState, NDArray[np.int_] | scipy.sparse.csr_matrix]",
+      "depth": 1,
+      "inputs": [
+        {"name": "y", "type_desc": "NDArray[np.object_] | list[object] | tuple[object, ...] | scipy.sparse.spmatrix", "required": true},
+        {"name": "neg_label", "type_desc": "int", "required": false},
+        {"name": "pos_label", "type_desc": "int", "required": false},
+        {"name": "sparse_output", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[LabelBinarizerState, NDArray[np.int_] | scipy.sparse.csr_matrix]"}
+      ]
+    },
+    {
+      "node_id": "label_binarizer_transform",
+      "name": "label_binarizer_transform",
+      "description": "Transform labels to one-vs-all indicators using fitted label-binarizer state.",
+      "concept_type": "estimator_transform_method",
+      "status": "atomic",
+      "type_signature": "(y: NDArray[np.object_] | list[object] | tuple[object, ...] | scipy.sparse.spmatrix, state: LabelBinarizerState) -> NDArray[np.int_] | scipy.sparse.csr_matrix",
+      "depth": 1,
+      "inputs": [
+        {"name": "y", "type_desc": "NDArray[np.object_] | list[object] | tuple[object, ...] | scipy.sparse.spmatrix", "required": true},
+        {"name": "state", "type_desc": "LabelBinarizerState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.int_] | scipy.sparse.csr_matrix"}
+      ]
+    },
+    {
+      "node_id": "label_binarizer_inverse_transform",
+      "name": "label_binarizer_inverse_transform",
+      "description": "Map indicator scores back to original labels using fitted label-binarizer state.",
+      "concept_type": "estimator_inverse_transform_method",
+      "status": "atomic",
+      "type_signature": "(Y: NDArray[np.float64] | scipy.sparse.spmatrix, state: LabelBinarizerState, threshold: float | None = None) -> NDArray[np.object_] | scipy.sparse.csr_matrix",
+      "depth": 1,
+      "inputs": [
+        {"name": "Y", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
+        {"name": "state", "type_desc": "LabelBinarizerState", "required": true},
+        {"name": "threshold", "type_desc": "float | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.object_] | scipy.sparse.csr_matrix"}
+      ]
+    },
+    {
       "node_id": "label_encoder_fit_transform",
       "name": "label_encoder_fit_transform",
       "description": "Learn target-label classes and encode labels to integer class positions in one pass.",
@@ -658,6 +731,26 @@
       "source_id": "label_encoder_fit",
       "target_id": "label_encoder_fit_transform",
       "edge_type": "semantic_equivalence"
+    },
+    {
+      "source_id": "label_binarize",
+      "target_id": "label_binarizer_transform",
+      "edge_type": "implementation_dependency"
+    },
+    {
+      "source_id": "label_binarizer_fit",
+      "target_id": "label_binarizer_fit_transform",
+      "edge_type": "implementation_dependency"
+    },
+    {
+      "source_id": "label_binarizer_fit",
+      "target_id": "label_binarizer_transform",
+      "edge_type": "fit_state_dependency"
+    },
+    {
+      "source_id": "label_binarizer_fit",
+      "target_id": "label_binarizer_inverse_transform",
+      "edge_type": "fit_state_dependency"
     }
   ],
   "metadata": {

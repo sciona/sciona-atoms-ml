@@ -6,6 +6,7 @@ import scipy.sparse as sp
 from sklearn.preprocessing import (
     Binarizer,
     KernelCenterer,
+    LabelBinarizer,
     LabelEncoder,
     MaxAbsScaler,
     MinMaxScaler,
@@ -31,6 +32,10 @@ def test_preprocessing_basic_atoms_import() -> None:
         kernel_centerer_fit,
         kernel_centerer_transform,
         label_binarize,
+        label_binarizer_fit,
+        label_binarizer_fit_transform,
+        label_binarizer_inverse_transform,
+        label_binarizer_transform,
         label_encoder_fit,
         label_encoder_fit_transform,
         label_encoder_inverse_transform,
@@ -64,6 +69,10 @@ def test_preprocessing_basic_atoms_import() -> None:
     assert callable(kernel_centerer_fit)
     assert callable(kernel_centerer_transform)
     assert callable(label_binarize)
+    assert callable(label_binarizer_fit)
+    assert callable(label_binarizer_fit_transform)
+    assert callable(label_binarizer_inverse_transform)
+    assert callable(label_binarizer_transform)
     assert callable(label_encoder_fit)
     assert callable(label_encoder_fit_transform)
     assert callable(label_encoder_inverse_transform)
@@ -348,6 +357,79 @@ def test_label_binarize_errors_match_sklearn() -> None:
         label_binarize([1, 2], classes=[1, 2], neg_label=-1, sparse_output=True)
     with pytest.raises(ValueError, match="Sparse binarization"):
         sklearn_label_binarize([1, 2], classes=[1, 2], neg_label=-1, sparse_output=True)
+
+
+def test_label_binarizer_fit_and_transform_match_sklearn_binary() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import label_binarizer_fit, label_binarizer_transform
+
+    y = np.array(["yes", "no", "no", "yes"], dtype=object)
+    state = label_binarizer_fit(y, neg_label=-1, pos_label=2)
+    expected = LabelBinarizer(neg_label=-1, pos_label=2).fit(y)
+
+    assert np.array_equal(state.classes, expected.classes_)
+    assert state.y_type == expected.y_type_
+    assert state.sparse_input == expected.sparse_input_
+    assert np.array_equal(label_binarizer_transform(y, state), expected.transform(y))
+
+
+def test_label_binarizer_fit_transform_matches_sklearn_multiclass() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import label_binarizer_fit_transform
+
+    y = np.array([1, 2, 6, 4, 2])
+    state, transformed = label_binarizer_fit_transform(y)
+    expected = LabelBinarizer()
+    expected_transformed = expected.fit_transform(y)
+
+    assert np.array_equal(state.classes, expected.classes_)
+    assert state.y_type == expected.y_type_
+    assert np.array_equal(transformed, expected_transformed)
+
+
+def test_label_binarizer_inverse_transform_matches_sklearn_multiclass_scores() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import (
+        label_binarizer_fit,
+        label_binarizer_inverse_transform,
+        label_binarizer_transform,
+    )
+
+    y = np.array([1, 2, 6, 4, 2])
+    state = label_binarizer_fit(y)
+    expected = LabelBinarizer().fit(y)
+    scores = np.array([[0.1, 0.2, 0.7, 0.0], [0.8, 0.1, 0.0, 0.1]])
+
+    assert np.array_equal(label_binarizer_transform([1, 6], state), expected.transform([1, 6]))
+    assert np.array_equal(label_binarizer_inverse_transform(scores, state), expected.inverse_transform(scores))
+
+
+def test_label_binarizer_sparse_multilabel_inverse_matches_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import label_binarizer_fit, label_binarizer_inverse_transform
+
+    y = sp.csr_matrix([[0, 1, 1], [1, 0, 0]])
+    state = label_binarizer_fit(y)
+    expected = LabelBinarizer().fit(y)
+    Y = np.array([[1, 0, 1], [0, 1, 0]])
+
+    result = label_binarizer_inverse_transform(Y, state)
+    expected_result = expected.inverse_transform(Y)
+
+    assert sp.issparse(result)
+    assert np.array_equal(result.toarray(), expected_result.toarray())
+
+
+def test_label_binarizer_errors_match_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import label_binarizer_fit, label_binarizer_transform
+
+    with pytest.raises(ValueError, match="strictly less"):
+        label_binarizer_fit([1, 2], neg_label=1, pos_label=1)
+    with pytest.raises(ValueError, match="strictly less"):
+        LabelBinarizer(neg_label=1, pos_label=1).fit([1, 2])
+
+    state = label_binarizer_fit([1, 2])
+    y_multilabel = np.array([[1, 0], [0, 1]])
+    with pytest.raises(ValueError, match="not fitted with multilabel"):
+        label_binarizer_transform(y_multilabel, state)
+    with pytest.raises(ValueError, match="not fitted with multilabel"):
+        LabelBinarizer().fit([1, 2]).transform(y_multilabel)
 
 
 def test_scale_matches_sklearn_dense_axes_and_options() -> None:

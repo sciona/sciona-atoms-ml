@@ -72,3 +72,15 @@ class LabelEncoderState:
     """Learned sorted label classes for target encoding."""
 
     classes: NDArray[np.object_]
+
+
+@dataclass(frozen=True)
+class LabelBinarizerState:
+    """Learned target classes and label-binarization configuration."""
+
+    classes: NDArray[np.object_]
+    y_type: str
+    sparse_input: bool
+    neg_label: int
+    pos_label: int
+    sparse_output: bool

@@ -1187,7 +1187,7 @@ def robust_scale(
     return scaled
 
 
-from .state_models import LabelEncoderState
+from .state_models import LabelBinarizerState, LabelEncoderState
 from .witnesses import (
     witness_label_encoder_fit,
     witness_label_encoder_fit_transform,
@@ -1445,3 +1445,147 @@ def label_binarize(
             Y = np.reshape(np.asarray(Y)[:, -1], (-1, 1))
 
     return Y
+
+
+from .witnesses import (
+    witness_label_binarizer_fit,
+    witness_label_binarizer_fit_transform,
+    witness_label_binarizer_inverse_transform,
+    witness_label_binarizer_transform,
+)
+
+LabelBinarizerFitTransformResult = tuple[LabelBinarizerState, LabelBinarizeResult]
+LabelBinarizerInverseResult = NDArray[np.object_] | sp.csr_matrix
+
+
+def _label_binarizer_y_type_valid(y_type: str) -> bool:
+    return y_type in {"binary", "multiclass", "multilabel-indicator"}
+
+
+def _label_binarizer_state_valid(state: LabelBinarizerState) -> bool:
+    return bool(
+        state.classes.ndim == 1
+        and _label_binarizer_y_type_valid(state.y_type)
+        and state.neg_label < state.pos_label
+        and (not state.sparse_output or (state.pos_label != 0 and state.neg_label == 0))
+    )
+
+
+def _label_binarizer_fit_transform_valid(result: LabelBinarizerFitTransformResult, y: LabelBinarizeInput) -> bool:
+    state, transformed = result
+    return bool(
+        _label_binarizer_state_valid(state)
+        and _label_binarize_shape_matches(transformed, y, state.classes)
+    )
+
+
+def _label_binarizer_inverse_sample_count(result: LabelBinarizerInverseResult, Y: MatrixLike) -> bool:
+    return bool(result.shape[0] == Y.shape[0])
+
+
+@register_atom(witness_label_binarizer_fit)
+@icontract.require(lambda y: _label_binarize_input_valid(y), "y must be a 1D label vector or 2D multilabel indicator")
+@icontract.ensure(lambda result: _label_binarizer_state_valid(result), "state must contain fitted classes and valid labels")
+def label_binarizer_fit(
+    y: LabelBinarizeInput,
+    *,
+    neg_label: int = 0,
+    pos_label: int = 1,
+    sparse_output: bool = False,
+) -> LabelBinarizerState:
+    """Learn classes, target type, and sparse-input mode for label binarization."""
+    from sklearn.utils.multiclass import type_of_target, unique_labels
+    from sklearn.utils.validation import _num_samples
+
+    if neg_label >= pos_label:
+        raise ValueError(f"neg_label={neg_label} must be strictly less than pos_label={pos_label}.")
+    if sparse_output and (pos_label == 0 or neg_label != 0):
+        raise ValueError(
+            "Sparse binarization is only supported with non zero pos_label and zero neg_label, got "
+            f"pos_label={pos_label} and neg_label={neg_label}"
+        )
+
+    y_type = type_of_target(y, input_name="y")
+    if "multioutput" in y_type:
+        raise ValueError("Multioutput target data is not supported with label binarization")
+    if _num_samples(y) == 0:
+        raise ValueError("y has 0 samples: %r" % y)
+    return LabelBinarizerState(
+        classes=np.asarray(unique_labels(y)),
+        y_type=y_type,
+        sparse_input=bool(sp.issparse(y)),
+        neg_label=int(neg_label),
+        pos_label=int(pos_label),
+        sparse_output=bool(sparse_output),
+    )
+
+
+@register_atom(witness_label_binarizer_fit_transform)
+@icontract.require(lambda y: _label_binarize_input_valid(y), "y must be a 1D label vector or 2D multilabel indicator")
+@icontract.ensure(lambda result, y: _label_binarizer_fit_transform_valid(result, y), "fit-transform output must match fitted classes")
+def label_binarizer_fit_transform(
+    y: LabelBinarizeInput,
+    *,
+    neg_label: int = 0,
+    pos_label: int = 1,
+    sparse_output: bool = False,
+) -> LabelBinarizerFitTransformResult:
+    """Learn label-binarizer state and transform labels in one pass."""
+    state = label_binarizer_fit(
+        y,
+        neg_label=neg_label,
+        pos_label=pos_label,
+        sparse_output=sparse_output,
+    )
+    transformed = label_binarizer_transform(y, state)
+    return state, transformed
+
+
+@register_atom(witness_label_binarizer_transform)
+@icontract.require(lambda y: _label_binarize_input_valid(y), "y must be a 1D label vector or 2D multilabel indicator")
+@icontract.require(lambda state: _label_binarizer_state_valid(state), "state must contain fitted classes and valid labels")
+@icontract.ensure(lambda result, y, state: _label_binarize_shape_matches(result, y, state.classes), "transformed labels must have fitted class shape")
+def label_binarizer_transform(y: LabelBinarizeInput, state: LabelBinarizerState) -> LabelBinarizeResult:
+    """Transform labels to one-vs-all columns with fitted binarizer state."""
+    from sklearn.utils.multiclass import type_of_target
+
+    y_is_multilabel = type_of_target(y).startswith("multilabel")
+    if y_is_multilabel and not state.y_type.startswith("multilabel"):
+        raise ValueError("The object was not fitted with multilabel input.")
+    return label_binarize(
+        y,
+        classes=state.classes,
+        pos_label=state.pos_label,
+        neg_label=state.neg_label,
+        sparse_output=state.sparse_output,
+    )
+
+
+@register_atom(witness_label_binarizer_inverse_transform)
+@icontract.require(lambda Y: _is_2d(Y), "Y must be a 2D matrix")
+@icontract.require(lambda state: _label_binarizer_state_valid(state), "state must contain fitted classes and valid labels")
+@icontract.ensure(lambda result, Y: _label_binarizer_inverse_sample_count(result, Y), "inverse output must preserve sample count")
+def label_binarizer_inverse_transform(
+    Y: MatrixLike,
+    state: LabelBinarizerState,
+    threshold: float | None = None,
+) -> LabelBinarizerInverseResult:
+    """Map binary indicator scores back to labels using fitted binarizer state."""
+    from sklearn.preprocessing._label import _inverse_binarize_multiclass, _inverse_binarize_thresholding
+
+    effective_threshold = (state.pos_label + state.neg_label) / 2.0 if threshold is None else threshold
+    if state.y_type == "multiclass":
+        y_inv = _inverse_binarize_multiclass(Y, state.classes)
+    else:
+        y_inv = _inverse_binarize_thresholding(
+            Y,
+            state.y_type,
+            state.classes,
+            effective_threshold,
+        )
+
+    if state.sparse_input:
+        return sp.csr_matrix(y_inv)
+    if sp.issparse(y_inv):
+        return y_inv.toarray()
+    return np.asarray(y_inv)
