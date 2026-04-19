@@ -2002,6 +2002,167 @@
           "type_desc": "tuple[KBinsDiscretizerState, NDArray[np.float64] | scipy.sparse.spmatrix]"
         }
       ]
+    },
+    {
+      "node_id": "spline_transformer_fit",
+      "name": "spline_transformer_fit",
+      "description": "Learn per-feature B-spline knots for basis expansion.",
+      "concept_type": "fit_state_builder",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, n_knots: int = 5, degree: int = 3, knots: str | NDArray[np.float64] = 'uniform', extrapolation: str = 'constant', include_bias: bool = True, order: str = 'C', handle_missing: str = 'error', sparse_output: bool = False, sample_weight: NDArray[np.float64] | None = None) -> SplineTransformerState",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix",
+          "required": true
+        },
+        {
+          "name": "n_knots",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "degree",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "knots",
+          "type_desc": "str | NDArray[np.float64]",
+          "required": false
+        },
+        {
+          "name": "extrapolation",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "include_bias",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "order",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "handle_missing",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "sparse_output",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "sample_weight",
+          "type_desc": "NDArray[np.float64] | None",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "SplineTransformerState"
+        }
+      ]
+    },
+    {
+      "node_id": "spline_transformer_transform",
+      "name": "spline_transformer_transform",
+      "description": "Expand each feature into fitted univariate B-spline basis values.",
+      "concept_type": "array_transform",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, state: SplineTransformerState) -> NDArray[np.float64] | scipy.sparse.spmatrix",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "SplineTransformerState",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"
+        }
+      ]
+    },
+    {
+      "node_id": "spline_transformer_fit_transform",
+      "name": "spline_transformer_fit_transform",
+      "description": "Learn B-spline knots and expand the same matrix.",
+      "concept_type": "fit_transform",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, n_knots: int = 5, degree: int = 3, knots: str | NDArray[np.float64] = 'uniform', extrapolation: str = 'constant', include_bias: bool = True, order: str = 'C', handle_missing: str = 'error', sparse_output: bool = False, sample_weight: NDArray[np.float64] | None = None) -> tuple[SplineTransformerState, NDArray[np.float64] | scipy.sparse.spmatrix]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix",
+          "required": true
+        },
+        {
+          "name": "n_knots",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "degree",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "knots",
+          "type_desc": "str | NDArray[np.float64]",
+          "required": false
+        },
+        {
+          "name": "extrapolation",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "include_bias",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "order",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "handle_missing",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "sparse_output",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "sample_weight",
+          "type_desc": "NDArray[np.float64] | None",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "tuple[SplineTransformerState, NDArray[np.float64] | scipy.sparse.spmatrix]"
+        }
+      ]
     }
   ],
   "edges": [
@@ -2188,6 +2349,16 @@
     {
       "source_id": "kbins_discretizer_fit",
       "target_id": "kbins_discretizer_fit_transform",
+      "edge_type": "implementation_dependency"
+    },
+    {
+      "source_id": "spline_transformer_fit",
+      "target_id": "spline_transformer_transform",
+      "edge_type": "fit_state_dependency"
+    },
+    {
+      "source_id": "spline_transformer_fit",
+      "target_id": "spline_transformer_fit_transform",
       "edge_type": "implementation_dependency"
     }
   ],

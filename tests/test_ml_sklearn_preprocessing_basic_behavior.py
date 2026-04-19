@@ -17,6 +17,7 @@ from sklearn.preprocessing import (
     PowerTransformer,
     QuantileTransformer,
     RobustScaler,
+    SplineTransformer,
     StandardScaler,
 )
 from sklearn.preprocessing import add_dummy_feature as sklearn_add_dummy_feature
@@ -85,6 +86,9 @@ def test_preprocessing_basic_atoms_import() -> None:
         robust_scaler_inverse_transform,
         robust_scaler_transform,
         scale,
+        spline_transformer_fit,
+        spline_transformer_fit_transform,
+        spline_transformer_transform,
         standard_scaler_fit,
         standard_scaler_inverse_transform,
         standard_scaler_partial_fit,
@@ -143,6 +147,9 @@ def test_preprocessing_basic_atoms_import() -> None:
     assert callable(robust_scaler_inverse_transform)
     assert callable(robust_scaler_transform)
     assert callable(scale)
+    assert callable(spline_transformer_fit)
+    assert callable(spline_transformer_fit_transform)
+    assert callable(spline_transformer_transform)
     assert callable(standard_scaler_fit)
     assert callable(standard_scaler_inverse_transform)
     assert callable(standard_scaler_partial_fit)
@@ -689,6 +696,74 @@ def test_polynomial_features_errors_match_sklearn() -> None:
         polynomial_features_transform(np.ones((2, 3), dtype=np.float64), state)
     with pytest.raises(ValueError):
         PolynomialFeatures().fit(X).transform(np.ones((2, 3), dtype=np.float64))
+
+
+def test_spline_transformer_fit_transform_matches_sklearn_uniform() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import spline_transformer_fit_transform
+
+    X = np.arange(12, dtype=np.float64).reshape(6, 2)
+    state, transformed = spline_transformer_fit_transform(X, n_knots=4, degree=2, include_bias=True)
+    expected = SplineTransformer(n_knots=4, degree=2, include_bias=True).fit(X)
+
+    assert state.n_features_out == expected.n_features_out_
+    assert transformed.shape == expected.transform(X).shape
+    assert np.allclose(transformed, expected.transform(X))
+
+
+def test_spline_transformer_transform_extrapolations_match_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import spline_transformer_fit, spline_transformer_transform
+
+    X = np.array([[0.0], [1.0], [2.0], [3.0]], dtype=np.float64)
+    X_query = np.array([[-1.0], [0.5], [4.0]], dtype=np.float64)
+    for extrapolation in ("constant", "linear", "continue", "periodic"):
+        state = spline_transformer_fit(X, n_knots=3, degree=2, extrapolation=extrapolation, include_bias=False)
+        expected = SplineTransformer(n_knots=3, degree=2, extrapolation=extrapolation, include_bias=False).fit(X)
+        assert np.allclose(spline_transformer_transform(X_query, state), expected.transform(X_query))
+
+
+def test_spline_transformer_quantile_sparse_and_missing_match_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import spline_transformer_fit, spline_transformer_transform
+
+    X = np.array([[0.0, 1.0], [1.0, np.nan], [2.0, 3.0], [4.0, 5.0]], dtype=np.float64)
+    weights = np.array([1.0, 0.5, 2.0, 1.0], dtype=np.float64)
+    state = spline_transformer_fit(
+        X,
+        n_knots=3,
+        degree=2,
+        knots="quantile",
+        handle_missing="zeros",
+        sparse_output=True,
+        sample_weight=weights,
+    )
+    expected = SplineTransformer(
+        n_knots=3,
+        degree=2,
+        knots="quantile",
+        handle_missing="zeros",
+        sparse_output=True,
+    ).fit(X, sample_weight=weights)
+    result = spline_transformer_transform(X, state)
+    expected_result = expected.transform(X)
+
+    assert sp.issparse(result)
+    assert result.format == expected_result.format
+    assert np.allclose(result.toarray(), expected_result.toarray(), equal_nan=True)
+
+
+def test_spline_transformer_errors_match_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import spline_transformer_fit, spline_transformer_transform
+
+    X = np.array([[0.0], [1.0], [2.0]], dtype=np.float64)
+    with pytest.raises(ValueError, match="degree < n_knots"):
+        spline_transformer_fit(X, n_knots=2, degree=2, extrapolation="periodic")
+    with pytest.raises(ValueError, match="degree < n_knots"):
+        SplineTransformer(n_knots=2, degree=2, extrapolation="periodic").fit(X)
+
+    state = spline_transformer_fit(X, n_knots=3, degree=2, extrapolation="error")
+    with pytest.raises(ValueError, match="beyond the limits"):
+        spline_transformer_transform(np.array([[-1.0]], dtype=np.float64), state)
+    with pytest.raises(ValueError, match="beyond the limits"):
+        SplineTransformer(n_knots=3, degree=2, extrapolation="error").fit(X).transform(np.array([[-1.0]], dtype=np.float64))
 
 
 def test_power_transform_matches_sklearn_yeo_johnson_standardized() -> None:

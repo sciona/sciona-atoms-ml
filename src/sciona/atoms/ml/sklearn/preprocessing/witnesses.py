@@ -18,6 +18,7 @@ from .state_models import (
     PowerTransformerState,
     QuantileTransformerState,
     RobustScalerState,
+    SplineTransformerState,
     StandardScalerState,
 )
 
@@ -630,6 +631,82 @@ def witness_polynomial_features_fit_transform(
     )
     n_samples, _ = _check_2d(X)
     return powers, AbstractArray(shape=(n_samples, int(powers.shape[0])), dtype=X.dtype)
+
+
+def witness_spline_transformer_fit(
+    X: AbstractArray,
+    n_knots: int = 5,
+    degree: int = 3,
+    *,
+    knots: str = "uniform",
+    extrapolation: str = "constant",
+    include_bias: bool = True,
+    order: str = "C",
+    handle_missing: str = "error",
+    sparse_output: bool = False,
+    sample_weight: AbstractArray | None = None,
+) -> AbstractArray:
+    """Describe learning per-feature B-spline knot positions."""
+    del knots, include_bias, sparse_output
+    n_samples, n_features = _check_2d(X)
+    if n_samples < 2:
+        raise ValueError("X must contain at least two samples")
+    if n_knots < 2:
+        raise ValueError("n_knots must be at least two")
+    if degree < 0:
+        raise ValueError("degree must be non-negative")
+    if extrapolation not in {"error", "constant", "linear", "continue", "periodic"}:
+        raise ValueError("invalid extrapolation mode")
+    if order not in {"C", "F"}:
+        raise ValueError("order must be 'C' or 'F'")
+    if handle_missing not in {"error", "zeros"}:
+        raise ValueError("invalid missing-value mode")
+    if sample_weight is not None and tuple(sample_weight.shape) != (n_samples,):
+        raise ValueError("sample_weight must have one value per sample")
+    return AbstractArray(shape=(n_knots + 2 * degree, n_features), dtype="float64")
+
+
+def witness_spline_transformer_transform(
+    X: AbstractArray,
+    state: SplineTransformerState,
+) -> AbstractArray:
+    """Describe expanding features to fitted B-spline bases."""
+    n_samples, n_features = _check_2d(X)
+    if n_features != state.n_features_in:
+        raise ValueError("X feature count must match fitted state")
+    return AbstractArray(shape=(n_samples, state.n_features_out), dtype=X.dtype)
+
+
+def witness_spline_transformer_fit_transform(
+    X: AbstractArray,
+    n_knots: int = 5,
+    degree: int = 3,
+    *,
+    knots: str = "uniform",
+    extrapolation: str = "constant",
+    include_bias: bool = True,
+    order: str = "C",
+    handle_missing: str = "error",
+    sparse_output: bool = False,
+    sample_weight: AbstractArray | None = None,
+) -> tuple[AbstractArray, AbstractArray]:
+    """Describe fitting B-spline knots and expanding features."""
+    learned = witness_spline_transformer_fit(
+        X,
+        n_knots=n_knots,
+        degree=degree,
+        knots=knots,
+        extrapolation=extrapolation,
+        include_bias=include_bias,
+        order=order,
+        handle_missing=handle_missing,
+        sparse_output=sparse_output,
+        sample_weight=sample_weight,
+    )
+    n_samples, n_features = _check_2d(X)
+    n_splines = n_knots - 1 if extrapolation == "periodic" else n_knots + degree - 1
+    width = n_features * (n_splines if include_bias else n_splines - 1)
+    return learned, AbstractArray(shape=(n_samples, width), dtype=X.dtype)
 
 
 def witness_power_transformer_fit(

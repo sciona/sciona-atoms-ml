@@ -10,6 +10,7 @@ import numpy as np
 import scipy.sparse as sp
 import scipy.special as special
 import scipy.stats as stats
+from scipy.interpolate import BSpline
 from numpy.typing import NDArray
 from sklearn.preprocessing._data import BOUNDS_THRESHOLD, _handle_zeros_in_scale, _is_constant_feature
 from sklearn.utils import check_array, check_random_state, resample
@@ -1536,6 +1537,7 @@ from .state_models import (
     PolynomialFeaturesState,
     PowerTransformerState,
     QuantileTransformerState,
+    SplineTransformerState,
 )
 from .witnesses import (
     witness_label_encoder_fit,
@@ -2337,6 +2339,348 @@ def polynomial_features_fit_transform(
         order=order,
     )
     return state, polynomial_features_transform(X, state)
+
+
+from .witnesses import (
+    witness_spline_transformer_fit,
+    witness_spline_transformer_fit_transform,
+    witness_spline_transformer_transform,
+)
+
+SplineKnots = str | NDArray[np.float64]
+SplineTransformerFitTransformResult = tuple[SplineTransformerState, MatrixLike]
+
+
+def _spline_extrapolation_valid(extrapolation: str) -> bool:
+    return extrapolation in {"error", "constant", "linear", "continue", "periodic"}
+
+
+def _spline_knots_valid(knots: SplineKnots) -> bool:
+    return bool(isinstance(knots, str) and knots in {"uniform", "quantile"} or not isinstance(knots, str))
+
+
+def _spline_order_valid(order: str) -> bool:
+    return order in {"C", "F"}
+
+
+def _spline_missing_valid(handle_missing: str) -> bool:
+    return handle_missing in {"error", "zeros"}
+
+
+def _spline_state_valid(state: SplineTransformerState) -> bool:
+    return bool(
+        state.knots.ndim == 2
+        and state.knots.shape[1] == state.n_features_in
+        and state.n_splines >= 1
+        and state.degree >= 0
+        and _spline_extrapolation_valid(state.extrapolation)
+        and _spline_order_valid(state.order)
+        and _spline_missing_valid(state.handle_missing)
+        and state.n_features_out == state.n_features_in * (state.n_splines if state.include_bias else state.n_splines - 1)
+    )
+
+
+def _spline_transform_shape_matches(result: MatrixLike, X: MatrixLike, state: SplineTransformerState) -> bool:
+    return bool(result.shape == (X.shape[0], state.n_features_out))
+
+
+def _spline_fit_transform_valid(result: SplineTransformerFitTransformResult, X: MatrixLike) -> bool:
+    state, transformed = result
+    return bool(_spline_state_valid(state) and _spline_transform_shape_matches(transformed, X, state))
+
+
+def _spline_base_knot_positions(
+    X: NDArray[np.float64],
+    n_knots: int,
+    knots: str,
+    sample_weight: NDArray[np.float64] | None,
+) -> NDArray[np.float64]:
+    if knots == "quantile":
+        ranks = 100 * np.linspace(start=0, stop=1, num=n_knots, dtype=np.float64)
+        if sample_weight is None:
+            return np.asarray(np.nanpercentile(X, ranks, axis=0), dtype=np.float64)
+        return np.asarray(_weighted_percentile(X, sample_weight, ranks).T, dtype=np.float64)
+
+    mask = slice(None, None, 1) if sample_weight is None else sample_weight > 0
+    x_min = np.zeros(X.shape[1], dtype=np.float64)
+    x_max = np.zeros(X.shape[1], dtype=np.float64)
+    for feature_idx in range(X.shape[1]):
+        column = X[mask, feature_idx]
+        if not np.all(np.isnan(column)):
+            x_min[feature_idx] = np.nanmin(column)
+            x_max[feature_idx] = np.nanmax(column)
+    return np.linspace(start=x_min, stop=x_max, num=n_knots, endpoint=True, dtype=np.float64)
+
+
+def _spline_build_objects(state: SplineTransformerState) -> list[BSpline]:
+    coef = np.eye(state.n_splines, dtype=np.float64)
+    if state.extrapolation == "periodic":
+        coef = np.concatenate((coef, coef[: state.degree, :]))
+    extrapolate = state.extrapolation in {"periodic", "continue"}
+    return [
+        BSpline.construct_fast(state.knots[:, feature_idx], coef, state.degree, extrapolate=extrapolate)
+        for feature_idx in range(state.n_features_in)
+    ]
+
+
+@register_atom(witness_spline_transformer_fit)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
+@icontract.require(lambda X: _row_count(X) >= 2, "X must contain at least two samples")
+@icontract.require(lambda n_knots: n_knots >= 2, "n_knots must be at least two")
+@icontract.require(lambda degree: degree >= 0, "degree must be non-negative")
+@icontract.require(lambda knots: _spline_knots_valid(knots), "knots must be 'uniform', 'quantile', or an array")
+@icontract.require(lambda extrapolation: _spline_extrapolation_valid(extrapolation), "invalid extrapolation mode")
+@icontract.require(lambda order: _spline_order_valid(order), "order must be 'C' or 'F'")
+@icontract.require(lambda handle_missing: _spline_missing_valid(handle_missing), "invalid missing-value mode")
+@icontract.require(lambda sample_weight, X: _sample_weight_valid(sample_weight, X), "sample_weight must have one value per sample")
+@icontract.ensure(lambda result: _spline_state_valid(result), "spline state must contain valid knots and output shape")
+@icontract.ensure(lambda result, X: result.n_features_in == X.shape[1], "state feature count must match input columns")
+def spline_transformer_fit(
+    X: MatrixLike,
+    n_knots: int = 5,
+    degree: int = 3,
+    *,
+    knots: SplineKnots = "uniform",
+    extrapolation: str = "constant",
+    include_bias: bool = True,
+    order: str = "C",
+    handle_missing: str = "error",
+    sparse_output: bool = False,
+    sample_weight: NDArray[np.float64] | None = None,
+) -> SplineTransformerState:
+    """Learn per-feature B-spline knots for basis expansion."""
+    try:
+        checked_x = check_array(
+            X,
+            accept_sparse=False,
+            ensure_2d=True,
+            ensure_min_samples=2,
+            ensure_all_finite=handle_missing != "zeros",
+        )
+    except ValueError as exc:
+        if "Input contains NaN" in str(exc) or "Input X contains NaN" in str(exc):
+            raise ValueError(
+                "Input X contains NaN values and `SplineTransformer` is configured to error in this case (handle_missing='error'). To avoid this error, set handle_missing='zeros' to encode missing values as splines with value 0 or ensure no missing values in X."
+            ) from exc
+        raise
+    weights = _check_sample_weight(sample_weight, checked_x, dtype=checked_x.dtype) if sample_weight is not None else None
+    n_features = checked_x.shape[1]
+    if isinstance(knots, str):
+        base_knots = _spline_base_knot_positions(np.asarray(checked_x, dtype=np.float64), n_knots, knots, weights)
+    else:
+        base_knots = check_array(knots, dtype=np.float64)
+        if base_knots.shape[0] < 2:
+            raise ValueError("Number of knots, knots.shape[0], must be >= 2.")
+        if base_knots.shape[1] != n_features:
+            raise ValueError("knots.shape[1] == n_features is violated.")
+        if not np.all(np.diff(base_knots, axis=0) > 0):
+            raise ValueError("knots must be sorted without duplicates.")
+
+    base_n_knots = base_knots.shape[0]
+    if extrapolation == "periodic" and base_n_knots <= degree:
+        raise ValueError("Periodic splines require degree < n_knots. Got n_knots={0} and degree={1}.".format(base_n_knots, degree))
+    n_splines = base_n_knots - 1 if extrapolation == "periodic" else base_n_knots + degree - 1
+    if extrapolation == "periodic":
+        period = base_knots[-1] - base_knots[0]
+        full_knots = np.r_[
+            base_knots[-(degree + 1) : -1] - period,
+            base_knots,
+            base_knots[1 : (degree + 1)] + period,
+        ]
+    else:
+        dist_min = base_knots[1] - base_knots[0]
+        dist_max = base_knots[-1] - base_knots[-2]
+        full_knots = np.r_[
+            np.linspace(base_knots[0] - degree * dist_min, base_knots[0] - dist_min, num=degree),
+            base_knots,
+            np.linspace(base_knots[-1] + dist_max, base_knots[-1] + degree * dist_max, num=degree),
+        ]
+    n_features_out = n_features * (n_splines if include_bias else n_splines - 1)
+    return SplineTransformerState(
+        knots=np.asarray(full_knots, dtype=np.float64),
+        n_splines=int(n_splines),
+        degree=int(degree),
+        extrapolation=extrapolation,
+        include_bias=bool(include_bias),
+        order=order,
+        handle_missing=handle_missing,
+        sparse_output=bool(sparse_output),
+        n_features_in=int(n_features),
+        n_features_out=int(n_features_out),
+    )
+
+
+@register_atom(witness_spline_transformer_transform)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
+@icontract.require(lambda state: _spline_state_valid(state), "spline state must contain valid knots and output shape")
+@icontract.require(lambda X, state: X.shape[1] == state.n_features_in, "X feature count must match fitted state")
+@icontract.ensure(lambda result, X, state: _spline_transform_shape_matches(result, X, state), "spline output must match fitted basis width")
+def spline_transformer_transform(
+    X: MatrixLike,
+    state: SplineTransformerState,
+) -> MatrixLike:
+    """Expand each feature into fitted univariate B-spline basis values."""
+    checked_x = check_array(
+        X,
+        accept_sparse=False,
+        ensure_2d=True,
+        ensure_all_finite=state.handle_missing != "zeros",
+    )
+    if checked_x.shape[1] != state.n_features_in:
+        raise ValueError("Input data has a different number of features than fitting data.")
+    n_samples, n_features = checked_x.shape
+    n_splines = state.n_splines
+    n_out_full = n_features * n_splines
+    dtype = checked_x.dtype if checked_x.dtype in FLOAT_DTYPES else np.float64
+    bsplines = _spline_build_objects(state)
+    if state.sparse_output:
+        output_list = []
+    else:
+        xbs = np.zeros((n_samples, n_out_full), dtype=dtype, order=state.order)
+
+    for feature_idx, spl in enumerate(bsplines):
+        column = checked_x[:, feature_idx]
+        nan_rows = np.flatnonzero(np.isnan(column))
+        if state.extrapolation in {"continue", "error", "periodic"}:
+            if state.extrapolation == "periodic":
+                n = spl.t.size - spl.k - 1
+                if spl.t[n] - spl.t[spl.k] > 0:
+                    x = spl.t[spl.k] + (column - spl.t[spl.k]) % (spl.t[n] - spl.t[spl.k])
+                else:
+                    x = np.zeros_like(column)
+            else:
+                x = column
+            if state.sparse_output:
+                x_sparse = x
+                if nan_rows.size == x_sparse.size:
+                    x_sparse = np.zeros_like(x_sparse)
+                elif nan_rows.size > 0:
+                    x_sparse = x_sparse.copy()
+                    x_sparse[nan_rows] = np.nanmin(x_sparse)
+                block = BSpline.design_matrix(x_sparse, spl.t, spl.k, spl.extrapolate)
+                if state.extrapolation == "periodic":
+                    block = block.tolil()
+                    block[:, : state.degree] += block[:, -state.degree :]
+                    block = block[:, : -state.degree]
+                if nan_rows.size > 0:
+                    block = block.tolil()
+                    block[nan_rows, :] = 0
+            else:
+                xbs[:, feature_idx * n_splines : (feature_idx + 1) * n_splines] = spl(x)
+                if nan_rows.size > 0:
+                    xbs[nan_rows, feature_idx * n_splines : (feature_idx + 1) * n_splines] = 0
+        else:
+            xmin, xmax = spl.t[state.degree], spl.t[-state.degree - 1]
+            f_min, f_max = spl(xmin), spl(xmax)
+            inside = (xmin <= column) & (column <= xmax)
+            if state.sparse_output:
+                x_sparse = column.copy()
+                x_sparse[~inside] = xmin
+                block = BSpline.design_matrix(x_sparse, spl.t, spl.k)
+                if np.any(~inside):
+                    block = block.tolil()
+                    block[~inside, :] = 0
+            else:
+                xbs[
+                    inside,
+                    feature_idx * n_splines : (feature_idx + 1) * n_splines,
+                ] = spl(column[inside])
+
+        if state.extrapolation == "error":
+            if state.sparse_output:
+                block = block.tocsr()
+                has_nan = np.any(np.isnan(block.data))
+            else:
+                has_nan = np.any(np.isnan(xbs[:, feature_idx * n_splines : (feature_idx + 1) * n_splines]))
+            if has_nan:
+                raise ValueError("`X` contains values beyond the limits of the knots.")
+        elif state.extrapolation == "constant":
+            xmin, xmax = spl.t[state.degree], spl.t[-state.degree - 1]
+            below = column < xmin
+            above = column > xmax
+            if np.any(below):
+                if state.sparse_output:
+                    block = block.tolil()
+                    block[below, : state.degree] = f_min[: state.degree]
+                else:
+                    xbs[below, feature_idx * n_splines : feature_idx * n_splines + state.degree] = f_min[: state.degree]
+            if np.any(above):
+                if state.sparse_output:
+                    block = block.tolil()
+                    block[above, -state.degree :] = f_max[-state.degree :]
+                else:
+                    xbs[above, (feature_idx + 1) * n_splines - state.degree : (feature_idx + 1) * n_splines] = f_max[-state.degree :]
+        elif state.extrapolation == "linear":
+            xmin, xmax = spl.t[state.degree], spl.t[-state.degree - 1]
+            f_min, f_max = spl(xmin), spl(xmax)
+            fp_min, fp_max = spl(xmin, nu=1), spl(xmax, nu=1)
+            edge_degree = state.degree if state.degree > 1 else state.degree + 1
+            below = column < xmin
+            above = column > xmax
+            for basis_idx in range(edge_degree):
+                if np.any(below):
+                    values = f_min[basis_idx] + (column[below] - xmin) * fp_min[basis_idx]
+                    if state.sparse_output:
+                        block = block.tolil()
+                        block[below, basis_idx] = values
+                    else:
+                        xbs[below, feature_idx * n_splines + basis_idx] = values
+                if np.any(above):
+                    k = n_splines - 1 - basis_idx
+                    values = f_max[k] + (column[above] - xmax) * fp_max[k]
+                    if state.sparse_output:
+                        block = block.tolil()
+                        block[above, k : k + 1] = values[:, None]
+                    else:
+                        xbs[above, feature_idx * n_splines + k] = values
+        if state.sparse_output:
+            output_list.append(block.tocsr())
+
+    result: MatrixLike = sp.hstack(output_list, format="csr") if state.sparse_output else xbs
+    if state.include_bias:
+        return result
+    indices = [idx for idx in range(result.shape[1]) if (idx + 1) % n_splines != 0]
+    return result[:, indices]
+
+
+@register_atom(witness_spline_transformer_fit_transform)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
+@icontract.require(lambda X: _row_count(X) >= 2, "X must contain at least two samples")
+@icontract.require(lambda n_knots: n_knots >= 2, "n_knots must be at least two")
+@icontract.require(lambda degree: degree >= 0, "degree must be non-negative")
+@icontract.require(lambda knots: _spline_knots_valid(knots), "knots must be 'uniform', 'quantile', or an array")
+@icontract.require(lambda extrapolation: _spline_extrapolation_valid(extrapolation), "invalid extrapolation mode")
+@icontract.require(lambda order: _spline_order_valid(order), "order must be 'C' or 'F'")
+@icontract.require(lambda handle_missing: _spline_missing_valid(handle_missing), "invalid missing-value mode")
+@icontract.require(lambda sample_weight, X: _sample_weight_valid(sample_weight, X), "sample_weight must have one value per sample")
+@icontract.ensure(lambda result, X: _spline_fit_transform_valid(result, X), "fit-transform output must match learned spline state")
+def spline_transformer_fit_transform(
+    X: MatrixLike,
+    n_knots: int = 5,
+    degree: int = 3,
+    *,
+    knots: SplineKnots = "uniform",
+    extrapolation: str = "constant",
+    include_bias: bool = True,
+    order: str = "C",
+    handle_missing: str = "error",
+    sparse_output: bool = False,
+    sample_weight: NDArray[np.float64] | None = None,
+) -> SplineTransformerFitTransformResult:
+    """Learn B-spline knots and expand the same feature matrix."""
+    state = spline_transformer_fit(
+        X,
+        n_knots=n_knots,
+        degree=degree,
+        knots=knots,
+        extrapolation=extrapolation,
+        include_bias=include_bias,
+        order=order,
+        handle_missing=handle_missing,
+        sparse_output=sparse_output,
+        sample_weight=sample_weight,
+    )
+    return state, spline_transformer_transform(X, state)
 
 
 from .witnesses import (

@@ -122,6 +122,22 @@ class PolynomialFeaturesState:
 
 
 @dataclass(frozen=True)
+class SplineTransformerState:
+    """Learned B-spline knot positions and output layout for each feature."""
+
+    knots: NDArray[np.float64]
+    n_splines: int
+    degree: int
+    extrapolation: str
+    include_bias: bool
+    order: str
+    handle_missing: str
+    sparse_output: bool
+    n_features_in: int
+    n_features_out: int
+
+
+@dataclass(frozen=True)
 class PowerTransformerState:
     """Learned per-feature power-transform lambdas and scaling statistics."""
 

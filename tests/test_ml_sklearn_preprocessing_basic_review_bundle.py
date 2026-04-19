@@ -67,6 +67,9 @@ EXPECTED_ATOM_NAMES = {
     "sciona.atoms.ml.sklearn.preprocessing.robust_scaler_inverse_transform",
     "sciona.atoms.ml.sklearn.preprocessing.robust_scaler_transform",
     "sciona.atoms.ml.sklearn.preprocessing.scale",
+    "sciona.atoms.ml.sklearn.preprocessing.spline_transformer_fit",
+    "sciona.atoms.ml.sklearn.preprocessing.spline_transformer_fit_transform",
+    "sciona.atoms.ml.sklearn.preprocessing.spline_transformer_transform",
     "sciona.atoms.ml.sklearn.preprocessing.standard_scaler_fit",
     "sciona.atoms.ml.sklearn.preprocessing.standard_scaler_inverse_transform",
     "sciona.atoms.ml.sklearn.preprocessing.standard_scaler_partial_fit",
@@ -78,10 +81,10 @@ def _bundle() -> dict:
     return json.loads(BUNDLE_PATH.read_text(encoding="utf-8"))
 
 
-def test_bundle_exists_and_has_fifty_six_atoms() -> None:
+def test_bundle_exists_and_has_fifty_nine_atoms() -> None:
     assert BUNDLE_PATH.exists()
     bundle = _bundle()
-    assert len(bundle["rows"]) == 56
+    assert len(bundle["rows"]) == 59
     assert {row["atom_key"] for row in bundle["rows"]} == EXPECTED_ATOM_NAMES
 
 
@@ -176,6 +179,9 @@ def test_cdg_atomic_nodes_have_publishable_io_specs() -> None:
         "robust_scaler_inverse_transform",
         "robust_scaler_transform",
         "scale",
+        "spline_transformer_fit",
+        "spline_transformer_fit_transform",
+        "spline_transformer_transform",
         "standard_scaler_fit",
         "standard_scaler_inverse_transform",
         "standard_scaler_partial_fit",
