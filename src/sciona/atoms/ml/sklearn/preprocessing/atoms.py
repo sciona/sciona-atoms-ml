@@ -1187,7 +1187,7 @@ def robust_scale(
     return scaled
 
 
-from .state_models import LabelBinarizerState, LabelEncoderState, MultiLabelBinarizerState
+from .state_models import LabelBinarizerState, LabelEncoderState, MultiLabelBinarizerState, PolynomialFeaturesState
 from .witnesses import (
     witness_label_encoder_fit,
     witness_label_encoder_fit_transform,
@@ -1745,3 +1745,246 @@ def multi_label_binarizer_inverse_transform(
     if len(unexpected) > 0:
         raise ValueError("Expected only 0s and 1s in label indicator. Also got {0}".format(unexpected))
     return [tuple(state.classes.compress(indicators)) for indicators in dense_yt]
+
+
+import math
+
+from .witnesses import (
+    witness_polynomial_features_fit,
+    witness_polynomial_features_fit_transform,
+    witness_polynomial_features_transform,
+)
+
+PolynomialDegree = int | tuple[int, int]
+PolynomialFeaturesResult = MatrixLike
+PolynomialFeaturesFitTransformResult = tuple[PolynomialFeaturesState, PolynomialFeaturesResult]
+
+
+def _polynomial_order_valid(order: str) -> bool:
+    return order in {"C", "F"}
+
+
+def _polynomial_degree_bounds(degree: PolynomialDegree, include_bias: bool) -> tuple[int, int]:
+    if isinstance(degree, int):
+        if degree < 0:
+            raise ValueError("degree must be a non-negative int or tuple (min_degree, max_degree), got {0}.".format(degree))
+        if degree == 0 and not include_bias:
+            raise ValueError("Setting degree to zero and include_bias to False would result in an empty output array.")
+        return 0, int(degree)
+    if len(degree) != 2:
+        raise ValueError("degree must be a non-negative int or tuple (min_degree, max_degree), got {0}.".format(degree))
+    min_degree, max_degree = degree
+    if not (
+        isinstance(min_degree, int)
+        and isinstance(max_degree, int)
+        and min_degree >= 0
+        and min_degree <= max_degree
+    ):
+        raise ValueError(
+            "degree=(min_degree, max_degree) must be non-negative integers that fulfil min_degree <= max_degree, got "
+            f"{degree}."
+        )
+    if max_degree == 0 and not include_bias:
+        raise ValueError("Setting both min_degree and max_degree to zero and include_bias to False would result in an empty output array.")
+    return int(min_degree), int(max_degree)
+
+
+def _polynomial_output_count(
+    n_features: int,
+    min_degree: int,
+    max_degree: int,
+    interaction_only: bool,
+    include_bias: bool,
+) -> int:
+    if interaction_only:
+        total = sum(
+            math.comb(n_features, degree)
+            for degree in range(max(1, min_degree), min(max_degree, n_features) + 1)
+        )
+    else:
+        total = math.comb(n_features + max_degree, max_degree) - 1
+        if min_degree > 0:
+            previous_degree = min_degree - 1
+            total -= math.comb(n_features + previous_degree, previous_degree) - 1
+    if include_bias:
+        total += 1
+    return int(total)
+
+
+def _polynomial_combinations(
+    n_features: int,
+    min_degree: int,
+    max_degree: int,
+    interaction_only: bool,
+    include_bias: bool,
+) -> list[tuple[int, ...]]:
+    comb = itertools.combinations if interaction_only else itertools.combinations_with_replacement
+    combinations = [
+        item
+        for degree in range(max(1, min_degree), max_degree + 1)
+        for item in comb(range(n_features), degree)
+    ]
+    if include_bias:
+        combinations.insert(0, ())
+    return combinations
+
+
+def _polynomial_powers(
+    n_features: int,
+    min_degree: int,
+    max_degree: int,
+    interaction_only: bool,
+    include_bias: bool,
+) -> NDArray[np.int_]:
+    combinations = _polynomial_combinations(
+        n_features=n_features,
+        min_degree=min_degree,
+        max_degree=max_degree,
+        interaction_only=interaction_only,
+        include_bias=include_bias,
+    )
+    if not combinations:
+        return np.zeros((0, n_features), dtype=np.int_)
+    return np.asarray([np.bincount(item, minlength=n_features) for item in combinations], dtype=np.int_)
+
+
+def _polynomial_state_valid(state: PolynomialFeaturesState) -> bool:
+    return bool(
+        state.powers.ndim == 2
+        and state.powers.shape == (state.n_output_features, state.n_features_in)
+        and state.min_degree >= 0
+        and state.min_degree <= state.max_degree
+        and state.order in {"C", "F"}
+    )
+
+
+def _polynomial_transform_shape_matches(result: PolynomialFeaturesResult, X: MatrixLike, state: PolynomialFeaturesState) -> bool:
+    return bool(result.shape == (X.shape[0], state.n_output_features))
+
+
+def _polynomial_fit_transform_valid(result: PolynomialFeaturesFitTransformResult, X: MatrixLike) -> bool:
+    state, transformed = result
+    return bool(_polynomial_state_valid(state) and _polynomial_transform_shape_matches(transformed, X, state))
+
+
+@register_atom(witness_polynomial_features_fit)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
+@icontract.require(lambda order: _polynomial_order_valid(order), "order must be 'C' or 'F'")
+@icontract.ensure(lambda result: _polynomial_state_valid(result), "polynomial state must contain one power row per output feature")
+@icontract.ensure(lambda result, X: result.n_features_in == X.shape[1], "state feature count must match input columns")
+def polynomial_features_fit(
+    X: MatrixLike,
+    degree: PolynomialDegree = 2,
+    *,
+    interaction_only: bool = False,
+    include_bias: bool = True,
+    order: str = "C",
+) -> PolynomialFeaturesState:
+    """Learn polynomial expansion powers for a fitted feature count."""
+    checked_x = check_array(X, accept_sparse=True, dtype=FLOAT_DTYPES)
+    n_features = int(checked_x.shape[1])
+    min_degree, max_degree = _polynomial_degree_bounds(degree, include_bias)
+    n_output_features = _polynomial_output_count(
+        n_features=n_features,
+        min_degree=min_degree,
+        max_degree=max_degree,
+        interaction_only=interaction_only,
+        include_bias=include_bias,
+    )
+    if n_output_features > np.iinfo(np.intp).max:
+        raise ValueError("The output that would result from the current configuration would have too many features.")
+    powers = _polynomial_powers(
+        n_features=n_features,
+        min_degree=min_degree,
+        max_degree=max_degree,
+        interaction_only=interaction_only,
+        include_bias=include_bias,
+    )
+    return PolynomialFeaturesState(
+        powers=powers,
+        n_features_in=n_features,
+        n_output_features=n_output_features,
+        min_degree=min_degree,
+        max_degree=max_degree,
+        interaction_only=bool(interaction_only),
+        include_bias=bool(include_bias),
+        order=order,
+    )
+
+
+@register_atom(witness_polynomial_features_transform)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
+@icontract.require(lambda state: _polynomial_state_valid(state), "polynomial state must contain one power row per output feature")
+@icontract.require(lambda X, state: X.shape[1] == state.n_features_in, "X feature count must match fitted state")
+@icontract.ensure(lambda result, X, state: _polynomial_transform_shape_matches(result, X, state), "polynomial output shape must match fitted expansion")
+def polynomial_features_transform(
+    X: MatrixLike,
+    state: PolynomialFeaturesState,
+) -> PolynomialFeaturesResult:
+    """Expand rows to polynomial and interaction feature columns."""
+    checked_x = check_array(X, accept_sparse=("csr", "csc"), dtype=FLOAT_DTYPES)
+    if checked_x.shape[1] != state.n_features_in:
+        raise ValueError("X feature count does not match fitted state")
+
+    if sp.issparse(checked_x):
+        columns = []
+        sparse_format = "csr" if checked_x.format == "csr" else "csc"
+        for power in state.powers:
+            if int(np.sum(power)) == 0:
+                columns.append(sp.csr_matrix(np.ones((checked_x.shape[0], 1), dtype=checked_x.dtype)))
+                continue
+            out_col = None
+            for feature_idx, exponent in enumerate(power):
+                if exponent == 0:
+                    continue
+                feature_col = checked_x[:, [feature_idx]]
+                powered_col = feature_col.copy()
+                for _ in range(int(exponent) - 1):
+                    powered_col = powered_col.multiply(feature_col)
+                out_col = powered_col if out_col is None else out_col.multiply(powered_col)
+            if out_col is None:
+                out_col = sp.csr_matrix((checked_x.shape[0], 1), dtype=checked_x.dtype)
+            columns.append(out_col)
+        if not columns:
+            return sp.csr_matrix((checked_x.shape[0], 0), dtype=checked_x.dtype)
+        return sp.hstack(columns, dtype=checked_x.dtype, format=sparse_format)
+
+    dense_x = np.asarray(checked_x)
+    columns_dense = []
+    for power in state.powers:
+        if int(np.sum(power)) == 0:
+            columns_dense.append(np.ones(dense_x.shape[0], dtype=dense_x.dtype))
+            continue
+        column = np.ones(dense_x.shape[0], dtype=dense_x.dtype)
+        for feature_idx, exponent in enumerate(power):
+            if exponent:
+                column *= dense_x[:, feature_idx] ** int(exponent)
+        columns_dense.append(column)
+    if not columns_dense:
+        result = np.empty((dense_x.shape[0], 0), dtype=dense_x.dtype)
+    else:
+        result = np.vstack(columns_dense).T
+    return np.asfortranarray(result) if state.order == "F" else np.ascontiguousarray(result)
+
+
+@register_atom(witness_polynomial_features_fit_transform)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
+@icontract.require(lambda order: _polynomial_order_valid(order), "order must be 'C' or 'F'")
+@icontract.ensure(lambda result, X: _polynomial_fit_transform_valid(result, X), "fit-transform output must match learned polynomial state")
+def polynomial_features_fit_transform(
+    X: MatrixLike,
+    degree: PolynomialDegree = 2,
+    *,
+    interaction_only: bool = False,
+    include_bias: bool = True,
+    order: str = "C",
+) -> PolynomialFeaturesFitTransformResult:
+    """Learn polynomial powers and expand rows in one pass."""
+    state = polynomial_features_fit(
+        X,
+        degree=degree,
+        interaction_only=interaction_only,
+        include_bias=include_bias,
+        order=order,
+    )
+    return state, polynomial_features_transform(X, state)

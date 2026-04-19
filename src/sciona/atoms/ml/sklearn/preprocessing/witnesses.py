@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import math
+
 from sciona.ghost.abstract import AbstractArray
 
 from .state_models import (
@@ -11,6 +13,7 @@ from .state_models import (
     MaxAbsScalerState,
     MinMaxScalerState,
     MultiLabelBinarizerState,
+    PolynomialFeaturesState,
     RobustScalerState,
     StandardScalerState,
 )
@@ -493,6 +496,93 @@ def witness_multi_label_binarizer_inverse_transform(
     if int(yt.shape[1]) != int(state.classes.shape[0]):
         raise ValueError("indicator width must match fitted classes")
     return AbstractArray(shape=(int(yt.shape[0]),), dtype="object")
+
+
+def witness_polynomial_features_fit(
+    X: AbstractArray,
+    degree: int | tuple[int, int] = 2,
+    *,
+    interaction_only: bool = False,
+    include_bias: bool = True,
+    order: str = "C",
+) -> AbstractArray:
+    """Describe learning polynomial power rows for input features."""
+    if order not in {"C", "F"}:
+        raise ValueError("order must be 'C' or 'F'")
+    _, n_features = _check_2d(X)
+    min_degree, max_degree = _polynomial_degree_bounds(degree, include_bias)
+    n_outputs = _polynomial_output_count(n_features, min_degree, max_degree, interaction_only, include_bias)
+    return AbstractArray(shape=(n_outputs, n_features), dtype="int64")
+
+
+def witness_polynomial_features_transform(
+    X: AbstractArray,
+    state: PolynomialFeaturesState,
+) -> AbstractArray:
+    """Describe polynomial feature expansion shape."""
+    n_samples, n_features = _check_2d(X)
+    if n_features != state.n_features_in:
+        raise ValueError("X feature count must match fitted state")
+    return AbstractArray(shape=(n_samples, state.n_output_features), dtype=X.dtype)
+
+
+def witness_polynomial_features_fit_transform(
+    X: AbstractArray,
+    degree: int | tuple[int, int] = 2,
+    *,
+    interaction_only: bool = False,
+    include_bias: bool = True,
+    order: str = "C",
+) -> tuple[AbstractArray, AbstractArray]:
+    """Describe fitting polynomial powers and expanding features."""
+    powers = witness_polynomial_features_fit(
+        X,
+        degree=degree,
+        interaction_only=interaction_only,
+        include_bias=include_bias,
+        order=order,
+    )
+    n_samples, _ = _check_2d(X)
+    return powers, AbstractArray(shape=(n_samples, int(powers.shape[0])), dtype=X.dtype)
+
+
+def _polynomial_degree_bounds(degree: int | tuple[int, int], include_bias: bool) -> tuple[int, int]:
+    if isinstance(degree, int):
+        if degree == 0 and not include_bias:
+            raise ValueError("degree zero without bias has empty output")
+        if degree < 0:
+            raise ValueError("degree must be non-negative")
+        return 0, degree
+    if len(degree) != 2:
+        raise ValueError("degree tuple must have length two")
+    min_degree, max_degree = degree
+    if min_degree < 0 or min_degree > max_degree:
+        raise ValueError("degree bounds must satisfy 0 <= min <= max")
+    if max_degree == 0 and not include_bias:
+        raise ValueError("degree zero without bias has empty output")
+    return int(min_degree), int(max_degree)
+
+
+def _polynomial_output_count(
+    n_features: int,
+    min_degree: int,
+    max_degree: int,
+    interaction_only: bool,
+    include_bias: bool,
+) -> int:
+    if interaction_only:
+        total = sum(
+            math.comb(n_features, degree)
+            for degree in range(max(1, min_degree), min(max_degree, n_features) + 1)
+        )
+    else:
+        total = math.comb(n_features + max_degree, max_degree) - 1
+        if min_degree > 0:
+            previous_degree = min_degree - 1
+            total -= math.comb(n_features + previous_degree, previous_degree) - 1
+    if include_bias:
+        total += 1
+    return total
 
 
 def witness_scale(

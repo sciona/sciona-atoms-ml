@@ -92,3 +92,17 @@ class MultiLabelBinarizerState:
 
     classes: NDArray[np.object_]
     sparse_output: bool
+
+
+@dataclass(frozen=True)
+class PolynomialFeaturesState:
+    """Learned polynomial expansion powers and feature-count metadata."""
+
+    powers: NDArray[np.int_]
+    n_features_in: int
+    n_output_features: int
+    min_degree: int
+    max_degree: int
+    interaction_only: bool
+    include_bias: bool
+    order: str

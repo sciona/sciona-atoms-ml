@@ -45,6 +45,9 @@ EXPECTED_ATOM_NAMES = {
     "sciona.atoms.ml.sklearn.preprocessing.multi_label_binarizer_transform",
     "sciona.atoms.ml.sklearn.preprocessing.normalize",
     "sciona.atoms.ml.sklearn.preprocessing.normalizer_transform",
+    "sciona.atoms.ml.sklearn.preprocessing.polynomial_features_fit",
+    "sciona.atoms.ml.sklearn.preprocessing.polynomial_features_fit_transform",
+    "sciona.atoms.ml.sklearn.preprocessing.polynomial_features_transform",
     "sciona.atoms.ml.sklearn.preprocessing.robust_scale",
     "sciona.atoms.ml.sklearn.preprocessing.robust_scaler_fit",
     "sciona.atoms.ml.sklearn.preprocessing.robust_scaler_inverse_transform",
@@ -61,10 +64,10 @@ def _bundle() -> dict:
     return json.loads(BUNDLE_PATH.read_text(encoding="utf-8"))
 
 
-def test_bundle_exists_and_has_thirty_nine_atoms() -> None:
+def test_bundle_exists_and_has_forty_two_atoms() -> None:
     assert BUNDLE_PATH.exists()
     bundle = _bundle()
-    assert len(bundle["rows"]) == 39
+    assert len(bundle["rows"]) == 42
     assert {row["atom_key"] for row in bundle["rows"]} == EXPECTED_ATOM_NAMES
 
 
@@ -137,6 +140,9 @@ def test_cdg_atomic_nodes_have_publishable_io_specs() -> None:
         "multi_label_binarizer_transform",
         "normalize",
         "normalizer_transform",
+        "polynomial_features_fit",
+        "polynomial_features_fit_transform",
+        "polynomial_features_transform",
         "robust_scale",
         "robust_scaler_fit",
         "robust_scaler_inverse_transform",

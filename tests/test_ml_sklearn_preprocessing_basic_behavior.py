@@ -12,6 +12,7 @@ from sklearn.preprocessing import (
     MinMaxScaler,
     MultiLabelBinarizer,
     Normalizer,
+    PolynomialFeatures,
     RobustScaler,
     StandardScaler,
 )
@@ -57,6 +58,9 @@ def test_preprocessing_basic_atoms_import() -> None:
         multi_label_binarizer_transform,
         normalize,
         normalizer_transform,
+        polynomial_features_fit,
+        polynomial_features_fit_transform,
+        polynomial_features_transform,
         robust_scale,
         robust_scaler_fit,
         robust_scaler_inverse_transform,
@@ -98,6 +102,9 @@ def test_preprocessing_basic_atoms_import() -> None:
     assert callable(multi_label_binarizer_transform)
     assert callable(normalize)
     assert callable(normalizer_transform)
+    assert callable(polynomial_features_fit)
+    assert callable(polynomial_features_fit_transform)
+    assert callable(polynomial_features_transform)
     assert callable(robust_scale)
     assert callable(robust_scaler_fit)
     assert callable(robust_scaler_inverse_transform)
@@ -509,6 +516,72 @@ def test_multi_label_binarizer_errors_match_sklearn() -> None:
         multi_label_binarizer_inverse_transform(bad_indicator, state)
     with pytest.raises(ValueError, match="Expected only 0s and 1s"):
         MultiLabelBinarizer().fit([("a",), ("b",)]).inverse_transform(bad_indicator)
+
+
+def test_polynomial_features_fit_transform_matches_sklearn_dense_degree_two() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import polynomial_features_fit_transform
+
+    X = np.arange(6, dtype=np.float64).reshape(3, 2)
+    state, transformed = polynomial_features_fit_transform(X, degree=2)
+    expected = PolynomialFeatures(degree=2).fit(X)
+
+    assert np.array_equal(state.powers, expected.powers_)
+    assert state.n_output_features == expected.n_output_features_
+    assert np.allclose(transformed, expected.transform(X))
+
+
+def test_polynomial_features_transform_matches_sklearn_interaction_only() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import polynomial_features_fit, polynomial_features_transform
+
+    X = np.array([[1.0, 2.0, 3.0], [2.0, 0.5, 4.0]])
+    state = polynomial_features_fit(X, degree=3, interaction_only=True, include_bias=False)
+    expected = PolynomialFeatures(degree=3, interaction_only=True, include_bias=False).fit(X)
+
+    assert np.array_equal(state.powers, expected.powers_)
+    assert np.allclose(polynomial_features_transform(X, state), expected.transform(X))
+
+
+def test_polynomial_features_degree_range_and_order_match_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import polynomial_features_fit_transform
+
+    X = np.array([[1.0, 2.0], [3.0, 4.0]])
+    state, transformed = polynomial_features_fit_transform(X, degree=(2, 3), include_bias=True, order="F")
+    expected = PolynomialFeatures(degree=(2, 3), include_bias=True, order="F").fit(X)
+    expected_transformed = expected.transform(X)
+
+    assert np.array_equal(state.powers, expected.powers_)
+    assert np.allclose(transformed, expected_transformed)
+    assert transformed.flags["F_CONTIGUOUS"] == expected_transformed.flags["F_CONTIGUOUS"]
+
+
+def test_polynomial_features_sparse_matches_sklearn_values() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import polynomial_features_fit, polynomial_features_transform
+
+    X = sp.csr_matrix([[0.0, 2.0], [3.0, 0.0]], dtype=np.float64)
+    state = polynomial_features_fit(X, degree=2, include_bias=True)
+    expected = PolynomialFeatures(degree=2, include_bias=True).fit(X)
+    result = polynomial_features_transform(X, state)
+    expected_result = expected.transform(X)
+
+    assert sp.issparse(result)
+    assert np.array_equal(state.powers, expected.powers_)
+    assert np.allclose(result.toarray(), expected_result.toarray())
+
+
+def test_polynomial_features_errors_match_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import polynomial_features_fit, polynomial_features_transform
+
+    X = np.ones((2, 2), dtype=np.float64)
+    with pytest.raises(ValueError, match="empty output"):
+        polynomial_features_fit(X, degree=0, include_bias=False)
+    with pytest.raises(ValueError, match="empty output"):
+        PolynomialFeatures(degree=0, include_bias=False).fit(X)
+
+    state = polynomial_features_fit(X)
+    with pytest.raises(Exception, match="feature count"):
+        polynomial_features_transform(np.ones((2, 3), dtype=np.float64), state)
+    with pytest.raises(ValueError):
+        PolynomialFeatures().fit(X).transform(np.ones((2, 3), dtype=np.float64))
 
 
 def test_scale_matches_sklearn_dense_axes_and_options() -> None:
