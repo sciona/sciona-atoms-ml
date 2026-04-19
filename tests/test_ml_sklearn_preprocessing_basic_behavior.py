@@ -7,6 +7,7 @@ from sklearn.preprocessing import Binarizer, Normalizer
 from sklearn.preprocessing import add_dummy_feature as sklearn_add_dummy_feature
 from sklearn.preprocessing import binarize as sklearn_binarize
 from sklearn.preprocessing import normalize as sklearn_normalize
+from sklearn.preprocessing import scale as sklearn_scale
 
 
 def test_preprocessing_basic_atoms_import() -> None:
@@ -16,6 +17,7 @@ def test_preprocessing_basic_atoms_import() -> None:
         binarizer_transform,
         normalize,
         normalizer_transform,
+        scale,
     )
 
     assert callable(add_dummy_feature)
@@ -23,6 +25,7 @@ def test_preprocessing_basic_atoms_import() -> None:
     assert callable(binarizer_transform)
     assert callable(normalize)
     assert callable(normalizer_transform)
+    assert callable(scale)
 
 
 def test_add_dummy_feature_matches_sklearn_dense() -> None:
@@ -130,3 +133,44 @@ def test_normalizer_transform_matches_sklearn_transform() -> None:
     sparse_result = normalizer_transform(X_sparse, norm="l2")
     sparse_expected = Normalizer(norm="l2").fit(X_sparse).transform(X_sparse)
     assert np.allclose(sparse_result.toarray(), sparse_expected.toarray())
+
+
+def test_scale_matches_sklearn_dense_axes_and_options() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import scale
+
+    X = np.array([[-2.0, 1.0, 2.0], [-1.0, 0.0, 1.0], [np.nan, 2.0, 1.0]], dtype=np.float64)
+    assert np.allclose(scale(X, axis=0), sklearn_scale(X, axis=0), equal_nan=True)
+    assert np.allclose(scale(X, axis=1), sklearn_scale(X, axis=1), equal_nan=True)
+    assert np.allclose(
+        scale(X, axis=0, with_mean=False, with_std=True),
+        sklearn_scale(X, axis=0, with_mean=False, with_std=True),
+        equal_nan=True,
+    )
+    assert np.allclose(
+        scale(X, axis=1, with_mean=True, with_std=False),
+        sklearn_scale(X, axis=1, with_mean=True, with_std=False),
+        equal_nan=True,
+    )
+
+
+def test_scale_matches_sklearn_sparse_axis0_without_centering() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import scale
+
+    X = sp.csc_matrix([[0.0, 1.0, 2.0], [1.0, 0.0, 0.0], [0.0, 3.0, 1.0]], dtype=np.float64)
+    result = scale(X, axis=0, with_mean=False, with_std=True)
+    expected = sklearn_scale(X, axis=0, with_mean=False, with_std=True)
+    assert np.allclose(result.toarray(), expected.toarray())
+
+
+def test_scale_sparse_centering_and_axis_errors_match_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import scale
+
+    X = sp.csc_matrix([[0.0, 1.0], [1.0, 0.0]], dtype=np.float64)
+    with pytest.raises(ValueError, match="Cannot center sparse matrices"):
+        scale(X, with_mean=True)
+    with pytest.raises(ValueError, match="Cannot center sparse matrices"):
+        sklearn_scale(X, with_mean=True)
+    with pytest.raises(ValueError, match="axis=0"):
+        scale(X, axis=1, with_mean=False)
+    with pytest.raises(ValueError, match="axis=0"):
+        sklearn_scale(X, axis=1, with_mean=False)

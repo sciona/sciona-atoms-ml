@@ -6,6 +6,7 @@ from .atoms import (
     binarizer_transform,
     normalize,
     normalizer_transform,
+    scale,
 )
 
 __all__ = [
@@ -14,4 +15,5 @@ __all__ = [
     "binarizer_transform",
     "normalize",
     "normalizer_transform",
+    "scale",
 ]

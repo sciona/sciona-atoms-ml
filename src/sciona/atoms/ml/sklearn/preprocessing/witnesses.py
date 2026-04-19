@@ -11,6 +11,12 @@ def _check_2d(X: AbstractArray) -> tuple[int, int]:
     return int(X.shape[0]), int(X.shape[1])
 
 
+def _check_1d_or_2d(X: AbstractArray) -> tuple[int, ...]:
+    if len(X.shape) not in {1, 2}:
+        raise ValueError("X must be 1D or 2D")
+    return tuple(int(dim) for dim in X.shape)
+
+
 def _valid_norm(norm: str) -> bool:
     return norm in {"l1", "l2", "max"}
 
@@ -69,3 +75,18 @@ def witness_normalizer_transform(
     if isinstance(result, tuple):
         return result[0]
     return result
+
+
+def witness_scale(
+    X: AbstractArray,
+    *,
+    axis: int = 0,
+    with_mean: bool = True,
+    with_std: bool = True,
+    copy: bool = True,
+) -> AbstractArray:
+    """Describe mean-centering and variance scaling output."""
+    del with_mean, with_std, copy
+    if axis not in {0, 1}:
+        raise ValueError("axis must be 0 or 1")
+    return AbstractArray(shape=_check_1d_or_2d(X), dtype=X.dtype)

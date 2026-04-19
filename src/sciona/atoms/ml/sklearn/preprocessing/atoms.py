@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import warnings
+
 import icontract
 import numpy as np
 import scipy.sparse as sp
@@ -9,7 +11,7 @@ from numpy.typing import NDArray
 from sklearn.preprocessing._data import _handle_zeros_in_scale
 from sklearn.utils import check_array
 from sklearn.utils.extmath import row_norms
-from sklearn.utils.sparsefuncs import min_max_axis
+from sklearn.utils.sparsefuncs import inplace_column_scale, mean_variance_axis, min_max_axis
 from sklearn.utils.sparsefuncs_fast import inplace_csr_row_normalize_l1, inplace_csr_row_normalize_l2
 from sklearn.utils.validation import FLOAT_DTYPES
 
@@ -21,6 +23,7 @@ from .witnesses import (
     witness_binarizer_transform,
     witness_normalize,
     witness_normalizer_transform,
+    witness_scale,
 )
 
 MatrixLike = NDArray[np.float64] | sp.spmatrix
@@ -29,6 +32,10 @@ NormalizeResult = MatrixLike | tuple[MatrixLike, NDArray[np.float64]]
 
 def _is_2d(X: MatrixLike) -> bool:
     return bool(getattr(X, "ndim", 0) == 2)
+
+
+def _is_1d_or_2d(X: MatrixLike) -> bool:
+    return bool(getattr(X, "ndim", 0) in {1, 2})
 
 
 def _row_count(X: MatrixLike) -> int:
@@ -211,3 +218,71 @@ def normalizer_transform(
     if isinstance(result, tuple):
         return result[0]
     return result
+
+
+@register_atom(witness_scale)
+@icontract.require(lambda X: _is_1d_or_2d(X), "X must be a 1D or 2D array")
+@icontract.require(lambda axis: _valid_axis(axis), "axis must be 0 or 1")
+@icontract.ensure(lambda result, X: result.shape == X.shape, "scaled output must preserve shape")
+def scale(
+    X: MatrixLike,
+    *,
+    axis: int = 0,
+    with_mean: bool = True,
+    with_std: bool = True,
+    copy: bool = True,
+) -> MatrixLike:
+    """Center and scale a dense or sparse dataset along an axis."""
+    checked_x = check_array(
+        X,
+        accept_sparse="csc",
+        copy=copy,
+        ensure_2d=False,
+        estimator="the scale function",
+        dtype=FLOAT_DTYPES,
+        ensure_all_finite="allow-nan",
+        input_name="X",
+    )
+    if sp.issparse(checked_x):
+        if with_mean:
+            raise ValueError(
+                "Cannot center sparse matrices: pass `with_mean=False` instead See docstring for motivation and alternatives."
+            )
+        if axis != 0:
+            raise ValueError("Can only scale sparse matrix on axis=0,  got axis=%d" % axis)
+        if with_std:
+            _mean, var = mean_variance_axis(checked_x, axis=0)
+            var = _handle_zeros_in_scale(var, copy=False)
+            inplace_column_scale(checked_x, 1 / np.sqrt(var))
+    else:
+        checked_x = np.asarray(checked_x)
+        if with_mean:
+            mean_ = np.nanmean(checked_x, axis)
+        if with_std:
+            scale_ = np.nanstd(checked_x, axis)
+        Xr = np.rollaxis(checked_x, axis)
+        if with_mean:
+            Xr -= mean_
+            mean_1 = np.nanmean(Xr, axis=0)
+            if not np.allclose(mean_1, 0):
+                warnings.warn(
+                    "Numerical issues were encountered when centering the data and might not be solved. "
+                    "Dataset may contain too large values. You may need to prescale your features.",
+                    UserWarning,
+                    stacklevel=2,
+                )
+                Xr -= mean_1
+        if with_std:
+            scale_ = _handle_zeros_in_scale(scale_, copy=False)
+            Xr /= scale_
+            if with_mean:
+                mean_2 = np.nanmean(Xr, axis=0)
+                if not np.allclose(mean_2, 0):
+                    warnings.warn(
+                        "Numerical issues were encountered when scaling the data and might not be solved. "
+                        "The standard deviation of the data is probably very close to 0.",
+                        UserWarning,
+                        stacklevel=2,
+                    )
+                    Xr -= mean_2
+    return checked_x

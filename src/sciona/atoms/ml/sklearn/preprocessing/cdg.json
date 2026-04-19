@@ -10,7 +10,8 @@
         "binarize",
         "binarizer_transform",
         "normalize",
-        "normalizer_transform"
+        "normalizer_transform",
+        "scale"
       ],
       "depth": 0
     },
@@ -94,6 +95,25 @@
       "inputs": [
         {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
         {"name": "norm", "type_desc": "str", "required": false},
+        {"name": "copy", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"}
+      ]
+    },
+    {
+      "node_id": "scale",
+      "name": "scale",
+      "description": "Center and scale a dense or sparse dataset along an axis.",
+      "concept_type": "array_transform",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, axis: int = 0, with_mean: bool = True, with_std: bool = True, copy: bool = True) -> NDArray[np.float64] | scipy.sparse.spmatrix",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
+        {"name": "axis", "type_desc": "int", "required": false},
+        {"name": "with_mean", "type_desc": "bool", "required": false},
+        {"name": "with_std", "type_desc": "bool", "required": false},
         {"name": "copy", "type_desc": "bool", "required": false}
       ],
       "outputs": [
