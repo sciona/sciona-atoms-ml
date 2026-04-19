@@ -9,6 +9,7 @@ from sklearn.preprocessing import binarize as sklearn_binarize
 from sklearn.preprocessing import maxabs_scale as sklearn_maxabs_scale
 from sklearn.preprocessing import minmax_scale as sklearn_minmax_scale
 from sklearn.preprocessing import normalize as sklearn_normalize
+from sklearn.preprocessing import robust_scale as sklearn_robust_scale
 from sklearn.preprocessing import scale as sklearn_scale
 
 
@@ -21,6 +22,7 @@ def test_preprocessing_basic_atoms_import() -> None:
         minmax_scale,
         normalize,
         normalizer_transform,
+        robust_scale,
         scale,
     )
 
@@ -31,6 +33,7 @@ def test_preprocessing_basic_atoms_import() -> None:
     assert callable(minmax_scale)
     assert callable(normalize)
     assert callable(normalizer_transform)
+    assert callable(robust_scale)
     assert callable(scale)
 
 
@@ -226,3 +229,43 @@ def test_minmax_scale_rejects_invalid_range_like_sklearn() -> None:
         minmax_scale(X, feature_range=(1.0, 1.0))
     with pytest.raises(ValueError):
         sklearn_minmax_scale(X, feature_range=(1.0, 1.0))
+
+
+def test_robust_scale_matches_sklearn_dense_axes_options_and_1d() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import robust_scale
+
+    X = np.array([[-2.0, 1.0, 2.0], [-1.0, 0.0, 1.0], [10.0, 2.0, np.nan]], dtype=np.float64)
+    assert np.allclose(robust_scale(X, axis=0), sklearn_robust_scale(X, axis=0), equal_nan=True)
+    assert np.allclose(
+        robust_scale(X, axis=1, quantile_range=(10.0, 90.0), unit_variance=True),
+        sklearn_robust_scale(X, axis=1, quantile_range=(10.0, 90.0), unit_variance=True),
+        equal_nan=True,
+    )
+    assert np.allclose(
+        robust_scale(X, axis=0, with_centering=False, with_scaling=True),
+        sklearn_robust_scale(X, axis=0, with_centering=False, with_scaling=True),
+        equal_nan=True,
+    )
+
+    x = np.array([-2.0, 0.0, 4.0], dtype=np.float64)
+    assert np.allclose(robust_scale(x), sklearn_robust_scale(x))
+
+
+def test_robust_scale_matches_sklearn_sparse_without_centering() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import robust_scale
+
+    X = sp.csr_matrix([[0.0, 1.0, 2.0], [1.0, 0.0, 0.0], [0.0, 3.0, 1.0]], dtype=np.float64)
+    for axis in (0, 1):
+        result = robust_scale(X, axis=axis, with_centering=False)
+        expected = sklearn_robust_scale(X, axis=axis, with_centering=False)
+        assert np.allclose(result.toarray(), expected.toarray())
+
+
+def test_robust_scale_sparse_centering_error_matches_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import robust_scale
+
+    X = sp.csr_matrix([[0.0, 1.0], [1.0, 0.0]], dtype=np.float64)
+    with pytest.raises(ValueError, match="Cannot center sparse matrices"):
+        robust_scale(X, with_centering=True)
+    with pytest.raises(ValueError, match="Cannot center sparse matrices"):
+        sklearn_robust_scale(X, with_centering=True)

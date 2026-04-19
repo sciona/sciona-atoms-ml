@@ -7,6 +7,7 @@ import warnings
 import icontract
 import numpy as np
 import scipy.sparse as sp
+import scipy.stats as stats
 from numpy.typing import NDArray
 from sklearn.preprocessing._data import _handle_zeros_in_scale
 from sklearn.utils import check_array
@@ -25,6 +26,7 @@ from .witnesses import (
     witness_minmax_scale,
     witness_normalize,
     witness_normalizer_transform,
+    witness_robust_scale,
     witness_scale,
 )
 
@@ -372,6 +374,105 @@ def minmax_scale(
     work += feature_range[0] - data_min * scale_
 
     scaled = work if axis == 0 else work.T
+    if original_ndim == 1:
+        scaled = scaled.ravel()
+    return scaled
+
+
+def _valid_quantile_range(quantile_range: tuple[float, float]) -> bool:
+    q_min, q_max = quantile_range
+    return bool(0 <= q_min <= q_max <= 100)
+
+
+def _robust_scale_axis0(
+    X: MatrixLike,
+    *,
+    with_centering: bool,
+    with_scaling: bool,
+    quantile_range: tuple[float, float],
+    unit_variance: bool,
+) -> MatrixLike:
+    if sp.issparse(X):
+        if with_centering:
+            raise ValueError(
+                "Cannot center sparse matrices: use `with_centering=False` instead. See docstring for motivation and alternatives."
+            )
+        if with_scaling:
+            quantiles = []
+            csc_x = X.tocsc()
+            for feature_idx in range(csc_x.shape[1]):
+                column_nnz_data = csc_x.data[csc_x.indptr[feature_idx] : csc_x.indptr[feature_idx + 1]]
+                column_data = np.zeros(shape=csc_x.shape[0], dtype=csc_x.dtype)
+                column_data[: len(column_nnz_data)] = column_nnz_data
+                quantiles.append(np.nanpercentile(column_data, quantile_range))
+            quantiles = np.transpose(quantiles)
+            scale_ = _handle_zeros_in_scale(quantiles[1] - quantiles[0], copy=False)
+            if unit_variance:
+                q_min, q_max = quantile_range
+                adjust = stats.norm.ppf(q_max / 100.0) - stats.norm.ppf(q_min / 100.0)
+                scale_ = scale_ / adjust
+            inplace_column_scale(X, 1.0 / scale_)
+    else:
+        if with_centering:
+            X -= np.nanmedian(X, axis=0)
+        if with_scaling:
+            quantiles = np.nanpercentile(X, quantile_range, axis=0)
+            scale_ = _handle_zeros_in_scale(quantiles[1] - quantiles[0], copy=False)
+            if unit_variance:
+                q_min, q_max = quantile_range
+                adjust = stats.norm.ppf(q_max / 100.0) - stats.norm.ppf(q_min / 100.0)
+                scale_ = scale_ / adjust
+            X /= scale_
+    return X
+
+
+@register_atom(witness_robust_scale)
+@icontract.require(lambda X: _is_1d_or_2d(X), "X must be a 1D or 2D array")
+@icontract.require(lambda axis: _valid_axis(axis), "axis must be 0 or 1")
+@icontract.require(lambda quantile_range: _valid_quantile_range(quantile_range), "quantile_range must satisfy 0 <= q_min <= q_max <= 100")
+@icontract.ensure(lambda result, X: result.shape == X.shape, "robust scaled output must preserve shape")
+def robust_scale(
+    X: MatrixLike,
+    *,
+    axis: int = 0,
+    with_centering: bool = True,
+    with_scaling: bool = True,
+    quantile_range: tuple[float, float] = (25.0, 75.0),
+    copy: bool = True,
+    unit_variance: bool = False,
+) -> MatrixLike:
+    """Center by median and scale by a quantile range along rows or columns."""
+    checked_x = check_array(
+        X,
+        accept_sparse=("csr", "csc"),
+        copy=False,
+        ensure_2d=False,
+        dtype=FLOAT_DTYPES,
+        ensure_all_finite="allow-nan",
+    )
+    original_ndim = checked_x.ndim
+    if original_ndim == 1:
+        checked_x = checked_x.reshape(checked_x.shape[0], 1)
+    if copy:
+        checked_x = checked_x.copy()
+
+    if axis == 0:
+        scaled = _robust_scale_axis0(
+            checked_x,
+            with_centering=with_centering,
+            with_scaling=with_scaling,
+            quantile_range=quantile_range,
+            unit_variance=unit_variance,
+        )
+    else:
+        scaled = _robust_scale_axis0(
+            checked_x.T,
+            with_centering=with_centering,
+            with_scaling=with_scaling,
+            quantile_range=quantile_range,
+            unit_variance=unit_variance,
+        ).T
+
     if original_ndim == 1:
         scaled = scaled.ravel()
     return scaled

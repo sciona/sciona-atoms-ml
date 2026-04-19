@@ -8,6 +8,7 @@ from .atoms import (
     minmax_scale,
     normalize,
     normalizer_transform,
+    robust_scale,
     scale,
 )
 
@@ -19,5 +20,6 @@ __all__ = [
     "minmax_scale",
     "normalize",
     "normalizer_transform",
+    "robust_scale",
     "scale",
 ]

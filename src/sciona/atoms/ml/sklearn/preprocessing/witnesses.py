@@ -119,3 +119,23 @@ def witness_minmax_scale(
     if axis not in {0, 1}:
         raise ValueError("axis must be 0 or 1")
     return AbstractArray(shape=_check_1d_or_2d(X), dtype=X.dtype)
+
+
+def witness_robust_scale(
+    X: AbstractArray,
+    *,
+    axis: int = 0,
+    with_centering: bool = True,
+    with_scaling: bool = True,
+    quantile_range: tuple[float, float] = (25.0, 75.0),
+    copy: bool = True,
+    unit_variance: bool = False,
+) -> AbstractArray:
+    """Describe median and quantile-range scaling output."""
+    del with_centering, with_scaling, copy, unit_variance
+    if axis not in {0, 1}:
+        raise ValueError("axis must be 0 or 1")
+    q_min, q_max = quantile_range
+    if not 0 <= q_min <= q_max <= 100:
+        raise ValueError("invalid quantile range")
+    return AbstractArray(shape=_check_1d_or_2d(X), dtype=X.dtype)

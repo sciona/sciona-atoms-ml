@@ -22,6 +22,7 @@ EXPECTED_ATOM_NAMES = {
     "sciona.atoms.ml.sklearn.preprocessing.minmax_scale",
     "sciona.atoms.ml.sklearn.preprocessing.normalize",
     "sciona.atoms.ml.sklearn.preprocessing.normalizer_transform",
+    "sciona.atoms.ml.sklearn.preprocessing.robust_scale",
     "sciona.atoms.ml.sklearn.preprocessing.scale",
 }
 
@@ -30,10 +31,10 @@ def _bundle() -> dict:
     return json.loads(BUNDLE_PATH.read_text(encoding="utf-8"))
 
 
-def test_bundle_exists_and_has_eight_atoms() -> None:
+def test_bundle_exists_and_has_nine_atoms() -> None:
     assert BUNDLE_PATH.exists()
     bundle = _bundle()
-    assert len(bundle["rows"]) == 8
+    assert len(bundle["rows"]) == 9
     assert {row["atom_key"] for row in bundle["rows"]} == EXPECTED_ATOM_NAMES
 
 
@@ -83,6 +84,7 @@ def test_cdg_atomic_nodes_have_publishable_io_specs() -> None:
         "minmax_scale",
         "normalize",
         "normalizer_transform",
+        "robust_scale",
         "scale",
     }
     for node in atomic:
