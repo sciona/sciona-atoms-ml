@@ -14,6 +14,7 @@ from .state_models import (
     MinMaxScalerState,
     MultiLabelBinarizerState,
     PolynomialFeaturesState,
+    PowerTransformerState,
     RobustScalerState,
     StandardScalerState,
 )
@@ -544,6 +545,73 @@ def witness_polynomial_features_fit_transform(
     )
     n_samples, _ = _check_2d(X)
     return powers, AbstractArray(shape=(n_samples, int(powers.shape[0])), dtype=X.dtype)
+
+
+def witness_power_transformer_fit(
+    X: AbstractArray,
+    method: str = "yeo-johnson",
+    *,
+    standardize: bool = True,
+) -> AbstractArray:
+    """Describe learning per-feature power-transform lambdas."""
+    del standardize
+    if method not in {"yeo-johnson", "box-cox"}:
+        raise ValueError("method must be 'yeo-johnson' or 'box-cox'")
+    _, n_features = _check_2d(X)
+    return AbstractArray(shape=(n_features,), dtype="float64")
+
+
+def witness_power_transformer_transform(
+    X: AbstractArray,
+    state: PowerTransformerState,
+    copy: bool = True,
+) -> AbstractArray:
+    """Describe applying fitted power-transform lambdas."""
+    del copy
+    n_samples, n_features = _check_2d(X)
+    if n_features != state.n_features_in:
+        raise ValueError("X feature count must match fitted state")
+    return AbstractArray(shape=(n_samples, n_features), dtype=X.dtype)
+
+
+def witness_power_transformer_inverse_transform(
+    X: AbstractArray,
+    state: PowerTransformerState,
+    copy: bool = True,
+) -> AbstractArray:
+    """Describe undoing fitted power-transform lambdas."""
+    return witness_power_transformer_transform(X, state, copy=copy)
+
+
+def witness_power_transformer_fit_transform(
+    X: AbstractArray,
+    method: str = "yeo-johnson",
+    *,
+    standardize: bool = True,
+    copy: bool = True,
+) -> tuple[AbstractArray, AbstractArray]:
+    """Describe fitting and applying power-transform lambdas."""
+    del copy
+    lambdas = witness_power_transformer_fit(X, method=method, standardize=standardize)
+    n_samples, n_features = _check_2d(X)
+    return lambdas, AbstractArray(shape=(n_samples, n_features), dtype=X.dtype)
+
+
+def witness_power_transform(
+    X: AbstractArray,
+    method: str = "yeo-johnson",
+    *,
+    standardize: bool = True,
+    copy: bool = True,
+) -> AbstractArray:
+    """Describe stateless fit-transform power transformation."""
+    _, transformed = witness_power_transformer_fit_transform(
+        X,
+        method=method,
+        standardize=standardize,
+        copy=copy,
+    )
+    return transformed
 
 
 def _polynomial_degree_bounds(degree: int | tuple[int, int], include_bias: bool) -> tuple[int, int]:

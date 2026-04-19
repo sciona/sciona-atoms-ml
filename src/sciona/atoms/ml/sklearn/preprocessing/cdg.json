@@ -47,7 +47,12 @@
         "multi_label_binarizer_inverse_transform",
         "polynomial_features_fit",
         "polynomial_features_transform",
-        "polynomial_features_fit_transform"
+        "polynomial_features_fit_transform",
+        "power_transformer_fit",
+        "power_transformer_transform",
+        "power_transformer_inverse_transform",
+        "power_transformer_fit_transform",
+        "power_transform"
       ],
       "depth": 0
     },
@@ -1429,6 +1434,176 @@
           "type_desc": "tuple[PolynomialFeaturesState, NDArray[np.float64] | scipy.sparse.spmatrix]"
         }
       ]
+    },
+    {
+      "node_id": "power_transformer_fit",
+      "name": "power_transformer_fit",
+      "description": "Estimate per-feature Box-Cox or Yeo-Johnson lambdas and optional standardization statistics.",
+      "concept_type": "estimator_fit_state",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, method: str = 'yeo-johnson', standardize: bool = True) -> PowerTransformerState",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix",
+          "required": true
+        },
+        {
+          "name": "method",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "standardize",
+          "type_desc": "bool",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "PowerTransformerState"
+        }
+      ]
+    },
+    {
+      "node_id": "power_transformer_transform",
+      "name": "power_transformer_transform",
+      "description": "Apply fitted power-transform lambdas and optional standardization to feature columns.",
+      "concept_type": "estimator_transform_method",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, state: PowerTransformerState, copy: bool = True) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "PowerTransformerState",
+          "required": true
+        },
+        {
+          "name": "copy",
+          "type_desc": "bool",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
+    },
+    {
+      "node_id": "power_transformer_inverse_transform",
+      "name": "power_transformer_inverse_transform",
+      "description": "Undo fitted standardization and inverse Box-Cox or Yeo-Johnson feature transforms.",
+      "concept_type": "estimator_inverse_transform_method",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, state: PowerTransformerState, copy: bool = True) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "PowerTransformerState",
+          "required": true
+        },
+        {
+          "name": "copy",
+          "type_desc": "bool",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
+    },
+    {
+      "node_id": "power_transformer_fit_transform",
+      "name": "power_transformer_fit_transform",
+      "description": "Estimate per-feature power-transform lambdas and transform the same data in one pass.",
+      "concept_type": "estimator_fit_transform_method",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, method: str = 'yeo-johnson', standardize: bool = True, copy: bool = True) -> tuple[PowerTransformerState, NDArray[np.float64]]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix",
+          "required": true
+        },
+        {
+          "name": "method",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "standardize",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "copy",
+          "type_desc": "bool",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "tuple[PowerTransformerState, NDArray[np.float64]]"
+        }
+      ]
+    },
+    {
+      "node_id": "power_transform",
+      "name": "power_transform",
+      "description": "Fit per-feature power-transform lambdas and return transformed features without exposing state.",
+      "concept_type": "array_transform",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, method: str = 'yeo-johnson', standardize: bool = True, copy: bool = True) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix",
+          "required": true
+        },
+        {
+          "name": "method",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "standardize",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "copy",
+          "type_desc": "bool",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
     }
   ],
   "edges": [
@@ -1560,6 +1735,26 @@
     {
       "source_id": "polynomial_features_fit",
       "target_id": "polynomial_features_fit_transform",
+      "edge_type": "implementation_dependency"
+    },
+    {
+      "source_id": "power_transformer_fit",
+      "target_id": "power_transformer_transform",
+      "edge_type": "fit_state_dependency"
+    },
+    {
+      "source_id": "power_transformer_fit",
+      "target_id": "power_transformer_inverse_transform",
+      "edge_type": "fit_state_dependency"
+    },
+    {
+      "source_id": "power_transformer_fit",
+      "target_id": "power_transformer_fit_transform",
+      "edge_type": "implementation_dependency"
+    },
+    {
+      "source_id": "power_transformer_fit_transform",
+      "target_id": "power_transform",
       "edge_type": "implementation_dependency"
     }
   ],

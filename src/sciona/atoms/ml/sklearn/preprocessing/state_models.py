@@ -106,3 +106,15 @@ class PolynomialFeaturesState:
     interaction_only: bool
     include_bias: bool
     order: str
+
+
+@dataclass(frozen=True)
+class PowerTransformerState:
+    """Learned per-feature power-transform lambdas and scaling statistics."""
+
+    lambdas: NDArray[np.float64]
+    method: str
+    standardize: bool
+    mean: NDArray[np.float64] | None
+    scale: NDArray[np.float64] | None
+    n_features_in: int

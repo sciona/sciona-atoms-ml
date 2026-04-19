@@ -13,6 +13,7 @@ from sklearn.preprocessing import (
     MultiLabelBinarizer,
     Normalizer,
     PolynomialFeatures,
+    PowerTransformer,
     RobustScaler,
     StandardScaler,
 )
@@ -22,6 +23,7 @@ from sklearn.preprocessing import label_binarize as sklearn_label_binarize
 from sklearn.preprocessing import maxabs_scale as sklearn_maxabs_scale
 from sklearn.preprocessing import minmax_scale as sklearn_minmax_scale
 from sklearn.preprocessing import normalize as sklearn_normalize
+from sklearn.preprocessing import power_transform as sklearn_power_transform
 from sklearn.preprocessing import robust_scale as sklearn_robust_scale
 from sklearn.preprocessing import scale as sklearn_scale
 
@@ -61,6 +63,11 @@ def test_preprocessing_basic_atoms_import() -> None:
         polynomial_features_fit,
         polynomial_features_fit_transform,
         polynomial_features_transform,
+        power_transform,
+        power_transformer_fit,
+        power_transformer_fit_transform,
+        power_transformer_inverse_transform,
+        power_transformer_transform,
         robust_scale,
         robust_scaler_fit,
         robust_scaler_inverse_transform,
@@ -105,6 +112,11 @@ def test_preprocessing_basic_atoms_import() -> None:
     assert callable(polynomial_features_fit)
     assert callable(polynomial_features_fit_transform)
     assert callable(polynomial_features_transform)
+    assert callable(power_transform)
+    assert callable(power_transformer_fit)
+    assert callable(power_transformer_fit_transform)
+    assert callable(power_transformer_inverse_transform)
+    assert callable(power_transformer_transform)
     assert callable(robust_scale)
     assert callable(robust_scaler_fit)
     assert callable(robust_scaler_inverse_transform)
@@ -582,6 +594,68 @@ def test_polynomial_features_errors_match_sklearn() -> None:
         polynomial_features_transform(np.ones((2, 3), dtype=np.float64), state)
     with pytest.raises(ValueError):
         PolynomialFeatures().fit(X).transform(np.ones((2, 3), dtype=np.float64))
+
+
+def test_power_transform_matches_sklearn_yeo_johnson_standardized() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import power_transform
+
+    X = np.array([[-2.0, 1.0], [-0.5, 2.0], [1.0, 4.0], [3.0, 8.0]], dtype=np.float64)
+    assert np.allclose(power_transform(X), sklearn_power_transform(X), atol=1e-7)
+
+
+def test_power_transformer_fit_transform_matches_sklearn_box_cox() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import power_transformer_fit_transform
+
+    X = np.array([[1.0, 2.0], [3.0, 2.5], [4.0, 5.0], [8.0, 10.0]], dtype=np.float64)
+    state, transformed = power_transformer_fit_transform(X, method="box-cox", standardize=False)
+    expected = PowerTransformer(method="box-cox", standardize=False).fit(X)
+
+    assert np.allclose(state.lambdas, expected.lambdas_)
+    assert np.allclose(transformed, expected.transform(X))
+
+
+def test_power_transformer_transform_and_inverse_match_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import (
+        power_transformer_fit,
+        power_transformer_inverse_transform,
+        power_transformer_transform,
+    )
+
+    X = np.array([[-2.0, 1.0], [-0.5, 2.0], [1.0, 4.0], [3.0, 8.0]], dtype=np.float64)
+    state = power_transformer_fit(X, standardize=True)
+    expected = PowerTransformer(standardize=True).fit(X)
+
+    transformed = power_transformer_transform(X, state)
+    assert np.allclose(state.lambdas, expected.lambdas_)
+    assert np.allclose(transformed, expected.transform(X), atol=1e-7)
+    assert np.allclose(power_transformer_inverse_transform(transformed, state), expected.inverse_transform(expected.transform(X)))
+
+
+def test_power_transformer_nan_and_constant_behavior_matches_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import power_transformer_fit, power_transformer_transform
+
+    X = np.array([[1.0, np.nan], [1.0, 2.0], [1.0, 3.0], [1.0, 4.0]], dtype=np.float64)
+    state = power_transformer_fit(X, method="yeo-johnson", standardize=True)
+    expected = PowerTransformer(method="yeo-johnson", standardize=True).fit(X)
+
+    assert np.allclose(state.lambdas, expected.lambdas_, equal_nan=True)
+    assert np.allclose(power_transformer_transform(X, state), expected.transform(X), equal_nan=True)
+
+
+def test_power_transformer_errors_match_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import power_transformer_fit, power_transformer_transform
+
+    X = np.array([[0.0, 1.0], [2.0, 3.0]], dtype=np.float64)
+    with pytest.raises(ValueError, match="strictly positive"):
+        power_transformer_fit(X, method="box-cox")
+    with pytest.raises(ValueError, match="strictly positive"):
+        PowerTransformer(method="box-cox").fit(X)
+
+    state = power_transformer_fit(np.ones((3, 2), dtype=np.float64))
+    with pytest.raises(Exception, match="feature"):
+        power_transformer_transform(np.ones((3, 3), dtype=np.float64), state)
+    with pytest.raises(ValueError):
+        PowerTransformer().fit(np.ones((3, 2), dtype=np.float64)).transform(np.ones((3, 3), dtype=np.float64))
 
 
 def test_scale_matches_sklearn_dense_axes_and_options() -> None:

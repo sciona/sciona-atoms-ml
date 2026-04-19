@@ -7,6 +7,7 @@ import warnings
 import icontract
 import numpy as np
 import scipy.sparse as sp
+import scipy.special as special
 import scipy.stats as stats
 from numpy.typing import NDArray
 from sklearn.preprocessing._data import _handle_zeros_in_scale, _is_constant_feature
@@ -1187,7 +1188,13 @@ def robust_scale(
     return scaled
 
 
-from .state_models import LabelBinarizerState, LabelEncoderState, MultiLabelBinarizerState, PolynomialFeaturesState
+from .state_models import (
+    LabelBinarizerState,
+    LabelEncoderState,
+    MultiLabelBinarizerState,
+    PolynomialFeaturesState,
+    PowerTransformerState,
+)
 from .witnesses import (
     witness_label_encoder_fit,
     witness_label_encoder_fit_transform,
@@ -1988,3 +1995,263 @@ def polynomial_features_fit_transform(
         order=order,
     )
     return state, polynomial_features_transform(X, state)
+
+
+from .witnesses import (
+    witness_power_transform,
+    witness_power_transformer_fit,
+    witness_power_transformer_fit_transform,
+    witness_power_transformer_inverse_transform,
+    witness_power_transformer_transform,
+)
+
+PowerTransformerFitTransformResult = tuple[PowerTransformerState, NDArray[np.float64]]
+
+
+def _power_method_valid(method: str) -> bool:
+    return method in {"yeo-johnson", "box-cox"}
+
+
+def _power_state_valid(state: PowerTransformerState) -> bool:
+    shape = (state.n_features_in,)
+    return bool(
+        _power_method_valid(state.method)
+        and state.lambdas.ndim == 1
+        and state.lambdas.shape == shape
+        and (state.mean is None or (state.mean.ndim == 1 and state.mean.shape == shape))
+        and (state.scale is None or (state.scale.ndim == 1 and state.scale.shape == shape))
+        and (state.mean is not None) == state.standardize
+        and (state.scale is not None) == state.standardize
+    )
+
+
+def _power_transform_shape_matches(result: NDArray[np.float64], X: MatrixLike) -> bool:
+    return bool(result.shape == X.shape)
+
+
+def _power_fit_transform_valid(result: PowerTransformerFitTransformResult, X: MatrixLike) -> bool:
+    state, transformed = result
+    return bool(_power_state_valid(state) and _power_transform_shape_matches(transformed, X))
+
+
+def _yeo_johnson_transform_array(x: NDArray[np.float64], lmbda: float) -> NDArray[np.float64]:
+    out = np.zeros_like(x)
+    pos = x >= 0
+    if abs(lmbda) < np.spacing(1.0):
+        out[pos] = np.log1p(x[pos])
+    else:
+        out[pos] = (np.power(x[pos] + 1, lmbda) - 1) / lmbda
+    if abs(lmbda - 2) > np.spacing(1.0):
+        out[~pos] = -(np.power(-x[~pos] + 1, 2 - lmbda) - 1) / (2 - lmbda)
+    else:
+        out[~pos] = -np.log1p(-x[~pos])
+    return out
+
+
+def _yeo_johnson_inverse_array(x: NDArray[np.float64], lmbda: float) -> NDArray[np.float64]:
+    out = np.zeros_like(x)
+    pos = x >= 0
+    if abs(lmbda) < np.spacing(1.0):
+        out[pos] = np.exp(x[pos]) - 1
+    else:
+        out[pos] = np.power(x[pos] * lmbda + 1, 1 / lmbda) - 1
+    if abs(lmbda - 2) > np.spacing(1.0):
+        out[~pos] = 1 - np.power(-(2 - lmbda) * x[~pos] + 1, 1 / (2 - lmbda))
+    else:
+        out[~pos] = 1 - np.exp(-x[~pos])
+    return out
+
+
+def _power_transform_columns(X: NDArray[np.float64], state: PowerTransformerState) -> NDArray[np.float64]:
+    transformed = X.copy()
+    for i, lmbda in enumerate(state.lambdas):
+        with np.errstate(invalid="ignore"):
+            if state.method == "box-cox":
+                transformed[:, i] = stats.boxcox(transformed[:, i], lmbda=float(lmbda))
+            else:
+                transformed[:, i] = _yeo_johnson_transform_array(transformed[:, i], float(lmbda))
+    return transformed
+
+
+def _power_inverse_columns(X: NDArray[np.float64], state: PowerTransformerState) -> NDArray[np.float64]:
+    restored = X.copy()
+    for i, lmbda in enumerate(state.lambdas):
+        with warnings.catch_warnings(record=True) as captured_warnings:
+            with np.errstate(invalid="warn"):
+                if state.method == "box-cox":
+                    restored[:, i] = special.inv_boxcox(restored[:, i], float(lmbda))
+                else:
+                    restored[:, i] = _yeo_johnson_inverse_array(restored[:, i], float(lmbda))
+        if any("invalid value encountered in power" in str(w.message) for w in captured_warnings):
+            warnings.warn(
+                f"Some values in column {i} of the inverse-transformed data are NaN. This may be caused by numerical issues in the transformation process, e.g. extremely skewed data. Consider inspecting the input data or preprocessing it before applying the transformation.",
+                UserWarning,
+                stacklevel=2,
+            )
+    return restored
+
+
+@register_atom(witness_power_transformer_fit)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
+@icontract.require(lambda method: _power_method_valid(method), "method must be 'yeo-johnson' or 'box-cox'")
+@icontract.ensure(lambda result: _power_state_valid(result), "power-transform state must match fitted feature count")
+@icontract.ensure(lambda result, X: result.n_features_in == X.shape[1], "state feature count must match input columns")
+def power_transformer_fit(
+    X: MatrixLike,
+    method: str = "yeo-johnson",
+    *,
+    standardize: bool = True,
+) -> PowerTransformerState:
+    """Estimate per-feature power-transform lambdas and optional scaling state."""
+    checked_x = check_array(
+        X,
+        dtype=FLOAT_DTYPES,
+        force_writeable=True,
+        ensure_all_finite="allow-nan",
+    )
+    if method == "box-cox":
+        with warnings.catch_warnings():
+            warnings.filterwarnings("ignore", r"All-NaN (slice|axis) encountered")
+            if np.nanmin(checked_x) <= 0:
+                raise ValueError("The Box-Cox transformation can only be applied to strictly positive data")
+
+    n_samples = checked_x.shape[0]
+    mean = np.mean(checked_x, axis=0, dtype=np.float64)
+    var = np.var(checked_x, axis=0, dtype=np.float64)
+    lambdas = np.empty(checked_x.shape[1], dtype=np.float64)
+    transformed = checked_x.astype(np.float64, copy=True)
+
+    with np.errstate(invalid="ignore"):
+        for i, col in enumerate(checked_x.T):
+            if method == "yeo-johnson" and _is_constant_feature(var[i], mean[i], n_samples):
+                lambdas[i] = 1.0
+            elif method == "box-cox":
+                mask = np.isnan(col)
+                if np.all(mask):
+                    raise ValueError("Column must not be all nan.")
+                _, lambdas[i] = stats.boxcox(col[~mask], lmbda=None)
+            else:
+                clean_col = col[~np.isnan(col)]
+                _, lambdas[i] = stats.yeojohnson(clean_col, lmbda=None)
+            if standardize:
+                if method == "box-cox":
+                    transformed[:, i] = stats.boxcox(transformed[:, i], lmbda=float(lambdas[i]))
+                else:
+                    transformed[:, i] = _yeo_johnson_transform_array(transformed[:, i], float(lambdas[i]))
+
+    if standardize:
+        scaler_state = standard_scaler_fit(transformed, with_mean=True, with_std=True)
+        scale_mean = scaler_state.mean
+        scale_scale = scaler_state.scale
+    else:
+        scale_mean = None
+        scale_scale = None
+    return PowerTransformerState(
+        lambdas=lambdas,
+        method=method,
+        standardize=bool(standardize),
+        mean=scale_mean,
+        scale=scale_scale,
+        n_features_in=int(checked_x.shape[1]),
+    )
+
+
+@register_atom(witness_power_transformer_transform)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
+@icontract.require(lambda state: _power_state_valid(state), "power-transform state must match fitted feature count")
+@icontract.require(lambda X, state: X.shape[1] == state.n_features_in, "X feature count must match fitted state")
+@icontract.ensure(lambda result, X: _power_transform_shape_matches(result, X), "transformed output must preserve shape")
+def power_transformer_transform(
+    X: MatrixLike,
+    state: PowerTransformerState,
+    copy: bool = True,
+) -> NDArray[np.float64]:
+    """Apply fitted power-transform lambdas and optional standardization."""
+    checked_x = check_array(
+        X,
+        dtype=FLOAT_DTYPES,
+        force_writeable=True,
+        copy=copy,
+        ensure_all_finite="allow-nan",
+    )
+    if checked_x.shape[1] != state.n_features_in:
+        raise ValueError("Input data has a different number of features than fitting data.")
+    if state.method == "box-cox":
+        with warnings.catch_warnings():
+            warnings.filterwarnings("ignore", r"All-NaN (slice|axis) encountered")
+            if np.nanmin(checked_x) <= 0:
+                raise ValueError("The Box-Cox transformation can only be applied to strictly positive data")
+    transformed = _power_transform_columns(checked_x.astype(np.float64, copy=True), state)
+    if state.standardize:
+        if state.mean is None or state.scale is None:
+            raise ValueError("PowerTransformer standardization state is missing")
+        transformed -= state.mean
+        transformed /= state.scale
+    return transformed
+
+
+@register_atom(witness_power_transformer_inverse_transform)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
+@icontract.require(lambda state: _power_state_valid(state), "power-transform state must match fitted feature count")
+@icontract.require(lambda X, state: X.shape[1] == state.n_features_in, "X feature count must match fitted state")
+@icontract.ensure(lambda result, X: _power_transform_shape_matches(result, X), "inverse transformed output must preserve shape")
+def power_transformer_inverse_transform(
+    X: MatrixLike,
+    state: PowerTransformerState,
+    copy: bool = True,
+) -> NDArray[np.float64]:
+    """Undo fitted power transformation and optional standardization."""
+    checked_x = check_array(
+        X,
+        dtype=FLOAT_DTYPES,
+        force_writeable=True,
+        copy=copy,
+        ensure_all_finite="allow-nan",
+    )
+    if checked_x.shape[1] != state.n_features_in:
+        raise ValueError("Input data has a different number of features than fitting data.")
+    restored = checked_x.astype(np.float64, copy=True)
+    if state.standardize:
+        if state.mean is None or state.scale is None:
+            raise ValueError("PowerTransformer standardization state is missing")
+        restored *= state.scale
+        restored += state.mean
+    return _power_inverse_columns(restored, state)
+
+
+@register_atom(witness_power_transformer_fit_transform)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
+@icontract.require(lambda method: _power_method_valid(method), "method must be 'yeo-johnson' or 'box-cox'")
+@icontract.ensure(lambda result, X: _power_fit_transform_valid(result, X), "fit-transform output must match fitted power-transform state")
+def power_transformer_fit_transform(
+    X: MatrixLike,
+    method: str = "yeo-johnson",
+    *,
+    standardize: bool = True,
+    copy: bool = True,
+) -> PowerTransformerFitTransformResult:
+    """Estimate power-transform lambdas and transform the same data."""
+    del copy
+    state = power_transformer_fit(X, method=method, standardize=standardize)
+    return state, power_transformer_transform(X, state, copy=True)
+
+
+@register_atom(witness_power_transform)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
+@icontract.require(lambda method: _power_method_valid(method), "method must be 'yeo-johnson' or 'box-cox'")
+@icontract.ensure(lambda result, X: _power_transform_shape_matches(result, X), "power transformed output must preserve shape")
+def power_transform(
+    X: MatrixLike,
+    method: str = "yeo-johnson",
+    *,
+    standardize: bool = True,
+    copy: bool = True,
+) -> NDArray[np.float64]:
+    """Fit per-feature power-transform lambdas and transform the same data."""
+    _, transformed = power_transformer_fit_transform(
+        X,
+        method=method,
+        standardize=standardize,
+        copy=copy,
+    )
+    return transformed
