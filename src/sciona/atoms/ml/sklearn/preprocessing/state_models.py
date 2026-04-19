@@ -121,6 +121,19 @@ class OrdinalEncoderState:
 
 
 @dataclass(frozen=True)
+class OneHotEncoderState:
+    """Learned per-feature categories and one-hot encoding layout."""
+
+    categories: list[NDArray[np.object_]]
+    drop_idx: NDArray[np.object_] | None
+    n_features_outs: NDArray[np.int_]
+    sparse_output: bool
+    dtype: type
+    handle_unknown: str
+    n_features_in: int
+
+
+@dataclass(frozen=True)
 class PolynomialFeaturesState:
     """Learned polynomial expansion powers and feature-count metadata."""
 

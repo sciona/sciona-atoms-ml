@@ -13,6 +13,7 @@ from sklearn.preprocessing import (
     MinMaxScaler,
     MultiLabelBinarizer,
     Normalizer,
+    OneHotEncoder,
     OrdinalEncoder,
     PolynomialFeatures,
     PowerTransformer,
@@ -69,6 +70,10 @@ def test_preprocessing_basic_atoms_import() -> None:
         multi_label_binarizer_transform,
         normalize,
         normalizer_transform,
+        onehot_encoder_fit,
+        onehot_encoder_fit_transform,
+        onehot_encoder_inverse_transform,
+        onehot_encoder_transform,
         ordinal_encoder_fit,
         ordinal_encoder_fit_transform,
         ordinal_encoder_inverse_transform,
@@ -134,6 +139,10 @@ def test_preprocessing_basic_atoms_import() -> None:
     assert callable(multi_label_binarizer_transform)
     assert callable(normalize)
     assert callable(normalizer_transform)
+    assert callable(onehot_encoder_fit)
+    assert callable(onehot_encoder_fit_transform)
+    assert callable(onehot_encoder_inverse_transform)
+    assert callable(onehot_encoder_transform)
     assert callable(ordinal_encoder_fit)
     assert callable(ordinal_encoder_fit_transform)
     assert callable(ordinal_encoder_inverse_transform)
@@ -697,6 +706,82 @@ def test_ordinal_encoder_predefined_categories_and_errors_match_sklearn() -> Non
 
     with pytest.raises(ValueError, match="unknown"):
         ordinal_encoder_transform(np.array([["c", 1]], dtype=object), state)
+    with pytest.raises(ValueError, match="unknown"):
+        expected.transform(np.array([["c", 1]], dtype=object))
+
+
+def test_onehot_encoder_fit_transform_matches_sklearn_sparse_auto_categories() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import onehot_encoder_fit_transform
+
+    X = np.array([["Male", 1], ["Female", 3], ["Female", 2]], dtype=object)
+    state, transformed = onehot_encoder_fit_transform(X)
+    expected = OneHotEncoder().fit(X)
+    expected_transformed = expected.transform(X)
+
+    for result_categories, expected_categories in zip(state.categories, expected.categories_):
+        assert np.array_equal(result_categories, expected_categories)
+    assert sp.issparse(transformed)
+    assert np.allclose(transformed.toarray(), expected_transformed.toarray())
+
+
+def test_onehot_encoder_dense_drop_and_inverse_match_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import (
+        onehot_encoder_fit,
+        onehot_encoder_inverse_transform,
+        onehot_encoder_transform,
+    )
+
+    X = np.array([["Female", 1], ["Male", 2], ["Female", 3]], dtype=object)
+    state = onehot_encoder_fit(X, drop="first", sparse_output=False)
+    expected = OneHotEncoder(drop="first", sparse_output=False).fit(X)
+    transformed = onehot_encoder_transform(X, state)
+    expected_transformed = expected.transform(X)
+
+    assert np.allclose(transformed, expected_transformed)
+    assert np.array_equal(onehot_encoder_inverse_transform(transformed, state), expected.inverse_transform(expected_transformed))
+
+
+def test_onehot_encoder_unknown_ignore_and_warn_match_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import (
+        onehot_encoder_fit,
+        onehot_encoder_inverse_transform,
+        onehot_encoder_transform,
+    )
+
+    X = np.array([["a", 1], ["b", 2]], dtype=object)
+    query = np.array([["a", 1], ["z", 4]], dtype=object)
+    state = onehot_encoder_fit(X, handle_unknown="ignore", sparse_output=False)
+    expected = OneHotEncoder(handle_unknown="ignore", sparse_output=False).fit(X)
+    transformed = onehot_encoder_transform(query, state)
+    expected_transformed = expected.transform(query)
+    assert np.allclose(transformed, expected_transformed)
+    assert np.array_equal(onehot_encoder_inverse_transform(transformed, state), expected.inverse_transform(expected_transformed))
+
+    warn_state = onehot_encoder_fit(X, handle_unknown="warn", sparse_output=False)
+    warn_expected = OneHotEncoder(handle_unknown="warn", sparse_output=False).fit(X)
+    with pytest.warns(UserWarning, match="unknown categories"):
+        warn_result = onehot_encoder_transform(query, warn_state)
+    with pytest.warns(UserWarning, match="unknown categories"):
+        warn_expected_result = warn_expected.transform(query)
+    assert np.allclose(warn_result, warn_expected_result)
+
+
+def test_onehot_encoder_predefined_categories_and_drop_errors_match_sklearn() -> None:
+    from sciona.atoms.ml.sklearn.preprocessing import onehot_encoder_fit, onehot_encoder_transform
+
+    X = np.array([["b", 2], ["a", 1]], dtype=object)
+    categories = [["a", "b"], [1, 2, 3]]
+    state = onehot_encoder_fit(X, categories=categories, drop=["a", 3], sparse_output=False)
+    expected = OneHotEncoder(categories=categories, drop=["a", 3], sparse_output=False).fit(X)
+    assert np.allclose(onehot_encoder_transform(X, state), expected.transform(X))
+
+    with pytest.raises(ValueError, match="duplicate"):
+        onehot_encoder_fit(X, categories=[["a", "a"], [1, 2]])
+    with pytest.raises(ValueError, match="duplicate"):
+        OneHotEncoder(categories=[["a", "a"], [1, 2]]).fit(X)
+
+    with pytest.raises(ValueError, match="unknown"):
+        onehot_encoder_transform(np.array([["c", 1]], dtype=object), state)
     with pytest.raises(ValueError, match="unknown"):
         expected.transform(np.array([["c", 1]], dtype=object))
 

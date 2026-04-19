@@ -1534,6 +1534,7 @@ from .state_models import (
     LabelBinarizerState,
     LabelEncoderState,
     MultiLabelBinarizerState,
+    OneHotEncoderState,
     OrdinalEncoderState,
     PolynomialFeaturesState,
     PowerTransformerState,
@@ -2365,6 +2366,275 @@ def ordinal_encoder_fit_transform(
         encoded_missing_value=encoded_missing_value,
     )
     return state, ordinal_encoder_transform(X, state)
+
+
+from .witnesses import (
+    witness_onehot_encoder_fit,
+    witness_onehot_encoder_fit_transform,
+    witness_onehot_encoder_inverse_transform,
+    witness_onehot_encoder_transform,
+)
+
+OneHotDrop = str | list[object] | tuple[object, ...] | NDArray[np.object_] | None
+OneHotEncoderFitTransformResult = tuple[OneHotEncoderState, MatrixLike]
+
+
+def _onehot_handle_unknown_valid(handle_unknown: str) -> bool:
+    return handle_unknown in {"error", "ignore", "infrequent_if_exist", "warn"}
+
+
+def _onehot_drop_valid(drop: OneHotDrop) -> bool:
+    return drop is None or (isinstance(drop, str) and drop in {"first", "if_binary"}) or not isinstance(drop, str)
+
+
+def _onehot_state_valid(state: OneHotEncoderState) -> bool:
+    drop_ok = state.drop_idx is None or state.drop_idx.shape == (state.n_features_in,)
+    return bool(
+        len(state.categories) == state.n_features_in
+        and drop_ok
+        and state.n_features_outs.shape == (state.n_features_in,)
+        and np.all(state.n_features_outs >= 0)
+        and _ordinal_dtype_valid(state.dtype)
+        and _onehot_handle_unknown_valid(state.handle_unknown)
+        and all(categories.ndim == 1 and len(categories) >= 1 for categories in state.categories)
+    )
+
+
+def _onehot_output_width(state: OneHotEncoderState) -> int:
+    return int(np.sum(state.n_features_outs))
+
+
+def _onehot_transform_shape_matches(result: MatrixLike, X: OrdinalInput | MatrixLike, state: OneHotEncoderState) -> bool:
+    return bool(result.shape == (np.asarray(X, dtype=object).shape[0], _onehot_output_width(state)))
+
+
+def _onehot_fit_transform_valid(result: OneHotEncoderFitTransformResult, X: OrdinalInput | MatrixLike) -> bool:
+    state, transformed = result
+    return bool(_onehot_state_valid(state) and _onehot_transform_shape_matches(transformed, X, state))
+
+
+def _onehot_compute_drop_idx(categories: list[NDArray[np.object_]], drop: OneHotDrop) -> NDArray[np.object_] | None:
+    if drop is None:
+        return None
+    if isinstance(drop, str):
+        if drop == "first":
+            return np.zeros(len(categories), dtype=object)
+        return np.asarray([0 if len(cats) == 2 else None for cats in categories], dtype=object)
+
+    drop_values = np.asarray(drop, dtype=object)
+    if len(drop_values) != len(categories):
+        raise ValueError("`drop` should have length equal to the number of features ({0}), got {1}".format(len(categories), len(drop_values)))
+    drop_indices = []
+    missing_drops = []
+    for feature_idx, (drop_value, cats) in enumerate(zip(drop_values, categories)):
+        if _ordinal_is_nan(drop_value):
+            if _ordinal_is_nan(cats[-1]):
+                drop_indices.append(len(cats) - 1)
+            else:
+                missing_drops.append((feature_idx, drop_value))
+        else:
+            matches = np.flatnonzero(cats == drop_value)
+            if matches.size:
+                drop_indices.append(int(matches[0]))
+            else:
+                missing_drops.append((feature_idx, drop_value))
+    if missing_drops:
+        raise ValueError("The following categories were supposed to be dropped, but were not found in the training data.")
+    return np.asarray(drop_indices, dtype=object)
+
+
+def _onehot_features_out(categories: list[NDArray[np.object_]], drop_idx: NDArray[np.object_] | None) -> NDArray[np.int_]:
+    widths = np.asarray([len(cats) for cats in categories], dtype=np.int_)
+    if drop_idx is not None:
+        for feature_idx, drop_value in enumerate(drop_idx):
+            if drop_value is not None:
+                widths[feature_idx] -= 1
+    return widths
+
+
+@register_atom(witness_onehot_encoder_fit)
+@icontract.require(lambda X: _ordinal_input_is_2d(X), "X must be a 2D categorical matrix")
+@icontract.require(lambda categories: _ordinal_categories_valid(categories), "categories must be 'auto' or one category list per feature")
+@icontract.require(lambda drop: _onehot_drop_valid(drop), "drop must be None, 'first', 'if_binary', or one category per feature")
+@icontract.require(lambda dtype: _ordinal_dtype_valid(dtype), "dtype must be a valid numpy dtype")
+@icontract.require(lambda handle_unknown: _onehot_handle_unknown_valid(handle_unknown), "invalid unknown-category mode")
+@icontract.ensure(lambda result: _onehot_state_valid(result), "one-hot state must contain categories and output widths")
+@icontract.ensure(lambda result, X: result.n_features_in == _ordinal_feature_count(X), "state feature count must match input columns")
+def onehot_encoder_fit(
+    X: OrdinalInput,
+    *,
+    categories: OrdinalCategories = "auto",
+    drop: OneHotDrop = None,
+    sparse_output: bool = True,
+    dtype: type = np.float64,
+    handle_unknown: str = "error",
+) -> OneHotEncoderState:
+    """Learn per-feature categories and output layout for one-hot encoding."""
+    checked_x = check_array(X, dtype=None, ensure_all_finite="allow-nan")
+    n_features = int(checked_x.shape[1])
+    if not _ordinal_categories_valid(categories, n_features):
+        raise ValueError("Shape mismatch: if categories is an array, it has to be of shape (n_features,).")
+
+    learned_categories: list[NDArray[np.object_]] = []
+    for feature_idx in range(n_features):
+        column = np.asarray(checked_x[:, feature_idx], dtype=object)
+        if categories == "auto":
+            cats = _ordinal_unique(column)
+        else:
+            cats = np.asarray(categories[feature_idx], dtype=object)
+            if cats.size == 0:
+                raise ValueError("Found empty category list for feature {0}.".format(feature_idx))
+            for category in cats[:-1]:
+                if _ordinal_is_nan(category):
+                    raise ValueError("Nan should be the last element in user provided categories")
+            if len(cats) != len(_ordinal_unique(cats)):
+                raise ValueError("In column {0}, the predefined categories contain duplicate elements.".format(feature_idx))
+            if cats.dtype.kind not in "OUS":
+                sorted_cats = np.sort(cats)
+                stop_idx = -1 if _ordinal_is_nan(sorted_cats[-1]) else None
+                if np.any(sorted_cats[:stop_idx] != cats[:stop_idx]):
+                    raise ValueError("Unsorted categories are not supported for numerical categories")
+            if handle_unknown == "error":
+                diff, _ = _ordinal_check_unknown(column, cats)
+                if diff:
+                    raise ValueError("Found unknown categories {0} in column {1} during fit".format(diff, feature_idx))
+        learned_categories.append(np.asarray(cats, dtype=object))
+
+    drop_idx = _onehot_compute_drop_idx(learned_categories, drop)
+    return OneHotEncoderState(
+        categories=learned_categories,
+        drop_idx=drop_idx,
+        n_features_outs=_onehot_features_out(learned_categories, drop_idx),
+        sparse_output=bool(sparse_output),
+        dtype=dtype,
+        handle_unknown=handle_unknown,
+        n_features_in=n_features,
+    )
+
+
+@register_atom(witness_onehot_encoder_transform)
+@icontract.require(lambda X: _ordinal_input_is_2d(X), "X must be a 2D categorical matrix")
+@icontract.require(lambda state: _onehot_state_valid(state), "one-hot state must contain categories and output widths")
+@icontract.require(lambda X, state: _ordinal_feature_count(X) == state.n_features_in, "X feature count must match fitted state")
+@icontract.ensure(lambda result, X, state: _onehot_transform_shape_matches(result, X, state), "one-hot output must match fitted width")
+def onehot_encoder_transform(
+    X: OrdinalInput,
+    state: OneHotEncoderState,
+) -> MatrixLike:
+    """Map categorical feature values to fitted one-hot indicator columns."""
+    checked_x = check_array(X, dtype=None, ensure_all_finite="allow-nan")
+    n_samples = checked_x.shape[0]
+    if checked_x.shape[1] != state.n_features_in:
+        raise ValueError("Input data has a different number of features than fitting data.")
+
+    rows: list[int] = []
+    cols: list[int] = []
+    offset = 0
+    warn_columns: list[int] = []
+    for feature_idx, categories in enumerate(state.categories):
+        column = np.asarray(checked_x[:, feature_idx], dtype=object)
+        diff, valid = _ordinal_check_unknown(column, categories)
+        if not np.all(valid):
+            if state.handle_unknown == "error":
+                raise ValueError("Found unknown categories {0} in column {1} during transform".format(diff, feature_idx))
+            if state.handle_unknown == "warn":
+                warn_columns.append(feature_idx)
+            safe_column = column.copy()
+            safe_column[~valid] = categories[0]
+        else:
+            safe_column = column
+        encoded = _ordinal_encode_known(safe_column, categories)
+        drop_idx = None if state.drop_idx is None else state.drop_idx[feature_idx]
+        for sample_idx, category_idx in enumerate(encoded):
+            if not valid[sample_idx]:
+                continue
+            adjusted = int(category_idx)
+            if drop_idx is not None:
+                if adjusted == int(drop_idx):
+                    continue
+                if adjusted > int(drop_idx):
+                    adjusted -= 1
+            rows.append(sample_idx)
+            cols.append(offset + adjusted)
+        offset += int(state.n_features_outs[feature_idx])
+    if warn_columns:
+        warnings.warn(
+            "Found unknown categories in columns {0} during transform. These unknown categories will be encoded as all zeros".format(
+                warn_columns
+            ),
+            UserWarning,
+            stacklevel=2,
+        )
+    data = np.ones(len(rows), dtype=np.dtype(state.dtype))
+    encoded_matrix = sp.csr_matrix((data, (rows, cols)), shape=(n_samples, _onehot_output_width(state)), dtype=np.dtype(state.dtype))
+    if state.sparse_output:
+        return encoded_matrix
+    return encoded_matrix.toarray()
+
+
+@register_atom(witness_onehot_encoder_inverse_transform)
+@icontract.require(lambda X: _is_2d(X), "X must be a 2D encoded matrix")
+@icontract.require(lambda state: _onehot_state_valid(state), "one-hot state must contain categories and output widths")
+@icontract.require(lambda X, state: X.shape[1] == _onehot_output_width(state), "encoded width must match fitted state")
+@icontract.ensure(lambda result, X, state: result.shape == (X.shape[0], state.n_features_in), "inverse output must restore original feature count")
+def onehot_encoder_inverse_transform(
+    X: MatrixLike,
+    state: OneHotEncoderState,
+) -> NDArray[np.object_]:
+    """Map fitted one-hot indicator columns back to categorical values."""
+    checked_x = check_array(X, accept_sparse="csr")
+    if checked_x.shape[1] != _onehot_output_width(state):
+        raise ValueError("Shape of the passed X data is not correct. Expected {0} columns, got {1}.".format(_onehot_output_width(state), checked_x.shape[1]))
+    n_samples = checked_x.shape[0]
+    decoded = np.empty((n_samples, state.n_features_in), dtype=object)
+    start = 0
+    for feature_idx, categories in enumerate(state.categories):
+        width = int(state.n_features_outs[feature_idx])
+        block = checked_x[:, start : start + width]
+        dense_block = block.toarray() if sp.issparse(block) else np.asarray(block)
+        labels = np.asarray(dense_block.argmax(axis=1)).ravel().astype(int)
+        zero_rows = np.asarray(dense_block.sum(axis=1) == 0).ravel()
+        drop_idx = None if state.drop_idx is None else state.drop_idx[feature_idx]
+        cats_without_drop = categories if drop_idx is None else np.delete(categories, int(drop_idx))
+        decoded[:, feature_idx] = cats_without_drop[labels] if len(cats_without_drop) > 0 else categories[int(drop_idx)]
+        if np.any(zero_rows):
+            if drop_idx is not None:
+                decoded[zero_rows, feature_idx] = categories[int(drop_idx)]
+            elif state.handle_unknown in {"ignore", "infrequent_if_exist", "warn"}:
+                decoded[zero_rows, feature_idx] = None
+            else:
+                samples = np.flatnonzero(zero_rows)
+                raise ValueError("Samples {0} can not be inverted when drop=None and handle_unknown='error' because they contain all zeros".format(samples))
+        start += width
+    return decoded
+
+
+@register_atom(witness_onehot_encoder_fit_transform)
+@icontract.require(lambda X: _ordinal_input_is_2d(X), "X must be a 2D categorical matrix")
+@icontract.require(lambda categories: _ordinal_categories_valid(categories), "categories must be 'auto' or one category list per feature")
+@icontract.require(lambda drop: _onehot_drop_valid(drop), "drop must be None, 'first', 'if_binary', or one category per feature")
+@icontract.require(lambda dtype: _ordinal_dtype_valid(dtype), "dtype must be a valid numpy dtype")
+@icontract.require(lambda handle_unknown: _onehot_handle_unknown_valid(handle_unknown), "invalid unknown-category mode")
+@icontract.ensure(lambda result, X: _onehot_fit_transform_valid(result, X), "fit-transform output must match learned one-hot state")
+def onehot_encoder_fit_transform(
+    X: OrdinalInput,
+    *,
+    categories: OrdinalCategories = "auto",
+    drop: OneHotDrop = None,
+    sparse_output: bool = True,
+    dtype: type = np.float64,
+    handle_unknown: str = "error",
+) -> OneHotEncoderFitTransformResult:
+    """Learn categories and one-hot-encode the same categorical matrix."""
+    state = onehot_encoder_fit(
+        X,
+        categories=categories,
+        drop=drop,
+        sparse_output=sparse_output,
+        dtype=dtype,
+        handle_unknown=handle_unknown,
+    )
+    return state, onehot_encoder_transform(X, state)
 
 
 import math

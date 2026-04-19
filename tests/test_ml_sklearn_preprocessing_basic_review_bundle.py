@@ -49,6 +49,10 @@ EXPECTED_ATOM_NAMES = {
     "sciona.atoms.ml.sklearn.preprocessing.multi_label_binarizer_transform",
     "sciona.atoms.ml.sklearn.preprocessing.normalize",
     "sciona.atoms.ml.sklearn.preprocessing.normalizer_transform",
+    "sciona.atoms.ml.sklearn.preprocessing.onehot_encoder_fit",
+    "sciona.atoms.ml.sklearn.preprocessing.onehot_encoder_fit_transform",
+    "sciona.atoms.ml.sklearn.preprocessing.onehot_encoder_inverse_transform",
+    "sciona.atoms.ml.sklearn.preprocessing.onehot_encoder_transform",
     "sciona.atoms.ml.sklearn.preprocessing.ordinal_encoder_fit",
     "sciona.atoms.ml.sklearn.preprocessing.ordinal_encoder_fit_transform",
     "sciona.atoms.ml.sklearn.preprocessing.ordinal_encoder_inverse_transform",
@@ -85,10 +89,10 @@ def _bundle() -> dict:
     return json.loads(BUNDLE_PATH.read_text(encoding="utf-8"))
 
 
-def test_bundle_exists_and_has_sixty_three_atoms() -> None:
+def test_bundle_exists_and_has_sixty_seven_atoms() -> None:
     assert BUNDLE_PATH.exists()
     bundle = _bundle()
-    assert len(bundle["rows"]) == 63
+    assert len(bundle["rows"]) == 67
     assert {row["atom_key"] for row in bundle["rows"]} == EXPECTED_ATOM_NAMES
 
 
@@ -165,6 +169,10 @@ def test_cdg_atomic_nodes_have_publishable_io_specs() -> None:
         "multi_label_binarizer_transform",
         "normalize",
         "normalizer_transform",
+        "onehot_encoder_fit",
+        "onehot_encoder_fit_transform",
+        "onehot_encoder_inverse_transform",
+        "onehot_encoder_transform",
         "ordinal_encoder_fit",
         "ordinal_encoder_fit_transform",
         "ordinal_encoder_inverse_transform",

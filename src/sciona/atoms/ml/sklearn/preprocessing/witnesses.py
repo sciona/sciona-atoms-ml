@@ -14,6 +14,7 @@ from .state_models import (
     MaxAbsScalerState,
     MinMaxScalerState,
     MultiLabelBinarizerState,
+    OneHotEncoderState,
     OrdinalEncoderState,
     PolynomialFeaturesState,
     PowerTransformerState,
@@ -836,6 +837,67 @@ def witness_ordinal_encoder_fit_transform(
     )
     n_samples, n_features = _check_2d(X)
     return learned, AbstractArray(shape=(n_samples, n_features), dtype="float64")
+
+
+def witness_onehot_encoder_fit(
+    X: AbstractArray,
+    *,
+    categories: str = "auto",
+    drop: str | None = None,
+    sparse_output: bool = True,
+    dtype: type = float,
+    handle_unknown: str = "error",
+) -> AbstractArray:
+    """Describe learning categories and one-hot output layout."""
+    del categories, drop, sparse_output, dtype
+    _, n_features = _check_2d(X)
+    if handle_unknown not in {"error", "ignore", "infrequent_if_exist", "warn"}:
+        raise ValueError("invalid unknown-category mode")
+    return AbstractArray(shape=(n_features,), dtype="object")
+
+
+def witness_onehot_encoder_transform(
+    X: AbstractArray,
+    state: OneHotEncoderState,
+) -> AbstractArray:
+    """Describe mapping categorical feature values to one-hot columns."""
+    n_samples, n_features = _check_2d(X)
+    if n_features != state.n_features_in:
+        raise ValueError("X feature count must match fitted state")
+    return AbstractArray(shape=(n_samples, int(sum(state.n_features_outs))), dtype="float64", min_val=0.0, max_val=1.0)
+
+
+def witness_onehot_encoder_inverse_transform(
+    X: AbstractArray,
+    state: OneHotEncoderState,
+) -> AbstractArray:
+    """Describe mapping one-hot columns back to categories."""
+    n_samples, n_features = _check_2d(X)
+    if n_features != int(sum(state.n_features_outs)):
+        raise ValueError("encoded width must match fitted state")
+    return AbstractArray(shape=(n_samples, state.n_features_in), dtype="object")
+
+
+def witness_onehot_encoder_fit_transform(
+    X: AbstractArray,
+    *,
+    categories: str = "auto",
+    drop: str | None = None,
+    sparse_output: bool = True,
+    dtype: type = float,
+    handle_unknown: str = "error",
+) -> tuple[AbstractArray, AbstractArray]:
+    """Describe fitting categories and one-hot-encoding the same features."""
+    learned = witness_onehot_encoder_fit(
+        X,
+        categories=categories,
+        drop=drop,
+        sparse_output=sparse_output,
+        dtype=dtype,
+        handle_unknown=handle_unknown,
+    )
+    n_samples, n_features = _check_2d(X)
+    return learned, AbstractArray(shape=(n_samples, n_features), dtype="float64", min_val=0.0, max_val=1.0)
 
 
 def witness_quantile_transformer_fit(

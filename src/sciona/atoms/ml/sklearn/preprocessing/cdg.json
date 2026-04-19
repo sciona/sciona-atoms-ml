@@ -2311,6 +2311,154 @@
           "type_desc": "tuple[OrdinalEncoderState, NDArray[np.float64]]"
         }
       ]
+    },
+    {
+      "node_id": "onehot_encoder_fit",
+      "name": "onehot_encoder_fit",
+      "description": "Learn per-feature categories and output layout for one-hot encoding.",
+      "concept_type": "fit_state_builder",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.object_] | list[list[object]] | tuple[tuple[object, ...], ...], categories: str | list[list[object]] | tuple[tuple[object, ...], ...] = 'auto', drop: str | list[object] | tuple[object, ...] | NDArray[np.object_] | None = None, sparse_output: bool = True, dtype: type = np.float64, handle_unknown: str = 'error') -> OneHotEncoderState",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.object_] | list[list[object]] | tuple[tuple[object, ...], ...]",
+          "required": true
+        },
+        {
+          "name": "categories",
+          "type_desc": "str | list[list[object]] | tuple[tuple[object, ...], ...]",
+          "required": false
+        },
+        {
+          "name": "drop",
+          "type_desc": "str | list[object] | tuple[object, ...] | NDArray[np.object_] | None",
+          "required": false
+        },
+        {
+          "name": "sparse_output",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "dtype",
+          "type_desc": "type",
+          "required": false
+        },
+        {
+          "name": "handle_unknown",
+          "type_desc": "str",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "OneHotEncoderState"
+        }
+      ]
+    },
+    {
+      "node_id": "onehot_encoder_transform",
+      "name": "onehot_encoder_transform",
+      "description": "Map categorical feature values to fitted one-hot indicator columns.",
+      "concept_type": "array_transform",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.object_] | list[list[object]] | tuple[tuple[object, ...], ...], state: OneHotEncoderState) -> NDArray[np.float64] | scipy.sparse.spmatrix",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.object_] | list[list[object]] | tuple[tuple[object, ...], ...]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "OneHotEncoderState",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"
+        }
+      ]
+    },
+    {
+      "node_id": "onehot_encoder_inverse_transform",
+      "name": "onehot_encoder_inverse_transform",
+      "description": "Map fitted one-hot indicator columns back to categorical values.",
+      "concept_type": "array_transform",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, state: OneHotEncoderState) -> NDArray[np.object_]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "OneHotEncoderState",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.object_]"
+        }
+      ]
+    },
+    {
+      "node_id": "onehot_encoder_fit_transform",
+      "name": "onehot_encoder_fit_transform",
+      "description": "Learn categories and one-hot-encode the same categorical matrix.",
+      "concept_type": "fit_transform",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.object_] | list[list[object]] | tuple[tuple[object, ...], ...], categories: str | list[list[object]] | tuple[tuple[object, ...], ...] = 'auto', drop: str | list[object] | tuple[object, ...] | NDArray[np.object_] | None = None, sparse_output: bool = True, dtype: type = np.float64, handle_unknown: str = 'error') -> tuple[OneHotEncoderState, NDArray[np.float64] | scipy.sparse.spmatrix]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.object_] | list[list[object]] | tuple[tuple[object, ...], ...]",
+          "required": true
+        },
+        {
+          "name": "categories",
+          "type_desc": "str | list[list[object]] | tuple[tuple[object, ...], ...]",
+          "required": false
+        },
+        {
+          "name": "drop",
+          "type_desc": "str | list[object] | tuple[object, ...] | NDArray[np.object_] | None",
+          "required": false
+        },
+        {
+          "name": "sparse_output",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "dtype",
+          "type_desc": "type",
+          "required": false
+        },
+        {
+          "name": "handle_unknown",
+          "type_desc": "str",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "tuple[OneHotEncoderState, NDArray[np.float64] | scipy.sparse.spmatrix]"
+        }
+      ]
     }
   ],
   "edges": [
@@ -2522,6 +2670,21 @@
     {
       "source_id": "ordinal_encoder_fit",
       "target_id": "ordinal_encoder_fit_transform",
+      "edge_type": "implementation_dependency"
+    },
+    {
+      "source_id": "onehot_encoder_fit",
+      "target_id": "onehot_encoder_transform",
+      "edge_type": "fit_state_dependency"
+    },
+    {
+      "source_id": "onehot_encoder_fit",
+      "target_id": "onehot_encoder_inverse_transform",
+      "edge_type": "fit_state_dependency"
+    },
+    {
+      "source_id": "onehot_encoder_fit",
+      "target_id": "onehot_encoder_fit_transform",
       "edge_type": "implementation_dependency"
     }
   ],
