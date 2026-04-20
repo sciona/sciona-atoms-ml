@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "atoms": {
-    "sciona.atoms.ml.sklearn.feature_selection.f_classif@sciona/atoms/ml/sklearn/feature_selection/atoms.py:86": {
+    "sciona.atoms.ml.sklearn.feature_selection.f_classif@sciona/atoms/ml/sklearn/feature_selection/atoms.py:236": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -26,7 +26,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.feature_selection.chi2@sciona/atoms/ml/sklearn/feature_selection/atoms.py:101": {
+    "sciona.atoms.ml.sklearn.feature_selection.chi2@sciona/atoms/ml/sklearn/feature_selection/atoms.py:251": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -51,7 +51,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.feature_selection.r_regression@sciona/atoms/ml/sklearn/feature_selection/atoms.py:127": {
+    "sciona.atoms.ml.sklearn.feature_selection.r_regression@sciona/atoms/ml/sklearn/feature_selection/atoms.py:277": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -76,7 +76,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.feature_selection.f_regression@sciona/atoms/ml/sklearn/feature_selection/atoms.py:166": {
+    "sciona.atoms.ml.sklearn.feature_selection.f_regression@sciona/atoms/ml/sklearn/feature_selection/atoms.py:316": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -86,6 +86,181 @@
             "matched_nodes": [],
             "confidence": "high",
             "notes": "Adapted from sklearn.feature_selection.f_regression in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.feature_selection.select_k_best_fit@sciona/atoms/ml/sklearn/feature_selection/atoms.py:355": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.feature_selection.SelectKBest.fit and SelectKBest._get_support_mask in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.feature_selection.select_percentile_fit@sciona/atoms/ml/sklearn/feature_selection/atoms.py:383": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.feature_selection.SelectPercentile.fit and SelectPercentile._get_support_mask in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.feature_selection.select_fpr_fit@sciona/atoms/ml/sklearn/feature_selection/atoms.py:411": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.feature_selection.SelectFpr.fit and SelectFpr._get_support_mask in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.feature_selection.select_fdr_fit@sciona/atoms/ml/sklearn/feature_selection/atoms.py:439": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.feature_selection.SelectFdr.fit and SelectFdr._get_support_mask in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.feature_selection.select_fwe_fit@sciona/atoms/ml/sklearn/feature_selection/atoms.py:467": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.feature_selection.SelectFwe.fit and SelectFwe._get_support_mask in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.feature_selection.generic_univariate_select_fit@sciona/atoms/ml/sklearn/feature_selection/atoms.py:496": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.feature_selection.GenericUnivariateSelect.fit, _make_selector, and _get_support_mask in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.feature_selection.univariate_selection_transform@sciona/atoms/ml/sklearn/feature_selection/atoms.py:533": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.feature_selection.SelectorMixin.transform in scikit-learn 1.8.0."
           }
         },
         {

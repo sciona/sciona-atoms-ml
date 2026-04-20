@@ -18,7 +18,14 @@ EXPECTED_ATOM_NAMES = {
     "sciona.atoms.ml.sklearn.feature_selection.chi2",
     "sciona.atoms.ml.sklearn.feature_selection.f_classif",
     "sciona.atoms.ml.sklearn.feature_selection.f_regression",
+    "sciona.atoms.ml.sklearn.feature_selection.generic_univariate_select_fit",
     "sciona.atoms.ml.sklearn.feature_selection.r_regression",
+    "sciona.atoms.ml.sklearn.feature_selection.select_fdr_fit",
+    "sciona.atoms.ml.sklearn.feature_selection.select_fpr_fit",
+    "sciona.atoms.ml.sklearn.feature_selection.select_fwe_fit",
+    "sciona.atoms.ml.sklearn.feature_selection.select_k_best_fit",
+    "sciona.atoms.ml.sklearn.feature_selection.select_percentile_fit",
+    "sciona.atoms.ml.sklearn.feature_selection.univariate_selection_transform",
 }
 
 
@@ -26,10 +33,10 @@ def _bundle() -> dict:
     return json.loads(BUNDLE_PATH.read_text(encoding="utf-8"))
 
 
-def test_bundle_exists_and_has_four_atoms() -> None:
+def test_bundle_exists_and_has_univariate_atoms() -> None:
     assert BUNDLE_PATH.exists()
     bundle = _bundle()
-    assert len(bundle["rows"]) == 4
+    assert len(bundle["rows"]) == 11
     assert {row["atom_key"] for row in bundle["rows"]} == EXPECTED_ATOM_NAMES
 
 
@@ -72,7 +79,19 @@ def test_scores_and_enums_are_db_compatible() -> None:
 def test_cdg_atomic_nodes_have_publishable_io_specs() -> None:
     cdg = json.loads(CDG_PATH.read_text(encoding="utf-8"))
     atomic = [node for node in cdg["nodes"] if node.get("status") == "atomic"]
-    assert {node["name"] for node in atomic} == {"chi2", "f_classif", "f_regression", "r_regression"}
+    assert {node["name"] for node in atomic} == {
+        "chi2",
+        "f_classif",
+        "f_regression",
+        "generic_univariate_select_fit",
+        "r_regression",
+        "select_fdr_fit",
+        "select_fpr_fit",
+        "select_fwe_fit",
+        "select_k_best_fit",
+        "select_percentile_fit",
+        "univariate_selection_transform",
+    }
     for node in atomic:
         assert node["node_id"] == node["name"]
         assert " " not in node["name"]

@@ -146,17 +146,11 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 
 | Target | Description | Source |
 | --- | --- | --- |
-| `GenericUnivariateSelect` | Univariate feature selector with configurable strategy. | `sklearn/feature_selection/_univariate_selection.py:L1062` |
 | `mutual_info_classif` | Estimate mutual information for a discrete target variable. | `sklearn/feature_selection/_mutual_info.py:L453` |
 | `mutual_info_regression` | Estimate mutual information for a continuous target variable. | `sklearn/feature_selection/_mutual_info.py:L325` |
 | `RFE` | Feature ranking with recursive feature elimination. | `sklearn/feature_selection/_rfe.py:L73` |
 | `RFECV` | Recursive feature elimination with cross-validation to select features. | `sklearn/feature_selection/_rfe.py:L558` |
-| `SelectFdr` | Filter: Select the p-values for an estimated false discovery rate. | `sklearn/feature_selection/_univariate_selection.py:L889` |
-| `SelectFpr` | Filter: Select the pvalues below alpha based on a FPR test. | `sklearn/feature_selection/_univariate_selection.py:L809` |
 | `SelectFromModel` | Meta-transformer for selecting features based on importance weights. | `sklearn/feature_selection/_from_model.py:L95` |
-| `SelectFwe` | Filter: Select the p-values corresponding to Family-wise error rate. | `sklearn/feature_selection/_univariate_selection.py:L980` |
-| `SelectKBest` | Select features according to the k highest scores. | `sklearn/feature_selection/_univariate_selection.py:L698` |
-| `SelectPercentile` | Select features according to a percentile of the highest scores. | `sklearn/feature_selection/_univariate_selection.py:L593` |
 | `SequentialFeatureSelector` | Transformer that performs Sequential Feature Selection. | `sklearn/feature_selection/_sequential.py:L34` |
 
 ## `sklearn.gaussian_process`

@@ -9,7 +9,14 @@
         "chi2",
         "f_classif",
         "f_regression",
-        "r_regression"
+        "r_regression",
+        "select_k_best_fit",
+        "select_percentile_fit",
+        "select_fpr_fit",
+        "select_fdr_fit",
+        "select_fwe_fit",
+        "generic_univariate_select_fit",
+        "univariate_selection_transform"
       ],
       "depth": 0
     },
@@ -80,6 +87,131 @@
       "outputs": [
         {"name": "result", "type_desc": "tuple[NDArray[np.float64], NDArray[np.float64]]"}
       ]
+    },
+    {
+      "node_id": "select_k_best_fit",
+      "name": "select_k_best_fit",
+      "description": "Fit a selector that keeps the k highest univariate feature scores.",
+      "concept_type": "fit_state_builder",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], score_func: str = 'f_classif', k: int | str = 10) -> UnivariateSelectionState",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "score_func", "type_desc": "str", "required": false},
+        {"name": "k", "type_desc": "int | str", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "UnivariateSelectionState"}
+      ]
+    },
+    {
+      "node_id": "select_percentile_fit",
+      "name": "select_percentile_fit",
+      "description": "Fit a selector that keeps a percentile of the highest feature scores.",
+      "concept_type": "fit_state_builder",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], score_func: str = 'f_classif', percentile: float = 10.0) -> UnivariateSelectionState",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "score_func", "type_desc": "str", "required": false},
+        {"name": "percentile", "type_desc": "float", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "UnivariateSelectionState"}
+      ]
+    },
+    {
+      "node_id": "select_fpr_fit",
+      "name": "select_fpr_fit",
+      "description": "Fit a selector that keeps features whose p-values are below alpha.",
+      "concept_type": "fit_state_builder",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], score_func: str = 'f_classif', alpha: float = 0.05) -> UnivariateSelectionState",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "score_func", "type_desc": "str", "required": false},
+        {"name": "alpha", "type_desc": "float", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "UnivariateSelectionState"}
+      ]
+    },
+    {
+      "node_id": "select_fdr_fit",
+      "name": "select_fdr_fit",
+      "description": "Fit a Benjamini-Hochberg false-discovery-rate selector.",
+      "concept_type": "fit_state_builder",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], score_func: str = 'f_classif', alpha: float = 0.05) -> UnivariateSelectionState",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "score_func", "type_desc": "str", "required": false},
+        {"name": "alpha", "type_desc": "float", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "UnivariateSelectionState"}
+      ]
+    },
+    {
+      "node_id": "select_fwe_fit",
+      "name": "select_fwe_fit",
+      "description": "Fit a family-wise-error selector using Bonferroni correction.",
+      "concept_type": "fit_state_builder",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], score_func: str = 'f_classif', alpha: float = 0.05) -> UnivariateSelectionState",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "score_func", "type_desc": "str", "required": false},
+        {"name": "alpha", "type_desc": "float", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "UnivariateSelectionState"}
+      ]
+    },
+    {
+      "node_id": "generic_univariate_select_fit",
+      "name": "generic_univariate_select_fit",
+      "description": "Fit a univariate selector using a runtime-selected selection strategy.",
+      "concept_type": "fit_state_builder",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], score_func: str = 'f_classif', mode: str = 'percentile', param: int | float | str = 1e-5) -> UnivariateSelectionState",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "score_func", "type_desc": "str", "required": false},
+        {"name": "mode", "type_desc": "str", "required": false},
+        {"name": "param", "type_desc": "int | float | str", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "UnivariateSelectionState"}
+      ]
+    },
+    {
+      "node_id": "univariate_selection_transform",
+      "name": "univariate_selection_transform",
+      "description": "Retain the columns selected by a fitted univariate selector state.",
+      "concept_type": "projection",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: UnivariateSelectionState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "state", "type_desc": "UnivariateSelectionState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
     }
   ],
   "edges": [
@@ -87,6 +219,61 @@
       "source_id": "r_regression",
       "target_id": "f_regression",
       "edge_type": "data_dependency"
+    },
+    {
+      "source_id": "f_classif",
+      "target_id": "select_k_best_fit",
+      "edge_type": "score_dependency"
+    },
+    {
+      "source_id": "f_classif",
+      "target_id": "select_percentile_fit",
+      "edge_type": "score_dependency"
+    },
+    {
+      "source_id": "f_classif",
+      "target_id": "select_fpr_fit",
+      "edge_type": "score_dependency"
+    },
+    {
+      "source_id": "f_classif",
+      "target_id": "select_fdr_fit",
+      "edge_type": "score_dependency"
+    },
+    {
+      "source_id": "f_classif",
+      "target_id": "select_fwe_fit",
+      "edge_type": "score_dependency"
+    },
+    {
+      "source_id": "select_k_best_fit",
+      "target_id": "univariate_selection_transform",
+      "edge_type": "state"
+    },
+    {
+      "source_id": "select_percentile_fit",
+      "target_id": "univariate_selection_transform",
+      "edge_type": "state"
+    },
+    {
+      "source_id": "select_fpr_fit",
+      "target_id": "univariate_selection_transform",
+      "edge_type": "state"
+    },
+    {
+      "source_id": "select_fdr_fit",
+      "target_id": "univariate_selection_transform",
+      "edge_type": "state"
+    },
+    {
+      "source_id": "select_fwe_fit",
+      "target_id": "univariate_selection_transform",
+      "edge_type": "state"
+    },
+    {
+      "source_id": "generic_univariate_select_fit",
+      "target_id": "univariate_selection_transform",
+      "edge_type": "state"
     }
   ],
   "metadata": {
