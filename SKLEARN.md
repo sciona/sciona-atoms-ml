@@ -12,14 +12,14 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 - Scope for this first ingestion pass: public algorithmic estimators, transformers, kernels, and algorithmic helper functions in the selected sklearn modules below.
 - Intentionally excluded for now: datasets, metrics, displays, exceptions, low-level utils, orchestration/composition (`compose`, `pipeline`), and model-selection/search APIs.
 - Source locations come from each object page's official `[source]` link. `BallTree` and `KDTree` use the matching source files from the same scikit-learn revision because their generated docs pages do not expose a direct `[source]` link.
-- Total targets in this inventory: 196
+- Total targets in this inventory: 195
 
 ## Module Summary
 
 | Module | Targets |
 | --- | ---: |
 | `sklearn.calibration` | 0 |
-| `sklearn.cluster` | 9 |
+| `sklearn.cluster` | 8 |
 | `sklearn.covariance` | 12 |
 | `sklearn.cross_decomposition` | 4 |
 | `sklearn.decomposition` | 19 |
@@ -59,7 +59,6 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 | Target | Description | Source |
 | --- | --- | --- |
 | `Birch` | Implements the BIRCH clustering algorithm. | `sklearn/cluster/_birch.py:L359` |
-| `cluster_optics_dbscan` | Perform DBSCAN extraction for an arbitrary epsilon. | `sklearn/cluster/_optics.py:L718` |
 | `cluster_optics_xi` | Automatically extract clusters according to the Xi-steep method. | `sklearn/cluster/_optics.py:L792` |
 | `compute_optics_graph` | Compute the OPTICS reachability graph. | `sklearn/cluster/_optics.py:L442` |
 | `OPTICS` | Estimate clustering structure from vector array. | `sklearn/cluster/_optics.py:L33` |

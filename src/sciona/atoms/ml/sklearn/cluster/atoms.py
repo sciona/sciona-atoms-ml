@@ -24,6 +24,7 @@ from .witnesses import (
     witness_affinity_propagation,
     witness_affinity_propagation_fit,
     witness_affinity_propagation_predict,
+    witness_cluster_optics_dbscan,
     witness_estimate_bandwidth,
     witness_kmeans_plusplus,
     witness_mean_shift,
@@ -131,6 +132,33 @@ def _sample_weight_valid(sample_weight: NDArray[np.float64] | list[float] | None
         return True
     values = np.asarray(sample_weight, dtype=np.float64)
     return bool(values.ndim == 1 and values.shape[0] == _sample_count(X) and np.all(values >= 0.0) and values.sum() > 0.0)
+
+
+def _is_1d_numeric(vector: NDArray[np.float64] | NDArray[np.int_]) -> bool:
+    return bool(np.asarray(vector).ndim == 1)
+
+
+def _same_length_1d(
+    reachability: NDArray[np.float64],
+    core_distances: NDArray[np.float64],
+    ordering: NDArray[np.int_],
+) -> bool:
+    return bool(
+        np.asarray(reachability).shape == np.asarray(core_distances).shape
+        and np.asarray(reachability).shape == np.asarray(ordering).shape
+    )
+
+
+def _ordering_permutation(ordering: NDArray[np.int_]) -> bool:
+    values = np.asarray(ordering)
+    if values.ndim != 1 or values.dtype.kind not in {"i", "u"}:
+        return False
+    n_samples = values.shape[0]
+    return bool(np.array_equal(np.sort(values), np.arange(n_samples)))
+
+
+def _nonnegative_float(value: float) -> bool:
+    return bool(float(value) >= 0.0)
 
 
 def _equal_similarities_and_preferences(S: NDArray[np.float64], preference: NDArray[np.float64]) -> bool:
@@ -244,6 +272,15 @@ def _kmeans_plusplus_result_valid(result: KMeansPlusPlusResult, X: MatrixLike, n
         and indices.dtype.kind in {"i", "u"}
         and np.all(indices >= 0)
         and np.all(indices < n_samples)
+    )
+
+
+def _optics_labels_valid(result: NDArray[np.int_], reachability: NDArray[np.float64]) -> bool:
+    labels = np.asarray(result)
+    return bool(
+        labels.shape == np.asarray(reachability).shape
+        and labels.dtype.kind in {"i", "u"}
+        and np.all(labels >= -1)
     )
 
 
@@ -831,3 +868,29 @@ def kmeans_plusplus(
         random_state=random_state,
         n_local_trials=n_local_trials,
     )
+
+
+@register_atom(witness_cluster_optics_dbscan)
+@icontract.require(lambda reachability: _is_1d_numeric(reachability), "reachability must be a 1D vector")
+@icontract.require(lambda core_distances: _is_1d_numeric(core_distances), "core_distances must be a 1D vector")
+@icontract.require(lambda ordering: _is_1d_numeric(ordering), "ordering must be a 1D vector")
+@icontract.require(lambda reachability, core_distances, ordering: _same_length_1d(reachability, core_distances, ordering), "OPTICS vectors must have equal length")
+@icontract.require(lambda ordering: _ordering_permutation(ordering), "ordering must be a permutation of sample indices")
+@icontract.require(lambda eps: _nonnegative_float(eps), "eps must be nonnegative")
+@icontract.ensure(lambda result, reachability: _optics_labels_valid(result, reachability), "OPTICS DBSCAN labels must match sample count")
+def cluster_optics_dbscan(
+    *,
+    reachability: NDArray[np.float64],
+    core_distances: NDArray[np.float64],
+    ordering: NDArray[np.int_],
+    eps: float,
+) -> NDArray[np.int_]:
+    """Extract DBSCAN-style labels from OPTICS reachability arrays."""
+    n_samples = len(core_distances)
+    labels = np.zeros(n_samples, dtype=np.int_)
+
+    far_reach = reachability > eps
+    near_core = core_distances <= eps
+    labels[ordering] = np.cumsum(far_reach[ordering] & near_core[ordering]) - 1
+    labels[far_reach & ~near_core] = -1
+    return labels

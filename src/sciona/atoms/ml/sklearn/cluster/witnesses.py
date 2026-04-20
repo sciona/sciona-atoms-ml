@@ -158,6 +158,20 @@ def witness_kmeans_plusplus(
     return centers, indices
 
 
+def witness_cluster_optics_dbscan(
+    *,
+    reachability: AbstractArray,
+    core_distances: AbstractArray,
+    ordering: AbstractArray,
+    eps: float,
+) -> AbstractArray:
+    """Describe DBSCAN-style labels extracted from an OPTICS ordering."""
+    n_samples = _check_matching_optics_vectors(reachability, core_distances, ordering)
+    if eps < 0.0:
+        raise ValueError("eps must be nonnegative")
+    return AbstractArray(shape=(n_samples,), dtype="int64", min_val=-1)
+
+
 def _check_2d(X: AbstractArray) -> tuple[int, int]:
     if len(X.shape) != 2:
         raise ValueError("X must be 2D")
@@ -199,3 +213,20 @@ def _check_mean_shift_inputs(
     if max_iter < 0:
         raise ValueError("max_iter must be nonnegative")
     return n_samples, n_features
+
+
+def _check_matching_optics_vectors(
+    reachability: AbstractArray,
+    core_distances: AbstractArray,
+    ordering: AbstractArray,
+) -> int:
+    if len(reachability.shape) != 1:
+        raise ValueError("reachability must be 1D")
+    if len(core_distances.shape) != 1:
+        raise ValueError("core_distances must be 1D")
+    if len(ordering.shape) != 1:
+        raise ValueError("ordering must be 1D")
+    n_samples = int(reachability.shape[0])
+    if int(core_distances.shape[0]) != n_samples or int(ordering.shape[0]) != n_samples:
+        raise ValueError("OPTICS vectors must have equal length")
+    return n_samples
