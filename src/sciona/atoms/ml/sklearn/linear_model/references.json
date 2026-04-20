@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "atoms": {
-    "sciona.atoms.ml.sklearn.linear_model.linear_regression_fit@sciona/atoms/ml/sklearn/linear_model/atoms.py:230": {
+    "sciona.atoms.ml.sklearn.linear_model.linear_regression_fit@sciona/atoms/ml/sklearn/linear_model/atoms.py:314": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -26,7 +26,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.linear_model.linear_regression_predict@sciona/atoms/ml/sklearn/linear_model/atoms.py:275": {
+    "sciona.atoms.ml.sklearn.linear_model.linear_regression_predict@sciona/atoms/ml/sklearn/linear_model/atoms.py:359": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -51,7 +51,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.linear_model.ridge_regression@sciona/atoms/ml/sklearn/linear_model/atoms.py:295": {
+    "sciona.atoms.ml.sklearn.linear_model.ridge_regression@sciona/atoms/ml/sklearn/linear_model/atoms.py:379": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -76,7 +76,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.linear_model.ridge_fit@sciona/atoms/ml/sklearn/linear_model/atoms.py:336": {
+    "sciona.atoms.ml.sklearn.linear_model.ridge_fit@sciona/atoms/ml/sklearn/linear_model/atoms.py:420": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -101,7 +101,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.linear_model.ridge_predict@sciona/atoms/ml/sklearn/linear_model/atoms.py:380": {
+    "sciona.atoms.ml.sklearn.linear_model.ridge_predict@sciona/atoms/ml/sklearn/linear_model/atoms.py:464": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -111,6 +111,81 @@
             "matched_nodes": [],
             "confidence": "high",
             "notes": "Adapted from sklearn.linear_model.Ridge prediction via LinearModel._decision_function in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.linear_model.ridge_classifier_fit@sciona/atoms/ml/sklearn/linear_model/atoms.py:487": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.linear_model.RidgeClassifier.fit and dense cholesky branch in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.linear_model.ridge_classifier_decision_function@sciona/atoms/ml/sklearn/linear_model/atoms.py:531": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.linear_model._base.LinearClassifierMixin.decision_function in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.linear_model.ridge_classifier_predict@sciona/atoms/ml/sklearn/linear_model/atoms.py:545": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.linear_model._ridge._RidgeClassifierMixin.predict and LinearClassifierMixin.predict in scikit-learn 1.8.0."
           }
         },
         {

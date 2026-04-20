@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from sciona.ghost.abstract import AbstractArray
 
-from .state_models import LinearRegressionState, RidgeState
+from .state_models import LinearRegressionState, RidgeClassifierState, RidgeState
 
 
 def witness_linear_regression_fit(
@@ -126,3 +126,55 @@ def witness_ridge_predict(X: AbstractArray, state: RidgeState) -> AbstractArray:
     if state.n_outputs == 1:
         return AbstractArray(shape=(int(X.shape[0]),), dtype="float64")
     return AbstractArray(shape=(int(X.shape[0]), state.n_outputs), dtype="float64")
+
+
+def witness_ridge_classifier_fit(
+    X: AbstractArray,
+    y: AbstractArray,
+    *,
+    alpha: float | tuple[float, ...] = 1.0,
+    fit_intercept: bool = True,
+    copy_X: bool = True,
+    max_iter: int | None = None,
+    tol: float = 1e-4,
+    class_weight: dict[float, float] | str | None = None,
+    solver: str = "auto",
+    positive: bool = False,
+    random_state: int | None = None,
+    sample_weight: float | tuple[float, ...] | None = None,
+) -> AbstractArray:
+    """Describe fitting dense ridge-classifier coefficients."""
+    del alpha, copy_X, max_iter, tol, class_weight, random_state, sample_weight
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    if len(y.shape) != 1:
+        raise ValueError("y must be 1D")
+    if X.shape[0] != y.shape[0]:
+        raise ValueError("X and y must have matching sample counts")
+    if not isinstance(fit_intercept, bool):
+        raise ValueError("fit_intercept must be boolean")
+    if solver not in {"auto", "cholesky"}:
+        raise ValueError("only dense cholesky ridge classification is covered")
+    if positive:
+        raise ValueError("positive=True is outside this dense ridge classifier atom scope")
+    return AbstractArray(shape=(int(X.shape[1]),), dtype="float64")
+
+
+def witness_ridge_classifier_decision_function(X: AbstractArray, state: RidgeClassifierState) -> AbstractArray:
+    """Describe dense ridge-classifier confidence scores."""
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    if X.shape[1] != state.n_features_in:
+        raise ValueError("X feature count must match fitted state")
+    if state.classes.shape[0] == 2:
+        return AbstractArray(shape=(int(X.shape[0]),), dtype="float64")
+    return AbstractArray(shape=(int(X.shape[0]), int(state.classes.shape[0])), dtype="float64")
+
+
+def witness_ridge_classifier_predict(X: AbstractArray, state: RidgeClassifierState) -> AbstractArray:
+    """Describe dense ridge-classifier label prediction."""
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    if X.shape[1] != state.n_features_in:
+        raise ValueError("X feature count must match fitted state")
+    return AbstractArray(shape=(int(X.shape[0]),), dtype="float64")

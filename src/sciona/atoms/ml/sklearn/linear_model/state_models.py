@@ -32,3 +32,16 @@ class RidgeState:
     solver: str
     n_features_in: int
     n_outputs: int
+
+
+@dataclass(frozen=True)
+class RidgeClassifierState:
+    """Fitted coefficients and classes for dense ridge classification."""
+
+    coef: NDArray[np.float64]
+    intercept: NDArray[np.float64]
+    classes: NDArray[np.float64]
+    alpha: NDArray[np.float64]
+    fit_intercept: bool
+    solver: str
+    n_features_in: int
