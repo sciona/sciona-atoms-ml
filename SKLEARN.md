@@ -197,10 +197,8 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 
 | Target | Description | Source |
 | --- | --- | --- |
-| `AdditiveChi2Sampler` | Approximate feature map for additive chi2 kernel. | `sklearn/kernel_approximation.py:L581` |
 | `Nystroem` | Approximate a kernel map using a subset of the training data. | `sklearn/kernel_approximation.py:L843` |
 | `PolynomialCountSketch` | Polynomial kernel approximation via Tensor Sketch. | `sklearn/kernel_approximation.py:L35` |
-| `SkewedChi2Sampler` | Approximate feature map for “skewed chi-squared” kernel. | `sklearn/kernel_approximation.py:L421` |
 
 ## `sklearn.kernel_ridge`
 

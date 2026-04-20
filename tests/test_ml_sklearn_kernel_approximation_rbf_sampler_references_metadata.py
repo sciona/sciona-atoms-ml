@@ -20,7 +20,7 @@ EXPECTED_FQDNS = {
 def test_references_json_exists_and_has_rbf_sampler_fqdns() -> None:
     assert REFERENCES_PATH.exists()
     payload = json.loads(REFERENCES_PATH.read_text(encoding="utf-8"))
-    assert {key.partition("@")[0] for key in payload["atoms"]} == EXPECTED_FQDNS
+    assert EXPECTED_FQDNS.issubset({key.partition("@")[0] for key in payload["atoms"]})
 
 
 def test_rbf_sampler_atoms_have_nonempty_references() -> None:

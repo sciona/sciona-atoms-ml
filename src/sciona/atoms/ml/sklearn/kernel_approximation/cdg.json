@@ -7,7 +7,10 @@
       "status": "decomposed",
       "children": [
         "rbf_sampler_fit",
-        "rbf_sampler_transform"
+        "rbf_sampler_transform",
+        "skewed_chi2_sampler_fit",
+        "skewed_chi2_sampler_transform",
+        "additive_chi2_sampler_transform"
       ],
       "depth": 0
     },
@@ -44,10 +47,62 @@
       "outputs": [
         {"name": "result", "type_desc": "NDArray[np.float64]"}
       ]
+    },
+    {
+      "node_id": "skewed_chi2_sampler_fit",
+      "name": "skewed_chi2_sampler_fit",
+      "description": "Fit random Fourier weights for a dense skewed chi-square approximation.",
+      "concept_type": "fit_state_builder",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], skewedness: float = 1.0, n_components: int = 100, random_state: int | None = None) -> SkewedChi2SamplerState",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "skewedness", "type_desc": "float", "required": false},
+        {"name": "n_components", "type_desc": "int", "required": false},
+        {"name": "random_state", "type_desc": "int | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "SkewedChi2SamplerState"}
+      ]
+    },
+    {
+      "node_id": "skewed_chi2_sampler_transform",
+      "name": "skewed_chi2_sampler_transform",
+      "description": "Project samples into fitted skewed chi-square random Fourier features.",
+      "concept_type": "projection",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: SkewedChi2SamplerState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "state", "type_desc": "SkewedChi2SamplerState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "additive_chi2_sampler_transform",
+      "name": "additive_chi2_sampler_transform",
+      "description": "Compute dense explicit additive chi-square kernel features.",
+      "concept_type": "array_transform",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], sample_steps: int = 2, sample_interval: float | None = None) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "sample_steps", "type_desc": "int", "required": false},
+        {"name": "sample_interval", "type_desc": "float | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
     }
   ],
   "edges": [
-    {"source": "rbf_sampler_fit", "target": "rbf_sampler_transform", "kind": "state"}
+    {"source": "rbf_sampler_fit", "target": "rbf_sampler_transform", "kind": "state"},
+    {"source": "skewed_chi2_sampler_fit", "target": "skewed_chi2_sampler_transform", "kind": "state"}
   ],
   "metadata": {
     "source": "agent_ingestion",

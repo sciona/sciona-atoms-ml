@@ -18,3 +18,15 @@ class RBFSamplerState:
     n_components: int
     n_features_in: int
     random_state: int | None
+
+
+@dataclass(frozen=True)
+class SkewedChi2SamplerState:
+    """Fitted random Fourier weights for a skewed chi-square approximation."""
+
+    random_weights: NDArray[np.float64]
+    random_offset: NDArray[np.float64]
+    skewedness: float
+    n_components: int
+    n_features_in: int
+    random_state: int | None
