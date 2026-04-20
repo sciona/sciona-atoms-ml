@@ -12,14 +12,14 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 - Scope for this first ingestion pass: public algorithmic estimators, transformers, kernels, and algorithmic helper functions in the selected sklearn modules below.
 - Intentionally excluded for now: datasets, metrics, displays, exceptions, low-level utils, orchestration/composition (`compose`, `pipeline`), and model-selection/search APIs.
 - Source locations come from each object page's official `[source]` link. `BallTree` and `KDTree` use the matching source files from the same scikit-learn revision because their generated docs pages do not expose a direct `[source]` link.
-- Total targets in this inventory: 210
+- Total targets in this inventory: 207
 
 ## Module Summary
 
 | Module | Targets |
 | --- | ---: |
 | `sklearn.calibration` | 0 |
-| `sklearn.cluster` | 23 |
+| `sklearn.cluster` | 20 |
 | `sklearn.covariance` | 12 |
 | `sklearn.cross_decomposition` | 4 |
 | `sklearn.decomposition` | 19 |
@@ -58,7 +58,6 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 
 | Target | Description | Source |
 | --- | --- | --- |
-| `AgglomerativeClustering` | Agglomerative Clustering. | `sklearn/cluster/_agglomerative.py:L781` |
 | `Birch` | Implements the BIRCH clustering algorithm. | `sklearn/cluster/_birch.py:L359` |
 | `BisectingKMeans` | Bisecting K-Means clustering. | `sklearn/cluster/_bisect_k_means.py:L83` |
 | `cluster_optics_dbscan` | Perform DBSCAN extraction for an arbitrary epsilon. | `sklearn/cluster/_optics.py:L718` |
@@ -67,7 +66,6 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 | `DBSCAN` | Perform DBSCAN clustering from vector array or distance matrix. | `sklearn/cluster/_dbscan.py:L201` |
 | `dbscan` | Perform DBSCAN clustering from vector array or distance matrix. | `sklearn/cluster/_dbscan.py:L22` |
 | `estimate_bandwidth` | Estimate the bandwidth to use with the mean-shift algorithm. | `sklearn/cluster/_mean_shift.py:L31` |
-| `FeatureAgglomeration` | Agglomerate features. | `sklearn/cluster/_agglomerative.py:L1121` |
 | `HDBSCAN` | Cluster data using hierarchical density-based clustering. | `sklearn/cluster/_hdbscan/hdbscan.py:L423` |
 | `k_means` | Perform K-means clustering algorithm. | `sklearn/cluster/_kmeans.py:L296` |
 | `KMeans` | K-Means clustering. | `sklearn/cluster/_kmeans.py:L1192` |
@@ -80,7 +78,6 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 | `SpectralBiclustering` | Spectral biclustering (Kluger, 2003) [R2af9f5762274-1] . | `sklearn/cluster/_bicluster.py:L360` |
 | `SpectralClustering` | Apply clustering to a projection of the normalized Laplacian. | `sklearn/cluster/_spectral.py:L379` |
 | `SpectralCoclustering` | Spectral Co-Clustering algorithm (Dhillon, 2001) [R0dd0f3306ba7-1] . | `sklearn/cluster/_bicluster.py:L202` |
-| `ward_tree` | Ward clustering based on a Feature matrix. | `sklearn/cluster/_agglomerative.py:L184` |
 
 ## `sklearn.covariance`
 

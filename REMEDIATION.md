@@ -43,3 +43,21 @@ Potential remediation path:
 - Or ingest the Cython/native tree builder, splitter, and criterion internals
   through a dedicated native or FFI-backed decomposition with solver-boundary
   provenance and parity tests.
+
+## `sklearn.cluster` agglomerative hierarchy
+
+Deferred targets:
+
+| Target | Source | Reason |
+| --- | --- | --- |
+| `AgglomerativeClustering` | `sklearn/cluster/_agglomerative.py:L781` | Fit delegates tree construction and early-cut labeling to `ward_tree`, linkage builders, and compiled `sklearn.cluster._hierarchical` helpers; a Python atom would be an estimator wrapper rather than a fully decomposed hierarchical clustering algorithm. |
+| `FeatureAgglomeration` | `sklearn/cluster/_agglomerative.py:L1121` | Feature clustering inherits the same agglomerative tree builder and compiled hierarchical helpers, so ingesting only fit/transform would hide the core merge algorithm. |
+| `ward_tree` | `sklearn/cluster/_agglomerative.py:L184` | Structured Ward linkage uses compiled `_hierarchical.compute_ward_dist` and parent traversal helpers, while the unstructured path delegates to SciPy hierarchy; a publishable atom needs a direct decomposition or native/FFI provenance at that boundary. |
+
+Potential remediation path:
+
+- Decide whether these targets should be represented as limited hierarchy-state
+  wrapper atoms with explicit audit limitations.
+- Or ingest the compiled hierarchical helpers and SciPy linkage boundary
+  through a dedicated native or FFI-backed decomposition with parity tests for
+  structured and unstructured trees.
