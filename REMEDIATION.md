@@ -61,3 +61,24 @@ Potential remediation path:
 - Or ingest the compiled hierarchical helpers and SciPy linkage boundary
   through a dedicated native or FFI-backed decomposition with parity tests for
   structured and unstructured trees.
+
+## `sklearn.cluster` density and KMeans native cores
+
+Deferred targets:
+
+| Target | Source | Reason |
+| --- | --- | --- |
+| `DBSCAN` | `sklearn/cluster/_dbscan.py:L201` | Fit computes neighborhoods in Python but delegates connected density expansion to compiled `sklearn.cluster._dbscan_inner.dbscan_inner`; wrapping the estimator would hide the core cluster-label propagation. |
+| `dbscan` | `sklearn/cluster/_dbscan.py:L22` | Public helper delegates to `DBSCAN.fit`, which relies on compiled `dbscan_inner` for cluster expansion. |
+| `BisectingKMeans` | `sklearn/cluster/_bisect_k_means.py:L83` | Recursive splits rely on sklearn KMeans routines whose Lloyd/Elkan update kernels are compiled; a direct atom would be a wrapper over native optimization loops. |
+| `k_means` | `sklearn/cluster/_kmeans.py:L296` | Public helper delegates to `KMeans.fit`, which calls compiled Lloyd or Elkan single-run kernels for centroid updates. |
+| `KMeans` | `sklearn/cluster/_kmeans.py:L1192` | Fit delegates the optimization loop to compiled `_kmeans_single_lloyd` or `_kmeans_single_elkan`; ingesting the estimator shell would not decompose the clustering algorithm. |
+| `MiniBatchKMeans` | `sklearn/cluster/_kmeans.py:L1684` | Fit delegates minibatch centroid updates to compiled k-means kernels and OpenMP-threaded internals; a Python atom would hide the core update rule implementation. |
+
+Potential remediation path:
+
+- Keep `kmeans_plusplus` separate because its seeding logic can be considered
+  for Python-level ingestion without claiming to ingest KMeans optimization.
+- Decide whether DBSCAN and KMeans families should be ingested through native
+  or FFI-backed kernels with explicit solver-boundary provenance and parity
+  tests.
