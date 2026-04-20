@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "atoms": {
-    "sciona.atoms.ml.sklearn.cluster.affinity_propagation@sciona/atoms/ml/sklearn/cluster/atoms.py:607": {
+    "sciona.atoms.ml.sklearn.cluster.affinity_propagation@sciona/atoms/ml/sklearn/cluster/atoms.py:632": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -36,7 +36,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.cluster.affinity_propagation_fit@sciona/atoms/ml/sklearn/cluster/atoms.py:649": {
+    "sciona.atoms.ml.sklearn.cluster.affinity_propagation_fit@sciona/atoms/ml/sklearn/cluster/atoms.py:674": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -71,7 +71,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.cluster.affinity_propagation_predict@sciona/atoms/ml/sklearn/cluster/atoms.py:713": {
+    "sciona.atoms.ml.sklearn.cluster.affinity_propagation_predict@sciona/atoms/ml/sklearn/cluster/atoms.py:738": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -106,7 +106,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.cluster.estimate_bandwidth@sciona/atoms/ml/sklearn/cluster/atoms.py:738": {
+    "sciona.atoms.ml.sklearn.cluster.estimate_bandwidth@sciona/atoms/ml/sklearn/cluster/atoms.py:763": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -141,7 +141,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.cluster.mean_shift@sciona/atoms/ml/sklearn/cluster/atoms.py:774": {
+    "sciona.atoms.ml.sklearn.cluster.mean_shift@sciona/atoms/ml/sklearn/cluster/atoms.py:799": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -176,7 +176,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.cluster.mean_shift_fit@sciona/atoms/ml/sklearn/cluster/atoms.py:808": {
+    "sciona.atoms.ml.sklearn.cluster.mean_shift_fit@sciona/atoms/ml/sklearn/cluster/atoms.py:833": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -211,7 +211,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.cluster.mean_shift_predict@sciona/atoms/ml/sklearn/cluster/atoms.py:837": {
+    "sciona.atoms.ml.sklearn.cluster.mean_shift_predict@sciona/atoms/ml/sklearn/cluster/atoms.py:862": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -246,7 +246,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.cluster.kmeans_plusplus@sciona/atoms/ml/sklearn/cluster/atoms.py:853": {
+    "sciona.atoms.ml.sklearn.cluster.kmeans_plusplus@sciona/atoms/ml/sklearn/cluster/atoms.py:878": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -281,7 +281,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.cluster.cluster_optics_dbscan@sciona/atoms/ml/sklearn/cluster/atoms.py:881": {
+    "sciona.atoms.ml.sklearn.cluster.cluster_optics_dbscan@sciona/atoms/ml/sklearn/cluster/atoms.py:906": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -311,6 +311,51 @@
             "matched_nodes": [],
             "confidence": "high",
             "notes": "OPTICS reachability and extraction reference cited by scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.cluster.cluster_optics_xi@sciona/atoms/ml/sklearn/cluster/atoms.py:1091": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.cluster.cluster_optics_xi and Xi extraction helpers in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        },
+        {
+          "ref_id": "ankerst1999optics",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Original OPTICS paper describing Xi-steep cluster extraction."
+          }
+        },
+        {
+          "ref_id": "schubert2018optics",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Predecessor correction reference cited by scikit-learn's Xi extraction helper."
           }
         }
       ],

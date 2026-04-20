@@ -25,6 +25,7 @@ from .witnesses import (
     witness_affinity_propagation_fit,
     witness_affinity_propagation_predict,
     witness_cluster_optics_dbscan,
+    witness_cluster_optics_xi,
     witness_estimate_bandwidth,
     witness_kmeans_plusplus,
     witness_mean_shift,
@@ -40,6 +41,7 @@ AffinityPropagationResultWithIter = tuple[NDArray[np.int_], NDArray[np.int_], in
 AffinityPropagationOutput = AffinityPropagationResult | AffinityPropagationResultWithIter
 MeanShiftResult = tuple[NDArray[np.float64], NDArray[np.int_]]
 KMeansPlusPlusResult = tuple[NDArray[np.float64], NDArray[np.int_]]
+OpticsXiResult = tuple[NDArray[np.int_], NDArray[np.int_]]
 
 
 def _is_2d_matrix(X: MatrixLike) -> bool:
@@ -159,6 +161,20 @@ def _ordering_permutation(ordering: NDArray[np.int_]) -> bool:
 
 def _nonnegative_float(value: float) -> bool:
     return bool(float(value) >= 0.0)
+
+
+def _xi_valid(xi: float) -> bool:
+    return bool(0.0 <= float(xi) <= 1.0)
+
+
+def _optics_size_valid(size: int | float | None, n_samples: int, *, allow_none: bool) -> bool:
+    if size is None:
+        return allow_none
+    if isinstance(size, int):
+        return 2 <= size <= n_samples
+    if isinstance(size, float):
+        return 0.0 <= size <= 1.0
+    return False
 
 
 def _equal_similarities_and_preferences(S: NDArray[np.float64], preference: NDArray[np.float64]) -> bool:
@@ -282,6 +298,15 @@ def _optics_labels_valid(result: NDArray[np.int_], reachability: NDArray[np.floa
         and labels.dtype.kind in {"i", "u"}
         and np.all(labels >= -1)
     )
+
+
+def _optics_xi_result_valid(result: OpticsXiResult, reachability: NDArray[np.float64]) -> bool:
+    labels, clusters = result
+    n_samples = np.asarray(reachability).shape[0]
+    clusters_ok = clusters.ndim == 2 and clusters.shape[1] == 2 and clusters.dtype.kind in {"i", "u"}
+    if clusters.size:
+        clusters_ok = bool(clusters_ok and np.all(clusters >= 0) and np.all(clusters[:, 0] <= clusters[:, 1]) and np.all(clusters < n_samples))
+    return bool(_optics_labels_valid(labels, reachability) and clusters_ok)
 
 
 def _as_dense_float_matrix(X: MatrixLike) -> NDArray[np.float64]:
@@ -894,3 +919,203 @@ def cluster_optics_dbscan(
     labels[ordering] = np.cumsum(far_reach[ordering] & near_core[ordering]) - 1
     labels[far_reach & ~near_core] = -1
     return labels
+
+
+def _resolve_optics_size(size: int | float, n_samples: int, name: str) -> int:
+    if size > n_samples:
+        raise ValueError(f"{name} must be no greater than the number of samples ({n_samples}). Got {size}")
+    if size <= 1:
+        return max(2, int(size * n_samples))
+    return int(size)
+
+
+def _extend_region(steep_point: NDArray[np.bool_], xward_point: NDArray[np.bool_], start: int, min_samples: int) -> int:
+    n_samples = len(steep_point)
+    non_xward_points = 0
+    index = start
+    end = start
+    while index < n_samples:
+        if steep_point[index]:
+            non_xward_points = 0
+            end = index
+        elif not xward_point[index]:
+            non_xward_points += 1
+            if non_xward_points > min_samples:
+                break
+        else:
+            return end
+        index += 1
+    return end
+
+
+def _update_filter_sdas(
+    sdas: list[tuple[int, int, float]],
+    mib: float,
+    xi_complement: float,
+    reachability_plot: NDArray[np.float64],
+) -> list[tuple[int, int, float]]:
+    if np.isinf(mib):
+        return []
+    return [
+        (start, end, max(stored_mib, mib))
+        for start, end, stored_mib in sdas
+        if mib <= reachability_plot[start] * xi_complement
+    ]
+
+
+def _correct_predecessor(
+    reachability_plot: NDArray[np.float64],
+    predecessor_plot: NDArray[np.int_],
+    ordering: NDArray[np.int_],
+    start: int,
+    end: int,
+) -> tuple[int | None, int | None]:
+    while start < end:
+        if reachability_plot[start] > reachability_plot[end]:
+            return start, end
+        predecessor = predecessor_plot[end]
+        for index in range(start, end):
+            if predecessor == ordering[index]:
+                return start, end
+        end -= 1
+    return None, None
+
+
+def _xi_cluster(
+    reachability_plot_input: NDArray[np.float64],
+    predecessor_plot: NDArray[np.int_],
+    ordering: NDArray[np.int_],
+    xi: float,
+    min_samples: int,
+    min_cluster_size: int,
+    predecessor_correction: bool,
+) -> NDArray[np.int_]:
+    reachability_plot = np.hstack((reachability_plot_input, np.inf))
+    xi_complement = 1.0 - xi
+    sdas: list[tuple[int, int, float]] = []
+    clusters: list[tuple[int, int]] = []
+    index = 0
+    mib = 0.0
+
+    with np.errstate(invalid="ignore"):
+        ratio = reachability_plot[:-1] / reachability_plot[1:]
+        steep_upward = ratio <= xi_complement
+        steep_downward = ratio >= 1.0 / xi_complement if xi_complement != 0.0 else np.full_like(ratio, False, dtype=bool)
+        downward = ratio > 1.0
+        upward = ratio < 1.0
+
+    for steep_index in iter(np.flatnonzero(steep_upward | steep_downward)):
+        if steep_index < index:
+            continue
+
+        mib = max(mib, float(np.max(reachability_plot[index : steep_index + 1])))
+
+        if steep_downward[steep_index]:
+            sdas = _update_filter_sdas(sdas, mib, xi_complement, reachability_plot)
+            down_start = int(steep_index)
+            down_end = _extend_region(steep_downward, upward, down_start, min_samples)
+            sdas.append((down_start, down_end, 0.0))
+            index = down_end + 1
+            mib = float(reachability_plot[index])
+        else:
+            sdas = _update_filter_sdas(sdas, mib, xi_complement, reachability_plot)
+            up_start = int(steep_index)
+            up_end = _extend_region(steep_upward, downward, up_start, min_samples)
+            index = up_end + 1
+            mib = float(reachability_plot[index])
+
+            up_clusters: list[tuple[int, int]] = []
+            for down_start, down_end, down_mib in sdas:
+                cluster_start = down_start
+                cluster_end = up_end
+
+                if reachability_plot[cluster_end + 1] * xi_complement < down_mib:
+                    continue
+
+                down_max = reachability_plot[down_start]
+                if down_max * xi_complement >= reachability_plot[cluster_end + 1]:
+                    while reachability_plot[cluster_start + 1] > reachability_plot[cluster_end + 1] and cluster_start < down_end:
+                        cluster_start += 1
+                elif reachability_plot[cluster_end + 1] * xi_complement >= down_max:
+                    while reachability_plot[cluster_end - 1] > down_max and cluster_end > up_start:
+                        cluster_end -= 1
+
+                if predecessor_correction:
+                    cluster_start_or_none, cluster_end_or_none = _correct_predecessor(
+                        reachability_plot,
+                        predecessor_plot,
+                        ordering,
+                        cluster_start,
+                        cluster_end,
+                    )
+                    if cluster_start_or_none is None or cluster_end_or_none is None:
+                        continue
+                    cluster_start = cluster_start_or_none
+                    cluster_end = cluster_end_or_none
+
+                if cluster_end - cluster_start + 1 < min_cluster_size:
+                    continue
+                if cluster_start > down_end:
+                    continue
+                if cluster_end < up_start:
+                    continue
+                up_clusters.append((cluster_start, cluster_end))
+
+            up_clusters.reverse()
+            clusters.extend(up_clusters)
+
+    return np.asarray(clusters, dtype=np.int_)
+
+
+def _extract_xi_labels(ordering: NDArray[np.int_], clusters: NDArray[np.int_]) -> NDArray[np.int_]:
+    labels = np.full(len(ordering), -1, dtype=np.int_)
+    label = 0
+    for cluster in clusters:
+        if not np.any(labels[cluster[0] : (cluster[1] + 1)] != -1):
+            labels[cluster[0] : (cluster[1] + 1)] = label
+            label += 1
+    labels[ordering] = labels.copy()
+    return labels
+
+
+@register_atom(witness_cluster_optics_xi)
+@icontract.require(lambda reachability: _is_1d_numeric(reachability), "reachability must be a 1D vector")
+@icontract.require(lambda predecessor: _is_1d_numeric(predecessor), "predecessor must be a 1D vector")
+@icontract.require(lambda ordering: _is_1d_numeric(ordering), "ordering must be a 1D vector")
+@icontract.require(lambda reachability, predecessor, ordering: _same_length_1d(reachability, predecessor, ordering), "OPTICS vectors must have equal length")
+@icontract.require(lambda ordering: _ordering_permutation(ordering), "ordering must be a permutation of sample indices")
+@icontract.require(lambda min_samples, reachability: _optics_size_valid(min_samples, len(reachability), allow_none=False), "min_samples must be valid for sample count")
+@icontract.require(lambda min_cluster_size, reachability: _optics_size_valid(min_cluster_size, len(reachability), allow_none=True), "min_cluster_size must be valid for sample count")
+@icontract.require(lambda xi: _xi_valid(xi), "xi must be in [0, 1]")
+@icontract.ensure(lambda result, reachability: _optics_xi_result_valid(result, reachability), "OPTICS Xi labels and clusters must match sample count")
+def cluster_optics_xi(
+    *,
+    reachability: NDArray[np.float64],
+    predecessor: NDArray[np.int_],
+    ordering: NDArray[np.int_],
+    min_samples: int | float,
+    min_cluster_size: int | float | None = None,
+    xi: float = 0.05,
+    predecessor_correction: bool = True,
+) -> OpticsXiResult:
+    """Extract clusters from OPTICS reachability using the Xi-steep rule."""
+    n_samples = len(reachability)
+    resolved_min_samples = _resolve_optics_size(min_samples, n_samples, "min_samples")
+    if min_cluster_size is None:
+        resolved_min_cluster_size = resolved_min_samples
+    else:
+        resolved_min_cluster_size = _resolve_optics_size(min_cluster_size, n_samples, "min_cluster_size")
+
+    clusters = _xi_cluster(
+        np.asarray(reachability, dtype=np.float64)[ordering],
+        np.asarray(predecessor, dtype=np.int_)[ordering],
+        np.asarray(ordering, dtype=np.int_),
+        float(xi),
+        resolved_min_samples,
+        resolved_min_cluster_size,
+        predecessor_correction,
+    )
+    if clusters.size == 0:
+        clusters = np.empty((0, 2), dtype=np.int_)
+    labels = _extract_xi_labels(np.asarray(ordering, dtype=np.int_), clusters)
+    return labels, clusters

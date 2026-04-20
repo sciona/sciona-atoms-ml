@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "metadata": {
-    "generated_at": "2026-04-20T02:30:16.447491+00:00",
+    "generated_at": "2026-04-20T12:32:25.722558+00:00",
     "generator": "scripts/apply_audit_review_bundles.py",
     "phase": "phase_1_review_bundle_merge"
   },
@@ -1393,6 +1393,138 @@
       "required_actions": [],
       "blocking_findings": [],
       "review_record_path": "data/review_bundles/ml_sklearn_cluster_optics_extract.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.cluster.cluster_optics_xi",
+      "atom_key": "sciona.atoms.ml.sklearn.cluster.cluster_optics_xi",
+      "atom_id": "sciona.atoms.ml.sklearn.cluster.cluster_optics_xi",
+      "module_import_path": "sciona.atoms.ml.sklearn.cluster",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/cluster/atoms.py",
+      "module_family": "sklearn",
+      "domain_family": "ml.sklearn",
+      "wrapper_symbol": "cluster_optics_xi",
+      "argument_names": [
+        "reachability",
+        "predecessor",
+        "ordering",
+        "min_samples",
+        "min_cluster_size",
+        "xi",
+        "predecessor_correction"
+      ],
+      "argument_details": [
+        {
+          "name": "reachability",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "predecessor",
+          "annotation": "NDArray[np.int_]",
+          "required": true,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "ordering",
+          "annotation": "NDArray[np.int_]",
+          "required": true,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "min_samples",
+          "annotation": "int | float",
+          "required": true,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "min_cluster_size",
+          "annotation": "int | float | None",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "xi",
+          "annotation": "float",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "predecessor_correction",
+          "annotation": "bool",
+          "required": false,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "OpticsXiResult",
+      "docstring_summary": "Extract clusters from OPTICS reachability using the Xi-steep rule.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_cluster_optics_xi_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_cluster_optics_xi_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_cluster_optics_xi_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 15,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 89,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 3,
+      "parity_case_count": 4,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_cluster_optics_xi.review_bundle.json",
       "has_references": true,
       "references_status": "pass"
     },

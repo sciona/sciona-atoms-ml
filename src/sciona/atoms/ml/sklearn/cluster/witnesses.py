@@ -172,6 +172,29 @@ def witness_cluster_optics_dbscan(
     return AbstractArray(shape=(n_samples,), dtype="int64", min_val=-1)
 
 
+def witness_cluster_optics_xi(
+    *,
+    reachability: AbstractArray,
+    predecessor: AbstractArray,
+    ordering: AbstractArray,
+    min_samples: int | float,
+    min_cluster_size: int | float | None = None,
+    xi: float = 0.05,
+    predecessor_correction: bool = True,
+) -> tuple[AbstractArray, AbstractArray]:
+    """Describe Xi-steep labels and cluster intervals from OPTICS arrays."""
+    del predecessor_correction
+    n_samples = _check_matching_optics_vectors(reachability, predecessor, ordering)
+    _check_fraction_or_count(min_samples, n_samples, "min_samples")
+    if min_cluster_size is not None:
+        _check_fraction_or_count(min_cluster_size, n_samples, "min_cluster_size")
+    if not 0.0 <= xi <= 1.0:
+        raise ValueError("xi must be in [0, 1]")
+    labels = AbstractArray(shape=(n_samples,), dtype="int64", min_val=-1)
+    clusters = AbstractArray(shape=(n_samples, 2), dtype="int64", min_val=0)
+    return labels, clusters
+
+
 def _check_2d(X: AbstractArray) -> tuple[int, int]:
     if len(X.shape) != 2:
         raise ValueError("X must be 2D")
@@ -230,3 +253,12 @@ def _check_matching_optics_vectors(
     if int(core_distances.shape[0]) != n_samples or int(ordering.shape[0]) != n_samples:
         raise ValueError("OPTICS vectors must have equal length")
     return n_samples
+
+
+def _check_fraction_or_count(value: int | float, n_samples: int, name: str) -> None:
+    if isinstance(value, int):
+        if value < 2 or value > n_samples:
+            raise ValueError(f"{name} must be between 2 and sample count")
+        return
+    if not 0.0 <= value <= 1.0:
+        raise ValueError(f"{name} fraction must be in [0, 1]")
