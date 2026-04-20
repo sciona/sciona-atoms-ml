@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "metadata": {
-    "generated_at": "2026-04-19T23:47:47.289573+00:00",
+    "generated_at": "2026-04-19T23:57:47.577825+00:00",
     "generator": "scripts/apply_audit_review_bundles.py",
     "phase": "phase_1_review_bundle_merge"
   },
@@ -881,6 +881,407 @@
       "required_actions": [],
       "blocking_findings": [],
       "review_record_path": "data/review_bundles/ml_sklearn_calibration.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.cluster.affinity_propagation",
+      "atom_key": "sciona.atoms.ml.sklearn.cluster.affinity_propagation",
+      "atom_id": "sciona.atoms.ml.sklearn.cluster.affinity_propagation",
+      "module_import_path": "sciona.atoms.ml.sklearn.cluster",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/cluster/atoms.py",
+      "module_family": "sklearn",
+      "domain_family": "ml.sklearn",
+      "wrapper_symbol": "affinity_propagation",
+      "argument_names": [
+        "S",
+        "preference",
+        "convergence_iter",
+        "max_iter",
+        "damping",
+        "copy",
+        "verbose",
+        "return_n_iter",
+        "random_state"
+      ],
+      "argument_details": [
+        {
+          "name": "S",
+          "annotation": "MatrixLike",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "preference",
+          "annotation": "PreferenceLike",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "convergence_iter",
+          "annotation": "int",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "max_iter",
+          "annotation": "int",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "damping",
+          "annotation": "float",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "copy",
+          "annotation": "bool",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "verbose",
+          "annotation": "bool",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "return_n_iter",
+          "annotation": "bool",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "random_state",
+          "annotation": "RandomStateLike",
+          "required": false,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "AffinityPropagationOutput",
+      "docstring_summary": "Run affinity propagation on a square similarity matrix.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/state_models.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_cluster_affinity_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_cluster_affinity_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_cluster_affinity_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 18,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "medium",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 87,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 3,
+      "parity_case_count": 5,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_cluster_affinity.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.cluster.affinity_propagation_fit",
+      "atom_key": "sciona.atoms.ml.sklearn.cluster.affinity_propagation_fit",
+      "atom_id": "sciona.atoms.ml.sklearn.cluster.affinity_propagation_fit",
+      "module_import_path": "sciona.atoms.ml.sklearn.cluster",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/cluster/atoms.py",
+      "module_family": "sklearn",
+      "domain_family": "ml.sklearn",
+      "wrapper_symbol": "affinity_propagation_fit",
+      "argument_names": [
+        "X",
+        "damping",
+        "max_iter",
+        "convergence_iter",
+        "copy",
+        "preference",
+        "affinity",
+        "verbose",
+        "random_state"
+      ],
+      "argument_details": [
+        {
+          "name": "X",
+          "annotation": "MatrixLike",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "damping",
+          "annotation": "float",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "max_iter",
+          "annotation": "int",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "convergence_iter",
+          "annotation": "int",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "copy",
+          "annotation": "bool",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "preference",
+          "annotation": "PreferenceLike",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "affinity",
+          "annotation": "str",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "verbose",
+          "annotation": "bool",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "random_state",
+          "annotation": "RandomStateLike",
+          "required": false,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "AffinityPropagationState",
+      "docstring_summary": "Fit affinity propagation and return immutable clustering state.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/state_models.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_cluster_affinity_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_cluster_affinity_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_cluster_affinity_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 19,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "medium",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 86,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 3,
+      "parity_case_count": 5,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_cluster_affinity.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.cluster.affinity_propagation_predict",
+      "atom_key": "sciona.atoms.ml.sklearn.cluster.affinity_propagation_predict",
+      "atom_id": "sciona.atoms.ml.sklearn.cluster.affinity_propagation_predict",
+      "module_import_path": "sciona.atoms.ml.sklearn.cluster",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/cluster/atoms.py",
+      "module_family": "sklearn",
+      "domain_family": "ml.sklearn",
+      "wrapper_symbol": "affinity_propagation_predict",
+      "argument_names": [
+        "X",
+        "state"
+      ],
+      "argument_details": [
+        {
+          "name": "X",
+          "annotation": "MatrixLike",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "state",
+          "annotation": "AffinityPropagationState",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.int_]",
+      "docstring_summary": "Assign samples to the nearest fitted affinity-propagation center.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/state_models.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_cluster_affinity_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_cluster_affinity_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_cluster_affinity_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 16,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 89,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 3,
+      "parity_case_count": 5,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_cluster_affinity.review_bundle.json",
       "has_references": true,
       "references_status": "pass"
     },

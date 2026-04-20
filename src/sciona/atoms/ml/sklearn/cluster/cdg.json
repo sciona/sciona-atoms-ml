@@ -1,0 +1,90 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_cluster_root",
+      "name": "Sklearn Cluster Atoms",
+      "description": "Function decomposition for selected sklearn.cluster algorithms",
+      "status": "decomposed",
+      "children": [
+        "affinity_propagation",
+        "affinity_propagation_fit",
+        "affinity_propagation_predict"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "affinity_propagation",
+      "name": "affinity_propagation",
+      "description": "Run affinity propagation on a square similarity matrix.",
+      "concept_type": "clustering_algorithm",
+      "status": "atomic",
+      "type_signature": "(S: NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]], preference: float | NDArray[np.float64] | list[float] | None = None, convergence_iter: int = 15, max_iter: int = 200, damping: float = 0.5, copy: bool = True, verbose: bool = False, return_n_iter: bool = False, random_state: int | np.random.RandomState | None = None) -> tuple[NDArray[np.int_], NDArray[np.int_]] | tuple[NDArray[np.int_], NDArray[np.int_], int]",
+      "depth": 1,
+      "inputs": [
+        {"name": "S", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]]", "required": true},
+        {"name": "preference", "type_desc": "float | NDArray[np.float64] | list[float] | None", "required": false},
+        {"name": "convergence_iter", "type_desc": "int", "required": false},
+        {"name": "max_iter", "type_desc": "int", "required": false},
+        {"name": "damping", "type_desc": "float", "required": false},
+        {"name": "copy", "type_desc": "bool", "required": false},
+        {"name": "verbose", "type_desc": "bool", "required": false},
+        {"name": "return_n_iter", "type_desc": "bool", "required": false},
+        {"name": "random_state", "type_desc": "int | np.random.RandomState | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[NDArray[np.int_], NDArray[np.int_]] | tuple[NDArray[np.int_], NDArray[np.int_], int]"}
+      ]
+    },
+    {
+      "node_id": "affinity_propagation_fit",
+      "name": "affinity_propagation_fit",
+      "description": "Fit affinity propagation and return immutable clustering state.",
+      "concept_type": "fit_state_builder",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]], damping: float = 0.5, max_iter: int = 200, convergence_iter: int = 15, copy: bool = True, preference: float | NDArray[np.float64] | list[float] | None = None, affinity: str = 'euclidean', verbose: bool = False, random_state: int | np.random.RandomState | None = None) -> AffinityPropagationState",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]]", "required": true},
+        {"name": "damping", "type_desc": "float", "required": false},
+        {"name": "max_iter", "type_desc": "int", "required": false},
+        {"name": "convergence_iter", "type_desc": "int", "required": false},
+        {"name": "copy", "type_desc": "bool", "required": false},
+        {"name": "preference", "type_desc": "float | NDArray[np.float64] | list[float] | None", "required": false},
+        {"name": "affinity", "type_desc": "str", "required": false},
+        {"name": "verbose", "type_desc": "bool", "required": false},
+        {"name": "random_state", "type_desc": "int | np.random.RandomState | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "AffinityPropagationState"}
+      ]
+    },
+    {
+      "node_id": "affinity_propagation_predict",
+      "name": "affinity_propagation_predict",
+      "description": "Assign samples to the nearest fitted affinity-propagation center.",
+      "concept_type": "predict",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]], state: AffinityPropagationState) -> NDArray[np.int_]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]]", "required": true},
+        {"name": "state", "type_desc": "AffinityPropagationState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.int_]"}
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source_id": "affinity_propagation_fit",
+      "target_id": "affinity_propagation_predict",
+      "edge_type": "fit_state_dependency"
+    },
+    {
+      "source_id": "affinity_propagation",
+      "target_id": "affinity_propagation_fit",
+      "edge_type": "algorithmic_equivalence"
+    }
+  ]
+}

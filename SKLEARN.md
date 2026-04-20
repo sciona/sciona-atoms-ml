@@ -12,14 +12,14 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 - Scope for this first ingestion pass: public algorithmic estimators, transformers, kernels, and algorithmic helper functions in the selected sklearn modules below.
 - Intentionally excluded for now: datasets, metrics, displays, exceptions, low-level utils, orchestration/composition (`compose`, `pipeline`), and model-selection/search APIs.
 - Source locations come from each object page's official `[source]` link. `BallTree` and `KDTree` use the matching source files from the same scikit-learn revision because their generated docs pages do not expose a direct `[source]` link.
-- Total targets in this inventory: 212
+- Total targets in this inventory: 210
 
 ## Module Summary
 
 | Module | Targets |
 | --- | ---: |
 | `sklearn.calibration` | 0 |
-| `sklearn.cluster` | 25 |
+| `sklearn.cluster` | 23 |
 | `sklearn.covariance` | 12 |
 | `sklearn.cross_decomposition` | 4 |
 | `sklearn.decomposition` | 19 |
@@ -58,8 +58,6 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 
 | Target | Description | Source |
 | --- | --- | --- |
-| `affinity_propagation` | Perform Affinity Propagation Clustering of data. | `sklearn/cluster/_affinity_propagation.py:L182` |
-| `AffinityPropagation` | Perform Affinity Propagation Clustering of data. | `sklearn/cluster/_affinity_propagation.py:L312` |
 | `AgglomerativeClustering` | Agglomerative Clustering. | `sklearn/cluster/_agglomerative.py:L781` |
 | `Birch` | Implements the BIRCH clustering algorithm. | `sklearn/cluster/_birch.py:L359` |
 | `BisectingKMeans` | Bisecting K-Means clustering. | `sklearn/cluster/_bisect_k_means.py:L83` |
