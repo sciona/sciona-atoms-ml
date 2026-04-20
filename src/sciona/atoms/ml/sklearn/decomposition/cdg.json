@@ -7,6 +7,9 @@
       "status": "decomposed",
       "children": [
         "pca_fit",
+        "incremental_pca_partial_fit",
+        "incremental_pca_transform",
+        "incremental_pca_inverse_transform",
         "truncated_svd_fit",
         "truncated_svd_transform",
         "truncated_svd_inverse_transform",
@@ -36,6 +39,58 @@
       ],
       "outputs": [
         {"name": "result", "type_desc": "PCAState"}
+      ]
+    },
+    {
+      "node_id": "incremental_pca_partial_fit",
+      "name": "incremental_pca_partial_fit",
+      "description": "Update dense incremental PCA state from one sample batch.",
+      "concept_type": "fit_state_update",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], n_components: int | None = None, state: IncrementalPCAState | None = None, whiten: bool = False, copy: bool = True, batch_size: int | None = None) -> IncrementalPCAState",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "n_components", "type_desc": "int | None", "required": false},
+        {"name": "state", "type_desc": "IncrementalPCAState | None", "required": false},
+        {"name": "whiten", "type_desc": "bool", "required": false},
+        {"name": "copy", "type_desc": "bool", "required": false},
+        {"name": "batch_size", "type_desc": "int | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "IncrementalPCAState"}
+      ]
+    },
+    {
+      "node_id": "incremental_pca_transform",
+      "name": "incremental_pca_transform",
+      "description": "Project samples onto fitted incremental PCA components.",
+      "concept_type": "projection",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: IncrementalPCAState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "state", "type_desc": "IncrementalPCAState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "incremental_pca_inverse_transform",
+      "name": "incremental_pca_inverse_transform",
+      "description": "Map incremental PCA coordinates back to feature space.",
+      "concept_type": "inverse_projection",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: IncrementalPCAState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "state", "type_desc": "IncrementalPCAState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
       ]
     },
     {
@@ -196,6 +251,9 @@
     }
   ],
   "edges": [
+    {"source": "incremental_pca_partial_fit", "target": "incremental_pca_transform", "kind": "state"},
+    {"source": "incremental_pca_partial_fit", "target": "incremental_pca_inverse_transform", "kind": "state"},
+    {"source": "incremental_pca_transform", "target": "incremental_pca_inverse_transform", "kind": "data"},
     {"source": "truncated_svd_fit", "target": "truncated_svd_transform", "kind": "state"},
     {"source": "truncated_svd_fit", "target": "truncated_svd_inverse_transform", "kind": "state"},
     {"source": "truncated_svd_transform", "target": "truncated_svd_inverse_transform", "kind": "data"},

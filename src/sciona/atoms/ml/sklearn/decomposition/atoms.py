@@ -7,11 +7,11 @@ import numpy as np
 from numpy.typing import NDArray
 from scipy import linalg
 from sklearn.utils import check_array
-from sklearn.utils.extmath import _randomized_svd, fast_logdet, squared_norm, svd_flip
+from sklearn.utils.extmath import _incremental_mean_and_var, _randomized_svd, fast_logdet, squared_norm, svd_flip
 
 from sciona.ghost.registry import register_atom
 
-from .state_models import FactorAnalysisState, PCAState, TruncatedSVDState
+from .state_models import FactorAnalysisState, IncrementalPCAState, PCAState, TruncatedSVDState
 from .witnesses import (
     witness_factor_analysis_covariance,
     witness_factor_analysis_fit,
@@ -19,6 +19,9 @@ from .witnesses import (
     witness_factor_analysis_score,
     witness_factor_analysis_score_samples,
     witness_factor_analysis_transform,
+    witness_incremental_pca_inverse_transform,
+    witness_incremental_pca_partial_fit,
+    witness_incremental_pca_transform,
     witness_pca_fit,
     witness_truncated_svd_fit,
     witness_truncated_svd_inverse_transform,
@@ -95,6 +98,60 @@ def _pca_state_valid(state: PCAState) -> bool:
         and np.all(np.isfinite(state.singular_values))
         and np.all(np.isfinite(state.mean))
         and np.isfinite(state.noise_variance)
+        and 0.0 <= float(np.sum(state.explained_variance_ratio)) <= 1.0 + 1e-12
+    )
+
+
+def _incremental_components_valid(
+    n_components: int | None,
+    X: NDArray[np.float64],
+    state: IncrementalPCAState | None,
+) -> bool:
+    values = np.asarray(X)
+    if values.ndim != 2:
+        return False
+    n_samples, n_features = values.shape
+    if state is None:
+        if n_samples < 2:
+            return False
+        if n_components is None:
+            return True
+        if not isinstance(n_components, int) or isinstance(n_components, bool):
+            return False
+        return bool(1 <= n_components <= min(n_samples, n_features))
+    if values.shape[1] != state.n_features_in:
+        return False
+    if n_components is None:
+        return True
+    return bool(isinstance(n_components, int) and not isinstance(n_components, bool) and n_components == state.n_components)
+
+
+def _incremental_batch_size_valid(batch_size: int | None) -> bool:
+    return bool(batch_size is None or (isinstance(batch_size, int) and not isinstance(batch_size, bool) and batch_size >= 1))
+
+
+def _incremental_state_valid(state: IncrementalPCAState) -> bool:
+    return bool(
+        state.components.shape == (state.n_components, state.n_features_in)
+        and state.explained_variance.shape == (state.n_components,)
+        and state.explained_variance_ratio.shape == (state.n_components,)
+        and state.singular_values.shape == (state.n_components,)
+        and state.mean.shape == (state.n_features_in,)
+        and state.var.shape == (state.n_features_in,)
+        and state.n_samples_seen >= 2
+        and 1 <= state.n_components <= state.n_features_in
+        and _incremental_batch_size_valid(state.batch_size)
+        and np.all(np.isfinite(state.components))
+        and np.all(np.isfinite(state.explained_variance))
+        and np.all(np.isfinite(state.explained_variance_ratio))
+        and np.all(np.isfinite(state.singular_values))
+        and np.all(np.isfinite(state.mean))
+        and np.all(np.isfinite(state.var))
+        and np.isfinite(state.noise_variance)
+        and np.all(state.explained_variance >= 0.0)
+        and np.all(state.explained_variance_ratio >= 0.0)
+        and np.all(state.singular_values >= 0.0)
+        and np.all(state.var >= 0.0)
         and 0.0 <= float(np.sum(state.explained_variance_ratio)) <= 1.0 + 1e-12
     )
 
@@ -235,6 +292,24 @@ def _inverse_transformed_valid(result: NDArray[np.float64], state: TruncatedSVDS
     return bool(values.ndim == 2 and values.shape[1] == state.n_features_in and np.all(np.isfinite(values)))
 
 
+def _incremental_feature_count_matches(X: NDArray[np.float64], state: IncrementalPCAState) -> bool:
+    return bool(np.asarray(X).ndim == 2 and np.asarray(X).shape[1] == state.n_features_in)
+
+
+def _incremental_component_count_matches(X: NDArray[np.float64], state: IncrementalPCAState) -> bool:
+    return bool(np.asarray(X).ndim == 2 and np.asarray(X).shape[1] == state.n_components)
+
+
+def _incremental_transformed_valid(result: NDArray[np.float64], state: IncrementalPCAState) -> bool:
+    values = np.asarray(result)
+    return bool(values.ndim == 2 and values.shape[1] == state.n_components and np.all(np.isfinite(values)))
+
+
+def _incremental_inverse_valid(result: NDArray[np.float64], state: IncrementalPCAState) -> bool:
+    values = np.asarray(result)
+    return bool(values.ndim == 2 and values.shape[1] == state.n_features_in and np.all(np.isfinite(values)))
+
+
 def _factor_feature_count_matches(X: NDArray[np.float64], state: FactorAnalysisState) -> bool:
     return bool(np.asarray(X).ndim == 2 and np.asarray(X).shape[1] == state.n_features_in)
 
@@ -311,6 +386,123 @@ def pca_fit(
         whiten=bool(whiten),
         svd_solver=svd_solver,
     )
+
+
+@register_atom(witness_incremental_pca_partial_fit)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X: _has_positive_feature_variance(X), "X must have positive feature variance")
+@icontract.require(lambda n_components, X, state: _incremental_components_valid(n_components, X, state), "n_components must fit the current incremental PCA state")
+@icontract.require(lambda batch_size: _incremental_batch_size_valid(batch_size), "batch_size must be positive when provided")
+@icontract.ensure(lambda result: _incremental_state_valid(result), "incremental PCA state must contain finite running components")
+def incremental_pca_partial_fit(
+    X: NDArray[np.float64],
+    n_components: int | None = None,
+    *,
+    state: IncrementalPCAState | None = None,
+    whiten: bool = False,
+    copy: bool = True,
+    batch_size: int | None = None,
+) -> IncrementalPCAState:
+    """Update dense incremental PCA state from one sample batch."""
+    checked_x = check_array(X, dtype=np.float64, ensure_2d=True, copy=copy)
+    n_samples, n_features = checked_x.shape
+    if state is None:
+        resolved_components = min(n_samples, n_features) if n_components is None else int(n_components)
+        prior_samples_seen = 0
+        prior_mean: float | NDArray[np.float64] = 0.0
+        prior_var: float | NDArray[np.float64] = 0.0
+    else:
+        resolved_components = state.n_components if n_components is None else int(n_components)
+        prior_samples_seen = state.n_samples_seen
+        prior_mean = state.mean
+        prior_var = state.var
+        whiten = state.whiten
+        batch_size = state.batch_size
+
+    col_mean, col_var, n_total_samples_by_feature = _incremental_mean_and_var(
+        checked_x,
+        last_mean=prior_mean,
+        last_variance=prior_var,
+        last_sample_count=np.repeat(prior_samples_seen, n_features),
+    )
+    n_total_samples = int(n_total_samples_by_feature[0])
+
+    if prior_samples_seen == 0:
+        svd_input = np.asarray(checked_x - col_mean, dtype=np.float64)
+    else:
+        col_batch_mean = np.mean(checked_x, axis=0)
+        centered_batch = checked_x - col_batch_mean
+        mean_correction = np.sqrt((prior_samples_seen / n_total_samples) * n_samples) * (state.mean - col_batch_mean)
+        svd_input = np.vstack(
+            (
+                state.singular_values.reshape((-1, 1)) * state.components,
+                centered_batch,
+                mean_correction,
+            )
+        )
+
+    _, singular_values, vt = linalg.svd(svd_input, full_matrices=False, check_finite=False)
+    _, vt = svd_flip(None, vt, u_based_decision=False)
+    explained_variance = singular_values**2 / (n_total_samples - 1)
+    explained_variance_ratio = singular_values**2 / np.sum(col_var * n_total_samples)
+
+    if resolved_components not in (n_samples, n_features):
+        noise_variance = float(np.mean(explained_variance[resolved_components:]))
+    else:
+        noise_variance = 0.0
+
+    return IncrementalPCAState(
+        components=np.asarray(vt[:resolved_components], dtype=np.float64).copy(),
+        explained_variance=np.asarray(explained_variance[:resolved_components], dtype=np.float64).copy(),
+        explained_variance_ratio=np.asarray(explained_variance_ratio[:resolved_components], dtype=np.float64).copy(),
+        singular_values=np.asarray(singular_values[:resolved_components], dtype=np.float64).copy(),
+        mean=np.asarray(col_mean, dtype=np.float64).copy(),
+        var=np.asarray(col_var, dtype=np.float64).copy(),
+        noise_variance=float(noise_variance),
+        n_samples_seen=int(n_total_samples),
+        n_components=int(resolved_components),
+        n_features_in=int(n_features),
+        whiten=bool(whiten),
+        batch_size=batch_size,
+    )
+
+
+@register_atom(witness_incremental_pca_transform)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X, state: _incremental_feature_count_matches(X, state), "X feature count must match fitted incremental PCA state")
+@icontract.require(lambda state: _incremental_state_valid(state), "state must be a fitted incremental PCA state")
+@icontract.ensure(lambda result, state: _incremental_transformed_valid(result, state), "projection must be a finite component matrix")
+def incremental_pca_transform(
+    X: NDArray[np.float64],
+    state: IncrementalPCAState,
+) -> NDArray[np.float64]:
+    """Project samples onto fitted incremental PCA components."""
+    checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
+    transformed = np.dot(checked_x, state.components.T)
+    transformed -= np.reshape(state.mean, (1, -1)) @ state.components.T
+    if state.whiten:
+        scale = np.sqrt(state.explained_variance).copy()
+        min_scale = np.finfo(scale.dtype).eps
+        scale[scale < min_scale] = min_scale
+        transformed /= scale
+    return np.asarray(transformed, dtype=np.float64)
+
+
+@register_atom(witness_incremental_pca_inverse_transform)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X, state: _incremental_component_count_matches(X, state), "X width must match fitted component count")
+@icontract.require(lambda state: _incremental_state_valid(state), "state must be a fitted incremental PCA state")
+@icontract.ensure(lambda result, state: _incremental_inverse_valid(result, state), "reconstruction must be a finite feature matrix")
+def incremental_pca_inverse_transform(
+    X: NDArray[np.float64],
+    state: IncrementalPCAState,
+) -> NDArray[np.float64]:
+    """Map incremental PCA coordinates back to feature space."""
+    checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
+    if state.whiten:
+        scaled_components = np.sqrt(state.explained_variance[:, np.newaxis]) * state.components
+        return np.asarray(np.dot(checked_x, scaled_components) + state.mean, dtype=np.float64)
+    return np.asarray(np.dot(checked_x, state.components) + state.mean, dtype=np.float64)
 
 
 @register_atom(witness_truncated_svd_fit)

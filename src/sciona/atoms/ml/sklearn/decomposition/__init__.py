@@ -7,15 +7,19 @@ from .atoms import (
     factor_analysis_score,
     factor_analysis_score_samples,
     factor_analysis_transform,
+    incremental_pca_inverse_transform,
+    incremental_pca_partial_fit,
+    incremental_pca_transform,
     pca_fit,
     truncated_svd_fit,
     truncated_svd_inverse_transform,
     truncated_svd_transform,
 )
-from .state_models import FactorAnalysisState, PCAState, TruncatedSVDState
+from .state_models import FactorAnalysisState, IncrementalPCAState, PCAState, TruncatedSVDState
 
 __all__ = [
     "FactorAnalysisState",
+    "IncrementalPCAState",
     "PCAState",
     "TruncatedSVDState",
     "factor_analysis_covariance",
@@ -24,6 +28,9 @@ __all__ = [
     "factor_analysis_score",
     "factor_analysis_score_samples",
     "factor_analysis_transform",
+    "incremental_pca_inverse_transform",
+    "incremental_pca_partial_fit",
+    "incremental_pca_transform",
     "pca_fit",
     "truncated_svd_fit",
     "truncated_svd_inverse_transform",

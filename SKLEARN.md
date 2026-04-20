@@ -12,7 +12,7 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 - Scope for this first ingestion pass: public algorithmic estimators, transformers, kernels, and algorithmic helper functions in the selected sklearn modules below.
 - Intentionally excluded for now: datasets, metrics, displays, exceptions, low-level utils, orchestration/composition (`compose`, `pipeline`), and model-selection/search APIs.
 - Source locations come from each object page's official `[source]` link. `BallTree` and `KDTree` use the matching source files from the same scikit-learn revision because their generated docs pages do not expose a direct `[source]` link.
-- Total targets in this inventory: 164
+- Total targets in this inventory: 163
 
 ## Module Summary
 
@@ -22,7 +22,7 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 | `sklearn.cluster` | 0 |
 | `sklearn.covariance` | 0 |
 | `sklearn.cross_decomposition` | 0 |
-| `sklearn.decomposition` | 16 |
+| `sklearn.decomposition` | 15 |
 | `sklearn.discriminant_analysis` | 0 |
 | `sklearn.dummy` | 0 |
 | `sklearn.ensemble` | 18 |
@@ -78,7 +78,6 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 | `DictionaryLearning` | Dictionary learning. | `sklearn/decomposition/_dict_learning.py:L1417` |
 | `FastICA` | FastICA: a fast algorithm for Independent Component Analysis. | `sklearn/decomposition/_fastica.py:L372` |
 | `fastica` | Perform Fast Independent Component Analysis. | `sklearn/decomposition/_fastica.py:L168` |
-| `IncrementalPCA` | Incremental principal components analysis (IPCA). | `sklearn/decomposition/_incremental_pca.py:L19` |
 | `KernelPCA` | Kernel Principal component analysis (KPCA). | `sklearn/decomposition/_kernel_pca.py:L32` |
 | `LatentDirichletAllocation` | Latent Dirichlet Allocation with online variational Bayes algorithm. | `sklearn/decomposition/_lda.py:L160` |
 | `MiniBatchDictionaryLearning` | Mini-batch dictionary learning. | `sklearn/decomposition/_dict_learning.py:L1760` |

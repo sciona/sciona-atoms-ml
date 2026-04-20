@@ -26,6 +26,24 @@ class PCAState:
 
 
 @dataclass(frozen=True)
+class IncrementalPCAState:
+    """Fitted incremental PCA components and running feature statistics."""
+
+    components: NDArray[np.float64]
+    explained_variance: NDArray[np.float64]
+    explained_variance_ratio: NDArray[np.float64]
+    singular_values: NDArray[np.float64]
+    mean: NDArray[np.float64]
+    var: NDArray[np.float64]
+    noise_variance: float
+    n_samples_seen: int
+    n_components: int
+    n_features_in: int
+    whiten: bool
+    batch_size: int | None
+
+
+@dataclass(frozen=True)
 class TruncatedSVDState:
     """Fitted truncated SVD components and variance metadata."""
 

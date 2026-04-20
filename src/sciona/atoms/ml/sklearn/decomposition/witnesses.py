@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from sciona.ghost.abstract import AbstractArray
 
-from .state_models import FactorAnalysisState, TruncatedSVDState
+from .state_models import FactorAnalysisState, IncrementalPCAState, TruncatedSVDState
 
 
 def witness_pca_fit(
@@ -37,6 +37,54 @@ def witness_pca_fit(
     else:
         raise ValueError("n_components must be None, an integer, or a float fraction")
     return AbstractArray(shape=(width, n_features), dtype="float64")
+
+
+def witness_incremental_pca_partial_fit(
+    X: AbstractArray,
+    n_components: int | None = None,
+    *,
+    state: IncrementalPCAState | None = None,
+    whiten: bool = False,
+    copy: bool = True,
+    batch_size: int | None = None,
+) -> AbstractArray:
+    """Describe updating incremental PCA components from one dense batch."""
+    del whiten, copy, batch_size
+    n_samples, n_features = _check_2d(X, "X")
+    if state is None:
+        if n_samples < 2:
+            raise ValueError("first batch must contain at least two samples")
+        if n_components is None:
+            width = min(n_samples, n_features)
+        elif isinstance(n_components, int) and not isinstance(n_components, bool):
+            if n_components < 1 or n_components > min(n_samples, n_features):
+                raise ValueError("n_components must fit the first batch")
+            width = n_components
+        else:
+            raise ValueError("n_components must be None or a positive integer")
+    else:
+        if n_features != state.n_features_in:
+            raise ValueError("X feature count must match fitted state")
+        width = state.n_components if n_components is None else n_components
+        if width != state.n_components:
+            raise ValueError("n_components must match fitted state")
+    return AbstractArray(shape=(int(width), n_features), dtype="float64")
+
+
+def witness_incremental_pca_transform(X: AbstractArray, state: IncrementalPCAState) -> AbstractArray:
+    """Describe projection onto incremental PCA components."""
+    n_samples, n_features = _check_2d(X, "X")
+    if n_features != state.n_features_in:
+        raise ValueError("X feature count must match fitted state")
+    return AbstractArray(shape=(n_samples, state.n_components), dtype="float64")
+
+
+def witness_incremental_pca_inverse_transform(X: AbstractArray, state: IncrementalPCAState) -> AbstractArray:
+    """Describe reconstruction from reduced coordinates."""
+    n_samples, n_components = _check_2d(X, "X")
+    if n_components != state.n_components:
+        raise ValueError("X width must match fitted component count")
+    return AbstractArray(shape=(n_samples, state.n_features_in), dtype="float64")
 
 
 def witness_truncated_svd_fit(
