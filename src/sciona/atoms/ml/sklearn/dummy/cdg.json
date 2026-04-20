@@ -5,7 +5,7 @@
       "name": "Sklearn Dummy Estimator Atoms",
       "description": "Function decomposition for selected sklearn.dummy estimators",
       "status": "decomposed",
-      "children": ["dummy_regressor_fit", "dummy_regressor_predict"],
+      "children": ["dummy_regressor_fit", "dummy_regressor_predict", "dummy_classifier_fit", "dummy_classifier_predict", "dummy_classifier_predict_proba"],
       "depth": 0
     },
     {
@@ -41,10 +41,61 @@
       "outputs": [
         {"name": "result", "type_desc": "NDArray[np.float64]"}
       ]
+    },
+    {
+      "node_id": "dummy_classifier_fit",
+      "name": "dummy_classifier_fit",
+      "description": "Fit deterministic class priors used by sklearn's dummy classifier.",
+      "concept_type": "fit_state_builder",
+      "status": "atomic",
+      "type_signature": "(y: NDArray[np.float64], strategy: str = 'prior', constant: float | tuple[float, ...] | None = None) -> DummyClassifierState",
+      "depth": 1,
+      "inputs": [
+        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "strategy", "type_desc": "str", "required": false},
+        {"name": "constant", "type_desc": "float | tuple[float, ...] | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "DummyClassifierState"}
+      ]
+    },
+    {
+      "node_id": "dummy_classifier_predict",
+      "name": "dummy_classifier_predict",
+      "description": "Predict deterministic dummy-classifier labels for each row.",
+      "concept_type": "predictor",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: DummyClassifierState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "state", "type_desc": "DummyClassifierState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "dummy_classifier_predict_proba",
+      "name": "dummy_classifier_predict_proba",
+      "description": "Predict deterministic dummy-classifier class probabilities for each row.",
+      "concept_type": "predictor",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: DummyClassifierState) -> NDArray[np.float64] | tuple[NDArray[np.float64], ...]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "state", "type_desc": "DummyClassifierState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64] | tuple[NDArray[np.float64], ...]"}
+      ]
     }
   ],
   "edges": [
-    {"source": "dummy_regressor_fit", "target": "dummy_regressor_predict", "kind": "state"}
+    {"source": "dummy_regressor_fit", "target": "dummy_regressor_predict", "kind": "state"},
+    {"source": "dummy_classifier_fit", "target": "dummy_classifier_predict", "kind": "state"},
+    {"source": "dummy_classifier_fit", "target": "dummy_classifier_predict_proba", "kind": "state"}
   ],
   "metadata": {
     "source": "agent_ingestion",

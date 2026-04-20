@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from sciona.ghost.abstract import AbstractArray
 
-from .state_models import DummyRegressorState
+from .state_models import DummyClassifierState, DummyRegressorState
 
 
 def witness_dummy_regressor_fit(
@@ -39,3 +39,47 @@ def witness_dummy_regressor_predict(
     if state.n_outputs == 1:
         return AbstractArray(shape=(n_samples,), dtype="float64")
     return AbstractArray(shape=(n_samples, state.n_outputs), dtype="float64")
+
+
+def witness_dummy_classifier_fit(
+    y: AbstractArray,
+    *,
+    strategy: str = "prior",
+    constant: float | tuple[float, ...] | None = None,
+) -> AbstractArray:
+    """Describe learning class priors for a deterministic dummy classifier."""
+    del constant
+    if len(y.shape) not in {1, 2}:
+        raise ValueError("y must be 1D or 2D")
+    if int(y.shape[0]) < 1:
+        raise ValueError("y must contain at least one sample")
+    if strategy not in {"prior", "most_frequent", "constant"}:
+        raise ValueError("strategy must be deterministic")
+    n_outputs = 1 if len(y.shape) == 1 else int(y.shape[1])
+    return AbstractArray(shape=(n_outputs,), dtype="object")
+
+
+def witness_dummy_classifier_predict(
+    X: AbstractArray,
+    state: DummyClassifierState,
+) -> AbstractArray:
+    """Describe deterministic dummy-classifier label prediction."""
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    n_samples = int(X.shape[0])
+    if state.n_outputs == 1:
+        return AbstractArray(shape=(n_samples,), dtype="float64")
+    return AbstractArray(shape=(n_samples, state.n_outputs), dtype="float64")
+
+
+def witness_dummy_classifier_predict_proba(
+    X: AbstractArray,
+    state: DummyClassifierState,
+) -> AbstractArray:
+    """Describe deterministic dummy-classifier probability prediction."""
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    n_samples = int(X.shape[0])
+    if state.n_outputs == 1:
+        return AbstractArray(shape=(n_samples, state.n_classes[0]), dtype="float64", min_val=0.0, max_val=1.0)
+    return AbstractArray(shape=(state.n_outputs,), dtype="object")

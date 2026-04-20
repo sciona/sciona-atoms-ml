@@ -16,3 +16,15 @@ class DummyRegressorState:
     n_outputs: int
     strategy: str
     quantile: float | None
+
+
+@dataclass(frozen=True)
+class DummyClassifierState:
+    """Fitted class-prior state for a dummy classifier."""
+
+    classes: tuple[NDArray[np.float64], ...]
+    class_prior: tuple[NDArray[np.float64], ...]
+    n_classes: tuple[int, ...]
+    n_outputs: int
+    strategy: str
+    constant: tuple[float, ...] | None
