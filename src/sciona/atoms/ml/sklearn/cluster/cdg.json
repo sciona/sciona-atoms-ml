@@ -8,7 +8,11 @@
       "children": [
         "affinity_propagation",
         "affinity_propagation_fit",
-        "affinity_propagation_predict"
+        "affinity_propagation_predict",
+        "estimate_bandwidth",
+        "mean_shift",
+        "mean_shift_fit",
+        "mean_shift_predict"
       ],
       "depth": 0
     },
@@ -73,6 +77,85 @@
       "outputs": [
         {"name": "result", "type_desc": "NDArray[np.int_]"}
       ]
+    },
+    {
+      "node_id": "estimate_bandwidth",
+      "name": "estimate_bandwidth",
+      "description": "Estimate the flat-kernel bandwidth used by mean-shift clustering.",
+      "concept_type": "bandwidth_estimation",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]], quantile: float = 0.3, n_samples: int | None = None, random_state: int | np.random.RandomState | None = 0, n_jobs: int | None = None) -> float",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]]", "required": true},
+        {"name": "quantile", "type_desc": "float", "required": false},
+        {"name": "n_samples", "type_desc": "int | None", "required": false},
+        {"name": "random_state", "type_desc": "int | np.random.RandomState | None", "required": false},
+        {"name": "n_jobs", "type_desc": "int | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "float"}
+      ]
+    },
+    {
+      "node_id": "mean_shift",
+      "name": "mean_shift",
+      "description": "Cluster samples by iteratively shifting seed points to local means.",
+      "concept_type": "clustering_algorithm",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]], bandwidth: float | None = None, seeds: NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]] | None = None, bin_seeding: bool = False, min_bin_freq: int = 1, cluster_all: bool = True, max_iter: int = 300, n_jobs: int | None = None) -> tuple[NDArray[np.float64], NDArray[np.int_]]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]]", "required": true},
+        {"name": "bandwidth", "type_desc": "float | None", "required": false},
+        {"name": "seeds", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]] | None", "required": false},
+        {"name": "bin_seeding", "type_desc": "bool", "required": false},
+        {"name": "min_bin_freq", "type_desc": "int", "required": false},
+        {"name": "cluster_all", "type_desc": "bool", "required": false},
+        {"name": "max_iter", "type_desc": "int", "required": false},
+        {"name": "n_jobs", "type_desc": "int | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[NDArray[np.float64], NDArray[np.int_]]"}
+      ]
+    },
+    {
+      "node_id": "mean_shift_fit",
+      "name": "mean_shift_fit",
+      "description": "Fit mean-shift clustering and return immutable cluster state.",
+      "concept_type": "fit_state_builder",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]], bandwidth: float | None = None, seeds: NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]] | None = None, bin_seeding: bool = False, min_bin_freq: int = 1, cluster_all: bool = True, max_iter: int = 300, n_jobs: int | None = None) -> MeanShiftState",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]]", "required": true},
+        {"name": "bandwidth", "type_desc": "float | None", "required": false},
+        {"name": "seeds", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]] | None", "required": false},
+        {"name": "bin_seeding", "type_desc": "bool", "required": false},
+        {"name": "min_bin_freq", "type_desc": "int", "required": false},
+        {"name": "cluster_all", "type_desc": "bool", "required": false},
+        {"name": "max_iter", "type_desc": "int", "required": false},
+        {"name": "n_jobs", "type_desc": "int | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "MeanShiftState"}
+      ]
+    },
+    {
+      "node_id": "mean_shift_predict",
+      "name": "mean_shift_predict",
+      "description": "Assign samples to the nearest fitted mean-shift center.",
+      "concept_type": "predict",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]], state: MeanShiftState) -> NDArray[np.int_]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]]", "required": true},
+        {"name": "state", "type_desc": "MeanShiftState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.int_]"}
+      ]
     }
   ],
   "edges": [
@@ -85,6 +168,21 @@
       "source_id": "affinity_propagation",
       "target_id": "affinity_propagation_fit",
       "edge_type": "algorithmic_equivalence"
+    },
+    {
+      "source_id": "estimate_bandwidth",
+      "target_id": "mean_shift_fit",
+      "edge_type": "default_parameter_dependency"
+    },
+    {
+      "source_id": "mean_shift_fit",
+      "target_id": "mean_shift",
+      "edge_type": "implementation_dependency"
+    },
+    {
+      "source_id": "mean_shift_fit",
+      "target_id": "mean_shift_predict",
+      "edge_type": "fit_state_dependency"
     }
   ]
 }

@@ -12,14 +12,14 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 - Scope for this first ingestion pass: public algorithmic estimators, transformers, kernels, and algorithmic helper functions in the selected sklearn modules below.
 - Intentionally excluded for now: datasets, metrics, displays, exceptions, low-level utils, orchestration/composition (`compose`, `pipeline`), and model-selection/search APIs.
 - Source locations come from each object page's official `[source]` link. `BallTree` and `KDTree` use the matching source files from the same scikit-learn revision because their generated docs pages do not expose a direct `[source]` link.
-- Total targets in this inventory: 207
+- Total targets in this inventory: 204
 
 ## Module Summary
 
 | Module | Targets |
 | --- | ---: |
 | `sklearn.calibration` | 0 |
-| `sklearn.cluster` | 20 |
+| `sklearn.cluster` | 17 |
 | `sklearn.covariance` | 12 |
 | `sklearn.cross_decomposition` | 4 |
 | `sklearn.decomposition` | 19 |
@@ -65,13 +65,10 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 | `compute_optics_graph` | Compute the OPTICS reachability graph. | `sklearn/cluster/_optics.py:L442` |
 | `DBSCAN` | Perform DBSCAN clustering from vector array or distance matrix. | `sklearn/cluster/_dbscan.py:L201` |
 | `dbscan` | Perform DBSCAN clustering from vector array or distance matrix. | `sklearn/cluster/_dbscan.py:L22` |
-| `estimate_bandwidth` | Estimate the bandwidth to use with the mean-shift algorithm. | `sklearn/cluster/_mean_shift.py:L31` |
 | `HDBSCAN` | Cluster data using hierarchical density-based clustering. | `sklearn/cluster/_hdbscan/hdbscan.py:L423` |
 | `k_means` | Perform K-means clustering algorithm. | `sklearn/cluster/_kmeans.py:L296` |
 | `KMeans` | K-Means clustering. | `sklearn/cluster/_kmeans.py:L1192` |
 | `kmeans_plusplus` | Init n_clusters seeds according to k-means++. | `sklearn/cluster/_kmeans.py:L63` |
-| `mean_shift` | Perform mean shift clustering of data using a flat kernel. | `sklearn/cluster/_mean_shift.py:L131` |
-| `MeanShift` | Mean shift clustering using a flat kernel. | `sklearn/cluster/_mean_shift.py:L300` |
 | `MiniBatchKMeans` | Mini-Batch K-Means clustering. | `sklearn/cluster/_kmeans.py:L1684` |
 | `OPTICS` | Estimate clustering structure from vector array. | `sklearn/cluster/_optics.py:L33` |
 | `spectral_clustering` | Apply clustering to a projection of the normalized Laplacian. | `sklearn/cluster/_spectral.py:L190` |

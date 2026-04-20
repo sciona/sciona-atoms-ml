@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from sciona.ghost.abstract import AbstractArray
 
-from .state_models import AffinityPropagationState
+from .state_models import AffinityPropagationState, MeanShiftState
 
 
 def witness_affinity_propagation(
@@ -66,6 +66,73 @@ def witness_affinity_propagation_predict(
     return AbstractArray(shape=(n_samples,), dtype="int64", min_val=-1)
 
 
+def witness_estimate_bandwidth(
+    X: AbstractArray,
+    *,
+    quantile: float = 0.3,
+    n_samples: int | None = None,
+    random_state: int | None = 0,
+    n_jobs: int | None = None,
+) -> float:
+    """Describe estimating a nonnegative mean-shift bandwidth."""
+    del random_state, n_jobs
+    n_rows, _ = _check_2d(X)
+    if not 0.0 <= quantile <= 1.0:
+        raise ValueError("quantile must be in [0, 1]")
+    if n_samples is not None and n_samples < 1:
+        raise ValueError("n_samples must be positive or None")
+    if n_rows < 1:
+        raise ValueError("X must contain samples")
+    return 0.0
+
+
+def witness_mean_shift(
+    X: AbstractArray,
+    *,
+    bandwidth: float | None = None,
+    seeds: AbstractArray | None = None,
+    bin_seeding: bool = False,
+    min_bin_freq: int = 1,
+    cluster_all: bool = True,
+    max_iter: int = 300,
+    n_jobs: int | None = None,
+) -> tuple[AbstractArray, AbstractArray]:
+    """Describe mean-shift centers and labels for input samples."""
+    del bin_seeding, cluster_all, n_jobs
+    n_samples, n_features = _check_mean_shift_inputs(X, bandwidth, seeds, min_bin_freq, max_iter)
+    centers = AbstractArray(shape=(n_samples, n_features), dtype="float64")
+    labels = AbstractArray(shape=(n_samples,), dtype="int64", min_val=-1)
+    return centers, labels
+
+
+def witness_mean_shift_fit(
+    X: AbstractArray,
+    *,
+    bandwidth: float | None = None,
+    seeds: AbstractArray | None = None,
+    bin_seeding: bool = False,
+    min_bin_freq: int = 1,
+    cluster_all: bool = True,
+    max_iter: int = 300,
+    n_jobs: int | None = None,
+) -> AbstractArray:
+    """Describe fitting mean-shift cluster centers and labels."""
+    del bin_seeding, cluster_all, n_jobs
+    n_samples, n_features = _check_mean_shift_inputs(X, bandwidth, seeds, min_bin_freq, max_iter)
+    return AbstractArray(shape=(n_samples, n_features), dtype="float64")
+
+
+def witness_mean_shift_predict(
+    X: AbstractArray,
+    state: MeanShiftState,
+) -> AbstractArray:
+    """Describe nearest-center predictions from fitted mean-shift state."""
+    n_samples, n_features = _check_2d(X)
+    if n_features != state.n_features_in:
+        raise ValueError("X feature count must match fitted state")
+    return AbstractArray(shape=(n_samples,), dtype="int64", min_val=0)
+
+
 def _check_2d(X: AbstractArray) -> tuple[int, int]:
     if len(X.shape) != 2:
         raise ValueError("X must be 2D")
@@ -86,3 +153,24 @@ def _check_iteration_parameters(convergence_iter: int, max_iter: int, damping: f
         raise ValueError("max_iter must be at least one")
     if not 0.5 <= damping < 1.0:
         raise ValueError("damping must be in [0.5, 1.0)")
+
+
+def _check_mean_shift_inputs(
+    X: AbstractArray,
+    bandwidth: float | None,
+    seeds: AbstractArray | None,
+    min_bin_freq: int,
+    max_iter: int,
+) -> tuple[int, int]:
+    n_samples, n_features = _check_2d(X)
+    if bandwidth is not None and bandwidth <= 0.0:
+        raise ValueError("bandwidth must be positive or None")
+    if seeds is not None:
+        seed_samples, seed_features = _check_2d(seeds)
+        if seed_samples < 1 or seed_features != n_features:
+            raise ValueError("seeds must be 2D with matching feature count")
+    if min_bin_freq < 1:
+        raise ValueError("min_bin_freq must be at least one")
+    if max_iter < 0:
+        raise ValueError("max_iter must be nonnegative")
+    return n_samples, n_features

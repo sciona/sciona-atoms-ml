@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "metadata": {
-    "generated_at": "2026-04-19T23:57:47.577825+00:00",
+    "generated_at": "2026-04-20T00:09:03.940374+00:00",
     "generator": "scripts/apply_audit_review_bundles.py",
     "phase": "phase_1_review_bundle_merge"
   },
@@ -1282,6 +1282,515 @@
       "required_actions": [],
       "blocking_findings": [],
       "review_record_path": "data/review_bundles/ml_sklearn_cluster_affinity.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.cluster.estimate_bandwidth",
+      "atom_key": "sciona.atoms.ml.sklearn.cluster.estimate_bandwidth",
+      "atom_id": "sciona.atoms.ml.sklearn.cluster.estimate_bandwidth",
+      "module_import_path": "sciona.atoms.ml.sklearn.cluster",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/cluster/atoms.py",
+      "module_family": "sklearn",
+      "domain_family": "ml.sklearn",
+      "wrapper_symbol": "estimate_bandwidth",
+      "argument_names": [
+        "X",
+        "quantile",
+        "n_samples",
+        "random_state",
+        "n_jobs"
+      ],
+      "argument_details": [
+        {
+          "name": "X",
+          "annotation": "MatrixLike",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "quantile",
+          "annotation": "float",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "n_samples",
+          "annotation": "int | None",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "random_state",
+          "annotation": "RandomStateLike",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "n_jobs",
+          "annotation": "int | None",
+          "required": false,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "float",
+      "docstring_summary": "Estimate the flat-kernel bandwidth used by mean-shift clustering.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/state_models.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_cluster_mean_shift_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_cluster_mean_shift_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_cluster_mean_shift_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 14,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 90,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 4,
+      "parity_case_count": 6,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_cluster_mean_shift.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.cluster.mean_shift",
+      "atom_key": "sciona.atoms.ml.sklearn.cluster.mean_shift",
+      "atom_id": "sciona.atoms.ml.sklearn.cluster.mean_shift",
+      "module_import_path": "sciona.atoms.ml.sklearn.cluster",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/cluster/atoms.py",
+      "module_family": "sklearn",
+      "domain_family": "ml.sklearn",
+      "wrapper_symbol": "mean_shift",
+      "argument_names": [
+        "X",
+        "bandwidth",
+        "seeds",
+        "bin_seeding",
+        "min_bin_freq",
+        "cluster_all",
+        "max_iter",
+        "n_jobs"
+      ],
+      "argument_details": [
+        {
+          "name": "X",
+          "annotation": "MatrixLike",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "bandwidth",
+          "annotation": "float | None",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "seeds",
+          "annotation": "MatrixLike | None",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "bin_seeding",
+          "annotation": "bool",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "min_bin_freq",
+          "annotation": "int",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "cluster_all",
+          "annotation": "bool",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "max_iter",
+          "annotation": "int",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "n_jobs",
+          "annotation": "int | None",
+          "required": false,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "MeanShiftResult",
+      "docstring_summary": "Cluster samples by iteratively shifting seed points to local means.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/state_models.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_cluster_mean_shift_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_cluster_mean_shift_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_cluster_mean_shift_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 17,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "medium",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 88,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 4,
+      "parity_case_count": 6,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_cluster_mean_shift.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.cluster.mean_shift_fit",
+      "atom_key": "sciona.atoms.ml.sklearn.cluster.mean_shift_fit",
+      "atom_id": "sciona.atoms.ml.sklearn.cluster.mean_shift_fit",
+      "module_import_path": "sciona.atoms.ml.sklearn.cluster",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/cluster/atoms.py",
+      "module_family": "sklearn",
+      "domain_family": "ml.sklearn",
+      "wrapper_symbol": "mean_shift_fit",
+      "argument_names": [
+        "X",
+        "bandwidth",
+        "seeds",
+        "bin_seeding",
+        "min_bin_freq",
+        "cluster_all",
+        "max_iter",
+        "n_jobs"
+      ],
+      "argument_details": [
+        {
+          "name": "X",
+          "annotation": "MatrixLike",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "bandwidth",
+          "annotation": "float | None",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "seeds",
+          "annotation": "MatrixLike | None",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "bin_seeding",
+          "annotation": "bool",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "min_bin_freq",
+          "annotation": "int",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "cluster_all",
+          "annotation": "bool",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "max_iter",
+          "annotation": "int",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "n_jobs",
+          "annotation": "int | None",
+          "required": false,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "MeanShiftState",
+      "docstring_summary": "Fit mean-shift clustering and return immutable cluster state.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/state_models.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_cluster_mean_shift_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_cluster_mean_shift_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_cluster_mean_shift_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 18,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "medium",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 87,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 4,
+      "parity_case_count": 6,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_cluster_mean_shift.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.cluster.mean_shift_predict",
+      "atom_key": "sciona.atoms.ml.sklearn.cluster.mean_shift_predict",
+      "atom_id": "sciona.atoms.ml.sklearn.cluster.mean_shift_predict",
+      "module_import_path": "sciona.atoms.ml.sklearn.cluster",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/cluster/atoms.py",
+      "module_family": "sklearn",
+      "domain_family": "ml.sklearn",
+      "wrapper_symbol": "mean_shift_predict",
+      "argument_names": [
+        "X",
+        "state"
+      ],
+      "argument_details": [
+        {
+          "name": "X",
+          "annotation": "MatrixLike",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "state",
+          "annotation": "MeanShiftState",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.int_]",
+      "docstring_summary": "Assign samples to the nearest fitted mean-shift center.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/state_models.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_cluster_mean_shift_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_cluster_mean_shift_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_cluster_mean_shift_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 13,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 91,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 4,
+      "parity_case_count": 6,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_cluster_mean_shift.review_bundle.json",
       "has_references": true,
       "references_status": "pass"
     },

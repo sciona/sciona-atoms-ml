@@ -3,22 +3,29 @@
 from __future__ import annotations
 
 import warnings
+from collections import defaultdict
 
 import icontract
 import numpy as np
 import scipy.sparse as sp
+from joblib import Parallel, delayed
 from numpy.typing import NDArray
 from sklearn.exceptions import ConvergenceWarning
 from sklearn.metrics import euclidean_distances, pairwise_distances_argmin
-from sklearn.utils import check_array, check_random_state
+from sklearn.neighbors import NearestNeighbors
+from sklearn.utils import check_array, check_random_state, gen_batches
 
 from sciona.ghost.registry import register_atom
 
-from .state_models import AffinityPropagationState
+from .state_models import AffinityPropagationState, MeanShiftState
 from .witnesses import (
     witness_affinity_propagation,
     witness_affinity_propagation_fit,
     witness_affinity_propagation_predict,
+    witness_estimate_bandwidth,
+    witness_mean_shift,
+    witness_mean_shift_fit,
+    witness_mean_shift_predict,
 )
 
 MatrixLike = NDArray[np.float64] | sp.spmatrix | list[list[float]]
@@ -27,6 +34,7 @@ RandomStateLike = int | np.random.RandomState | None
 AffinityPropagationResult = tuple[NDArray[np.int_], NDArray[np.int_]]
 AffinityPropagationResultWithIter = tuple[NDArray[np.int_], NDArray[np.int_], int]
 AffinityPropagationOutput = AffinityPropagationResult | AffinityPropagationResultWithIter
+MeanShiftResult = tuple[NDArray[np.float64], NDArray[np.int_]]
 
 
 def _is_2d_matrix(X: MatrixLike) -> bool:
@@ -58,6 +66,26 @@ def _positive_int(value: int) -> bool:
     return isinstance(value, int) and value >= 1
 
 
+def _nonnegative_int(value: int) -> bool:
+    return isinstance(value, int) and value >= 0
+
+
+def _positive_int_or_none(value: int | None) -> bool:
+    return value is None or (isinstance(value, int) and value >= 1)
+
+
+def _quantile_valid(quantile: float) -> bool:
+    return bool(0.0 <= float(quantile) <= 1.0)
+
+
+def _bandwidth_valid(bandwidth: float | None) -> bool:
+    return bandwidth is None or float(bandwidth) > 0.0
+
+
+def _n_jobs_valid(n_jobs: int | None) -> bool:
+    return n_jobs is None or isinstance(n_jobs, int)
+
+
 def _affinity_valid(affinity: str) -> bool:
     return affinity in {"euclidean", "precomputed"}
 
@@ -74,6 +102,14 @@ def _preference_matches_samples(preference: PreferenceLike, X: MatrixLike) -> bo
         return True
     values = np.asarray(preference, dtype=np.float64)
     return bool(values.ndim == 0 or values.shape == (_sample_count(X),))
+
+
+def _seeds_valid(seeds: MatrixLike | None) -> bool:
+    return seeds is None or _is_2d_matrix(seeds)
+
+
+def _seeds_match_features(seeds: MatrixLike | None, X: MatrixLike) -> bool:
+    return seeds is None or _feature_count(seeds) == _feature_count(X)
 
 
 def _equal_similarities_and_preferences(S: NDArray[np.float64], preference: NDArray[np.float64]) -> bool:
@@ -144,10 +180,163 @@ def _prediction_valid(result: NDArray[np.int_], X: MatrixLike) -> bool:
     return bool(labels.shape == (_sample_count(X),) and labels.dtype.kind in {"i", "u"} and np.all(labels >= -1))
 
 
+def _bandwidth_result_valid(result: float | np.float64) -> bool:
+    return bool(np.isfinite(result) and float(result) >= 0.0)
+
+
+def _mean_shift_result_valid(result: MeanShiftResult, X: MatrixLike) -> bool:
+    centers, labels = result
+    return bool(
+        centers.ndim == 2
+        and centers.shape[1] == _feature_count(X)
+        and labels.shape == (_sample_count(X),)
+        and np.all(np.isfinite(centers))
+        and labels.dtype.kind in {"i", "u"}
+        and np.all(labels >= -1)
+    )
+
+
+def _mean_shift_state_valid(state: MeanShiftState) -> bool:
+    return bool(
+        state.cluster_centers.ndim == 2
+        and state.cluster_centers.shape[0] >= 1
+        and state.cluster_centers.shape[1] == state.n_features_in
+        and state.labels.ndim == 1
+        and state.labels.size >= 1
+        and np.all(np.isfinite(state.cluster_centers))
+        and np.isfinite(state.bandwidth)
+        and state.bandwidth >= 0.0
+        and state.n_iter >= 0
+        and state.n_features_in >= 1
+        and state.labels.dtype.kind in {"i", "u"}
+        and np.all(state.labels >= -1)
+    )
+
+
 def _as_dense_float_matrix(X: MatrixLike) -> NDArray[np.float64]:
     if sp.issparse(X):
         return np.asarray(X.toarray(), dtype=np.float64)
     return np.asarray(X, dtype=np.float64)
+
+
+def _get_bin_seeds(X: NDArray[np.float64], bin_size: float, min_bin_freq: int = 1) -> NDArray[np.float64]:
+    if bin_size == 0:
+        return X
+
+    bin_sizes: defaultdict[tuple[np.float64, ...], int] = defaultdict(int)
+    for point in X:
+        binned_point = np.round(point / bin_size)
+        bin_sizes[tuple(binned_point)] += 1
+
+    bin_seeds = np.array(
+        [point for point, freq in bin_sizes.items() if freq >= min_bin_freq],
+        dtype=np.float32,
+    )
+    if len(bin_seeds) == len(X):
+        warnings.warn(
+            "Binning data failed with provided bin_size=%f, using data points as seeds." % bin_size
+        )
+        return X
+    return np.asarray(bin_seeds * bin_size, dtype=np.float64)
+
+
+def _mean_shift_single_seed(
+    my_mean: NDArray[np.float64],
+    X: NDArray[np.float64],
+    nbrs: NearestNeighbors,
+    max_iter: int,
+) -> tuple[tuple[float, ...], int, int]:
+    bandwidth = float(nbrs.get_params()["radius"])
+    stop_thresh = 1e-3 * bandwidth
+    completed_iterations = 0
+    while True:
+        neighbor_indices = nbrs.radius_neighbors([my_mean], bandwidth, return_distance=False)[0]
+        points_within = X[neighbor_indices]
+        if len(points_within) == 0:
+            break
+        old_mean = my_mean
+        my_mean = np.mean(points_within, axis=0)
+        if np.linalg.norm(my_mean - old_mean) <= stop_thresh or completed_iterations == max_iter:
+            break
+        completed_iterations += 1
+    return tuple(float(value) for value in my_mean), len(points_within), completed_iterations
+
+
+def _mean_shift_fit_core(
+    X: MatrixLike,
+    *,
+    bandwidth: float | None,
+    seeds: MatrixLike | None,
+    bin_seeding: bool,
+    min_bin_freq: int,
+    cluster_all: bool,
+    max_iter: int,
+    n_jobs: int | None,
+) -> MeanShiftState:
+    checked_x = np.asarray(check_array(X, dtype=[np.float64, np.float32]), dtype=np.float64)
+    fitted_bandwidth = float(bandwidth) if bandwidth is not None else float(estimate_bandwidth(checked_x, n_jobs=n_jobs))
+
+    if seeds is None:
+        if bin_seeding:
+            seed_points = _get_bin_seeds(checked_x, fitted_bandwidth, min_bin_freq)
+        else:
+            seed_points = checked_x
+    else:
+        seed_points = np.asarray(check_array(seeds, dtype=[np.float64, np.float32]), dtype=np.float64)
+
+    n_samples, n_features = checked_x.shape
+    center_intensity: dict[tuple[float, ...], int] = {}
+    nbrs = NearestNeighbors(radius=fitted_bandwidth, n_jobs=1).fit(checked_x)
+
+    all_results = Parallel(n_jobs=n_jobs)(
+        delayed(_mean_shift_single_seed)(seed, checked_x, nbrs, max_iter)
+        for seed in seed_points
+    )
+    for center, intensity, _ in all_results:
+        if intensity:
+            center_intensity[center] = intensity
+
+    n_iter = max([result[2] for result in all_results])
+
+    if not center_intensity:
+        raise ValueError(
+            "No point was within bandwidth=%f of any seed. Try a different seeding strategy or increase the bandwidth."
+            % fitted_bandwidth
+        )
+
+    sorted_by_intensity = sorted(
+        center_intensity.items(),
+        key=lambda item: (item[1], item[0]),
+        reverse=True,
+    )
+    sorted_centers = np.array([item[0] for item in sorted_by_intensity], dtype=np.float64)
+    unique = np.ones(len(sorted_centers), dtype=bool)
+    center_neighbors = NearestNeighbors(radius=fitted_bandwidth, n_jobs=n_jobs).fit(sorted_centers)
+    for center_index, center in enumerate(sorted_centers):
+        if unique[center_index]:
+            neighbor_indices = center_neighbors.radius_neighbors([center], return_distance=False)[0]
+            unique[neighbor_indices] = 0
+            unique[center_index] = 1
+    cluster_centers = sorted_centers[unique]
+
+    label_neighbors = NearestNeighbors(n_neighbors=1, n_jobs=n_jobs).fit(cluster_centers)
+    labels = np.zeros(n_samples, dtype=np.int_)
+    distances, indices = label_neighbors.kneighbors(checked_x)
+    if cluster_all:
+        labels = indices.flatten().astype(np.int_)
+    else:
+        labels.fill(-1)
+        within_bandwidth = distances.flatten() <= fitted_bandwidth
+        labels[within_bandwidth] = indices.flatten()[within_bandwidth]
+
+    return MeanShiftState(
+        cluster_centers=np.asarray(cluster_centers, dtype=np.float64),
+        labels=labels,
+        bandwidth=fitted_bandwidth,
+        n_iter=int(n_iter),
+        cluster_all=bool(cluster_all),
+        n_features_in=int(n_features),
+    )
 
 
 def _affinity_propagation_core(
@@ -399,3 +588,117 @@ def affinity_propagation_predict(
         ConvergenceWarning,
     )
     return np.array([-1] * checked_x.shape[0], dtype=np.int_)
+
+
+@register_atom(witness_estimate_bandwidth)
+@icontract.require(lambda X: _is_2d_matrix(X), "X must be a 2D matrix")
+@icontract.require(lambda quantile: _quantile_valid(quantile), "quantile must be in [0, 1]")
+@icontract.require(lambda n_samples: _positive_int_or_none(n_samples), "n_samples must be positive or None")
+@icontract.require(lambda n_jobs: _n_jobs_valid(n_jobs), "n_jobs must be an integer or None")
+@icontract.ensure(lambda result: _bandwidth_result_valid(result), "estimated bandwidth must be finite and nonnegative")
+def estimate_bandwidth(
+    X: MatrixLike,
+    *,
+    quantile: float = 0.3,
+    n_samples: int | None = None,
+    random_state: RandomStateLike = 0,
+    n_jobs: int | None = None,
+) -> float:
+    """Estimate the flat-kernel bandwidth used by mean-shift clustering."""
+    checked_x = np.asarray(check_array(X, dtype=[np.float64, np.float32]), dtype=np.float64)
+    rng = check_random_state(random_state)
+    if n_samples is not None:
+        sample_indices = rng.permutation(checked_x.shape[0])[:n_samples]
+        checked_x = checked_x[sample_indices]
+    n_neighbors = int(checked_x.shape[0] * quantile)
+    if n_neighbors < 1:
+        n_neighbors = 1
+    nbrs = NearestNeighbors(n_neighbors=n_neighbors, n_jobs=n_jobs)
+    nbrs.fit(checked_x)
+
+    bandwidth = 0.0
+    for batch in gen_batches(len(checked_x), 500):
+        distances, _ = nbrs.kneighbors(checked_x[batch, :], return_distance=True)
+        bandwidth += np.max(distances, axis=1).sum()
+    return float(bandwidth / checked_x.shape[0])
+
+
+@register_atom(witness_mean_shift)
+@icontract.require(lambda X: _is_2d_matrix(X), "X must be a 2D matrix")
+@icontract.require(lambda bandwidth: _bandwidth_valid(bandwidth), "bandwidth must be positive or None")
+@icontract.require(lambda seeds: _seeds_valid(seeds), "seeds must be a 2D matrix or None")
+@icontract.require(lambda X, seeds: _seeds_match_features(seeds, X), "seeds feature count must match X")
+@icontract.require(lambda min_bin_freq: _positive_int(min_bin_freq), "min_bin_freq must be at least one")
+@icontract.require(lambda max_iter: _nonnegative_int(max_iter), "max_iter must be nonnegative")
+@icontract.require(lambda n_jobs: _n_jobs_valid(n_jobs), "n_jobs must be an integer or None")
+@icontract.ensure(lambda result, X: _mean_shift_result_valid(result, X), "mean-shift centers and labels must match input shape")
+def mean_shift(
+    X: MatrixLike,
+    *,
+    bandwidth: float | None = None,
+    seeds: MatrixLike | None = None,
+    bin_seeding: bool = False,
+    min_bin_freq: int = 1,
+    cluster_all: bool = True,
+    max_iter: int = 300,
+    n_jobs: int | None = None,
+) -> MeanShiftResult:
+    """Cluster samples by iteratively shifting seed points to local means."""
+    state = _mean_shift_fit_core(
+        X,
+        bandwidth=bandwidth,
+        seeds=seeds,
+        bin_seeding=bin_seeding,
+        min_bin_freq=min_bin_freq,
+        cluster_all=cluster_all,
+        max_iter=max_iter,
+        n_jobs=n_jobs,
+    )
+    return state.cluster_centers, state.labels
+
+
+@register_atom(witness_mean_shift_fit)
+@icontract.require(lambda X: _is_2d_matrix(X), "X must be a 2D matrix")
+@icontract.require(lambda bandwidth: _bandwidth_valid(bandwidth), "bandwidth must be positive or None")
+@icontract.require(lambda seeds: _seeds_valid(seeds), "seeds must be a 2D matrix or None")
+@icontract.require(lambda X, seeds: _seeds_match_features(seeds, X), "seeds feature count must match X")
+@icontract.require(lambda min_bin_freq: _positive_int(min_bin_freq), "min_bin_freq must be at least one")
+@icontract.require(lambda max_iter: _nonnegative_int(max_iter), "max_iter must be nonnegative")
+@icontract.require(lambda n_jobs: _n_jobs_valid(n_jobs), "n_jobs must be an integer or None")
+@icontract.ensure(lambda result: _mean_shift_state_valid(result), "mean-shift state must contain fitted centers and labels")
+def mean_shift_fit(
+    X: MatrixLike,
+    *,
+    bandwidth: float | None = None,
+    seeds: MatrixLike | None = None,
+    bin_seeding: bool = False,
+    min_bin_freq: int = 1,
+    cluster_all: bool = True,
+    max_iter: int = 300,
+    n_jobs: int | None = None,
+) -> MeanShiftState:
+    """Fit mean-shift clustering and return immutable cluster state."""
+    return _mean_shift_fit_core(
+        X,
+        bandwidth=bandwidth,
+        seeds=seeds,
+        bin_seeding=bin_seeding,
+        min_bin_freq=min_bin_freq,
+        cluster_all=cluster_all,
+        max_iter=max_iter,
+        n_jobs=n_jobs,
+    )
+
+
+@register_atom(witness_mean_shift_predict)
+@icontract.require(lambda X: _is_2d_matrix(X), "X must be a 2D matrix")
+@icontract.require(lambda state: _mean_shift_state_valid(state), "mean-shift state must contain fitted centers")
+@icontract.require(lambda X, state: _feature_count(X) == state.n_features_in, "X feature count must match fitted state")
+@icontract.ensure(lambda result, X: _prediction_valid(result, X), "predicted labels must match sample count")
+def mean_shift_predict(
+    X: MatrixLike,
+    state: MeanShiftState,
+) -> NDArray[np.int_]:
+    """Assign samples to the nearest fitted mean-shift center."""
+    checked_x = np.asarray(check_array(X, dtype=[np.float64, np.float32]), dtype=np.float64)
+    return np.asarray(pairwise_distances_argmin(checked_x, state.cluster_centers), dtype=np.int_)

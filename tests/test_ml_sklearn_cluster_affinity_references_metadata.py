@@ -22,8 +22,7 @@ def test_references_json_exists_and_has_affinity_cluster_fqdns() -> None:
     assert REFERENCES_PATH.exists()
     payload = json.loads(REFERENCES_PATH.read_text(encoding="utf-8"))
     atom_keys = set(payload["atoms"])
-    assert len(atom_keys) == 3
-    assert {key.partition("@")[0] for key in atom_keys} == EXPECTED_FQDNS
+    assert EXPECTED_FQDNS.issubset({key.partition("@")[0] for key in atom_keys})
 
 
 def test_each_atom_has_nonempty_references() -> None:

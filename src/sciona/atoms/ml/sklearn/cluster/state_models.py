@@ -21,3 +21,15 @@ class AffinityPropagationState:
     preference: float | NDArray[np.float64]
     damping: float
     n_features_in: int
+
+
+@dataclass(frozen=True)
+class MeanShiftState:
+    """Fitted mean-shift cluster centers and metadata."""
+
+    cluster_centers: NDArray[np.float64]
+    labels: NDArray[np.int_]
+    bandwidth: float
+    n_iter: int
+    cluster_all: bool
+    n_features_in: int
