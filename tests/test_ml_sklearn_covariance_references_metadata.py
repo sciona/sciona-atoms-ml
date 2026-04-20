@@ -13,10 +13,14 @@ REGISTRY_PATH = ROOT / "data" / "references" / "registry.json"
 
 EXPECTED_FQDNS = {
     "sciona.atoms.ml.sklearn.covariance.empirical_covariance",
+    "sciona.atoms.ml.sklearn.covariance.empirical_covariance_fit",
     "sciona.atoms.ml.sklearn.covariance.ledoit_wolf",
+    "sciona.atoms.ml.sklearn.covariance.ledoit_wolf_fit",
     "sciona.atoms.ml.sklearn.covariance.ledoit_wolf_shrinkage",
     "sciona.atoms.ml.sklearn.covariance.oas",
+    "sciona.atoms.ml.sklearn.covariance.oas_fit",
     "sciona.atoms.ml.sklearn.covariance.shrunk_covariance",
+    "sciona.atoms.ml.sklearn.covariance.shrunk_covariance_fit",
 }
 
 
@@ -24,7 +28,7 @@ def test_references_json_exists_and_has_all_covariance_fqdns() -> None:
     assert REFERENCES_PATH.exists()
     payload = json.loads(REFERENCES_PATH.read_text(encoding="utf-8"))
     atom_keys = set(payload["atoms"])
-    assert len(atom_keys) == 5
+    assert len(atom_keys) == 9
     assert {key.partition("@")[0] for key in atom_keys} == EXPECTED_FQDNS
 
 

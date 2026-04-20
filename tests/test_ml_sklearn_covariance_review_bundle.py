@@ -16,10 +16,14 @@ MANIFEST_PATH = ROOT / "data" / "audit_manifest.json"
 
 EXPECTED_ATOM_NAMES = {
     "sciona.atoms.ml.sklearn.covariance.empirical_covariance",
+    "sciona.atoms.ml.sklearn.covariance.empirical_covariance_fit",
     "sciona.atoms.ml.sklearn.covariance.ledoit_wolf",
+    "sciona.atoms.ml.sklearn.covariance.ledoit_wolf_fit",
     "sciona.atoms.ml.sklearn.covariance.ledoit_wolf_shrinkage",
     "sciona.atoms.ml.sklearn.covariance.oas",
+    "sciona.atoms.ml.sklearn.covariance.oas_fit",
     "sciona.atoms.ml.sklearn.covariance.shrunk_covariance",
+    "sciona.atoms.ml.sklearn.covariance.shrunk_covariance_fit",
 }
 
 
@@ -27,10 +31,10 @@ def _bundle() -> dict:
     return json.loads(BUNDLE_PATH.read_text(encoding="utf-8"))
 
 
-def test_bundle_exists_and_has_five_atoms() -> None:
+def test_bundle_exists_and_has_nine_atoms() -> None:
     assert BUNDLE_PATH.exists()
     bundle = _bundle()
-    assert len(bundle["rows"]) == 5
+    assert len(bundle["rows"]) == 9
     assert {row["atom_key"] for row in bundle["rows"]} == EXPECTED_ATOM_NAMES
 
 
@@ -74,10 +78,14 @@ def test_cdg_atomic_nodes_have_publishable_io_specs() -> None:
     atomic = [node for node in cdg["nodes"] if node.get("status") == "atomic"]
     assert {node["name"] for node in atomic} == {
         "empirical_covariance",
+        "empirical_covariance_fit",
         "ledoit_wolf",
+        "ledoit_wolf_fit",
         "ledoit_wolf_shrinkage",
         "oas",
+        "oas_fit",
         "shrunk_covariance",
+        "shrunk_covariance_fit",
     }
     for node in atomic:
         assert node["node_id"] == node["name"]

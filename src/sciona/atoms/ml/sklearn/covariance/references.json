@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "atoms": {
-    "sciona.atoms.ml.sklearn.covariance.empirical_covariance@sciona/atoms/ml/sklearn/covariance/atoms.py:23": {
+    "sciona.atoms.ml.sklearn.covariance.empirical_covariance@sciona/atoms/ml/sklearn/covariance/atoms.py:25": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -26,7 +26,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.covariance.shrunk_covariance@sciona/atoms/ml/sklearn/covariance/atoms.py:53": {
+    "sciona.atoms.ml.sklearn.covariance.shrunk_covariance@sciona/atoms/ml/sklearn/covariance/atoms.py:55": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -51,7 +51,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.covariance.ledoit_wolf_shrinkage@sciona/atoms/ml/sklearn/covariance/atoms.py:73": {
+    "sciona.atoms.ml.sklearn.covariance.ledoit_wolf_shrinkage@sciona/atoms/ml/sklearn/covariance/atoms.py:75": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -86,7 +86,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.covariance.ledoit_wolf@sciona/atoms/ml/sklearn/covariance/atoms.py:138": {
+    "sciona.atoms.ml.sklearn.covariance.ledoit_wolf@sciona/atoms/ml/sklearn/covariance/atoms.py:140": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -121,7 +121,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.covariance.oas@sciona/atoms/ml/sklearn/covariance/atoms.py:166": {
+    "sciona.atoms.ml.sklearn.covariance.oas@sciona/atoms/ml/sklearn/covariance/atoms.py:168": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -131,6 +131,126 @@
             "matched_nodes": [],
             "confidence": "high",
             "notes": "Adapted from sklearn.covariance.oas and OAS covariance shrinkage internals in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        },
+        {
+          "ref_id": "chen2010oas",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Oracle Approximating Shrinkage paper cited by scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.covariance.empirical_covariance_fit@sciona/atoms/ml/sklearn/covariance/atoms.py:244": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.covariance.EmpiricalCovariance.fit and precision storage behavior in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.covariance.shrunk_covariance_fit@sciona/atoms/ml/sklearn/covariance/atoms.py:268": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.covariance.ShrunkCovariance.fit in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.covariance.ledoit_wolf_fit@sciona/atoms/ml/sklearn/covariance/atoms.py:294": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.covariance.LedoitWolf.fit in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        },
+        {
+          "ref_id": "ledoit2004wellconditioned",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Original Ledoit-Wolf covariance shrinkage estimator reference cited by scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.covariance.oas_fit@sciona/atoms/ml/sklearn/covariance/atoms.py:322": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.covariance.OAS.fit in scikit-learn 1.8.0."
           }
         },
         {

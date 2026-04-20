@@ -5,7 +5,17 @@
       "name": "Sklearn Covariance Function Atoms",
       "description": "Covariance helper functions adapted from sklearn.covariance",
       "status": "decomposed",
-      "children": ["empirical_covariance", "shrunk_covariance", "ledoit_wolf_shrinkage", "ledoit_wolf", "oas"],
+      "children": [
+        "empirical_covariance",
+        "shrunk_covariance",
+        "ledoit_wolf_shrinkage",
+        "ledoit_wolf",
+        "oas",
+        "empirical_covariance_fit",
+        "shrunk_covariance_fit",
+        "ledoit_wolf_fit",
+        "oas_fit"
+      ],
       "depth": 0
     },
     {
@@ -89,6 +99,76 @@
       "outputs": [
         {"name": "result", "type_desc": "tuple[NDArray[np.float64], float]"}
       ]
+    },
+    {
+      "node_id": "empirical_covariance_fit",
+      "name": "empirical_covariance_fit",
+      "description": "Fit maximum-likelihood empirical covariance and return immutable state.",
+      "concept_type": "fit_state_builder",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], store_precision: bool = True, assume_centered: bool = False) -> CovarianceState",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "store_precision", "type_desc": "bool", "required": false},
+        {"name": "assume_centered", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "CovarianceState"}
+      ]
+    },
+    {
+      "node_id": "shrunk_covariance_fit",
+      "name": "shrunk_covariance_fit",
+      "description": "Fit fixed-shrinkage covariance and return immutable state.",
+      "concept_type": "fit_state_builder",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], store_precision: bool = True, assume_centered: bool = False, shrinkage: float = 0.1) -> CovarianceState",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "store_precision", "type_desc": "bool", "required": false},
+        {"name": "assume_centered", "type_desc": "bool", "required": false},
+        {"name": "shrinkage", "type_desc": "float", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "CovarianceState"}
+      ]
+    },
+    {
+      "node_id": "ledoit_wolf_fit",
+      "name": "ledoit_wolf_fit",
+      "description": "Fit Ledoit-Wolf covariance and return immutable state.",
+      "concept_type": "fit_state_builder",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], store_precision: bool = True, assume_centered: bool = False, block_size: int = 1000) -> CovarianceState",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "store_precision", "type_desc": "bool", "required": false},
+        {"name": "assume_centered", "type_desc": "bool", "required": false},
+        {"name": "block_size", "type_desc": "int", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "CovarianceState"}
+      ]
+    },
+    {
+      "node_id": "oas_fit",
+      "name": "oas_fit",
+      "description": "Fit Oracle Approximating Shrinkage covariance and return immutable state.",
+      "concept_type": "fit_state_builder",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], store_precision: bool = True, assume_centered: bool = False) -> CovarianceState",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "store_precision", "type_desc": "bool", "required": false},
+        {"name": "assume_centered", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "CovarianceState"}
+      ]
     }
   ],
   "edges": [
@@ -121,6 +201,31 @@
       "source_id": "shrunk_covariance",
       "target_id": "oas",
       "edge_type": "implementation_dependency"
+    },
+    {
+      "source_id": "empirical_covariance",
+      "target_id": "empirical_covariance_fit",
+      "edge_type": "fit_state_dependency"
+    },
+    {
+      "source_id": "empirical_covariance",
+      "target_id": "shrunk_covariance_fit",
+      "edge_type": "fit_state_dependency"
+    },
+    {
+      "source_id": "shrunk_covariance",
+      "target_id": "shrunk_covariance_fit",
+      "edge_type": "fit_state_dependency"
+    },
+    {
+      "source_id": "ledoit_wolf",
+      "target_id": "ledoit_wolf_fit",
+      "edge_type": "fit_state_dependency"
+    },
+    {
+      "source_id": "oas",
+      "target_id": "oas_fit",
+      "edge_type": "fit_state_dependency"
     }
   ],
   "metadata": {

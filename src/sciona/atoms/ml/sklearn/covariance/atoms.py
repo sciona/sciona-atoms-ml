@@ -7,11 +7,13 @@ import warnings
 import icontract
 import numpy as np
 from numpy.typing import NDArray
+from scipy import linalg
 from sklearn.utils import check_array
 
 from sciona.ghost.registry import register_atom
 
-from .witnesses import witness_empirical_covariance, witness_ledoit_wolf, witness_ledoit_wolf_shrinkage, witness_oas, witness_shrunk_covariance
+from .state_models import CovarianceState
+from .witnesses import witness_empirical_covariance, witness_empirical_covariance_fit, witness_ledoit_wolf, witness_ledoit_wolf_fit, witness_ledoit_wolf_shrinkage, witness_oas, witness_oas_fit, witness_shrunk_covariance, witness_shrunk_covariance_fit
 
 
 @register_atom(witness_empirical_covariance)
@@ -184,3 +186,153 @@ def oas(
     denominator = (n_samples + 1) * (alpha - mu_squared / n_features)
     shrinkage = 1.0 if denominator == 0 else min(numerator / denominator, 1.0)
     return shrunk_covariance(emp_cov, shrinkage), float(shrinkage)
+
+
+def _covariance_state_valid(state: CovarianceState) -> bool:
+    covariance = np.asarray(state.covariance)
+    location = np.asarray(state.location)
+    precision = None if state.precision is None else np.asarray(state.precision)
+    precision_ok = precision is None if not state.store_precision else precision is not None and precision.shape == covariance.shape
+    return bool(
+        covariance.ndim == 2
+        and covariance.shape[0] == covariance.shape[1]
+        and location.shape == (covariance.shape[0],)
+        and np.all(np.isfinite(covariance))
+        and np.allclose(covariance, covariance.T, equal_nan=True)
+        and np.all(np.isfinite(location))
+        and precision_ok
+        and (precision is None or np.all(np.isfinite(precision)))
+        and state.estimator in {"empirical_covariance", "shrunk_covariance", "ledoit_wolf", "oas"}
+        and (state.shrinkage is None or 0.0 <= state.shrinkage <= 1.0)
+        and state.n_features_in == covariance.shape[0]
+    )
+
+
+def _covariance_state(
+    *,
+    covariance: NDArray[np.float64],
+    location: NDArray[np.float64],
+    store_precision: bool,
+    assume_centered: bool,
+    estimator: str,
+    shrinkage: float | None,
+) -> CovarianceState:
+    checked_covariance = np.asarray(check_array(covariance), dtype=np.float64)
+    precision = linalg.pinvh(checked_covariance, check_finite=False) if store_precision else None
+    return CovarianceState(
+        covariance=checked_covariance,
+        location=np.asarray(location, dtype=np.float64).copy(),
+        precision=None if precision is None else np.asarray(precision, dtype=np.float64),
+        store_precision=bool(store_precision),
+        assume_centered=bool(assume_centered),
+        estimator=estimator,
+        shrinkage=None if shrinkage is None else float(shrinkage),
+        n_features_in=int(checked_covariance.shape[0]),
+    )
+
+
+def _fit_location(X: NDArray[np.float64], assume_centered: bool) -> NDArray[np.float64]:
+    if assume_centered:
+        return np.zeros(X.shape[1], dtype=np.float64)
+    return np.asarray(X.mean(0), dtype=np.float64)
+
+
+@register_atom(witness_empirical_covariance_fit)
+@icontract.require(lambda X: X.ndim == 2, "X must be 2D")
+@icontract.require(lambda X: X.size > 0, "X must contain at least one value")
+@icontract.ensure(lambda result: _covariance_state_valid(result), "state must contain covariance estimate metadata")
+def empirical_covariance_fit(
+    X: NDArray[np.float64],
+    *,
+    store_precision: bool = True,
+    assume_centered: bool = False,
+) -> CovarianceState:
+    """Fit maximum-likelihood empirical covariance and return immutable state."""
+    checked_x = check_array(X)
+    covariance = empirical_covariance(checked_x, assume_centered=assume_centered)
+    return _covariance_state(
+        covariance=covariance,
+        location=_fit_location(checked_x, assume_centered),
+        store_precision=store_precision,
+        assume_centered=assume_centered,
+        estimator="empirical_covariance",
+        shrinkage=None,
+    )
+
+
+@register_atom(witness_shrunk_covariance_fit)
+@icontract.require(lambda X: X.ndim == 2, "X must be 2D")
+@icontract.require(lambda X: X.size > 0, "X must contain at least one value")
+@icontract.require(lambda shrinkage: 0.0 <= shrinkage <= 1.0, "shrinkage must lie in [0, 1]")
+@icontract.ensure(lambda result: _covariance_state_valid(result), "state must contain covariance estimate metadata")
+def shrunk_covariance_fit(
+    X: NDArray[np.float64],
+    *,
+    store_precision: bool = True,
+    assume_centered: bool = False,
+    shrinkage: float = 0.1,
+) -> CovarianceState:
+    """Fit fixed-shrinkage covariance and return immutable state."""
+    checked_x = check_array(X)
+    emp_cov = empirical_covariance(checked_x, assume_centered=assume_centered)
+    covariance = shrunk_covariance(emp_cov, shrinkage=shrinkage)
+    return _covariance_state(
+        covariance=covariance,
+        location=_fit_location(checked_x, assume_centered),
+        store_precision=store_precision,
+        assume_centered=assume_centered,
+        estimator="shrunk_covariance",
+        shrinkage=shrinkage,
+    )
+
+
+@register_atom(witness_ledoit_wolf_fit)
+@icontract.require(lambda X: X.ndim == 2, "X must be 2D")
+@icontract.require(lambda X: X.size > 0, "X must contain at least one value")
+@icontract.require(lambda block_size: block_size >= 1, "block_size must be at least one")
+@icontract.ensure(lambda result: _covariance_state_valid(result), "state must contain covariance estimate metadata")
+def ledoit_wolf_fit(
+    X: NDArray[np.float64],
+    *,
+    store_precision: bool = True,
+    assume_centered: bool = False,
+    block_size: int = 1000,
+) -> CovarianceState:
+    """Fit Ledoit-Wolf covariance and return immutable state."""
+    checked_x = check_array(X)
+    covariance, shrinkage = ledoit_wolf(
+        checked_x,
+        assume_centered=assume_centered,
+        block_size=block_size,
+    )
+    return _covariance_state(
+        covariance=covariance,
+        location=_fit_location(checked_x, assume_centered),
+        store_precision=store_precision,
+        assume_centered=assume_centered,
+        estimator="ledoit_wolf",
+        shrinkage=shrinkage,
+    )
+
+
+@register_atom(witness_oas_fit)
+@icontract.require(lambda X: X.ndim == 2, "X must be 2D")
+@icontract.require(lambda X: X.size > 0, "X must contain at least one value")
+@icontract.ensure(lambda result: _covariance_state_valid(result), "state must contain covariance estimate metadata")
+def oas_fit(
+    X: NDArray[np.float64],
+    *,
+    store_precision: bool = True,
+    assume_centered: bool = False,
+) -> CovarianceState:
+    """Fit Oracle Approximating Shrinkage covariance and return immutable state."""
+    checked_x = check_array(X)
+    covariance, shrinkage = oas(checked_x, assume_centered=assume_centered)
+    return _covariance_state(
+        covariance=covariance,
+        location=_fit_location(checked_x, assume_centered),
+        store_precision=store_precision,
+        assume_centered=assume_centered,
+        estimator="oas",
+        shrinkage=shrinkage,
+    )
