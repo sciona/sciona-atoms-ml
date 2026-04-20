@@ -82,3 +82,17 @@ Potential remediation path:
 - Decide whether DBSCAN and KMeans families should be ingested through native
   or FFI-backed kernels with explicit solver-boundary provenance and parity
   tests.
+
+## `sklearn.cluster` HDBSCAN native hierarchy
+
+Deferred target:
+
+| Target | Source | Reason |
+| --- | --- | --- |
+| `HDBSCAN` | `sklearn/cluster/_hdbscan/hdbscan.py:L423` | Fit dispatches minimum-spanning-tree construction to `_hdbscan_brute` or `_hdbscan_prims` and tree backends, then condenses/extracts a density hierarchy; ingesting only the estimator shell would hide the core hierarchical density algorithm. |
+
+Potential remediation path:
+
+- Ingest HDBSCAN through the MST and hierarchy construction boundary with
+  native/FFI provenance, including parity tests for brute-force, KD-tree,
+  BallTree, sparse, and precomputed-distance modes.
