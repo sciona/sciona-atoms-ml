@@ -12,7 +12,7 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 - Scope for this first ingestion pass: public algorithmic estimators, transformers, kernels, and algorithmic helper functions in the selected sklearn modules below.
 - Intentionally excluded for now: datasets, metrics, displays, exceptions, low-level utils, orchestration/composition (`compose`, `pipeline`), and model-selection/search APIs.
 - Source locations come from each object page's official `[source]` link. `BallTree` and `KDTree` use the matching source files from the same scikit-learn revision because their generated docs pages do not expose a direct `[source]` link.
-- Total targets in this inventory: 148
+- Total targets in this inventory: 146
 
 ## Module Summary
 
@@ -36,7 +36,7 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 | `sklearn.inspection` | 2 |
 | `sklearn.kernel_approximation` | 0 |
 | `sklearn.kernel_ridge` | 0 |
-| `sklearn.linear_model` | 43 |
+| `sklearn.linear_model` | 41 |
 | `sklearn.manifold` | 9 |
 | `sklearn.mixture` | 2 |
 | `sklearn.multiclass` | 3 |
@@ -240,8 +240,6 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 | `PoissonRegressor` | Generalized Linear Model with a Poisson distribution. | `sklearn/linear_model/_glm/glm.py:L475` |
 | `QuantileRegressor` | Linear regression model that predicts conditional quantiles. | `sklearn/linear_model/_quantile.py:L20` |
 | `RANSACRegressor` | RANSAC (RANdom SAmple Consensus) algorithm. | `sklearn/linear_model/_ransac.py:L81` |
-| `Ridge` | Linear least squares with l2 regularization. | `sklearn/linear_model/_ridge.py:L1028` |
-| `ridge_regression` | Solve the ridge equation by the method of normal equations. | `sklearn/linear_model/_ridge.py:L390` |
 | `RidgeClassifier` | Classifier using Ridge regression. | `sklearn/linear_model/_ridge.py:L1380` |
 | `RidgeClassifierCV` | Ridge classifier with built-in cross-validation. | `sklearn/linear_model/_ridge.py:L2793` |
 | `RidgeCV` | Ridge regression with built-in cross-validation. | `sklearn/linear_model/_ridge.py:L2604` |

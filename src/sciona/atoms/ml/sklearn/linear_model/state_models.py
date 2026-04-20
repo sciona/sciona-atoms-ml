@@ -19,3 +19,16 @@ class LinearRegressionState:
     fit_intercept: bool
     n_features_in: int
     n_outputs: int
+
+
+@dataclass(frozen=True)
+class RidgeState:
+    """Fitted coefficients and intercept for dense ridge regression."""
+
+    coef: NDArray[np.float64]
+    intercept: NDArray[np.float64]
+    alpha: NDArray[np.float64]
+    fit_intercept: bool
+    solver: str
+    n_features_in: int
+    n_outputs: int
