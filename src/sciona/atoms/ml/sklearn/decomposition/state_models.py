@@ -23,3 +23,21 @@ class PCAState:
     n_features_in: int
     whiten: bool
     svd_solver: str
+
+
+@dataclass(frozen=True)
+class TruncatedSVDState:
+    """Fitted truncated SVD components and variance metadata."""
+
+    components: NDArray[np.float64]
+    explained_variance: NDArray[np.float64]
+    explained_variance_ratio: NDArray[np.float64]
+    singular_values: NDArray[np.float64]
+    n_components: int
+    n_features_in: int
+    algorithm: str
+    n_iter: int
+    n_oversamples: int
+    power_iteration_normalizer: str
+    random_state: int | None
+    tol: float

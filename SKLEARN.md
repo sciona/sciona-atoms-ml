@@ -12,7 +12,7 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 - Scope for this first ingestion pass: public algorithmic estimators, transformers, kernels, and algorithmic helper functions in the selected sklearn modules below.
 - Intentionally excluded for now: datasets, metrics, displays, exceptions, low-level utils, orchestration/composition (`compose`, `pipeline`), and model-selection/search APIs.
 - Source locations come from each object page's official `[source]` link. `BallTree` and `KDTree` use the matching source files from the same scikit-learn revision because their generated docs pages do not expose a direct `[source]` link.
-- Total targets in this inventory: 166
+- Total targets in this inventory: 165
 
 ## Module Summary
 
@@ -22,7 +22,7 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 | `sklearn.cluster` | 0 |
 | `sklearn.covariance` | 0 |
 | `sklearn.cross_decomposition` | 0 |
-| `sklearn.decomposition` | 18 |
+| `sklearn.decomposition` | 17 |
 | `sklearn.discriminant_analysis` | 0 |
 | `sklearn.dummy` | 0 |
 | `sklearn.ensemble` | 18 |
@@ -90,7 +90,6 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 | `sparse_encode` | Sparse coding. | `sklearn/decomposition/_dict_learning.py:L204` |
 | `SparseCoder` | Sparse coding. | `sklearn/decomposition/_dict_learning.py:L1182` |
 | `SparsePCA` | Sparse Principal Components Analysis (SparsePCA). | `sklearn/decomposition/_sparse_pca.py:L162` |
-| `TruncatedSVD` | Dimensionality reduction using truncated SVD (aka LSA). | `sklearn/decomposition/_truncated_svd.py:L28` |
 
 ## `sklearn.discriminant_analysis`
 

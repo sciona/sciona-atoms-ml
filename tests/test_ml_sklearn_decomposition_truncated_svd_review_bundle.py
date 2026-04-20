@@ -10,12 +10,14 @@ from sciona.atoms.audit_review_bundles import (
 
 
 ROOT = Path(__file__).resolve().parents[1]
-BUNDLE_PATH = ROOT / "data" / "review_bundles" / "ml_sklearn_decomposition_pca.review_bundle.json"
+BUNDLE_PATH = ROOT / "data" / "review_bundles" / "ml_sklearn_decomposition_truncated_svd.review_bundle.json"
 CDG_PATH = ROOT / "src" / "sciona" / "atoms" / "ml" / "sklearn" / "decomposition" / "cdg.json"
 MANIFEST_PATH = ROOT / "data" / "audit_manifest.json"
 
 EXPECTED_ATOM_NAMES = {
-    "sciona.atoms.ml.sklearn.decomposition.pca_fit",
+    "sciona.atoms.ml.sklearn.decomposition.truncated_svd_fit",
+    "sciona.atoms.ml.sklearn.decomposition.truncated_svd_transform",
+    "sciona.atoms.ml.sklearn.decomposition.truncated_svd_inverse_transform",
 }
 
 
@@ -23,10 +25,10 @@ def _bundle() -> dict:
     return json.loads(BUNDLE_PATH.read_text(encoding="utf-8"))
 
 
-def test_bundle_exists_and_has_pca_atom() -> None:
+def test_bundle_exists_and_has_truncated_svd_atoms() -> None:
     assert BUNDLE_PATH.exists()
     bundle = _bundle()
-    assert len(bundle["rows"]) == 1
+    assert len(bundle["rows"]) == 3
     assert {row["atom_key"] for row in bundle["rows"]} == EXPECTED_ATOM_NAMES
 
 
@@ -37,7 +39,7 @@ def test_bundle_level_fields() -> None:
     assert bundle["review_semantic_verdict"] in {"pass", "pass_with_limits"}
     assert bundle["review_developer_semantic_verdict"] == "pass_with_limits"
     assert bundle["trust_readiness"] == "reviewed_with_limits"
-    assert bundle["review_record_path"] == "data/review_bundles/ml_sklearn_decomposition_pca.review_bundle.json"
+    assert bundle["review_record_path"] == "data/review_bundles/ml_sklearn_decomposition_truncated_svd.review_bundle.json"
 
 
 def test_each_row_has_review_metadata_and_existing_sources() -> None:
@@ -68,9 +70,10 @@ def test_scores_and_enums_are_db_compatible() -> None:
 def test_cdg_atomic_nodes_have_publishable_io_specs() -> None:
     cdg = json.loads(CDG_PATH.read_text(encoding="utf-8"))
     atomic = [node for node in cdg["nodes"] if node.get("status") == "atomic"]
-    assert {"pca_fit"}.issubset({node["name"] for node in atomic})
+    atom_names = {f"sciona.atoms.ml.sklearn.decomposition.{node['name']}" for node in atomic}
+    assert EXPECTED_ATOM_NAMES.issubset(atom_names)
     for node in atomic:
-        if node["name"] != "pca_fit":
+        if f"sciona.atoms.ml.sklearn.decomposition.{node['name']}" not in EXPECTED_ATOM_NAMES:
             continue
         assert node["node_id"] == node["name"]
         assert node["inputs"]
@@ -82,7 +85,7 @@ def test_cdg_atomic_nodes_have_publishable_io_specs() -> None:
             assert isinstance(item["required"], bool)
 
 
-def test_manifest_contains_pca_atom_after_merge() -> None:
+def test_manifest_contains_truncated_svd_atoms_after_merge() -> None:
     manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
     entries = {
         atom["atom_name"]: atom
