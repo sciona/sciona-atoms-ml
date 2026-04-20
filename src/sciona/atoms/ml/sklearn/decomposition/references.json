@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "atoms": {
-    "sciona.atoms.ml.sklearn.decomposition.pca_fit@sciona/atoms/ml/sklearn/decomposition/atoms.py:177": {
+    "sciona.atoms.ml.sklearn.decomposition.pca_fit@sciona/atoms/ml/sklearn/decomposition/atoms.py:268": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -26,7 +26,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.decomposition.truncated_svd_fit@sciona/atoms/ml/sklearn/decomposition/atoms.py:243": {
+    "sciona.atoms.ml.sklearn.decomposition.truncated_svd_fit@sciona/atoms/ml/sklearn/decomposition/atoms.py:334": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -61,7 +61,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.decomposition.truncated_svd_transform@sciona/atoms/ml/sklearn/decomposition/atoms.py:292": {
+    "sciona.atoms.ml.sklearn.decomposition.truncated_svd_transform@sciona/atoms/ml/sklearn/decomposition/atoms.py:383": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -86,7 +86,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.decomposition.truncated_svd_inverse_transform@sciona/atoms/ml/sklearn/decomposition/atoms.py:306": {
+    "sciona.atoms.ml.sklearn.decomposition.truncated_svd_inverse_transform@sciona/atoms/ml/sklearn/decomposition/atoms.py:397": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -96,6 +96,186 @@
             "matched_nodes": [],
             "confidence": "high",
             "notes": "Adapted from sklearn.decomposition.TruncatedSVD.inverse_transform in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.decomposition.factor_analysis_fit@sciona/atoms/ml/sklearn/decomposition/atoms.py:425": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.decomposition.FactorAnalysis.fit and its Lapack SVD branch in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "barber2012brml",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Factor analysis algorithm reference cited by scikit-learn."
+          }
+        },
+        {
+          "ref_id": "bishop2006prml",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Latent variable model reference cited by scikit-learn for factor analysis."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.decomposition.factor_analysis_transform@sciona/atoms/ml/sklearn/decomposition/atoms.py:499": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.decomposition.FactorAnalysis.transform in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "barber2012brml",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Transform equation reference cited by scikit-learn for factor analysis."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.decomposition.factor_analysis_covariance@sciona/atoms/ml/sklearn/decomposition/atoms.py:516": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.decomposition.FactorAnalysis.get_covariance in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.decomposition.factor_analysis_precision@sciona/atoms/ml/sklearn/decomposition/atoms.py:526": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.decomposition.FactorAnalysis.get_precision in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.decomposition.factor_analysis_score_samples@sciona/atoms/ml/sklearn/decomposition/atoms.py:548": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.decomposition.FactorAnalysis.score_samples in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.decomposition.factor_analysis_score@sciona/atoms/ml/sklearn/decomposition/atoms.py:567": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.decomposition.FactorAnalysis.score in scikit-learn 1.8.0."
           }
         },
         {

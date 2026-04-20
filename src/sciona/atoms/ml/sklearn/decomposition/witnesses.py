@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from sciona.ghost.abstract import AbstractArray
 
-from .state_models import TruncatedSVDState
+from .state_models import FactorAnalysisState, TruncatedSVDState
 
 
 def witness_pca_fit(
@@ -86,6 +86,73 @@ def witness_truncated_svd_inverse_transform(X: AbstractArray, state: TruncatedSV
     if n_components != state.n_components:
         raise ValueError("X width must match fitted component count")
     return AbstractArray(shape=(n_samples, state.n_features_in), dtype="float64")
+
+
+def witness_factor_analysis_fit(
+    X: AbstractArray,
+    n_components: int | None = None,
+    *,
+    tol: float = 1e-2,
+    copy: bool = True,
+    max_iter: int = 1000,
+    noise_variance_init: tuple[float, ...] | None = None,
+    svd_method: str = "lapack",
+    iterated_power: int = 3,
+    rotation: None = None,
+    random_state: int | None = 0,
+) -> AbstractArray:
+    """Describe fitting latent factors and noise variances."""
+    del copy, noise_variance_init, iterated_power, random_state
+    _, n_features = _check_2d(X, "X")
+    if n_components is None:
+        width = n_features
+    elif isinstance(n_components, int) and not isinstance(n_components, bool):
+        if n_components < 0 or n_components > n_features:
+            raise ValueError("n_components must fit the feature count")
+        width = n_components
+    else:
+        raise ValueError("n_components must be None or an integer")
+    if tol < 0.0:
+        raise ValueError("tol must be non-negative")
+    if max_iter < 1:
+        raise ValueError("max_iter must be positive")
+    if svd_method != "lapack":
+        raise ValueError("this atom exposes the Lapack factor analysis path")
+    if rotation is not None:
+        raise ValueError("rotation is outside this atom")
+    return AbstractArray(shape=(width, n_features), dtype="float64")
+
+
+def witness_factor_analysis_transform(X: AbstractArray, state: FactorAnalysisState) -> AbstractArray:
+    """Describe expected latent factor means for samples."""
+    n_samples, n_features = _check_2d(X, "X")
+    if n_features != state.n_features_in:
+        raise ValueError("X feature count must match fitted state")
+    return AbstractArray(shape=(n_samples, state.n_components), dtype="float64")
+
+
+def witness_factor_analysis_covariance(state: FactorAnalysisState) -> AbstractArray:
+    """Describe covariance implied by factors and noise."""
+    return AbstractArray(shape=(state.n_features_in, state.n_features_in), dtype="float64")
+
+
+def witness_factor_analysis_precision(state: FactorAnalysisState) -> AbstractArray:
+    """Describe inverse covariance implied by fitted factors."""
+    return AbstractArray(shape=(state.n_features_in, state.n_features_in), dtype="float64")
+
+
+def witness_factor_analysis_score_samples(X: AbstractArray, state: FactorAnalysisState) -> AbstractArray:
+    """Describe per-sample log likelihood values."""
+    n_samples, n_features = _check_2d(X, "X")
+    if n_features != state.n_features_in:
+        raise ValueError("X feature count must match fitted state")
+    return AbstractArray(shape=(n_samples,), dtype="float64")
+
+
+def witness_factor_analysis_score(X: AbstractArray, state: FactorAnalysisState) -> AbstractArray:
+    """Describe average sample log likelihood."""
+    _ = witness_factor_analysis_score_samples(X, state)
+    return AbstractArray(shape=(), dtype="float64")
 
 
 def _check_2d(array: AbstractArray, name: str) -> tuple[int, int]:

@@ -41,3 +41,20 @@ class TruncatedSVDState:
     power_iteration_normalizer: str
     random_state: int | None
     tol: float
+
+
+@dataclass(frozen=True)
+class FactorAnalysisState:
+    """Fitted factor loading matrix and diagonal noise variances."""
+
+    components: NDArray[np.float64]
+    noise_variance: NDArray[np.float64]
+    mean: NDArray[np.float64]
+    loglike: NDArray[np.float64]
+    n_iter: int
+    n_components: int
+    n_features_in: int
+    tol: float
+    max_iter: int
+    svd_method: str
+    rotation: None
