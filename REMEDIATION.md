@@ -96,3 +96,38 @@ Potential remediation path:
 - Ingest HDBSCAN through the MST and hierarchy construction boundary with
   native/FFI provenance, including parity tests for brute-force, KD-tree,
   BallTree, sparse, and precomputed-distance modes.
+
+## `sklearn.cluster` BIRCH global clustering boundary
+
+Deferred target:
+
+| Target | Source | Reason |
+| --- | --- | --- |
+| `Birch` | `sklearn/cluster/_birch.py:L359` | The CF-tree insertion logic is Python-level, but the public estimator's default final labeling uses `AgglomerativeClustering(n_clusters=...)`; publishing the estimator shell would hide the deferred hierarchical-clustering boundary. |
+
+Potential remediation path:
+
+- Ingest the CF-tree insertion, subcluster merge, and node-splitting logic as
+  separate atoms with an explicit `n_clusters=None` or no-global-clustering
+  boundary.
+- Or ingest the agglomerative global-clustering dependency first, then publish
+  the full Birch fit/predict state surface with parity coverage for default and
+  custom clusterer modes.
+
+## `sklearn.cluster` spectral clustering and biclustering solver boundaries
+
+Deferred targets:
+
+| Target | Source | Reason |
+| --- | --- | --- |
+| `spectral_clustering` | `sklearn/cluster/_spectral.py:L190` | Public helper delegates to `SpectralClustering.fit`; the default `assign_labels="kmeans"` route depends on deferred KMeans optimization kernels. |
+| `SpectralClustering` | `sklearn/cluster/_spectral.py:L379` | Fit builds an affinity matrix and spectral embedding, then defaults to KMeans label assignment; publishing only the estimator shell would hide the deferred KMeans core and eigensolver boundary. |
+| `SpectralCoclustering` | `sklearn/cluster/_bicluster.py:L202` | Fit normalizes data and computes singular vectors, then labels rows and columns through `BaseSpectral._k_means`, which delegates to KMeans or MiniBatchKMeans. |
+| `SpectralBiclustering` | `sklearn/cluster/_bicluster.py:L360` | Fit relies on SVD projection and repeated KMeans/MiniBatchKMeans labeling for row and column clusters, so an estimator atom would hide the deferred KMeans core. |
+
+Potential remediation path:
+
+- Ingest non-KMeans spectral label assignment helpers such as `cluster_qr` or
+  `discretize` as separate atoms if they become first-class targets.
+- Decide how to represent eigensolver/SVD boundaries and KMeans assignment
+  before publishing the full spectral clustering and biclustering estimators.

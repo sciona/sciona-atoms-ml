@@ -12,14 +12,14 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 - Scope for this first ingestion pass: public algorithmic estimators, transformers, kernels, and algorithmic helper functions in the selected sklearn modules below.
 - Intentionally excluded for now: datasets, metrics, displays, exceptions, low-level utils, orchestration/composition (`compose`, `pipeline`), and model-selection/search APIs.
 - Source locations come from each object page's official `[source]` link. `BallTree` and `KDTree` use the matching source files from the same scikit-learn revision because their generated docs pages do not expose a direct `[source]` link.
-- Total targets in this inventory: 192
+- Total targets in this inventory: 187
 
 ## Module Summary
 
 | Module | Targets |
 | --- | ---: |
 | `sklearn.calibration` | 0 |
-| `sklearn.cluster` | 5 |
+| `sklearn.cluster` | 0 |
 | `sklearn.covariance` | 12 |
 | `sklearn.cross_decomposition` | 4 |
 | `sklearn.decomposition` | 19 |
@@ -58,11 +58,6 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 
 | Target | Description | Source |
 | --- | --- | --- |
-| `Birch` | Implements the BIRCH clustering algorithm. | `sklearn/cluster/_birch.py:L359` |
-| `spectral_clustering` | Apply clustering to a projection of the normalized Laplacian. | `sklearn/cluster/_spectral.py:L190` |
-| `SpectralBiclustering` | Spectral biclustering (Kluger, 2003) [R2af9f5762274-1] . | `sklearn/cluster/_bicluster.py:L360` |
-| `SpectralClustering` | Apply clustering to a projection of the normalized Laplacian. | `sklearn/cluster/_spectral.py:L379` |
-| `SpectralCoclustering` | Spectral Co-Clustering algorithm (Dhillon, 2001) [R0dd0f3306ba7-1] . | `sklearn/cluster/_bicluster.py:L202` |
 
 ## `sklearn.covariance`
 
