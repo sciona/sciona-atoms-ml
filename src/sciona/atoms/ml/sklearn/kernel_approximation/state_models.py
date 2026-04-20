@@ -30,3 +30,17 @@ class SkewedChi2SamplerState:
     n_components: int
     n_features_in: int
     random_state: int | None
+
+
+@dataclass(frozen=True)
+class PolynomialCountSketchState:
+    """Fitted hash tables for a polynomial Tensor Sketch approximation."""
+
+    index_hash: NDArray[np.int64]
+    bit_hash: NDArray[np.int64]
+    gamma: float
+    degree: int
+    coef0: float
+    n_components: int
+    n_features_in: int
+    random_state: int | None

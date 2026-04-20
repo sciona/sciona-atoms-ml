@@ -4,15 +4,18 @@ from __future__ import annotations
 
 import icontract
 import numpy as np
+from scipy.fft import fft, ifft
 from numpy.typing import NDArray
 from sklearn.utils import check_array, check_random_state
 from sklearn.utils.extmath import safe_sparse_dot
 
 from sciona.ghost.registry import register_atom
 
-from .state_models import RBFSamplerState, SkewedChi2SamplerState
+from .state_models import PolynomialCountSketchState, RBFSamplerState, SkewedChi2SamplerState
 from .witnesses import (
     witness_additive_chi2_sampler_transform,
+    witness_polynomial_count_sketch_fit,
+    witness_polynomial_count_sketch_transform,
     witness_rbf_sampler_fit,
     witness_rbf_sampler_transform,
     witness_skewed_chi2_sampler_fit,
@@ -38,6 +41,14 @@ def _random_state_valid(random_state: int | None) -> bool:
 
 def _finite_real(value: float) -> bool:
     return bool(isinstance(value, (int, float)) and not isinstance(value, bool) and np.isfinite(float(value)))
+
+
+def _nonnegative_real(value: float) -> bool:
+    return bool(_finite_real(value) and float(value) >= 0.0)
+
+
+def _degree_valid(degree: int) -> bool:
+    return bool(isinstance(degree, int) and not isinstance(degree, bool) and degree >= 1)
 
 
 def _positive_values(X: NDArray[np.float64]) -> bool:
@@ -92,6 +103,24 @@ def _skewed_state_valid(state: SkewedChi2SamplerState) -> bool:
     )
 
 
+def _polynomial_state_valid(state: PolynomialCountSketchState) -> bool:
+    hashed_features = state.n_features_in + (1 if state.coef0 != 0.0 else 0)
+    return bool(
+        state.index_hash.shape == (state.degree, hashed_features)
+        and state.bit_hash.shape == (state.degree, hashed_features)
+        and state.index_hash.dtype == np.int64
+        and state.bit_hash.dtype == np.int64
+        and state.gamma > 0.0
+        and state.degree >= 1
+        and state.coef0 >= 0.0
+        and state.n_components >= 1
+        and state.n_features_in >= 1
+        and _random_state_valid(state.random_state)
+        and np.all((state.index_hash >= 0) & (state.index_hash < state.n_components))
+        and np.all(np.isin(state.bit_hash, [-1, 1]))
+    )
+
+
 def _feature_count_matches(X: NDArray[np.float64], state: RBFSamplerState) -> bool:
     return bool(np.asarray(X).ndim == 2 and np.asarray(X).shape[1] == state.n_features_in)
 
@@ -106,6 +135,15 @@ def _skewed_feature_count_matches(X: NDArray[np.float64], state: SkewedChi2Sampl
 
 
 def _skewed_transformed_valid(result: NDArray[np.float64], X: NDArray[np.float64], state: SkewedChi2SamplerState) -> bool:
+    values = np.asarray(result)
+    return bool(values.shape == (np.asarray(X).shape[0], state.n_components) and np.all(np.isfinite(values)))
+
+
+def _polynomial_feature_count_matches(X: NDArray[np.float64], state: PolynomialCountSketchState) -> bool:
+    return bool(np.asarray(X).ndim == 2 and np.asarray(X).shape[1] == state.n_features_in)
+
+
+def _polynomial_transformed_valid(result: NDArray[np.float64], X: NDArray[np.float64], state: PolynomialCountSketchState) -> bool:
     values = np.asarray(result)
     return bool(values.shape == (np.asarray(X).shape[0], state.n_components) and np.all(np.isfinite(values)))
 
@@ -266,3 +304,66 @@ def additive_chi2_sampler_transform(
         transformed.append(sine_step)
 
     return np.asarray(np.hstack(transformed), dtype=np.float64)
+
+
+@register_atom(witness_polynomial_count_sketch_fit)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda gamma: _finite_real(gamma) and gamma > 0.0, "gamma must be positive")
+@icontract.require(lambda degree: _degree_valid(degree), "degree must be positive")
+@icontract.require(lambda coef0: _nonnegative_real(coef0), "coef0 must be non-negative")
+@icontract.require(lambda n_components: _n_components_valid(n_components), "n_components must be positive")
+@icontract.require(lambda random_state: _random_state_valid(random_state), "random_state must be None or an integer seed")
+@icontract.ensure(lambda result: _polynomial_state_valid(result), "polynomial count-sketch state must contain valid hash tables")
+def polynomial_count_sketch_fit(
+    X: NDArray[np.float64],
+    *,
+    gamma: float = 1.0,
+    degree: int = 2,
+    coef0: float = 0.0,
+    n_components: int = 100,
+    random_state: int | None = None,
+) -> PolynomialCountSketchState:
+    """Fit Tensor Sketch hash tables for dense polynomial kernel features."""
+    checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
+    rng = check_random_state(random_state)
+    hashed_features = checked_x.shape[1] + (1 if coef0 != 0.0 else 0)
+    index_hash = rng.randint(0, high=n_components, size=(degree, hashed_features))
+    bit_hash = rng.choice(a=[-1, 1], size=(degree, hashed_features))
+    return PolynomialCountSketchState(
+        index_hash=np.asarray(index_hash, dtype=np.int64),
+        bit_hash=np.asarray(bit_hash, dtype=np.int64),
+        gamma=float(gamma),
+        degree=int(degree),
+        coef0=float(coef0),
+        n_components=int(n_components),
+        n_features_in=int(checked_x.shape[1]),
+        random_state=random_state,
+    )
+
+
+@register_atom(witness_polynomial_count_sketch_transform)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X, state: _polynomial_feature_count_matches(X, state), "X feature count must match fitted polynomial sketch state")
+@icontract.require(lambda state: _polynomial_state_valid(state), "state must be a fitted polynomial count sketch")
+@icontract.ensure(lambda result, X, state: _polynomial_transformed_valid(result, X, state), "polynomial count-sketch features must have the fitted component width")
+def polynomial_count_sketch_transform(
+    X: NDArray[np.float64],
+    state: PolynomialCountSketchState,
+) -> NDArray[np.float64]:
+    """Project samples into fitted polynomial Tensor Sketch features."""
+    checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
+    scaled_x = np.sqrt(state.gamma) * checked_x
+    if state.coef0 != 0.0:
+        scaled_x = np.hstack([scaled_x, np.sqrt(state.coef0) * np.ones((scaled_x.shape[0], 1))])
+
+    count_sketches = np.zeros((scaled_x.shape[0], state.degree, state.n_components), dtype=np.float64)
+    for feature_index in range(scaled_x.shape[1]):
+        for degree_index in range(state.degree):
+            hash_index = state.index_hash[degree_index, feature_index]
+            hash_bit = state.bit_hash[degree_index, feature_index]
+            count_sketches[:, degree_index, hash_index] += hash_bit * scaled_x[:, feature_index]
+
+    sketches_fft = fft(count_sketches, axis=2, overwrite_x=True)
+    product_fft = np.prod(sketches_fft, axis=1)
+    data_sketch = np.real(ifft(product_fft, overwrite_x=True))
+    return np.asarray(data_sketch, dtype=np.float64)

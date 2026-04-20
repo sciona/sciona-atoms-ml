@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from sciona.ghost.abstract import AbstractArray
 
-from .state_models import RBFSamplerState, SkewedChi2SamplerState
+from .state_models import PolynomialCountSketchState, RBFSamplerState, SkewedChi2SamplerState
 
 
 def witness_rbf_sampler_fit(
@@ -77,3 +77,37 @@ def witness_additive_chi2_sampler_transform(
     if sample_interval is not None and sample_interval <= 0.0:
         raise ValueError("sample_interval must be positive")
     return AbstractArray(shape=(int(X.shape[0]), int(X.shape[1]) * (2 * sample_steps - 1)), dtype="float64")
+
+
+def witness_polynomial_count_sketch_fit(
+    X: AbstractArray,
+    *,
+    gamma: float = 1.0,
+    degree: int = 2,
+    coef0: float = 0.0,
+    n_components: int = 100,
+    random_state: int | None = None,
+) -> AbstractArray:
+    """Describe fitting Tensor Sketch hash tables for polynomial features."""
+    del random_state
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    if gamma <= 0.0:
+        raise ValueError("gamma must be positive")
+    if not isinstance(degree, int) or isinstance(degree, bool) or degree < 1:
+        raise ValueError("degree must be a positive integer")
+    if coef0 < 0.0:
+        raise ValueError("coef0 must be non-negative")
+    if not isinstance(n_components, int) or isinstance(n_components, bool) or n_components < 1:
+        raise ValueError("n_components must be a positive integer")
+    width = int(X.shape[1]) + (1 if coef0 != 0.0 else 0)
+    return AbstractArray(shape=(degree, width), dtype="int64")
+
+
+def witness_polynomial_count_sketch_transform(X: AbstractArray, state: PolynomialCountSketchState) -> AbstractArray:
+    """Describe projecting samples into polynomial count-sketch features."""
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    if X.shape[1] != state.n_features_in:
+        raise ValueError("X feature count must match fitted state")
+    return AbstractArray(shape=(int(X.shape[0]), state.n_components), dtype="float64")
