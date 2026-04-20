@@ -12,7 +12,7 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 - Scope for this first ingestion pass: public algorithmic estimators, transformers, kernels, and algorithmic helper functions in the selected sklearn modules below.
 - Intentionally excluded for now: datasets, metrics, displays, exceptions, low-level utils, orchestration/composition (`compose`, `pipeline`), and model-selection/search APIs.
 - Source locations come from each object page's official `[source]` link. `BallTree` and `KDTree` use the matching source files from the same scikit-learn revision because their generated docs pages do not expose a direct `[source]` link.
-- Total targets in this inventory: 174
+- Total targets in this inventory: 171
 
 ## Module Summary
 
@@ -21,7 +21,7 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 | `sklearn.calibration` | 0 |
 | `sklearn.cluster` | 0 |
 | `sklearn.covariance` | 0 |
-| `sklearn.cross_decomposition` | 3 |
+| `sklearn.cross_decomposition` | 0 |
 | `sklearn.decomposition` | 19 |
 | `sklearn.discriminant_analysis` | 2 |
 | `sklearn.dummy` | 2 |
@@ -68,9 +68,6 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 
 | Target | Description | Source |
 | --- | --- | --- |
-| `CCA` | Canonical Correlation Analysis, also known as “Mode B” PLS. | `sklearn/cross_decomposition/_pls.py:L793` |
-| `PLSCanonical` | Partial Least Squares transformer and regressor. | `sklearn/cross_decomposition/_pls.py:L660` |
-| `PLSRegression` | PLS regression. | `sklearn/cross_decomposition/_pls.py:L507` |
 
 ## `sklearn.decomposition`
 

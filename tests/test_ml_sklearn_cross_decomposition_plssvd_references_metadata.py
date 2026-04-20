@@ -12,6 +12,9 @@ REFERENCES_PATH = ROOT / "src" / "sciona" / "atoms" / "ml" / "sklearn" / "cross_
 REGISTRY_PATH = ROOT / "data" / "references" / "registry.json"
 
 EXPECTED_FQDNS = {
+    "sciona.atoms.ml.sklearn.cross_decomposition.cca_fit",
+    "sciona.atoms.ml.sklearn.cross_decomposition.pls_canonical_fit",
+    "sciona.atoms.ml.sklearn.cross_decomposition.pls_regression_fit",
     "sciona.atoms.ml.sklearn.cross_decomposition.plssvd_fit",
 }
 
@@ -54,4 +57,6 @@ def test_plssvd_reference_has_match_metadata() -> None:
 def test_plssvd_atom_leaf_name_is_registered() -> None:
     import_module("sciona.atoms.ml.sklearn.cross_decomposition.atoms")
     registered = {name for name in REGISTRY if not name.startswith("witness_")}
-    assert "plssvd_fit" in registered
+    for fqdn in EXPECTED_FQDNS:
+        leaf = fqdn.removeprefix("sciona.atoms.ml.sklearn.cross_decomposition.")
+        assert leaf in registered

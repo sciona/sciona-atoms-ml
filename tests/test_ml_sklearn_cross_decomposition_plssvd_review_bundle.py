@@ -15,6 +15,9 @@ CDG_PATH = ROOT / "src" / "sciona" / "atoms" / "ml" / "sklearn" / "cross_decompo
 MANIFEST_PATH = ROOT / "data" / "audit_manifest.json"
 
 EXPECTED_ATOM_NAMES = {
+    "sciona.atoms.ml.sklearn.cross_decomposition.cca_fit",
+    "sciona.atoms.ml.sklearn.cross_decomposition.pls_canonical_fit",
+    "sciona.atoms.ml.sklearn.cross_decomposition.pls_regression_fit",
     "sciona.atoms.ml.sklearn.cross_decomposition.plssvd_fit",
 }
 
@@ -23,10 +26,10 @@ def _bundle() -> dict:
     return json.loads(BUNDLE_PATH.read_text(encoding="utf-8"))
 
 
-def test_bundle_exists_and_has_one_atom() -> None:
+def test_bundle_exists_and_has_four_atoms() -> None:
     assert BUNDLE_PATH.exists()
     bundle = _bundle()
-    assert len(bundle["rows"]) == 1
+    assert len(bundle["rows"]) == 4
     assert {row["atom_key"] for row in bundle["rows"]} == EXPECTED_ATOM_NAMES
 
 
@@ -67,7 +70,7 @@ def test_scores_and_enums_are_db_compatible() -> None:
 def test_cdg_atomic_nodes_have_publishable_io_specs() -> None:
     cdg = json.loads(CDG_PATH.read_text(encoding="utf-8"))
     atomic = [node for node in cdg["nodes"] if node.get("status") == "atomic"]
-    assert "plssvd_fit" in {node["name"] for node in atomic}
+    assert {node["name"] for node in atomic} == {"cca_fit", "pls_canonical_fit", "pls_regression_fit", "plssvd_fit"}
     for node in atomic:
         assert node["node_id"] == node["name"]
         assert node["inputs"]
