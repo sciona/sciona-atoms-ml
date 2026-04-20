@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "atoms": {
-    "sciona.atoms.ml.sklearn.decomposition.pca_fit@sciona/atoms/ml/sklearn/decomposition/atoms.py:343": {
+    "sciona.atoms.ml.sklearn.decomposition.pca_fit@sciona/atoms/ml/sklearn/decomposition/atoms.py:420": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -26,7 +26,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.decomposition.incremental_pca_partial_fit@sciona/atoms/ml/sklearn/decomposition/atoms.py:397": {
+    "sciona.atoms.ml.sklearn.decomposition.incremental_pca_partial_fit@sciona/atoms/ml/sklearn/decomposition/atoms.py:474": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -51,7 +51,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.decomposition.incremental_pca_transform@sciona/atoms/ml/sklearn/decomposition/atoms.py:475": {
+    "sciona.atoms.ml.sklearn.decomposition.incremental_pca_transform@sciona/atoms/ml/sklearn/decomposition/atoms.py:552": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -76,7 +76,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.decomposition.incremental_pca_inverse_transform@sciona/atoms/ml/sklearn/decomposition/atoms.py:496": {
+    "sciona.atoms.ml.sklearn.decomposition.incremental_pca_inverse_transform@sciona/atoms/ml/sklearn/decomposition/atoms.py:573": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -101,7 +101,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.decomposition.truncated_svd_fit@sciona/atoms/ml/sklearn/decomposition/atoms.py:526": {
+    "sciona.atoms.ml.sklearn.decomposition.truncated_svd_fit@sciona/atoms/ml/sklearn/decomposition/atoms.py:603": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -136,7 +136,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.decomposition.truncated_svd_transform@sciona/atoms/ml/sklearn/decomposition/atoms.py:575": {
+    "sciona.atoms.ml.sklearn.decomposition.truncated_svd_transform@sciona/atoms/ml/sklearn/decomposition/atoms.py:652": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -161,7 +161,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.decomposition.truncated_svd_inverse_transform@sciona/atoms/ml/sklearn/decomposition/atoms.py:589": {
+    "sciona.atoms.ml.sklearn.decomposition.truncated_svd_inverse_transform@sciona/atoms/ml/sklearn/decomposition/atoms.py:666": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -186,7 +186,77 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.decomposition.factor_analysis_fit@sciona/atoms/ml/sklearn/decomposition/atoms.py:617": {
+    "sciona.atoms.ml.sklearn.decomposition.kernel_pca_fit@sciona/atoms/ml/sklearn/decomposition/atoms.py:700": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.decomposition.KernelPCA.fit and the dense branch of KernelPCA._fit_transform_in_place in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "scholkopf1998kernelpca",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Kernel principal component analysis reference cited by scikit-learn."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.decomposition.kernel_pca_transform@sciona/atoms/ml/sklearn/decomposition/atoms.py:764": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.decomposition.KernelPCA.transform and sklearn.preprocessing.KernelCenterer.transform in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "scholkopf1998kernelpca",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Centered kernel method reference cited by scikit-learn."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.decomposition.factor_analysis_fit@sciona/atoms/ml/sklearn/decomposition/atoms.py:803": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -231,7 +301,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.decomposition.factor_analysis_transform@sciona/atoms/ml/sklearn/decomposition/atoms.py:691": {
+    "sciona.atoms.ml.sklearn.decomposition.factor_analysis_transform@sciona/atoms/ml/sklearn/decomposition/atoms.py:877": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -266,7 +336,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.decomposition.factor_analysis_covariance@sciona/atoms/ml/sklearn/decomposition/atoms.py:708": {
+    "sciona.atoms.ml.sklearn.decomposition.factor_analysis_covariance@sciona/atoms/ml/sklearn/decomposition/atoms.py:894": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -291,7 +361,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.decomposition.factor_analysis_precision@sciona/atoms/ml/sklearn/decomposition/atoms.py:718": {
+    "sciona.atoms.ml.sklearn.decomposition.factor_analysis_precision@sciona/atoms/ml/sklearn/decomposition/atoms.py:904": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -316,7 +386,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.decomposition.factor_analysis_score_samples@sciona/atoms/ml/sklearn/decomposition/atoms.py:740": {
+    "sciona.atoms.ml.sklearn.decomposition.factor_analysis_score_samples@sciona/atoms/ml/sklearn/decomposition/atoms.py:926": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -341,7 +411,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.decomposition.factor_analysis_score@sciona/atoms/ml/sklearn/decomposition/atoms.py:759": {
+    "sciona.atoms.ml.sklearn.decomposition.factor_analysis_score@sciona/atoms/ml/sklearn/decomposition/atoms.py:945": {
       "references": [
         {
           "ref_id": "repo_sklearn",

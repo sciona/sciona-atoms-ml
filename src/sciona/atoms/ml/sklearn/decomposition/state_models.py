@@ -62,6 +62,24 @@ class TruncatedSVDState:
 
 
 @dataclass(frozen=True)
+class KernelPCAState:
+    """Fitted dense linear-kernel PCA eigensystem and centering statistics."""
+
+    eigenvalues: NDArray[np.float64]
+    eigenvectors: NDArray[np.float64]
+    X_fit: NDArray[np.float64]
+    kernel_centerer_rows: NDArray[np.float64]
+    kernel_centerer_all: float
+    n_components: int
+    n_features_in: int
+    gamma: float
+    kernel: str
+    eigen_solver: str
+    remove_zero_eig: bool
+    fit_inverse_transform: bool
+
+
+@dataclass(frozen=True)
 class FactorAnalysisState:
     """Fitted factor loading matrix and diagonal noise variances."""
 

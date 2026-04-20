@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
+import numpy as np
+
 from sciona.ghost.abstract import AbstractArray
 
-from .state_models import FactorAnalysisState, IncrementalPCAState, TruncatedSVDState
+from .state_models import FactorAnalysisState, IncrementalPCAState, KernelPCAState, TruncatedSVDState
 
 
 def witness_pca_fit(
@@ -134,6 +136,59 @@ def witness_truncated_svd_inverse_transform(X: AbstractArray, state: TruncatedSV
     if n_components != state.n_components:
         raise ValueError("X width must match fitted component count")
     return AbstractArray(shape=(n_samples, state.n_features_in), dtype="float64")
+
+
+def witness_kernel_pca_fit(
+    X: AbstractArray,
+    n_components: int = 2,
+    *,
+    kernel: str = "linear",
+    gamma: float | None = None,
+    degree: float = 3.0,
+    coef0: float = 1.0,
+    alpha: float = 1.0,
+    fit_inverse_transform: bool = False,
+    eigen_solver: str = "dense",
+    tol: float = 0.0,
+    max_iter: int | None = None,
+    iterated_power: int | str = "auto",
+    remove_zero_eig: bool = False,
+    random_state: int | None = None,
+    copy_X: bool = True,
+    n_jobs: int | None = None,
+) -> AbstractArray:
+    """Describe fitting dense linear KernelPCA eigenvectors."""
+    del gamma, copy_X, n_jobs, random_state
+    n_samples, _ = _check_2d(X, "X")
+    if n_samples < 2:
+        raise ValueError("KernelPCA requires at least two samples")
+    if not isinstance(n_components, int) or isinstance(n_components, bool) or n_components < 1:
+        raise ValueError("n_components must be a positive integer")
+    if kernel != "linear":
+        raise ValueError("this atom exposes the linear kernel path")
+    if degree < 0.0 or not np.isfinite(coef0) or alpha < 0.0:
+        raise ValueError("kernel parameters must satisfy sklearn bounds")
+    if fit_inverse_transform:
+        raise ValueError("inverse transform fitting is outside this atom")
+    if eigen_solver != "dense":
+        raise ValueError("this atom exposes the dense eigensolver path")
+    if tol < 0.0:
+        raise ValueError("tol must be non-negative")
+    if max_iter is not None and max_iter < 1:
+        raise ValueError("max_iter must be positive when provided")
+    if not (iterated_power == "auto" or (isinstance(iterated_power, int) and not isinstance(iterated_power, bool) and iterated_power >= 0)):
+        raise ValueError("iterated_power must be 'auto' or a non-negative integer")
+    if remove_zero_eig:
+        raise ValueError("zero-eigenvalue removal is outside this fixed-width atom")
+    return AbstractArray(shape=(n_samples, min(n_samples, n_components)), dtype="float64")
+
+
+def witness_kernel_pca_transform(X: AbstractArray, state: KernelPCAState) -> AbstractArray:
+    """Describe projection onto fitted kernel principal components."""
+    n_samples, n_features = _check_2d(X, "X")
+    if n_features != state.n_features_in:
+        raise ValueError("X feature count must match fitted KernelPCA state")
+    return AbstractArray(shape=(n_samples, state.n_components), dtype="float64")
 
 
 def witness_factor_analysis_fit(

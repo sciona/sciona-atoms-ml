@@ -78,7 +78,6 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 | `DictionaryLearning` | Dictionary learning. | `sklearn/decomposition/_dict_learning.py:L1417` |
 | `FastICA` | FastICA: a fast algorithm for Independent Component Analysis. | `sklearn/decomposition/_fastica.py:L372` |
 | `fastica` | Perform Fast Independent Component Analysis. | `sklearn/decomposition/_fastica.py:L168` |
-| `KernelPCA` | Kernel Principal component analysis (KPCA). | `sklearn/decomposition/_kernel_pca.py:L32` |
 | `LatentDirichletAllocation` | Latent Dirichlet Allocation with online variational Bayes algorithm. | `sklearn/decomposition/_lda.py:L160` |
 | `MiniBatchDictionaryLearning` | Mini-batch dictionary learning. | `sklearn/decomposition/_dict_learning.py:L1760` |
 | `MiniBatchNMF` | Mini-Batch Non-Negative Matrix Factorization (NMF). | `sklearn/decomposition/_nmf.py:L1758` |

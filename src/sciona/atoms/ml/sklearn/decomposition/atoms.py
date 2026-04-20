@@ -8,10 +8,11 @@ from numpy.typing import NDArray
 from scipy import linalg
 from sklearn.utils import check_array
 from sklearn.utils.extmath import _incremental_mean_and_var, _randomized_svd, fast_logdet, squared_norm, svd_flip
+from sklearn.utils.validation import _check_psd_eigenvalues
 
 from sciona.ghost.registry import register_atom
 
-from .state_models import FactorAnalysisState, IncrementalPCAState, PCAState, TruncatedSVDState
+from .state_models import FactorAnalysisState, IncrementalPCAState, KernelPCAState, PCAState, TruncatedSVDState
 from .witnesses import (
     witness_factor_analysis_covariance,
     witness_factor_analysis_fit,
@@ -22,6 +23,8 @@ from .witnesses import (
     witness_incremental_pca_inverse_transform,
     witness_incremental_pca_partial_fit,
     witness_incremental_pca_transform,
+    witness_kernel_pca_fit,
+    witness_kernel_pca_transform,
     witness_pca_fit,
     witness_truncated_svd_fit,
     witness_truncated_svd_inverse_transform,
@@ -212,6 +215,71 @@ def _truncated_svd_state_valid(state: TruncatedSVDState) -> bool:
     )
 
 
+def _kernel_pca_components_valid(n_components: int, X: NDArray[np.float64]) -> bool:
+    if not isinstance(n_components, int) or isinstance(n_components, bool):
+        return False
+    return bool(n_components >= 1 and np.asarray(X).ndim == 2)
+
+
+def _kernel_pca_options_valid(
+    kernel: str,
+    gamma: float | None,
+    degree: float,
+    coef0: float,
+    alpha: float,
+    fit_inverse_transform: bool,
+    eigen_solver: str,
+    tol: float,
+    max_iter: int | None,
+    iterated_power: int | str,
+    remove_zero_eig: bool,
+    random_state: int | None,
+    copy_X: bool,
+    n_jobs: int | None,
+) -> bool:
+    return bool(
+        kernel == "linear"
+        and (gamma is None or gamma > 0.0)
+        and degree >= 0.0
+        and np.isfinite(coef0)
+        and alpha >= 0.0
+        and fit_inverse_transform is False
+        and eigen_solver == "dense"
+        and tol >= 0.0
+        and (max_iter is None or (isinstance(max_iter, int) and not isinstance(max_iter, bool) and max_iter >= 1))
+        and (
+            iterated_power == "auto"
+            or (isinstance(iterated_power, int) and not isinstance(iterated_power, bool) and iterated_power >= 0)
+        )
+        and remove_zero_eig is False
+        and (random_state is None or (isinstance(random_state, int) and not isinstance(random_state, bool)))
+        and isinstance(copy_X, bool)
+        and (n_jobs is None or (isinstance(n_jobs, int) and not isinstance(n_jobs, bool)))
+    )
+
+
+def _kernel_pca_state_valid(state: KernelPCAState) -> bool:
+    return bool(
+        state.eigenvalues.shape == (state.n_components,)
+        and state.eigenvectors.shape == (state.X_fit.shape[0], state.n_components)
+        and state.X_fit.ndim == 2
+        and state.kernel_centerer_rows.shape == (state.X_fit.shape[0],)
+        and state.n_features_in == state.X_fit.shape[1]
+        and 1 <= state.n_components <= state.X_fit.shape[0]
+        and state.gamma > 0.0
+        and state.kernel == "linear"
+        and state.eigen_solver == "dense"
+        and state.remove_zero_eig is False
+        and state.fit_inverse_transform is False
+        and np.all(np.isfinite(state.eigenvalues))
+        and np.all(state.eigenvalues >= 0.0)
+        and np.all(np.isfinite(state.eigenvectors))
+        and np.all(np.isfinite(state.X_fit))
+        and np.all(np.isfinite(state.kernel_centerer_rows))
+        and np.isfinite(state.kernel_centerer_all)
+    )
+
+
 def _factor_components_valid(n_components: int | None, X: NDArray[np.float64]) -> bool:
     if n_components is None:
         return True
@@ -308,6 +376,15 @@ def _incremental_transformed_valid(result: NDArray[np.float64], state: Increment
 def _incremental_inverse_valid(result: NDArray[np.float64], state: IncrementalPCAState) -> bool:
     values = np.asarray(result)
     return bool(values.ndim == 2 and values.shape[1] == state.n_features_in and np.all(np.isfinite(values)))
+
+
+def _kernel_pca_feature_count_matches(X: NDArray[np.float64], state: KernelPCAState) -> bool:
+    return bool(np.asarray(X).ndim == 2 and np.asarray(X).shape[1] == state.n_features_in)
+
+
+def _kernel_pca_transform_valid(result: NDArray[np.float64], state: KernelPCAState) -> bool:
+    values = np.asarray(result)
+    return bool(values.ndim == 2 and values.shape[1] == state.n_components and np.all(np.isfinite(values)))
 
 
 def _factor_feature_count_matches(X: NDArray[np.float64], state: FactorAnalysisState) -> bool:
@@ -593,6 +670,115 @@ def truncated_svd_inverse_transform(
     """Map truncated SVD component coordinates back to feature space."""
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     return np.asarray(np.dot(checked_x, state.components), dtype=np.float64)
+
+
+@register_atom(witness_kernel_pca_fit)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X: _has_enough_samples(X), "X must contain at least two samples")
+@icontract.require(lambda X: _has_positive_centered_variance(X), "X must have positive centered variance")
+@icontract.require(lambda n_components, X: _kernel_pca_components_valid(n_components, X), "n_components must be a positive integer")
+@icontract.require(
+    lambda kernel, gamma, degree, coef0, alpha, fit_inverse_transform, eigen_solver, tol, max_iter, iterated_power, remove_zero_eig, random_state, copy_X, n_jobs: _kernel_pca_options_valid(
+        kernel,
+        gamma,
+        degree,
+        coef0,
+        alpha,
+        fit_inverse_transform,
+        eigen_solver,
+        tol,
+        max_iter,
+        iterated_power,
+        remove_zero_eig,
+        random_state,
+        copy_X,
+        n_jobs,
+    ),
+    "KernelPCA options must select the dense linear-kernel path",
+)
+@icontract.ensure(lambda result: _kernel_pca_state_valid(result), "KernelPCA state must contain a finite centered-kernel eigensystem")
+def kernel_pca_fit(
+    X: NDArray[np.float64],
+    n_components: int = 2,
+    *,
+    kernel: str = "linear",
+    gamma: float | None = None,
+    degree: float = 3.0,
+    coef0: float = 1.0,
+    alpha: float = 1.0,
+    fit_inverse_transform: bool = False,
+    eigen_solver: str = "dense",
+    tol: float = 0.0,
+    max_iter: int | None = None,
+    iterated_power: int | str = "auto",
+    remove_zero_eig: bool = False,
+    random_state: int | None = None,
+    copy_X: bool = True,
+    n_jobs: int | None = None,
+) -> KernelPCAState:
+    """Fit dense linear KernelPCA state from a sample-by-feature matrix."""
+    del degree, coef0, alpha, fit_inverse_transform, tol, max_iter, iterated_power, random_state, n_jobs
+    checked_x = check_array(X, dtype=np.float64, ensure_2d=True, ensure_min_samples=2, copy=copy_X)
+    n_samples, n_features = checked_x.shape
+    resolved_components = min(n_samples, int(n_components))
+    gamma_value = 1.0 / n_features if gamma is None else float(gamma)
+
+    kernel_matrix = np.asarray(np.dot(checked_x, checked_x.T), dtype=np.float64)
+    centerer_rows = np.sum(kernel_matrix, axis=0) / n_samples
+    centerer_all = float(np.sum(centerer_rows) / n_samples)
+    centered_kernel = kernel_matrix.copy()
+    predicted_column_means = (np.sum(centered_kernel, axis=1) / n_samples)[:, np.newaxis]
+    centered_kernel -= centerer_rows
+    centered_kernel -= predicted_column_means
+    centered_kernel += centerer_all
+
+    eigenvalues, eigenvectors = linalg.eigh(
+        centered_kernel,
+        subset_by_index=(n_samples - resolved_components, n_samples - 1),
+    )
+    eigenvalues = _check_psd_eigenvalues(eigenvalues, enable_warnings=False)
+    eigenvectors, _ = svd_flip(u=eigenvectors, v=None)
+    indices = eigenvalues.argsort()[::-1]
+
+    return KernelPCAState(
+        eigenvalues=np.asarray(eigenvalues[indices], dtype=np.float64).copy(),
+        eigenvectors=np.asarray(eigenvectors[:, indices], dtype=np.float64).copy(),
+        X_fit=np.asarray(checked_x, dtype=np.float64).copy(),
+        kernel_centerer_rows=np.asarray(centerer_rows, dtype=np.float64).copy(),
+        kernel_centerer_all=centerer_all,
+        n_components=int(resolved_components),
+        n_features_in=int(n_features),
+        gamma=gamma_value,
+        kernel=kernel,
+        eigen_solver=eigen_solver,
+        remove_zero_eig=bool(remove_zero_eig),
+        fit_inverse_transform=False,
+    )
+
+
+@register_atom(witness_kernel_pca_transform)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X, state: _kernel_pca_feature_count_matches(X, state), "X feature count must match fitted KernelPCA state")
+@icontract.require(lambda state: _kernel_pca_state_valid(state), "state must be a fitted dense linear KernelPCA state")
+@icontract.ensure(lambda result, state: _kernel_pca_transform_valid(result, state), "projection must be a finite component matrix")
+def kernel_pca_transform(
+    X: NDArray[np.float64],
+    state: KernelPCAState,
+) -> NDArray[np.float64]:
+    """Project samples with a fitted dense linear KernelPCA state."""
+    checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
+    kernel_matrix = np.asarray(np.dot(checked_x, state.X_fit.T), dtype=np.float64)
+    predicted_column_means = (np.sum(kernel_matrix, axis=1) / state.X_fit.shape[0])[:, np.newaxis]
+    kernel_matrix -= state.kernel_centerer_rows
+    kernel_matrix -= predicted_column_means
+    kernel_matrix += state.kernel_centerer_all
+
+    non_zero_indices = np.flatnonzero(state.eigenvalues)
+    scaled_eigenvectors = np.zeros_like(state.eigenvectors)
+    scaled_eigenvectors[:, non_zero_indices] = (
+        state.eigenvectors[:, non_zero_indices] / np.sqrt(state.eigenvalues[non_zero_indices])
+    )
+    return np.asarray(np.dot(kernel_matrix, scaled_eigenvectors), dtype=np.float64)
 
 
 @register_atom(witness_factor_analysis_fit)

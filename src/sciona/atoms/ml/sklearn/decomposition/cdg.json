@@ -13,6 +13,8 @@
         "truncated_svd_fit",
         "truncated_svd_transform",
         "truncated_svd_inverse_transform",
+        "kernel_pca_fit",
+        "kernel_pca_transform",
         "factor_analysis_fit",
         "factor_analysis_transform",
         "factor_analysis_covariance",
@@ -148,6 +150,52 @@
       ]
     },
     {
+      "node_id": "kernel_pca_fit",
+      "name": "kernel_pca_fit",
+      "description": "Fit dense linear KernelPCA state from a sample-by-feature matrix.",
+      "concept_type": "fit_state_builder",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], n_components: int = 2, kernel: str = 'linear', gamma: float | None = None, degree: float = 3.0, coef0: float = 1.0, alpha: float = 1.0, fit_inverse_transform: bool = False, eigen_solver: str = 'dense', tol: float = 0.0, max_iter: int | None = None, iterated_power: int | str = 'auto', remove_zero_eig: bool = False, random_state: int | None = None, copy_X: bool = True, n_jobs: int | None = None) -> KernelPCAState",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "n_components", "type_desc": "int", "required": false},
+        {"name": "kernel", "type_desc": "str", "required": false},
+        {"name": "gamma", "type_desc": "float | None", "required": false},
+        {"name": "degree", "type_desc": "float", "required": false},
+        {"name": "coef0", "type_desc": "float", "required": false},
+        {"name": "alpha", "type_desc": "float", "required": false},
+        {"name": "fit_inverse_transform", "type_desc": "bool", "required": false},
+        {"name": "eigen_solver", "type_desc": "str", "required": false},
+        {"name": "tol", "type_desc": "float", "required": false},
+        {"name": "max_iter", "type_desc": "int | None", "required": false},
+        {"name": "iterated_power", "type_desc": "int | str", "required": false},
+        {"name": "remove_zero_eig", "type_desc": "bool", "required": false},
+        {"name": "random_state", "type_desc": "int | None", "required": false},
+        {"name": "copy_X", "type_desc": "bool", "required": false},
+        {"name": "n_jobs", "type_desc": "int | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "KernelPCAState"}
+      ]
+    },
+    {
+      "node_id": "kernel_pca_transform",
+      "name": "kernel_pca_transform",
+      "description": "Project samples with a fitted dense linear KernelPCA state.",
+      "concept_type": "projection",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: KernelPCAState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "state", "type_desc": "KernelPCAState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
       "node_id": "factor_analysis_fit",
       "name": "factor_analysis_fit",
       "description": "Fit dense Lapack factor analysis loading and noise state.",
@@ -257,6 +305,7 @@
     {"source": "truncated_svd_fit", "target": "truncated_svd_transform", "kind": "state"},
     {"source": "truncated_svd_fit", "target": "truncated_svd_inverse_transform", "kind": "state"},
     {"source": "truncated_svd_transform", "target": "truncated_svd_inverse_transform", "kind": "data"},
+    {"source": "kernel_pca_fit", "target": "kernel_pca_transform", "kind": "state"},
     {"source": "factor_analysis_fit", "target": "factor_analysis_transform", "kind": "state"},
     {"source": "factor_analysis_fit", "target": "factor_analysis_covariance", "kind": "state"},
     {"source": "factor_analysis_fit", "target": "factor_analysis_precision", "kind": "state"},
