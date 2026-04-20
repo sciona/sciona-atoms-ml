@@ -10,10 +10,14 @@ from sklearn.utils import check_array
 
 from sciona.ghost.registry import register_atom
 
-from .state_models import LinearRegressionState, RidgeClassifierState, RidgeCVState, RidgeState
+from .state_models import LinearRegressionState, RidgeClassifierCVState, RidgeClassifierState, RidgeCVState, RidgeState
 from .witnesses import (
     witness_linear_regression_fit,
     witness_linear_regression_predict,
+    witness_ridge_classifier_cv_decision_function,
+    witness_ridge_classifier_cv_fit,
+    witness_ridge_classifier_cv_predict,
+    witness_ridge_classifier_cv_scores,
     witness_ridge_classifier_decision_function,
     witness_ridge_classifier_fit,
     witness_ridge_classifier_predict,
@@ -76,6 +80,14 @@ def _finite_inputs(X: NDArray[np.float64], y: NDArray[np.float64]) -> bool:
 
 def _finite_classifier_inputs(X: NDArray[np.float64], y: NDArray[np.float64]) -> bool:
     return bool(np.all(np.isfinite(np.asarray(X, dtype=np.float64))) and np.all(np.isfinite(np.asarray(y, dtype=np.float64))))
+
+
+def _class_count_at_least_two(y: NDArray[np.float64]) -> bool:
+    try:
+        classes = np.unique(np.asarray(y, dtype=np.float64))
+    except (TypeError, ValueError):
+        return False
+    return bool(classes.ndim == 1 and classes.shape[0] >= 2)
 
 
 def _alpha_valid(alpha: float | tuple[float, ...] | NDArray[np.float64], y: NDArray[np.float64]) -> bool:
@@ -187,6 +199,28 @@ def _ridge_classifier_state_valid(state: RidgeClassifierState) -> bool:
     )
 
 
+def _ridge_classifier_cv_state_valid(state: RidgeClassifierCVState) -> bool:
+    n_classes = state.classes.shape[0]
+    expected_rows = 1 if n_classes == 2 else n_classes
+    return bool(
+        state.coef.shape == (expected_rows, state.n_features_in)
+        and state.intercept.shape == (expected_rows,)
+        and state.classes.ndim == 1
+        and n_classes >= 2
+        and state.alpha.shape == (1,)
+        and state.best_score.shape == (1,)
+        and state.n_features_in >= 1
+        and isinstance(state.fit_intercept, bool)
+        and np.all(np.isfinite(state.coef))
+        and np.all(np.isfinite(state.intercept))
+        and np.all(np.isfinite(state.classes))
+        and np.all(np.diff(state.classes) > 0.0)
+        and np.all(np.isfinite(state.alpha))
+        and np.all(state.alpha > 0.0)
+        and np.all(np.isfinite(state.best_score))
+    )
+
+
 def _feature_count_matches(X: NDArray[np.float64], state: LinearRegressionState) -> bool:
     return bool(np.asarray(X).ndim == 2 and np.asarray(X).shape[1] == state.n_features_in)
 
@@ -200,6 +234,10 @@ def _ridge_cv_feature_count_matches(X: NDArray[np.float64], state: RidgeCVState)
 
 
 def _ridge_classifier_feature_count_matches(X: NDArray[np.float64], state: RidgeClassifierState) -> bool:
+    return bool(np.asarray(X).ndim == 2 and np.asarray(X).shape[1] == state.n_features_in)
+
+
+def _ridge_classifier_cv_feature_count_matches(X: NDArray[np.float64], state: RidgeClassifierCVState) -> bool:
     return bool(np.asarray(X).ndim == 2 and np.asarray(X).shape[1] == state.n_features_in)
 
 
@@ -240,7 +278,18 @@ def _ridge_classifier_scores_valid(result: NDArray[np.float64], X: NDArray[np.fl
     return bool(values.shape == expected_shape and np.all(np.isfinite(values)))
 
 
+def _ridge_classifier_cv_scores_output_valid(result: NDArray[np.float64], X: NDArray[np.float64], state: RidgeClassifierCVState) -> bool:
+    values = np.asarray(result)
+    expected_shape = (np.asarray(X).shape[0],) if state.classes.shape[0] == 2 else (np.asarray(X).shape[0], state.classes.shape[0])
+    return bool(values.shape == expected_shape and np.all(np.isfinite(values)))
+
+
 def _ridge_classifier_prediction_valid(result: NDArray[np.float64], X: NDArray[np.float64], state: RidgeClassifierState) -> bool:
+    values = np.asarray(result)
+    return bool(values.shape == (np.asarray(X).shape[0],) and np.all(np.isin(values, state.classes)))
+
+
+def _ridge_classifier_cv_prediction_valid(result: NDArray[np.float64], X: NDArray[np.float64], state: RidgeClassifierCVState) -> bool:
     values = np.asarray(result)
     return bool(values.shape == (np.asarray(X).shape[0],) and np.all(np.isin(values, state.classes)))
 
@@ -706,6 +755,132 @@ def ridge_classifier_decision_function(X: NDArray[np.float64], state: RidgeClass
 def ridge_classifier_predict(X: NDArray[np.float64], state: RidgeClassifierState) -> NDArray[np.float64]:
     """Predict dense ridge-classifier labels."""
     scores = ridge_classifier_decision_function(X, state)
+    if scores.ndim == 1:
+        indices = (scores > 0.0).astype(np.int64)
+    else:
+        indices = np.argmax(scores, axis=1)
+    return np.asarray(state.classes[indices], dtype=np.float64)
+
+
+@register_atom(witness_ridge_classifier_cv_scores)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda y: _target_1d(y), "y must be 1D")
+@icontract.require(lambda X, y: _same_sample_count(X, y), "X and y must have matching sample counts")
+@icontract.require(lambda X: _sample_count_at_least_two(X), "leave-one-out CV requires at least two samples")
+@icontract.require(lambda X, y: _finite_classifier_inputs(X, y), "X and y must contain finite numeric values")
+@icontract.require(lambda y: _class_count_at_least_two(y), "ridge classifier CV requires at least two classes")
+@icontract.require(lambda alphas: _alphas_strictly_positive(alphas), "alphas must be finite and strictly positive")
+@icontract.require(lambda fit_intercept: _bool_value(fit_intercept), "fit_intercept must be boolean")
+@icontract.require(lambda scoring: scoring is None, "only default negative MSE scoring is covered")
+@icontract.require(lambda cv: cv is None, "only leave-one-out CV is covered")
+@icontract.require(lambda class_weight: class_weight is None, "class_weight is outside this RidgeClassifierCV atom scope")
+@icontract.require(lambda sample_weight: sample_weight is None, "sample_weight is outside this RidgeClassifierCV atom scope")
+@icontract.ensure(lambda result, alphas: _ridge_cv_scores_valid(result, alphas), "CV scores must match the alpha grid")
+def ridge_classifier_cv_scores(
+    X: NDArray[np.float64],
+    y: NDArray[np.float64],
+    alphas: float | tuple[float, ...] | NDArray[np.float64] = (0.1, 1.0, 10.0),
+    *,
+    fit_intercept: bool = True,
+    scoring: None = None,
+    cv: None = None,
+    class_weight: None = None,
+    sample_weight: None = None,
+) -> NDArray[np.float64]:
+    """Compute dense leave-one-out RidgeClassifierCV scores for each alpha."""
+    del scoring, cv, class_weight, sample_weight
+    checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
+    checked_y = check_array(y, dtype=np.float64, ensure_2d=False, input_name="y")
+    classes = np.unique(checked_y)
+    encoded_y = _binarize_ridge_classes(checked_y, classes)
+    alpha_values = np.atleast_1d(np.asarray(alphas, dtype=np.float64))
+    scores = np.empty(alpha_values.shape[0], dtype=np.float64)
+    sample_indices = np.arange(checked_x.shape[0])
+    for alpha_index, current_alpha in enumerate(alpha_values):
+        predictions = np.empty_like(encoded_y, dtype=np.float64)
+        for held_out in range(checked_x.shape[0]):
+            train_mask = sample_indices != held_out
+            train_y = encoded_y[train_mask, 0] if encoded_y.shape[1] == 1 else encoded_y[train_mask]
+            state = ridge_fit(
+                checked_x[train_mask],
+                train_y,
+                alpha=float(current_alpha),
+                fit_intercept=fit_intercept,
+                solver="cholesky",
+            )
+            prediction = ridge_predict(checked_x[held_out : held_out + 1], state)
+            predictions[held_out] = np.asarray(prediction, dtype=np.float64).reshape(1, -1)[0]
+        scores[alpha_index] = -float(np.mean((encoded_y - predictions) ** 2))
+    return scores
+
+
+@register_atom(witness_ridge_classifier_cv_fit)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda y: _target_1d(y), "y must be 1D")
+@icontract.require(lambda X, y: _same_sample_count(X, y), "X and y must have matching sample counts")
+@icontract.require(lambda X: _sample_count_at_least_two(X), "leave-one-out CV requires at least two samples")
+@icontract.require(lambda X, y: _finite_classifier_inputs(X, y), "X and y must contain finite numeric values")
+@icontract.require(lambda y: _class_count_at_least_two(y), "ridge classifier CV requires at least two classes")
+@icontract.require(lambda alphas: _alphas_strictly_positive(alphas), "alphas must be finite and strictly positive")
+@icontract.require(lambda fit_intercept: _bool_value(fit_intercept), "fit_intercept must be boolean")
+@icontract.require(lambda scoring: scoring is None, "only default negative MSE scoring is covered")
+@icontract.require(lambda cv: cv is None, "only leave-one-out CV is covered")
+@icontract.require(lambda class_weight: class_weight is None, "class_weight is outside this RidgeClassifierCV atom scope")
+@icontract.require(lambda store_cv_results: store_cv_results is False, "store_cv_results is outside this atom scope")
+@icontract.require(lambda sample_weight: sample_weight is None, "sample_weight is outside this RidgeClassifierCV atom scope")
+@icontract.ensure(lambda result: _ridge_classifier_cv_state_valid(result), "RidgeClassifierCV state must contain fitted coefficients and selected alpha")
+def ridge_classifier_cv_fit(
+    X: NDArray[np.float64],
+    y: NDArray[np.float64],
+    *,
+    alphas: float | tuple[float, ...] | NDArray[np.float64] = (0.1, 1.0, 10.0),
+    fit_intercept: bool = True,
+    scoring: None = None,
+    cv: None = None,
+    class_weight: None = None,
+    store_cv_results: bool = False,
+    sample_weight: None = None,
+) -> RidgeClassifierCVState:
+    """Fit dense ridge classification after leave-one-out alpha selection."""
+    del scoring, cv, class_weight, store_cv_results, sample_weight
+    alpha_values = np.atleast_1d(np.asarray(alphas, dtype=np.float64))
+    scores = ridge_classifier_cv_scores(X, y, alpha_values, fit_intercept=fit_intercept)
+    best_index = int(np.argmax(scores))
+    selected_alpha = float(alpha_values[best_index])
+    classifier_state = ridge_classifier_fit(X, y, alpha=selected_alpha, fit_intercept=fit_intercept, solver="cholesky")
+    return RidgeClassifierCVState(
+        coef=classifier_state.coef,
+        intercept=classifier_state.intercept,
+        classes=classifier_state.classes,
+        alpha=np.asarray([selected_alpha], dtype=np.float64),
+        best_score=np.asarray([scores[best_index]], dtype=np.float64),
+        fit_intercept=fit_intercept,
+        n_features_in=classifier_state.n_features_in,
+    )
+
+
+@register_atom(witness_ridge_classifier_cv_decision_function)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X, state: _ridge_classifier_cv_feature_count_matches(X, state), "X feature count must match fitted RidgeClassifierCV state")
+@icontract.require(lambda state: _ridge_classifier_cv_state_valid(state), "state must be a fitted RidgeClassifierCV state")
+@icontract.ensure(lambda result, X, state: _ridge_classifier_cv_scores_output_valid(result, X, state), "decision scores must match fitted class width")
+def ridge_classifier_cv_decision_function(X: NDArray[np.float64], state: RidgeClassifierCVState) -> NDArray[np.float64]:
+    """Compute dense RidgeClassifierCV confidence scores."""
+    checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
+    scores = checked_x @ state.coef.T + state.intercept
+    if state.classes.shape[0] == 2:
+        return np.asarray(scores.reshape(-1), dtype=np.float64)
+    return np.asarray(scores, dtype=np.float64)
+
+
+@register_atom(witness_ridge_classifier_cv_predict)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X, state: _ridge_classifier_cv_feature_count_matches(X, state), "X feature count must match fitted RidgeClassifierCV state")
+@icontract.require(lambda state: _ridge_classifier_cv_state_valid(state), "state must be a fitted RidgeClassifierCV state")
+@icontract.ensure(lambda result, X, state: _ridge_classifier_cv_prediction_valid(result, X, state), "predictions must be fitted class labels")
+def ridge_classifier_cv_predict(X: NDArray[np.float64], state: RidgeClassifierCVState) -> NDArray[np.float64]:
+    """Predict dense RidgeClassifierCV labels."""
+    scores = ridge_classifier_cv_decision_function(X, state)
     if scores.ndim == 1:
         indices = (scores > 0.0).astype(np.int64)
     else:

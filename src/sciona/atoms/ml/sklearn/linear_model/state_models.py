@@ -58,3 +58,16 @@ class RidgeClassifierState:
     fit_intercept: bool
     solver: str
     n_features_in: int
+
+
+@dataclass(frozen=True)
+class RidgeClassifierCVState:
+    """Fitted dense ridge classifier state with selected CV alpha."""
+
+    coef: NDArray[np.float64]
+    intercept: NDArray[np.float64]
+    classes: NDArray[np.float64]
+    alpha: NDArray[np.float64]
+    best_score: NDArray[np.float64]
+    fit_intercept: bool
+    n_features_in: int

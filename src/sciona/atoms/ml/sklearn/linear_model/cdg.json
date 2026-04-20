@@ -16,7 +16,11 @@
         "ridge_cv_predict",
         "ridge_classifier_fit",
         "ridge_classifier_decision_function",
-        "ridge_classifier_predict"
+        "ridge_classifier_predict",
+        "ridge_classifier_cv_scores",
+        "ridge_classifier_cv_fit",
+        "ridge_classifier_cv_decision_function",
+        "ridge_classifier_cv_predict"
       ],
       "depth": 0
     },
@@ -240,6 +244,83 @@
       "outputs": [
         {"name": "result", "type_desc": "NDArray[np.float64]"}
       ]
+    },
+    {
+      "node_id": "ridge_classifier_cv_scores",
+      "name": "ridge_classifier_cv_scores",
+      "description": "Compute dense leave-one-out RidgeClassifierCV scores for each alpha.",
+      "concept_type": "model_selection_score",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], alphas: float | tuple[float, ...] | NDArray[np.float64] = (0.1, 1.0, 10.0), fit_intercept: bool = True, scoring: None = None, cv: None = None, class_weight: None = None, sample_weight: None = None) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "alphas", "type_desc": "float | tuple[float, ...] | NDArray[np.float64]", "required": false},
+        {"name": "fit_intercept", "type_desc": "bool", "required": false},
+        {"name": "scoring", "type_desc": "None", "required": false},
+        {"name": "cv", "type_desc": "None", "required": false},
+        {"name": "class_weight", "type_desc": "None", "required": false},
+        {"name": "sample_weight", "type_desc": "None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "ridge_classifier_cv_fit",
+      "name": "ridge_classifier_cv_fit",
+      "description": "Fit dense ridge classification after leave-one-out alpha selection.",
+      "concept_type": "fit_state_builder",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], alphas: float | tuple[float, ...] | NDArray[np.float64] = (0.1, 1.0, 10.0), fit_intercept: bool = True, scoring: None = None, cv: None = None, class_weight: None = None, store_cv_results: bool = False, sample_weight: None = None) -> RidgeClassifierCVState",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "alphas", "type_desc": "float | tuple[float, ...] | NDArray[np.float64]", "required": false},
+        {"name": "fit_intercept", "type_desc": "bool", "required": false},
+        {"name": "scoring", "type_desc": "None", "required": false},
+        {"name": "cv", "type_desc": "None", "required": false},
+        {"name": "class_weight", "type_desc": "None", "required": false},
+        {"name": "store_cv_results", "type_desc": "bool", "required": false},
+        {"name": "sample_weight", "type_desc": "None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "RidgeClassifierCVState"}
+      ]
+    },
+    {
+      "node_id": "ridge_classifier_cv_decision_function",
+      "name": "ridge_classifier_cv_decision_function",
+      "description": "Compute dense RidgeClassifierCV confidence scores.",
+      "concept_type": "score",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: RidgeClassifierCVState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "state", "type_desc": "RidgeClassifierCVState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "ridge_classifier_cv_predict",
+      "name": "ridge_classifier_cv_predict",
+      "description": "Predict dense RidgeClassifierCV labels.",
+      "concept_type": "prediction",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: RidgeClassifierCVState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "state", "type_desc": "RidgeClassifierCVState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
     }
   ],
   "edges": [
@@ -249,7 +330,11 @@
     {"source": "ridge_cv_fit", "target": "ridge_cv_predict", "kind": "state"},
     {"source": "ridge_classifier_fit", "target": "ridge_classifier_decision_function", "kind": "state"},
     {"source": "ridge_classifier_fit", "target": "ridge_classifier_predict", "kind": "state"},
-    {"source": "ridge_classifier_decision_function", "target": "ridge_classifier_predict", "kind": "score"}
+    {"source": "ridge_classifier_decision_function", "target": "ridge_classifier_predict", "kind": "score"},
+    {"source": "ridge_classifier_cv_scores", "target": "ridge_classifier_cv_fit", "kind": "alpha_selection"},
+    {"source": "ridge_classifier_cv_fit", "target": "ridge_classifier_cv_decision_function", "kind": "state"},
+    {"source": "ridge_classifier_cv_fit", "target": "ridge_classifier_cv_predict", "kind": "state"},
+    {"source": "ridge_classifier_cv_decision_function", "target": "ridge_classifier_cv_predict", "kind": "score"}
   ],
   "metadata": {
     "source": "agent_ingestion",

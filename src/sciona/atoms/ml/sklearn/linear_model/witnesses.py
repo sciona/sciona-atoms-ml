@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from sciona.ghost.abstract import AbstractArray
 
-from .state_models import LinearRegressionState, RidgeClassifierState, RidgeCVState, RidgeState
+from .state_models import LinearRegressionState, RidgeClassifierCVState, RidgeClassifierState, RidgeCVState, RidgeState
 
 
 def witness_linear_regression_fit(
@@ -239,6 +239,78 @@ def witness_ridge_classifier_decision_function(X: AbstractArray, state: RidgeCla
 
 def witness_ridge_classifier_predict(X: AbstractArray, state: RidgeClassifierState) -> AbstractArray:
     """Describe dense ridge-classifier label prediction."""
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    if X.shape[1] != state.n_features_in:
+        raise ValueError("X feature count must match fitted state")
+    return AbstractArray(shape=(int(X.shape[0]),), dtype="float64")
+
+
+def witness_ridge_classifier_cv_scores(
+    X: AbstractArray,
+    y: AbstractArray,
+    alphas: float | tuple[float, ...] = (0.1, 1.0, 10.0),
+    *,
+    fit_intercept: bool = True,
+    scoring: None = None,
+    cv: None = None,
+    class_weight: None = None,
+    sample_weight: None = None,
+) -> AbstractArray:
+    """Describe dense leave-one-out RidgeClassifierCV scores across alphas."""
+    del fit_intercept, scoring, cv, class_weight, sample_weight
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    if len(y.shape) != 1:
+        raise ValueError("y must be 1D")
+    if X.shape[0] != y.shape[0]:
+        raise ValueError("X and y must have matching sample counts")
+    if X.shape[0] < 2:
+        raise ValueError("leave-one-out CV requires at least two samples")
+    alpha_values = alphas if isinstance(alphas, tuple) else (alphas,)
+    return AbstractArray(shape=(len(alpha_values),), dtype="float64")
+
+
+def witness_ridge_classifier_cv_fit(
+    X: AbstractArray,
+    y: AbstractArray,
+    *,
+    alphas: float | tuple[float, ...] = (0.1, 1.0, 10.0),
+    fit_intercept: bool = True,
+    scoring: None = None,
+    cv: None = None,
+    class_weight: None = None,
+    store_cv_results: bool = False,
+    sample_weight: None = None,
+) -> AbstractArray:
+    """Describe fitting dense ridge classification after LOO alpha selection."""
+    del alphas, scoring, cv, class_weight, store_cv_results, sample_weight
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    if len(y.shape) != 1:
+        raise ValueError("y must be 1D")
+    if X.shape[0] != y.shape[0]:
+        raise ValueError("X and y must have matching sample counts")
+    if X.shape[0] < 2:
+        raise ValueError("leave-one-out CV requires at least two samples")
+    if not isinstance(fit_intercept, bool):
+        raise ValueError("fit_intercept must be boolean")
+    return AbstractArray(shape=(int(X.shape[1]),), dtype="float64")
+
+
+def witness_ridge_classifier_cv_decision_function(X: AbstractArray, state: RidgeClassifierCVState) -> AbstractArray:
+    """Describe dense RidgeClassifierCV confidence scores."""
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    if X.shape[1] != state.n_features_in:
+        raise ValueError("X feature count must match fitted state")
+    if state.classes.shape[0] == 2:
+        return AbstractArray(shape=(int(X.shape[0]),), dtype="float64")
+    return AbstractArray(shape=(int(X.shape[0]), int(state.classes.shape[0])), dtype="float64")
+
+
+def witness_ridge_classifier_cv_predict(X: AbstractArray, state: RidgeClassifierCVState) -> AbstractArray:
+    """Describe dense RidgeClassifierCV label prediction."""
     if len(X.shape) != 2:
         raise ValueError("X must be 2D")
     if X.shape[1] != state.n_features_in:
