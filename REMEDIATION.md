@@ -131,3 +131,24 @@ Potential remediation path:
   `discretize` as separate atoms if they become first-class targets.
 - Decide how to represent eigensolver/SVD boundaries and KMeans assignment
   before publishing the full spectral clustering and biclustering estimators.
+
+## `sklearn.covariance` sparse precision and robust covariance solvers
+
+Deferred targets:
+
+| Target | Source | Reason |
+| --- | --- | --- |
+| `graphical_lasso` | `sklearn/covariance/_graph_lasso.py:L230` | Public helper delegates to `GraphicalLasso.fit`; the default `mode="cd"` path calls compiled `cd_fast.enet_coordinate_descent_gram`, so a Python atom would hide the sparse precision solver. |
+| `GraphicalLasso` | `sklearn/covariance/_graph_lasso.py:L399` | Fit computes or accepts empirical covariance, then delegates the core sparse inverse-covariance optimization to `_graphical_lasso`, whose default coordinate-descent inner loop is compiled. |
+| `GraphicalLassoCV` | `sklearn/covariance/_graph_lasso.py:L722` | Cross-validation repeatedly runs graphical lasso paths and then refits the same sparse precision solver, so publishing the estimator shell would hide both solver and CV orchestration boundaries. |
+| `MinCovDet` | `sklearn/covariance/_robust_covariance.py:L621` | Fit delegates raw robust location/covariance search to the FastMCD candidate-selection algorithm and then applies correction/reweighting; a state wrapper would hide the robust subset search. |
+| `EllipticEnvelope` | `sklearn/covariance/_elliptic_envelope.py:L15` | Fit inherits `MinCovDet.fit` and only adds an outlier offset, so it should wait until the FastMCD robust covariance boundary is decomposed. |
+
+Potential remediation path:
+
+- Ingest graphical lasso by decomposing `_graphical_lasso` and deciding whether
+  native coordinate-descent/LARS solver boundaries should be represented by FFI
+  atoms or limited solver-boundary atoms.
+- Ingest robust covariance by decomposing FastMCD helpers (`fast_mcd`,
+  candidate selection, correction, reweighting, and Mahalanobis scoring) before
+  publishing `MinCovDet` or `EllipticEnvelope` fit states.
