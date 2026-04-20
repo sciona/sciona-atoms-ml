@@ -10,10 +10,21 @@ from sklearn.utils import check_array
 
 from sciona.ghost.registry import register_atom
 
-from .state_models import LinearRegressionState, RidgeClassifierCVState, RidgeClassifierState, RidgeCVState, RidgeState
+from .state_models import (
+    LinearRegressionState,
+    OrthogonalMatchingPursuitState,
+    RidgeClassifierCVState,
+    RidgeClassifierState,
+    RidgeCVState,
+    RidgeState,
+)
 from .witnesses import (
     witness_linear_regression_fit,
     witness_linear_regression_predict,
+    witness_orthogonal_matching_pursuit_fit,
+    witness_orthogonal_matching_pursuit_predict,
+    witness_orthogonal_mp,
+    witness_orthogonal_mp_gram,
     witness_ridge_classifier_cv_decision_function,
     witness_ridge_classifier_cv_fit,
     witness_ridge_classifier_cv_predict,
@@ -40,6 +51,17 @@ def _target_1d_or_2d(y: NDArray[np.float64]) -> bool:
 
 def _target_1d(y: NDArray[np.float64]) -> bool:
     return bool(np.asarray(y).ndim == 1)
+
+
+def _square_matrix(matrix: NDArray[np.float64]) -> bool:
+    values = np.asarray(matrix)
+    return bool(values.ndim == 2 and values.shape[0] == values.shape[1])
+
+
+def _gram_and_xy_match(Gram: NDArray[np.float64], Xy: NDArray[np.float64]) -> bool:
+    gram_values = np.asarray(Gram)
+    xy_values = np.asarray(Xy)
+    return bool(gram_values.ndim == 2 and xy_values.ndim in {1, 2} and xy_values.shape[0] == gram_values.shape[0])
 
 
 def _same_sample_count(X: NDArray[np.float64], y: NDArray[np.float64]) -> bool:
@@ -78,6 +100,14 @@ def _finite_inputs(X: NDArray[np.float64], y: NDArray[np.float64]) -> bool:
     return bool(np.all(np.isfinite(np.asarray(X, dtype=np.float64))) and np.all(np.isfinite(np.asarray(y, dtype=np.float64))))
 
 
+def _finite_matrix(matrix: NDArray[np.float64]) -> bool:
+    return bool(np.all(np.isfinite(np.asarray(matrix, dtype=np.float64))))
+
+
+def _finite_gram_inputs(Gram: NDArray[np.float64], Xy: NDArray[np.float64]) -> bool:
+    return bool(np.all(np.isfinite(np.asarray(Gram, dtype=np.float64))) and np.all(np.isfinite(np.asarray(Xy, dtype=np.float64))))
+
+
 def _finite_classifier_inputs(X: NDArray[np.float64], y: NDArray[np.float64]) -> bool:
     return bool(np.all(np.isfinite(np.asarray(X, dtype=np.float64))) and np.all(np.isfinite(np.asarray(y, dtype=np.float64))))
 
@@ -114,6 +144,36 @@ def _gcv_mode_valid(gcv_mode: str | None) -> bool:
 
 def _max_iter_valid(max_iter: int | None) -> bool:
     return bool(max_iter is None or (isinstance(max_iter, int) and not isinstance(max_iter, bool) and max_iter >= 1))
+
+
+def _omp_n_nonzero_valid(n_nonzero_coefs: int | None, n_features: int) -> bool:
+    return bool(
+        n_nonzero_coefs is None
+        or (
+            isinstance(n_nonzero_coefs, int)
+            and not isinstance(n_nonzero_coefs, bool)
+            and 1 <= n_nonzero_coefs <= n_features
+        )
+    )
+
+
+def _omp_tol_valid(tol: float | None) -> bool:
+    return bool(tol is None or (isinstance(tol, (int, float)) and not isinstance(tol, bool) and np.isfinite(float(tol)) and float(tol) >= 0.0))
+
+
+def _omp_precompute_valid(precompute: bool | str) -> bool:
+    return bool(isinstance(precompute, bool) or precompute == "auto")
+
+
+def _omp_norms_valid(norms_squared: tuple[float, ...] | NDArray[np.float64] | None, Xy: NDArray[np.float64], tol: float | None) -> bool:
+    if tol is None:
+        return True
+    if norms_squared is None:
+        return False
+    values = np.atleast_1d(np.asarray(norms_squared, dtype=np.float64))
+    xy_values = np.asarray(Xy)
+    n_targets = 1 if xy_values.ndim == 1 else xy_values.shape[1]
+    return bool(values.ndim == 1 and values.shape[0] in {1, n_targets} and np.all(np.isfinite(values)) and np.all(values >= 0.0))
 
 
 def _class_weight_valid(class_weight: dict[float, float] | str | None) -> bool:
@@ -221,6 +281,25 @@ def _ridge_classifier_cv_state_valid(state: RidgeClassifierCVState) -> bool:
     )
 
 
+def _omp_state_valid(state: OrthogonalMatchingPursuitState) -> bool:
+    expected_coef_shape = (state.n_features_in,) if state.n_outputs == 1 else (state.n_outputs, state.n_features_in)
+    return bool(
+        state.coef.shape == expected_coef_shape
+        and state.intercept.shape == (state.n_outputs,)
+        and state.n_iter.shape == (state.n_outputs,)
+        and state.n_features_in >= 1
+        and state.n_outputs >= 1
+        and _omp_n_nonzero_valid(state.n_nonzero_coefs, state.n_features_in)
+        and _omp_tol_valid(state.tol)
+        and isinstance(state.fit_intercept, bool)
+        and _omp_precompute_valid(state.precompute)
+        and np.all(np.isfinite(state.coef))
+        and np.all(np.isfinite(state.intercept))
+        and np.all(state.n_iter >= 0)
+        and np.all(state.n_iter <= state.n_features_in)
+    )
+
+
 def _feature_count_matches(X: NDArray[np.float64], state: LinearRegressionState) -> bool:
     return bool(np.asarray(X).ndim == 2 and np.asarray(X).shape[1] == state.n_features_in)
 
@@ -238,6 +317,10 @@ def _ridge_classifier_feature_count_matches(X: NDArray[np.float64], state: Ridge
 
 
 def _ridge_classifier_cv_feature_count_matches(X: NDArray[np.float64], state: RidgeClassifierCVState) -> bool:
+    return bool(np.asarray(X).ndim == 2 and np.asarray(X).shape[1] == state.n_features_in)
+
+
+def _omp_feature_count_matches(X: NDArray[np.float64], state: OrthogonalMatchingPursuitState) -> bool:
     return bool(np.asarray(X).ndim == 2 and np.asarray(X).shape[1] == state.n_features_in)
 
 
@@ -292,6 +375,26 @@ def _ridge_classifier_prediction_valid(result: NDArray[np.float64], X: NDArray[n
 def _ridge_classifier_cv_prediction_valid(result: NDArray[np.float64], X: NDArray[np.float64], state: RidgeClassifierCVState) -> bool:
     values = np.asarray(result)
     return bool(values.shape == (np.asarray(X).shape[0],) and np.all(np.isin(values, state.classes)))
+
+
+def _omp_coefficients_valid(result: NDArray[np.float64], X: NDArray[np.float64], y: NDArray[np.float64]) -> bool:
+    values = np.asarray(result)
+    n_outputs = 1 if np.asarray(y).ndim == 1 else np.asarray(y).shape[1]
+    expected_shape = (np.asarray(X).shape[1],) if n_outputs == 1 else (np.asarray(X).shape[1], n_outputs)
+    return bool(values.shape == expected_shape and np.all(np.isfinite(values)))
+
+
+def _omp_gram_coefficients_valid(result: NDArray[np.float64], Gram: NDArray[np.float64], Xy: NDArray[np.float64]) -> bool:
+    values = np.asarray(result)
+    n_outputs = 1 if np.asarray(Xy).ndim == 1 else np.asarray(Xy).shape[1]
+    expected_shape = (np.asarray(Gram).shape[0],) if n_outputs == 1 else (np.asarray(Gram).shape[0], n_outputs)
+    return bool(values.shape == expected_shape and np.all(np.isfinite(values)))
+
+
+def _omp_prediction_valid(result: NDArray[np.float64], X: NDArray[np.float64], state: OrthogonalMatchingPursuitState) -> bool:
+    values = np.asarray(result)
+    expected_shape = (np.asarray(X).shape[0],) if state.n_outputs == 1 else (np.asarray(X).shape[0], state.n_outputs)
+    return bool(values.shape == expected_shape and np.all(np.isfinite(values)))
 
 
 def _center_and_rescale(
@@ -399,6 +502,122 @@ def _binarize_ridge_classes(y: NDArray[np.float64], classes: NDArray[np.float64]
     for class_index, class_label in enumerate(classes):
         encoded[y == class_label, class_index] = 1.0
     return encoded
+
+
+def _resolve_omp_n_nonzero(n_nonzero_coefs: int | None, tol: float | None, n_features: int, *, gram_default: bool = False) -> int:
+    if n_nonzero_coefs is not None:
+        return int(n_nonzero_coefs)
+    if tol is not None:
+        return n_features
+    if gram_default:
+        return int(0.1 * n_features)
+    return max(int(0.1 * n_features), 1)
+
+
+def _omp_solve_single(
+    X: NDArray[np.float64],
+    y: NDArray[np.float64],
+    n_nonzero_coefs: int,
+    tol: float | None,
+) -> tuple[NDArray[np.float64], int]:
+    residual = y.copy()
+    active: list[int] = []
+    coefficients = np.zeros(X.shape[1], dtype=np.float64)
+    max_features = X.shape[1] if tol is not None else n_nonzero_coefs
+    for _ in range(max_features):
+        correlations = X.T @ residual
+        if active:
+            correlations[np.asarray(active, dtype=np.int64)] = 0.0
+        selected = int(np.argmax(np.abs(correlations)))
+        if abs(correlations[selected]) <= np.finfo(np.float64).eps:
+            break
+        active.append(selected)
+        active_x = X[:, active]
+        gamma, _, _, _ = linalg.lstsq(active_x, y, cond=None)
+        residual = y - active_x @ gamma
+        if tol is not None and float(residual @ residual) <= tol:
+            break
+    if active:
+        coefficients[np.asarray(active, dtype=np.int64)] = np.asarray(gamma, dtype=np.float64)
+    return coefficients, len(active)
+
+
+def _omp_solve(
+    X: NDArray[np.float64],
+    y: NDArray[np.float64],
+    n_nonzero_coefs: int,
+    tol: float | None,
+) -> tuple[NDArray[np.float64], NDArray[np.int64]]:
+    y_2d = y.reshape(-1, 1) if y.ndim == 1 else y
+    coefficients = np.zeros((X.shape[1], y_2d.shape[1]), dtype=np.float64)
+    n_iters = np.zeros(y_2d.shape[1], dtype=np.int64)
+    for target_index in range(y_2d.shape[1]):
+        coef, n_iter = _omp_solve_single(X, y_2d[:, target_index], n_nonzero_coefs, tol)
+        coefficients[:, target_index] = coef
+        n_iters[target_index] = n_iter
+    if y.ndim == 1:
+        return coefficients[:, 0], n_iters
+    return coefficients, n_iters
+
+
+def _gram_omp_solve_single(
+    Gram: NDArray[np.float64],
+    Xy: NDArray[np.float64],
+    n_nonzero_coefs: int,
+    tol_0: float | None,
+    tol: float | None,
+) -> tuple[NDArray[np.float64], int]:
+    active: list[int] = []
+    coefficients = np.zeros(Gram.shape[0], dtype=np.float64)
+    alpha = Xy.copy()
+    tol_curr = tol_0
+    previous_delta = 0.0
+    max_features = Gram.shape[0] if tol is not None else n_nonzero_coefs
+    for _ in range(max_features):
+        if active:
+            alpha[np.asarray(active, dtype=np.int64)] = 0.0
+        selected = int(np.argmax(np.abs(alpha)))
+        if abs(alpha[selected]) <= np.finfo(np.float64).eps:
+            break
+        active.append(selected)
+        active_index = np.asarray(active, dtype=np.int64)
+        active_gram = Gram[np.ix_(active_index, active_index)]
+        active_xy = Xy[active_index]
+        try:
+            gamma = linalg.solve(active_gram, active_xy, assume_a="sym")
+        except linalg.LinAlgError:
+            gamma, _, _, _ = linalg.lstsq(active_gram, active_xy, cond=None)
+        beta = Gram[:, active_index] @ gamma
+        alpha = Xy - beta
+        if tol is not None and tol_curr is not None:
+            tol_curr += previous_delta
+            previous_delta = float(gamma @ beta[active_index])
+            tol_curr -= previous_delta
+            if abs(tol_curr) <= tol:
+                break
+    if active:
+        coefficients[np.asarray(active, dtype=np.int64)] = np.asarray(gamma, dtype=np.float64)
+    return coefficients, len(active)
+
+
+def _gram_omp_solve(
+    Gram: NDArray[np.float64],
+    Xy: NDArray[np.float64],
+    n_nonzero_coefs: int,
+    norms_squared: NDArray[np.float64] | None,
+    tol: float | None,
+) -> tuple[NDArray[np.float64], NDArray[np.int64]]:
+    xy_2d = Xy.reshape(-1, 1) if Xy.ndim == 1 else Xy
+    coefficients = np.zeros((Gram.shape[0], xy_2d.shape[1]), dtype=np.float64)
+    n_iters = np.zeros(xy_2d.shape[1], dtype=np.int64)
+    for target_index in range(xy_2d.shape[1]):
+        tol_0 = None if norms_squared is None else float(norms_squared[target_index])
+        coef, n_iter = _gram_omp_solve_single(Gram, xy_2d[:, target_index], n_nonzero_coefs, tol_0, tol)
+        coefficients[:, target_index] = coef
+        n_iters[target_index] = n_iter
+    if Xy.ndim == 1:
+        return coefficients[:, 0], n_iters
+    return coefficients, n_iters
 
 
 @register_atom(witness_linear_regression_fit)
@@ -565,6 +784,156 @@ def ridge_fit(
 @icontract.ensure(lambda result, X, state: _ridge_prediction_valid(result, X, state), "predictions must match fitted output width")
 def ridge_predict(X: NDArray[np.float64], state: RidgeState) -> NDArray[np.float64]:
     """Predict dense outputs from fitted ridge-regression coefficients."""
+    checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
+    if state.n_outputs == 1:
+        return np.asarray(checked_x @ state.coef + state.intercept[0], dtype=np.float64)
+    return np.asarray(checked_x @ state.coef.T + state.intercept, dtype=np.float64)
+
+
+@register_atom(witness_orthogonal_mp)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda y: _target_1d_or_2d(y), "y must be 1D or 2D")
+@icontract.require(lambda X, y: _same_sample_count(X, y), "X and y must have matching sample counts")
+@icontract.require(lambda X, y: _finite_inputs(X, y), "X and y must contain finite numeric values")
+@icontract.require(lambda n_nonzero_coefs, X: _omp_n_nonzero_valid(n_nonzero_coefs, np.asarray(X).shape[1]), "n_nonzero_coefs must be positive and no larger than feature count")
+@icontract.require(lambda tol: _omp_tol_valid(tol), "tol must be None or a non-negative finite value")
+@icontract.require(lambda precompute: _omp_precompute_valid(precompute), "precompute must be boolean or auto")
+@icontract.require(lambda copy_X: _bool_value(copy_X), "copy_X must be boolean")
+@icontract.require(lambda return_path: return_path is False, "return_path is outside this atom scope")
+@icontract.require(lambda return_n_iter: return_n_iter is False, "return_n_iter is outside this atom scope")
+@icontract.ensure(lambda result, X, y: _omp_coefficients_valid(result, X, y), "OMP coefficients must match feature and target dimensions")
+def orthogonal_mp(
+    X: NDArray[np.float64],
+    y: NDArray[np.float64],
+    *,
+    n_nonzero_coefs: int | None = None,
+    tol: float | None = None,
+    precompute: bool | str = False,
+    copy_X: bool = True,
+    return_path: bool = False,
+    return_n_iter: bool = False,
+) -> NDArray[np.float64]:
+    """Solve dense orthogonal matching pursuit coefficients from samples."""
+    del copy_X, return_path, return_n_iter
+    checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
+    checked_y = check_array(y, dtype=np.float64, ensure_2d=False, input_name="y")
+    if precompute == "auto":
+        precompute = checked_x.shape[0] > checked_x.shape[1]
+    resolved_n_nonzero = _resolve_omp_n_nonzero(n_nonzero_coefs, tol, checked_x.shape[1])
+    if precompute:
+        gram = np.asarray(checked_x.T @ checked_x, dtype=np.float64)
+        xy = np.asarray(checked_x.T @ (checked_y.reshape(-1, 1) if checked_y.ndim == 1 else checked_y), dtype=np.float64)
+        norms_squared = None if tol is None else np.sum((checked_y.reshape(-1, 1) if checked_y.ndim == 1 else checked_y) ** 2, axis=0)
+        result = orthogonal_mp_gram(
+            gram,
+            xy[:, 0] if checked_y.ndim == 1 else xy,
+            n_nonzero_coefs=resolved_n_nonzero,
+            tol=tol,
+            norms_squared=None if norms_squared is None else np.asarray(norms_squared, dtype=np.float64),
+        )
+        return np.asarray(result, dtype=np.float64)
+    coefficients, _ = _omp_solve(checked_x, checked_y, resolved_n_nonzero, tol)
+    return np.asarray(coefficients, dtype=np.float64)
+
+
+@register_atom(witness_orthogonal_mp_gram)
+@icontract.require(lambda Gram: _square_matrix(Gram), "Gram must be square")
+@icontract.require(lambda Gram, Xy: _gram_and_xy_match(Gram, Xy), "Xy must match Gram feature count")
+@icontract.require(lambda Gram, Xy: _finite_gram_inputs(Gram, Xy), "Gram and Xy must contain finite numeric values")
+@icontract.require(lambda n_nonzero_coefs, Gram: _omp_n_nonzero_valid(n_nonzero_coefs, np.asarray(Gram).shape[0]), "n_nonzero_coefs must be positive and no larger than feature count")
+@icontract.require(lambda tol: _omp_tol_valid(tol), "tol must be None or a non-negative finite value")
+@icontract.require(lambda norms_squared, Xy, tol: _omp_norms_valid(norms_squared, Xy, tol), "norms_squared must be supplied for tol mode and match target count")
+@icontract.require(lambda copy_Gram: _bool_value(copy_Gram), "copy_Gram must be boolean")
+@icontract.require(lambda copy_Xy: _bool_value(copy_Xy), "copy_Xy must be boolean")
+@icontract.require(lambda return_path: return_path is False, "return_path is outside this atom scope")
+@icontract.require(lambda return_n_iter: return_n_iter is False, "return_n_iter is outside this atom scope")
+@icontract.ensure(lambda result, Gram, Xy: _omp_gram_coefficients_valid(result, Gram, Xy), "OMP Gram coefficients must match feature and target dimensions")
+def orthogonal_mp_gram(
+    Gram: NDArray[np.float64],
+    Xy: NDArray[np.float64],
+    *,
+    n_nonzero_coefs: int | None = None,
+    tol: float | None = None,
+    norms_squared: tuple[float, ...] | NDArray[np.float64] | None = None,
+    copy_Gram: bool = True,
+    copy_Xy: bool = True,
+    return_path: bool = False,
+    return_n_iter: bool = False,
+) -> NDArray[np.float64]:
+    """Solve dense orthogonal matching pursuit coefficients from Gram inputs."""
+    del copy_Gram, copy_Xy, return_path, return_n_iter
+    checked_gram = check_array(Gram, dtype=np.float64, ensure_2d=True)
+    checked_xy = np.asarray(Xy, dtype=np.float64)
+    resolved_n_nonzero = _resolve_omp_n_nonzero(n_nonzero_coefs, tol, checked_gram.shape[0], gram_default=True)
+    if resolved_n_nonzero <= 0:
+        raise ValueError("n_nonzero_coefs must be positive")
+    norms = None
+    if norms_squared is not None:
+        norms = np.atleast_1d(np.asarray(norms_squared, dtype=np.float64))
+        xy_targets = 1 if checked_xy.ndim == 1 else checked_xy.shape[1]
+        if norms.shape[0] == 1 and xy_targets > 1:
+            norms = np.full(xy_targets, norms[0], dtype=np.float64)
+    coefficients, _ = _gram_omp_solve(checked_gram, checked_xy, resolved_n_nonzero, norms, tol)
+    return np.asarray(coefficients, dtype=np.float64)
+
+
+@register_atom(witness_orthogonal_matching_pursuit_fit)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda y: _target_1d_or_2d(y), "y must be 1D or 2D")
+@icontract.require(lambda X, y: _same_sample_count(X, y), "X and y must have matching sample counts")
+@icontract.require(lambda X, y: _finite_inputs(X, y), "X and y must contain finite numeric values")
+@icontract.require(lambda n_nonzero_coefs, X: _omp_n_nonzero_valid(n_nonzero_coefs, np.asarray(X).shape[1]), "n_nonzero_coefs must be positive and no larger than feature count")
+@icontract.require(lambda tol: _omp_tol_valid(tol), "tol must be None or a non-negative finite value")
+@icontract.require(lambda fit_intercept: _bool_value(fit_intercept), "fit_intercept must be boolean")
+@icontract.require(lambda precompute: _omp_precompute_valid(precompute), "precompute must be boolean or auto")
+@icontract.ensure(lambda result: _omp_state_valid(result), "OMP state must contain finite fitted coefficients")
+def orthogonal_matching_pursuit_fit(
+    X: NDArray[np.float64],
+    y: NDArray[np.float64],
+    *,
+    n_nonzero_coefs: int | None = None,
+    tol: float | None = None,
+    fit_intercept: bool = True,
+    precompute: bool | str = "auto",
+) -> OrthogonalMatchingPursuitState:
+    """Fit dense orthogonal matching pursuit coefficients and intercept."""
+    checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
+    checked_y = check_array(y, dtype=np.float64, ensure_2d=False, input_name="y")
+    y_was_1d = checked_y.ndim == 1
+    checked_y_2d = checked_y.reshape(-1, 1) if y_was_1d else checked_y
+    centered_x, centered_y, x_offset, y_offset = _center_without_rescale(checked_x, checked_y_2d, fit_intercept, None)
+    resolved_n_nonzero = _resolve_omp_n_nonzero(n_nonzero_coefs, tol, checked_x.shape[1])
+    use_precompute = centered_x.shape[0] > centered_x.shape[1] if precompute == "auto" else bool(precompute)
+    if use_precompute:
+        gram = np.asarray(centered_x.T @ centered_x, dtype=np.float64)
+        xy = np.asarray(centered_x.T @ centered_y, dtype=np.float64)
+        norms = None if tol is None else np.sum(centered_y**2, axis=0)
+        coefficients_by_feature, n_iters = _gram_omp_solve(gram, xy, resolved_n_nonzero, norms, tol)
+    else:
+        coefficients_by_feature, n_iters = _omp_solve(centered_x, centered_y, resolved_n_nonzero, tol)
+    coef_2d = coefficients_by_feature.reshape(-1, 1) if coefficients_by_feature.ndim == 1 else coefficients_by_feature
+    intercept = y_offset - x_offset @ coef_2d if fit_intercept else np.zeros(checked_y_2d.shape[1], dtype=np.float64)
+    coef_state = coef_2d[:, 0] if y_was_1d else coef_2d.T
+    return OrthogonalMatchingPursuitState(
+        coef=np.asarray(coef_state, dtype=np.float64),
+        intercept=np.atleast_1d(np.asarray(intercept, dtype=np.float64)),
+        n_iter=np.asarray(n_iters, dtype=np.int64),
+        n_nonzero_coefs=None if tol is not None else resolved_n_nonzero,
+        tol=None if tol is None else float(tol),
+        fit_intercept=fit_intercept,
+        precompute=precompute,
+        n_features_in=int(checked_x.shape[1]),
+        n_outputs=int(checked_y_2d.shape[1]),
+    )
+
+
+@register_atom(witness_orthogonal_matching_pursuit_predict)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X, state: _omp_feature_count_matches(X, state), "X feature count must match fitted OMP state")
+@icontract.require(lambda state: _omp_state_valid(state), "state must be a fitted OMP state")
+@icontract.ensure(lambda result, X, state: _omp_prediction_valid(result, X, state), "predictions must match fitted output width")
+def orthogonal_matching_pursuit_predict(X: NDArray[np.float64], state: OrthogonalMatchingPursuitState) -> NDArray[np.float64]:
+    """Predict dense outputs from fitted orthogonal matching pursuit coefficients."""
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     if state.n_outputs == 1:
         return np.asarray(checked_x @ state.coef + state.intercept[0], dtype=np.float64)

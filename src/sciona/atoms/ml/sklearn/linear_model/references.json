@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "atoms": {
-    "sciona.atoms.ml.sklearn.linear_model.linear_regression_fit@sciona/atoms/ml/sklearn/linear_model/atoms.py:416": {
+    "sciona.atoms.ml.sklearn.linear_model.linear_regression_fit@sciona/atoms/ml/sklearn/linear_model/atoms.py:635": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -26,7 +26,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.linear_model.linear_regression_predict@sciona/atoms/ml/sklearn/linear_model/atoms.py:461": {
+    "sciona.atoms.ml.sklearn.linear_model.linear_regression_predict@sciona/atoms/ml/sklearn/linear_model/atoms.py:680": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -51,7 +51,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.linear_model.ridge_regression@sciona/atoms/ml/sklearn/linear_model/atoms.py:481": {
+    "sciona.atoms.ml.sklearn.linear_model.ridge_regression@sciona/atoms/ml/sklearn/linear_model/atoms.py:700": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -76,7 +76,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.linear_model.ridge_fit@sciona/atoms/ml/sklearn/linear_model/atoms.py:522": {
+    "sciona.atoms.ml.sklearn.linear_model.ridge_fit@sciona/atoms/ml/sklearn/linear_model/atoms.py:741": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -101,7 +101,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.linear_model.ridge_predict@sciona/atoms/ml/sklearn/linear_model/atoms.py:566": {
+    "sciona.atoms.ml.sklearn.linear_model.ridge_predict@sciona/atoms/ml/sklearn/linear_model/atoms.py:785": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -126,7 +126,187 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.linear_model.ridge_cv_scores@sciona/atoms/ml/sklearn/linear_model/atoms.py:586": {
+    "sciona.atoms.ml.sklearn.linear_model.orthogonal_mp@sciona/atoms/ml/sklearn/linear_model/atoms.py:805": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.linear_model.orthogonal_mp and the dense Cholesky OMP branch in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        },
+        {
+          "ref_id": "mallat1993matching",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Original matching pursuit reference cited by scikit-learn."
+          }
+        },
+        {
+          "ref_id": "rubinstein2008ksvd",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Batch OMP implementation reference cited by scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.linear_model.orthogonal_mp_gram@sciona/atoms/ml/sklearn/linear_model/atoms.py:851": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.linear_model.orthogonal_mp_gram and the Gram OMP branch in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        },
+        {
+          "ref_id": "mallat1993matching",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Original matching pursuit reference cited by scikit-learn."
+          }
+        },
+        {
+          "ref_id": "rubinstein2008ksvd",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Batch OMP implementation reference cited by scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.linear_model.orthogonal_matching_pursuit_fit@sciona/atoms/ml/sklearn/linear_model/atoms.py:890": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.linear_model.OrthogonalMatchingPursuit.fit and dense OMP preprocessing in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        },
+        {
+          "ref_id": "mallat1993matching",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Original matching pursuit reference cited by scikit-learn."
+          }
+        },
+        {
+          "ref_id": "rubinstein2008ksvd",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Batch OMP implementation reference cited by scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.linear_model.orthogonal_matching_pursuit_predict@sciona/atoms/ml/sklearn/linear_model/atoms.py:935": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.linear_model.OrthogonalMatchingPursuit prediction via LinearModel._decision_function in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        },
+        {
+          "ref_id": "mallat1993matching",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Original matching pursuit reference cited by scikit-learn."
+          }
+        },
+        {
+          "ref_id": "rubinstein2008ksvd",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Batch OMP implementation reference cited by scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.linear_model.ridge_cv_scores@sciona/atoms/ml/sklearn/linear_model/atoms.py:955": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -151,7 +331,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.linear_model.ridge_cv_fit@sciona/atoms/ml/sklearn/linear_model/atoms.py:638": {
+    "sciona.atoms.ml.sklearn.linear_model.ridge_cv_fit@sciona/atoms/ml/sklearn/linear_model/atoms.py:1007": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -176,7 +356,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.linear_model.ridge_cv_predict@sciona/atoms/ml/sklearn/linear_model/atoms.py:674": {
+    "sciona.atoms.ml.sklearn.linear_model.ridge_cv_predict@sciona/atoms/ml/sklearn/linear_model/atoms.py:1043": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -201,7 +381,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.linear_model.ridge_classifier_fit@sciona/atoms/ml/sklearn/linear_model/atoms.py:697": {
+    "sciona.atoms.ml.sklearn.linear_model.ridge_classifier_fit@sciona/atoms/ml/sklearn/linear_model/atoms.py:1066": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -226,7 +406,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.linear_model.ridge_classifier_decision_function@sciona/atoms/ml/sklearn/linear_model/atoms.py:741": {
+    "sciona.atoms.ml.sklearn.linear_model.ridge_classifier_decision_function@sciona/atoms/ml/sklearn/linear_model/atoms.py:1110": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -251,7 +431,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.linear_model.ridge_classifier_predict@sciona/atoms/ml/sklearn/linear_model/atoms.py:755": {
+    "sciona.atoms.ml.sklearn.linear_model.ridge_classifier_predict@sciona/atoms/ml/sklearn/linear_model/atoms.py:1124": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -276,7 +456,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.linear_model.ridge_classifier_cv_scores@sciona/atoms/ml/sklearn/linear_model/atoms.py:779": {
+    "sciona.atoms.ml.sklearn.linear_model.ridge_classifier_cv_scores@sciona/atoms/ml/sklearn/linear_model/atoms.py:1148": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -301,7 +481,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.linear_model.ridge_classifier_cv_fit@sciona/atoms/ml/sklearn/linear_model/atoms.py:832": {
+    "sciona.atoms.ml.sklearn.linear_model.ridge_classifier_cv_fit@sciona/atoms/ml/sklearn/linear_model/atoms.py:1201": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -326,7 +506,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.linear_model.ridge_classifier_cv_decision_function@sciona/atoms/ml/sklearn/linear_model/atoms.py:867": {
+    "sciona.atoms.ml.sklearn.linear_model.ridge_classifier_cv_decision_function@sciona/atoms/ml/sklearn/linear_model/atoms.py:1236": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -351,7 +531,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.linear_model.ridge_classifier_cv_predict@sciona/atoms/ml/sklearn/linear_model/atoms.py:881": {
+    "sciona.atoms.ml.sklearn.linear_model.ridge_classifier_cv_predict@sciona/atoms/ml/sklearn/linear_model/atoms.py:1250": {
       "references": [
         {
           "ref_id": "repo_sklearn",

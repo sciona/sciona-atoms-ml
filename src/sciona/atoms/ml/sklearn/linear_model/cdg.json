@@ -11,6 +11,10 @@
         "ridge_regression",
         "ridge_fit",
         "ridge_predict",
+        "orthogonal_mp",
+        "orthogonal_mp_gram",
+        "orthogonal_matching_pursuit_fit",
+        "orthogonal_matching_pursuit_predict",
         "ridge_cv_scores",
         "ridge_cv_fit",
         "ridge_cv_predict",
@@ -121,6 +125,87 @@
       "inputs": [
         {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
         {"name": "state", "type_desc": "RidgeState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "orthogonal_mp",
+      "name": "orthogonal_mp",
+      "description": "Solve dense orthogonal matching pursuit coefficients from samples.",
+      "concept_type": "sparse_linear_solver",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], n_nonzero_coefs: int | None = None, tol: float | None = None, precompute: bool | str = False, copy_X: bool = True, return_path: bool = False, return_n_iter: bool = False) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "n_nonzero_coefs", "type_desc": "int | None", "required": false},
+        {"name": "tol", "type_desc": "float | None", "required": false},
+        {"name": "precompute", "type_desc": "bool | str", "required": false},
+        {"name": "copy_X", "type_desc": "bool", "required": false},
+        {"name": "return_path", "type_desc": "bool", "required": false},
+        {"name": "return_n_iter", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "orthogonal_mp_gram",
+      "name": "orthogonal_mp_gram",
+      "description": "Solve dense orthogonal matching pursuit coefficients from Gram inputs.",
+      "concept_type": "sparse_linear_solver",
+      "status": "atomic",
+      "type_signature": "(Gram: NDArray[np.float64], Xy: NDArray[np.float64], n_nonzero_coefs: int | None = None, tol: float | None = None, norms_squared: tuple[float, ...] | NDArray[np.float64] | None = None, copy_Gram: bool = True, copy_Xy: bool = True, return_path: bool = False, return_n_iter: bool = False) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "Gram", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "Xy", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "n_nonzero_coefs", "type_desc": "int | None", "required": false},
+        {"name": "tol", "type_desc": "float | None", "required": false},
+        {"name": "norms_squared", "type_desc": "tuple[float, ...] | NDArray[np.float64] | None", "required": false},
+        {"name": "copy_Gram", "type_desc": "bool", "required": false},
+        {"name": "copy_Xy", "type_desc": "bool", "required": false},
+        {"name": "return_path", "type_desc": "bool", "required": false},
+        {"name": "return_n_iter", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "orthogonal_matching_pursuit_fit",
+      "name": "orthogonal_matching_pursuit_fit",
+      "description": "Fit dense orthogonal matching pursuit coefficients and intercept.",
+      "concept_type": "fit_state_builder",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], n_nonzero_coefs: int | None = None, tol: float | None = None, fit_intercept: bool = True, precompute: bool | str = 'auto') -> OrthogonalMatchingPursuitState",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "n_nonzero_coefs", "type_desc": "int | None", "required": false},
+        {"name": "tol", "type_desc": "float | None", "required": false},
+        {"name": "fit_intercept", "type_desc": "bool", "required": false},
+        {"name": "precompute", "type_desc": "bool | str", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "OrthogonalMatchingPursuitState"}
+      ]
+    },
+    {
+      "node_id": "orthogonal_matching_pursuit_predict",
+      "name": "orthogonal_matching_pursuit_predict",
+      "description": "Predict dense outputs from fitted orthogonal matching pursuit coefficients.",
+      "concept_type": "prediction",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: OrthogonalMatchingPursuitState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "state", "type_desc": "OrthogonalMatchingPursuitState", "required": true}
       ],
       "outputs": [
         {"name": "result", "type_desc": "NDArray[np.float64]"}
@@ -326,6 +411,10 @@
   "edges": [
     {"source": "linear_regression_fit", "target": "linear_regression_predict", "kind": "state"},
     {"source": "ridge_fit", "target": "ridge_predict", "kind": "state"},
+    {"source": "orthogonal_mp_gram", "target": "orthogonal_mp", "kind": "precomputed_solver"},
+    {"source": "orthogonal_mp", "target": "orthogonal_matching_pursuit_fit", "kind": "solver"},
+    {"source": "orthogonal_mp_gram", "target": "orthogonal_matching_pursuit_fit", "kind": "precomputed_solver"},
+    {"source": "orthogonal_matching_pursuit_fit", "target": "orthogonal_matching_pursuit_predict", "kind": "state"},
     {"source": "ridge_cv_scores", "target": "ridge_cv_fit", "kind": "alpha_selection"},
     {"source": "ridge_cv_fit", "target": "ridge_cv_predict", "kind": "state"},
     {"source": "ridge_classifier_fit", "target": "ridge_classifier_decision_function", "kind": "state"},

@@ -71,3 +71,18 @@ class RidgeClassifierCVState:
     best_score: NDArray[np.float64]
     fit_intercept: bool
     n_features_in: int
+
+
+@dataclass(frozen=True)
+class OrthogonalMatchingPursuitState:
+    """Fitted dense orthogonal matching pursuit coefficients."""
+
+    coef: NDArray[np.float64]
+    intercept: NDArray[np.float64]
+    n_iter: NDArray[np.int64]
+    n_nonzero_coefs: int | None
+    tol: float | None
+    fit_intercept: bool
+    precompute: bool | str
+    n_features_in: int
+    n_outputs: int

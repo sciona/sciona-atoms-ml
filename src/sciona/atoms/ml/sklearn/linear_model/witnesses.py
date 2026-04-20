@@ -4,7 +4,14 @@ from __future__ import annotations
 
 from sciona.ghost.abstract import AbstractArray
 
-from .state_models import LinearRegressionState, RidgeClassifierCVState, RidgeClassifierState, RidgeCVState, RidgeState
+from .state_models import (
+    LinearRegressionState,
+    OrthogonalMatchingPursuitState,
+    RidgeClassifierCVState,
+    RidgeClassifierState,
+    RidgeCVState,
+    RidgeState,
+)
 
 
 def witness_linear_regression_fit(
@@ -316,3 +323,92 @@ def witness_ridge_classifier_cv_predict(X: AbstractArray, state: RidgeClassifier
     if X.shape[1] != state.n_features_in:
         raise ValueError("X feature count must match fitted state")
     return AbstractArray(shape=(int(X.shape[0]),), dtype="float64")
+
+
+def witness_orthogonal_mp(
+    X: AbstractArray,
+    y: AbstractArray,
+    *,
+    n_nonzero_coefs: int | None = None,
+    tol: float | None = None,
+    precompute: bool | str = False,
+    copy_X: bool = True,
+    return_path: bool = False,
+    return_n_iter: bool = False,
+) -> AbstractArray:
+    """Describe dense OMP coefficient solving from a design matrix."""
+    del n_nonzero_coefs, tol, precompute, copy_X
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    if len(y.shape) not in {1, 2}:
+        raise ValueError("y must be 1D or 2D")
+    if X.shape[0] != y.shape[0]:
+        raise ValueError("X and y must have matching sample counts")
+    if return_path or return_n_iter:
+        raise ValueError("path and iteration-return modes are outside this atom scope")
+    if len(y.shape) == 1:
+        return AbstractArray(shape=(int(X.shape[1]),), dtype="float64")
+    return AbstractArray(shape=(int(X.shape[1]), int(y.shape[1])), dtype="float64")
+
+
+def witness_orthogonal_mp_gram(
+    Gram: AbstractArray,
+    Xy: AbstractArray,
+    *,
+    n_nonzero_coefs: int | None = None,
+    tol: float | None = None,
+    norms_squared: tuple[float, ...] | None = None,
+    copy_Gram: bool = True,
+    copy_Xy: bool = True,
+    return_path: bool = False,
+    return_n_iter: bool = False,
+) -> AbstractArray:
+    """Describe dense OMP coefficient solving from Gram inputs."""
+    del n_nonzero_coefs, tol, norms_squared, copy_Gram, copy_Xy
+    if len(Gram.shape) != 2 or Gram.shape[0] != Gram.shape[1]:
+        raise ValueError("Gram must be square")
+    if len(Xy.shape) not in {1, 2}:
+        raise ValueError("Xy must be 1D or 2D")
+    if Xy.shape[0] != Gram.shape[0]:
+        raise ValueError("Xy feature count must match Gram")
+    if return_path or return_n_iter:
+        raise ValueError("path and iteration-return modes are outside this atom scope")
+    if len(Xy.shape) == 1:
+        return AbstractArray(shape=(int(Gram.shape[0]),), dtype="float64")
+    return AbstractArray(shape=(int(Gram.shape[0]), int(Xy.shape[1])), dtype="float64")
+
+
+def witness_orthogonal_matching_pursuit_fit(
+    X: AbstractArray,
+    y: AbstractArray,
+    *,
+    n_nonzero_coefs: int | None = None,
+    tol: float | None = None,
+    fit_intercept: bool = True,
+    precompute: bool | str = "auto",
+) -> AbstractArray:
+    """Describe fitting dense orthogonal matching pursuit coefficients."""
+    del n_nonzero_coefs, tol, precompute
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    if len(y.shape) not in {1, 2}:
+        raise ValueError("y must be 1D or 2D")
+    if X.shape[0] != y.shape[0]:
+        raise ValueError("X and y must have matching sample counts")
+    if not isinstance(fit_intercept, bool):
+        raise ValueError("fit_intercept must be boolean")
+    n_outputs = 1 if len(y.shape) == 1 else int(y.shape[1])
+    if n_outputs == 1:
+        return AbstractArray(shape=(int(X.shape[1]),), dtype="float64")
+    return AbstractArray(shape=(n_outputs, int(X.shape[1])), dtype="float64")
+
+
+def witness_orthogonal_matching_pursuit_predict(X: AbstractArray, state: OrthogonalMatchingPursuitState) -> AbstractArray:
+    """Describe predicting with fitted orthogonal matching pursuit coefficients."""
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    if X.shape[1] != state.n_features_in:
+        raise ValueError("X feature count must match fitted state")
+    if state.n_outputs == 1:
+        return AbstractArray(shape=(int(X.shape[0]),), dtype="float64")
+    return AbstractArray(shape=(int(X.shape[0]), state.n_outputs), dtype="float64")
