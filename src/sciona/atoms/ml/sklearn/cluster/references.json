@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "atoms": {
-    "sciona.atoms.ml.sklearn.cluster.affinity_propagation@sciona/atoms/ml/sklearn/cluster/atoms.py:665": {
+    "sciona.atoms.ml.sklearn.cluster.affinity_propagation@sciona/atoms/ml/sklearn/cluster/atoms.py:714": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -36,7 +36,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.cluster.affinity_propagation_fit@sciona/atoms/ml/sklearn/cluster/atoms.py:707": {
+    "sciona.atoms.ml.sklearn.cluster.affinity_propagation_fit@sciona/atoms/ml/sklearn/cluster/atoms.py:756": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -71,7 +71,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.cluster.affinity_propagation_predict@sciona/atoms/ml/sklearn/cluster/atoms.py:771": {
+    "sciona.atoms.ml.sklearn.cluster.affinity_propagation_predict@sciona/atoms/ml/sklearn/cluster/atoms.py:820": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -106,7 +106,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.cluster.estimate_bandwidth@sciona/atoms/ml/sklearn/cluster/atoms.py:796": {
+    "sciona.atoms.ml.sklearn.cluster.estimate_bandwidth@sciona/atoms/ml/sklearn/cluster/atoms.py:845": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -141,7 +141,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.cluster.mean_shift@sciona/atoms/ml/sklearn/cluster/atoms.py:832": {
+    "sciona.atoms.ml.sklearn.cluster.mean_shift@sciona/atoms/ml/sklearn/cluster/atoms.py:881": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -176,7 +176,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.cluster.mean_shift_fit@sciona/atoms/ml/sklearn/cluster/atoms.py:866": {
+    "sciona.atoms.ml.sklearn.cluster.mean_shift_fit@sciona/atoms/ml/sklearn/cluster/atoms.py:915": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -211,7 +211,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.cluster.mean_shift_predict@sciona/atoms/ml/sklearn/cluster/atoms.py:895": {
+    "sciona.atoms.ml.sklearn.cluster.mean_shift_predict@sciona/atoms/ml/sklearn/cluster/atoms.py:944": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -246,7 +246,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.cluster.kmeans_plusplus@sciona/atoms/ml/sklearn/cluster/atoms.py:911": {
+    "sciona.atoms.ml.sklearn.cluster.kmeans_plusplus@sciona/atoms/ml/sklearn/cluster/atoms.py:960": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -281,7 +281,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.cluster.cluster_optics_dbscan@sciona/atoms/ml/sklearn/cluster/atoms.py:939": {
+    "sciona.atoms.ml.sklearn.cluster.cluster_optics_dbscan@sciona/atoms/ml/sklearn/cluster/atoms.py:988": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -316,7 +316,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.cluster.cluster_optics_xi@sciona/atoms/ml/sklearn/cluster/atoms.py:1124": {
+    "sciona.atoms.ml.sklearn.cluster.cluster_optics_xi@sciona/atoms/ml/sklearn/cluster/atoms.py:1173": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -361,7 +361,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.cluster.compute_optics_graph@sciona/atoms/ml/sklearn/cluster/atoms.py:1222": {
+    "sciona.atoms.ml.sklearn.cluster.compute_optics_graph@sciona/atoms/ml/sklearn/cluster/atoms.py:1271": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -391,6 +391,51 @@
             "matched_nodes": [],
             "confidence": "high",
             "notes": "Original OPTICS paper cited by scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.cluster.optics_fit@sciona/atoms/ml/sklearn/cluster/atoms.py:1355": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.cluster.OPTICS.fit in scikit-learn 1.8.0 using decomposed OPTICS graph and extraction atoms."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        },
+        {
+          "ref_id": "ankerst1999optics",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Original OPTICS paper cited by scikit-learn."
+          }
+        },
+        {
+          "ref_id": "schubert2018optics",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Xi predecessor correction reference used when cluster_method='xi'."
           }
         }
       ],

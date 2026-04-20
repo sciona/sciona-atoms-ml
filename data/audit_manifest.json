@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "metadata": {
-    "generated_at": "2026-04-20T12:37:59.418657+00:00",
+    "generated_at": "2026-04-20T12:45:10.577947+00:00",
     "generator": "scripts/apply_audit_review_bundles.py",
     "phase": "phase_1_review_bundle_merge"
   },
@@ -1607,7 +1607,7 @@
       "uses_varargs": false,
       "uses_kwargs": false,
       "return_annotation": "OpticsGraphResult",
-      "docstring_summary": "Compute OPTICS ordering, core distances, reachability, and predecessors.",
+      "docstring_summary": "Compute ordered reachability arrays for density clustering.",
       "has_docstring": true,
       "authoritative_sources": [
         {
@@ -2305,6 +2305,191 @@
       "required_actions": [],
       "blocking_findings": [],
       "review_record_path": "data/review_bundles/ml_sklearn_cluster_mean_shift.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.cluster.optics_fit",
+      "atom_key": "sciona.atoms.ml.sklearn.cluster.optics_fit",
+      "atom_id": "sciona.atoms.ml.sklearn.cluster.optics_fit",
+      "module_import_path": "sciona.atoms.ml.sklearn.cluster",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/cluster/atoms.py",
+      "module_family": "sklearn",
+      "domain_family": "ml.sklearn",
+      "wrapper_symbol": "optics_fit",
+      "argument_names": [
+        "X",
+        "min_samples",
+        "max_eps",
+        "metric",
+        "p",
+        "metric_params",
+        "cluster_method",
+        "eps",
+        "xi",
+        "predecessor_correction",
+        "min_cluster_size",
+        "algorithm",
+        "leaf_size",
+        "n_jobs"
+      ],
+      "argument_details": [
+        {
+          "name": "X",
+          "annotation": "MatrixLike",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "min_samples",
+          "annotation": "int | float",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "max_eps",
+          "annotation": "float",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "metric",
+          "annotation": "str",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "p",
+          "annotation": "float | None",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "metric_params",
+          "annotation": "dict[str, float] | None",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "cluster_method",
+          "annotation": "str",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "eps",
+          "annotation": "float | None",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "xi",
+          "annotation": "float",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "predecessor_correction",
+          "annotation": "bool",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "min_cluster_size",
+          "annotation": "int | float | None",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "algorithm",
+          "annotation": "str",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "leaf_size",
+          "annotation": "int",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "n_jobs",
+          "annotation": "int | None",
+          "required": false,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "OpticsState",
+      "docstring_summary": "Fit OPTICS and return reachability ordering, extracted labels, and metadata.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/state_models.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_cluster_optics_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_cluster_optics_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_cluster_optics_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 20,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "medium",
+        "api_surface": "medium"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 84,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 2,
+      "parity_case_count": 3,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_cluster_optics.review_bundle.json",
       "has_references": true,
       "references_status": "pass"
     },

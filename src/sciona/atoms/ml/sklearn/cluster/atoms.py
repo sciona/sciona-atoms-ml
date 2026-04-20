@@ -19,7 +19,7 @@ from sklearn.utils.validation import _check_sample_weight
 
 from sciona.ghost.registry import register_atom
 
-from .state_models import AffinityPropagationState, MeanShiftState
+from .state_models import AffinityPropagationState, MeanShiftState, OpticsState
 from .witnesses import (
     witness_affinity_propagation,
     witness_affinity_propagation_fit,
@@ -32,6 +32,7 @@ from .witnesses import (
     witness_mean_shift,
     witness_mean_shift_fit,
     witness_mean_shift_predict,
+    witness_optics_fit,
 )
 
 MatrixLike = NDArray[np.float64] | sp.spmatrix | list[list[float]]
@@ -171,6 +172,16 @@ def _nonnegative_float(value: float) -> bool:
 
 def _xi_valid(xi: float) -> bool:
     return bool(0.0 <= float(xi) <= 1.0)
+
+
+def _optics_cluster_method_valid(cluster_method: str) -> bool:
+    return cluster_method in {"xi", "dbscan"}
+
+
+def _optics_dbscan_eps_valid(max_eps: float, cluster_method: str, eps: float | None) -> bool:
+    if eps is not None and float(eps) < 0.0:
+        return False
+    return bool(cluster_method != "dbscan" or eps is None or float(eps) <= float(max_eps))
 
 
 def _optics_size_valid(size: int | float | None, n_samples: int, *, allow_none: bool) -> bool:
@@ -339,6 +350,44 @@ def _optics_graph_result_valid(result: OpticsGraphResult, X: MatrixLike) -> bool
         and np.all(np.isfinite(reachability) | np.isinf(reachability))
         and predecessor.dtype.kind in {"i", "u"}
         and np.all((predecessor >= -1) & (predecessor < n_samples))
+    )
+
+
+def _optics_state_valid(state: OpticsState) -> bool:
+    n_samples = state.ordering.shape[0]
+    hierarchy = state.cluster_hierarchy
+    hierarchy_ok = hierarchy is None
+    if hierarchy is not None:
+        hierarchy_ok = hierarchy.ndim == 2 and hierarchy.shape[1] == 2 and hierarchy.dtype.kind in {"i", "u"}
+        if hierarchy.size:
+            hierarchy_ok = bool(
+                hierarchy_ok
+                and np.all(hierarchy >= 0)
+                and np.all(hierarchy[:, 0] <= hierarchy[:, 1])
+                and np.all(hierarchy < n_samples)
+            )
+    hierarchy_matches_method = (state.cluster_method == "xi" and hierarchy is not None) or (
+        state.cluster_method == "dbscan" and hierarchy is None
+    )
+    return bool(
+        _optics_cluster_method_valid(state.cluster_method)
+        and state.ordering.shape == (n_samples,)
+        and state.core_distances.shape == (n_samples,)
+        and state.reachability.shape == (n_samples,)
+        and state.predecessor.shape == (n_samples,)
+        and state.labels.shape == (n_samples,)
+        and _ordering_permutation(state.ordering)
+        and np.all(np.isfinite(state.core_distances) | np.isinf(state.core_distances))
+        and np.all(np.isfinite(state.reachability) | np.isinf(state.reachability))
+        and state.predecessor.dtype.kind == "i"
+        and np.all((state.predecessor >= -1) & (state.predecessor < n_samples))
+        and state.labels.dtype.kind in {"i", "u"}
+        and np.all(state.labels >= -1)
+        and hierarchy_ok
+        and hierarchy_matches_method
+        and float(state.max_eps) >= 0.0
+        and (state.eps is None or float(state.eps) >= 0.0)
+        and state.n_features_in >= 1
     )
 
 
@@ -1287,3 +1336,82 @@ def compute_optics_graph(
             UserWarning,
         )
     return ordering, core_distances, reachability, predecessor
+
+
+@register_atom(witness_optics_fit)
+@icontract.require(lambda X: _is_2d_matrix(X), "X must be a 2D matrix")
+@icontract.require(lambda X, min_samples: _optics_size_valid(min_samples, _sample_count(X), allow_none=False), "min_samples must be valid for sample count")
+@icontract.require(lambda X, min_cluster_size: _optics_size_valid(min_cluster_size, _sample_count(X), allow_none=True), "min_cluster_size must be valid for sample count")
+@icontract.require(lambda max_eps: _nonnegative_float(max_eps), "max_eps must be nonnegative")
+@icontract.require(lambda p: _positive_float_or_none(p), "p must be positive or None")
+@icontract.require(lambda metric_params: _metric_params_valid(metric_params), "metric_params must be a dictionary or None")
+@icontract.require(lambda cluster_method: _optics_cluster_method_valid(cluster_method), "cluster_method must be 'xi' or 'dbscan'")
+@icontract.require(lambda max_eps, cluster_method, eps: _optics_dbscan_eps_valid(max_eps, cluster_method, eps), "dbscan eps must be nonnegative and no greater than max_eps")
+@icontract.require(lambda xi: _xi_valid(xi), "xi must be in [0, 1]")
+@icontract.require(lambda algorithm: _neighbor_algorithm_valid(algorithm), "algorithm must be a valid nearest-neighbor backend")
+@icontract.require(lambda leaf_size: _positive_int(leaf_size), "leaf_size must be at least one")
+@icontract.require(lambda n_jobs: _n_jobs_valid(n_jobs), "n_jobs must be an integer or None")
+@icontract.ensure(lambda result: _optics_state_valid(result), "OPTICS state must contain fitted reachability arrays and labels")
+def optics_fit(
+    X: MatrixLike,
+    *,
+    min_samples: int | float = 5,
+    max_eps: float = np.inf,
+    metric: str = "minkowski",
+    p: float | None = 2,
+    metric_params: dict[str, float] | None = None,
+    cluster_method: str = "xi",
+    eps: float | None = None,
+    xi: float = 0.05,
+    predecessor_correction: bool = True,
+    min_cluster_size: int | float | None = None,
+    algorithm: str = "auto",
+    leaf_size: int = 30,
+    n_jobs: int | None = None,
+) -> OpticsState:
+    """Fit OPTICS and return reachability ordering, extracted labels, and metadata."""
+    n_features_in = _feature_count(X)
+    ordering, core_distances, reachability, predecessor = compute_optics_graph(
+        X,
+        min_samples=min_samples,
+        max_eps=max_eps,
+        metric=metric,
+        p=p,
+        metric_params=metric_params,
+        algorithm=algorithm,
+        leaf_size=leaf_size,
+        n_jobs=n_jobs,
+    )
+
+    if cluster_method == "xi":
+        labels, cluster_hierarchy = cluster_optics_xi(
+            reachability=reachability,
+            predecessor=predecessor,
+            ordering=ordering,
+            min_samples=min_samples,
+            min_cluster_size=min_cluster_size,
+            xi=xi,
+            predecessor_correction=predecessor_correction,
+        )
+    else:
+        dbscan_eps = max_eps if eps is None else eps
+        labels = cluster_optics_dbscan(
+            reachability=reachability,
+            core_distances=core_distances,
+            ordering=ordering,
+            eps=dbscan_eps,
+        )
+        cluster_hierarchy = None
+
+    return OpticsState(
+        ordering=np.asarray(ordering, dtype=np.int_).copy(),
+        core_distances=np.asarray(core_distances, dtype=np.float64).copy(),
+        reachability=np.asarray(reachability, dtype=np.float64).copy(),
+        predecessor=np.asarray(predecessor, dtype=np.int_).copy(),
+        labels=np.asarray(labels, dtype=np.int_).copy(),
+        cluster_hierarchy=None if cluster_hierarchy is None else np.asarray(cluster_hierarchy, dtype=np.int_).copy(),
+        cluster_method=cluster_method,
+        max_eps=float(max_eps),
+        eps=None if eps is None else float(eps),
+        n_features_in=int(n_features_in),
+    )

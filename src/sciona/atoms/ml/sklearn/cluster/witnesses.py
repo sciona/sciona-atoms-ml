@@ -224,6 +224,46 @@ def witness_compute_optics_graph(
     return ordering, core_distances, reachability, predecessor
 
 
+def witness_optics_fit(
+    X: AbstractArray,
+    *,
+    min_samples: int | float = 5,
+    max_eps: float = float("inf"),
+    metric: str = "minkowski",
+    p: float | None = 2,
+    metric_params: dict[str, float] | None = None,
+    cluster_method: str = "xi",
+    eps: float | None = None,
+    xi: float = 0.05,
+    predecessor_correction: bool = True,
+    min_cluster_size: int | float | None = None,
+    algorithm: str = "auto",
+    leaf_size: int = 30,
+    n_jobs: int | None = None,
+) -> AbstractArray:
+    """Describe fitting OPTICS into labels from reachability arrays."""
+    del metric, p, metric_params, predecessor_correction, n_jobs
+    n_samples, _ = _check_2d(X)
+    _check_fraction_or_count(min_samples, n_samples, "min_samples")
+    if min_cluster_size is not None:
+        _check_fraction_or_count(min_cluster_size, n_samples, "min_cluster_size")
+    if max_eps < 0.0:
+        raise ValueError("max_eps must be nonnegative")
+    if cluster_method not in {"xi", "dbscan"}:
+        raise ValueError("cluster_method must be 'xi' or 'dbscan'")
+    if cluster_method == "dbscan" and eps is not None and eps > max_eps:
+        raise ValueError("eps must be no greater than max_eps")
+    if eps is not None and eps < 0.0:
+        raise ValueError("eps must be nonnegative")
+    if not 0.0 <= xi <= 1.0:
+        raise ValueError("xi must be in [0, 1]")
+    if algorithm not in {"auto", "brute", "ball_tree", "kd_tree"}:
+        raise ValueError("invalid neighbor algorithm")
+    if leaf_size < 1:
+        raise ValueError("leaf_size must be positive")
+    return AbstractArray(shape=(n_samples,), dtype="int64", min_val=-1)
+
+
 def _check_2d(X: AbstractArray) -> tuple[int, int]:
     if len(X.shape) != 2:
         raise ValueError("X must be 2D")

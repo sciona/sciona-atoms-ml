@@ -33,3 +33,19 @@ class MeanShiftState:
     n_iter: int
     cluster_all: bool
     n_features_in: int
+
+
+@dataclass(frozen=True)
+class OpticsState:
+    """Fitted OPTICS reachability graph, labels, and metadata."""
+
+    ordering: NDArray[np.int_]
+    core_distances: NDArray[np.float64]
+    reachability: NDArray[np.float64]
+    predecessor: NDArray[np.int_]
+    labels: NDArray[np.int_]
+    cluster_hierarchy: NDArray[np.int_] | None
+    cluster_method: str
+    max_eps: float
+    eps: float | None
+    n_features_in: int
