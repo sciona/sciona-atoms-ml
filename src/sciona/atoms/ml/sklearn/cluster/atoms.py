@@ -14,6 +14,8 @@ from sklearn.exceptions import ConvergenceWarning
 from sklearn.metrics import euclidean_distances, pairwise_distances_argmin
 from sklearn.neighbors import NearestNeighbors
 from sklearn.utils import check_array, check_random_state, gen_batches
+from sklearn.utils.extmath import row_norms
+from sklearn.utils.validation import _check_sample_weight
 
 from sciona.ghost.registry import register_atom
 
@@ -23,6 +25,7 @@ from .witnesses import (
     witness_affinity_propagation_fit,
     witness_affinity_propagation_predict,
     witness_estimate_bandwidth,
+    witness_kmeans_plusplus,
     witness_mean_shift,
     witness_mean_shift_fit,
     witness_mean_shift_predict,
@@ -35,6 +38,7 @@ AffinityPropagationResult = tuple[NDArray[np.int_], NDArray[np.int_]]
 AffinityPropagationResultWithIter = tuple[NDArray[np.int_], NDArray[np.int_], int]
 AffinityPropagationOutput = AffinityPropagationResult | AffinityPropagationResultWithIter
 MeanShiftResult = tuple[NDArray[np.float64], NDArray[np.int_]]
+KMeansPlusPlusResult = tuple[NDArray[np.float64], NDArray[np.int_]]
 
 
 def _is_2d_matrix(X: MatrixLike) -> bool:
@@ -110,6 +114,23 @@ def _seeds_valid(seeds: MatrixLike | None) -> bool:
 
 def _seeds_match_features(seeds: MatrixLike | None, X: MatrixLike) -> bool:
     return seeds is None or _feature_count(seeds) == _feature_count(X)
+
+
+def _clusters_within_samples(n_clusters: int, X: MatrixLike) -> bool:
+    return _positive_int(n_clusters) and n_clusters <= _sample_count(X)
+
+
+def _vector_matches_samples(vector: NDArray[np.float64] | list[float] | None, X: MatrixLike) -> bool:
+    if vector is None:
+        return True
+    return bool(np.asarray(vector).ndim == 1 and np.asarray(vector).shape[0] == _sample_count(X))
+
+
+def _sample_weight_valid(sample_weight: NDArray[np.float64] | list[float] | None, X: MatrixLike) -> bool:
+    if sample_weight is None:
+        return True
+    values = np.asarray(sample_weight, dtype=np.float64)
+    return bool(values.ndim == 1 and values.shape[0] == _sample_count(X) and np.all(values >= 0.0) and values.sum() > 0.0)
 
 
 def _equal_similarities_and_preferences(S: NDArray[np.float64], preference: NDArray[np.float64]) -> bool:
@@ -210,6 +231,19 @@ def _mean_shift_state_valid(state: MeanShiftState) -> bool:
         and state.n_features_in >= 1
         and state.labels.dtype.kind in {"i", "u"}
         and np.all(state.labels >= -1)
+    )
+
+
+def _kmeans_plusplus_result_valid(result: KMeansPlusPlusResult, X: MatrixLike, n_clusters: int) -> bool:
+    centers, indices = result
+    n_samples = _sample_count(X)
+    return bool(
+        centers.shape == (n_clusters, _feature_count(X))
+        and indices.shape == (n_clusters,)
+        and np.all(np.isfinite(centers))
+        and indices.dtype.kind in {"i", "u"}
+        and np.all(indices >= 0)
+        and np.all(indices < n_samples)
     )
 
 
@@ -337,6 +371,74 @@ def _mean_shift_fit_core(
         cluster_all=bool(cluster_all),
         n_features_in=int(n_features),
     )
+
+
+def _kmeans_plusplus_core(
+    X: MatrixLike,
+    n_clusters: int,
+    *,
+    sample_weight: NDArray[np.float64] | list[float] | None,
+    x_squared_norms: NDArray[np.float64] | list[float] | None,
+    random_state: RandomStateLike,
+    n_local_trials: int | None,
+) -> KMeansPlusPlusResult:
+    checked_x = check_array(X, accept_sparse="csr", dtype=np.float64)
+    checked_weight = _check_sample_weight(sample_weight, checked_x, dtype=np.float64)
+    if x_squared_norms is None:
+        squared_norms = row_norms(checked_x, squared=True)
+    else:
+        squared_norms = check_array(x_squared_norms, dtype=np.float64, ensure_2d=False)
+    if squared_norms.shape[0] != checked_x.shape[0]:
+        raise ValueError("x_squared_norms length must equal sample count")
+
+    rng = check_random_state(random_state)
+    n_samples, n_features = checked_x.shape
+    centers = np.empty((n_clusters, n_features), dtype=np.float64)
+    if n_local_trials is None:
+        n_local_trials = 2 + int(np.log(n_clusters))
+
+    center_id = rng.choice(n_samples, p=checked_weight / checked_weight.sum())
+    indices = np.full(n_clusters, -1, dtype=np.int_)
+    if sp.issparse(checked_x):
+        centers[0] = checked_x[[center_id]].toarray()
+    else:
+        centers[0] = checked_x[center_id]
+    indices[0] = int(center_id)
+
+    closest_dist_sq = euclidean_distances(
+        centers[0, np.newaxis],
+        checked_x,
+        Y_norm_squared=squared_norms,
+        squared=True,
+    )
+    current_potential = closest_dist_sq @ checked_weight
+
+    for center_index in range(1, n_clusters):
+        rand_vals = rng.uniform(size=n_local_trials) * current_potential
+        candidate_ids = np.searchsorted(np.cumsum(checked_weight * closest_dist_sq), rand_vals)
+        np.clip(candidate_ids, None, closest_dist_sq.size - 1, out=candidate_ids)
+
+        distance_to_candidates = euclidean_distances(
+            checked_x[candidate_ids],
+            checked_x,
+            Y_norm_squared=squared_norms,
+            squared=True,
+        )
+        np.minimum(closest_dist_sq, distance_to_candidates, out=distance_to_candidates)
+        candidates_potential = distance_to_candidates @ checked_weight.reshape(-1, 1)
+
+        best_candidate_index = int(np.argmin(candidates_potential))
+        current_potential = candidates_potential[best_candidate_index]
+        closest_dist_sq = distance_to_candidates[best_candidate_index]
+        best_candidate = int(candidate_ids[best_candidate_index])
+
+        if sp.issparse(checked_x):
+            centers[center_index] = checked_x[[best_candidate]].toarray()
+        else:
+            centers[center_index] = checked_x[best_candidate]
+        indices[center_index] = best_candidate
+
+    return centers, indices
 
 
 def _affinity_propagation_core(
@@ -702,3 +804,30 @@ def mean_shift_predict(
     """Assign samples to the nearest fitted mean-shift center."""
     checked_x = np.asarray(check_array(X, dtype=[np.float64, np.float32]), dtype=np.float64)
     return np.asarray(pairwise_distances_argmin(checked_x, state.cluster_centers), dtype=np.int_)
+
+
+@register_atom(witness_kmeans_plusplus)
+@icontract.require(lambda X: _is_2d_matrix(X), "X must be a 2D matrix")
+@icontract.require(lambda X, n_clusters: _clusters_within_samples(n_clusters, X), "n_clusters must be between one and sample count")
+@icontract.require(lambda X, sample_weight: _sample_weight_valid(sample_weight, X), "sample_weight must be nonnegative and match sample count")
+@icontract.require(lambda X, x_squared_norms: _vector_matches_samples(x_squared_norms, X), "x_squared_norms must match sample count")
+@icontract.require(lambda n_local_trials: _positive_int_or_none(n_local_trials), "n_local_trials must be positive or None")
+@icontract.ensure(lambda result, X, n_clusters: _kmeans_plusplus_result_valid(result, X, n_clusters), "k-means++ centers and indices must match requested clusters")
+def kmeans_plusplus(
+    X: MatrixLike,
+    n_clusters: int,
+    *,
+    sample_weight: NDArray[np.float64] | list[float] | None = None,
+    x_squared_norms: NDArray[np.float64] | list[float] | None = None,
+    random_state: RandomStateLike = None,
+    n_local_trials: int | None = None,
+) -> KMeansPlusPlusResult:
+    """Choose initial centers with the k-means++ seeding rule."""
+    return _kmeans_plusplus_core(
+        X,
+        n_clusters,
+        sample_weight=sample_weight,
+        x_squared_norms=x_squared_norms,
+        random_state=random_state,
+        n_local_trials=n_local_trials,
+    )

@@ -133,6 +133,31 @@ def witness_mean_shift_predict(
     return AbstractArray(shape=(n_samples,), dtype="int64", min_val=0)
 
 
+def witness_kmeans_plusplus(
+    X: AbstractArray,
+    n_clusters: int,
+    *,
+    sample_weight: AbstractArray | None = None,
+    x_squared_norms: AbstractArray | None = None,
+    random_state: int | None = None,
+    n_local_trials: int | None = None,
+) -> tuple[AbstractArray, AbstractArray]:
+    """Describe k-means++ seed centers and source row indices."""
+    del random_state
+    n_samples, n_features = _check_2d(X)
+    if n_clusters < 1 or n_clusters > n_samples:
+        raise ValueError("n_clusters must be between one and sample count")
+    if sample_weight is not None and sample_weight.shape != (n_samples,):
+        raise ValueError("sample_weight must match sample count")
+    if x_squared_norms is not None and x_squared_norms.shape != (n_samples,):
+        raise ValueError("x_squared_norms must match sample count")
+    if n_local_trials is not None and n_local_trials < 1:
+        raise ValueError("n_local_trials must be positive or None")
+    centers = AbstractArray(shape=(n_clusters, n_features), dtype="float64")
+    indices = AbstractArray(shape=(n_clusters,), dtype="int64", min_val=0)
+    return centers, indices
+
+
 def _check_2d(X: AbstractArray) -> tuple[int, int]:
     if len(X.shape) != 2:
         raise ValueError("X must be 2D")
