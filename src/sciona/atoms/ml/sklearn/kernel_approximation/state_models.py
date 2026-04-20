@@ -44,3 +44,18 @@ class PolynomialCountSketchState:
     n_components: int
     n_features_in: int
     random_state: int | None
+
+
+@dataclass(frozen=True)
+class NystroemState:
+    """Fitted basis and normalization matrix for a Nystroem kernel map."""
+
+    components: NDArray[np.float64]
+    component_indices: NDArray[np.int64]
+    normalization: NDArray[np.float64]
+    kernel: str
+    kernel_params: dict[str, float]
+    n_components: int
+    n_features_in: int
+    random_state: int | None
+    n_jobs: int | None

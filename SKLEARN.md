@@ -197,7 +197,6 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 
 | Target | Description | Source |
 | --- | --- | --- |
-| `Nystroem` | Approximate a kernel map using a subset of the training data. | `sklearn/kernel_approximation.py:L843` |
 
 ## `sklearn.kernel_ridge`
 
