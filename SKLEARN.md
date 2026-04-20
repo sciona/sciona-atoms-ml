@@ -12,7 +12,7 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 - Scope for this first ingestion pass: public algorithmic estimators, transformers, kernels, and algorithmic helper functions in the selected sklearn modules below.
 - Intentionally excluded for now: datasets, metrics, displays, exceptions, low-level utils, orchestration/composition (`compose`, `pipeline`), and model-selection/search APIs.
 - Source locations come from each object page's official `[source]` link. `BallTree` and `KDTree` use the matching source files from the same scikit-learn revision because their generated docs pages do not expose a direct `[source]` link.
-- Total targets in this inventory: 140
+- Total targets in this inventory: 139
 
 ## Module Summary
 
@@ -36,7 +36,7 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 | `sklearn.inspection` | 2 |
 | `sklearn.kernel_approximation` | 0 |
 | `sklearn.kernel_ridge` | 0 |
-| `sklearn.linear_model` | 35 |
+| `sklearn.linear_model` | 34 |
 | `sklearn.manifold` | 9 |
 | `sklearn.mixture` | 2 |
 | `sklearn.multiclass` | 3 |
@@ -230,7 +230,6 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 | `MultiTaskElasticNetCV` | Multi-task L1/L2 ElasticNet with built-in cross-validation. | `sklearn/linear_model/_coordinate_descent.py:L2926` |
 | `MultiTaskLasso` | Multi-task Lasso model trained with L1/L2 mixed-norm as regularizer. | `sklearn/linear_model/_coordinate_descent.py:L2784` |
 | `MultiTaskLassoCV` | Multi-task Lasso model trained with L1/L2 mixed-norm as regularizer. | `sklearn/linear_model/_coordinate_descent.py:L3195` |
-| `OrthogonalMatchingPursuitCV` | Cross-validated Orthogonal Matching Pursuit model (OMP). | `sklearn/linear_model/_omp.py:L901` |
 | `PassiveAggressiveClassifier` | Passive Aggressive Classifier. | `sklearn/linear_model/_passive_aggressive.py:L17` |
 | `PassiveAggressiveRegressor` | Passive Aggressive Regressor. | `sklearn/linear_model/_passive_aggressive.py:L343` |
 | `Perceptron` | Linear perceptron classifier. | `sklearn/linear_model/_perceptron.py:L10` |

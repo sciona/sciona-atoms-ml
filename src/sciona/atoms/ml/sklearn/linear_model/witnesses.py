@@ -6,6 +6,7 @@ from sciona.ghost.abstract import AbstractArray
 
 from .state_models import (
     LinearRegressionState,
+    OrthogonalMatchingPursuitCVState,
     OrthogonalMatchingPursuitState,
     RidgeClassifierCVState,
     RidgeClassifierState,
@@ -412,3 +413,59 @@ def witness_orthogonal_matching_pursuit_predict(X: AbstractArray, state: Orthogo
     if state.n_outputs == 1:
         return AbstractArray(shape=(int(X.shape[0]),), dtype="float64")
     return AbstractArray(shape=(int(X.shape[0]), state.n_outputs), dtype="float64")
+
+
+def witness_omp_path_residues(
+    X_train: AbstractArray,
+    y_train: AbstractArray,
+    X_test: AbstractArray,
+    y_test: AbstractArray,
+    *,
+    copy: bool = True,
+    fit_intercept: bool = True,
+    max_iter: int = 100,
+) -> AbstractArray:
+    """Describe OMP coefficient-path residuals on held-out data."""
+    del copy, fit_intercept
+    if len(X_train.shape) != 2 or len(X_test.shape) != 2:
+        raise ValueError("train and test X must be 2D")
+    if len(y_train.shape) != 1 or len(y_test.shape) != 1:
+        raise ValueError("train and test y must be 1D")
+    if X_train.shape[0] != y_train.shape[0] or X_test.shape[0] != y_test.shape[0]:
+        raise ValueError("X and y sample counts must match")
+    if X_train.shape[1] != X_test.shape[1]:
+        raise ValueError("train and test feature counts must match")
+    return AbstractArray(shape=(max_iter, int(X_test.shape[0])), dtype="float64")
+
+
+def witness_orthogonal_matching_pursuit_cv_fit(
+    X: AbstractArray,
+    y: AbstractArray,
+    *,
+    copy: bool = True,
+    fit_intercept: bool = True,
+    max_iter: int | None = None,
+    cv: int | None = None,
+    n_jobs: None = None,
+    verbose: bool = False,
+) -> AbstractArray:
+    """Describe fitting dense OMP with cross-validated sparsity."""
+    del copy, max_iter, cv, n_jobs, verbose
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    if len(y.shape) != 1:
+        raise ValueError("y must be 1D")
+    if X.shape[0] != y.shape[0]:
+        raise ValueError("X and y must have matching sample counts")
+    if not isinstance(fit_intercept, bool):
+        raise ValueError("fit_intercept must be boolean")
+    return AbstractArray(shape=(int(X.shape[1]),), dtype="float64")
+
+
+def witness_orthogonal_matching_pursuit_cv_predict(X: AbstractArray, state: OrthogonalMatchingPursuitCVState) -> AbstractArray:
+    """Describe predicting with fitted cross-validated OMP coefficients."""
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    if X.shape[1] != state.n_features_in:
+        raise ValueError("X feature count must match fitted state")
+    return AbstractArray(shape=(int(X.shape[0]),), dtype="float64")

@@ -6,12 +6,14 @@ import icontract
 import numpy as np
 from numpy.typing import NDArray
 from scipy import linalg
+from sklearn.model_selection import KFold
 from sklearn.utils import check_array
 
 from sciona.ghost.registry import register_atom
 
 from .state_models import (
     LinearRegressionState,
+    OrthogonalMatchingPursuitCVState,
     OrthogonalMatchingPursuitState,
     RidgeClassifierCVState,
     RidgeClassifierState,
@@ -22,7 +24,10 @@ from .witnesses import (
     witness_linear_regression_fit,
     witness_linear_regression_predict,
     witness_orthogonal_matching_pursuit_fit,
+    witness_orthogonal_matching_pursuit_cv_fit,
+    witness_orthogonal_matching_pursuit_cv_predict,
     witness_orthogonal_matching_pursuit_predict,
+    witness_omp_path_residues,
     witness_orthogonal_mp,
     witness_orthogonal_mp_gram,
     witness_ridge_classifier_cv_decision_function,
@@ -165,6 +170,14 @@ def _omp_precompute_valid(precompute: bool | str) -> bool:
     return bool(isinstance(precompute, bool) or precompute == "auto")
 
 
+def _omp_cv_valid(cv: int | None, n_samples: int) -> bool:
+    return bool(cv is None or (isinstance(cv, int) and not isinstance(cv, bool) and 2 <= cv <= n_samples))
+
+
+def _omp_cv_max_iter_valid(max_iter: int | None, n_features: int) -> bool:
+    return bool(max_iter is None or (isinstance(max_iter, int) and not isinstance(max_iter, bool) and 1 <= max_iter <= n_features))
+
+
 def _omp_norms_valid(norms_squared: tuple[float, ...] | NDArray[np.float64] | None, Xy: NDArray[np.float64], tol: float | None) -> bool:
     if tol is None:
         return True
@@ -300,6 +313,24 @@ def _omp_state_valid(state: OrthogonalMatchingPursuitState) -> bool:
     )
 
 
+def _omp_cv_state_valid(state: OrthogonalMatchingPursuitCVState) -> bool:
+    return bool(
+        state.coef.shape == (state.n_features_in,)
+        and state.intercept.shape == (1,)
+        and state.n_iter.shape == (1,)
+        and state.n_features_in >= 2
+        and 1 <= state.n_nonzero_coefs <= state.n_features_in
+        and 1 <= state.max_iter <= state.n_features_in
+        and state.n_nonzero_coefs <= state.max_iter
+        and state.cv >= 2
+        and isinstance(state.fit_intercept, bool)
+        and np.all(np.isfinite(state.coef))
+        and np.all(np.isfinite(state.intercept))
+        and np.all(state.n_iter >= 0)
+        and np.all(state.n_iter <= state.n_features_in)
+    )
+
+
 def _feature_count_matches(X: NDArray[np.float64], state: LinearRegressionState) -> bool:
     return bool(np.asarray(X).ndim == 2 and np.asarray(X).shape[1] == state.n_features_in)
 
@@ -321,6 +352,10 @@ def _ridge_classifier_cv_feature_count_matches(X: NDArray[np.float64], state: Ri
 
 
 def _omp_feature_count_matches(X: NDArray[np.float64], state: OrthogonalMatchingPursuitState) -> bool:
+    return bool(np.asarray(X).ndim == 2 and np.asarray(X).shape[1] == state.n_features_in)
+
+
+def _omp_cv_feature_count_matches(X: NDArray[np.float64], state: OrthogonalMatchingPursuitCVState) -> bool:
     return bool(np.asarray(X).ndim == 2 and np.asarray(X).shape[1] == state.n_features_in)
 
 
@@ -395,6 +430,16 @@ def _omp_prediction_valid(result: NDArray[np.float64], X: NDArray[np.float64], s
     values = np.asarray(result)
     expected_shape = (np.asarray(X).shape[0],) if state.n_outputs == 1 else (np.asarray(X).shape[0], state.n_outputs)
     return bool(values.shape == expected_shape and np.all(np.isfinite(values)))
+
+
+def _omp_cv_residues_valid(result: NDArray[np.float64], X_test: NDArray[np.float64], max_iter: int) -> bool:
+    values = np.asarray(result)
+    return bool(values.ndim == 2 and 1 <= values.shape[0] <= max_iter and values.shape[1] == np.asarray(X_test).shape[0] and np.all(np.isfinite(values)))
+
+
+def _omp_cv_prediction_valid(result: NDArray[np.float64], X: NDArray[np.float64]) -> bool:
+    values = np.asarray(result)
+    return bool(values.shape == (np.asarray(X).shape[0],) and np.all(np.isfinite(values)))
 
 
 def _center_and_rescale(
@@ -533,6 +578,9 @@ def _omp_solve_single(
             break
         active.append(selected)
         active_x = X[:, active]
+        if np.linalg.matrix_rank(active_x) < len(active):
+            active.pop()
+            break
         gamma, _, _, _ = linalg.lstsq(active_x, y, cond=None)
         residual = y - active_x @ gamma
         if tol is not None and float(residual @ residual) <= tol:
@@ -540,6 +588,32 @@ def _omp_solve_single(
     if active:
         coefficients[np.asarray(active, dtype=np.int64)] = np.asarray(gamma, dtype=np.float64)
     return coefficients, len(active)
+
+
+def _omp_path_coefficients_single(
+    X: NDArray[np.float64],
+    y: NDArray[np.float64],
+    max_iter: int,
+) -> tuple[NDArray[np.float64], int]:
+    residual = y.copy()
+    active: list[int] = []
+    path = np.zeros((X.shape[1], max_iter), dtype=np.float64)
+    for step in range(max_iter):
+        correlations = X.T @ residual
+        if active:
+            correlations[np.asarray(active, dtype=np.int64)] = 0.0
+        selected = int(np.argmax(np.abs(correlations)))
+        if abs(correlations[selected]) <= np.finfo(np.float64).eps:
+            return path[:, :step], step
+        active.append(selected)
+        active_x = X[:, active]
+        if np.linalg.matrix_rank(active_x) < len(active):
+            active.pop()
+            return path[:, :step], step
+        gamma, _, _, _ = linalg.lstsq(active_x, y, cond=None)
+        residual = y - active_x @ gamma
+        path[np.asarray(active, dtype=np.int64), step] = np.asarray(gamma, dtype=np.float64)
+    return path, max_iter
 
 
 def _omp_solve(
@@ -618,6 +692,12 @@ def _gram_omp_solve(
     if Xy.ndim == 1:
         return coefficients[:, 0], n_iters
     return coefficients, n_iters
+
+
+def _resolve_omp_cv_max_iter(max_iter: int | None, n_features: int) -> int:
+    if max_iter is not None:
+        return int(max_iter)
+    return min(max(int(0.1 * n_features), 5), n_features)
 
 
 @register_atom(witness_linear_regression_fit)
@@ -938,6 +1018,130 @@ def orthogonal_matching_pursuit_predict(X: NDArray[np.float64], state: Orthogona
     if state.n_outputs == 1:
         return np.asarray(checked_x @ state.coef + state.intercept[0], dtype=np.float64)
     return np.asarray(checked_x @ state.coef.T + state.intercept, dtype=np.float64)
+
+
+@register_atom(witness_omp_path_residues)
+@icontract.require(lambda X_train: _matrix_2d(X_train), "X_train must be 2D")
+@icontract.require(lambda X_test: _matrix_2d(X_test), "X_test must be 2D")
+@icontract.require(lambda y_train: _target_1d(y_train), "y_train must be 1D")
+@icontract.require(lambda y_test: _target_1d(y_test), "y_test must be 1D")
+@icontract.require(lambda X_train, y_train: _same_sample_count(X_train, y_train), "training X and y must have matching sample counts")
+@icontract.require(lambda X_test, y_test: _same_sample_count(X_test, y_test), "test X and y must have matching sample counts")
+@icontract.require(lambda X_train, X_test: np.asarray(X_train).shape[1] == np.asarray(X_test).shape[1], "train and test feature counts must match")
+@icontract.require(lambda X_train, y_train: _finite_inputs(X_train, y_train), "training inputs must be finite")
+@icontract.require(lambda X_test, y_test: _finite_inputs(X_test, y_test), "test inputs must be finite")
+@icontract.require(lambda copy: _bool_value(copy), "copy must be boolean")
+@icontract.require(lambda fit_intercept: _bool_value(fit_intercept), "fit_intercept must be boolean")
+@icontract.require(lambda max_iter, X_train: _omp_cv_max_iter_valid(max_iter, np.asarray(X_train).shape[1]), "max_iter must be positive and no larger than feature count")
+@icontract.ensure(lambda result, X_test, max_iter: _omp_cv_residues_valid(result, X_test, max_iter), "residual path must match max_iter and held-out sample count")
+def omp_path_residues(
+    X_train: NDArray[np.float64],
+    y_train: NDArray[np.float64],
+    X_test: NDArray[np.float64],
+    y_test: NDArray[np.float64],
+    *,
+    copy: bool = True,
+    fit_intercept: bool = True,
+    max_iter: int = 100,
+) -> NDArray[np.float64]:
+    """Compute held-out residuals along a dense OMP coefficient path."""
+    del copy
+    train_x = check_array(X_train, dtype=np.float64, ensure_2d=True)
+    test_x = check_array(X_test, dtype=np.float64, ensure_2d=True)
+    train_y = check_array(y_train, dtype=np.float64, ensure_2d=False, input_name="y_train")
+    test_y = check_array(y_test, dtype=np.float64, ensure_2d=False, input_name="y_test")
+    if fit_intercept:
+        x_mean = np.mean(train_x, axis=0)
+        y_mean = float(np.mean(train_y))
+        train_x = train_x - x_mean
+        test_x = test_x - x_mean
+        train_y = train_y - y_mean
+        test_y = test_y - y_mean
+    path, n_steps = _omp_path_coefficients_single(train_x, train_y, max_iter)
+    path_length = max(n_steps, 1)
+    residues = np.zeros((path_length, test_x.shape[0]), dtype=np.float64)
+    if n_steps > 0:
+        residues[:n_steps] = path[:, :n_steps].T @ test_x.T - test_y
+    else:
+        residues[0] = -test_y
+    return residues
+
+
+@register_atom(witness_orthogonal_matching_pursuit_cv_fit)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda y: _target_1d(y), "y must be 1D")
+@icontract.require(lambda X, y: _same_sample_count(X, y), "X and y must have matching sample counts")
+@icontract.require(lambda X, y: _finite_inputs(X, y), "X and y must contain finite numeric values")
+@icontract.require(lambda copy: _bool_value(copy), "copy must be boolean")
+@icontract.require(lambda fit_intercept: _bool_value(fit_intercept), "fit_intercept must be boolean")
+@icontract.require(lambda max_iter, X: _omp_cv_max_iter_valid(max_iter, np.asarray(X).shape[1]), "max_iter must be positive and no larger than feature count")
+@icontract.require(lambda cv, X: _omp_cv_valid(cv, np.asarray(X).shape[0]), "cv must be None or an integer between 2 and sample count")
+@icontract.require(lambda n_jobs: n_jobs is None, "parallel n_jobs is outside this atom scope")
+@icontract.require(lambda verbose: verbose is False, "verbose output is outside this atom scope")
+@icontract.ensure(lambda result: _omp_cv_state_valid(result), "OMP CV state must contain finite fitted coefficients")
+def orthogonal_matching_pursuit_cv_fit(
+    X: NDArray[np.float64],
+    y: NDArray[np.float64],
+    *,
+    copy: bool = True,
+    fit_intercept: bool = True,
+    max_iter: int | None = None,
+    cv: int | None = None,
+    n_jobs: None = None,
+    verbose: bool = False,
+) -> OrthogonalMatchingPursuitCVState:
+    """Fit dense OMP after KFold selection of the active feature count."""
+    del n_jobs, verbose
+    checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
+    checked_y = check_array(y, dtype=np.float64, ensure_2d=False, input_name="y")
+    resolved_max_iter = _resolve_omp_cv_max_iter(max_iter, checked_x.shape[1])
+    resolved_cv = 5 if cv is None else int(cv)
+    splitter = KFold(n_splits=resolved_cv, shuffle=False)
+    cv_paths = [
+        omp_path_residues(
+            checked_x[train],
+            checked_y[train],
+            checked_x[test],
+            checked_y[test],
+            copy=copy,
+            fit_intercept=fit_intercept,
+            max_iter=resolved_max_iter,
+        )
+        for train, test in splitter.split(checked_x)
+    ]
+    min_early_stop = min(path.shape[0] for path in cv_paths)
+    mse_folds = np.asarray([(path[:min_early_stop] ** 2).mean(axis=1) for path in cv_paths], dtype=np.float64)
+    mean_mse = mse_folds.mean(axis=0)
+    best_candidates = np.flatnonzero(np.isclose(mean_mse, np.min(mean_mse), rtol=1e-12, atol=1e-12))
+    best_n_nonzero = int(best_candidates[0] + 1)
+    state = orthogonal_matching_pursuit_fit(
+        checked_x,
+        checked_y,
+        n_nonzero_coefs=best_n_nonzero,
+        fit_intercept=fit_intercept,
+        precompute="auto",
+    )
+    return OrthogonalMatchingPursuitCVState(
+        coef=np.asarray(state.coef, dtype=np.float64),
+        intercept=state.intercept,
+        n_iter=state.n_iter,
+        n_nonzero_coefs=best_n_nonzero,
+        max_iter=resolved_max_iter,
+        cv=resolved_cv,
+        fit_intercept=fit_intercept,
+        n_features_in=state.n_features_in,
+    )
+
+
+@register_atom(witness_orthogonal_matching_pursuit_cv_predict)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X, state: _omp_cv_feature_count_matches(X, state), "X feature count must match fitted OMP CV state")
+@icontract.require(lambda state: _omp_cv_state_valid(state), "state must be a fitted OMP CV state")
+@icontract.ensure(lambda result, X: _omp_cv_prediction_valid(result, X), "predictions must match sample count")
+def orthogonal_matching_pursuit_cv_predict(X: NDArray[np.float64], state: OrthogonalMatchingPursuitCVState) -> NDArray[np.float64]:
+    """Predict dense outputs from fitted cross-validated OMP coefficients."""
+    checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
+    return np.asarray(checked_x @ state.coef + state.intercept[0], dtype=np.float64)
 
 
 @register_atom(witness_ridge_cv_scores)

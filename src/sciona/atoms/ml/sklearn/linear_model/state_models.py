@@ -86,3 +86,17 @@ class OrthogonalMatchingPursuitState:
     precompute: bool | str
     n_features_in: int
     n_outputs: int
+
+
+@dataclass(frozen=True)
+class OrthogonalMatchingPursuitCVState:
+    """Fitted dense OMP state with a cross-validated sparsity level."""
+
+    coef: NDArray[np.float64]
+    intercept: NDArray[np.float64]
+    n_iter: NDArray[np.int64]
+    n_nonzero_coefs: int
+    max_iter: int
+    cv: int
+    fit_intercept: bool
+    n_features_in: int

@@ -3,6 +3,9 @@
 from .atoms import (
     linear_regression_fit,
     linear_regression_predict,
+    omp_path_residues,
+    orthogonal_matching_pursuit_cv_fit,
+    orthogonal_matching_pursuit_cv_predict,
     orthogonal_matching_pursuit_fit,
     orthogonal_matching_pursuit_predict,
     orthogonal_mp,
@@ -23,6 +26,7 @@ from .atoms import (
 )
 from .state_models import (
     LinearRegressionState,
+    OrthogonalMatchingPursuitCVState,
     OrthogonalMatchingPursuitState,
     RidgeClassifierCVState,
     RidgeClassifierState,
@@ -32,6 +36,7 @@ from .state_models import (
 
 __all__ = [
     "LinearRegressionState",
+    "OrthogonalMatchingPursuitCVState",
     "OrthogonalMatchingPursuitState",
     "RidgeClassifierCVState",
     "RidgeClassifierState",
@@ -39,6 +44,9 @@ __all__ = [
     "RidgeState",
     "linear_regression_fit",
     "linear_regression_predict",
+    "omp_path_residues",
+    "orthogonal_matching_pursuit_cv_fit",
+    "orthogonal_matching_pursuit_cv_predict",
     "orthogonal_matching_pursuit_fit",
     "orthogonal_matching_pursuit_predict",
     "orthogonal_mp",
