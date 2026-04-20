@@ -51,6 +51,43 @@ def witness_reconstruct_from_patches_2d(
     return AbstractArray(shape=tuple(image_size), dtype=patches.dtype)
 
 
+def witness_patch_extractor_transform(
+    X: AbstractArray,
+    *,
+    patch_size: tuple[int, int] | None = None,
+    max_patches: int | float | None = None,
+    random_state: int | None = None,
+) -> AbstractArray:
+    """Describe batch image patch extraction from a stateless transformer."""
+    del random_state
+    if len(X.shape) not in {3, 4}:
+        raise ValueError("X must contain grayscale or multichannel images")
+    n_images, image_height, image_width = X.shape[:3]
+    if patch_size is None:
+        patch_height, patch_width = image_height // 10, image_width // 10
+    else:
+        patch_height, patch_width = patch_size
+    if patch_height <= 0 or patch_width <= 0:
+        raise ValueError("patch dimensions must be positive")
+    if patch_height > image_height or patch_width > image_width:
+        raise ValueError("patch_size must fit inside each image")
+    total = (image_height - patch_height + 1) * (image_width - patch_width + 1)
+    if max_patches is None:
+        patches_per_image = total
+    elif isinstance(max_patches, int):
+        patches_per_image = min(max_patches, total)
+    else:
+        if not 0.0 < max_patches < 1.0:
+            raise ValueError("fractional max_patches must be in (0, 1)")
+        patches_per_image = int(max_patches * total)
+    if len(X.shape) == 4 and X.shape[3] > 1:
+        return AbstractArray(
+            shape=(n_images * patches_per_image, patch_height, patch_width, X.shape[3]),
+            dtype=X.dtype,
+        )
+    return AbstractArray(shape=(n_images * patches_per_image, patch_height, patch_width), dtype=X.dtype)
+
+
 def witness_img_to_graph(
     img: AbstractArray,
     *,

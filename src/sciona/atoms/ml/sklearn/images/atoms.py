@@ -24,6 +24,7 @@ from .witnesses import (
     witness_extract_patches_2d,
     witness_grid_to_graph,
     witness_img_to_graph,
+    witness_patch_extractor_transform,
     witness_reconstruct_from_patches_2d,
 )
 
@@ -42,6 +43,20 @@ def _valid_max_patches(max_patches: int | float | None) -> bool:
     if isinstance(max_patches, Real):
         return 0.0 < float(max_patches) < 1.0
     return False
+
+
+def _valid_patch_size_for_images(X: NDArray[np.float64], patch_size: PatchSize | None) -> bool:
+    values = np.asarray(X)
+    if values.ndim not in {3, 4}:
+        return False
+    image_height, image_width = values.shape[1:3]
+    if patch_size is None:
+        patch_height, patch_width = image_height // 10, image_width // 10
+    else:
+        if len(patch_size) != 2:
+            return False
+        patch_height, patch_width = patch_size
+    return bool(0 < patch_height <= image_height and 0 < patch_width <= image_width)
 
 
 def _compute_n_patches(
@@ -203,6 +218,26 @@ def _to_graph(
     return _coo_or_dense(graph, return_as)
 
 
+def _patch_extractor_result_valid(
+    result: NDArray[np.float64],
+    X: NDArray[np.float64],
+    patch_size: PatchSize | None,
+    max_patches: int | float | None,
+) -> bool:
+    values = np.asarray(X)
+    patches = np.asarray(result)
+    image_height, image_width = values.shape[1:3]
+    if patch_size is None:
+        patch_height, patch_width = image_height // 10, image_width // 10
+    else:
+        patch_height, patch_width = patch_size
+    patches_per_image = _compute_n_patches(image_height, image_width, patch_height, patch_width, max_patches)
+    expected_prefix = (values.shape[0] * patches_per_image, patch_height, patch_width)
+    if values.ndim == 4 and values.shape[3] > 1:
+        return bool(patches.shape == expected_prefix + (values.shape[3],) and np.all(np.isfinite(patches)))
+    return bool(patches.shape == expected_prefix and np.all(np.isfinite(patches)))
+
+
 @register_atom(witness_extract_patches_2d)
 @icontract.require(lambda image: image.ndim in {2, 3}, "image must be 2D or 3D")
 @icontract.require(lambda patch_size: len(patch_size) == 2, "patch_size must have two entries")
@@ -339,3 +374,53 @@ def grid_to_graph(
         return_as=return_as,
         dtype=dtype,
     )
+
+
+@register_atom(witness_patch_extractor_transform)
+@icontract.require(lambda X: X.ndim in {3, 4}, "X must contain grayscale or multichannel images")
+@icontract.require(lambda X: X.shape[0] >= 1, "X must contain at least one image")
+@icontract.require(lambda X: X.shape[1] >= 1 and X.shape[2] >= 1, "image dimensions must be positive")
+@icontract.require(lambda X, patch_size: _valid_patch_size_for_images(X, patch_size), "patch_size must fit each image")
+@icontract.require(lambda max_patches: _valid_max_patches(max_patches), "max_patches must be None, a positive integer, or a fraction in (0, 1)")
+@icontract.ensure(lambda result, X, patch_size, max_patches: _patch_extractor_result_valid(result, X, patch_size, max_patches), "patch batch shape must match PatchExtractor semantics")
+def patch_extractor_transform(
+    X: NDArray[np.float64],
+    *,
+    patch_size: PatchSize | None = None,
+    max_patches: int | float | None = None,
+    random_state: RandomStateArg = None,
+) -> NDArray[np.float64]:
+    """Extract patch tensors from a batch of grayscale or multichannel images."""
+    checked_x = check_array(
+        X,
+        ensure_2d=False,
+        allow_nd=True,
+        ensure_min_samples=1,
+        ensure_min_features=1,
+    )
+    rng = check_random_state(random_state)
+    n_images, image_height, image_width = checked_x.shape[:3]
+    if patch_size is None:
+        resolved_patch_size = (image_height // 10, image_width // 10)
+    else:
+        resolved_patch_size = patch_size
+
+    reshaped = np.reshape(checked_x, (n_images, image_height, image_width, -1))
+    n_channels = reshaped.shape[-1]
+    patch_height, patch_width = resolved_patch_size
+    n_patches = _compute_n_patches(image_height, image_width, patch_height, patch_width, max_patches)
+    patches_shape = (n_images * n_patches, patch_height, patch_width)
+    if n_channels > 1:
+        patches_shape += (n_channels,)
+
+    patches = np.empty(patches_shape)
+    for image_index, image in enumerate(reshaped):
+        start = image_index * n_patches
+        stop = (image_index + 1) * n_patches
+        patches[start:stop] = extract_patches_2d(
+            image,
+            resolved_patch_size,
+            max_patches=max_patches,
+            random_state=rng,
+        )
+    return np.asarray(patches)

@@ -14,6 +14,7 @@ REGISTRY_PATH = ROOT / "data" / "references" / "registry.json"
 EXPECTED_FQDNS = {
     "sciona.atoms.ml.sklearn.images.extract_patches_2d",
     "sciona.atoms.ml.sklearn.images.reconstruct_from_patches_2d",
+    "sciona.atoms.ml.sklearn.images.patch_extractor_transform",
     "sciona.atoms.ml.sklearn.images.img_to_graph",
     "sciona.atoms.ml.sklearn.images.grid_to_graph",
 }
@@ -23,7 +24,7 @@ def test_references_json_exists_and_has_all_image_fqdns() -> None:
     assert REFERENCES_PATH.exists()
     payload = json.loads(REFERENCES_PATH.read_text(encoding="utf-8"))
     atom_keys = set(payload["atoms"])
-    assert len(atom_keys) == 4
+    assert len(atom_keys) == 5
     assert {key.partition("@")[0] for key in atom_keys} == EXPECTED_FQDNS
 
 

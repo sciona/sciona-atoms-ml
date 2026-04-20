@@ -16,6 +16,7 @@ def test_all_four_image_functions_import() -> None:
         extract_patches_2d,
         grid_to_graph,
         img_to_graph,
+        patch_extractor_transform,
         reconstruct_from_patches_2d,
     )
 
@@ -23,6 +24,7 @@ def test_all_four_image_functions_import() -> None:
     assert callable(reconstruct_from_patches_2d)
     assert callable(img_to_graph)
     assert callable(grid_to_graph)
+    assert callable(patch_extractor_transform)
 
 
 def test_extract_patches_matches_sklearn_for_2d_and_color_images() -> None:
@@ -47,6 +49,26 @@ def test_extract_patches_seeded_sampling_matches_sklearn() -> None:
     source = np.arange(25, dtype=np.float64).reshape(5, 5)
     result = extract_patches_2d(source, (2, 2), max_patches=4, random_state=11)
     expected = sklearn_image.extract_patches_2d(source, (2, 2), max_patches=4, random_state=11)
+
+    assert np.array_equal(result, expected)
+
+
+def test_patch_extractor_transform_matches_sklearn_for_batch_images() -> None:
+    from sciona.atoms.ml.sklearn.images import patch_extractor_transform
+
+    X = np.arange(2 * 4 * 5, dtype=np.float64).reshape(2, 4, 5)
+    result = patch_extractor_transform(X, patch_size=(2, 3))
+    expected = sklearn_image.PatchExtractor(patch_size=(2, 3)).transform(X)
+
+    assert np.array_equal(result, expected)
+
+
+def test_patch_extractor_seeded_sampling_matches_sklearn_for_color_images() -> None:
+    from sciona.atoms.ml.sklearn.images import patch_extractor_transform
+
+    X = np.arange(2 * 5 * 5 * 3, dtype=np.float64).reshape(2, 5, 5, 3)
+    result = patch_extractor_transform(X, patch_size=(2, 2), max_patches=4, random_state=13)
+    expected = sklearn_image.PatchExtractor(patch_size=(2, 2), max_patches=4, random_state=13).transform(X)
 
     assert np.array_equal(result, expected)
 

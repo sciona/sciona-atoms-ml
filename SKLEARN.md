@@ -132,7 +132,6 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 
 | Target | Description | Source |
 | --- | --- | --- |
-| `PatchExtractor` | Extracts patches from a collection of images. | `sklearn/feature_extraction/image.py:L530` |
 
 ## `sklearn.feature_extraction.text`
 

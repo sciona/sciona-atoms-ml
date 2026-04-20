@@ -17,6 +17,7 @@ MANIFEST_PATH = ROOT / "data" / "audit_manifest.json"
 EXPECTED_ATOM_NAMES = {
     "sciona.atoms.ml.sklearn.images.extract_patches_2d",
     "sciona.atoms.ml.sklearn.images.reconstruct_from_patches_2d",
+    "sciona.atoms.ml.sklearn.images.patch_extractor_transform",
     "sciona.atoms.ml.sklearn.images.img_to_graph",
     "sciona.atoms.ml.sklearn.images.grid_to_graph",
 }
@@ -26,10 +27,10 @@ def _bundle() -> dict:
     return json.loads(BUNDLE_PATH.read_text(encoding="utf-8"))
 
 
-def test_bundle_exists_and_has_four_atoms() -> None:
+def test_bundle_exists_and_has_five_atoms() -> None:
     assert BUNDLE_PATH.exists()
     bundle = _bundle()
-    assert len(bundle["rows"]) == 4
+    assert len(bundle["rows"]) == 5
     assert {row["atom_key"] for row in bundle["rows"]} == EXPECTED_ATOM_NAMES
 
 
@@ -75,6 +76,7 @@ def test_cdg_atomic_nodes_have_publishable_io_specs() -> None:
     assert {node["name"] for node in atomic} == {
         "extract_patches_2d",
         "reconstruct_from_patches_2d",
+        "patch_extractor_transform",
         "img_to_graph",
         "grid_to_graph",
     }

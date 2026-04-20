@@ -2,6 +2,7 @@ from .atoms import (
     extract_patches_2d,
     grid_to_graph,
     img_to_graph,
+    patch_extractor_transform,
     reconstruct_from_patches_2d,
 )
 
@@ -10,4 +11,5 @@ __all__ = [
     "reconstruct_from_patches_2d",
     "img_to_graph",
     "grid_to_graph",
+    "patch_extractor_transform",
 ]
