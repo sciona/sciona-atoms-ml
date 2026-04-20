@@ -30,3 +30,47 @@ def witness_shrunk_covariance(
     if not 0.0 <= shrinkage <= 1.0:
         raise ValueError("shrinkage must lie in [0, 1]")
     return AbstractArray(shape=emp_cov.shape, dtype=emp_cov.dtype)
+
+
+def witness_ledoit_wolf_shrinkage(
+    X: AbstractArray,
+    *,
+    assume_centered: bool = False,
+    block_size: int = 1000,
+) -> float:
+    """Describe a bounded Ledoit-Wolf shrinkage coefficient."""
+    del assume_centered
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    if block_size < 1:
+        raise ValueError("block_size must be at least one")
+    return 0.0
+
+
+def witness_ledoit_wolf(
+    X: AbstractArray,
+    *,
+    assume_centered: bool = False,
+    block_size: int = 1000,
+) -> tuple[AbstractArray, float]:
+    """Describe Ledoit-Wolf covariance and shrinkage outputs."""
+    del assume_centered
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    if block_size < 1:
+        raise ValueError("block_size must be at least one")
+    n_features = X.shape[1]
+    return AbstractArray(shape=(n_features, n_features), dtype="float64"), 0.0
+
+
+def witness_oas(
+    X: AbstractArray,
+    *,
+    assume_centered: bool = False,
+) -> tuple[AbstractArray, float]:
+    """Describe OAS covariance and shrinkage outputs."""
+    del assume_centered
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    n_features = X.shape[1]
+    return AbstractArray(shape=(n_features, n_features), dtype="float64"), 0.0

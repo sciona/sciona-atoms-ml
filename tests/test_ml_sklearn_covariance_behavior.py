@@ -5,14 +5,26 @@ import warnings
 import numpy as np
 from sklearn.covariance import (
     empirical_covariance as sklearn_empirical_covariance,
+    ledoit_wolf as sklearn_ledoit_wolf,
+    ledoit_wolf_shrinkage as sklearn_ledoit_wolf_shrinkage,
+    oas as sklearn_oas,
     shrunk_covariance as sklearn_shrunk_covariance,
 )
 
 
 def test_covariance_functions_import() -> None:
-    from sciona.atoms.ml.sklearn.covariance import empirical_covariance, shrunk_covariance
+    from sciona.atoms.ml.sklearn.covariance import (
+        empirical_covariance,
+        ledoit_wolf,
+        ledoit_wolf_shrinkage,
+        oas,
+        shrunk_covariance,
+    )
 
     assert callable(empirical_covariance)
+    assert callable(ledoit_wolf)
+    assert callable(ledoit_wolf_shrinkage)
+    assert callable(oas)
     assert callable(shrunk_covariance)
 
 
@@ -73,3 +85,75 @@ def test_covariance_contract_shapes_and_symmetry() -> None:
     assert np.allclose(cov, cov.T)
     assert shrunk.shape == cov.shape
     assert np.isfinite(shrunk).all()
+
+
+def test_ledoit_wolf_shrinkage_matches_sklearn_centered_and_blocked() -> None:
+    from sciona.atoms.ml.sklearn.covariance import ledoit_wolf_shrinkage
+
+    X = np.array(
+        [
+            [0.0, 1.0, 3.0],
+            [1.0, 2.0, 4.0],
+            [2.0, 4.0, 7.0],
+            [4.0, 8.0, 9.0],
+            [5.0, 9.0, 12.0],
+        ],
+        dtype=np.float64,
+    )
+
+    assert np.allclose(ledoit_wolf_shrinkage(X, block_size=2), sklearn_ledoit_wolf_shrinkage(X, block_size=2))
+    assert np.allclose(
+        ledoit_wolf_shrinkage(X, assume_centered=True, block_size=2),
+        sklearn_ledoit_wolf_shrinkage(X, assume_centered=True, block_size=2),
+    )
+
+
+def test_ledoit_wolf_matches_sklearn_covariance_and_shrinkage() -> None:
+    from sciona.atoms.ml.sklearn.covariance import ledoit_wolf
+
+    X = np.array(
+        [
+            [0.0, 1.0, 3.0],
+            [1.0, 2.0, 4.0],
+            [2.0, 4.0, 7.0],
+            [4.0, 8.0, 9.0],
+            [5.0, 9.0, 12.0],
+        ],
+        dtype=np.float64,
+    )
+
+    cov, shrinkage = ledoit_wolf(X, block_size=2)
+    expected_cov, expected_shrinkage = sklearn_ledoit_wolf(X, block_size=2)
+    assert np.allclose(cov, expected_cov)
+    assert np.allclose(shrinkage, expected_shrinkage)
+
+    single_feature = X[:, :1]
+    cov_one, shrinkage_one = ledoit_wolf(single_feature)
+    expected_cov_one, expected_shrinkage_one = sklearn_ledoit_wolf(single_feature)
+    assert np.allclose(cov_one, expected_cov_one)
+    assert shrinkage_one == expected_shrinkage_one == 0.0
+
+
+def test_oas_matches_sklearn_covariance_and_shrinkage() -> None:
+    from sciona.atoms.ml.sklearn.covariance import oas
+
+    X = np.array(
+        [
+            [0.0, 1.0, 3.0],
+            [1.0, 2.0, 4.0],
+            [2.0, 4.0, 7.0],
+            [4.0, 8.0, 9.0],
+            [5.0, 9.0, 12.0],
+        ],
+        dtype=np.float64,
+    )
+
+    cov, shrinkage = oas(X)
+    expected_cov, expected_shrinkage = sklearn_oas(X)
+    assert np.allclose(cov, expected_cov)
+    assert np.allclose(shrinkage, expected_shrinkage)
+
+    centered_cov, centered_shrinkage = oas(X, assume_centered=True)
+    expected_centered_cov, expected_centered_shrinkage = sklearn_oas(X, assume_centered=True)
+    assert np.allclose(centered_cov, expected_centered_cov)
+    assert np.allclose(centered_shrinkage, expected_centered_shrinkage)
