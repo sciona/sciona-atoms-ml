@@ -195,6 +195,35 @@ def witness_cluster_optics_xi(
     return labels, clusters
 
 
+def witness_compute_optics_graph(
+    X: AbstractArray,
+    *,
+    min_samples: int | float,
+    max_eps: float,
+    metric: str,
+    p: float | None,
+    metric_params: dict[str, float] | None,
+    algorithm: str,
+    leaf_size: int,
+    n_jobs: int | None,
+) -> tuple[AbstractArray, AbstractArray, AbstractArray, AbstractArray]:
+    """Describe ordered reachability arrays for density clustering."""
+    del metric, p, metric_params, n_jobs
+    n_samples, _ = _check_2d(X)
+    _check_fraction_or_count(min_samples, n_samples, "min_samples")
+    if max_eps < 0.0:
+        raise ValueError("max_eps must be nonnegative")
+    if algorithm not in {"auto", "brute", "ball_tree", "kd_tree"}:
+        raise ValueError("invalid neighbor algorithm")
+    if leaf_size < 1:
+        raise ValueError("leaf_size must be positive")
+    ordering = AbstractArray(shape=(n_samples,), dtype="int64", min_val=0)
+    core_distances = AbstractArray(shape=(n_samples,), dtype="float64", min_val=0.0)
+    reachability = AbstractArray(shape=(n_samples,), dtype="float64", min_val=0.0)
+    predecessor = AbstractArray(shape=(n_samples,), dtype="int64", min_val=-1)
+    return ordering, core_distances, reachability, predecessor
+
+
 def _check_2d(X: AbstractArray) -> tuple[int, int]:
     if len(X.shape) != 2:
         raise ValueError("X must be 2D")

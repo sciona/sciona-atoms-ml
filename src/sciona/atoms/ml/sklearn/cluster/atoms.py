@@ -11,7 +11,7 @@ import scipy.sparse as sp
 from joblib import Parallel, delayed
 from numpy.typing import NDArray
 from sklearn.exceptions import ConvergenceWarning
-from sklearn.metrics import euclidean_distances, pairwise_distances_argmin
+from sklearn.metrics import euclidean_distances, pairwise_distances, pairwise_distances_argmin
 from sklearn.neighbors import NearestNeighbors
 from sklearn.utils import check_array, check_random_state, gen_batches
 from sklearn.utils.extmath import row_norms
@@ -26,6 +26,7 @@ from .witnesses import (
     witness_affinity_propagation_predict,
     witness_cluster_optics_dbscan,
     witness_cluster_optics_xi,
+    witness_compute_optics_graph,
     witness_estimate_bandwidth,
     witness_kmeans_plusplus,
     witness_mean_shift,
@@ -42,6 +43,7 @@ AffinityPropagationOutput = AffinityPropagationResult | AffinityPropagationResul
 MeanShiftResult = tuple[NDArray[np.float64], NDArray[np.int_]]
 KMeansPlusPlusResult = tuple[NDArray[np.float64], NDArray[np.int_]]
 OpticsXiResult = tuple[NDArray[np.int_], NDArray[np.int_]]
+OpticsGraphResult = tuple[NDArray[np.int_], NDArray[np.float64], NDArray[np.float64], NDArray[np.int_]]
 
 
 def _is_2d_matrix(X: MatrixLike) -> bool:
@@ -91,6 +93,10 @@ def _bandwidth_valid(bandwidth: float | None) -> bool:
 
 def _n_jobs_valid(n_jobs: int | None) -> bool:
     return n_jobs is None or isinstance(n_jobs, int)
+
+
+def _neighbor_algorithm_valid(algorithm: str) -> bool:
+    return algorithm in {"auto", "brute", "ball_tree", "kd_tree"}
 
 
 def _affinity_valid(affinity: str) -> bool:
@@ -175,6 +181,14 @@ def _optics_size_valid(size: int | float | None, n_samples: int, *, allow_none: 
     if isinstance(size, float):
         return 0.0 <= size <= 1.0
     return False
+
+
+def _positive_float_or_none(value: float | None) -> bool:
+    return value is None or float(value) > 0.0
+
+
+def _metric_params_valid(metric_params: dict[str, float] | None) -> bool:
+    return metric_params is None or isinstance(metric_params, dict)
 
 
 def _equal_similarities_and_preferences(S: NDArray[np.float64], preference: NDArray[np.float64]) -> bool:
@@ -307,6 +321,25 @@ def _optics_xi_result_valid(result: OpticsXiResult, reachability: NDArray[np.flo
     if clusters.size:
         clusters_ok = bool(clusters_ok and np.all(clusters >= 0) and np.all(clusters[:, 0] <= clusters[:, 1]) and np.all(clusters < n_samples))
     return bool(_optics_labels_valid(labels, reachability) and clusters_ok)
+
+
+def _optics_graph_result_valid(result: OpticsGraphResult, X: MatrixLike) -> bool:
+    ordering, core_distances, reachability, predecessor = result
+    n_samples = _sample_count(X)
+    if not (
+        ordering.shape == (n_samples,)
+        and core_distances.shape == (n_samples,)
+        and reachability.shape == (n_samples,)
+        and predecessor.shape == (n_samples,)
+    ):
+        return False
+    return bool(
+        _ordering_permutation(ordering)
+        and np.all(np.isfinite(core_distances) | np.isinf(core_distances))
+        and np.all(np.isfinite(reachability) | np.isinf(reachability))
+        and predecessor.dtype.kind in {"i", "u"}
+        and np.all((predecessor >= -1) & (predecessor < n_samples))
+    )
 
 
 def _as_dense_float_matrix(X: MatrixLike) -> NDArray[np.float64]:
@@ -1119,3 +1152,138 @@ def cluster_optics_xi(
         clusters = np.empty((0, 2), dtype=np.int_)
     labels = _extract_xi_labels(np.asarray(ordering, dtype=np.int_), clusters)
     return labels, clusters
+
+
+def _compute_core_distances(
+    X: MatrixLike,
+    neighbors: NearestNeighbors,
+    min_samples: int,
+) -> NDArray[np.float64]:
+    n_samples = _sample_count(X)
+    core_distances = np.empty(n_samples, dtype=np.float64)
+    core_distances.fill(np.nan)
+    for batch in gen_batches(n_samples, 500):
+        core_distances[batch] = neighbors.kneighbors(X[batch], min_samples)[0][:, -1]
+    return core_distances
+
+
+def _set_reach_dist(
+    *,
+    core_distances: NDArray[np.float64],
+    reachability: NDArray[np.float64],
+    predecessor: NDArray[np.int_],
+    point_index: int,
+    processed: NDArray[np.bool_],
+    X: MatrixLike,
+    neighbors: NearestNeighbors,
+    metric: str,
+    metric_params: dict[str, float] | None,
+    p: float | None,
+    max_eps: float,
+) -> None:
+    point = X[point_index : point_index + 1]
+    indices = neighbors.radius_neighbors(point, radius=max_eps, return_distance=False)[0]
+    unprocessed = np.compress(~np.take(processed, indices), indices)
+    if not unprocessed.size:
+        return
+
+    if metric == "precomputed":
+        distances = X[[point_index], unprocessed]
+        if isinstance(distances, np.matrix):
+            distances = np.asarray(distances)
+        distances = np.asarray(distances).ravel()
+    else:
+        params = {} if metric_params is None else metric_params.copy()
+        if metric == "minkowski" and "p" not in params:
+            params["p"] = 2.0 if p is None else p
+        distances = pairwise_distances(point, X[unprocessed], metric=metric, n_jobs=None, **params).ravel()
+
+    reachability_distances = np.maximum(distances, core_distances[point_index])
+    np.around(
+        reachability_distances,
+        decimals=np.finfo(reachability_distances.dtype).precision,
+        out=reachability_distances,
+    )
+    improved = np.where(reachability_distances < np.take(reachability, unprocessed))
+    reachability[unprocessed[improved]] = reachability_distances[improved]
+    predecessor[unprocessed[improved]] = point_index
+
+
+@register_atom(witness_compute_optics_graph)
+@icontract.require(lambda X: _is_2d_matrix(X), "X must be a 2D matrix")
+@icontract.require(lambda X, min_samples: _optics_size_valid(min_samples, _sample_count(X), allow_none=False), "min_samples must be valid for sample count")
+@icontract.require(lambda max_eps: _nonnegative_float(max_eps), "max_eps must be nonnegative")
+@icontract.require(lambda p: _positive_float_or_none(p), "p must be positive or None")
+@icontract.require(lambda metric_params: _metric_params_valid(metric_params), "metric_params must be a dictionary or None")
+@icontract.require(lambda algorithm: _neighbor_algorithm_valid(algorithm), "algorithm must be a valid nearest-neighbor backend")
+@icontract.require(lambda leaf_size: _positive_int(leaf_size), "leaf_size must be at least one")
+@icontract.require(lambda n_jobs: _n_jobs_valid(n_jobs), "n_jobs must be an integer or None")
+@icontract.ensure(lambda result, X: _optics_graph_result_valid(result, X), "OPTICS graph arrays must match sample count")
+def compute_optics_graph(
+    X: MatrixLike,
+    *,
+    min_samples: int | float,
+    max_eps: float,
+    metric: str,
+    p: float | None,
+    metric_params: dict[str, float] | None,
+    algorithm: str,
+    leaf_size: int,
+    n_jobs: int | None,
+) -> OpticsGraphResult:
+    """Compute ordered reachability arrays for density clustering."""
+    checked_x = check_array(X, accept_sparse="csr", dtype=np.float64)
+    n_samples = checked_x.shape[0]
+    resolved_min_samples = _resolve_optics_size(min_samples, n_samples, "min_samples")
+
+    reachability = np.empty(n_samples, dtype=np.float64)
+    reachability.fill(np.inf)
+    predecessor = np.empty(n_samples, dtype=np.int_)
+    predecessor.fill(-1)
+
+    neighbors = NearestNeighbors(
+        n_neighbors=resolved_min_samples,
+        algorithm=algorithm,
+        leaf_size=leaf_size,
+        metric=metric,
+        metric_params=metric_params,
+        p=p,
+        n_jobs=n_jobs,
+    )
+    neighbors.fit(checked_x)
+    core_distances = _compute_core_distances(checked_x, neighbors, resolved_min_samples)
+    core_distances[core_distances > max_eps] = np.inf
+    np.around(
+        core_distances,
+        decimals=np.finfo(core_distances.dtype).precision,
+        out=core_distances,
+    )
+
+    processed = np.zeros(n_samples, dtype=bool)
+    ordering = np.zeros(n_samples, dtype=np.int_)
+    for ordering_index in range(n_samples):
+        unprocessed_indices = np.where(processed == 0)[0]
+        point_index = int(unprocessed_indices[np.argmin(reachability[unprocessed_indices])])
+
+        processed[point_index] = True
+        ordering[ordering_index] = point_index
+        if core_distances[point_index] != np.inf:
+            _set_reach_dist(
+                core_distances=core_distances,
+                reachability=reachability,
+                predecessor=predecessor,
+                point_index=point_index,
+                processed=processed,
+                X=checked_x,
+                neighbors=neighbors,
+                metric=metric,
+                metric_params=metric_params,
+                p=p,
+                max_eps=max_eps,
+            )
+    if np.all(np.isinf(reachability)):
+        warnings.warn(
+            "All reachability values are inf. Set a larger max_eps or all data will be considered outliers.",
+            UserWarning,
+        )
+    return ordering, core_distances, reachability, predecessor
