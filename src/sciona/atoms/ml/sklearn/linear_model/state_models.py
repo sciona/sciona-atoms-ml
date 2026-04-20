@@ -35,6 +35,19 @@ class RidgeState:
 
 
 @dataclass(frozen=True)
+class RidgeCVState:
+    """Fitted dense ridge regression state with selected CV alpha."""
+
+    coef: NDArray[np.float64]
+    intercept: NDArray[np.float64]
+    alpha: NDArray[np.float64]
+    best_score: NDArray[np.float64]
+    fit_intercept: bool
+    n_features_in: int
+    n_outputs: int
+
+
+@dataclass(frozen=True)
 class RidgeClassifierState:
     """Fitted coefficients and classes for dense ridge classification."""
 

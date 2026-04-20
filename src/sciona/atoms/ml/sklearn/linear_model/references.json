@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "atoms": {
-    "sciona.atoms.ml.sklearn.linear_model.linear_regression_fit@sciona/atoms/ml/sklearn/linear_model/atoms.py:314": {
+    "sciona.atoms.ml.sklearn.linear_model.linear_regression_fit@sciona/atoms/ml/sklearn/linear_model/atoms.py:367": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -26,7 +26,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.linear_model.linear_regression_predict@sciona/atoms/ml/sklearn/linear_model/atoms.py:359": {
+    "sciona.atoms.ml.sklearn.linear_model.linear_regression_predict@sciona/atoms/ml/sklearn/linear_model/atoms.py:412": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -51,7 +51,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.linear_model.ridge_regression@sciona/atoms/ml/sklearn/linear_model/atoms.py:379": {
+    "sciona.atoms.ml.sklearn.linear_model.ridge_regression@sciona/atoms/ml/sklearn/linear_model/atoms.py:432": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -76,7 +76,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.linear_model.ridge_fit@sciona/atoms/ml/sklearn/linear_model/atoms.py:420": {
+    "sciona.atoms.ml.sklearn.linear_model.ridge_fit@sciona/atoms/ml/sklearn/linear_model/atoms.py:473": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -101,7 +101,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.linear_model.ridge_predict@sciona/atoms/ml/sklearn/linear_model/atoms.py:464": {
+    "sciona.atoms.ml.sklearn.linear_model.ridge_predict@sciona/atoms/ml/sklearn/linear_model/atoms.py:517": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -126,7 +126,82 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.linear_model.ridge_classifier_fit@sciona/atoms/ml/sklearn/linear_model/atoms.py:487": {
+    "sciona.atoms.ml.sklearn.linear_model.ridge_cv_scores@sciona/atoms/ml/sklearn/linear_model/atoms.py:537": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.linear_model.RidgeCV and _RidgeGCV default leave-one-out negative MSE alpha scoring in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.linear_model.ridge_cv_fit@sciona/atoms/ml/sklearn/linear_model/atoms.py:589": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.linear_model.RidgeCV.fit alpha selection followed by Ridge fitting in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.linear_model.ridge_cv_predict@sciona/atoms/ml/sklearn/linear_model/atoms.py:625": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.linear_model.RidgeCV prediction via LinearModel._decision_function in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.linear_model.ridge_classifier_fit@sciona/atoms/ml/sklearn/linear_model/atoms.py:648": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -151,7 +226,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.linear_model.ridge_classifier_decision_function@sciona/atoms/ml/sklearn/linear_model/atoms.py:531": {
+    "sciona.atoms.ml.sklearn.linear_model.ridge_classifier_decision_function@sciona/atoms/ml/sklearn/linear_model/atoms.py:692": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -176,7 +251,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.linear_model.ridge_classifier_predict@sciona/atoms/ml/sklearn/linear_model/atoms.py:545": {
+    "sciona.atoms.ml.sklearn.linear_model.ridge_classifier_predict@sciona/atoms/ml/sklearn/linear_model/atoms.py:706": {
       "references": [
         {
           "ref_id": "repo_sklearn",
