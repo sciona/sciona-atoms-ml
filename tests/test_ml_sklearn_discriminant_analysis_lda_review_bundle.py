@@ -10,16 +10,17 @@ from sciona.atoms.audit_review_bundles import (
 
 
 ROOT = Path(__file__).resolve().parents[1]
-BUNDLE_PATH = ROOT / "data" / "review_bundles" / "ml_sklearn_discriminant_analysis_qda.review_bundle.json"
+BUNDLE_PATH = ROOT / "data" / "review_bundles" / "ml_sklearn_discriminant_analysis_lda.review_bundle.json"
 CDG_PATH = ROOT / "src" / "sciona" / "atoms" / "ml" / "sklearn" / "discriminant_analysis" / "cdg.json"
 MANIFEST_PATH = ROOT / "data" / "audit_manifest.json"
 
 EXPECTED_ATOM_NAMES = {
-    "sciona.atoms.ml.sklearn.discriminant_analysis.qda_fit",
-    "sciona.atoms.ml.sklearn.discriminant_analysis.qda_decision_function",
-    "sciona.atoms.ml.sklearn.discriminant_analysis.qda_predict_log_proba",
-    "sciona.atoms.ml.sklearn.discriminant_analysis.qda_predict_proba",
-    "sciona.atoms.ml.sklearn.discriminant_analysis.qda_predict",
+    "sciona.atoms.ml.sklearn.discriminant_analysis.lda_fit",
+    "sciona.atoms.ml.sklearn.discriminant_analysis.lda_decision_function",
+    "sciona.atoms.ml.sklearn.discriminant_analysis.lda_predict_proba",
+    "sciona.atoms.ml.sklearn.discriminant_analysis.lda_predict_log_proba",
+    "sciona.atoms.ml.sklearn.discriminant_analysis.lda_predict",
+    "sciona.atoms.ml.sklearn.discriminant_analysis.lda_transform",
 }
 
 
@@ -27,10 +28,10 @@ def _bundle() -> dict:
     return json.loads(BUNDLE_PATH.read_text(encoding="utf-8"))
 
 
-def test_bundle_exists_and_has_qda_atoms() -> None:
+def test_bundle_exists_and_has_lda_atoms() -> None:
     assert BUNDLE_PATH.exists()
     bundle = _bundle()
-    assert len(bundle["rows"]) == 5
+    assert len(bundle["rows"]) == 6
     assert {row["atom_key"] for row in bundle["rows"]} == EXPECTED_ATOM_NAMES
 
 
@@ -41,7 +42,7 @@ def test_bundle_level_fields() -> None:
     assert bundle["review_semantic_verdict"] in {"pass", "pass_with_limits"}
     assert bundle["review_developer_semantic_verdict"] == "pass_with_limits"
     assert bundle["trust_readiness"] == "reviewed_with_limits"
-    assert bundle["review_record_path"] == "data/review_bundles/ml_sklearn_discriminant_analysis_qda.review_bundle.json"
+    assert bundle["review_record_path"] == "data/review_bundles/ml_sklearn_discriminant_analysis_lda.review_bundle.json"
 
 
 def test_each_row_has_review_metadata_and_existing_sources() -> None:
@@ -87,7 +88,7 @@ def test_cdg_atomic_nodes_have_publishable_io_specs() -> None:
             assert isinstance(item["required"], bool)
 
 
-def test_manifest_contains_qda_atoms_after_merge() -> None:
+def test_manifest_contains_lda_atoms_after_merge() -> None:
     manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
     entries = {
         atom["atom_name"]: atom

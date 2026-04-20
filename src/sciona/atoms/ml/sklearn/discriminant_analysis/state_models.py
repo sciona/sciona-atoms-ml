@@ -21,3 +21,22 @@ class QDAState:
     reg_param: float
     store_covariance: bool
     n_features_in: int
+
+
+@dataclass(frozen=True)
+class LDAState:
+    """Fitted linear discriminant means, weights, and projection basis."""
+
+    classes: NDArray[np.float64]
+    priors: NDArray[np.float64]
+    means: NDArray[np.float64]
+    xbar: NDArray[np.float64]
+    scalings: NDArray[np.float64]
+    coef: NDArray[np.float64]
+    intercept: NDArray[np.float64]
+    explained_variance_ratio: NDArray[np.float64]
+    covariance: NDArray[np.float64] | None
+    n_components: int
+    n_features_in: int
+    store_covariance: bool
+    tol: float
