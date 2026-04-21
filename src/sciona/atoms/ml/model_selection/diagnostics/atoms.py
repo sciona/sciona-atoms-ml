@@ -130,6 +130,7 @@ def compute_mutual_incoherence(X: NDArray[np.float64]) -> float:
 @register_atom(witness_check_lasso_sample_complexity)
 @icontract.require(lambda X: X.shape[0] >= 1, "X must be non-empty")
 @icontract.require(lambda sparsity_estimate: sparsity_estimate >= 1, "sparsity must be at least 1")
+@icontract.ensure(lambda result: isinstance(result, bool), "must return bool")
 def check_lasso_sample_complexity(
     X: NDArray[np.float64],
     sparsity_estimate: int,
@@ -444,6 +445,7 @@ def test_normality(x: NDArray[np.float64]) -> float:
 
 
 @register_atom(witness_is_sparse)
+@icontract.require(lambda X: sparse.issparse(X) or isinstance(X, np.ndarray), "X must be dense ndarray or scipy sparse")
 @icontract.ensure(lambda result: isinstance(result, bool), "must return bool")
 def is_sparse(X: object) -> bool:
     """Check whether the design matrix is stored in a sparse format.
@@ -507,6 +509,7 @@ def compute_explained_variance_ratio(
 
 
 @register_atom(witness_check_time_series_index)
+@icontract.require(lambda X: X.ndim == 2, "X must be 2D")
 @icontract.ensure(lambda result: isinstance(result, bool), "must return bool")
 def check_time_series_index(X: NDArray[np.float64]) -> bool:
     """Check whether the first column appears to be a monotonic time index.

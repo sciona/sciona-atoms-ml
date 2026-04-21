@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "metadata": {
-    "generated_at": "2026-04-21T22:39:41.027095+00:00",
+    "generated_at": "2026-04-21T22:50:02.342345+00:00",
     "generator": "scripts/apply_audit_review_bundles.py",
     "phase": "phase_1_review_bundle_merge"
   },
@@ -29129,6 +29129,532 @@
       "required_actions": [],
       "blocking_findings": [],
       "review_record_path": "data/review_bundles/ml_sklearn_neighbors_graph.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.neighbors.nearest_centroid_decision_function",
+      "atom_key": "sciona.atoms.ml.sklearn.neighbors.nearest_centroid_decision_function",
+      "atom_id": "sciona.atoms.ml.sklearn.neighbors.nearest_centroid_decision_function",
+      "module_import_path": "sciona.atoms.ml.sklearn.neighbors",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/neighbors/atoms.py",
+      "module_family": "sklearn",
+      "domain_family": "ml.sklearn",
+      "wrapper_symbol": "nearest_centroid_decision_function",
+      "argument_names": [
+        "X",
+        "state"
+      ],
+      "argument_details": [
+        {
+          "name": "X",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "state",
+          "annotation": "NearestCentroidState",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.float64]",
+      "docstring_summary": "Compute Euclidean nearest-centroid discriminant scores.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/state_models.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neighbors_nearest_centroid_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neighbors_nearest_centroid_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neighbors_nearest_centroid_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "medium",
+      "risk_score": 31,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "medium",
+        "runtime": "low",
+        "api_surface": "medium"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 83,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 3,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_neighbors_nearest_centroid.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.neighbors.nearest_centroid_fit",
+      "atom_key": "sciona.atoms.ml.sklearn.neighbors.nearest_centroid_fit",
+      "atom_id": "sciona.atoms.ml.sklearn.neighbors.nearest_centroid_fit",
+      "module_import_path": "sciona.atoms.ml.sklearn.neighbors",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/neighbors/atoms.py",
+      "module_family": "sklearn",
+      "domain_family": "ml.sklearn",
+      "wrapper_symbol": "nearest_centroid_fit",
+      "argument_names": [
+        "X",
+        "y",
+        "metric",
+        "shrink_threshold",
+        "priors"
+      ],
+      "argument_details": [
+        {
+          "name": "X",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "y",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "metric",
+          "annotation": "str",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "shrink_threshold",
+          "annotation": "float | None",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "priors",
+          "annotation": "str | tuple[float, ...]",
+          "required": false,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NearestCentroidState",
+      "docstring_summary": "Fit dense nearest-centroid class centroids and discriminant statistics.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/state_models.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neighbors_nearest_centroid_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neighbors_nearest_centroid_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neighbors_nearest_centroid_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "medium",
+      "risk_score": 33,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "medium",
+        "runtime": "low",
+        "api_surface": "medium"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 82,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 5,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_neighbors_nearest_centroid.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.neighbors.nearest_centroid_predict",
+      "atom_key": "sciona.atoms.ml.sklearn.neighbors.nearest_centroid_predict",
+      "atom_id": "sciona.atoms.ml.sklearn.neighbors.nearest_centroid_predict",
+      "module_import_path": "sciona.atoms.ml.sklearn.neighbors",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/neighbors/atoms.py",
+      "module_family": "sklearn",
+      "domain_family": "ml.sklearn",
+      "wrapper_symbol": "nearest_centroid_predict",
+      "argument_names": [
+        "X",
+        "state"
+      ],
+      "argument_details": [
+        {
+          "name": "X",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "state",
+          "annotation": "NearestCentroidState",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.float64]",
+      "docstring_summary": "Predict dense nearest-centroid class labels.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/state_models.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neighbors_nearest_centroid_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neighbors_nearest_centroid_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neighbors_nearest_centroid_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 28,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "medium"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 85,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 5,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_neighbors_nearest_centroid.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.neighbors.nearest_centroid_predict_log_proba",
+      "atom_key": "sciona.atoms.ml.sklearn.neighbors.nearest_centroid_predict_log_proba",
+      "atom_id": "sciona.atoms.ml.sklearn.neighbors.nearest_centroid_predict_log_proba",
+      "module_import_path": "sciona.atoms.ml.sklearn.neighbors",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/neighbors/atoms.py",
+      "module_family": "sklearn",
+      "domain_family": "ml.sklearn",
+      "wrapper_symbol": "nearest_centroid_predict_log_proba",
+      "argument_names": [
+        "X",
+        "state"
+      ],
+      "argument_details": [
+        {
+          "name": "X",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "state",
+          "annotation": "NearestCentroidState",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.float64]",
+      "docstring_summary": "Compute Euclidean nearest-centroid log class probabilities.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/state_models.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neighbors_nearest_centroid_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neighbors_nearest_centroid_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neighbors_nearest_centroid_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "medium",
+      "risk_score": 31,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "medium",
+        "runtime": "low",
+        "api_surface": "medium"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 83,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 3,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_neighbors_nearest_centroid.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.neighbors.nearest_centroid_predict_proba",
+      "atom_key": "sciona.atoms.ml.sklearn.neighbors.nearest_centroid_predict_proba",
+      "atom_id": "sciona.atoms.ml.sklearn.neighbors.nearest_centroid_predict_proba",
+      "module_import_path": "sciona.atoms.ml.sklearn.neighbors",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/neighbors/atoms.py",
+      "module_family": "sklearn",
+      "domain_family": "ml.sklearn",
+      "wrapper_symbol": "nearest_centroid_predict_proba",
+      "argument_names": [
+        "X",
+        "state"
+      ],
+      "argument_details": [
+        {
+          "name": "X",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "state",
+          "annotation": "NearestCentroidState",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.float64]",
+      "docstring_summary": "Compute Euclidean nearest-centroid class probabilities.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/state_models.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neighbors_nearest_centroid_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neighbors_nearest_centroid_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neighbors_nearest_centroid_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "medium",
+      "risk_score": 31,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "medium",
+        "runtime": "low",
+        "api_surface": "medium"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 83,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 3,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_neighbors_nearest_centroid.review_bundle.json",
       "has_references": true,
       "references_status": "pass"
     },

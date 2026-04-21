@@ -5,15 +5,20 @@ from __future__ import annotations
 import icontract
 import numpy as np
 from numpy.typing import NDArray
-from sklearn.utils.validation import check_array
+from sklearn.utils.validation import check_X_y, check_array
 
 from sciona.ghost.registry import register_atom
 
-from .state_models import NeighborsGraphTransformerState
+from .state_models import NearestCentroidState, NeighborsGraphTransformerState
 from .witnesses import (
     witness_kneighbors_graph,
     witness_kneighbors_transform,
     witness_kneighbors_transformer_fit,
+    witness_nearest_centroid_decision_function,
+    witness_nearest_centroid_fit,
+    witness_nearest_centroid_predict,
+    witness_nearest_centroid_predict_log_proba,
+    witness_nearest_centroid_predict_proba,
     witness_radius_neighbors_graph,
     witness_radius_neighbors_transform,
     witness_radius_neighbors_transformer_fit,
@@ -128,6 +133,147 @@ def _feature_count_matches(X: NDArray[np.float64], state: NeighborsGraphTransfor
     return bool(values.ndim == 2 and values.shape[1] == state.n_features_in)
 
 
+def _target_1d(y: NDArray[np.float64]) -> bool:
+    return bool(np.asarray(y).ndim == 1)
+
+
+def _sample_counts_match(X: NDArray[np.float64], y: NDArray[np.float64]) -> bool:
+    values_x = np.asarray(X)
+    values_y = np.asarray(y)
+    return bool(values_x.ndim == 2 and values_y.ndim == 1 and values_x.shape[0] == values_y.shape[0])
+
+
+def _finite_inputs(X: NDArray[np.float64], y: NDArray[np.float64]) -> bool:
+    try:
+        values_x = np.asarray(X, dtype=np.float64)
+        values_y = np.asarray(y, dtype=np.float64)
+    except (TypeError, ValueError):
+        return False
+    return bool(np.all(np.isfinite(values_x)) and np.all(np.isfinite(values_y)))
+
+
+def _at_least_two_classes(y: NDArray[np.float64]) -> bool:
+    return bool(np.unique(np.asarray(y, dtype=np.float64)).shape[0] >= 2)
+
+
+def _sample_count_exceeds_class_count(X: NDArray[np.float64], y: NDArray[np.float64]) -> bool:
+    values_x = np.asarray(X)
+    values_y = np.asarray(y)
+    return bool(values_x.ndim == 2 and values_y.ndim == 1 and values_x.shape[0] > np.unique(values_y).shape[0])
+
+
+def _nearest_centroid_options_valid(
+    metric: str,
+    shrink_threshold: float | None,
+    priors: str | tuple[float, ...],
+    y: NDArray[np.float64],
+) -> bool:
+    if metric not in {"euclidean", "manhattan"}:
+        return False
+    if shrink_threshold is not None and (
+        not isinstance(shrink_threshold, (int, float))
+        or isinstance(shrink_threshold, bool)
+        or not np.isfinite(float(shrink_threshold))
+        or float(shrink_threshold) <= 0.0
+    ):
+        return False
+    n_classes = np.unique(np.asarray(y, dtype=np.float64)).shape[0]
+    if priors in {"uniform", "empirical"}:
+        return True
+    if not isinstance(priors, tuple):
+        return False
+    values = np.asarray(priors, dtype=np.float64)
+    return bool(values.ndim == 1 and values.shape[0] == n_classes and np.all(np.isfinite(values)) and np.all(values >= 0.0) and values.sum() > 0.0)
+
+
+def _class_centroids(
+    X: NDArray[np.float64],
+    y: NDArray[np.float64],
+    classes: NDArray[np.float64],
+    metric: str,
+) -> NDArray[np.float64]:
+    centroids = np.empty((classes.shape[0], X.shape[1]), dtype=np.float64)
+    for class_index, class_label in enumerate(classes):
+        class_rows = X[y == class_label]
+        if metric == "manhattan":
+            centroids[class_index] = np.median(class_rows, axis=0)
+        else:
+            centroids[class_index] = np.mean(class_rows, axis=0)
+    return centroids
+
+
+def _nearest_centroid_denominators_positive(X: NDArray[np.float64], y: NDArray[np.float64], metric: str) -> bool:
+    if metric not in {"euclidean", "manhattan"}:
+        return False
+    values_x = np.asarray(X, dtype=np.float64)
+    values_y = np.asarray(y, dtype=np.float64)
+    classes = np.unique(values_y)
+    if values_x.shape[0] <= classes.shape[0] or np.all(np.ptp(values_x, axis=0) == 0.0):
+        return False
+    centroids = _class_centroids(values_x, values_y, classes, metric)
+    y_ind = np.searchsorted(classes, values_y)
+    variance = (values_x - centroids[y_ind]) ** 2
+    within_std = np.sqrt(variance.sum(axis=0) / (values_x.shape[0] - classes.shape[0]))
+    return bool(np.all(within_std + np.median(within_std) > 0.0))
+
+
+def _nearest_centroid_state_valid(state: NearestCentroidState) -> bool:
+    n_classes = state.classes.shape[0]
+    return bool(
+        n_classes >= 2
+        and state.classes.ndim == 1
+        and state.centroids.shape == (n_classes, state.n_features_in)
+        and state.deviations.shape == (n_classes, state.n_features_in)
+        and state.within_class_std_dev.shape == (state.n_features_in,)
+        and state.class_prior.shape == (n_classes,)
+        and state.metric in {"euclidean", "manhattan"}
+        and (state.shrink_threshold is None or state.shrink_threshold > 0.0)
+        and np.all(np.isfinite(state.classes))
+        and np.all(np.isfinite(state.centroids))
+        and np.all(np.isfinite(state.deviations))
+        and np.all(np.isfinite(state.within_class_std_dev))
+        and np.all(np.isfinite(state.class_prior))
+        and np.all(state.class_prior >= 0.0)
+        and np.isclose(np.sum(state.class_prior), 1.0)
+    )
+
+
+def _nearest_centroid_feature_count_matches(X: NDArray[np.float64], state: NearestCentroidState) -> bool:
+    values = np.asarray(X)
+    return bool(values.ndim == 2 and values.shape[1] == state.n_features_in)
+
+
+def _nearest_centroid_prediction_valid(result: NDArray[np.float64], X: NDArray[np.float64]) -> bool:
+    values = np.asarray(result)
+    return bool(values.ndim == 1 and values.shape[0] == np.asarray(X).shape[0] and np.all(np.isfinite(values)))
+
+
+def _nearest_centroid_scores_valid(result: NDArray[np.float64], X: NDArray[np.float64], state: NearestCentroidState) -> bool:
+    values = np.asarray(result)
+    if state.classes.shape[0] == 2:
+        return bool(values.ndim == 1 and values.shape[0] == np.asarray(X).shape[0] and np.all(np.isfinite(values)))
+    return bool(values.shape == (np.asarray(X).shape[0], state.classes.shape[0]) and np.all(np.isfinite(values)))
+
+
+def _nearest_centroid_proba_valid(result: NDArray[np.float64], X: NDArray[np.float64], state: NearestCentroidState) -> bool:
+    values = np.asarray(result)
+    return bool(
+        values.shape == (np.asarray(X).shape[0], state.classes.shape[0])
+        and np.all(np.isfinite(values))
+        and np.all(values >= 0.0)
+        and np.allclose(values.sum(axis=1), 1.0)
+    )
+
+
+def _nearest_centroid_log_proba_valid(result: NDArray[np.float64], X: NDArray[np.float64], state: NearestCentroidState) -> bool:
+    values = np.asarray(result)
+    return bool(
+        values.shape == (np.asarray(X).shape[0], state.classes.shape[0])
+        and np.all(np.isfinite(values))
+        and np.allclose(np.exp(values).sum(axis=1), 1.0)
+    )
+
+
 def _resolve_include_self(include_self: bool | str, mode: str) -> bool:
     if include_self == "auto":
         return mode == "connectivity"
@@ -181,6 +327,33 @@ def _fill_radius_graph(
     else:
         graph[mask] = distances[mask]
     return graph
+
+
+def _nearest_centroid_distances(
+    X: NDArray[np.float64],
+    centroids: NDArray[np.float64],
+    metric: str,
+) -> NDArray[np.float64]:
+    if metric == "manhattan":
+        return np.asarray(np.sum(np.abs(X[:, np.newaxis, :] - centroids[np.newaxis, :, :]), axis=2), dtype=np.float64)
+    diff = X[:, np.newaxis, :] - centroids[np.newaxis, :, :]
+    return np.asarray(np.sqrt(np.sum(diff * diff, axis=2)), dtype=np.float64)
+
+
+def _nearest_centroid_raw_scores(X: NDArray[np.float64], state: NearestCentroidState) -> NDArray[np.float64]:
+    x_normalized = np.asarray(X, dtype=np.float64).copy()
+    mask = state.within_class_std_dev != 0.0
+    x_normalized[:, mask] /= state.within_class_std_dev[mask]
+    centroids_normalized = state.centroids.copy()
+    centroids_normalized[:, mask] /= state.within_class_std_dev[mask]
+    distances = _nearest_centroid_distances(x_normalized, centroids_normalized, state.metric)
+    return np.asarray(-(distances**2) + 2.0 * np.log(state.class_prior[np.newaxis, :]), dtype=np.float64)
+
+
+def _softmax(scores: NDArray[np.float64]) -> NDArray[np.float64]:
+    shifted = scores - np.max(scores, axis=1)[:, np.newaxis]
+    exponent = np.exp(shifted)
+    return np.asarray(exponent / exponent.sum(axis=1)[:, np.newaxis], dtype=np.float64)
 
 
 @register_atom(witness_kneighbors_graph)
@@ -337,3 +510,119 @@ def radius_neighbors_transform(X: NDArray[np.float64], state: NeighborsGraphTran
     checked = check_array(X, dtype=np.float64, ensure_2d=True)
     distances = _pairwise_minkowski(checked, state.training_data, state.p)
     return _fill_radius_graph(distances, float(state.radius), state.mode, exclude_diagonal=False)
+
+
+@register_atom(witness_nearest_centroid_fit)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda y: _target_1d(y), "y must be 1D")
+@icontract.require(lambda X, y: _sample_counts_match(X, y), "X and y must have matching sample counts")
+@icontract.require(lambda X, y: _finite_inputs(X, y), "X and y must be finite numeric arrays")
+@icontract.require(lambda y: _at_least_two_classes(y), "nearest centroid requires at least two classes")
+@icontract.require(lambda X, y: _sample_count_exceeds_class_count(X, y), "sample count must exceed class count")
+@icontract.require(lambda metric, shrink_threshold, priors, y: _nearest_centroid_options_valid(metric, shrink_threshold, priors, y), "nearest centroid options must be in dense numeric scope")
+@icontract.require(lambda X, y, metric: _nearest_centroid_denominators_positive(X, y, metric), "class dispersion must define finite deviations")
+@icontract.ensure(lambda result: _nearest_centroid_state_valid(result), "state must contain finite nearest-centroid statistics")
+def nearest_centroid_fit(
+    X: NDArray[np.float64],
+    y: NDArray[np.float64],
+    *,
+    metric: str = "euclidean",
+    shrink_threshold: float | None = None,
+    priors: str | tuple[float, ...] = "uniform",
+) -> NearestCentroidState:
+    """Fit dense nearest-centroid class centroids and discriminant statistics."""
+    checked_x, checked_y = check_X_y(X, y, dtype=np.float64)
+    classes = np.unique(checked_y)
+    n_samples, n_features = checked_x.shape
+    y_ind = np.searchsorted(classes, checked_y)
+    class_counts = np.bincount(y_ind, minlength=classes.shape[0]).astype(np.float64)
+    if priors == "empirical":
+        class_prior = class_counts / float(n_samples)
+    elif priors == "uniform":
+        class_prior = np.full(classes.shape[0], 1.0 / classes.shape[0], dtype=np.float64)
+    else:
+        raw_prior = np.asarray(priors, dtype=np.float64)
+        class_prior = raw_prior / raw_prior.sum()
+    centroids = _class_centroids(checked_x, checked_y, classes, metric)
+    variance = (checked_x - centroids[y_ind]) ** 2
+    within_std = np.asarray(np.sqrt(variance.sum(axis=0) / (n_samples - classes.shape[0])), dtype=np.float64)
+    dataset_centroid = np.mean(checked_x, axis=0)
+    m = np.sqrt((1.0 / class_counts) - (1.0 / n_samples))
+    s = within_std + np.median(within_std)
+    ms = m.reshape(classes.shape[0], 1) * s
+    deviations = np.asarray((centroids - dataset_centroid) / ms, dtype=np.float64)
+    fitted_centroids = centroids
+    if shrink_threshold is not None:
+        signs = np.sign(deviations)
+        deviations = np.abs(deviations) - float(shrink_threshold)
+        deviations = np.clip(deviations, 0.0, None) * signs
+        fitted_centroids = np.asarray(dataset_centroid + ms * deviations, dtype=np.float64)
+    return NearestCentroidState(
+        classes=np.asarray(classes, dtype=np.float64),
+        centroids=np.asarray(fitted_centroids, dtype=np.float64),
+        deviations=np.asarray(deviations, dtype=np.float64),
+        within_class_std_dev=within_std,
+        class_prior=class_prior,
+        metric=metric,
+        shrink_threshold=None if shrink_threshold is None else float(shrink_threshold),
+        n_features_in=int(n_features),
+    )
+
+
+@register_atom(witness_nearest_centroid_predict)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X: _finite_matrix(X), "X must contain finite values")
+@icontract.require(lambda state: _nearest_centroid_state_valid(state), "state must be a fitted nearest-centroid classifier")
+@icontract.require(lambda X, state: _nearest_centroid_feature_count_matches(X, state), "X feature count must match fitted state")
+@icontract.ensure(lambda result, X: _nearest_centroid_prediction_valid(result, X), "predictions must be finite class labels")
+def nearest_centroid_predict(X: NDArray[np.float64], state: NearestCentroidState) -> NDArray[np.float64]:
+    """Predict dense nearest-centroid class labels."""
+    checked = check_array(X, dtype=np.float64, ensure_2d=True)
+    if np.isclose(state.class_prior, 1.0 / state.classes.shape[0]).all():
+        distances = _nearest_centroid_distances(checked, state.centroids, state.metric)
+        return np.asarray(state.classes[np.argmin(distances, axis=1)], dtype=np.float64)
+    scores = _nearest_centroid_raw_scores(checked, state)
+    return np.asarray(state.classes[np.argmax(scores, axis=1)], dtype=np.float64)
+
+
+@register_atom(witness_nearest_centroid_decision_function)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X: _finite_matrix(X), "X must contain finite values")
+@icontract.require(lambda state: _nearest_centroid_state_valid(state), "state must be a fitted nearest-centroid classifier")
+@icontract.require(lambda state: state.metric == "euclidean", "decision scores are exposed for euclidean metric")
+@icontract.require(lambda X, state: _nearest_centroid_feature_count_matches(X, state), "X feature count must match fitted state")
+@icontract.ensure(lambda result, X, state: _nearest_centroid_scores_valid(result, X, state), "decision scores must be finite")
+def nearest_centroid_decision_function(X: NDArray[np.float64], state: NearestCentroidState) -> NDArray[np.float64]:
+    """Compute Euclidean nearest-centroid discriminant scores."""
+    checked = check_array(X, dtype=np.float64, ensure_2d=True)
+    scores = _nearest_centroid_raw_scores(checked, state)
+    if state.classes.shape[0] == 2:
+        return np.asarray(scores[:, 1] - scores[:, 0], dtype=np.float64)
+    return scores
+
+
+@register_atom(witness_nearest_centroid_predict_log_proba)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X: _finite_matrix(X), "X must contain finite values")
+@icontract.require(lambda state: _nearest_centroid_state_valid(state), "state must be a fitted nearest-centroid classifier")
+@icontract.require(lambda state: state.metric == "euclidean", "log probabilities are exposed for euclidean metric")
+@icontract.require(lambda X, state: _nearest_centroid_feature_count_matches(X, state), "X feature count must match fitted state")
+@icontract.ensure(lambda result, X, state: _nearest_centroid_log_proba_valid(result, X, state), "log probabilities must normalize")
+def nearest_centroid_predict_log_proba(X: NDArray[np.float64], state: NearestCentroidState) -> NDArray[np.float64]:
+    """Compute Euclidean nearest-centroid log class probabilities."""
+    checked = check_array(X, dtype=np.float64, ensure_2d=True)
+    scores = _nearest_centroid_raw_scores(checked, state)
+    shifted = scores - scores.max(axis=1)[:, np.newaxis]
+    return np.asarray(shifted - np.log(np.exp(shifted).sum(axis=1)[:, np.newaxis]), dtype=np.float64)
+
+
+@register_atom(witness_nearest_centroid_predict_proba)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X: _finite_matrix(X), "X must contain finite values")
+@icontract.require(lambda state: _nearest_centroid_state_valid(state), "state must be a fitted nearest-centroid classifier")
+@icontract.require(lambda state: state.metric == "euclidean", "probabilities are exposed for euclidean metric")
+@icontract.require(lambda X, state: _nearest_centroid_feature_count_matches(X, state), "X feature count must match fitted state")
+@icontract.ensure(lambda result, X, state: _nearest_centroid_proba_valid(result, X, state), "probabilities must normalize")
+def nearest_centroid_predict_proba(X: NDArray[np.float64], state: NearestCentroidState) -> NDArray[np.float64]:
+    """Compute Euclidean nearest-centroid class probabilities."""
+    return _softmax(_nearest_centroid_raw_scores(check_array(X, dtype=np.float64, ensure_2d=True), state))

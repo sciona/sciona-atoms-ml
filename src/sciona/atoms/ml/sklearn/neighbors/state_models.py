@@ -20,3 +20,17 @@ class NeighborsGraphTransformerState:
     p: float
     transformer_kind: str
     n_features_in: int
+
+
+@dataclass(frozen=True)
+class NearestCentroidState:
+    """Fitted dense nearest-centroid classifier state."""
+
+    classes: NDArray[np.float64]
+    centroids: NDArray[np.float64]
+    deviations: NDArray[np.float64]
+    within_class_std_dev: NDArray[np.float64]
+    class_prior: NDArray[np.float64]
+    metric: str
+    shrink_threshold: float | None
+    n_features_in: int

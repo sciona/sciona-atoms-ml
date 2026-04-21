@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "atoms": {
-    "sciona.atoms.ml.sklearn.neighbors.kneighbors_graph@sciona/atoms/ml/sklearn/neighbors/atoms.py:194": {
+    "sciona.atoms.ml.sklearn.neighbors.kneighbors_graph@sciona/atoms/ml/sklearn/neighbors/atoms.py:367": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -26,7 +26,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.neighbors.radius_neighbors_graph@sciona/atoms/ml/sklearn/neighbors/atoms.py:222": {
+    "sciona.atoms.ml.sklearn.neighbors.radius_neighbors_graph@sciona/atoms/ml/sklearn/neighbors/atoms.py:395": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -51,7 +51,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.neighbors.kneighbors_transformer_fit@sciona/atoms/ml/sklearn/neighbors/atoms.py:248": {
+    "sciona.atoms.ml.sklearn.neighbors.kneighbors_transformer_fit@sciona/atoms/ml/sklearn/neighbors/atoms.py:421": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -76,7 +76,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.neighbors.kneighbors_transform@sciona/atoms/ml/sklearn/neighbors/atoms.py:282": {
+    "sciona.atoms.ml.sklearn.neighbors.kneighbors_transform@sciona/atoms/ml/sklearn/neighbors/atoms.py:455": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -101,7 +101,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.neighbors.radius_neighbors_transformer_fit@sciona/atoms/ml/sklearn/neighbors/atoms.py:301": {
+    "sciona.atoms.ml.sklearn.neighbors.radius_neighbors_transformer_fit@sciona/atoms/ml/sklearn/neighbors/atoms.py:474": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -126,7 +126,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.neighbors.radius_neighbors_transform@sciona/atoms/ml/sklearn/neighbors/atoms.py:335": {
+    "sciona.atoms.ml.sklearn.neighbors.radius_neighbors_transform@sciona/atoms/ml/sklearn/neighbors/atoms.py:508": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -136,6 +136,131 @@
             "matched_nodes": [],
             "confidence": "high",
             "notes": "Adapted from sklearn.neighbors.RadiusNeighborsTransformer.transform in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.neighbors.nearest_centroid_fit@sciona/atoms/ml/sklearn/neighbors/atoms.py:525": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.neighbors.NearestCentroid.fit in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.neighbors.nearest_centroid_predict@sciona/atoms/ml/sklearn/neighbors/atoms.py:578": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.neighbors.NearestCentroid.predict in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.neighbors.nearest_centroid_decision_function@sciona/atoms/ml/sklearn/neighbors/atoms.py:595": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.neighbors.NearestCentroid._decision_function and DiscriminantAnalysisPredictionMixin.decision_function in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.neighbors.nearest_centroid_predict_log_proba@sciona/atoms/ml/sklearn/neighbors/atoms.py:611": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.neighbors.NearestCentroid._decision_function and DiscriminantAnalysisPredictionMixin.predict_log_proba in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.neighbors.nearest_centroid_predict_proba@sciona/atoms/ml/sklearn/neighbors/atoms.py:626": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.neighbors.NearestCentroid._decision_function and DiscriminantAnalysisPredictionMixin.predict_proba in scikit-learn 1.8.0."
           }
         },
         {
