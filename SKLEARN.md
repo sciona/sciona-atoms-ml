@@ -12,7 +12,7 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 - Scope for this first ingestion pass: public algorithmic estimators, transformers, kernels, and algorithmic helper functions in the selected sklearn modules below.
 - Intentionally excluded for now: datasets, metrics, displays, exceptions, low-level utils, orchestration/composition (`compose`, `pipeline`), and model-selection/search APIs.
 - Source locations come from each object page's official `[source]` link. `BallTree` and `KDTree` use the matching source files from the same scikit-learn revision because their generated docs pages do not expose a direct `[source]` link.
-- Total targets in this inventory: 67
+- Total targets in this inventory: 57
 
 ## Module Summary
 
@@ -36,7 +36,7 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 | `sklearn.inspection` | 0 |
 | `sklearn.kernel_approximation` | 0 |
 | `sklearn.kernel_ridge` | 0 |
-| `sklearn.linear_model` | 32 |
+| `sklearn.linear_model` | 22 |
 | `sklearn.manifold` | 8 |
 | `sklearn.mixture` | 2 |
 | `sklearn.multiclass` | 3 |
@@ -143,27 +143,17 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 
 | Target | Description | Source |
 | --- | --- | --- |
-| `ElasticNet` | Linear regression with combined L1 and L2 priors as regularizer. | `sklearn/linear_model/_coordinate_descent.py:L758` |
-| `ElasticNetCV` | Elastic Net model with iterative fitting along a regularization path. | `sklearn/linear_model/_coordinate_descent.py:L2237` |
-| `enet_path` | Compute elastic net path with coordinate descent. | `sklearn/linear_model/_coordinate_descent.py:L393` |
 | `GammaRegressor` | Generalized Linear Model with a Gamma distribution. | `sklearn/linear_model/_glm/glm.py:L606` |
 | `HuberRegressor` | L2-regularized linear regression model that is robust to outliers. | `sklearn/linear_model/_huber.py:L129` |
 | `Lars` | Least Angle Regression model a.k.a. LAR. | `sklearn/linear_model/_least_angle.py:L920` |
 | `lars_path` | Compute Least Angle Regression or Lasso path using the LARS algorithm. | `sklearn/linear_model/_least_angle.py:L44` |
 | `lars_path_gram` | The lars_path in the sufficient stats mode. | `sklearn/linear_model/_least_angle.py:L235` |
 | `LarsCV` | Cross-validated Least Angle Regression model. | `sklearn/linear_model/_least_angle.py:L1515` |
-| `Lasso` | Linear Model trained with L1 prior as regularizer (aka the Lasso). | `sklearn/linear_model/_coordinate_descent.py:L1205` |
-| `lasso_path` | Compute Lasso path with coordinate descent. | `sklearn/linear_model/_coordinate_descent.py:L199` |
-| `LassoCV` | Lasso linear model with iterative fitting along a regularization path. | `sklearn/linear_model/_coordinate_descent.py:L1970` |
 | `LassoLars` | Lasso model fit with Least Angle Regression a.k.a. Lars. | `sklearn/linear_model/_least_angle.py:L1210` |
 | `LassoLarsCV` | Cross-validated Lasso, using the LARS algorithm. | `sklearn/linear_model/_least_angle.py:L1831` |
 | `LassoLarsIC` | Lasso model fit with Lars using BIC or AIC for model selection. | `sklearn/linear_model/_least_angle.py:L2029` |
 | `LogisticRegression` | Logistic Regression (aka logit, MaxEnt) classifier. | `sklearn/linear_model/_logistic.py:L735` |
 | `LogisticRegressionCV` | Logistic Regression CV (aka logit, MaxEnt) classifier. | `sklearn/linear_model/_logistic.py:L1363` |
-| `MultiTaskElasticNet` | Multi-task ElasticNet model trained with L1/L2 mixed-norm as regularizer. | `sklearn/linear_model/_coordinate_descent.py:L2532` |
-| `MultiTaskElasticNetCV` | Multi-task L1/L2 ElasticNet with built-in cross-validation. | `sklearn/linear_model/_coordinate_descent.py:L2926` |
-| `MultiTaskLasso` | Multi-task Lasso model trained with L1/L2 mixed-norm as regularizer. | `sklearn/linear_model/_coordinate_descent.py:L2784` |
-| `MultiTaskLassoCV` | Multi-task Lasso model trained with L1/L2 mixed-norm as regularizer. | `sklearn/linear_model/_coordinate_descent.py:L3195` |
 | `PassiveAggressiveClassifier` | Passive Aggressive Classifier. | `sklearn/linear_model/_passive_aggressive.py:L17` |
 | `PassiveAggressiveRegressor` | Passive Aggressive Regressor. | `sklearn/linear_model/_passive_aggressive.py:L343` |
 | `Perceptron` | Linear perceptron classifier. | `sklearn/linear_model/_perceptron.py:L10` |

@@ -3,6 +3,31 @@
 This file tracks sklearn targets that should not be ingested as publishable
 atoms until the decomposition boundary is clarified.
 
+## `sklearn.linear_model` coordinate-descent solvers
+
+Deferred targets:
+
+| Target | Source | Reason |
+| --- | --- | --- |
+| `ElasticNet` | `sklearn/linear_model/_coordinate_descent.py:L758` | Fit delegates the core L1/L2 coordinate-descent optimization to compiled `sklearn.linear_model._cd_fast` routines; publishing the estimator shell would hide the solver boundary. |
+| `ElasticNetCV` | `sklearn/linear_model/_coordinate_descent.py:L2237` | Cross-validation repeatedly calls the same compiled coordinate-descent path solver before refitting, so a public estimator atom would obscure both solver and CV orchestration boundaries. |
+| `enet_path` | `sklearn/linear_model/_coordinate_descent.py:L393` | The public path helper dispatches to compiled dense, sparse, Gram, and multitask coordinate-descent kernels; ingesting only the Python loop would not decompose the optimization algorithm. |
+| `Lasso` | `sklearn/linear_model/_coordinate_descent.py:L1205` | This estimator is an ElasticNet specialization whose fit path delegates to compiled coordinate-descent kernels. |
+| `lasso_path` | `sklearn/linear_model/_coordinate_descent.py:L199` | The helper is a thin Lasso-specialized wrapper over `enet_path`, which delegates to compiled coordinate-descent kernels. |
+| `LassoCV` | `sklearn/linear_model/_coordinate_descent.py:L1970` | Cross-validated Lasso path fitting delegates to the same compiled coordinate-descent solver family and then refits the selected model. |
+| `MultiTaskElasticNet` | `sklearn/linear_model/_coordinate_descent.py:L2532` | Fit delegates the mixed-norm multitask optimization to compiled `enet_coordinate_descent_multi_task`; a wrapper atom would hide the solver implementation. |
+| `MultiTaskElasticNetCV` | `sklearn/linear_model/_coordinate_descent.py:L2926` | Cross-validation repeatedly calls multitask coordinate-descent paths and refits through the compiled multitask solver boundary. |
+| `MultiTaskLasso` | `sklearn/linear_model/_coordinate_descent.py:L2784` | This estimator is a multitask ElasticNet specialization whose fit path delegates to compiled multitask coordinate descent. |
+| `MultiTaskLassoCV` | `sklearn/linear_model/_coordinate_descent.py:L3195` | Cross-validated multitask Lasso delegates path search and refit to compiled multitask coordinate-descent kernels. |
+
+Potential remediation path:
+
+- Ingest the underlying `_cd_fast` coordinate-descent kernels through a native
+  or FFI-backed decomposition with provenance and parity checks at the solver
+  boundary.
+- Or define limited estimator-state wrappers with explicit audit limitations
+  only after deciding that opaque solver-backed atoms are acceptable.
+
 ## `sklearn.feature_selection` estimator-callback selectors
 
 Deferred targets:
