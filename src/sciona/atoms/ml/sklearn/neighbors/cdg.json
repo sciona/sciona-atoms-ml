@@ -3,7 +3,7 @@
     {
       "node_id": "sklearn_neighbors_root",
       "name": "Sklearn Neighbors Atoms",
-      "description": "Dense finite neighbor graph, regression, classification, and nearest-centroid atoms for selected sklearn.neighbors APIs.",
+      "description": "Dense finite neighbor graph, regression, classification, nearest-neighbor search, and nearest-centroid atoms for selected sklearn.neighbors APIs.",
       "status": "decomposed",
       "children": [
         "kneighbors_graph",
@@ -22,6 +22,11 @@
         "radius_neighbors_classifier_fit",
         "radius_neighbors_classifier_predict_proba",
         "radius_neighbors_classifier_predict",
+        "nearest_neighbors_fit",
+        "nearest_neighbors_kneighbors",
+        "nearest_neighbors_radius_neighbors",
+        "nearest_neighbors_kneighbors_graph",
+        "nearest_neighbors_radius_neighbors_graph",
         "nearest_centroid_fit",
         "nearest_centroid_predict",
         "nearest_centroid_decision_function",
@@ -39,16 +44,53 @@
       "type_signature": "(X: NDArray[np.float64], n_neighbors: int, mode: str = 'connectivity', metric: str = 'minkowski', p: float = 2.0, metric_params: None = None, include_self: bool | str = False, n_jobs: None = None) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "n_neighbors", "type_desc": "int", "required": true},
-        {"name": "mode", "type_desc": "str", "required": false},
-        {"name": "metric", "type_desc": "str", "required": false},
-        {"name": "p", "type_desc": "float", "required": false},
-        {"name": "metric_params", "type_desc": "None", "required": false},
-        {"name": "include_self", "type_desc": "bool | str", "required": false},
-        {"name": "n_jobs", "type_desc": "None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "n_neighbors",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "mode",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "metric",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "p",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "metric_params",
+          "type_desc": "None",
+          "required": false
+        },
+        {
+          "name": "include_self",
+          "type_desc": "bool | str",
+          "required": false
+        },
+        {
+          "name": "n_jobs",
+          "type_desc": "None",
+          "required": false
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
     },
     {
       "node_id": "radius_neighbors_graph",
@@ -59,16 +101,53 @@
       "type_signature": "(X: NDArray[np.float64], radius: float, mode: str = 'connectivity', metric: str = 'minkowski', p: float = 2.0, metric_params: None = None, include_self: bool | str = False, n_jobs: None = None) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "radius", "type_desc": "float", "required": true},
-        {"name": "mode", "type_desc": "str", "required": false},
-        {"name": "metric", "type_desc": "str", "required": false},
-        {"name": "p", "type_desc": "float", "required": false},
-        {"name": "metric_params", "type_desc": "None", "required": false},
-        {"name": "include_self", "type_desc": "bool | str", "required": false},
-        {"name": "n_jobs", "type_desc": "None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "radius",
+          "type_desc": "float",
+          "required": true
+        },
+        {
+          "name": "mode",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "metric",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "p",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "metric_params",
+          "type_desc": "None",
+          "required": false
+        },
+        {
+          "name": "include_self",
+          "type_desc": "bool | str",
+          "required": false
+        },
+        {
+          "name": "n_jobs",
+          "type_desc": "None",
+          "required": false
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
     },
     {
       "node_id": "kneighbors_transformer_fit",
@@ -79,17 +158,58 @@
       "type_signature": "(X: NDArray[np.float64], mode: str = 'distance', n_neighbors: int = 5, algorithm: str = 'auto', leaf_size: int = 30, metric: str = 'minkowski', p: float = 2.0, metric_params: None = None, n_jobs: None = None) -> NeighborsGraphTransformerState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "mode", "type_desc": "str", "required": false},
-        {"name": "n_neighbors", "type_desc": "int", "required": false},
-        {"name": "algorithm", "type_desc": "str", "required": false},
-        {"name": "leaf_size", "type_desc": "int", "required": false},
-        {"name": "metric", "type_desc": "str", "required": false},
-        {"name": "p", "type_desc": "float", "required": false},
-        {"name": "metric_params", "type_desc": "None", "required": false},
-        {"name": "n_jobs", "type_desc": "None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "mode",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "n_neighbors",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "algorithm",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "leaf_size",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "metric",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "p",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "metric_params",
+          "type_desc": "None",
+          "required": false
+        },
+        {
+          "name": "n_jobs",
+          "type_desc": "None",
+          "required": false
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NeighborsGraphTransformerState"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NeighborsGraphTransformerState"
+        }
+      ]
     },
     {
       "node_id": "kneighbors_transform",
@@ -100,10 +220,23 @@
       "type_signature": "(X: NDArray[np.float64], state: NeighborsGraphTransformerState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "NeighborsGraphTransformerState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "NeighborsGraphTransformerState",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
     },
     {
       "node_id": "radius_neighbors_transformer_fit",
@@ -114,17 +247,58 @@
       "type_signature": "(X: NDArray[np.float64], mode: str = 'distance', radius: float = 1.0, algorithm: str = 'auto', leaf_size: int = 30, metric: str = 'minkowski', p: float = 2.0, metric_params: None = None, n_jobs: None = None) -> NeighborsGraphTransformerState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "mode", "type_desc": "str", "required": false},
-        {"name": "radius", "type_desc": "float", "required": false},
-        {"name": "algorithm", "type_desc": "str", "required": false},
-        {"name": "leaf_size", "type_desc": "int", "required": false},
-        {"name": "metric", "type_desc": "str", "required": false},
-        {"name": "p", "type_desc": "float", "required": false},
-        {"name": "metric_params", "type_desc": "None", "required": false},
-        {"name": "n_jobs", "type_desc": "None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "mode",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "radius",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "algorithm",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "leaf_size",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "metric",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "p",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "metric_params",
+          "type_desc": "None",
+          "required": false
+        },
+        {
+          "name": "n_jobs",
+          "type_desc": "None",
+          "required": false
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NeighborsGraphTransformerState"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NeighborsGraphTransformerState"
+        }
+      ]
     },
     {
       "node_id": "radius_neighbors_transform",
@@ -135,10 +309,233 @@
       "type_signature": "(X: NDArray[np.float64], state: NeighborsGraphTransformerState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "NeighborsGraphTransformerState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "NeighborsGraphTransformerState",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
+    },
+    {
+      "node_id": "nearest_neighbors_fit",
+      "name": "nearest_neighbors_fit",
+      "description": "Fit dense nearest-neighbor search state for finite numeric samples.",
+      "concept_type": "fit_state_builder",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], n_neighbors: int = 5, radius: float = 1.0, algorithm: str = auto, leaf_size: int = 30, metric: str = minkowski, p: float = 2.0, metric_params: None = None, n_jobs: None = None) -> NearestNeighborsState",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "n_neighbors",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "radius",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "algorithm",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "leaf_size",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "metric",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "p",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "metric_params",
+          "type_desc": "None",
+          "required": false
+        },
+        {
+          "name": "n_jobs",
+          "type_desc": "None",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NearestNeighborsState"
+        }
+      ]
+    },
+    {
+      "node_id": "nearest_neighbors_kneighbors",
+      "name": "nearest_neighbors_kneighbors",
+      "description": "Return dense k-neighbor distances and fitted-row indices for queries.",
+      "concept_type": "neighbor_query",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: NearestNeighborsState, n_neighbors: int | None = None) -> tuple[NDArray[np.float64], NDArray[np.int64]]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "NearestNeighborsState",
+          "required": true
+        },
+        {
+          "name": "n_neighbors",
+          "type_desc": "int | None",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "tuple[NDArray[np.float64], NDArray[np.int64]]"
+        }
+      ]
+    },
+    {
+      "node_id": "nearest_neighbors_radius_neighbors",
+      "name": "nearest_neighbors_radius_neighbors",
+      "description": "Return ragged radius-neighbor distances and fitted-row indices.",
+      "concept_type": "neighbor_query",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: NearestNeighborsState, radius: float | None = None, sort_results: bool = False) -> tuple[NDArray[np.object_], NDArray[np.object_]]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "NearestNeighborsState",
+          "required": true
+        },
+        {
+          "name": "radius",
+          "type_desc": "float | None",
+          "required": false
+        },
+        {
+          "name": "sort_results",
+          "type_desc": "bool",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "tuple[NDArray[np.object_], NDArray[np.object_]]"
+        }
+      ]
+    },
+    {
+      "node_id": "nearest_neighbors_kneighbors_graph",
+      "name": "nearest_neighbors_kneighbors_graph",
+      "description": "Build a dense fitted k-neighbor connectivity or distance graph.",
+      "concept_type": "neighbor_graph",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: NearestNeighborsState, n_neighbors: int | None = None, mode: str = connectivity) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "NearestNeighborsState",
+          "required": true
+        },
+        {
+          "name": "n_neighbors",
+          "type_desc": "int | None",
+          "required": false
+        },
+        {
+          "name": "mode",
+          "type_desc": "str",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
+    },
+    {
+      "node_id": "nearest_neighbors_radius_neighbors_graph",
+      "name": "nearest_neighbors_radius_neighbors_graph",
+      "description": "Build a dense fitted radius-neighbor connectivity or distance graph.",
+      "concept_type": "neighbor_graph",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: NearestNeighborsState, radius: float | None = None, mode: str = connectivity, sort_results: bool = False) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "NearestNeighborsState",
+          "required": true
+        },
+        {
+          "name": "radius",
+          "type_desc": "float | None",
+          "required": false
+        },
+        {
+          "name": "mode",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "sort_results",
+          "type_desc": "bool",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
     },
     {
       "node_id": "nearest_centroid_fit",
@@ -149,13 +546,38 @@
       "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], metric: str = 'euclidean', shrink_threshold: float | None = None, priors: str | tuple[float, ...] = 'uniform') -> NearestCentroidState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "metric", "type_desc": "str", "required": false},
-        {"name": "shrink_threshold", "type_desc": "float | None", "required": false},
-        {"name": "priors", "type_desc": "str | tuple[float, ...]", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "metric",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "shrink_threshold",
+          "type_desc": "float | None",
+          "required": false
+        },
+        {
+          "name": "priors",
+          "type_desc": "str | tuple[float, ...]",
+          "required": false
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NearestCentroidState"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NearestCentroidState"
+        }
+      ]
     },
     {
       "node_id": "kneighbors_regressor_fit",
@@ -166,18 +588,63 @@
       "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], n_neighbors: int = 5, weights: str = 'uniform', algorithm: str = 'auto', leaf_size: int = 30, p: float = 2.0, metric: str = 'minkowski', metric_params: None = None, n_jobs: None = None) -> NeighborsRegressorState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "n_neighbors", "type_desc": "int", "required": false},
-        {"name": "weights", "type_desc": "str", "required": false},
-        {"name": "algorithm", "type_desc": "str", "required": false},
-        {"name": "leaf_size", "type_desc": "int", "required": false},
-        {"name": "p", "type_desc": "float", "required": false},
-        {"name": "metric", "type_desc": "str", "required": false},
-        {"name": "metric_params", "type_desc": "None", "required": false},
-        {"name": "n_jobs", "type_desc": "None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "n_neighbors",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "weights",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "algorithm",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "leaf_size",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "p",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "metric",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "metric_params",
+          "type_desc": "None",
+          "required": false
+        },
+        {
+          "name": "n_jobs",
+          "type_desc": "None",
+          "required": false
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NeighborsRegressorState"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NeighborsRegressorState"
+        }
+      ]
     },
     {
       "node_id": "kneighbors_regressor_predict",
@@ -188,10 +655,23 @@
       "type_signature": "(X: NDArray[np.float64], state: NeighborsRegressorState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "NeighborsRegressorState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "NeighborsRegressorState",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
     },
     {
       "node_id": "radius_neighbors_regressor_fit",
@@ -202,18 +682,63 @@
       "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], radius: float = 1.0, weights: str = 'uniform', algorithm: str = 'auto', leaf_size: int = 30, p: float = 2.0, metric: str = 'minkowski', metric_params: None = None, n_jobs: None = None) -> NeighborsRegressorState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "radius", "type_desc": "float", "required": false},
-        {"name": "weights", "type_desc": "str", "required": false},
-        {"name": "algorithm", "type_desc": "str", "required": false},
-        {"name": "leaf_size", "type_desc": "int", "required": false},
-        {"name": "p", "type_desc": "float", "required": false},
-        {"name": "metric", "type_desc": "str", "required": false},
-        {"name": "metric_params", "type_desc": "None", "required": false},
-        {"name": "n_jobs", "type_desc": "None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "radius",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "weights",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "algorithm",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "leaf_size",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "p",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "metric",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "metric_params",
+          "type_desc": "None",
+          "required": false
+        },
+        {
+          "name": "n_jobs",
+          "type_desc": "None",
+          "required": false
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NeighborsRegressorState"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NeighborsRegressorState"
+        }
+      ]
     },
     {
       "node_id": "radius_neighbors_regressor_predict",
@@ -224,10 +749,23 @@
       "type_signature": "(X: NDArray[np.float64], state: NeighborsRegressorState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "NeighborsRegressorState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "NeighborsRegressorState",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
     },
     {
       "node_id": "kneighbors_classifier_fit",
@@ -238,18 +776,63 @@
       "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], n_neighbors: int = 5, weights: str = 'uniform', algorithm: str = 'auto', leaf_size: int = 30, p: float = 2.0, metric: str = 'minkowski', metric_params: None = None, n_jobs: None = None) -> NeighborsClassifierState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "n_neighbors", "type_desc": "int", "required": false},
-        {"name": "weights", "type_desc": "str", "required": false},
-        {"name": "algorithm", "type_desc": "str", "required": false},
-        {"name": "leaf_size", "type_desc": "int", "required": false},
-        {"name": "p", "type_desc": "float", "required": false},
-        {"name": "metric", "type_desc": "str", "required": false},
-        {"name": "metric_params", "type_desc": "None", "required": false},
-        {"name": "n_jobs", "type_desc": "None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "n_neighbors",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "weights",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "algorithm",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "leaf_size",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "p",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "metric",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "metric_params",
+          "type_desc": "None",
+          "required": false
+        },
+        {
+          "name": "n_jobs",
+          "type_desc": "None",
+          "required": false
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NeighborsClassifierState"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NeighborsClassifierState"
+        }
+      ]
     },
     {
       "node_id": "kneighbors_classifier_predict_proba",
@@ -260,10 +843,23 @@
       "type_signature": "(X: NDArray[np.float64], state: NeighborsClassifierState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "NeighborsClassifierState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "NeighborsClassifierState",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
     },
     {
       "node_id": "kneighbors_classifier_predict",
@@ -274,10 +870,23 @@
       "type_signature": "(X: NDArray[np.float64], state: NeighborsClassifierState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "NeighborsClassifierState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "NeighborsClassifierState",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
     },
     {
       "node_id": "radius_neighbors_classifier_fit",
@@ -288,19 +897,68 @@
       "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], radius: float = 1.0, weights: str = 'uniform', algorithm: str = 'auto', leaf_size: int = 30, p: float = 2.0, metric: str = 'minkowski', outlier_label: None = None, metric_params: None = None, n_jobs: None = None) -> NeighborsClassifierState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "radius", "type_desc": "float", "required": false},
-        {"name": "weights", "type_desc": "str", "required": false},
-        {"name": "algorithm", "type_desc": "str", "required": false},
-        {"name": "leaf_size", "type_desc": "int", "required": false},
-        {"name": "p", "type_desc": "float", "required": false},
-        {"name": "metric", "type_desc": "str", "required": false},
-        {"name": "outlier_label", "type_desc": "None", "required": false},
-        {"name": "metric_params", "type_desc": "None", "required": false},
-        {"name": "n_jobs", "type_desc": "None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "radius",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "weights",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "algorithm",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "leaf_size",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "p",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "metric",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "outlier_label",
+          "type_desc": "None",
+          "required": false
+        },
+        {
+          "name": "metric_params",
+          "type_desc": "None",
+          "required": false
+        },
+        {
+          "name": "n_jobs",
+          "type_desc": "None",
+          "required": false
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NeighborsClassifierState"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NeighborsClassifierState"
+        }
+      ]
     },
     {
       "node_id": "radius_neighbors_classifier_predict_proba",
@@ -311,10 +969,23 @@
       "type_signature": "(X: NDArray[np.float64], state: NeighborsClassifierState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "NeighborsClassifierState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "NeighborsClassifierState",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
     },
     {
       "node_id": "radius_neighbors_classifier_predict",
@@ -325,10 +996,23 @@
       "type_signature": "(X: NDArray[np.float64], state: NeighborsClassifierState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "NeighborsClassifierState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "NeighborsClassifierState",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
     },
     {
       "node_id": "nearest_centroid_predict",
@@ -339,10 +1023,23 @@
       "type_signature": "(X: NDArray[np.float64], state: NearestCentroidState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "NearestCentroidState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "NearestCentroidState",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
     },
     {
       "node_id": "nearest_centroid_decision_function",
@@ -353,10 +1050,23 @@
       "type_signature": "(X: NDArray[np.float64], state: NearestCentroidState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "NearestCentroidState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "NearestCentroidState",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
     },
     {
       "node_id": "nearest_centroid_predict_log_proba",
@@ -367,10 +1077,23 @@
       "type_signature": "(X: NDArray[np.float64], state: NearestCentroidState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "NearestCentroidState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "NearestCentroidState",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
     },
     {
       "node_id": "nearest_centroid_predict_proba",
@@ -381,27 +1104,116 @@
       "type_signature": "(X: NDArray[np.float64], state: NearestCentroidState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "NearestCentroidState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "NearestCentroidState",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
     }
   ],
   "edges": [
-    {"source": "kneighbors_graph", "target": "kneighbors_transform", "kind": "graph_logic"},
-    {"source": "radius_neighbors_graph", "target": "radius_neighbors_transform", "kind": "graph_logic"},
-    {"source": "kneighbors_transformer_fit", "target": "kneighbors_transform", "kind": "state"},
-    {"source": "radius_neighbors_transformer_fit", "target": "radius_neighbors_transform", "kind": "state"},
-    {"source": "kneighbors_regressor_fit", "target": "kneighbors_regressor_predict", "kind": "state"},
-    {"source": "radius_neighbors_regressor_fit", "target": "radius_neighbors_regressor_predict", "kind": "state"},
-    {"source": "kneighbors_classifier_fit", "target": "kneighbors_classifier_predict_proba", "kind": "state"},
-    {"source": "kneighbors_classifier_predict_proba", "target": "kneighbors_classifier_predict", "kind": "probability"},
-    {"source": "radius_neighbors_classifier_fit", "target": "radius_neighbors_classifier_predict_proba", "kind": "state"},
-    {"source": "radius_neighbors_classifier_predict_proba", "target": "radius_neighbors_classifier_predict", "kind": "probability"},
-    {"source": "nearest_centroid_fit", "target": "nearest_centroid_predict", "kind": "state"},
-    {"source": "nearest_centroid_fit", "target": "nearest_centroid_decision_function", "kind": "state"},
-    {"source": "nearest_centroid_fit", "target": "nearest_centroid_predict_log_proba", "kind": "state"},
-    {"source": "nearest_centroid_predict_log_proba", "target": "nearest_centroid_predict_proba", "kind": "probability"}
+    {
+      "source": "kneighbors_graph",
+      "target": "kneighbors_transform",
+      "kind": "graph_logic"
+    },
+    {
+      "source": "radius_neighbors_graph",
+      "target": "radius_neighbors_transform",
+      "kind": "graph_logic"
+    },
+    {
+      "source": "kneighbors_transformer_fit",
+      "target": "kneighbors_transform",
+      "kind": "state"
+    },
+    {
+      "source": "radius_neighbors_transformer_fit",
+      "target": "radius_neighbors_transform",
+      "kind": "state"
+    },
+    {
+      "source": "kneighbors_regressor_fit",
+      "target": "kneighbors_regressor_predict",
+      "kind": "state"
+    },
+    {
+      "source": "radius_neighbors_regressor_fit",
+      "target": "radius_neighbors_regressor_predict",
+      "kind": "state"
+    },
+    {
+      "source": "kneighbors_classifier_fit",
+      "target": "kneighbors_classifier_predict_proba",
+      "kind": "state"
+    },
+    {
+      "source": "kneighbors_classifier_predict_proba",
+      "target": "kneighbors_classifier_predict",
+      "kind": "probability"
+    },
+    {
+      "source": "radius_neighbors_classifier_fit",
+      "target": "radius_neighbors_classifier_predict_proba",
+      "kind": "state"
+    },
+    {
+      "source": "radius_neighbors_classifier_predict_proba",
+      "target": "radius_neighbors_classifier_predict",
+      "kind": "probability"
+    },
+    {
+      "source": "nearest_centroid_fit",
+      "target": "nearest_centroid_predict",
+      "kind": "state"
+    },
+    {
+      "source": "nearest_centroid_fit",
+      "target": "nearest_centroid_decision_function",
+      "kind": "state"
+    },
+    {
+      "source": "nearest_centroid_fit",
+      "target": "nearest_centroid_predict_log_proba",
+      "kind": "state"
+    },
+    {
+      "source": "nearest_centroid_predict_log_proba",
+      "target": "nearest_centroid_predict_proba",
+      "kind": "probability"
+    },
+    {
+      "source": "nearest_neighbors_fit",
+      "target": "nearest_neighbors_kneighbors",
+      "kind": "state"
+    },
+    {
+      "source": "nearest_neighbors_fit",
+      "target": "nearest_neighbors_radius_neighbors",
+      "kind": "state"
+    },
+    {
+      "source": "nearest_neighbors_kneighbors",
+      "target": "nearest_neighbors_kneighbors_graph",
+      "kind": "graph_logic"
+    },
+    {
+      "source": "nearest_neighbors_radius_neighbors",
+      "target": "nearest_neighbors_radius_neighbors_graph",
+      "kind": "graph_logic"
+    }
   ],
   "metadata": {
     "source": "agent_ingestion",

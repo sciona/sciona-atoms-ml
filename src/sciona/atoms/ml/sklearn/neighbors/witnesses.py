@@ -4,7 +4,13 @@ from __future__ import annotations
 
 from sciona.ghost.abstract import AbstractArray
 
-from .state_models import NearestCentroidState, NeighborsClassifierState, NeighborsGraphTransformerState, NeighborsRegressorState
+from .state_models import (
+    NearestCentroidState,
+    NearestNeighborsState,
+    NeighborsClassifierState,
+    NeighborsGraphTransformerState,
+    NeighborsRegressorState,
+)
 
 
 def _check_matrix(X: AbstractArray) -> tuple[int, int]:
@@ -68,6 +74,15 @@ def _check_classifier_state(X: AbstractArray, state: NeighborsClassifierState, e
         raise ValueError("state must match requested neighbor classifier kind")
     _check_weights(state.weights)
     return n_queries, state.classes.shape[0]
+
+
+def _check_nearest_neighbors_state(X: AbstractArray, state: NearestNeighborsState) -> tuple[int, int]:
+    n_queries, n_features = _check_matrix(X)
+    if n_features != state.n_features_in:
+        raise ValueError("X feature count must match fitted state")
+    if state.metric != "minkowski" or state.p < 1:
+        raise ValueError("state must use covered minkowski search")
+    return n_queries, state.training_data.shape[0]
 
 
 def witness_kneighbors_graph(
@@ -325,6 +340,102 @@ def witness_radius_neighbors_classifier_predict_proba(X: AbstractArray, state: N
     """Describe dense radius-neighbor class probabilities."""
     n_queries, n_classes = _check_classifier_state(X, state, "radius_neighbors")
     return AbstractArray(shape=(n_queries, n_classes), dtype="float64")
+
+
+def witness_nearest_neighbors_fit(
+    X: AbstractArray,
+    *,
+    n_neighbors: int = 5,
+    radius: float = 1.0,
+    algorithm: str = "auto",
+    leaf_size: int = 30,
+    metric: str = "minkowski",
+    p: float = 2.0,
+    metric_params: None = None,
+    n_jobs: None = None,
+) -> AbstractArray:
+    """Describe fitting dense nearest-neighbor search state."""
+    n_samples, n_features = _check_matrix(X)
+    if not isinstance(n_neighbors, int) or isinstance(n_neighbors, bool) or n_neighbors < 1:
+        raise ValueError("n_neighbors must be positive")
+    if n_neighbors > n_samples:
+        raise ValueError("n_neighbors must not exceed sample count")
+    if not isinstance(radius, (int, float)) or isinstance(radius, bool) or radius < 0:
+        raise ValueError("radius must be nonnegative")
+    _check_algorithm_options(algorithm, leaf_size)
+    _check_minkowski_options(metric, p, metric_params, n_jobs)
+    return AbstractArray(shape=(n_samples, n_features), dtype="float64")
+
+
+def witness_nearest_neighbors_kneighbors(
+    X: AbstractArray,
+    state: NearestNeighborsState,
+    n_neighbors: int | None = None,
+) -> tuple[AbstractArray, AbstractArray]:
+    """Describe dense nearest-neighbor k-query distances and indices."""
+    n_queries, _ = _check_nearest_neighbors_state(X, state)
+    k = state.n_neighbors if n_neighbors is None else n_neighbors
+    if not isinstance(k, int) or isinstance(k, bool) or k < 1 or k > state.training_data.shape[0]:
+        raise ValueError("n_neighbors must fit fitted sample count")
+    return (
+        AbstractArray(shape=(n_queries, k), dtype="float64"),
+        AbstractArray(shape=(n_queries, k), dtype="int64"),
+    )
+
+
+def witness_nearest_neighbors_radius_neighbors(
+    X: AbstractArray,
+    state: NearestNeighborsState,
+    radius: float | None = None,
+    *,
+    sort_results: bool = False,
+) -> tuple[AbstractArray, AbstractArray]:
+    """Describe dense nearest-neighbor radius-query ragged results."""
+    del sort_results
+    n_queries, _ = _check_nearest_neighbors_state(X, state)
+    radius_value = state.radius if radius is None else radius
+    if not isinstance(radius_value, (int, float)) or isinstance(radius_value, bool) or radius_value < 0:
+        raise ValueError("radius must be nonnegative")
+    return (
+        AbstractArray(shape=(n_queries,), dtype="object"),
+        AbstractArray(shape=(n_queries,), dtype="object"),
+    )
+
+
+def witness_nearest_neighbors_kneighbors_graph(
+    X: AbstractArray,
+    state: NearestNeighborsState,
+    n_neighbors: int | None = None,
+    *,
+    mode: str = "connectivity",
+) -> AbstractArray:
+    """Describe dense fitted k-neighbor graph construction."""
+    n_queries, n_fit = _check_nearest_neighbors_state(X, state)
+    k = state.n_neighbors if n_neighbors is None else n_neighbors
+    if mode not in {"connectivity", "distance"}:
+        raise ValueError("mode must be connectivity or distance")
+    if not isinstance(k, int) or isinstance(k, bool) or k < 1 or k > n_fit:
+        raise ValueError("n_neighbors must fit fitted sample count")
+    return AbstractArray(shape=(n_queries, n_fit), dtype="float64")
+
+
+def witness_nearest_neighbors_radius_neighbors_graph(
+    X: AbstractArray,
+    state: NearestNeighborsState,
+    radius: float | None = None,
+    *,
+    mode: str = "connectivity",
+    sort_results: bool = False,
+) -> AbstractArray:
+    """Describe dense fitted radius-neighbor graph construction."""
+    del sort_results
+    n_queries, n_fit = _check_nearest_neighbors_state(X, state)
+    radius_value = state.radius if radius is None else radius
+    if mode not in {"connectivity", "distance"}:
+        raise ValueError("mode must be connectivity or distance")
+    if not isinstance(radius_value, (int, float)) or isinstance(radius_value, bool) or radius_value < 0:
+        raise ValueError("radius must be nonnegative")
+    return AbstractArray(shape=(n_queries, n_fit), dtype="float64")
 
 
 def witness_nearest_centroid_fit(

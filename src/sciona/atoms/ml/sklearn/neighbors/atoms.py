@@ -9,7 +9,13 @@ from sklearn.utils.validation import check_X_y, check_array
 
 from sciona.ghost.registry import register_atom
 
-from .state_models import NearestCentroidState, NeighborsClassifierState, NeighborsGraphTransformerState, NeighborsRegressorState
+from .state_models import (
+    NearestCentroidState,
+    NearestNeighborsState,
+    NeighborsClassifierState,
+    NeighborsGraphTransformerState,
+    NeighborsRegressorState,
+)
 from .witnesses import (
     witness_kneighbors_classifier_fit,
     witness_kneighbors_classifier_predict,
@@ -24,6 +30,11 @@ from .witnesses import (
     witness_nearest_centroid_predict,
     witness_nearest_centroid_predict_log_proba,
     witness_nearest_centroid_predict_proba,
+    witness_nearest_neighbors_fit,
+    witness_nearest_neighbors_kneighbors,
+    witness_nearest_neighbors_kneighbors_graph,
+    witness_nearest_neighbors_radius_neighbors,
+    witness_nearest_neighbors_radius_neighbors_graph,
     witness_radius_neighbors_classifier_fit,
     witness_radius_neighbors_classifier_predict,
     witness_radius_neighbors_classifier_predict_proba,
@@ -441,6 +452,102 @@ def _radius_classifier_queries_have_neighbors(X: NDArray[np.float64], state: Nei
     return bool(np.all(np.any(distances <= float(state.radius), axis=1)))
 
 
+def _nearest_neighbors_state_valid(state: NearestNeighborsState) -> bool:
+    n_samples = state.training_data.shape[0]
+    return bool(
+        state.training_data.ndim == 2
+        and state.training_data.shape[1] == state.n_features_in
+        and n_samples >= 1
+        and 1 <= state.n_neighbors <= n_samples
+        and np.isfinite(state.radius)
+        and state.radius >= 0.0
+        and state.metric == "minkowski"
+        and np.isfinite(state.p)
+        and state.p >= 1.0
+        and np.all(np.isfinite(state.training_data))
+    )
+
+
+def _nearest_neighbors_feature_count_matches(X: NDArray[np.float64], state: NearestNeighborsState) -> bool:
+    values = np.asarray(X)
+    return bool(values.ndim == 2 and values.shape[1] == state.n_features_in)
+
+
+def _n_neighbors_query_valid(n_neighbors: int | None, state: NearestNeighborsState) -> bool:
+    if not _nearest_neighbors_state_valid(state):
+        return False
+    if n_neighbors is None:
+        return True
+    return bool(
+        isinstance(n_neighbors, int)
+        and not isinstance(n_neighbors, bool)
+        and 1 <= n_neighbors <= state.training_data.shape[0]
+    )
+
+
+def _optional_radius_valid(radius: float | None) -> bool:
+    return radius is None or _radius_valid(radius)
+
+
+def _kneighbors_query_result_valid(
+    result: tuple[NDArray[np.float64], NDArray[np.int64]],
+    X: NDArray[np.float64],
+    state: NearestNeighborsState,
+    n_neighbors: int | None,
+) -> bool:
+    distances, indices = result
+    k = state.n_neighbors if n_neighbors is None else int(n_neighbors)
+    return bool(
+        distances.shape == (np.asarray(X).shape[0], k)
+        and indices.shape == (np.asarray(X).shape[0], k)
+        and np.all(np.isfinite(distances))
+        and np.all(distances >= 0.0)
+        and np.all(indices >= 0)
+        and np.all(indices < state.training_data.shape[0])
+    )
+
+
+def _object_neighbor_rows_valid(
+    rows: NDArray[np.object_],
+    n_queries: int,
+    state: NearestNeighborsState,
+    *,
+    distance_rows: bool,
+) -> bool:
+    if rows.shape != (n_queries,):
+        return False
+    for row in rows:
+        values = np.asarray(row, dtype=np.float64 if distance_rows else np.int64)
+        if values.ndim != 1:
+            return False
+        if distance_rows and (not np.all(np.isfinite(values)) or not np.all(values >= 0.0)):
+            return False
+        if not distance_rows and (not np.all(values >= 0) or not np.all(values < state.training_data.shape[0])):
+            return False
+    return True
+
+
+def _radius_neighbors_query_result_valid(
+    result: tuple[NDArray[np.object_], NDArray[np.object_]],
+    X: NDArray[np.float64],
+    state: NearestNeighborsState,
+) -> bool:
+    distances, indices = result
+    n_queries = int(np.asarray(X).shape[0])
+    return bool(
+        _object_neighbor_rows_valid(distances, n_queries, state, distance_rows=True)
+        and _object_neighbor_rows_valid(indices, n_queries, state, distance_rows=False)
+        and all(np.asarray(d).shape == np.asarray(i).shape for d, i in zip(distances, indices))
+    )
+
+
+def _object_array_from_rows(rows: list[NDArray[np.float64]] | list[NDArray[np.int64]]) -> NDArray[np.object_]:
+    result = np.empty(len(rows), dtype=object)
+    for row_index, row in enumerate(rows):
+        result[row_index] = row
+    return result
+
+
 def _resolve_include_self(include_self: bool | str, mode: str) -> bool:
     if include_self == "auto":
         return mode == "connectivity"
@@ -510,10 +617,12 @@ def _checked_regression_inputs(
 
 def _kneighbor_indices_and_distances(
     X: NDArray[np.float64],
-    state: NeighborsRegressorState | NeighborsClassifierState,
+    state: NeighborsRegressorState | NeighborsClassifierState | NearestNeighborsState,
+    n_neighbors: int | None = None,
 ) -> tuple[NDArray[np.int64], NDArray[np.float64]]:
+    k = int(state.n_neighbors if n_neighbors is None else n_neighbors)
     distances = _pairwise_minkowski(X, state.training_data, state.p)
-    order = np.argsort(distances, axis=1, kind="stable")[:, : int(state.n_neighbors or 0)]
+    order = np.argsort(distances, axis=1, kind="stable")[:, :k]
     rows = np.arange(distances.shape[0])[:, np.newaxis]
     return np.asarray(order, dtype=np.int64), np.asarray(distances[rows, order], dtype=np.float64)
 
@@ -1041,6 +1150,143 @@ def radius_neighbors_classifier_predict(X: NDArray[np.float64], state: Neighbors
     """Predict numeric class labels by dense radius-neighbor vote."""
     probabilities = radius_neighbors_classifier_predict_proba(X, state)
     return np.asarray(state.classes[np.argmax(probabilities, axis=1)], dtype=np.float64)
+
+
+@register_atom(witness_nearest_neighbors_fit)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X: _finite_matrix(X), "X must contain finite values")
+@icontract.require(lambda n_neighbors, X: _positive_neighbors(n_neighbors, X), "n_neighbors must fit sample count")
+@icontract.require(lambda radius: _radius_valid(radius), "radius must be nonnegative and finite")
+@icontract.require(lambda algorithm, leaf_size: _algorithm_options_valid(algorithm, leaf_size), "algorithm and leaf_size must be valid")
+@icontract.require(lambda metric, p, metric_params, n_jobs: _minkowski_options_valid(metric, p, metric_params, n_jobs), "only dense minkowski search is covered")
+@icontract.ensure(lambda result: _nearest_neighbors_state_valid(result), "state must contain finite dense nearest-neighbor data")
+def nearest_neighbors_fit(
+    X: NDArray[np.float64],
+    *,
+    n_neighbors: int = 5,
+    radius: float = 1.0,
+    algorithm: str = "auto",
+    leaf_size: int = 30,
+    metric: str = "minkowski",
+    p: float = 2.0,
+    metric_params: None = None,
+    n_jobs: None = None,
+) -> NearestNeighborsState:
+    """Fit dense nearest-neighbor search state for finite numeric samples."""
+    del algorithm, leaf_size, metric_params, n_jobs
+    checked = check_array(X, dtype=np.float64, ensure_2d=True)
+    return NearestNeighborsState(
+        training_data=np.asarray(checked, dtype=np.float64).copy(),
+        n_neighbors=int(n_neighbors),
+        radius=float(radius),
+        metric=metric,
+        p=float(p),
+        n_features_in=int(checked.shape[1]),
+    )
+
+
+@register_atom(witness_nearest_neighbors_kneighbors)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X: _finite_matrix(X), "X must contain finite values")
+@icontract.require(lambda state: _nearest_neighbors_state_valid(state), "state must be a fitted dense nearest-neighbor search")
+@icontract.require(lambda X, state: _nearest_neighbors_feature_count_matches(X, state), "X feature count must match fitted state")
+@icontract.require(lambda n_neighbors, state: _n_neighbors_query_valid(n_neighbors, state), "n_neighbors must fit fitted sample count")
+@icontract.ensure(lambda result, X, state, n_neighbors: _kneighbors_query_result_valid(result, X, state, n_neighbors), "k-neighbor query must return finite distances and valid indices")
+def nearest_neighbors_kneighbors(
+    X: NDArray[np.float64],
+    state: NearestNeighborsState,
+    n_neighbors: int | None = None,
+) -> tuple[NDArray[np.float64], NDArray[np.int64]]:
+    """Return dense k-neighbor distances and fitted-row indices for queries."""
+    checked = check_array(X, dtype=np.float64, ensure_2d=True)
+    indices, distances = _kneighbor_indices_and_distances(checked, state, n_neighbors)
+    return distances, indices
+
+
+@register_atom(witness_nearest_neighbors_radius_neighbors)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X: _finite_matrix(X), "X must contain finite values")
+@icontract.require(lambda state: _nearest_neighbors_state_valid(state), "state must be a fitted dense nearest-neighbor search")
+@icontract.require(lambda X, state: _nearest_neighbors_feature_count_matches(X, state), "X feature count must match fitted state")
+@icontract.require(lambda radius: _optional_radius_valid(radius), "radius must be nonnegative and finite when provided")
+@icontract.ensure(lambda result, X, state: _radius_neighbors_query_result_valid(result, X, state), "radius query must return finite distances and valid indices")
+def nearest_neighbors_radius_neighbors(
+    X: NDArray[np.float64],
+    state: NearestNeighborsState,
+    radius: float | None = None,
+    *,
+    sort_results: bool = False,
+) -> tuple[NDArray[np.object_], NDArray[np.object_]]:
+    """Return ragged radius-neighbor distances and fitted-row indices."""
+    checked = check_array(X, dtype=np.float64, ensure_2d=True)
+    radius_value = state.radius if radius is None else float(radius)
+    distances = _pairwise_minkowski(checked, state.training_data, state.p)
+    distance_rows: list[NDArray[np.float64]] = []
+    index_rows: list[NDArray[np.int64]] = []
+    for row_distances in distances:
+        indices = np.asarray(np.flatnonzero(row_distances <= radius_value), dtype=np.int64)
+        selected = np.asarray(row_distances[indices], dtype=np.float64)
+        if sort_results:
+            order = np.argsort(selected, kind="stable")
+            indices = indices[order]
+            selected = selected[order]
+        distance_rows.append(selected)
+        index_rows.append(indices)
+    return _object_array_from_rows(distance_rows), _object_array_from_rows(index_rows)
+
+
+@register_atom(witness_nearest_neighbors_kneighbors_graph)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X: _finite_matrix(X), "X must contain finite values")
+@icontract.require(lambda state: _nearest_neighbors_state_valid(state), "state must be a fitted dense nearest-neighbor search")
+@icontract.require(lambda X, state: _nearest_neighbors_feature_count_matches(X, state), "X feature count must match fitted state")
+@icontract.require(lambda n_neighbors, state: _n_neighbors_query_valid(n_neighbors, state), "n_neighbors must fit fitted sample count")
+@icontract.require(lambda mode: _mode_valid(mode), "mode must be connectivity or distance")
+@icontract.ensure(lambda result, X, state: _graph_valid(result, np.asarray(X).shape[0], state.training_data.shape[0]), "graph must be finite and nonnegative")
+def nearest_neighbors_kneighbors_graph(
+    X: NDArray[np.float64],
+    state: NearestNeighborsState,
+    n_neighbors: int | None = None,
+    *,
+    mode: str = "connectivity",
+) -> NDArray[np.float64]:
+    """Build a dense fitted k-neighbor connectivity or distance graph."""
+    distances, indices = nearest_neighbors_kneighbors(X, state, n_neighbors)
+    graph = np.zeros((distances.shape[0], state.training_data.shape[0]), dtype=np.float64)
+    rows = np.arange(distances.shape[0])[:, np.newaxis]
+    if mode == "connectivity":
+        graph[rows, indices] = 1.0
+    else:
+        graph[rows, indices] = distances
+    return graph
+
+
+@register_atom(witness_nearest_neighbors_radius_neighbors_graph)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X: _finite_matrix(X), "X must contain finite values")
+@icontract.require(lambda state: _nearest_neighbors_state_valid(state), "state must be a fitted dense nearest-neighbor search")
+@icontract.require(lambda X, state: _nearest_neighbors_feature_count_matches(X, state), "X feature count must match fitted state")
+@icontract.require(lambda radius: _optional_radius_valid(radius), "radius must be nonnegative and finite when provided")
+@icontract.require(lambda mode: _mode_valid(mode), "mode must be connectivity or distance")
+@icontract.ensure(lambda result, X, state: _graph_valid(result, np.asarray(X).shape[0], state.training_data.shape[0]), "graph must be finite and nonnegative")
+def nearest_neighbors_radius_neighbors_graph(
+    X: NDArray[np.float64],
+    state: NearestNeighborsState,
+    radius: float | None = None,
+    *,
+    mode: str = "connectivity",
+    sort_results: bool = False,
+) -> NDArray[np.float64]:
+    """Build a dense fitted radius-neighbor connectivity or distance graph."""
+    distances, indices = nearest_neighbors_radius_neighbors(X, state, radius, sort_results=sort_results)
+    graph = np.zeros((distances.shape[0], state.training_data.shape[0]), dtype=np.float64)
+    for row_index, row_indices in enumerate(indices):
+        row_indices_int = np.asarray(row_indices, dtype=np.int64)
+        if mode == "connectivity":
+            graph[row_index, row_indices_int] = 1.0
+        else:
+            graph[row_index, row_indices_int] = np.asarray(distances[row_index], dtype=np.float64)
+    return graph
 
 
 @register_atom(witness_nearest_centroid_fit)

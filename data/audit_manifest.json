@@ -41396,6 +41396,601 @@
       "review_record_path": "data/review_bundles/ml_sklearn_neighbors_classifier.review_bundle.json",
       "has_references": true,
       "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.neighbors.nearest_neighbors_fit",
+      "atom_key": "sciona.atoms.ml.sklearn.neighbors.nearest_neighbors_fit",
+      "atom_id": "sciona.atoms.ml.sklearn.neighbors.nearest_neighbors_fit",
+      "module_import_path": "sciona.atoms.ml.sklearn.neighbors",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/neighbors/atoms.py",
+      "module_family": "sklearn",
+      "domain_family": "ml.sklearn",
+      "wrapper_symbol": "nearest_neighbors_fit",
+      "argument_names": [
+        "X",
+        "n_neighbors",
+        "radius",
+        "algorithm",
+        "leaf_size",
+        "metric",
+        "p",
+        "metric_params",
+        "n_jobs"
+      ],
+      "argument_details": [
+        {
+          "name": "X",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "n_neighbors",
+          "annotation": "int",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "radius",
+          "annotation": "float",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "algorithm",
+          "annotation": "str",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "leaf_size",
+          "annotation": "int",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "metric",
+          "annotation": "str",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "p",
+          "annotation": "float",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "metric_params",
+          "annotation": "None",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "n_jobs",
+          "annotation": "None",
+          "required": false,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NearestNeighborsState",
+      "docstring_summary": "Fit dense nearest-neighbor search state for finite numeric samples.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/atoms.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_nearest_neighbors_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_nearest_neighbors_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_nearest_neighbors_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [
+        "Dense finite numeric arrays only; sparse, precomputed, callable metrics, and non-Minkowski metrics are outside this atom batch.",
+        "NearestNeighbors X=None self-query behavior and return_distance=False branches are not exposed; query atoms require explicit query arrays and return distances with indices.",
+        "Graph atoms return dense NumPy arrays rather than sklearn CSR matrices.",
+        "Tree construction and parallel execution controls are validated for API parity but implemented by deterministic dense pairwise search."
+      ],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "medium",
+      "risk_score": 36,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "medium",
+        "runtime": "low",
+        "scope": "medium"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 82,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "positive_path",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 2,
+      "parity_case_count": 8,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_nearest_neighbors.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.neighbors.nearest_neighbors_kneighbors",
+      "atom_key": "sciona.atoms.ml.sklearn.neighbors.nearest_neighbors_kneighbors",
+      "atom_id": "sciona.atoms.ml.sklearn.neighbors.nearest_neighbors_kneighbors",
+      "module_import_path": "sciona.atoms.ml.sklearn.neighbors",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/neighbors/atoms.py",
+      "module_family": "sklearn",
+      "domain_family": "ml.sklearn",
+      "wrapper_symbol": "nearest_neighbors_kneighbors",
+      "argument_names": [
+        "X",
+        "state",
+        "n_neighbors"
+      ],
+      "argument_details": [
+        {
+          "name": "X",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "state",
+          "annotation": "NearestNeighborsState",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "n_neighbors",
+          "annotation": "int | None",
+          "required": false,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "tuple[NDArray[np.float64], NDArray[np.int64]]",
+      "docstring_summary": "Return dense k-neighbor distances and fitted-row indices for queries.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/atoms.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_nearest_neighbors_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_nearest_neighbors_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_nearest_neighbors_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [
+        "Dense finite numeric arrays only; sparse, precomputed, callable metrics, and non-Minkowski metrics are outside this atom batch.",
+        "NearestNeighbors X=None self-query behavior and return_distance=False branches are not exposed; query atoms require explicit query arrays and return distances with indices.",
+        "Graph atoms return dense NumPy arrays rather than sklearn CSR matrices.",
+        "Tree construction and parallel execution controls are validated for API parity but implemented by deterministic dense pairwise search."
+      ],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "medium",
+      "risk_score": 36,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "medium",
+        "runtime": "low",
+        "scope": "medium"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 82,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "positive_path",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 2,
+      "parity_case_count": 8,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_nearest_neighbors.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.neighbors.nearest_neighbors_kneighbors_graph",
+      "atom_key": "sciona.atoms.ml.sklearn.neighbors.nearest_neighbors_kneighbors_graph",
+      "atom_id": "sciona.atoms.ml.sklearn.neighbors.nearest_neighbors_kneighbors_graph",
+      "module_import_path": "sciona.atoms.ml.sklearn.neighbors",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/neighbors/atoms.py",
+      "module_family": "sklearn",
+      "domain_family": "ml.sklearn",
+      "wrapper_symbol": "nearest_neighbors_kneighbors_graph",
+      "argument_names": [
+        "X",
+        "state",
+        "n_neighbors",
+        "mode"
+      ],
+      "argument_details": [
+        {
+          "name": "X",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "state",
+          "annotation": "NearestNeighborsState",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "n_neighbors",
+          "annotation": "int | None",
+          "required": false,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "mode",
+          "annotation": "str",
+          "required": false,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.float64]",
+      "docstring_summary": "Build a dense fitted k-neighbor connectivity or distance graph.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/atoms.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_nearest_neighbors_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_nearest_neighbors_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_nearest_neighbors_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [
+        "Dense finite numeric arrays only; sparse, precomputed, callable metrics, and non-Minkowski metrics are outside this atom batch.",
+        "NearestNeighbors X=None self-query behavior and return_distance=False branches are not exposed; query atoms require explicit query arrays and return distances with indices.",
+        "Graph atoms return dense NumPy arrays rather than sklearn CSR matrices.",
+        "Tree construction and parallel execution controls are validated for API parity but implemented by deterministic dense pairwise search."
+      ],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "medium",
+      "risk_score": 36,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "medium",
+        "runtime": "low",
+        "scope": "medium"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 82,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "positive_path",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 2,
+      "parity_case_count": 8,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_nearest_neighbors.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.neighbors.nearest_neighbors_radius_neighbors",
+      "atom_key": "sciona.atoms.ml.sklearn.neighbors.nearest_neighbors_radius_neighbors",
+      "atom_id": "sciona.atoms.ml.sklearn.neighbors.nearest_neighbors_radius_neighbors",
+      "module_import_path": "sciona.atoms.ml.sklearn.neighbors",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/neighbors/atoms.py",
+      "module_family": "sklearn",
+      "domain_family": "ml.sklearn",
+      "wrapper_symbol": "nearest_neighbors_radius_neighbors",
+      "argument_names": [
+        "X",
+        "state",
+        "radius",
+        "sort_results"
+      ],
+      "argument_details": [
+        {
+          "name": "X",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "state",
+          "annotation": "NearestNeighborsState",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "radius",
+          "annotation": "float | None",
+          "required": false,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "sort_results",
+          "annotation": "bool",
+          "required": false,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "tuple[NDArray[np.object_], NDArray[np.object_]]",
+      "docstring_summary": "Return ragged radius-neighbor distances and fitted-row indices.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/atoms.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_nearest_neighbors_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_nearest_neighbors_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_nearest_neighbors_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [
+        "Dense finite numeric arrays only; sparse, precomputed, callable metrics, and non-Minkowski metrics are outside this atom batch.",
+        "NearestNeighbors X=None self-query behavior and return_distance=False branches are not exposed; query atoms require explicit query arrays and return distances with indices.",
+        "Graph atoms return dense NumPy arrays rather than sklearn CSR matrices.",
+        "Tree construction and parallel execution controls are validated for API parity but implemented by deterministic dense pairwise search."
+      ],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "medium",
+      "risk_score": 36,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "medium",
+        "runtime": "low",
+        "scope": "medium"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 82,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "positive_path",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 2,
+      "parity_case_count": 8,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_nearest_neighbors.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.neighbors.nearest_neighbors_radius_neighbors_graph",
+      "atom_key": "sciona.atoms.ml.sklearn.neighbors.nearest_neighbors_radius_neighbors_graph",
+      "atom_id": "sciona.atoms.ml.sklearn.neighbors.nearest_neighbors_radius_neighbors_graph",
+      "module_import_path": "sciona.atoms.ml.sklearn.neighbors",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/neighbors/atoms.py",
+      "module_family": "sklearn",
+      "domain_family": "ml.sklearn",
+      "wrapper_symbol": "nearest_neighbors_radius_neighbors_graph",
+      "argument_names": [
+        "X",
+        "state",
+        "radius",
+        "mode",
+        "sort_results"
+      ],
+      "argument_details": [
+        {
+          "name": "X",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "state",
+          "annotation": "NearestNeighborsState",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "radius",
+          "annotation": "float | None",
+          "required": false,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "mode",
+          "annotation": "str",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "sort_results",
+          "annotation": "bool",
+          "required": false,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.float64]",
+      "docstring_summary": "Build a dense fitted radius-neighbor connectivity or distance graph.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/atoms.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_nearest_neighbors_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_nearest_neighbors_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_nearest_neighbors_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [
+        "Dense finite numeric arrays only; sparse, precomputed, callable metrics, and non-Minkowski metrics are outside this atom batch.",
+        "NearestNeighbors X=None self-query behavior and return_distance=False branches are not exposed; query atoms require explicit query arrays and return distances with indices.",
+        "Graph atoms return dense NumPy arrays rather than sklearn CSR matrices.",
+        "Tree construction and parallel execution controls are validated for API parity but implemented by deterministic dense pairwise search."
+      ],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "medium",
+      "risk_score": 36,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "medium",
+        "runtime": "low",
+        "scope": "medium"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 82,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "positive_path",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 2,
+      "parity_case_count": 8,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_nearest_neighbors.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
     }
   ]
 }
