@@ -152,3 +152,87 @@ def witness_exp_sine_squared_kernel_diag(X: AbstractArray) -> AbstractArray:
     if len(X.shape) != 2:
         raise ValueError("X must be 2D")
     return AbstractArray(shape=(int(X.shape[0]),), dtype="float64")
+
+
+def _check_same_matrix_shape(K1: AbstractArray, K2: AbstractArray) -> tuple[int, int]:
+    if len(K1.shape) != 2 or len(K2.shape) != 2:
+        raise ValueError("kernel matrices must be 2D")
+    if K1.shape != K2.shape:
+        raise ValueError("kernel matrices must have matching shapes")
+    return int(K1.shape[0]), int(K1.shape[1])
+
+
+def _check_same_diag_shape(d1: AbstractArray, d2: AbstractArray) -> int:
+    if len(d1.shape) != 1 or len(d2.shape) != 1:
+        raise ValueError("kernel diagonals must be 1D")
+    if d1.shape != d2.shape:
+        raise ValueError("kernel diagonals must have matching shapes")
+    return int(d1.shape[0])
+
+
+def witness_sum_kernel_matrix(K1: AbstractArray, K2: AbstractArray) -> AbstractArray:
+    """Describe elementwise addition of two kernel matrices."""
+    rows, cols = _check_same_matrix_shape(K1, K2)
+    return AbstractArray(shape=(rows, cols), dtype="float64")
+
+
+def witness_sum_kernel_diag(d1: AbstractArray, d2: AbstractArray) -> AbstractArray:
+    """Describe elementwise addition of two kernel diagonals."""
+    rows = _check_same_diag_shape(d1, d2)
+    return AbstractArray(shape=(rows,), dtype="float64")
+
+
+def witness_product_kernel_matrix(K1: AbstractArray, K2: AbstractArray) -> AbstractArray:
+    """Describe elementwise multiplication of two kernel matrices."""
+    rows, cols = _check_same_matrix_shape(K1, K2)
+    return AbstractArray(shape=(rows, cols), dtype="float64")
+
+
+def witness_product_kernel_diag(d1: AbstractArray, d2: AbstractArray) -> AbstractArray:
+    """Describe elementwise multiplication of two kernel diagonals."""
+    rows = _check_same_diag_shape(d1, d2)
+    return AbstractArray(shape=(rows,), dtype="float64")
+
+
+def witness_exponentiation_kernel_matrix(K: AbstractArray, *, exponent: float = 1.0) -> AbstractArray:
+    """Describe a kernel matrix raised elementwise to a scalar power."""
+    if len(K.shape) != 2:
+        raise ValueError("kernel matrix must be 2D")
+    if exponent < 0.0:
+        raise ValueError("exponent must be non-negative")
+    return AbstractArray(shape=(int(K.shape[0]), int(K.shape[1])), dtype="float64")
+
+
+def witness_exponentiation_kernel_diag(d: AbstractArray, *, exponent: float = 1.0) -> AbstractArray:
+    """Describe a kernel diagonal raised elementwise to a scalar power."""
+    if len(d.shape) != 1:
+        raise ValueError("kernel diagonal must be 1D")
+    if exponent < 0.0:
+        raise ValueError("exponent must be non-negative")
+    return AbstractArray(shape=(int(d.shape[0]),), dtype="float64")
+
+
+def witness_compound_kernel_stack(kernels: tuple[AbstractArray, ...]) -> AbstractArray:
+    """Describe stacking multiple kernel matrices along a final axis."""
+    if not kernels:
+        raise ValueError("at least one kernel matrix is required")
+    first_shape = kernels[0].shape
+    if len(first_shape) != 2:
+        raise ValueError("kernel matrices must be 2D")
+    for kernel in kernels[1:]:
+        if len(kernel.shape) != 2 or kernel.shape != first_shape:
+            raise ValueError("kernel matrices must have matching shapes")
+    return AbstractArray(shape=(int(first_shape[0]), int(first_shape[1]), len(kernels)), dtype="float64")
+
+
+def witness_compound_kernel_diag_stack(diagonals: tuple[AbstractArray, ...]) -> AbstractArray:
+    """Describe stacking multiple kernel diagonals into columns."""
+    if not diagonals:
+        raise ValueError("at least one kernel diagonal is required")
+    first_shape = diagonals[0].shape
+    if len(first_shape) != 1:
+        raise ValueError("kernel diagonals must be 1D")
+    for diagonal in diagonals[1:]:
+        if len(diagonal.shape) != 1 or diagonal.shape != first_shape:
+            raise ValueError("kernel diagonals must have matching shapes")
+    return AbstractArray(shape=(int(first_shape[0]), len(diagonals)), dtype="float64")

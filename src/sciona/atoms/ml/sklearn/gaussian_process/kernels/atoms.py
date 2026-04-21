@@ -13,18 +13,26 @@ from scipy.special import gamma, kv
 from sciona.ghost.registry import register_atom
 
 from .witnesses import (
+    witness_compound_kernel_diag_stack,
+    witness_compound_kernel_stack,
     witness_constant_kernel,
     witness_constant_kernel_diag,
     witness_dot_product_kernel,
     witness_dot_product_kernel_diag,
+    witness_exponentiation_kernel_diag,
+    witness_exponentiation_kernel_matrix,
     witness_exp_sine_squared_kernel,
     witness_exp_sine_squared_kernel_diag,
     witness_matern_kernel_diag,
     witness_matern_kernel_matrix,
+    witness_product_kernel_diag,
+    witness_product_kernel_matrix,
     witness_rational_quadratic_kernel,
     witness_rational_quadratic_kernel_diag,
     witness_rbf_kernel_diag,
     witness_rbf_kernel_matrix,
+    witness_sum_kernel_diag,
+    witness_sum_kernel_matrix,
     witness_white_kernel,
     witness_white_kernel_diag,
 )
@@ -367,3 +375,130 @@ def exp_sine_squared_kernel_diag(X: NDArray[np.float64]) -> NDArray[np.float64]:
     """Return the unit diagonal for the periodic kernel."""
     checked_x = np.atleast_2d(np.asarray(X, dtype=np.float64))
     return np.ones(checked_x.shape[0], dtype=np.float64)
+
+
+def _finite_1d(values: NDArray[np.float64]) -> bool:
+    try:
+        checked = np.asarray(values, dtype=np.float64)
+    except (TypeError, ValueError):
+        return False
+    return bool(checked.ndim == 1 and np.all(np.isfinite(checked)))
+
+
+def _same_shape(K1: NDArray[np.float64], K2: NDArray[np.float64]) -> bool:
+    return bool(np.asarray(K1).shape == np.asarray(K2).shape)
+
+
+def _matrix_shape_valid(result: NDArray[np.float64], K1: NDArray[np.float64]) -> bool:
+    values = np.asarray(result, dtype=np.float64)
+    return bool(values.shape == np.asarray(K1).shape and values.ndim == 2 and np.all(np.isfinite(values)))
+
+
+def _diag_shape_valid(result: NDArray[np.float64], d1: NDArray[np.float64]) -> bool:
+    values = np.asarray(result, dtype=np.float64)
+    return bool(values.shape == np.asarray(d1).shape and values.ndim == 1 and np.all(np.isfinite(values)))
+
+
+def _matrix_tuple_valid(kernels: tuple[NDArray[np.float64], ...]) -> bool:
+    if not kernels:
+        return False
+    first_shape = np.asarray(kernels[0]).shape
+    return bool(all(_finite_matrix(kernel) and np.asarray(kernel).shape == first_shape for kernel in kernels))
+
+
+def _diag_tuple_valid(diagonals: tuple[NDArray[np.float64], ...]) -> bool:
+    if not diagonals:
+        return False
+    first_shape = np.asarray(diagonals[0]).shape
+    return bool(all(_finite_1d(diagonal) and np.asarray(diagonal).shape == first_shape for diagonal in diagonals))
+
+
+def _stack_shape_valid(result: NDArray[np.float64], kernels: tuple[NDArray[np.float64], ...]) -> bool:
+    values = np.asarray(result, dtype=np.float64)
+    first_shape = np.asarray(kernels[0]).shape
+    return bool(values.shape == (first_shape[0], first_shape[1], len(kernels)) and np.all(np.isfinite(values)))
+
+
+def _diag_stack_shape_valid(result: NDArray[np.float64], diagonals: tuple[NDArray[np.float64], ...]) -> bool:
+    values = np.asarray(result, dtype=np.float64)
+    first_shape = np.asarray(diagonals[0]).shape
+    return bool(values.shape == (first_shape[0], len(diagonals)) and np.all(np.isfinite(values)))
+
+
+@register_atom(witness_sum_kernel_matrix)
+@icontract.require(lambda K1: _matrix_2d(K1), "K1 must be a two-dimensional kernel matrix")
+@icontract.require(lambda K2: _matrix_2d(K2), "K2 must be a two-dimensional kernel matrix")
+@icontract.require(lambda K1: _finite_matrix(K1), "K1 must contain only finite values")
+@icontract.require(lambda K2: _finite_matrix(K2), "K2 must contain only finite values")
+@icontract.require(lambda K1, K2: _same_shape(K1, K2), "kernel matrices must have matching shapes")
+@icontract.ensure(lambda result, K1: _matrix_shape_valid(result, K1), "sum matrix must match input shape")
+def sum_kernel_matrix(K1: NDArray[np.float64], K2: NDArray[np.float64]) -> NDArray[np.float64]:
+    """Return the elementwise sum of two evaluated kernel matrices."""
+    return np.asarray(K1, dtype=np.float64) + np.asarray(K2, dtype=np.float64)
+
+
+@register_atom(witness_sum_kernel_diag)
+@icontract.require(lambda d1: _finite_1d(d1), "d1 must be a finite kernel diagonal")
+@icontract.require(lambda d2: _finite_1d(d2), "d2 must be a finite kernel diagonal")
+@icontract.require(lambda d1, d2: _same_shape(d1, d2), "kernel diagonals must have matching shapes")
+@icontract.ensure(lambda result, d1: _diag_shape_valid(result, d1), "sum diagonal must match input shape")
+def sum_kernel_diag(d1: NDArray[np.float64], d2: NDArray[np.float64]) -> NDArray[np.float64]:
+    """Return the elementwise sum of two evaluated kernel diagonals."""
+    return np.asarray(d1, dtype=np.float64) + np.asarray(d2, dtype=np.float64)
+
+
+@register_atom(witness_product_kernel_matrix)
+@icontract.require(lambda K1: _matrix_2d(K1), "K1 must be a two-dimensional kernel matrix")
+@icontract.require(lambda K2: _matrix_2d(K2), "K2 must be a two-dimensional kernel matrix")
+@icontract.require(lambda K1: _finite_matrix(K1), "K1 must contain only finite values")
+@icontract.require(lambda K2: _finite_matrix(K2), "K2 must contain only finite values")
+@icontract.require(lambda K1, K2: _same_shape(K1, K2), "kernel matrices must have matching shapes")
+@icontract.ensure(lambda result, K1: _matrix_shape_valid(result, K1), "product matrix must match input shape")
+def product_kernel_matrix(K1: NDArray[np.float64], K2: NDArray[np.float64]) -> NDArray[np.float64]:
+    """Return the elementwise product of two evaluated kernel matrices."""
+    return np.asarray(K1, dtype=np.float64) * np.asarray(K2, dtype=np.float64)
+
+
+@register_atom(witness_product_kernel_diag)
+@icontract.require(lambda d1: _finite_1d(d1), "d1 must be a finite kernel diagonal")
+@icontract.require(lambda d2: _finite_1d(d2), "d2 must be a finite kernel diagonal")
+@icontract.require(lambda d1, d2: _same_shape(d1, d2), "kernel diagonals must have matching shapes")
+@icontract.ensure(lambda result, d1: _diag_shape_valid(result, d1), "product diagonal must match input shape")
+def product_kernel_diag(d1: NDArray[np.float64], d2: NDArray[np.float64]) -> NDArray[np.float64]:
+    """Return the elementwise product of two evaluated kernel diagonals."""
+    return np.asarray(d1, dtype=np.float64) * np.asarray(d2, dtype=np.float64)
+
+
+@register_atom(witness_exponentiation_kernel_matrix)
+@icontract.require(lambda K: _matrix_2d(K), "K must be a two-dimensional kernel matrix")
+@icontract.require(lambda K: _finite_matrix(K), "K must contain only finite values")
+@icontract.require(lambda exponent: _nonnegative_scalar(exponent), "exponent must be non-negative and finite")
+@icontract.ensure(lambda result, K: _matrix_shape_valid(result, K), "exponentiated matrix must match input shape")
+def exponentiation_kernel_matrix(K: NDArray[np.float64], *, exponent: float = 1.0) -> NDArray[np.float64]:
+    """Return an evaluated kernel matrix raised elementwise to a power."""
+    return np.asarray(K, dtype=np.float64) ** float(exponent)
+
+
+@register_atom(witness_exponentiation_kernel_diag)
+@icontract.require(lambda d: _finite_1d(d), "d must be a finite kernel diagonal")
+@icontract.require(lambda exponent: _nonnegative_scalar(exponent), "exponent must be non-negative and finite")
+@icontract.ensure(lambda result, d: _diag_shape_valid(result, d), "exponentiated diagonal must match input shape")
+def exponentiation_kernel_diag(d: NDArray[np.float64], *, exponent: float = 1.0) -> NDArray[np.float64]:
+    """Return an evaluated kernel diagonal raised elementwise to a power."""
+    return np.asarray(d, dtype=np.float64) ** float(exponent)
+
+
+@register_atom(witness_compound_kernel_stack)
+@icontract.require(lambda kernels: _matrix_tuple_valid(kernels), "kernels must be a non-empty tuple of same-shaped finite matrices")
+@icontract.ensure(lambda result, kernels: _stack_shape_valid(result, kernels), "stacked kernels must add a final kernel axis")
+def compound_kernel_stack(kernels: tuple[NDArray[np.float64], ...]) -> NDArray[np.float64]:
+    """Return evaluated kernel matrices stacked along a final kernel axis."""
+    return np.dstack([np.asarray(kernel, dtype=np.float64) for kernel in kernels])
+
+
+@register_atom(witness_compound_kernel_diag_stack)
+@icontract.require(lambda diagonals: _diag_tuple_valid(diagonals), "diagonals must be a non-empty tuple of same-shaped finite vectors")
+@icontract.ensure(lambda result, diagonals: _diag_stack_shape_valid(result, diagonals), "stacked diagonals must form one column per kernel")
+def compound_kernel_diag_stack(diagonals: tuple[NDArray[np.float64], ...]) -> NDArray[np.float64]:
+    """Return evaluated kernel diagonals stacked into one column per kernel."""
+    return np.vstack([np.asarray(diagonal, dtype=np.float64) for diagonal in diagonals]).T

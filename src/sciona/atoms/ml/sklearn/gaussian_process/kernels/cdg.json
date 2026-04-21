@@ -19,7 +19,15 @@
         "matern_kernel_matrix",
         "matern_kernel_diag",
         "exp_sine_squared_kernel",
-        "exp_sine_squared_kernel_diag"
+        "exp_sine_squared_kernel_diag",
+        "sum_kernel_matrix",
+        "sum_kernel_diag",
+        "product_kernel_matrix",
+        "product_kernel_diag",
+        "exponentiation_kernel_matrix",
+        "exponentiation_kernel_diag",
+        "compound_kernel_stack",
+        "compound_kernel_diag_stack"
       ],
       "depth": 0
     },
@@ -32,12 +40,27 @@
       "type_signature": "(X: NDArray[np.float64], Y: NDArray[np.float64] | None = None, constant_value: float = 1.0) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "Y", "type_desc": "NDArray[np.float64] | None", "required": false},
-        {"name": "constant_value", "type_desc": "float", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "Y",
+          "type_desc": "NDArray[np.float64] | None",
+          "required": false
+        },
+        {
+          "name": "constant_value",
+          "type_desc": "float",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
       ]
     },
     {
@@ -49,11 +72,22 @@
       "type_signature": "(X: NDArray[np.float64], constant_value: float = 1.0) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "constant_value", "type_desc": "float", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "constant_value",
+          "type_desc": "float",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
       ]
     },
     {
@@ -65,12 +99,27 @@
       "type_signature": "(X: NDArray[np.float64], Y: NDArray[np.float64] | None = None, noise_level: float = 1.0) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "Y", "type_desc": "NDArray[np.float64] | None", "required": false},
-        {"name": "noise_level", "type_desc": "float", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "Y",
+          "type_desc": "NDArray[np.float64] | None",
+          "required": false
+        },
+        {
+          "name": "noise_level",
+          "type_desc": "float",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
       ]
     },
     {
@@ -82,11 +131,22 @@
       "type_signature": "(X: NDArray[np.float64], noise_level: float = 1.0) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "noise_level", "type_desc": "float", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "noise_level",
+          "type_desc": "float",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
       ]
     },
     {
@@ -98,12 +158,27 @@
       "type_signature": "(X: NDArray[np.float64], Y: NDArray[np.float64] | None = None, sigma_0: float = 1.0) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "Y", "type_desc": "NDArray[np.float64] | None", "required": false},
-        {"name": "sigma_0", "type_desc": "float", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "Y",
+          "type_desc": "NDArray[np.float64] | None",
+          "required": false
+        },
+        {
+          "name": "sigma_0",
+          "type_desc": "float",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
       ]
     },
     {
@@ -115,11 +190,22 @@
       "type_signature": "(X: NDArray[np.float64], sigma_0: float = 1.0) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "sigma_0", "type_desc": "float", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "sigma_0",
+          "type_desc": "float",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
       ]
     },
     {
@@ -131,12 +217,27 @@
       "type_signature": "(X: NDArray[np.float64], Y: NDArray[np.float64] | None = None, length_scale: float | tuple[float, ...] | NDArray[np.float64] = 1.0) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "Y", "type_desc": "NDArray[np.float64] | None", "required": false},
-        {"name": "length_scale", "type_desc": "float | tuple[float, ...] | NDArray[np.float64]", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "Y",
+          "type_desc": "NDArray[np.float64] | None",
+          "required": false
+        },
+        {
+          "name": "length_scale",
+          "type_desc": "float | tuple[float, ...] | NDArray[np.float64]",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
       ]
     },
     {
@@ -148,10 +249,17 @@
       "type_signature": "(X: NDArray[np.float64]) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
       ]
     },
     {
@@ -163,13 +271,32 @@
       "type_signature": "(X: NDArray[np.float64], Y: NDArray[np.float64] | None = None, length_scale: float = 1.0, alpha: float = 1.0) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "Y", "type_desc": "NDArray[np.float64] | None", "required": false},
-        {"name": "length_scale", "type_desc": "float", "required": false},
-        {"name": "alpha", "type_desc": "float", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "Y",
+          "type_desc": "NDArray[np.float64] | None",
+          "required": false
+        },
+        {
+          "name": "length_scale",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "alpha",
+          "type_desc": "float",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
       ]
     },
     {
@@ -181,10 +308,17 @@
       "type_signature": "(X: NDArray[np.float64]) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
       ]
     },
     {
@@ -196,13 +330,32 @@
       "type_signature": "(X: NDArray[np.float64], Y: NDArray[np.float64] | None = None, length_scale: float | tuple[float, ...] | NDArray[np.float64] = 1.0, nu: float = 1.5) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "Y", "type_desc": "NDArray[np.float64] | None", "required": false},
-        {"name": "length_scale", "type_desc": "float | tuple[float, ...] | NDArray[np.float64]", "required": false},
-        {"name": "nu", "type_desc": "float", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "Y",
+          "type_desc": "NDArray[np.float64] | None",
+          "required": false
+        },
+        {
+          "name": "length_scale",
+          "type_desc": "float | tuple[float, ...] | NDArray[np.float64]",
+          "required": false
+        },
+        {
+          "name": "nu",
+          "type_desc": "float",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
       ]
     },
     {
@@ -214,10 +367,17 @@
       "type_signature": "(X: NDArray[np.float64]) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
       ]
     },
     {
@@ -229,13 +389,32 @@
       "type_signature": "(X: NDArray[np.float64], Y: NDArray[np.float64] | None = None, length_scale: float = 1.0, periodicity: float = 1.0) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "Y", "type_desc": "NDArray[np.float64] | None", "required": false},
-        {"name": "length_scale", "type_desc": "float", "required": false},
-        {"name": "periodicity", "type_desc": "float", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "Y",
+          "type_desc": "NDArray[np.float64] | None",
+          "required": false
+        },
+        {
+          "name": "length_scale",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "periodicity",
+          "type_desc": "float",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
       ]
     },
     {
@@ -247,21 +426,282 @@
       "type_signature": "(X: NDArray[np.float64]) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
+    },
+    {
+      "node_id": "sum_kernel_matrix",
+      "name": "sum_kernel_matrix",
+      "description": "Return the elementwise sum of two evaluated kernel matrices.",
+      "concept_type": "kernel_matrix_composition",
+      "status": "atomic",
+      "type_signature": "(K1: NDArray[np.float64], K2: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "K1",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "K2",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
+    },
+    {
+      "node_id": "sum_kernel_diag",
+      "name": "sum_kernel_diag",
+      "description": "Return the elementwise sum of two evaluated kernel diagonals.",
+      "concept_type": "kernel_diagonal_composition",
+      "status": "atomic",
+      "type_signature": "(d1: NDArray[np.float64], d2: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "d1",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "d2",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
+    },
+    {
+      "node_id": "product_kernel_matrix",
+      "name": "product_kernel_matrix",
+      "description": "Return the elementwise product of two evaluated kernel matrices.",
+      "concept_type": "kernel_matrix_composition",
+      "status": "atomic",
+      "type_signature": "(K1: NDArray[np.float64], K2: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "K1",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "K2",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
+    },
+    {
+      "node_id": "product_kernel_diag",
+      "name": "product_kernel_diag",
+      "description": "Return the elementwise product of two evaluated kernel diagonals.",
+      "concept_type": "kernel_diagonal_composition",
+      "status": "atomic",
+      "type_signature": "(d1: NDArray[np.float64], d2: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "d1",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "d2",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
+    },
+    {
+      "node_id": "exponentiation_kernel_matrix",
+      "name": "exponentiation_kernel_matrix",
+      "description": "Return an evaluated kernel matrix raised elementwise to a scalar power.",
+      "concept_type": "kernel_matrix_composition",
+      "status": "atomic",
+      "type_signature": "(K: NDArray[np.float64], exponent: float = 1.0) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "K",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "exponent",
+          "type_desc": "float",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
+    },
+    {
+      "node_id": "exponentiation_kernel_diag",
+      "name": "exponentiation_kernel_diag",
+      "description": "Return an evaluated kernel diagonal raised elementwise to a scalar power.",
+      "concept_type": "kernel_diagonal_composition",
+      "status": "atomic",
+      "type_signature": "(d: NDArray[np.float64], exponent: float = 1.0) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "d",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "exponent",
+          "type_desc": "float",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
+    },
+    {
+      "node_id": "compound_kernel_stack",
+      "name": "compound_kernel_stack",
+      "description": "Return evaluated kernel matrices stacked along a final kernel axis.",
+      "concept_type": "kernel_matrix_stack",
+      "status": "atomic",
+      "type_signature": "(kernels: tuple[NDArray[np.float64], ...]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "kernels",
+          "type_desc": "tuple[NDArray[np.float64], ...]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
+    },
+    {
+      "node_id": "compound_kernel_diag_stack",
+      "name": "compound_kernel_diag_stack",
+      "description": "Return evaluated kernel diagonals stacked into one column per kernel.",
+      "concept_type": "kernel_diagonal_stack",
+      "status": "atomic",
+      "type_signature": "(diagonals: tuple[NDArray[np.float64], ...]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "diagonals",
+          "type_desc": "tuple[NDArray[np.float64], ...]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
       ]
     }
   ],
   "edges": [
-    {"source": "constant_kernel", "target": "constant_kernel_diag", "kind": "diagonal"},
-    {"source": "white_kernel", "target": "white_kernel_diag", "kind": "diagonal"},
-    {"source": "dot_product_kernel", "target": "dot_product_kernel_diag", "kind": "diagonal"},
-    {"source": "rbf_kernel_matrix", "target": "rbf_kernel_diag", "kind": "diagonal"},
-    {"source": "rational_quadratic_kernel", "target": "rational_quadratic_kernel_diag", "kind": "diagonal"},
-    {"source": "matern_kernel_matrix", "target": "matern_kernel_diag", "kind": "diagonal"},
-    {"source": "exp_sine_squared_kernel", "target": "exp_sine_squared_kernel_diag", "kind": "diagonal"}
+    {
+      "source": "constant_kernel",
+      "target": "constant_kernel_diag",
+      "kind": "diagonal"
+    },
+    {
+      "source": "white_kernel",
+      "target": "white_kernel_diag",
+      "kind": "diagonal"
+    },
+    {
+      "source": "dot_product_kernel",
+      "target": "dot_product_kernel_diag",
+      "kind": "diagonal"
+    },
+    {
+      "source": "rbf_kernel_matrix",
+      "target": "rbf_kernel_diag",
+      "kind": "diagonal"
+    },
+    {
+      "source": "rational_quadratic_kernel",
+      "target": "rational_quadratic_kernel_diag",
+      "kind": "diagonal"
+    },
+    {
+      "source": "matern_kernel_matrix",
+      "target": "matern_kernel_diag",
+      "kind": "diagonal"
+    },
+    {
+      "source": "exp_sine_squared_kernel",
+      "target": "exp_sine_squared_kernel_diag",
+      "kind": "diagonal"
+    },
+    {
+      "source": "sum_kernel_matrix",
+      "target": "sum_kernel_diag",
+      "kind": "diagonal"
+    },
+    {
+      "source": "product_kernel_matrix",
+      "target": "product_kernel_diag",
+      "kind": "diagonal"
+    },
+    {
+      "source": "exponentiation_kernel_matrix",
+      "target": "exponentiation_kernel_diag",
+      "kind": "diagonal"
+    },
+    {
+      "source": "compound_kernel_stack",
+      "target": "compound_kernel_diag_stack",
+      "kind": "diagonal"
+    }
   ],
   "metadata": {
     "source": "agent_ingestion",

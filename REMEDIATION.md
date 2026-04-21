@@ -44,6 +44,20 @@ Potential remediation path:
   through a dedicated native or FFI-backed decomposition with solver-boundary
   provenance and parity tests.
 
+## `sklearn.gaussian_process.kernels` pairwise wrapper
+
+Deferred target:
+
+| Target | Source | Reason |
+| --- | --- | --- |
+| `PairwiseKernel` | `sklearn/gaussian_process/kernels.py:L2248` | The public class is explicitly a thin wrapper around `sklearn.metrics.pairwise.pairwise_kernels`; publishing a Gaussian-process kernel atom here would hide the delegated pairwise metric implementation rather than decompose it. |
+
+Potential remediation path:
+
+- Ingest selected pairwise metrics and kernels directly from
+  `sklearn.metrics.pairwise` as first-class atoms, then decide whether a
+  limited adapter atom is useful.
+
 ## `sklearn.cluster` agglomerative hierarchy
 
 Deferred targets:
