@@ -19,6 +19,8 @@ from sciona.ghost.registry import register_atom
 from .state_models import (
     ARDRegressionState,
     BayesianRidgeState,
+    LarsPathState,
+    LarsState,
     LinearRegressionState,
     OrthogonalMatchingPursuitCVState,
     OrthogonalMatchingPursuitState,
@@ -35,6 +37,10 @@ from .witnesses import (
     witness_bayesian_ridge_fit,
     witness_bayesian_ridge_predict,
     witness_bayesian_ridge_predict_std,
+    witness_lars_fit,
+    witness_lars_path,
+    witness_lars_path_gram,
+    witness_lars_predict,
     witness_linear_regression_fit,
     witness_linear_regression_predict,
     witness_orthogonal_matching_pursuit_fit,
@@ -845,6 +851,7 @@ def _omp_solve_single(
 ) -> tuple[NDArray[np.float64], int]:
     residual = y.copy()
     active: list[int] = []
+    sign_active: list[float] = []
     coefficients = np.zeros(X.shape[1], dtype=np.float64)
     max_features = X.shape[1] if tol is not None else n_nonzero_coefs
     for _ in range(max_features):
@@ -2157,5 +2164,310 @@ def theil_sen_regressor_fit(
 @icontract.ensure(lambda result, X: _theil_sen_prediction_valid(result, X), "predictions must be finite per-row values")
 def theil_sen_regressor_predict(X: NDArray[np.float64], state: TheilSenRegressorState) -> NDArray[np.float64]:
     """Predict dense Theil-Sen regression outputs."""
+    checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
+    return np.asarray(np.dot(checked_x, state.coef) + state.intercept, dtype=np.float64)
+
+
+def _lars_path_state_valid(state: LarsPathState) -> bool:
+    return bool(
+        state.alphas.ndim == 1
+        and state.active.ndim == 1
+        and state.coefs.ndim == 2
+        and state.coefs.shape[0] == state.n_features_in
+        and state.coefs.shape[1] == state.alphas.shape[0]
+        and state.active.shape[0] <= state.n_iter
+        and state.n_iter >= 0
+        and state.method == "lar"
+        and state.alpha_min >= 0.0
+        and state.n_samples >= 1
+        and state.n_features_in >= 1
+        and np.all(np.isfinite(state.alphas))
+        and np.all(state.alphas >= 0.0)
+        and np.all(np.isfinite(state.coefs))
+        and np.all((state.active >= 0) & (state.active < state.n_features_in))
+    )
+
+
+def _lars_state_valid(state: LarsState) -> bool:
+    return bool(
+        state.coef.shape == (state.n_features_in,)
+        and state.coef_path.shape[0] == state.n_features_in
+        and state.coef_path.shape[1] == state.alphas.shape[0]
+        and state.active.ndim == 1
+        and state.n_iter >= 0
+        and isinstance(state.fit_intercept, bool)
+        and state.n_nonzero_coefs >= 1
+        and state.n_features_in >= 1
+        and np.isfinite(state.intercept)
+        and np.all(np.isfinite(state.coef))
+        and np.all(np.isfinite(state.alphas))
+        and np.all(np.isfinite(state.coef_path))
+        and np.all((state.active >= 0) & (state.active < state.n_features_in))
+    )
+
+
+def _lars_feature_count_matches(X: NDArray[np.float64], state: LarsState) -> bool:
+    return bool(np.asarray(X).ndim == 2 and np.asarray(X).shape[1] == state.n_features_in)
+
+
+def _lars_prediction_valid(result: NDArray[np.float64], X: NDArray[np.float64]) -> bool:
+    values = np.asarray(result)
+    return bool(values.shape == (np.asarray(X).shape[0],) and np.all(np.isfinite(values)))
+
+
+def _lars_precompute_valid(precompute: bool | str | NDArray[np.float64]) -> bool:
+    return bool(isinstance(precompute, bool) or (isinstance(precompute, str) and precompute == "auto") or _square_matrix(precompute))
+
+
+def _lars_path_output_from_gram(
+    Xy: NDArray[np.float64],
+    Gram: NDArray[np.float64],
+    *,
+    n_samples: int,
+    max_iter: int,
+    alpha_min: float,
+) -> LarsPathState:
+    n_features = Xy.shape[0]
+    max_features = min(max_iter, n_features)
+    active: list[int] = []
+    sign_active: list[float] = []
+    coef = np.zeros(n_features, dtype=np.float64)
+    alphas = [float(np.max(np.abs(Xy)) / n_samples)]
+    coefs = [coef.copy()]
+    cov = Xy.copy()
+    tiny = np.finfo(np.float64).tiny
+    equality_tolerance = np.finfo(np.float32).eps
+
+    n_iter = 0
+    while n_iter < max_features and len(active) < n_features:
+        inactive = np.asarray([idx for idx in range(n_features) if idx not in active], dtype=np.int64)
+        if inactive.size == 0:
+            break
+        current_abs = np.abs(cov[inactive])
+        selected = int(inactive[int(np.argmax(current_abs))])
+        C = float(abs(cov[selected]))
+        if C / n_samples <= alpha_min + equality_tolerance or C <= tiny:
+            if alphas[-1] != alpha_min and n_iter > 0:
+                previous_alpha = alphas[-1]
+                if abs(previous_alpha - C / n_samples) > equality_tolerance:
+                    ss = (previous_alpha - alpha_min) / (previous_alpha - C / n_samples)
+                    coefs[-1] = coefs[-2] + ss * (coefs[-1] - coefs[-2])
+                alphas[-1] = float(alpha_min)
+            break
+        active.append(selected)
+        selected_sign = float(np.sign(cov[selected]))
+        sign_active.append(1.0 if selected_sign == 0.0 else selected_sign)
+        active_index = np.asarray(active, dtype=np.int64)
+        signs = np.asarray(sign_active, dtype=np.float64)
+        gram_active = Gram[np.ix_(active_index, active_index)]
+        try:
+            least_squares = linalg.solve(gram_active, signs, assume_a="sym")
+        except linalg.LinAlgError:
+            least_squares, _, _, _ = linalg.lstsq(gram_active, signs, cond=None)
+        denom = float(np.sum(least_squares * signs))
+        if denom <= tiny:
+            break
+        AA = float(1.0 / np.sqrt(denom))
+        direction = AA * least_squares
+        corr_eq_dir = Gram[:, active_index] @ direction
+        inactive_after = np.asarray([idx for idx in range(n_features) if idx not in active], dtype=np.int64)
+        if inactive_after.size:
+            g1 = _min_positive((C - cov[inactive_after]) / (AA - corr_eq_dir[inactive_after] + tiny))
+            g2 = _min_positive((C + cov[inactive_after]) / (AA + corr_eq_dir[inactive_after] + tiny))
+            gamma = min(g1, g2, C / AA)
+        else:
+            gamma = C / AA
+        if not np.isfinite(gamma):
+            gamma = C / AA
+        coef[active_index] += gamma * direction
+        cov = Xy - Gram @ coef
+        n_iter += 1
+        next_alpha = 0.0 if inactive_after.size == 0 else float(np.max(np.abs(cov[inactive_after])) / n_samples)
+        coefs.append(coef.copy())
+        alphas.append(max(next_alpha, 0.0))
+        if next_alpha <= alpha_min + equality_tolerance:
+            if abs(next_alpha - alpha_min) > equality_tolerance and len(coefs) >= 2:
+                previous_alpha = alphas[-2]
+                if abs(previous_alpha - next_alpha) > equality_tolerance:
+                    ss = (previous_alpha - alpha_min) / (previous_alpha - next_alpha)
+                    coefs[-1] = coefs[-2] + ss * (coefs[-1] - coefs[-2])
+            alphas[-1] = float(alpha_min)
+            break
+
+    return LarsPathState(
+        alphas=np.asarray(alphas, dtype=np.float64),
+        active=np.asarray(active, dtype=np.int64),
+        coefs=np.asarray(coefs, dtype=np.float64).T,
+        n_iter=int(n_iter),
+        method="lar",
+        alpha_min=float(alpha_min),
+        n_samples=int(n_samples),
+        n_features_in=int(n_features),
+    )
+
+
+def _min_positive(values: NDArray[np.float64]) -> float:
+    finite = values[np.isfinite(values) & (values > 0.0)]
+    if finite.size == 0:
+        return float("inf")
+    return float(np.min(finite))
+
+
+@register_atom(witness_lars_path)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda y: _target_1d(y), "y must be 1D")
+@icontract.require(lambda X, y: _same_sample_count(X, y), "X and y must have matching sample counts")
+@icontract.require(lambda X, y: _finite_inputs(X, y), "X and y must contain finite numeric values")
+@icontract.require(lambda Xy, X: Xy is None or (np.asarray(Xy).ndim == 1 and np.asarray(Xy).shape[0] == np.asarray(X).shape[1] and np.all(np.isfinite(np.asarray(Xy)))), "Xy must be 1D and match feature count")
+@icontract.require(lambda Gram: Gram is None or isinstance(Gram, (bool, str)) or _square_matrix(Gram), "Gram must be None, boolean, auto, or square")
+@icontract.require(lambda max_iter: isinstance(max_iter, int) and not isinstance(max_iter, bool) and max_iter >= 1, "max_iter must be positive")
+@icontract.require(lambda alpha_min: _nonnegative_finite(alpha_min), "alpha_min must be non-negative")
+@icontract.require(lambda method: method == "lar", "only method='lar' is covered")
+@icontract.require(lambda copy_X: _bool_value(copy_X), "copy_X must be boolean")
+@icontract.require(lambda eps: _positive_finite(eps), "eps must be positive")
+@icontract.require(lambda copy_Gram: _bool_value(copy_Gram), "copy_Gram must be boolean")
+@icontract.require(lambda verbose: verbose in {False, 0}, "verbose output is outside this atom scope")
+@icontract.require(lambda return_path: return_path is True, "return_path=False is outside this atom scope")
+@icontract.require(lambda return_n_iter: _bool_value(return_n_iter), "return_n_iter must be boolean")
+@icontract.require(lambda positive: positive is False, "positive=True is outside this LARS atom scope")
+@icontract.ensure(lambda result: _lars_path_state_valid(result), "LARS path state must contain finite path arrays")
+def lars_path(
+    X: NDArray[np.float64],
+    y: NDArray[np.float64],
+    Xy: NDArray[np.float64] | None = None,
+    *,
+    Gram: NDArray[np.float64] | bool | str | None = None,
+    max_iter: int = 500,
+    alpha_min: float = 0.0,
+    method: str = "lar",
+    copy_X: bool = True,
+    eps: float = np.finfo(float).eps,
+    copy_Gram: bool = True,
+    verbose: int | bool = 0,
+    return_path: bool = True,
+    return_n_iter: bool = False,
+    positive: bool = False,
+) -> LarsPathState:
+    """Compute a dense unconstrained LARS coefficient path."""
+    del copy_X, eps, copy_Gram, verbose, return_path, return_n_iter, positive
+    checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
+    checked_y = check_array(y, dtype=np.float64, ensure_2d=False, input_name="y")
+    xy = np.asarray(checked_x.T @ checked_y if Xy is None else Xy, dtype=np.float64)
+    if Gram is None or (isinstance(Gram, bool) and Gram is False):
+        gram = np.asarray(checked_x.T @ checked_x, dtype=np.float64)
+    elif (isinstance(Gram, bool) and Gram is True) or (isinstance(Gram, str) and Gram == "auto"):
+        gram = np.asarray(checked_x.T @ checked_x, dtype=np.float64)
+    else:
+        gram = check_array(Gram, dtype=np.float64, ensure_2d=True)
+    return _lars_path_output_from_gram(xy, gram, n_samples=checked_x.shape[0], max_iter=max_iter, alpha_min=alpha_min)
+
+
+@register_atom(witness_lars_path_gram)
+@icontract.require(lambda Xy: np.asarray(Xy).ndim == 1, "Xy must be 1D")
+@icontract.require(lambda Gram: _square_matrix(Gram), "Gram must be square")
+@icontract.require(lambda Gram, Xy: _gram_and_xy_match(Gram, Xy), "Xy must match Gram feature count")
+@icontract.require(lambda Gram, Xy: _finite_gram_inputs(Gram, Xy), "Gram and Xy must contain finite numeric values")
+@icontract.require(lambda n_samples: isinstance(n_samples, int) and not isinstance(n_samples, bool) and n_samples >= 1, "n_samples must be positive")
+@icontract.require(lambda max_iter: isinstance(max_iter, int) and not isinstance(max_iter, bool) and max_iter >= 1, "max_iter must be positive")
+@icontract.require(lambda alpha_min: _nonnegative_finite(alpha_min), "alpha_min must be non-negative")
+@icontract.require(lambda method: method == "lar", "only method='lar' is covered")
+@icontract.require(lambda copy_X: _bool_value(copy_X), "copy_X must be boolean")
+@icontract.require(lambda eps: _positive_finite(eps), "eps must be positive")
+@icontract.require(lambda copy_Gram: _bool_value(copy_Gram), "copy_Gram must be boolean")
+@icontract.require(lambda verbose: verbose in {False, 0}, "verbose output is outside this atom scope")
+@icontract.require(lambda return_path: return_path is True, "return_path=False is outside this atom scope")
+@icontract.require(lambda return_n_iter: _bool_value(return_n_iter), "return_n_iter must be boolean")
+@icontract.require(lambda positive: positive is False, "positive=True is outside this LARS atom scope")
+@icontract.ensure(lambda result: _lars_path_state_valid(result), "LARS path state must contain finite path arrays")
+def lars_path_gram(
+    Xy: NDArray[np.float64],
+    Gram: NDArray[np.float64],
+    *,
+    n_samples: int,
+    max_iter: int = 500,
+    alpha_min: float = 0.0,
+    method: str = "lar",
+    copy_X: bool = True,
+    eps: float = np.finfo(float).eps,
+    copy_Gram: bool = True,
+    verbose: int | bool = 0,
+    return_path: bool = True,
+    return_n_iter: bool = False,
+    positive: bool = False,
+) -> LarsPathState:
+    """Compute an unconstrained LARS path from sufficient statistics."""
+    del copy_X, eps, copy_Gram, verbose, return_path, return_n_iter, positive
+    checked_xy = np.asarray(Xy, dtype=np.float64)
+    checked_gram = check_array(Gram, dtype=np.float64, ensure_2d=True)
+    return _lars_path_output_from_gram(checked_xy, checked_gram, n_samples=n_samples, max_iter=max_iter, alpha_min=alpha_min)
+
+
+@register_atom(witness_lars_fit)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda y: _target_1d(y), "y must be 1D")
+@icontract.require(lambda X, y: _same_sample_count(X, y), "X and y must have matching sample counts")
+@icontract.require(lambda X, y: _finite_inputs(X, y), "X and y must contain finite numeric values")
+@icontract.require(lambda Xy, X: Xy is None or (np.asarray(Xy).ndim == 1 and np.asarray(Xy).shape[0] == np.asarray(X).shape[1] and np.all(np.isfinite(np.asarray(Xy)))), "Xy must be 1D and match feature count")
+@icontract.require(lambda fit_intercept: _bool_value(fit_intercept), "fit_intercept must be boolean")
+@icontract.require(lambda verbose: verbose in {False, 0}, "verbose output is outside this atom scope")
+@icontract.require(lambda precompute: _lars_precompute_valid(precompute), "precompute must be boolean, auto, or square Gram")
+@icontract.require(lambda n_nonzero_coefs: isinstance(n_nonzero_coefs, int) and not isinstance(n_nonzero_coefs, bool) and n_nonzero_coefs >= 1, "n_nonzero_coefs must be positive")
+@icontract.require(lambda eps: _positive_finite(eps), "eps must be positive")
+@icontract.require(lambda copy_X: _bool_value(copy_X), "copy_X must be boolean")
+@icontract.require(lambda fit_path: fit_path is True, "fit_path=False is outside this atom scope")
+@icontract.require(lambda jitter: jitter is None, "jitter is outside this atom scope")
+@icontract.require(lambda random_state: random_state is None, "random_state is only used with jitter")
+@icontract.ensure(lambda result: _lars_state_valid(result), "LARS state must contain finite fitted coefficients")
+def lars_fit(
+    X: NDArray[np.float64],
+    y: NDArray[np.float64],
+    Xy: NDArray[np.float64] | None = None,
+    *,
+    fit_intercept: bool = True,
+    verbose: int | bool = False,
+    precompute: bool | str | NDArray[np.float64] = "auto",
+    n_nonzero_coefs: int = 500,
+    eps: float = np.finfo(float).eps,
+    copy_X: bool = True,
+    fit_path: bool = True,
+    jitter: None = None,
+    random_state: None = None,
+) -> LarsState:
+    """Fit dense single-output least-angle-regression coefficients."""
+    del verbose, eps, copy_X, fit_path, jitter, random_state
+    checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
+    checked_y = check_array(y, dtype=np.float64, ensure_2d=False, input_name="y")
+    centered_x, centered_y_2d, x_offset, y_offset = _center_and_rescale(checked_x, checked_y.reshape(-1, 1), fit_intercept, None)
+    centered_y = np.ravel(centered_y_2d)
+    xy = None if Xy is None else np.asarray(Xy, dtype=np.float64)
+    if isinstance(precompute, np.ndarray):
+        gram: NDArray[np.float64] | bool | str | None = np.asarray(precompute, dtype=np.float64)
+    elif precompute is True or (precompute == "auto" and checked_x.shape[0] > checked_x.shape[1]):
+        gram = np.asarray(centered_x.T @ centered_x, dtype=np.float64)
+    else:
+        gram = None
+    path = lars_path(centered_x, centered_y, xy, Gram=gram, max_iter=n_nonzero_coefs)
+    coef = np.asarray(path.coefs[:, -1], dtype=np.float64)
+    intercept = float(y_offset[0] - np.dot(x_offset, coef)) if fit_intercept else 0.0
+    return LarsState(
+        coef=coef,
+        intercept=intercept,
+        alphas=path.alphas,
+        active=path.active,
+        coef_path=path.coefs,
+        n_iter=path.n_iter,
+        fit_intercept=fit_intercept,
+        n_nonzero_coefs=int(n_nonzero_coefs),
+        n_features_in=int(checked_x.shape[1]),
+    )
+
+
+@register_atom(witness_lars_predict)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X, state: _lars_feature_count_matches(X, state), "X feature count must match fitted LARS state")
+@icontract.require(lambda state: _lars_state_valid(state), "state must be a fitted LARS state")
+@icontract.ensure(lambda result, X: _lars_prediction_valid(result, X), "predictions must be finite per-row values")
+def lars_predict(X: NDArray[np.float64], state: LarsState) -> NDArray[np.float64]:
+    """Predict dense LARS regression outputs."""
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     return np.asarray(np.dot(checked_x, state.coef) + state.intercept, dtype=np.float64)

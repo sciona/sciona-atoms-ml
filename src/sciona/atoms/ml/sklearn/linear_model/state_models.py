@@ -152,3 +152,32 @@ class TheilSenRegressorState:
     fit_intercept: bool
     max_subpopulation: int
     n_features_in: int
+
+
+@dataclass(frozen=True)
+class LarsPathState:
+    """Dense least-angle-regression path state."""
+
+    alphas: NDArray[np.float64]
+    active: NDArray[np.int64]
+    coefs: NDArray[np.float64]
+    n_iter: int
+    method: str
+    alpha_min: float
+    n_samples: int
+    n_features_in: int
+
+
+@dataclass(frozen=True)
+class LarsState:
+    """Fitted dense least-angle-regression state."""
+
+    coef: NDArray[np.float64]
+    intercept: float
+    alphas: NDArray[np.float64]
+    active: NDArray[np.int64]
+    coef_path: NDArray[np.float64]
+    n_iter: int
+    fit_intercept: bool
+    n_nonzero_coefs: int
+    n_features_in: int

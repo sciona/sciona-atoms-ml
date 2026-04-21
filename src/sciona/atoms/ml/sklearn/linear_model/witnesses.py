@@ -7,6 +7,8 @@ from sciona.ghost.abstract import AbstractArray
 from .state_models import (
     ARDRegressionState,
     BayesianRidgeState,
+    LarsPathState,
+    LarsState,
     LinearRegressionState,
     OrthogonalMatchingPursuitCVState,
     OrthogonalMatchingPursuitState,
@@ -613,6 +615,116 @@ def witness_theil_sen_regressor_fit(
 
 def witness_theil_sen_regressor_predict(X: AbstractArray, state: TheilSenRegressorState) -> AbstractArray:
     """Describe predicting with fitted dense Theil-Sen coefficients."""
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    if X.shape[1] != state.n_features_in:
+        raise ValueError("X feature count must match fitted state")
+    return AbstractArray(shape=(int(X.shape[0]),), dtype="float64")
+
+
+def witness_lars_path(
+    X: AbstractArray,
+    y: AbstractArray,
+    Xy: AbstractArray | None = None,
+    *,
+    Gram: AbstractArray | str | bool | None = None,
+    max_iter: int = 500,
+    alpha_min: float = 0.0,
+    method: str = "lar",
+    copy_X: bool = True,
+    eps: float = 2.220446049250313e-16,
+    copy_Gram: bool = True,
+    verbose: int | bool = 0,
+    return_path: bool = True,
+    return_n_iter: bool = False,
+    positive: bool = False,
+) -> AbstractArray:
+    """Describe dense least-angle-regression path coefficients."""
+    del Xy, Gram, copy_X, eps, copy_Gram, verbose, return_n_iter
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    if len(y.shape) != 1:
+        raise ValueError("y must be 1D")
+    if X.shape[0] != y.shape[0]:
+        raise ValueError("X and y must have matching sample counts")
+    if max_iter < 1:
+        raise ValueError("max_iter must be positive")
+    if alpha_min < 0.0:
+        raise ValueError("alpha_min must be non-negative")
+    if method != "lar" or positive:
+        raise ValueError("only unconstrained method='lar' is covered")
+    if not return_path:
+        raise ValueError("return_path=False is outside this atom scope")
+    return AbstractArray(shape=(int(X.shape[1]), min(int(X.shape[1]), max_iter) + 1), dtype="float64")
+
+
+def witness_lars_path_gram(
+    Xy: AbstractArray,
+    Gram: AbstractArray,
+    *,
+    n_samples: int,
+    max_iter: int = 500,
+    alpha_min: float = 0.0,
+    method: str = "lar",
+    copy_X: bool = True,
+    eps: float = 2.220446049250313e-16,
+    copy_Gram: bool = True,
+    verbose: int | bool = 0,
+    return_path: bool = True,
+    return_n_iter: bool = False,
+    positive: bool = False,
+) -> AbstractArray:
+    """Describe sufficient-statistics least-angle-regression path coefficients."""
+    del copy_X, eps, copy_Gram, verbose, return_n_iter
+    if len(Gram.shape) != 2 or Gram.shape[0] != Gram.shape[1]:
+        raise ValueError("Gram must be square")
+    if len(Xy.shape) != 1 or Xy.shape[0] != Gram.shape[0]:
+        raise ValueError("Xy must be 1D and match Gram")
+    if n_samples < 1 or max_iter < 1:
+        raise ValueError("sample count and max_iter must be positive")
+    if alpha_min < 0.0:
+        raise ValueError("alpha_min must be non-negative")
+    if method != "lar" or positive:
+        raise ValueError("only unconstrained method='lar' is covered")
+    if not return_path:
+        raise ValueError("return_path=False is outside this atom scope")
+    return AbstractArray(shape=(int(Gram.shape[0]), min(int(Gram.shape[0]), max_iter) + 1), dtype="float64")
+
+
+def witness_lars_fit(
+    X: AbstractArray,
+    y: AbstractArray,
+    Xy: AbstractArray | None = None,
+    *,
+    fit_intercept: bool = True,
+    verbose: int | bool = False,
+    precompute: bool | str = "auto",
+    n_nonzero_coefs: int = 500,
+    eps: float = 2.220446049250313e-16,
+    copy_X: bool = True,
+    fit_path: bool = True,
+    jitter: float | None = None,
+    random_state: int | None = None,
+) -> AbstractArray:
+    """Describe fitting dense single-output LARS coefficients."""
+    del Xy, verbose, precompute, eps, copy_X, random_state
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    if len(y.shape) != 1:
+        raise ValueError("y must be 1D")
+    if X.shape[0] != y.shape[0]:
+        raise ValueError("X and y must have matching sample counts")
+    if not isinstance(fit_intercept, bool) or not isinstance(fit_path, bool):
+        raise ValueError("boolean options must be boolean")
+    if n_nonzero_coefs < 1:
+        raise ValueError("n_nonzero_coefs must be positive")
+    if jitter is not None:
+        raise ValueError("jitter is outside this atom scope")
+    return AbstractArray(shape=(int(X.shape[1]),), dtype="float64")
+
+
+def witness_lars_predict(X: AbstractArray, state: LarsState) -> AbstractArray:
+    """Describe predicting with fitted dense LARS coefficients."""
     if len(X.shape) != 2:
         raise ValueError("X must be 2D")
     if X.shape[1] != state.n_features_in:
