@@ -28,6 +28,14 @@ EXPECTED_ATOM_NAMES = {
     "sciona.atoms.ml.sklearn.feature_selection.univariate_selection_transform",
 }
 
+EXPECTED_CDG_ATOM_NAMES = EXPECTED_ATOM_NAMES | {
+    "sciona.atoms.ml.sklearn.feature_selection.mutual_info_classif",
+    "sciona.atoms.ml.sklearn.feature_selection.mutual_info_continuous_continuous",
+    "sciona.atoms.ml.sklearn.feature_selection.mutual_info_continuous_discrete",
+    "sciona.atoms.ml.sklearn.feature_selection.mutual_info_pair",
+    "sciona.atoms.ml.sklearn.feature_selection.mutual_info_regression",
+}
+
 
 def _bundle() -> dict:
     return json.loads(BUNDLE_PATH.read_text(encoding="utf-8"))
@@ -79,19 +87,8 @@ def test_scores_and_enums_are_db_compatible() -> None:
 def test_cdg_atomic_nodes_have_publishable_io_specs() -> None:
     cdg = json.loads(CDG_PATH.read_text(encoding="utf-8"))
     atomic = [node for node in cdg["nodes"] if node.get("status") == "atomic"]
-    assert {node["name"] for node in atomic} == {
-        "chi2",
-        "f_classif",
-        "f_regression",
-        "generic_univariate_select_fit",
-        "r_regression",
-        "select_fdr_fit",
-        "select_fpr_fit",
-        "select_fwe_fit",
-        "select_k_best_fit",
-        "select_percentile_fit",
-        "univariate_selection_transform",
-    }
+    expected_leaf_names = {fqdn.rsplit(".", 1)[-1] for fqdn in EXPECTED_CDG_ATOM_NAMES}
+    assert {node["name"] for node in atomic} == expected_leaf_names
     for node in atomic:
         assert node["node_id"] == node["name"]
         assert " " not in node["name"]

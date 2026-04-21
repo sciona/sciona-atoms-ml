@@ -18,6 +18,11 @@ EXPECTED_FQDNS = {
     "sciona.atoms.ml.sklearn.feature_selection.f_classif",
     "sciona.atoms.ml.sklearn.feature_selection.f_regression",
     "sciona.atoms.ml.sklearn.feature_selection.generic_univariate_select_fit",
+    "sciona.atoms.ml.sklearn.feature_selection.mutual_info_classif",
+    "sciona.atoms.ml.sklearn.feature_selection.mutual_info_continuous_continuous",
+    "sciona.atoms.ml.sklearn.feature_selection.mutual_info_continuous_discrete",
+    "sciona.atoms.ml.sklearn.feature_selection.mutual_info_pair",
+    "sciona.atoms.ml.sklearn.feature_selection.mutual_info_regression",
     "sciona.atoms.ml.sklearn.feature_selection.r_regression",
     "sciona.atoms.ml.sklearn.feature_selection.select_fdr_fit",
     "sciona.atoms.ml.sklearn.feature_selection.select_fpr_fit",
@@ -32,7 +37,7 @@ def test_references_json_exists_and_has_all_feature_selection_fqdns() -> None:
     assert REFERENCES_PATH.exists()
     payload = json.loads(REFERENCES_PATH.read_text(encoding="utf-8"))
     atom_keys = set(payload["atoms"])
-    assert len(atom_keys) == 11
+    assert len(atom_keys) == 16
     assert {key.partition("@")[0] for key in atom_keys} == EXPECTED_FQDNS
 
 

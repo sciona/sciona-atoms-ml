@@ -12,7 +12,7 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 - Scope for this first ingestion pass: public algorithmic estimators, transformers, kernels, and algorithmic helper functions in the selected sklearn modules below.
 - Intentionally excluded for now: datasets, metrics, displays, exceptions, low-level utils, orchestration/composition (`compose`, `pipeline`), and model-selection/search APIs.
 - Source locations come from each object page's official `[source]` link. `BallTree` and `KDTree` use the matching source files from the same scikit-learn revision because their generated docs pages do not expose a direct `[source]` link.
-- Total targets in this inventory: 107
+- Total targets in this inventory: 101
 
 ## Module Summary
 
@@ -29,7 +29,7 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 | `sklearn.feature_extraction` | 0 |
 | `sklearn.feature_extraction.image` | 0 |
 | `sklearn.feature_extraction.text` | 0 |
-| `sklearn.feature_selection` | 6 |
+| `sklearn.feature_selection` | 0 |
 | `sklearn.gaussian_process` | 0 |
 | `sklearn.gaussian_process.kernels` | 0 |
 | `sklearn.impute` | 0 |
@@ -140,12 +140,6 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 
 | Target | Description | Source |
 | --- | --- | --- |
-| `mutual_info_classif` | Estimate mutual information for a discrete target variable. | `sklearn/feature_selection/_mutual_info.py:L453` |
-| `mutual_info_regression` | Estimate mutual information for a continuous target variable. | `sklearn/feature_selection/_mutual_info.py:L325` |
-| `RFE` | Feature ranking with recursive feature elimination. | `sklearn/feature_selection/_rfe.py:L73` |
-| `RFECV` | Recursive feature elimination with cross-validation to select features. | `sklearn/feature_selection/_rfe.py:L558` |
-| `SelectFromModel` | Meta-transformer for selecting features based on importance weights. | `sklearn/feature_selection/_from_model.py:L95` |
-| `SequentialFeatureSelector` | Transformer that performs Sequential Feature Selection. | `sklearn/feature_selection/_sequential.py:L34` |
 
 ## `sklearn.gaussian_process`
 

@@ -10,9 +10,13 @@ import scipy.stats as stats
 from numpy.typing import NDArray
 from scipy import special
 from scipy.sparse import issparse
+from sklearn.metrics.cluster import mutual_info_score
+from sklearn.neighbors import KDTree, NearestNeighbors
 from sklearn.preprocessing import LabelBinarizer
-from sklearn.utils import as_float_array, check_array, check_X_y, safe_mask, safe_sqr
+from sklearn.preprocessing import scale
+from sklearn.utils import as_float_array, check_array, check_random_state, check_X_y, safe_mask, safe_sqr
 from sklearn.utils.extmath import row_norms, safe_sparse_dot
+from sklearn.utils.multiclass import check_classification_targets
 
 from sciona.ghost.registry import register_atom
 
@@ -22,6 +26,11 @@ from .witnesses import (
     witness_f_classif,
     witness_f_regression,
     witness_generic_univariate_select_fit,
+    witness_mutual_info_classif,
+    witness_mutual_info_continuous_continuous,
+    witness_mutual_info_continuous_discrete,
+    witness_mutual_info_pair,
+    witness_mutual_info_regression,
     witness_r_regression,
     witness_select_fdr_fit,
     witness_select_fpr_fit,
@@ -35,6 +44,7 @@ ScoreResult = tuple[NDArray[np.float64], NDArray[np.float64]]
 
 SupportedScoreFunc = str
 SelectorParam = int | float | str
+DiscreteFeatureSpec = str | bool | tuple[int, ...] | tuple[bool, ...]
 
 
 def _f_oneway(*arrays: NDArray[np.float64]) -> ScoreResult:
@@ -102,6 +112,107 @@ def _selector_scores(
     if score_func == "f_regression":
         return f_regression(X, y)
     raise ValueError(f"unsupported score_func: {score_func!r}")
+
+
+def _mi_vector_valid(values: NDArray[np.float64]) -> bool:
+    array = np.asarray(values)
+    return bool(array.ndim == 1 and array.shape[0] >= 2)
+
+
+def _mi_xy_valid(x: NDArray[np.float64], y: NDArray[np.float64], n_neighbors: int) -> bool:
+    x_values = np.asarray(x)
+    y_values = np.asarray(y)
+    return bool(
+        _mi_n_neighbors_valid(n_neighbors)
+        and x_values.ndim == 1
+        and y_values.ndim == 1
+        and x_values.shape == y_values.shape
+        and x_values.shape[0] >= n_neighbors
+    )
+
+
+def _mi_matrix_target_valid(X: NDArray[np.float64], y: NDArray[np.float64], n_neighbors: int) -> bool:
+    x_values = np.asarray(X)
+    y_values = np.asarray(y)
+    return bool(
+        _mi_n_neighbors_valid(n_neighbors)
+        and x_values.ndim == 2
+        and y_values.ndim == 1
+        and x_values.shape[0] == y_values.shape[0]
+        and x_values.shape[0] >= n_neighbors
+        and x_values.shape[1] >= 1
+    )
+
+
+def _mi_n_neighbors_valid(n_neighbors: int) -> bool:
+    return bool(isinstance(n_neighbors, int) and not isinstance(n_neighbors, bool) and n_neighbors >= 1)
+
+
+def _mi_discrete_features_valid(discrete_features: DiscreteFeatureSpec, n_features: int) -> bool:
+    if discrete_features == "auto" or isinstance(discrete_features, bool):
+        return True
+    if isinstance(discrete_features, tuple):
+        if all(isinstance(item, bool) for item in discrete_features):
+            return len(discrete_features) == n_features
+        return bool(
+            len(discrete_features) <= n_features
+            and all(isinstance(item, int) and not isinstance(item, bool) and 0 <= item < n_features for item in discrete_features)
+        )
+    return False
+
+
+def _mi_result_valid(result: NDArray[np.float64], X: NDArray[np.float64]) -> bool:
+    values = np.asarray(result, dtype=np.float64)
+    return bool(values.shape == (np.asarray(X).shape[1],) and np.all(np.isfinite(values)) and np.all(values >= 0.0))
+
+
+def _mi_score_valid(result: float) -> bool:
+    return bool(isinstance(result, float) and np.isfinite(result) and result >= 0.0)
+
+
+def _mi_discrete_mask(discrete_features: DiscreteFeatureSpec, n_features: int) -> NDArray[np.bool_]:
+    if isinstance(discrete_features, str):
+        if discrete_features != "auto":
+            raise ValueError("discrete_features must be 'auto', bool, index tuple, or boolean tuple")
+        return np.zeros(n_features, dtype=np.bool_)
+    if isinstance(discrete_features, bool):
+        return np.full(n_features, discrete_features, dtype=np.bool_)
+    if all(isinstance(item, bool) for item in discrete_features):
+        return np.asarray(discrete_features, dtype=np.bool_)
+    mask = np.zeros(n_features, dtype=np.bool_)
+    mask[list(discrete_features)] = True
+    return mask
+
+
+def _prepare_mi_inputs(
+    X: NDArray[np.float64],
+    y: NDArray[np.float64],
+    *,
+    discrete_features: DiscreteFeatureSpec,
+    discrete_target: bool,
+    copy: bool,
+    random_state: int | None,
+) -> tuple[NDArray[np.float64], NDArray[np.float64], NDArray[np.bool_]]:
+    checked_x, checked_y = check_X_y(X, y, accept_sparse=False, y_numeric=not discrete_target)
+    x_values = np.asarray(checked_x)
+    y_values = np.asarray(checked_y)
+    n_samples, n_features = x_values.shape
+    discrete_mask = _mi_discrete_mask(discrete_features, n_features)
+    continuous_mask = ~discrete_mask
+
+    rng = check_random_state(random_state)
+    if np.any(continuous_mask):
+        x_values = x_values.astype(np.float64, copy=copy)
+        x_values[:, continuous_mask] = scale(x_values[:, continuous_mask], with_mean=False, copy=False)
+        means = np.maximum(1.0, np.mean(np.abs(x_values[:, continuous_mask]), axis=0))
+        x_values[:, continuous_mask] += 1e-10 * means * rng.standard_normal(size=(n_samples, int(np.sum(continuous_mask))))
+    else:
+        x_values = x_values.astype(np.float64, copy=copy)
+
+    if not discrete_target:
+        y_values = scale(y_values.astype(np.float64, copy=True), with_mean=False)
+        y_values += 1e-10 * np.maximum(1.0, np.mean(np.abs(y_values))) * rng.standard_normal(size=n_samples)
+    return np.asarray(x_values, dtype=np.float64), np.asarray(y_values), discrete_mask
 
 
 def _clean_nans(scores: NDArray[np.float64]) -> NDArray[np.float64]:
@@ -223,6 +334,177 @@ def _build_selection_state(
         selector=selector,
         selector_param=selector_param,
     )
+
+
+@register_atom(witness_mutual_info_continuous_continuous)
+@icontract.require(lambda x, y, n_neighbors: _mi_xy_valid(x, y, n_neighbors), "x and y must be equal-length vectors with enough samples")
+@icontract.ensure(lambda result: _mi_score_valid(result), "mutual information must be finite and nonnegative")
+def mutual_info_continuous_continuous(
+    x: NDArray[np.float64],
+    y: NDArray[np.float64],
+    *,
+    n_neighbors: int = 3,
+) -> float:
+    """Estimate mutual information between two continuous variables."""
+    x_values = np.asarray(x, dtype=np.float64).reshape((-1, 1))
+    y_values = np.asarray(y, dtype=np.float64).reshape((-1, 1))
+    xy_values = np.hstack((x_values, y_values))
+
+    nn = NearestNeighbors(metric="chebyshev", n_neighbors=n_neighbors)
+    nn.fit(xy_values)
+    radius = nn.kneighbors()[0]
+    radius = np.nextafter(radius[:, -1], 0)
+
+    x_tree = KDTree(x_values, metric="chebyshev")
+    nx = np.asarray(x_tree.query_radius(x_values, radius, count_only=True, return_distance=False), dtype=np.float64) - 1.0
+
+    y_tree = KDTree(y_values, metric="chebyshev")
+    ny = np.asarray(y_tree.query_radius(y_values, radius, count_only=True, return_distance=False), dtype=np.float64) - 1.0
+
+    sample_count = x_values.shape[0]
+    score = (
+        special.digamma(sample_count)
+        + special.digamma(n_neighbors)
+        - np.mean(special.digamma(nx + 1.0))
+        - np.mean(special.digamma(ny + 1.0))
+    )
+    return float(max(0.0, score))
+
+
+@register_atom(witness_mutual_info_continuous_discrete)
+@icontract.require(lambda continuous, discrete: _mi_vector_valid(continuous) and np.asarray(continuous).shape == np.asarray(discrete).shape, "variables must be equal-length vectors")
+@icontract.require(lambda n_neighbors: _mi_n_neighbors_valid(n_neighbors), "n_neighbors must be positive")
+@icontract.ensure(lambda result: _mi_score_valid(result), "mutual information must be finite and nonnegative")
+def mutual_info_continuous_discrete(
+    continuous: NDArray[np.float64],
+    discrete: NDArray[np.float64],
+    *,
+    n_neighbors: int = 3,
+) -> float:
+    """Estimate mutual information between continuous and discrete variables."""
+    continuous_values = np.asarray(continuous, dtype=np.float64).reshape((-1, 1))
+    discrete_values = np.asarray(discrete)
+    n_samples = continuous_values.shape[0]
+
+    radius = np.empty(n_samples, dtype=np.float64)
+    label_counts = np.empty(n_samples, dtype=np.float64)
+    k_all = np.empty(n_samples, dtype=np.float64)
+    nn = NearestNeighbors()
+    for label in np.unique(discrete_values):
+        mask = discrete_values == label
+        count = int(np.sum(mask))
+        if count > 1:
+            k = min(n_neighbors, count - 1)
+            nn.set_params(n_neighbors=k)
+            nn.fit(continuous_values[mask])
+            distances = nn.kneighbors()[0]
+            radius[mask] = np.nextafter(distances[:, -1], 0)
+            k_all[mask] = k
+        label_counts[mask] = count
+
+    repeated = label_counts > 1
+    if not np.any(repeated):
+        return 0.0
+    used_count = int(np.sum(repeated))
+    used_continuous = continuous_values[repeated]
+    used_radius = radius[repeated]
+    used_label_counts = label_counts[repeated]
+    used_k = k_all[repeated]
+
+    tree = KDTree(used_continuous)
+    m_all = np.asarray(tree.query_radius(used_continuous, used_radius, count_only=True, return_distance=False), dtype=np.float64)
+    score = (
+        special.digamma(used_count)
+        + np.mean(special.digamma(used_k))
+        - np.mean(special.digamma(used_label_counts))
+        - np.mean(special.digamma(m_all))
+    )
+    return float(max(0.0, score))
+
+
+@register_atom(witness_mutual_info_pair)
+@icontract.require(lambda x, y: _mi_vector_valid(x) and np.asarray(x).shape == np.asarray(y).shape, "variables must be equal-length vectors")
+@icontract.require(lambda n_neighbors: _mi_n_neighbors_valid(n_neighbors), "n_neighbors must be positive")
+@icontract.ensure(lambda result: _mi_score_valid(result), "mutual information must be finite and nonnegative")
+def mutual_info_pair(
+    x: NDArray[np.float64],
+    y: NDArray[np.float64],
+    *,
+    x_discrete: bool,
+    y_discrete: bool,
+    n_neighbors: int = 3,
+) -> float:
+    """Estimate mutual information for one feature-target pair."""
+    if x_discrete and y_discrete:
+        return float(max(0.0, mutual_info_score(x, y)))
+    if x_discrete and not y_discrete:
+        return mutual_info_continuous_discrete(y, x, n_neighbors=n_neighbors)
+    if not x_discrete and y_discrete:
+        return mutual_info_continuous_discrete(x, y, n_neighbors=n_neighbors)
+    return mutual_info_continuous_continuous(x, y, n_neighbors=n_neighbors)
+
+
+@register_atom(witness_mutual_info_regression)
+@icontract.require(lambda X, y, n_neighbors: _mi_matrix_target_valid(X, y, n_neighbors), "X and y must have compatible shapes and enough samples")
+@icontract.require(lambda discrete_features, X: _mi_discrete_features_valid(discrete_features, np.asarray(X).shape[1]), "discrete_features must match feature count")
+@icontract.ensure(lambda result, X: _mi_result_valid(result, X), "mutual information vector must match feature count")
+def mutual_info_regression(
+    X: NDArray[np.float64],
+    y: NDArray[np.float64],
+    *,
+    discrete_features: DiscreteFeatureSpec = "auto",
+    n_neighbors: int = 3,
+    copy: bool = True,
+    random_state: int | None = None,
+    n_jobs: int | None = None,
+) -> NDArray[np.float64]:
+    """Estimate mutual information between each feature and a continuous target."""
+    del n_jobs
+    x_values, y_values, discrete_mask = _prepare_mi_inputs(
+        X,
+        y,
+        discrete_features=discrete_features,
+        discrete_target=False,
+        copy=copy,
+        random_state=random_state,
+    )
+    scores = [
+        mutual_info_pair(x_values[:, index], y_values, x_discrete=bool(discrete_mask[index]), y_discrete=False, n_neighbors=n_neighbors)
+        for index in range(x_values.shape[1])
+    ]
+    return np.asarray(scores, dtype=np.float64)
+
+
+@register_atom(witness_mutual_info_classif)
+@icontract.require(lambda X, y, n_neighbors: _mi_matrix_target_valid(X, y, n_neighbors), "X and y must have compatible shapes and enough samples")
+@icontract.require(lambda discrete_features, X: _mi_discrete_features_valid(discrete_features, np.asarray(X).shape[1]), "discrete_features must match feature count")
+@icontract.ensure(lambda result, X: _mi_result_valid(result, X), "mutual information vector must match feature count")
+def mutual_info_classif(
+    X: NDArray[np.float64],
+    y: NDArray[np.float64],
+    *,
+    discrete_features: DiscreteFeatureSpec = "auto",
+    n_neighbors: int = 3,
+    copy: bool = True,
+    random_state: int | None = None,
+    n_jobs: int | None = None,
+) -> NDArray[np.float64]:
+    """Estimate mutual information between each feature and a discrete target."""
+    del n_jobs
+    check_classification_targets(y)
+    x_values, y_values, discrete_mask = _prepare_mi_inputs(
+        X,
+        y,
+        discrete_features=discrete_features,
+        discrete_target=True,
+        copy=copy,
+        random_state=random_state,
+    )
+    scores = [
+        mutual_info_pair(x_values[:, index], y_values, x_discrete=bool(discrete_mask[index]), y_discrete=True, n_neighbors=n_neighbors)
+        for index in range(x_values.shape[1])
+    ]
+    return np.asarray(scores, dtype=np.float64)
 
 
 @register_atom(witness_f_classif)

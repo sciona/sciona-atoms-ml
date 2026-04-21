@@ -6,6 +6,8 @@ from sciona.ghost.abstract import AbstractArray
 
 from .state_models import UnivariateSelectionState
 
+DiscreteFeatureSpec = str | bool | tuple[int, ...] | tuple[bool, ...]
+
 
 def _check_xy(X: AbstractArray, y: AbstractArray) -> tuple[int, int]:
     if len(X.shape) != 2:
@@ -15,6 +17,81 @@ def _check_xy(X: AbstractArray, y: AbstractArray) -> tuple[int, int]:
     if X.shape[0] != y.shape[0]:
         raise ValueError("X and y must have equal sample count")
     return int(X.shape[0]), int(X.shape[1])
+
+
+def witness_mutual_info_continuous_continuous(
+    x: AbstractArray,
+    y: AbstractArray,
+    *,
+    n_neighbors: int = 3,
+) -> AbstractArray:
+    """Describe a scalar continuous-continuous mutual-information estimate."""
+    _check_vector_pair(x, y)
+    _check_n_neighbors(n_neighbors)
+    return AbstractArray(shape=(), dtype="float64", min_val=0.0)
+
+
+def witness_mutual_info_continuous_discrete(
+    continuous: AbstractArray,
+    discrete: AbstractArray,
+    *,
+    n_neighbors: int = 3,
+) -> AbstractArray:
+    """Describe a scalar continuous-discrete mutual-information estimate."""
+    _check_vector_pair(continuous, discrete)
+    _check_n_neighbors(n_neighbors)
+    return AbstractArray(shape=(), dtype="float64", min_val=0.0)
+
+
+def witness_mutual_info_pair(
+    x: AbstractArray,
+    y: AbstractArray,
+    *,
+    x_discrete: bool,
+    y_discrete: bool,
+    n_neighbors: int = 3,
+) -> AbstractArray:
+    """Describe a scalar pairwise mutual-information estimate."""
+    del x_discrete, y_discrete
+    _check_vector_pair(x, y)
+    _check_n_neighbors(n_neighbors)
+    return AbstractArray(shape=(), dtype="float64", min_val=0.0)
+
+
+def witness_mutual_info_regression(
+    X: AbstractArray,
+    y: AbstractArray,
+    *,
+    discrete_features: DiscreteFeatureSpec = "auto",
+    n_neighbors: int = 3,
+    copy: bool = True,
+    random_state: int | None = None,
+    n_jobs: int | None = None,
+) -> AbstractArray:
+    """Describe one mutual-information score per feature for regression."""
+    del copy, random_state, n_jobs
+    _n_samples, n_features = _check_xy(X, y)
+    _check_discrete_features(discrete_features, n_features)
+    _check_n_neighbors(n_neighbors)
+    return AbstractArray(shape=(n_features,), dtype="float64", min_val=0.0)
+
+
+def witness_mutual_info_classif(
+    X: AbstractArray,
+    y: AbstractArray,
+    *,
+    discrete_features: DiscreteFeatureSpec = "auto",
+    n_neighbors: int = 3,
+    copy: bool = True,
+    random_state: int | None = None,
+    n_jobs: int | None = None,
+) -> AbstractArray:
+    """Describe one mutual-information score per feature for classification."""
+    del copy, random_state, n_jobs
+    _n_samples, n_features = _check_xy(X, y)
+    _check_discrete_features(discrete_features, n_features)
+    _check_n_neighbors(n_neighbors)
+    return AbstractArray(shape=(n_features,), dtype="float64", min_val=0.0)
 
 
 def witness_f_classif(X: AbstractArray, y: AbstractArray) -> tuple[AbstractArray, AbstractArray]:
@@ -160,6 +237,29 @@ def _check_x(X: AbstractArray) -> tuple[int, int]:
     if len(X.shape) != 2:
         raise ValueError("X must be 2D")
     return int(X.shape[0]), int(X.shape[1])
+
+
+def _check_vector_pair(x: AbstractArray, y: AbstractArray) -> None:
+    if len(x.shape) != 1 or len(y.shape) != 1:
+        raise ValueError("variables must be 1D")
+    if x.shape[0] != y.shape[0]:
+        raise ValueError("variables must have equal sample count")
+
+
+def _check_n_neighbors(n_neighbors: int) -> None:
+    if not (isinstance(n_neighbors, int) and not isinstance(n_neighbors, bool) and n_neighbors >= 1):
+        raise ValueError("n_neighbors must be positive")
+
+
+def _check_discrete_features(discrete_features: DiscreteFeatureSpec, n_features: int) -> None:
+    if discrete_features == "auto" or isinstance(discrete_features, bool):
+        return
+    if isinstance(discrete_features, tuple):
+        if all(isinstance(item, bool) for item in discrete_features) and len(discrete_features) == n_features:
+            return
+        if all(isinstance(item, int) and not isinstance(item, bool) and 0 <= item < n_features for item in discrete_features):
+            return
+    raise ValueError("discrete_features must match feature count")
 
 
 def _check_score_func(score_func: str) -> None:

@@ -6,6 +6,11 @@
       "description": "Univariate scoring functions adapted from sklearn.feature_selection",
       "status": "decomposed",
       "children": [
+        "mutual_info_classif",
+        "mutual_info_regression",
+        "mutual_info_pair",
+        "mutual_info_continuous_discrete",
+        "mutual_info_continuous_continuous",
         "chi2",
         "f_classif",
         "f_regression",
@@ -29,11 +34,22 @@
       "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64]) -> tuple[NDArray[np.float64], NDArray[np.float64]]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "tuple[NDArray[np.float64], NDArray[np.float64]]"}
+        {
+          "name": "result",
+          "type_desc": "tuple[NDArray[np.float64], NDArray[np.float64]]"
+        }
       ]
     },
     {
@@ -45,11 +61,22 @@
       "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64]) -> tuple[NDArray[np.float64], NDArray[np.float64]]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "tuple[NDArray[np.float64], NDArray[np.float64]]"}
+        {
+          "name": "result",
+          "type_desc": "tuple[NDArray[np.float64], NDArray[np.float64]]"
+        }
       ]
     },
     {
@@ -61,13 +88,32 @@
       "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], center: bool = True, force_finite: bool = True) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "center", "type_desc": "bool", "required": false},
-        {"name": "force_finite", "type_desc": "bool", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "center",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "force_finite",
+          "type_desc": "bool",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
       ]
     },
     {
@@ -79,13 +125,32 @@
       "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], center: bool = True, force_finite: bool = True) -> tuple[NDArray[np.float64], NDArray[np.float64]]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "center", "type_desc": "bool", "required": false},
-        {"name": "force_finite", "type_desc": "bool", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "center",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "force_finite",
+          "type_desc": "bool",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "tuple[NDArray[np.float64], NDArray[np.float64]]"}
+        {
+          "name": "result",
+          "type_desc": "tuple[NDArray[np.float64], NDArray[np.float64]]"
+        }
       ]
     },
     {
@@ -97,13 +162,32 @@
       "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], score_func: str = 'f_classif', k: int | str = 10) -> UnivariateSelectionState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "score_func", "type_desc": "str", "required": false},
-        {"name": "k", "type_desc": "int | str", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "score_func",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "k",
+          "type_desc": "int | str",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "UnivariateSelectionState"}
+        {
+          "name": "result",
+          "type_desc": "UnivariateSelectionState"
+        }
       ]
     },
     {
@@ -115,13 +199,32 @@
       "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], score_func: str = 'f_classif', percentile: float = 10.0) -> UnivariateSelectionState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "score_func", "type_desc": "str", "required": false},
-        {"name": "percentile", "type_desc": "float", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "score_func",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "percentile",
+          "type_desc": "float",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "UnivariateSelectionState"}
+        {
+          "name": "result",
+          "type_desc": "UnivariateSelectionState"
+        }
       ]
     },
     {
@@ -133,13 +236,32 @@
       "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], score_func: str = 'f_classif', alpha: float = 0.05) -> UnivariateSelectionState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "score_func", "type_desc": "str", "required": false},
-        {"name": "alpha", "type_desc": "float", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "score_func",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "alpha",
+          "type_desc": "float",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "UnivariateSelectionState"}
+        {
+          "name": "result",
+          "type_desc": "UnivariateSelectionState"
+        }
       ]
     },
     {
@@ -151,13 +273,32 @@
       "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], score_func: str = 'f_classif', alpha: float = 0.05) -> UnivariateSelectionState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "score_func", "type_desc": "str", "required": false},
-        {"name": "alpha", "type_desc": "float", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "score_func",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "alpha",
+          "type_desc": "float",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "UnivariateSelectionState"}
+        {
+          "name": "result",
+          "type_desc": "UnivariateSelectionState"
+        }
       ]
     },
     {
@@ -169,13 +310,32 @@
       "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], score_func: str = 'f_classif', alpha: float = 0.05) -> UnivariateSelectionState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "score_func", "type_desc": "str", "required": false},
-        {"name": "alpha", "type_desc": "float", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "score_func",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "alpha",
+          "type_desc": "float",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "UnivariateSelectionState"}
+        {
+          "name": "result",
+          "type_desc": "UnivariateSelectionState"
+        }
       ]
     },
     {
@@ -187,14 +347,37 @@
       "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], score_func: str = 'f_classif', mode: str = 'percentile', param: int | float | str = 1e-5) -> UnivariateSelectionState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "score_func", "type_desc": "str", "required": false},
-        {"name": "mode", "type_desc": "str", "required": false},
-        {"name": "param", "type_desc": "int | float | str", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "score_func",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "mode",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "param",
+          "type_desc": "int | float | str",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "UnivariateSelectionState"}
+        {
+          "name": "result",
+          "type_desc": "UnivariateSelectionState"
+        }
       ]
     },
     {
@@ -206,11 +389,232 @@
       "type_signature": "(X: NDArray[np.float64], state: UnivariateSelectionState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "UnivariateSelectionState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "UnivariateSelectionState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
+    },
+    {
+      "node_id": "mutual_info_continuous_continuous",
+      "name": "mutual_info_continuous_continuous",
+      "description": "Estimate mutual information between two continuous variables.",
+      "concept_type": "mutual_information",
+      "status": "atomic",
+      "type_signature": "(x: NDArray[np.float64], y: NDArray[np.float64], n_neighbors: int = 3) -> float",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "x",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "n_neighbors",
+          "type_desc": "int",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
+      ]
+    },
+    {
+      "node_id": "mutual_info_continuous_discrete",
+      "name": "mutual_info_continuous_discrete",
+      "description": "Estimate mutual information between continuous and discrete variables.",
+      "concept_type": "mutual_information",
+      "status": "atomic",
+      "type_signature": "(continuous: NDArray[np.float64], discrete: NDArray[np.float64], n_neighbors: int = 3) -> float",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "continuous",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "discrete",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "n_neighbors",
+          "type_desc": "int",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
+      ]
+    },
+    {
+      "node_id": "mutual_info_pair",
+      "name": "mutual_info_pair",
+      "description": "Estimate mutual information for one feature-target pair.",
+      "concept_type": "mutual_information",
+      "status": "atomic",
+      "type_signature": "(x: NDArray[np.float64], y: NDArray[np.float64], x_discrete: bool, y_discrete: bool, n_neighbors: int = 3) -> float",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "x",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "x_discrete",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "y_discrete",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "n_neighbors",
+          "type_desc": "int",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
+      ]
+    },
+    {
+      "node_id": "mutual_info_regression",
+      "name": "mutual_info_regression",
+      "description": "Estimate mutual information between each feature and a continuous target.",
+      "concept_type": "mutual_information",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], discrete_features: str | bool | tuple[int, ...] | tuple[bool, ...] = auto, n_neighbors: int = 3, copy: bool = True, random_state: int | None = None, n_jobs: int | None = None) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "discrete_features",
+          "type_desc": "str | bool | tuple[int, ...] | tuple[bool, ...]",
+          "required": false
+        },
+        {
+          "name": "n_neighbors",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "copy",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int | None",
+          "required": false
+        },
+        {
+          "name": "n_jobs",
+          "type_desc": "int | None",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
+    },
+    {
+      "node_id": "mutual_info_classif",
+      "name": "mutual_info_classif",
+      "description": "Estimate mutual information between each feature and a discrete target.",
+      "concept_type": "mutual_information",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], discrete_features: str | bool | tuple[int, ...] | tuple[bool, ...] = auto, n_neighbors: int = 3, copy: bool = True, random_state: int | None = None, n_jobs: int | None = None) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "discrete_features",
+          "type_desc": "str | bool | tuple[int, ...] | tuple[bool, ...]",
+          "required": false
+        },
+        {
+          "name": "n_neighbors",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "copy",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int | None",
+          "required": false
+        },
+        {
+          "name": "n_jobs",
+          "type_desc": "int | None",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
       ]
     }
   ],
@@ -274,11 +678,31 @@
       "source_id": "generic_univariate_select_fit",
       "target_id": "univariate_selection_transform",
       "edge_type": "state"
+    },
+    {
+      "source_id": "mutual_info_continuous_continuous",
+      "target_id": "mutual_info_pair",
+      "edge_type": "branch"
+    },
+    {
+      "source_id": "mutual_info_continuous_discrete",
+      "target_id": "mutual_info_pair",
+      "edge_type": "branch"
+    },
+    {
+      "source_id": "mutual_info_pair",
+      "target_id": "mutual_info_regression",
+      "edge_type": "called_by"
+    },
+    {
+      "source_id": "mutual_info_pair",
+      "target_id": "mutual_info_classif",
+      "edge_type": "called_by"
     }
   ],
   "metadata": {
     "source": "agent_ingestion",
-    "source_module": "sklearn.feature_selection._univariate_selection",
+    "source_module": "sklearn.feature_selection._mutual_info",
     "source_version": "1.8.0",
     "source_license": "BSD-3-Clause"
   }

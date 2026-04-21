@@ -3,6 +3,25 @@
 This file tracks sklearn targets that should not be ingested as publishable
 atoms until the decomposition boundary is clarified.
 
+## `sklearn.feature_selection` estimator-callback selectors
+
+Deferred targets:
+
+| Target | Source | Reason |
+| --- | --- | --- |
+| `RFE` | `sklearn/feature_selection/_rfe.py:L73` | Fit repeatedly clones and trains a configurable estimator, then reads estimator-specific importance attributes or callables; publishing only the selector shell would hide the model-training and importance-extraction boundary. |
+| `RFECV` | `sklearn/feature_selection/_rfe.py:L558` | Cross-validated recursive elimination wraps RFE, scorer callbacks, CV splitters, and estimator fitting per fold; a standalone atom would obscure estimator scoring and cross-validation orchestration. |
+| `SelectFromModel` | `sklearn/feature_selection/_from_model.py:L95` | Selection depends on a user-provided fitted or unfitted estimator plus estimator-specific coefficient or feature-importance extraction; a publishable atom needs a first-class representation for that estimator boundary. |
+| `SequentialFeatureSelector` | `sklearn/feature_selection/_sequential.py:L34` | Greedy feature selection repeatedly scores candidate feature subsets by fitting a configurable estimator under cross-validation; publishing the public class would wrap estimator callbacks rather than decompose them. |
+
+Potential remediation path:
+
+- Ingest estimator-independent helper atoms first, such as threshold parsing,
+  support-mask updates from supplied importance vectors, and candidate subset
+  bookkeeping.
+- Decide how fitted estimator callbacks, scorer callbacks, and CV splitters
+  should be represented before publishing full selector workflows.
+
 ## `sklearn.svm`
 
 Deferred targets:

@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "atoms": {
-    "sciona.atoms.ml.sklearn.feature_selection.f_classif@sciona/atoms/ml/sklearn/feature_selection/atoms.py:236": {
+    "sciona.atoms.ml.sklearn.feature_selection.f_classif@sciona/atoms/ml/sklearn/feature_selection/atoms.py:518": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -26,7 +26,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.feature_selection.chi2@sciona/atoms/ml/sklearn/feature_selection/atoms.py:251": {
+    "sciona.atoms.ml.sklearn.feature_selection.chi2@sciona/atoms/ml/sklearn/feature_selection/atoms.py:533": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -51,7 +51,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.feature_selection.r_regression@sciona/atoms/ml/sklearn/feature_selection/atoms.py:277": {
+    "sciona.atoms.ml.sklearn.feature_selection.r_regression@sciona/atoms/ml/sklearn/feature_selection/atoms.py:559": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -76,7 +76,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.feature_selection.f_regression@sciona/atoms/ml/sklearn/feature_selection/atoms.py:316": {
+    "sciona.atoms.ml.sklearn.feature_selection.f_regression@sciona/atoms/ml/sklearn/feature_selection/atoms.py:598": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -101,7 +101,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.feature_selection.select_k_best_fit@sciona/atoms/ml/sklearn/feature_selection/atoms.py:355": {
+    "sciona.atoms.ml.sklearn.feature_selection.select_k_best_fit@sciona/atoms/ml/sklearn/feature_selection/atoms.py:637": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -126,7 +126,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.feature_selection.select_percentile_fit@sciona/atoms/ml/sklearn/feature_selection/atoms.py:383": {
+    "sciona.atoms.ml.sklearn.feature_selection.select_percentile_fit@sciona/atoms/ml/sklearn/feature_selection/atoms.py:665": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -151,7 +151,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.feature_selection.select_fpr_fit@sciona/atoms/ml/sklearn/feature_selection/atoms.py:411": {
+    "sciona.atoms.ml.sklearn.feature_selection.select_fpr_fit@sciona/atoms/ml/sklearn/feature_selection/atoms.py:693": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -176,7 +176,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.feature_selection.select_fdr_fit@sciona/atoms/ml/sklearn/feature_selection/atoms.py:439": {
+    "sciona.atoms.ml.sklearn.feature_selection.select_fdr_fit@sciona/atoms/ml/sklearn/feature_selection/atoms.py:721": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -201,7 +201,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.feature_selection.select_fwe_fit@sciona/atoms/ml/sklearn/feature_selection/atoms.py:467": {
+    "sciona.atoms.ml.sklearn.feature_selection.select_fwe_fit@sciona/atoms/ml/sklearn/feature_selection/atoms.py:749": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -226,7 +226,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.feature_selection.generic_univariate_select_fit@sciona/atoms/ml/sklearn/feature_selection/atoms.py:496": {
+    "sciona.atoms.ml.sklearn.feature_selection.generic_univariate_select_fit@sciona/atoms/ml/sklearn/feature_selection/atoms.py:778": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -251,7 +251,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.feature_selection.univariate_selection_transform@sciona/atoms/ml/sklearn/feature_selection/atoms.py:533": {
+    "sciona.atoms.ml.sklearn.feature_selection.univariate_selection_transform@sciona/atoms/ml/sklearn/feature_selection/atoms.py:815": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -261,6 +261,251 @@
             "matched_nodes": [],
             "confidence": "high",
             "notes": "Adapted from sklearn.feature_selection.SelectorMixin.transform in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.feature_selection.mutual_info_continuous_continuous@sciona/atoms/ml/sklearn/feature_selection/atoms.py:342": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.feature_selection._mutual_info._compute_mi_cc lines 20-70 in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "kraskov2004mutualinfo",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Continuous nearest-neighbor mutual-information estimator used by scikit-learn."
+          }
+        },
+        {
+          "ref_id": "kozachenko1987entropy",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Nearest-neighbor entropy-estimation foundation cited by scikit-learn mutual-information functions."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.feature_selection.mutual_info_continuous_discrete@sciona/atoms/ml/sklearn/feature_selection/atoms.py:378": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.feature_selection._mutual_info._compute_mi_cd lines 73-142 in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "ross2014mutualinfo",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Discrete-continuous nearest-neighbor mutual-information estimator used by scikit-learn."
+          }
+        },
+        {
+          "ref_id": "kozachenko1987entropy",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Nearest-neighbor entropy-estimation foundation cited by scikit-learn mutual-information functions."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.feature_selection.mutual_info_pair@sciona/atoms/ml/sklearn/feature_selection/atoms.py:429": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.feature_selection._mutual_info._compute_mi lines 145-159 in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "kraskov2004mutualinfo",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Continuous nearest-neighbor mutual-information estimator used by scikit-learn."
+          }
+        },
+        {
+          "ref_id": "ross2014mutualinfo",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Discrete-continuous nearest-neighbor mutual-information estimator used by scikit-learn."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.feature_selection.mutual_info_regression@sciona/atoms/ml/sklearn/feature_selection/atoms.py:451": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.feature_selection._mutual_info._estimate_mi and mutual_info_regression lines 202-449 in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "kraskov2004mutualinfo",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Continuous nearest-neighbor mutual-information estimator used by scikit-learn."
+          }
+        },
+        {
+          "ref_id": "ross2014mutualinfo",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Discrete-continuous nearest-neighbor mutual-information estimator used by scikit-learn."
+          }
+        },
+        {
+          "ref_id": "kozachenko1987entropy",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Nearest-neighbor entropy-estimation foundation cited by scikit-learn mutual-information functions."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.feature_selection.mutual_info_classif@sciona/atoms/ml/sklearn/feature_selection/atoms.py:482": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.feature_selection._mutual_info._estimate_mi and mutual_info_classif lines 465-580 in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "kraskov2004mutualinfo",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Continuous nearest-neighbor mutual-information estimator used by scikit-learn."
+          }
+        },
+        {
+          "ref_id": "ross2014mutualinfo",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Discrete-continuous nearest-neighbor mutual-information estimator used by scikit-learn."
+          }
+        },
+        {
+          "ref_id": "kozachenko1987entropy",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Nearest-neighbor entropy-estimation foundation cited by scikit-learn mutual-information functions."
           }
         },
         {
