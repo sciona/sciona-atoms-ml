@@ -9,6 +9,14 @@ from .atoms import (
     bernoulli_nb_predict,
     bernoulli_nb_predict_log_proba,
     bernoulli_nb_predict_proba,
+    categorical_nb_count,
+    categorical_nb_feature_log_prob,
+    categorical_nb_fit,
+    categorical_nb_joint_log_likelihood,
+    categorical_nb_n_categories,
+    categorical_nb_predict,
+    categorical_nb_predict_log_proba,
+    categorical_nb_predict_proba,
     complement_nb_count,
     complement_nb_feature_log_prob,
     complement_nb_fit,
@@ -31,10 +39,11 @@ from .atoms import (
     multinomial_nb_predict_log_proba,
     multinomial_nb_predict_proba,
 )
-from .state_models import BernoulliNBState, ComplementNBState, GaussianNBState, MultinomialNBState
+from .state_models import BernoulliNBState, CategoricalNBState, ComplementNBState, GaussianNBState, MultinomialNBState
 
 __all__ = [
     "BernoulliNBState",
+    "CategoricalNBState",
     "ComplementNBState",
     "GaussianNBState",
     "MultinomialNBState",
@@ -46,6 +55,14 @@ __all__ = [
     "bernoulli_nb_predict",
     "bernoulli_nb_predict_log_proba",
     "bernoulli_nb_predict_proba",
+    "categorical_nb_count",
+    "categorical_nb_feature_log_prob",
+    "categorical_nb_fit",
+    "categorical_nb_joint_log_likelihood",
+    "categorical_nb_n_categories",
+    "categorical_nb_predict",
+    "categorical_nb_predict_log_proba",
+    "categorical_nb_predict_proba",
     "complement_nb_count",
     "complement_nb_feature_log_prob",
     "complement_nb_fit",

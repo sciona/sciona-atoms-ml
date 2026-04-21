@@ -8,7 +8,7 @@ from numpy.typing import NDArray
 
 from sciona.ghost.registry import register_atom
 
-from .state_models import BernoulliNBState, ComplementNBState, GaussianNBState, MultinomialNBState
+from .state_models import BernoulliNBState, CategoricalNBState, ComplementNBState, GaussianNBState, MultinomialNBState
 from .witnesses import (
     witness_bernoulli_nb_binarize,
     witness_bernoulli_nb_count,
@@ -18,6 +18,14 @@ from .witnesses import (
     witness_bernoulli_nb_predict,
     witness_bernoulli_nb_predict_log_proba,
     witness_bernoulli_nb_predict_proba,
+    witness_categorical_nb_count,
+    witness_categorical_nb_feature_log_prob,
+    witness_categorical_nb_fit,
+    witness_categorical_nb_joint_log_likelihood,
+    witness_categorical_nb_n_categories,
+    witness_categorical_nb_predict,
+    witness_categorical_nb_predict_log_proba,
+    witness_categorical_nb_predict_proba,
     witness_complement_nb_count,
     witness_complement_nb_feature_log_prob,
     witness_complement_nb_fit,
@@ -1013,4 +1021,324 @@ def bernoulli_nb_predict_proba(X: NDArray[np.float64], state: BernoulliNBState) 
 def bernoulli_nb_predict(X: NDArray[np.float64], state: BernoulliNBState) -> NDArray[np.int64]:
     """Return the fitted class with largest Bernoulli joint log likelihood."""
     joint = bernoulli_nb_joint_log_likelihood(X, state)
+    return state.classes[np.argmax(joint, axis=1)]
+
+
+def _categorical_matrix(X: NDArray[np.int64]) -> bool:
+    try:
+        values = np.asarray(X)
+    except (TypeError, ValueError):
+        return False
+    if values.ndim != 2 or values.shape[0] < 1 or values.shape[1] < 1:
+        return False
+    if not np.issubdtype(values.dtype, np.integer):
+        return False
+    return bool(np.all(values >= 0))
+
+
+def _min_categories_valid(min_categories: NDArray[np.int64] | int | None, n_features: int) -> bool:
+    if min_categories is None:
+        return True
+    if isinstance(min_categories, (int, np.integer)):
+        return bool(int(min_categories) >= 1)
+    try:
+        values = np.asarray(min_categories)
+    except (TypeError, ValueError):
+        return False
+    return bool(
+        values.ndim == 1
+        and values.shape[0] == n_features
+        and np.issubdtype(values.dtype, np.integer)
+        and np.all(values >= 1)
+    )
+
+
+def _categorical_feature_against_categories(X: NDArray[np.int64], n_categories: NDArray[np.int64]) -> bool:
+    values = np.asarray(X)
+    categories = np.asarray(n_categories, dtype=np.int64)
+    return bool(
+        _categorical_matrix(values)
+        and categories.shape == (values.shape[1],)
+        and np.all(categories >= 1)
+        and all(np.max(values[:, idx]) < categories[idx] for idx in range(values.shape[1]))
+    )
+
+
+def _categorical_categories_result_valid(
+    result: NDArray[np.int64],
+    X: NDArray[np.int64],
+    min_categories: NDArray[np.int64] | int | None,
+) -> bool:
+    values = np.asarray(X)
+    categories = np.asarray(result, dtype=np.int64)
+    if not (categories.shape == (values.shape[1],) and np.all(categories >= np.max(values, axis=0) + 1)):
+        return False
+    if min_categories is None:
+        return True
+    if isinstance(min_categories, (int, np.integer)):
+        return bool(np.all(categories >= int(min_categories)))
+    return bool(np.all(categories >= np.asarray(min_categories, dtype=np.int64)))
+
+
+def _category_count_list_valid(category_count: list[NDArray[np.float64]], n_classes: int | None = None) -> bool:
+    if not category_count:
+        return False
+    expected_classes = category_count[0].shape[0] if n_classes is None else n_classes
+    return bool(
+        expected_classes >= 2
+        and all(
+            np.asarray(counts, dtype=np.float64).ndim == 2
+            and counts.shape[0] == expected_classes
+            and counts.shape[1] >= 1
+            and np.all(np.isfinite(counts))
+            and np.all(counts >= 0.0)
+            for counts in category_count
+        )
+    )
+
+
+def _categorical_count_result_valid(
+    result: tuple[NDArray[np.int64], NDArray[np.float64], NDArray[np.int64], list[NDArray[np.float64]]],
+    X: NDArray[np.int64],
+    y: NDArray[np.int64],
+) -> bool:
+    classes, class_count, n_categories, category_count = result
+    n_classes = np.unique(np.asarray(y, dtype=np.int64)).shape[0]
+    return bool(
+        classes.shape == (n_classes,)
+        and class_count.shape == (n_classes,)
+        and n_categories.shape == (_feature_count(X),)
+        and len(category_count) == _feature_count(X)
+        and _category_count_list_valid(category_count, n_classes)
+        and all(category_count[idx].shape[1] == n_categories[idx] for idx in range(len(category_count)))
+        and np.all(np.isfinite(class_count))
+        and np.all(class_count > 0.0)
+        and all(np.all(counts <= class_count[:, np.newaxis]) for counts in category_count)
+    )
+
+
+def _categorical_feature_log_prob_result_valid(
+    result: list[NDArray[np.float64]],
+    category_count: list[NDArray[np.float64]],
+) -> bool:
+    return bool(
+        len(result) == len(category_count)
+        and all(
+            np.asarray(values, dtype=np.float64).shape == np.asarray(counts, dtype=np.float64).shape
+            and np.all(np.isfinite(values))
+            and np.all(values <= 0.0)
+            and np.allclose(np.sum(np.exp(values), axis=1), 1.0)
+            for values, counts in zip(result, category_count)
+        )
+    )
+
+
+def _categorical_state_valid(state: CategoricalNBState) -> bool:
+    n_classes = int(state.classes.shape[0])
+    return bool(
+        state.classes.ndim == 1
+        and n_classes >= 2
+        and state.class_count.shape == (n_classes,)
+        and state.n_categories.shape == (state.n_features_in,)
+        and len(state.category_count) == state.n_features_in
+        and len(state.feature_log_prob) == state.n_features_in
+        and state.class_log_prior.shape == (n_classes,)
+        and state.n_features_in >= 1
+        and np.all(np.isfinite(state.class_count))
+        and np.all(state.class_count > 0.0)
+        and np.all(state.n_categories >= 1)
+        and _category_count_list_valid(state.category_count, n_classes)
+        and all(state.category_count[idx].shape[1] == state.n_categories[idx] for idx in range(state.n_features_in))
+        and all(np.all(counts <= state.class_count[:, np.newaxis]) for counts in state.category_count)
+        and np.all(np.isfinite(state.class_log_prior))
+        and np.isclose(np.sum(np.exp(state.class_log_prior)), 1.0)
+        and _categorical_feature_log_prob_result_valid(state.feature_log_prob, state.category_count)
+        and np.isfinite(state.alpha)
+        and state.alpha > 0.0
+        and (state.min_categories is None or _min_categories_valid(state.min_categories, state.n_features_in))
+    )
+
+
+def _categorical_fit_result_valid(result: CategoricalNBState, X: NDArray[np.int64], y: NDArray[np.int64]) -> bool:
+    return bool(
+        _categorical_state_valid(result)
+        and result.n_features_in == _feature_count(X)
+        and result.classes.shape[0] == np.unique(np.asarray(y, dtype=np.int64)).shape[0]
+    )
+
+
+def _categorical_matrix_against_state(X: NDArray[np.int64], state: CategoricalNBState) -> bool:
+    return bool(
+        _categorical_state_valid(state)
+        and _categorical_feature_against_categories(X, state.n_categories)
+        and _feature_count(X) == state.n_features_in
+    )
+
+
+def _categorical_class_matrix_result_valid(result: NDArray[np.float64], X: NDArray[np.int64], state: CategoricalNBState) -> bool:
+    values = np.asarray(result, dtype=np.float64)
+    return bool(values.shape == (_row_count(X), state.classes.shape[0]) and np.all(np.isfinite(values)))
+
+
+def _categorical_probability_result_valid(result: NDArray[np.float64], X: NDArray[np.int64], state: CategoricalNBState) -> bool:
+    values = np.asarray(result, dtype=np.float64)
+    return bool(
+        values.shape == (_row_count(X), state.classes.shape[0])
+        and np.all(np.isfinite(values))
+        and np.all(values >= 0.0)
+        and np.all(values <= 1.0)
+        and np.allclose(np.sum(values, axis=1), 1.0)
+    )
+
+
+def _categorical_prediction_result_valid(result: NDArray[np.int64], X: NDArray[np.int64], state: CategoricalNBState) -> bool:
+    values = np.asarray(result, dtype=np.int64)
+    return bool(values.shape == (_row_count(X),) and np.all(np.isin(values, state.classes)))
+
+
+@register_atom(witness_categorical_nb_n_categories)
+@icontract.require(lambda X: _categorical_matrix(X), "X must be a dense nonnegative integer 2D category matrix")
+@icontract.require(lambda X, min_categories: _min_categories_valid(min_categories, _feature_count(X)), "min_categories must be None, a positive integer, or one positive integer per feature")
+@icontract.ensure(lambda result, X, min_categories: _categorical_categories_result_valid(result, X, min_categories), "category cardinalities must cover observed and minimum categories")
+def categorical_nb_n_categories(
+    X: NDArray[np.int64],
+    min_categories: NDArray[np.int64] | int | None = None,
+) -> NDArray[np.int64]:
+    """Return the number of encoded categories for each categorical feature."""
+    values = np.asarray(X, dtype=np.int64)
+    observed = np.max(values, axis=0).astype(np.int64) + 1
+    if min_categories is None:
+        return observed
+    if isinstance(min_categories, (int, np.integer)):
+        minimum = np.full(observed.shape, int(min_categories), dtype=np.int64)
+    else:
+        minimum = np.asarray(min_categories, dtype=np.int64)
+    return np.maximum(observed, minimum).astype(np.int64)
+
+
+@register_atom(witness_categorical_nb_count)
+@icontract.require(lambda X: _categorical_matrix(X), "X must be a dense nonnegative integer 2D category matrix")
+@icontract.require(lambda X, min_categories: _min_categories_valid(min_categories, _feature_count(X)), "min_categories must be None, a positive integer, or one positive integer per feature")
+@icontract.require(lambda X, y: _int_label_vector(y, X), "y must be an integer label vector with at least two classes")
+@icontract.require(lambda X, sample_weight: _optional_weights_valid(sample_weight, _row_count(X)), "sample_weight must be positive and match X rows")
+@icontract.ensure(lambda result, X, y: _categorical_count_result_valid(result, X, y), "categorical counts must match class and feature dimensions")
+def categorical_nb_count(
+    X: NDArray[np.int64],
+    y: NDArray[np.int64],
+    min_categories: NDArray[np.int64] | int | None = None,
+    sample_weight: NDArray[np.float64] | None = None,
+) -> tuple[NDArray[np.int64], NDArray[np.float64], NDArray[np.int64], list[NDArray[np.float64]]]:
+    """Accumulate class counts and per-feature categorical event counts."""
+    values = np.asarray(X, dtype=np.int64)
+    labels = np.asarray(y, dtype=np.int64)
+    classes = np.unique(labels).astype(np.int64)
+    label_matrix = (labels[:, np.newaxis] == classes[np.newaxis, :]).astype(np.float64)
+    if sample_weight is not None:
+        label_matrix *= np.asarray(sample_weight, dtype=np.float64)[:, np.newaxis]
+    class_count = np.sum(label_matrix, axis=0)
+    n_categories = categorical_nb_n_categories(values, min_categories)
+    category_count: list[NDArray[np.float64]] = []
+    for feature_idx, n_feature_categories in enumerate(n_categories):
+        counts = np.zeros((classes.shape[0], int(n_feature_categories)), dtype=np.float64)
+        for class_idx in range(classes.shape[0]):
+            mask = label_matrix[:, class_idx] > 0.0
+            weights = label_matrix[mask, class_idx]
+            bincount = np.bincount(values[mask, feature_idx], weights=weights, minlength=int(n_feature_categories))
+            counts[class_idx, :] = bincount[: int(n_feature_categories)]
+        category_count.append(counts)
+    return classes, class_count, n_categories, category_count
+
+
+@register_atom(witness_categorical_nb_feature_log_prob)
+@icontract.require(lambda category_count: _category_count_list_valid(category_count), "category_count must be nonempty finite nonnegative class-category matrices")
+@icontract.require(lambda alpha: np.isfinite(alpha) and alpha > 0.0, "alpha must be positive")
+@icontract.ensure(lambda result, category_count: _categorical_feature_log_prob_result_valid(result, category_count), "categorical feature log probabilities must normalize per class")
+def categorical_nb_feature_log_prob(
+    category_count: list[NDArray[np.float64]],
+    *,
+    alpha: float = 1.0,
+) -> list[NDArray[np.float64]]:
+    """Apply additive smoothing to each categorical feature count table."""
+    result: list[NDArray[np.float64]] = []
+    for counts in category_count:
+        smoothed = np.asarray(counts, dtype=np.float64) + float(alpha)
+        smoothed_class_count = np.sum(smoothed, axis=1)
+        result.append(np.log(smoothed) - np.log(smoothed_class_count[:, np.newaxis]))
+    return result
+
+
+@register_atom(witness_categorical_nb_fit)
+@icontract.require(lambda X: _categorical_matrix(X), "X must be a dense nonnegative integer 2D category matrix")
+@icontract.require(lambda X, min_categories: _min_categories_valid(min_categories, _feature_count(X)), "min_categories must be None, a positive integer, or one positive integer per feature")
+@icontract.require(lambda X, y: _int_label_vector(y, X), "y must be an integer label vector with at least two classes")
+@icontract.require(lambda alpha: np.isfinite(alpha) and alpha > 0.0, "alpha must be positive")
+@icontract.require(lambda X, sample_weight: _optional_weights_valid(sample_weight, _row_count(X)), "sample_weight must be positive and match X rows")
+@icontract.require(lambda X, y, class_prior: _optional_priors_valid(class_prior, np.unique(np.asarray(y, dtype=np.int64)).shape[0]), "class_prior must be positive, sum to one, and match class count")
+@icontract.ensure(lambda result, X, y: _categorical_fit_result_valid(result, X, y), "state must contain categorical probabilities for each class")
+def categorical_nb_fit(
+    X: NDArray[np.int64],
+    y: NDArray[np.int64],
+    *,
+    alpha: float = 1.0,
+    fit_prior: bool = True,
+    class_prior: NDArray[np.float64] | None = None,
+    min_categories: NDArray[np.int64] | int | None = None,
+    sample_weight: NDArray[np.float64] | None = None,
+) -> CategoricalNBState:
+    """Fit dense categorical naive Bayes counts and log probabilities."""
+    classes, class_count, n_categories, category_count = categorical_nb_count(X, y, min_categories, sample_weight)
+    feature_log_prob = categorical_nb_feature_log_prob(category_count, alpha=alpha)
+    class_log_prior = multinomial_nb_class_log_prior(class_count, fit_prior=fit_prior, class_prior=class_prior)
+    min_categories_state = None if min_categories is None else np.asarray(min_categories, dtype=np.int64)
+    if isinstance(min_categories, (int, np.integer)):
+        min_categories_state = np.full(n_categories.shape, int(min_categories), dtype=np.int64)
+    return CategoricalNBState(
+        classes=classes,
+        class_count=class_count,
+        category_count=category_count,
+        n_categories=n_categories,
+        class_log_prior=class_log_prior,
+        feature_log_prob=feature_log_prob,
+        alpha=float(alpha),
+        fit_prior=bool(fit_prior),
+        min_categories=min_categories_state,
+        n_features_in=_feature_count(X),
+    )
+
+
+@register_atom(witness_categorical_nb_joint_log_likelihood)
+@icontract.require(lambda X, state: _categorical_matrix_against_state(X, state), "X must match a valid fitted CategoricalNB state")
+@icontract.ensure(lambda result, X, state: _categorical_class_matrix_result_valid(result, X, state), "joint log likelihood must have one column per class")
+def categorical_nb_joint_log_likelihood(X: NDArray[np.int64], state: CategoricalNBState) -> NDArray[np.float64]:
+    """Return categorical naive Bayes joint log likelihoods by class."""
+    values = np.asarray(X, dtype=np.int64)
+    joint = np.zeros((values.shape[0], state.classes.shape[0]), dtype=np.float64)
+    for feature_idx in range(state.n_features_in):
+        joint += state.feature_log_prob[feature_idx][:, values[:, feature_idx]].T
+    return joint + state.class_log_prior
+
+
+@register_atom(witness_categorical_nb_predict_log_proba)
+@icontract.require(lambda X, state: _categorical_matrix_against_state(X, state), "X must match a valid fitted CategoricalNB state")
+@icontract.ensure(lambda result, X, state: _categorical_class_matrix_result_valid(result, X, state), "log probabilities must have one column per class")
+def categorical_nb_predict_log_proba(X: NDArray[np.int64], state: CategoricalNBState) -> NDArray[np.float64]:
+    """Normalize categorical joint log likelihoods into class log probabilities."""
+    joint = categorical_nb_joint_log_likelihood(X, state)
+    return joint - _logsumexp(joint, axis=1)[:, np.newaxis]
+
+
+@register_atom(witness_categorical_nb_predict_proba)
+@icontract.require(lambda X, state: _categorical_matrix_against_state(X, state), "X must match a valid fitted CategoricalNB state")
+@icontract.ensure(lambda result, X, state: _categorical_probability_result_valid(result, X, state), "probabilities must be normalized by row")
+def categorical_nb_predict_proba(X: NDArray[np.int64], state: CategoricalNBState) -> NDArray[np.float64]:
+    """Return normalized categorical naive Bayes class probabilities."""
+    return np.exp(categorical_nb_predict_log_proba(X, state))
+
+
+@register_atom(witness_categorical_nb_predict)
+@icontract.require(lambda X, state: _categorical_matrix_against_state(X, state), "X must match a valid fitted CategoricalNB state")
+@icontract.ensure(lambda result, X, state: _categorical_prediction_result_valid(result, X, state), "predictions must be fitted class labels")
+def categorical_nb_predict(X: NDArray[np.int64], state: CategoricalNBState) -> NDArray[np.int64]:
+    """Return the fitted class with largest categorical joint log likelihood."""
+    joint = categorical_nb_joint_log_likelihood(X, state)
     return state.classes[np.argmax(joint, axis=1)]

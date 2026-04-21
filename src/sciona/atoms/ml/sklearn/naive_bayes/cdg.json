@@ -3,7 +3,7 @@
     {
       "node_id": "sklearn_naive_bayes_root",
       "name": "Sklearn Naive Bayes Atoms",
-      "description": "Dense naive Bayes decompositions for selected sklearn.naive_bayes Gaussian, multinomial, complement, and Bernoulli behavior",
+      "description": "Dense naive Bayes decompositions for selected sklearn.naive_bayes Gaussian, multinomial, complement, Bernoulli, and categorical behavior",
       "status": "decomposed",
       "children": [
         "gaussian_nb_update_mean_variance",
@@ -34,7 +34,15 @@
         "bernoulli_nb_joint_log_likelihood",
         "bernoulli_nb_predict_log_proba",
         "bernoulli_nb_predict_proba",
-        "bernoulli_nb_predict"
+        "bernoulli_nb_predict",
+        "categorical_nb_n_categories",
+        "categorical_nb_count",
+        "categorical_nb_feature_log_prob",
+        "categorical_nb_fit",
+        "categorical_nb_joint_log_likelihood",
+        "categorical_nb_predict_log_proba",
+        "categorical_nb_predict_proba",
+        "categorical_nb_predict"
       ],
       "depth": 0
     },
@@ -960,6 +968,257 @@
           "type_desc": "NDArray[np.int64]"
         }
       ]
+    },
+    {
+      "node_id": "categorical_nb_n_categories",
+      "name": "categorical_nb_n_categories",
+      "description": "Return the number of encoded categories for each categorical feature.",
+      "concept_type": "category_cardinality",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.int64], min_categories: NDArray[np.int64] | int | None = None) -> NDArray[np.int64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        },
+        {
+          "name": "min_categories",
+          "type_desc": "NDArray[np.int64] | int | None",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.int64]"
+        }
+      ]
+    },
+    {
+      "node_id": "categorical_nb_count",
+      "name": "categorical_nb_count",
+      "description": "Accumulate class counts and per-feature categorical event counts.",
+      "concept_type": "sufficient_statistic",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.int64], y: NDArray[np.int64], min_categories: NDArray[np.int64] | int | None = None, sample_weight: NDArray[np.float64] | None = None) -> tuple[NDArray[np.int64], NDArray[np.float64], NDArray[np.int64], list[NDArray[np.float64]]]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        },
+        {
+          "name": "min_categories",
+          "type_desc": "NDArray[np.int64] | int | None",
+          "required": false
+        },
+        {
+          "name": "sample_weight",
+          "type_desc": "NDArray[np.float64] | None",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "tuple[NDArray[np.int64], NDArray[np.float64], NDArray[np.int64], list[NDArray[np.float64]]]"
+        }
+      ]
+    },
+    {
+      "node_id": "categorical_nb_feature_log_prob",
+      "name": "categorical_nb_feature_log_prob",
+      "description": "Apply additive smoothing to each categorical feature count table.",
+      "concept_type": "smoothed_log_probability",
+      "status": "atomic",
+      "type_signature": "(category_count: list[NDArray[np.float64]], alpha: float = 1.0) -> list[NDArray[np.float64]]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "category_count",
+          "type_desc": "list[NDArray[np.float64]]",
+          "required": true
+        },
+        {
+          "name": "alpha",
+          "type_desc": "float",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "list[NDArray[np.float64]]"
+        }
+      ]
+    },
+    {
+      "node_id": "categorical_nb_fit",
+      "name": "categorical_nb_fit",
+      "description": "Fit dense categorical naive Bayes counts and log probabilities.",
+      "concept_type": "fit_state",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.int64], y: NDArray[np.int64], alpha: float = 1.0, fit_prior: bool = True, class_prior: NDArray[np.float64] | None = None, min_categories: NDArray[np.int64] | int | None = None, sample_weight: NDArray[np.float64] | None = None) -> CategoricalNBState",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        },
+        {
+          "name": "alpha",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "fit_prior",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "class_prior",
+          "type_desc": "NDArray[np.float64] | None",
+          "required": false
+        },
+        {
+          "name": "min_categories",
+          "type_desc": "NDArray[np.int64] | int | None",
+          "required": false
+        },
+        {
+          "name": "sample_weight",
+          "type_desc": "NDArray[np.float64] | None",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "CategoricalNBState"
+        }
+      ]
+    },
+    {
+      "node_id": "categorical_nb_joint_log_likelihood",
+      "name": "categorical_nb_joint_log_likelihood",
+      "description": "Return categorical naive Bayes joint log likelihoods by class.",
+      "concept_type": "class_score",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.int64], state: CategoricalNBState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "CategoricalNBState",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
+    },
+    {
+      "node_id": "categorical_nb_predict_log_proba",
+      "name": "categorical_nb_predict_log_proba",
+      "description": "Normalize categorical joint log likelihoods into class log probabilities.",
+      "concept_type": "class_probability",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.int64], state: CategoricalNBState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "CategoricalNBState",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
+    },
+    {
+      "node_id": "categorical_nb_predict_proba",
+      "name": "categorical_nb_predict_proba",
+      "description": "Return normalized categorical naive Bayes class probabilities.",
+      "concept_type": "class_probability",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.int64], state: CategoricalNBState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "CategoricalNBState",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
+    },
+    {
+      "node_id": "categorical_nb_predict",
+      "name": "categorical_nb_predict",
+      "description": "Return the fitted class with largest categorical joint log likelihood.",
+      "concept_type": "prediction",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.int64], state: CategoricalNBState) -> NDArray[np.int64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "CategoricalNBState",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.int64]"
+        }
+      ]
     }
   ],
   "edges": [
@@ -1106,6 +1365,46 @@
     {
       "source": "bernoulli_nb_joint_log_likelihood",
       "target": "bernoulli_nb_predict",
+      "kind": "argmax"
+    },
+    {
+      "source": "categorical_nb_n_categories",
+      "target": "categorical_nb_count",
+      "kind": "called_by"
+    },
+    {
+      "source": "categorical_nb_count",
+      "target": "categorical_nb_fit",
+      "kind": "called_by"
+    },
+    {
+      "source": "categorical_nb_feature_log_prob",
+      "target": "categorical_nb_fit",
+      "kind": "called_by"
+    },
+    {
+      "source": "multinomial_nb_class_log_prior",
+      "target": "categorical_nb_fit",
+      "kind": "called_by"
+    },
+    {
+      "source": "categorical_nb_fit",
+      "target": "categorical_nb_joint_log_likelihood",
+      "kind": "provides_state"
+    },
+    {
+      "source": "categorical_nb_joint_log_likelihood",
+      "target": "categorical_nb_predict_log_proba",
+      "kind": "normalizes"
+    },
+    {
+      "source": "categorical_nb_predict_log_proba",
+      "target": "categorical_nb_predict_proba",
+      "kind": "exponentiates"
+    },
+    {
+      "source": "categorical_nb_joint_log_likelihood",
+      "target": "categorical_nb_predict",
       "kind": "argmax"
     }
   ]

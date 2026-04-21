@@ -64,3 +64,19 @@ class BernoulliNBState:
     fit_prior: bool
     binarize: float | None
     n_features_in: int
+
+
+@dataclass(frozen=True)
+class CategoricalNBState:
+    """Learned dense categorical naive Bayes counts and log probabilities."""
+
+    classes: NDArray[np.int64]
+    class_count: NDArray[np.float64]
+    category_count: list[NDArray[np.float64]]
+    n_categories: NDArray[np.int64]
+    class_log_prior: NDArray[np.float64]
+    feature_log_prob: list[NDArray[np.float64]]
+    alpha: float
+    fit_prior: bool
+    min_categories: NDArray[np.int64] | None
+    n_features_in: int
