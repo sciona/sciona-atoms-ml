@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "atoms": {
-    "sciona.atoms.ml.sklearn.feature_extraction.dict_vectorizer_fit@sciona/atoms/ml/sklearn/feature_extraction/atoms.py:159": {
+    "sciona.atoms.ml.sklearn.feature_extraction.dict_vectorizer_fit@sciona/atoms/ml/sklearn/feature_extraction/atoms.py:406": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -26,7 +26,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.feature_extraction.dict_vectorizer_transform@sciona/atoms/ml/sklearn/feature_extraction/atoms.py:196": {
+    "sciona.atoms.ml.sklearn.feature_extraction.dict_vectorizer_transform@sciona/atoms/ml/sklearn/feature_extraction/atoms.py:443": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -51,7 +51,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.feature_extraction.dict_vectorizer_inverse_transform@sciona/atoms/ml/sklearn/feature_extraction/atoms.py:219": {
+    "sciona.atoms.ml.sklearn.feature_extraction.dict_vectorizer_inverse_transform@sciona/atoms/ml/sklearn/feature_extraction/atoms.py:466": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -76,7 +76,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.feature_extraction.dict_vectorizer_feature_names@sciona/atoms/ml/sklearn/feature_extraction/atoms.py:235": {
+    "sciona.atoms.ml.sklearn.feature_extraction.dict_vectorizer_feature_names@sciona/atoms/ml/sklearn/feature_extraction/atoms.py:482": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -101,7 +101,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.feature_extraction.dict_vectorizer_restrict@sciona/atoms/ml/sklearn/feature_extraction/atoms.py:245": {
+    "sciona.atoms.ml.sklearn.feature_extraction.dict_vectorizer_restrict@sciona/atoms/ml/sklearn/feature_extraction/atoms.py:492": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -126,7 +126,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.feature_extraction.tfidf_document_frequency@sciona/atoms/ml/sklearn/feature_extraction/atoms.py:259": {
+    "sciona.atoms.ml.sklearn.feature_extraction.tfidf_document_frequency@sciona/atoms/ml/sklearn/feature_extraction/atoms.py:506": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -171,7 +171,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.feature_extraction.tfidf_idf@sciona/atoms/ml/sklearn/feature_extraction/atoms.py:268": {
+    "sciona.atoms.ml.sklearn.feature_extraction.tfidf_idf@sciona/atoms/ml/sklearn/feature_extraction/atoms.py:515": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -216,7 +216,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.feature_extraction.tfidf_transformer_fit@sciona/atoms/ml/sklearn/feature_extraction/atoms.py:287": {
+    "sciona.atoms.ml.sklearn.feature_extraction.tfidf_transformer_fit@sciona/atoms/ml/sklearn/feature_extraction/atoms.py:534": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -261,7 +261,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.feature_extraction.tfidf_transform@sciona/atoms/ml/sklearn/feature_extraction/atoms.py:310": {
+    "sciona.atoms.ml.sklearn.feature_extraction.tfidf_transform@sciona/atoms/ml/sklearn/feature_extraction/atoms.py:557": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -291,6 +291,141 @@
             "matched_nodes": [],
             "confidence": "high",
             "notes": "Information retrieval reference cited by scikit-learn for TF-IDF weighting."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.feature_extraction.count_vectorizer_analyze@sciona/atoms/ml/sklearn/feature_extraction/atoms.py:583": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.feature_extraction.text._VectorizerMixin build_preprocessor, build_tokenizer, and build_analyzer lines 367-421 in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.feature_extraction.count_vectorizer_fit@sciona/atoms/ml/sklearn/feature_extraction/atoms.py:616": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.feature_extraction.text.CountVectorizer._count_vocab, _sort_features, _limit_features, and fit_transform lines 1126-1408 in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "manning2008ir",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Information retrieval text reference cited by scikit-learn for text vectorization and term weighting."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.feature_extraction.count_vectorizer_transform@sciona/atoms/ml/sklearn/feature_extraction/atoms.py:695": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.feature_extraction.text.CountVectorizer.transform lines 1410-1431 in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.feature_extraction.count_vectorizer_feature_names@sciona/atoms/ml/sklearn/feature_extraction/atoms.py:712": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.feature_extraction.text.CountVectorizer.get_feature_names_out lines 1457-1472 in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.feature_extraction.count_vectorizer_inverse_transform@sciona/atoms/ml/sklearn/feature_extraction/atoms.py:722": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.feature_extraction.text.CountVectorizer.inverse_transform lines 1433-1455 in scikit-learn 1.8.0."
           }
         },
         {

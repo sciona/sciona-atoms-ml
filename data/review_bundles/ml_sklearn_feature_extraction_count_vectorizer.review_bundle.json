@@ -1,0 +1,293 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "sciona.atoms.review_bundle.ml_sklearn_feature_extraction_count_vectorizer.v1",
+  "provider_repo": "sciona-atoms-ml",
+  "family_batch": "ml_sklearn_feature_extraction_count_vectorizer",
+  "review_status": "reviewed",
+  "review_semantic_verdict": "pass_with_limits",
+  "review_developer_semantic_verdict": "pass_with_limits",
+  "trust_readiness": "reviewed_with_limits",
+  "authoritative_sources": [
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/sklearn/feature_extraction/atoms.py"
+    },
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/sklearn/feature_extraction/witnesses.py"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/sklearn/feature_extraction/state_models.py"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/sklearn/feature_extraction/references.json"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/sklearn/feature_extraction/cdg.json"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_sklearn_feature_extraction_count_vectorizer_behavior.py"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_sklearn_feature_extraction_count_vectorizer_references_metadata.py"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_sklearn_feature_extraction_count_vectorizer_review_bundle.py"
+    }
+  ],
+  "limitations": [
+    "This batch covers in-memory content strings and word analyzer behavior only.",
+    "The atoms expose immutable CountVectorizerState plus dense matrices instead of a mutable sklearn estimator with sparse CSR output.",
+    "Callable analyzers, callable preprocessors/tokenizers, filename/file inputs, built-in english stop-word handling, char analyzers, dtype preservation, and sparse output are outside this batch.",
+    "Supported text settings include lowercase, optional ascii/unicode accent stripping, regex tokenization with at most one capture group, tuple stop-word collections, n-gram ranges, max/min document-frequency pruning, max_features, fixed vocabulary, and binary counts."
+  ],
+  "blocking_findings": [],
+  "required_actions": [],
+  "review_record_path": "data/review_bundles/ml_sklearn_feature_extraction_count_vectorizer.review_bundle.json",
+  "rows": [
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.feature_extraction.count_vectorizer_analyze",
+      "atom_name": "sciona.atoms.ml.sklearn.feature_extraction.count_vectorizer_analyze",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/feature_extraction/atoms.py",
+        "src/sciona/atoms/ml/sklearn/feature_extraction/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/feature_extraction/state_models.py",
+        "src/sciona/atoms/ml/sklearn/feature_extraction/references.json",
+        "src/sciona/atoms/ml/sklearn/feature_extraction/cdg.json",
+        "tests/test_ml_sklearn_feature_extraction_count_vectorizer_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_feature_extraction_count_vectorizer.review_bundle.json",
+      "overall_verdict": "pass",
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass_with_limits",
+      "developer_semantics_status": "pass_with_limits",
+      "risk_tier": "low",
+      "risk_score": 14,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "medium"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 90,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 3,
+      "parity_case_count": 12,
+      "review_limitations": [
+        "Content strings with word analyzer, regex tokenization, optional lowercase/accent stripping, tuple stop words, and word n-grams are covered."
+      ],
+      "review_required_actions": [],
+      "trust_blockers": [],
+      "has_references": true,
+      "references_status": "pass",
+      "limitations": [],
+      "blocking_findings": [],
+      "required_actions": []
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.feature_extraction.count_vectorizer_fit",
+      "atom_name": "sciona.atoms.ml.sklearn.feature_extraction.count_vectorizer_fit",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/feature_extraction/atoms.py",
+        "src/sciona/atoms/ml/sklearn/feature_extraction/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/feature_extraction/state_models.py",
+        "src/sciona/atoms/ml/sklearn/feature_extraction/references.json",
+        "src/sciona/atoms/ml/sklearn/feature_extraction/cdg.json",
+        "tests/test_ml_sklearn_feature_extraction_count_vectorizer_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_feature_extraction_count_vectorizer.review_bundle.json",
+      "overall_verdict": "pass",
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass_with_limits",
+      "developer_semantics_status": "pass_with_limits",
+      "risk_tier": "low",
+      "risk_score": 20,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "medium",
+        "runtime": "low",
+        "api_surface": "medium"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 86,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 3,
+      "parity_case_count": 12,
+      "review_limitations": [
+        "This batch covers in-memory content strings and word analyzer behavior only.",
+        "The atoms expose immutable CountVectorizerState plus dense matrices instead of a mutable sklearn estimator with sparse CSR output.",
+        "Callable analyzers, callable preprocessors/tokenizers, filename/file inputs, built-in english stop-word handling, char analyzers, dtype preservation, and sparse output are outside this batch.",
+        "Supported text settings include lowercase, optional ascii/unicode accent stripping, regex tokenization with at most one capture group, tuple stop-word collections, n-gram ranges, max/min document-frequency pruning, max_features, fixed vocabulary, and binary counts."
+      ],
+      "review_required_actions": [],
+      "trust_blockers": [],
+      "has_references": true,
+      "references_status": "pass",
+      "limitations": [],
+      "blocking_findings": [],
+      "required_actions": []
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.feature_extraction.count_vectorizer_transform",
+      "atom_name": "sciona.atoms.ml.sklearn.feature_extraction.count_vectorizer_transform",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/feature_extraction/atoms.py",
+        "src/sciona/atoms/ml/sklearn/feature_extraction/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/feature_extraction/state_models.py",
+        "src/sciona/atoms/ml/sklearn/feature_extraction/references.json",
+        "src/sciona/atoms/ml/sklearn/feature_extraction/cdg.json",
+        "tests/test_ml_sklearn_feature_extraction_count_vectorizer_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_feature_extraction_count_vectorizer.review_bundle.json",
+      "overall_verdict": "pass",
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass_with_limits",
+      "developer_semantics_status": "pass_with_limits",
+      "risk_tier": "low",
+      "risk_score": 14,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "medium"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 90,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 3,
+      "parity_case_count": 12,
+      "review_limitations": [
+        "Dense transform uses a fitted CountVectorizerState and ignores out-of-vocabulary terms, matching fixed-vocabulary transform behavior."
+      ],
+      "review_required_actions": [],
+      "trust_blockers": [],
+      "has_references": true,
+      "references_status": "pass",
+      "limitations": [],
+      "blocking_findings": [],
+      "required_actions": []
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.feature_extraction.count_vectorizer_feature_names",
+      "atom_name": "sciona.atoms.ml.sklearn.feature_extraction.count_vectorizer_feature_names",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/feature_extraction/atoms.py",
+        "src/sciona/atoms/ml/sklearn/feature_extraction/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/feature_extraction/state_models.py",
+        "src/sciona/atoms/ml/sklearn/feature_extraction/references.json",
+        "src/sciona/atoms/ml/sklearn/feature_extraction/cdg.json",
+        "tests/test_ml_sklearn_feature_extraction_count_vectorizer_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_feature_extraction_count_vectorizer.review_bundle.json",
+      "overall_verdict": "pass",
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass_with_limits",
+      "developer_semantics_status": "pass_with_limits",
+      "risk_tier": "low",
+      "risk_score": 14,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "medium"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 90,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 3,
+      "parity_case_count": 12,
+      "review_limitations": [
+        "Feature-name lookup from immutable CountVectorizerState is covered."
+      ],
+      "review_required_actions": [],
+      "trust_blockers": [],
+      "has_references": true,
+      "references_status": "pass",
+      "limitations": [],
+      "blocking_findings": [],
+      "required_actions": []
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.feature_extraction.count_vectorizer_inverse_transform",
+      "atom_name": "sciona.atoms.ml.sklearn.feature_extraction.count_vectorizer_inverse_transform",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/feature_extraction/atoms.py",
+        "src/sciona/atoms/ml/sklearn/feature_extraction/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/feature_extraction/state_models.py",
+        "src/sciona/atoms/ml/sklearn/feature_extraction/references.json",
+        "src/sciona/atoms/ml/sklearn/feature_extraction/cdg.json",
+        "tests/test_ml_sklearn_feature_extraction_count_vectorizer_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_feature_extraction_count_vectorizer.review_bundle.json",
+      "overall_verdict": "pass",
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass_with_limits",
+      "developer_semantics_status": "pass_with_limits",
+      "risk_tier": "low",
+      "risk_score": 14,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "medium"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 90,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 3,
+      "parity_case_count": 12,
+      "review_limitations": [
+        "Dense inverse transform returns nonzero feature names per row."
+      ],
+      "review_required_actions": [],
+      "trust_blockers": [],
+      "has_references": true,
+      "references_status": "pass",
+      "limitations": [],
+      "blocking_findings": [],
+      "required_actions": []
+    }
+  ]
+}

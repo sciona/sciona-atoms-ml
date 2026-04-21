@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from sciona.ghost.abstract import AbstractArray
 
-from .state_models import DictVectorizerState, TfidfTransformerState
+from .state_models import CountVectorizerState, DictVectorizerState, TfidfTransformerState
 
 
 def witness_dict_vectorizer_fit(records: tuple[dict[str, object], ...], *, separator: str = "=", sort: bool = True) -> AbstractArray:
@@ -89,3 +89,63 @@ def witness_tfidf_transform(X: AbstractArray, state: TfidfTransformerState) -> A
     if X.shape[1] != state.n_features_in:
         raise ValueError("X feature count must match fitted state")
     return AbstractArray(shape=X.shape, dtype="float64")
+
+
+def witness_count_vectorizer_analyze(
+    document: str,
+    *,
+    lowercase: bool = True,
+    strip_accents: str | None = None,
+    token_pattern: str = r"(?u)\b\w\w+\b",
+    ngram_range: tuple[int, int] = (1, 1),
+    stop_words: tuple[str, ...] | None = None,
+) -> AbstractArray:
+    """Describe word-token analysis for one text document."""
+    del document, lowercase, strip_accents, token_pattern, stop_words
+    if ngram_range[0] < 1 or ngram_range[0] > ngram_range[1]:
+        raise ValueError("ngram_range must be valid")
+    return AbstractArray(shape=(1,), dtype="object")
+
+
+def witness_count_vectorizer_fit(
+    raw_documents: tuple[str, ...],
+    *,
+    lowercase: bool = True,
+    strip_accents: str | None = None,
+    token_pattern: str = r"(?u)\b\w\w+\b",
+    ngram_range: tuple[int, int] = (1, 1),
+    stop_words: tuple[str, ...] | None = None,
+    max_df: int | float = 1.0,
+    min_df: int | float = 1,
+    max_features: int | None = None,
+    vocabulary: tuple[str, ...] | dict[str, int] | None = None,
+    binary: bool = False,
+) -> AbstractArray:
+    """Describe fitting a dense count-vectorizer vocabulary."""
+    del lowercase, strip_accents, token_pattern, stop_words, max_df, min_df, max_features, vocabulary, binary
+    if not raw_documents:
+        raise ValueError("raw_documents must not be empty")
+    if ngram_range[0] < 1 or ngram_range[0] > ngram_range[1]:
+        raise ValueError("ngram_range must be valid")
+    return AbstractArray(shape=(len(raw_documents),), dtype="object")
+
+
+def witness_count_vectorizer_transform(raw_documents: tuple[str, ...], state: CountVectorizerState) -> AbstractArray:
+    """Describe transforming text documents into dense token counts."""
+    if not raw_documents:
+        raise ValueError("raw_documents must not be empty")
+    return AbstractArray(shape=(len(raw_documents), len(state.feature_names)), dtype="float64")
+
+
+def witness_count_vectorizer_feature_names(state: CountVectorizerState) -> AbstractArray:
+    """Describe count-vectorizer feature names in output order."""
+    return AbstractArray(shape=(len(state.feature_names),), dtype="object")
+
+
+def witness_count_vectorizer_inverse_transform(X: AbstractArray, state: CountVectorizerState) -> AbstractArray:
+    """Describe converting nonzero count columns back to terms."""
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    if X.shape[1] != len(state.feature_names):
+        raise ValueError("X feature count must match fitted state")
+    return AbstractArray(shape=(int(X.shape[0]),), dtype="object")

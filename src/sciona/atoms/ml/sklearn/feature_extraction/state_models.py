@@ -27,3 +27,18 @@ class TfidfTransformerState:
     smooth_idf: bool
     sublinear_tf: bool
     n_features_in: int
+
+
+@dataclass(frozen=True)
+class CountVectorizerState:
+    """Learned dense count-vectorizer vocabulary and text-analysis settings."""
+
+    vocabulary: dict[str, int]
+    feature_names: tuple[str, ...]
+    lowercase: bool
+    strip_accents: str | None
+    token_pattern: str
+    ngram_range: tuple[int, int]
+    stop_words: tuple[str, ...] | None
+    binary: bool
+    fixed_vocabulary: bool

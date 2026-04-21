@@ -3,7 +3,7 @@
     {
       "node_id": "sklearn_feature_extraction_root",
       "name": "Sklearn Feature Extraction Atoms",
-      "description": "Dense dictionary vectorization and dense TF-IDF atoms for selected sklearn.feature_extraction behavior",
+      "description": "Dense dictionary vectorization, dense count vectorization, and dense TF-IDF atoms for selected sklearn.feature_extraction behavior",
       "status": "decomposed",
       "children": [
         "dict_vectorizer_fit",
@@ -14,7 +14,12 @@
         "tfidf_document_frequency",
         "tfidf_idf",
         "tfidf_transformer_fit",
-        "tfidf_transform"
+        "tfidf_transform",
+        "count_vectorizer_analyze",
+        "count_vectorizer_fit",
+        "count_vectorizer_transform",
+        "count_vectorizer_feature_names",
+        "count_vectorizer_inverse_transform"
       ],
       "depth": 0
     },
@@ -275,6 +280,201 @@
           "type_desc": "NDArray[np.float64]"
         }
       ]
+    },
+    {
+      "node_id": "count_vectorizer_analyze",
+      "name": "count_vectorizer_analyze",
+      "description": "Analyze one text document into word n-gram tokens.",
+      "concept_type": "text_analysis",
+      "status": "atomic",
+      "type_signature": "(document: str, lowercase: bool = True, strip_accents: str | None = None, token_pattern: str = r\"(?u)\\b\\w\\w+\\b\", ngram_range: tuple[int, int] = (1, 1), stop_words: tuple[str, ...] | None = None) -> tuple[str, ...]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "document",
+          "type_desc": "str",
+          "required": true
+        },
+        {
+          "name": "lowercase",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "strip_accents",
+          "type_desc": "str | None",
+          "required": false
+        },
+        {
+          "name": "token_pattern",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "ngram_range",
+          "type_desc": "tuple[int, int]",
+          "required": false
+        },
+        {
+          "name": "stop_words",
+          "type_desc": "tuple[str, ...] | None",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "tuple[str, ...]"
+        }
+      ]
+    },
+    {
+      "node_id": "count_vectorizer_fit",
+      "name": "count_vectorizer_fit",
+      "description": "Fit a dense word-count vectorizer vocabulary from text documents.",
+      "concept_type": "fit_state",
+      "status": "atomic",
+      "type_signature": "(raw_documents: tuple[str, ...], lowercase: bool = True, strip_accents: str | None = None, token_pattern: str = r\"(?u)\\b\\w\\w+\\b\", ngram_range: tuple[int, int] = (1, 1), stop_words: tuple[str, ...] | None = None, max_df: int | float = 1.0, min_df: int | float = 1, max_features: int | None = None, vocabulary: tuple[str, ...] | dict[str, int] | None = None, binary: bool = False) -> CountVectorizerState",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "raw_documents",
+          "type_desc": "tuple[str, ...]",
+          "required": true
+        },
+        {
+          "name": "lowercase",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "strip_accents",
+          "type_desc": "str | None",
+          "required": false
+        },
+        {
+          "name": "token_pattern",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "ngram_range",
+          "type_desc": "tuple[int, int]",
+          "required": false
+        },
+        {
+          "name": "stop_words",
+          "type_desc": "tuple[str, ...] | None",
+          "required": false
+        },
+        {
+          "name": "max_df",
+          "type_desc": "int | float",
+          "required": false
+        },
+        {
+          "name": "min_df",
+          "type_desc": "int | float",
+          "required": false
+        },
+        {
+          "name": "max_features",
+          "type_desc": "int | None",
+          "required": false
+        },
+        {
+          "name": "vocabulary",
+          "type_desc": "tuple[str, ...] | dict[str, int] | None",
+          "required": false
+        },
+        {
+          "name": "binary",
+          "type_desc": "bool",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "CountVectorizerState"
+        }
+      ]
+    },
+    {
+      "node_id": "count_vectorizer_transform",
+      "name": "count_vectorizer_transform",
+      "description": "Transform text documents into a dense token-count matrix.",
+      "concept_type": "array_transform",
+      "status": "atomic",
+      "type_signature": "(raw_documents: tuple[str, ...], state: CountVectorizerState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "raw_documents",
+          "type_desc": "tuple[str, ...]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "CountVectorizerState",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
+    },
+    {
+      "node_id": "count_vectorizer_feature_names",
+      "name": "count_vectorizer_feature_names",
+      "description": "Return count-vectorizer feature names in output-column order.",
+      "concept_type": "state_query",
+      "status": "atomic",
+      "type_signature": "(state: CountVectorizerState) -> tuple[str, ...]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "state",
+          "type_desc": "CountVectorizerState",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "tuple[str, ...]"
+        }
+      ]
+    },
+    {
+      "node_id": "count_vectorizer_inverse_transform",
+      "name": "count_vectorizer_inverse_transform",
+      "description": "Return feature terms with nonzero counts for each document row.",
+      "concept_type": "inverse_transform",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: CountVectorizerState) -> list[tuple[str, ...]]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "CountVectorizerState",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "list[tuple[str, ...]]"
+        }
+      ]
     }
   ],
   "edges": [
@@ -321,6 +521,31 @@
     {
       "source": "tfidf_transformer_fit",
       "target": "tfidf_transform",
+      "kind": "state_dependency"
+    },
+    {
+      "source": "count_vectorizer_analyze",
+      "target": "count_vectorizer_fit",
+      "kind": "called_by"
+    },
+    {
+      "source": "count_vectorizer_analyze",
+      "target": "count_vectorizer_transform",
+      "kind": "called_by"
+    },
+    {
+      "source": "count_vectorizer_fit",
+      "target": "count_vectorizer_transform",
+      "kind": "state_dependency"
+    },
+    {
+      "source": "count_vectorizer_fit",
+      "target": "count_vectorizer_feature_names",
+      "kind": "state_dependency"
+    },
+    {
+      "source": "count_vectorizer_fit",
+      "target": "count_vectorizer_inverse_transform",
       "kind": "state_dependency"
     }
   ],
