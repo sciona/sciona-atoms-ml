@@ -12,7 +12,7 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 - Scope for this first ingestion pass: public algorithmic estimators, transformers, kernels, and algorithmic helper functions in the selected sklearn modules below.
 - Intentionally excluded for now: datasets, metrics, displays, exceptions, low-level utils, orchestration/composition (`compose`, `pipeline`), and model-selection/search APIs.
 - Source locations come from each object page's official `[source]` link. `BallTree` and `KDTree` use the matching source files from the same scikit-learn revision because their generated docs pages do not expose a direct `[source]` link.
-- Total targets in this inventory: 57
+- Total targets in this inventory: 43
 
 ## Module Summary
 
@@ -36,7 +36,7 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 | `sklearn.inspection` | 0 |
 | `sklearn.kernel_approximation` | 0 |
 | `sklearn.kernel_ridge` | 0 |
-| `sklearn.linear_model` | 22 |
+| `sklearn.linear_model` | 8 |
 | `sklearn.manifold` | 8 |
 | `sklearn.mixture` | 2 |
 | `sklearn.multiclass` | 3 |
@@ -143,8 +143,6 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 
 | Target | Description | Source |
 | --- | --- | --- |
-| `GammaRegressor` | Generalized Linear Model with a Gamma distribution. | `sklearn/linear_model/_glm/glm.py:L606` |
-| `HuberRegressor` | L2-regularized linear regression model that is robust to outliers. | `sklearn/linear_model/_huber.py:L129` |
 | `Lars` | Least Angle Regression model a.k.a. LAR. | `sklearn/linear_model/_least_angle.py:L920` |
 | `lars_path` | Compute Least Angle Regression or Lasso path using the LARS algorithm. | `sklearn/linear_model/_least_angle.py:L44` |
 | `lars_path_gram` | The lars_path in the sufficient stats mode. | `sklearn/linear_model/_least_angle.py:L235` |
@@ -152,19 +150,7 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 | `LassoLars` | Lasso model fit with Least Angle Regression a.k.a. Lars. | `sklearn/linear_model/_least_angle.py:L1210` |
 | `LassoLarsCV` | Cross-validated Lasso, using the LARS algorithm. | `sklearn/linear_model/_least_angle.py:L1831` |
 | `LassoLarsIC` | Lasso model fit with Lars using BIC or AIC for model selection. | `sklearn/linear_model/_least_angle.py:L2029` |
-| `LogisticRegression` | Logistic Regression (aka logit, MaxEnt) classifier. | `sklearn/linear_model/_logistic.py:L735` |
-| `LogisticRegressionCV` | Logistic Regression CV (aka logit, MaxEnt) classifier. | `sklearn/linear_model/_logistic.py:L1363` |
-| `PassiveAggressiveClassifier` | Passive Aggressive Classifier. | `sklearn/linear_model/_passive_aggressive.py:L17` |
-| `PassiveAggressiveRegressor` | Passive Aggressive Regressor. | `sklearn/linear_model/_passive_aggressive.py:L343` |
-| `Perceptron` | Linear perceptron classifier. | `sklearn/linear_model/_perceptron.py:L10` |
-| `PoissonRegressor` | Generalized Linear Model with a Poisson distribution. | `sklearn/linear_model/_glm/glm.py:L475` |
-| `QuantileRegressor` | Linear regression model that predicts conditional quantiles. | `sklearn/linear_model/_quantile.py:L20` |
-| `RANSACRegressor` | RANSAC (RANdom SAmple Consensus) algorithm. | `sklearn/linear_model/_ransac.py:L81` |
-| `SGDClassifier` | Linear classifiers (SVM, logistic regression, etc.) with SGD training. | `sklearn/linear_model/_stochastic_gradient.py:L950` |
-| `SGDOneClassSVM` | Solves linear One-Class SVM using Stochastic Gradient Descent. | `sklearn/linear_model/_stochastic_gradient.py:L2117` |
-| `SGDRegressor` | Linear model fitted by minimizing a regularized empirical loss with SGD. | `sklearn/linear_model/_stochastic_gradient.py:L1794` |
 | `TheilSenRegressor` | Theil-Sen Estimator: robust multivariate regression model. | `sklearn/linear_model/_theil_sen.py:L207` |
-| `TweedieRegressor` | Generalized Linear Model with a Tweedie distribution. | `sklearn/linear_model/_glm/glm.py:L738` |
 
 ## `sklearn.manifold`
 

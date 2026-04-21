@@ -28,6 +28,36 @@ Potential remediation path:
 - Or define limited estimator-state wrappers with explicit audit limitations
   only after deciding that opaque solver-backed atoms are acceptable.
 
+## `sklearn.linear_model` optimizer and callback boundaries
+
+Deferred targets:
+
+| Target | Source | Reason |
+| --- | --- | --- |
+| `GammaRegressor` | `sklearn/linear_model/_glm/glm.py:L606` | Fit delegates GLM optimization to SciPy L-BFGS-B or sklearn Newton solver classes; publishing only the estimator state would hide the optimizer boundary. |
+| `HuberRegressor` | `sklearn/linear_model/_huber.py:L129` | Fit solves the robust objective through `scipy.optimize.minimize(method="L-BFGS-B")`; an atom around the public estimator would not decompose the optimization algorithm. |
+| `LogisticRegression` | `sklearn/linear_model/_logistic.py:L735` | Fit dispatches across liblinear, SciPy L-BFGS/Newton-CG, Newton-Cholesky, SAG, and SAGA solvers; a wrapper atom would hide solver-specific training behavior. |
+| `LogisticRegressionCV` | `sklearn/linear_model/_logistic.py:L1363` | Cross-validation repeatedly invokes the same logistic solver family and scorer/CV orchestration before refitting. |
+| `PassiveAggressiveClassifier` | `sklearn/linear_model/_passive_aggressive.py:L17` | The estimator inherits SGD training machinery and delegates coefficient updates to compiled `_plain_sgd` routines. |
+| `PassiveAggressiveRegressor` | `sklearn/linear_model/_passive_aggressive.py:L343` | The regressor inherits SGD training machinery and delegates coefficient updates to compiled `_plain_sgd` routines. |
+| `Perceptron` | `sklearn/linear_model/_perceptron.py:L10` | The estimator is a `BaseSGDClassifier` specialization backed by compiled SGD update loops. |
+| `PoissonRegressor` | `sklearn/linear_model/_glm/glm.py:L475` | Fit delegates GLM optimization to SciPy L-BFGS-B or sklearn Newton solver classes; a public estimator atom would hide the solver boundary. |
+| `QuantileRegressor` | `sklearn/linear_model/_quantile.py:L20` | Fit formulates a linear program and delegates the solve to `scipy.optimize.linprog`; publishing the shell would not decompose the LP solver. |
+| `RANSACRegressor` | `sklearn/linear_model/_ransac.py:L81` | The core workflow repeatedly fits and scores a configurable estimator, loss callable, and validity callbacks; a standalone atom would hide estimator behavior behind callback boundaries. |
+| `SGDClassifier` | `sklearn/linear_model/_stochastic_gradient.py:L950` | Training delegates stochastic updates and loss gradients to Cython `_plain_sgd` and compiled loss classes. |
+| `SGDOneClassSVM` | `sklearn/linear_model/_stochastic_gradient.py:L2117` | Training delegates one-class stochastic updates to Cython `_plain_sgd` and compiled loss/update machinery. |
+| `SGDRegressor` | `sklearn/linear_model/_stochastic_gradient.py:L1794` | Training delegates stochastic updates and loss gradients to Cython `_plain_sgd` and compiled loss classes. |
+| `TweedieRegressor` | `sklearn/linear_model/_glm/glm.py:L738` | Fit delegates GLM optimization to SciPy L-BFGS-B or sklearn Newton solver classes; a public estimator atom would hide the solver boundary. |
+
+Potential remediation path:
+
+- Decompose reusable, deterministic helper atoms first, such as GLM link/loss
+  validation, RANSAC consensus bookkeeping from supplied residuals, or
+  prediction from already-fitted coefficients.
+- Decide whether optimizer-backed estimator surfaces should be represented as
+  limited state wrappers, or ingest the underlying SciPy/sklearn/native solver
+  boundaries with explicit provenance and parity tests.
+
 ## `sklearn.feature_selection` estimator-callback selectors
 
 Deferred targets:
