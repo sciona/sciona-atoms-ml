@@ -3,7 +3,7 @@
     {
       "node_id": "sklearn_neighbors_root",
       "name": "Sklearn Neighbors Atoms",
-      "description": "Dense finite neighbor graph atoms for selected sklearn.neighbors APIs.",
+      "description": "Dense finite neighbor graph, regression, and nearest-centroid atoms for selected sklearn.neighbors APIs.",
       "status": "decomposed",
       "children": [
         "kneighbors_graph",
@@ -12,6 +12,10 @@
         "kneighbors_transform",
         "radius_neighbors_transformer_fit",
         "radius_neighbors_transform",
+        "kneighbors_regressor_fit",
+        "kneighbors_regressor_predict",
+        "radius_neighbors_regressor_fit",
+        "radius_neighbors_regressor_predict",
         "nearest_centroid_fit",
         "nearest_centroid_predict",
         "nearest_centroid_decision_function",
@@ -148,6 +152,78 @@
       "outputs": [{"name": "result", "type_desc": "NearestCentroidState"}]
     },
     {
+      "node_id": "kneighbors_regressor_fit",
+      "name": "kneighbors_regressor_fit",
+      "description": "Fit dense k-neighbor regression state for finite numeric targets.",
+      "concept_type": "fit_state_builder",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], n_neighbors: int = 5, weights: str = 'uniform', algorithm: str = 'auto', leaf_size: int = 30, p: float = 2.0, metric: str = 'minkowski', metric_params: None = None, n_jobs: None = None) -> NeighborsRegressorState",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "n_neighbors", "type_desc": "int", "required": false},
+        {"name": "weights", "type_desc": "str", "required": false},
+        {"name": "algorithm", "type_desc": "str", "required": false},
+        {"name": "leaf_size", "type_desc": "int", "required": false},
+        {"name": "p", "type_desc": "float", "required": false},
+        {"name": "metric", "type_desc": "str", "required": false},
+        {"name": "metric_params", "type_desc": "None", "required": false},
+        {"name": "n_jobs", "type_desc": "None", "required": false}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NeighborsRegressorState"}]
+    },
+    {
+      "node_id": "kneighbors_regressor_predict",
+      "name": "kneighbors_regressor_predict",
+      "description": "Predict finite numeric targets with dense k-neighbor interpolation.",
+      "concept_type": "predict",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: NeighborsRegressorState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "state", "type_desc": "NeighborsRegressorState", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+    },
+    {
+      "node_id": "radius_neighbors_regressor_fit",
+      "name": "radius_neighbors_regressor_fit",
+      "description": "Fit dense radius-neighbor regression state for finite numeric targets.",
+      "concept_type": "fit_state_builder",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], radius: float = 1.0, weights: str = 'uniform', algorithm: str = 'auto', leaf_size: int = 30, p: float = 2.0, metric: str = 'minkowski', metric_params: None = None, n_jobs: None = None) -> NeighborsRegressorState",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "radius", "type_desc": "float", "required": false},
+        {"name": "weights", "type_desc": "str", "required": false},
+        {"name": "algorithm", "type_desc": "str", "required": false},
+        {"name": "leaf_size", "type_desc": "int", "required": false},
+        {"name": "p", "type_desc": "float", "required": false},
+        {"name": "metric", "type_desc": "str", "required": false},
+        {"name": "metric_params", "type_desc": "None", "required": false},
+        {"name": "n_jobs", "type_desc": "None", "required": false}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NeighborsRegressorState"}]
+    },
+    {
+      "node_id": "radius_neighbors_regressor_predict",
+      "name": "radius_neighbors_regressor_predict",
+      "description": "Predict finite numeric targets from all fitted samples inside a radius.",
+      "concept_type": "predict",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: NeighborsRegressorState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "state", "type_desc": "NeighborsRegressorState", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+    },
+    {
       "node_id": "nearest_centroid_predict",
       "name": "nearest_centroid_predict",
       "description": "Predict dense nearest-centroid class labels.",
@@ -209,6 +285,8 @@
     {"source": "radius_neighbors_graph", "target": "radius_neighbors_transform", "kind": "graph_logic"},
     {"source": "kneighbors_transformer_fit", "target": "kneighbors_transform", "kind": "state"},
     {"source": "radius_neighbors_transformer_fit", "target": "radius_neighbors_transform", "kind": "state"},
+    {"source": "kneighbors_regressor_fit", "target": "kneighbors_regressor_predict", "kind": "state"},
+    {"source": "radius_neighbors_regressor_fit", "target": "radius_neighbors_regressor_predict", "kind": "state"},
     {"source": "nearest_centroid_fit", "target": "nearest_centroid_predict", "kind": "state"},
     {"source": "nearest_centroid_fit", "target": "nearest_centroid_decision_function", "kind": "state"},
     {"source": "nearest_centroid_fit", "target": "nearest_centroid_predict_log_proba", "kind": "state"},

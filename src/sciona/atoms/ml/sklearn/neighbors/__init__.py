@@ -2,6 +2,8 @@
 
 from .atoms import (
     kneighbors_graph,
+    kneighbors_regressor_fit,
+    kneighbors_regressor_predict,
     kneighbors_transform,
     kneighbors_transformer_fit,
     nearest_centroid_decision_function,
@@ -10,15 +12,20 @@ from .atoms import (
     nearest_centroid_predict_log_proba,
     nearest_centroid_predict_proba,
     radius_neighbors_graph,
+    radius_neighbors_regressor_fit,
+    radius_neighbors_regressor_predict,
     radius_neighbors_transform,
     radius_neighbors_transformer_fit,
 )
-from .state_models import NearestCentroidState, NeighborsGraphTransformerState
+from .state_models import NearestCentroidState, NeighborsGraphTransformerState, NeighborsRegressorState
 
 __all__ = [
     "NearestCentroidState",
     "NeighborsGraphTransformerState",
+    "NeighborsRegressorState",
     "kneighbors_graph",
+    "kneighbors_regressor_fit",
+    "kneighbors_regressor_predict",
     "kneighbors_transform",
     "kneighbors_transformer_fit",
     "nearest_centroid_decision_function",
@@ -27,6 +34,8 @@ __all__ = [
     "nearest_centroid_predict_log_proba",
     "nearest_centroid_predict_proba",
     "radius_neighbors_graph",
+    "radius_neighbors_regressor_fit",
+    "radius_neighbors_regressor_predict",
     "radius_neighbors_transform",
     "radius_neighbors_transformer_fit",
 ]

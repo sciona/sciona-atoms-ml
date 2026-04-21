@@ -23,6 +23,22 @@ class NeighborsGraphTransformerState:
 
 
 @dataclass(frozen=True)
+class NeighborsRegressorState:
+    """Fitted dense neighbor-regression state."""
+
+    training_data: NDArray[np.float64]
+    target: NDArray[np.float64]
+    weights: str
+    n_neighbors: int | None
+    radius: float | None
+    metric: str
+    p: float
+    regressor_kind: str
+    n_features_in: int
+    outputs_2d: bool
+
+
+@dataclass(frozen=True)
 class NearestCentroidState:
     """Fitted dense nearest-centroid classifier state."""
 

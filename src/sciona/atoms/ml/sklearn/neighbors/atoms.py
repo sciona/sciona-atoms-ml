@@ -9,9 +9,11 @@ from sklearn.utils.validation import check_X_y, check_array
 
 from sciona.ghost.registry import register_atom
 
-from .state_models import NearestCentroidState, NeighborsGraphTransformerState
+from .state_models import NearestCentroidState, NeighborsGraphTransformerState, NeighborsRegressorState
 from .witnesses import (
     witness_kneighbors_graph,
+    witness_kneighbors_regressor_fit,
+    witness_kneighbors_regressor_predict,
     witness_kneighbors_transform,
     witness_kneighbors_transformer_fit,
     witness_nearest_centroid_decision_function,
@@ -20,6 +22,8 @@ from .witnesses import (
     witness_nearest_centroid_predict_log_proba,
     witness_nearest_centroid_predict_proba,
     witness_radius_neighbors_graph,
+    witness_radius_neighbors_regressor_fit,
+    witness_radius_neighbors_regressor_predict,
     witness_radius_neighbors_transform,
     witness_radius_neighbors_transformer_fit,
 )
@@ -143,6 +147,16 @@ def _sample_counts_match(X: NDArray[np.float64], y: NDArray[np.float64]) -> bool
     return bool(values_x.ndim == 2 and values_y.ndim == 1 and values_x.shape[0] == values_y.shape[0])
 
 
+def _target_1d_or_2d(y: NDArray[np.float64]) -> bool:
+    return bool(np.asarray(y).ndim in {1, 2})
+
+
+def _sample_counts_match_regression(X: NDArray[np.float64], y: NDArray[np.float64]) -> bool:
+    values_x = np.asarray(X)
+    values_y = np.asarray(y)
+    return bool(values_x.ndim == 2 and values_y.ndim in {1, 2} and values_x.shape[0] == values_y.shape[0])
+
+
 def _finite_inputs(X: NDArray[np.float64], y: NDArray[np.float64]) -> bool:
     try:
         values_x = np.asarray(X, dtype=np.float64)
@@ -150,6 +164,10 @@ def _finite_inputs(X: NDArray[np.float64], y: NDArray[np.float64]) -> bool:
     except (TypeError, ValueError):
         return False
     return bool(np.all(np.isfinite(values_x)) and np.all(np.isfinite(values_y)))
+
+
+def _weights_valid(weights: str) -> bool:
+    return weights in {"uniform", "distance"}
 
 
 def _at_least_two_classes(y: NDArray[np.float64]) -> bool:
@@ -274,6 +292,66 @@ def _nearest_centroid_log_proba_valid(result: NDArray[np.float64], X: NDArray[np
     )
 
 
+def _regressor_state_valid(state: NeighborsRegressorState) -> bool:
+    n_samples = state.training_data.shape[0]
+    return bool(
+        state.training_data.ndim == 2
+        and state.training_data.shape[1] == state.n_features_in
+        and state.target.ndim == 2
+        and state.target.shape[0] == n_samples
+        and state.target.shape[1] >= 1
+        and state.weights in {"uniform", "distance"}
+        and state.metric == "minkowski"
+        and np.isfinite(state.p)
+        and state.p >= 1.0
+        and state.regressor_kind in {"kneighbors", "radius_neighbors"}
+        and isinstance(state.outputs_2d, bool)
+        and np.all(np.isfinite(state.training_data))
+        and np.all(np.isfinite(state.target))
+        and (
+            (
+                state.regressor_kind == "kneighbors"
+                and state.n_neighbors is not None
+                and 1 <= state.n_neighbors <= n_samples
+                and state.radius is None
+            )
+            or (
+                state.regressor_kind == "radius_neighbors"
+                and state.n_neighbors is None
+                and state.radius is not None
+                and np.isfinite(state.radius)
+                and state.radius >= 0.0
+            )
+        )
+    )
+
+
+def _regressor_feature_count_matches(X: NDArray[np.float64], state: NeighborsRegressorState) -> bool:
+    values = np.asarray(X)
+    return bool(values.ndim == 2 and values.shape[1] == state.n_features_in)
+
+
+def _regressor_prediction_valid(result: NDArray[np.float64], X: NDArray[np.float64], state: NeighborsRegressorState) -> bool:
+    values = np.asarray(result)
+    n_queries = np.asarray(X).shape[0]
+    if state.outputs_2d:
+        return bool(values.shape == (n_queries, state.target.shape[1]) and np.all(np.isfinite(values)))
+    return bool(values.shape == (n_queries,) and np.all(np.isfinite(values)))
+
+
+def _radius_regressor_queries_have_neighbors(X: NDArray[np.float64], state: NeighborsRegressorState) -> bool:
+    try:
+        values = np.asarray(X, dtype=np.float64)
+    except (TypeError, ValueError):
+        return False
+    if not _regressor_state_valid(state) or state.regressor_kind != "radius_neighbors" or values.ndim != 2:
+        return False
+    if values.shape[1] != state.n_features_in:
+        return False
+    distances = _pairwise_minkowski(values, state.training_data, state.p)
+    return bool(np.all(np.any(distances <= float(state.radius), axis=1)))
+
+
 def _resolve_include_self(include_self: bool | str, mode: str) -> bool:
     if include_self == "auto":
         return mode == "connectivity"
@@ -327,6 +405,55 @@ def _fill_radius_graph(
     else:
         graph[mask] = distances[mask]
     return graph
+
+
+def _checked_regression_inputs(
+    X: NDArray[np.float64],
+    y: NDArray[np.float64],
+) -> tuple[NDArray[np.float64], NDArray[np.float64], bool]:
+    checked_x, checked_y = check_X_y(X, y, dtype=np.float64, multi_output=True, y_numeric=True)
+    target = np.asarray(checked_y, dtype=np.float64)
+    outputs_2d = target.ndim == 2
+    if not outputs_2d:
+        target = target.reshape(-1, 1)
+    return np.asarray(checked_x, dtype=np.float64), target, outputs_2d
+
+
+def _kneighbor_indices_and_distances(
+    X: NDArray[np.float64],
+    state: NeighborsRegressorState,
+) -> tuple[NDArray[np.int64], NDArray[np.float64]]:
+    distances = _pairwise_minkowski(X, state.training_data, state.p)
+    order = np.argsort(distances, axis=1, kind="stable")[:, : int(state.n_neighbors or 0)]
+    rows = np.arange(distances.shape[0])[:, np.newaxis]
+    return np.asarray(order, dtype=np.int64), np.asarray(distances[rows, order], dtype=np.float64)
+
+
+def _distance_weight_matrix(distances: NDArray[np.float64]) -> NDArray[np.float64]:
+    with np.errstate(divide="ignore"):
+        weights = 1.0 / distances
+    inf_mask = np.isinf(weights)
+    inf_rows = np.any(inf_mask, axis=1)
+    weights[inf_rows] = inf_mask[inf_rows].astype(np.float64)
+    return np.asarray(weights, dtype=np.float64)
+
+
+def _distance_weight_vector(distances: NDArray[np.float64]) -> NDArray[np.float64]:
+    with np.errstate(divide="ignore"):
+        weights = 1.0 / distances
+    if np.any(np.isinf(weights)):
+        return np.asarray(np.isinf(weights), dtype=np.float64)
+    return np.asarray(weights, dtype=np.float64)
+
+
+def _weighted_regression_targets(
+    targets: NDArray[np.float64],
+    indices: NDArray[np.int64],
+    weights: NDArray[np.float64],
+) -> NDArray[np.float64]:
+    numerator = np.sum(targets[indices] * weights[:, :, np.newaxis], axis=1)
+    denominator = np.sum(weights, axis=1)[:, np.newaxis]
+    return np.asarray(numerator / denominator, dtype=np.float64)
 
 
 def _nearest_centroid_distances(
@@ -510,6 +637,133 @@ def radius_neighbors_transform(X: NDArray[np.float64], state: NeighborsGraphTran
     checked = check_array(X, dtype=np.float64, ensure_2d=True)
     distances = _pairwise_minkowski(checked, state.training_data, state.p)
     return _fill_radius_graph(distances, float(state.radius), state.mode, exclude_diagonal=False)
+
+
+@register_atom(witness_kneighbors_regressor_fit)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda y: _target_1d_or_2d(y), "y must be 1D or 2D")
+@icontract.require(lambda X, y: _sample_counts_match_regression(X, y), "X and y must have matching sample counts")
+@icontract.require(lambda X, y: _finite_inputs(X, y), "X and y must be finite numeric arrays")
+@icontract.require(lambda n_neighbors, X: _positive_neighbors(n_neighbors, X), "n_neighbors must fit sample count")
+@icontract.require(lambda weights: _weights_valid(weights), "weights must be uniform or distance")
+@icontract.require(lambda algorithm, leaf_size: _algorithm_options_valid(algorithm, leaf_size), "algorithm and leaf_size must be valid")
+@icontract.require(lambda metric, p, metric_params, n_jobs: _minkowski_options_valid(metric, p, metric_params, n_jobs), "only dense minkowski search is covered")
+@icontract.ensure(lambda result: _regressor_state_valid(result), "state must contain finite dense k-neighbor regression data")
+def kneighbors_regressor_fit(
+    X: NDArray[np.float64],
+    y: NDArray[np.float64],
+    *,
+    n_neighbors: int = 5,
+    weights: str = "uniform",
+    algorithm: str = "auto",
+    leaf_size: int = 30,
+    p: float = 2.0,
+    metric: str = "minkowski",
+    metric_params: None = None,
+    n_jobs: None = None,
+) -> NeighborsRegressorState:
+    """Fit dense k-neighbor regression state for finite numeric targets."""
+    del algorithm, leaf_size, metric_params, n_jobs
+    checked_x, target, outputs_2d = _checked_regression_inputs(X, y)
+    return NeighborsRegressorState(
+        training_data=checked_x.copy(),
+        target=target.copy(),
+        weights=weights,
+        n_neighbors=int(n_neighbors),
+        radius=None,
+        metric=metric,
+        p=float(p),
+        regressor_kind="kneighbors",
+        n_features_in=int(checked_x.shape[1]),
+        outputs_2d=outputs_2d,
+    )
+
+
+@register_atom(witness_kneighbors_regressor_predict)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X: _finite_matrix(X), "X must contain finite values")
+@icontract.require(lambda state: _regressor_state_valid(state), "state must be a fitted dense k-neighbor regressor")
+@icontract.require(lambda state: state.regressor_kind == "kneighbors", "state must be a k-neighbor regressor")
+@icontract.require(lambda X, state: _regressor_feature_count_matches(X, state), "X feature count must match fitted state")
+@icontract.ensure(lambda result, X, state: _regressor_prediction_valid(result, X, state), "predictions must be finite numeric targets")
+def kneighbors_regressor_predict(X: NDArray[np.float64], state: NeighborsRegressorState) -> NDArray[np.float64]:
+    """Predict finite numeric targets with dense k-neighbor interpolation."""
+    checked = check_array(X, dtype=np.float64, ensure_2d=True)
+    neighbor_indices, neighbor_distances = _kneighbor_indices_and_distances(checked, state)
+    if state.weights == "uniform":
+        y_pred = np.asarray(np.mean(state.target[neighbor_indices], axis=1), dtype=np.float64)
+    else:
+        y_pred = _weighted_regression_targets(state.target, neighbor_indices, _distance_weight_matrix(neighbor_distances))
+    if state.outputs_2d:
+        return y_pred
+    return np.asarray(y_pred.ravel(), dtype=np.float64)
+
+
+@register_atom(witness_radius_neighbors_regressor_fit)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda y: _target_1d_or_2d(y), "y must be 1D or 2D")
+@icontract.require(lambda X, y: _sample_counts_match_regression(X, y), "X and y must have matching sample counts")
+@icontract.require(lambda X, y: _finite_inputs(X, y), "X and y must be finite numeric arrays")
+@icontract.require(lambda radius: _radius_valid(radius), "radius must be nonnegative and finite")
+@icontract.require(lambda weights: _weights_valid(weights), "weights must be uniform or distance")
+@icontract.require(lambda algorithm, leaf_size: _algorithm_options_valid(algorithm, leaf_size), "algorithm and leaf_size must be valid")
+@icontract.require(lambda metric, p, metric_params, n_jobs: _minkowski_options_valid(metric, p, metric_params, n_jobs), "only dense minkowski search is covered")
+@icontract.ensure(lambda result: _regressor_state_valid(result), "state must contain finite dense radius-neighbor regression data")
+def radius_neighbors_regressor_fit(
+    X: NDArray[np.float64],
+    y: NDArray[np.float64],
+    *,
+    radius: float = 1.0,
+    weights: str = "uniform",
+    algorithm: str = "auto",
+    leaf_size: int = 30,
+    p: float = 2.0,
+    metric: str = "minkowski",
+    metric_params: None = None,
+    n_jobs: None = None,
+) -> NeighborsRegressorState:
+    """Fit dense radius-neighbor regression state for finite numeric targets."""
+    del algorithm, leaf_size, metric_params, n_jobs
+    checked_x, target, outputs_2d = _checked_regression_inputs(X, y)
+    return NeighborsRegressorState(
+        training_data=checked_x.copy(),
+        target=target.copy(),
+        weights=weights,
+        n_neighbors=None,
+        radius=float(radius),
+        metric=metric,
+        p=float(p),
+        regressor_kind="radius_neighbors",
+        n_features_in=int(checked_x.shape[1]),
+        outputs_2d=outputs_2d,
+    )
+
+
+@register_atom(witness_radius_neighbors_regressor_predict)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X: _finite_matrix(X), "X must contain finite values")
+@icontract.require(lambda state: _regressor_state_valid(state), "state must be a fitted dense radius-neighbor regressor")
+@icontract.require(lambda state: state.regressor_kind == "radius_neighbors", "state must be a radius-neighbor regressor")
+@icontract.require(lambda X, state: _regressor_feature_count_matches(X, state), "X feature count must match fitted state")
+@icontract.require(lambda X, state: _radius_regressor_queries_have_neighbors(X, state), "each query must have a neighbor inside radius")
+@icontract.ensure(lambda result, X, state: _regressor_prediction_valid(result, X, state), "predictions must be finite numeric targets")
+def radius_neighbors_regressor_predict(X: NDArray[np.float64], state: NeighborsRegressorState) -> NDArray[np.float64]:
+    """Predict finite numeric targets from all fitted samples inside a radius."""
+    checked = check_array(X, dtype=np.float64, ensure_2d=True)
+    distances = _pairwise_minkowski(checked, state.training_data, state.p)
+    rows: list[NDArray[np.float64]] = []
+    for row_distances in distances:
+        neighbor_indices = np.asarray(np.flatnonzero(row_distances <= float(state.radius)), dtype=np.int64)
+        if state.weights == "uniform":
+            rows.append(np.asarray(np.mean(state.target[neighbor_indices], axis=0), dtype=np.float64))
+        else:
+            neighbor_distances = np.asarray(row_distances[neighbor_indices], dtype=np.float64)
+            weights = _distance_weight_vector(neighbor_distances)
+            rows.append(np.asarray(np.average(state.target[neighbor_indices], axis=0, weights=weights), dtype=np.float64))
+    y_pred = np.asarray(rows, dtype=np.float64)
+    if state.outputs_2d:
+        return y_pred
+    return np.asarray(y_pred.ravel(), dtype=np.float64)
 
 
 @register_atom(witness_nearest_centroid_fit)

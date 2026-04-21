@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from sciona.ghost.abstract import AbstractArray
 
-from .state_models import NearestCentroidState, NeighborsGraphTransformerState
+from .state_models import NearestCentroidState, NeighborsGraphTransformerState, NeighborsRegressorState
 
 
 def _check_matrix(X: AbstractArray) -> tuple[int, int]:
@@ -31,6 +31,11 @@ def _check_algorithm_options(algorithm: str, leaf_size: int) -> None:
         raise ValueError("leaf_size must be positive")
 
 
+def _check_weights(weights: str) -> None:
+    if weights not in {"uniform", "distance"}:
+        raise ValueError("weights must be uniform or distance")
+
+
 def _check_include_self(include_self: bool | str) -> None:
     if not isinstance(include_self, bool) and include_self != "auto":
         raise ValueError("include_self must be bool or auto")
@@ -43,6 +48,16 @@ def _check_nearest_centroid_state(X: AbstractArray, state: NearestCentroidState)
     if state.classes.shape[0] < 2:
         raise ValueError("state must contain at least two classes")
     return n_queries
+
+
+def _check_regressor_state(X: AbstractArray, state: NeighborsRegressorState, expected_kind: str) -> tuple[int, int]:
+    n_queries, n_features = _check_matrix(X)
+    if n_features != state.n_features_in:
+        raise ValueError("X feature count must match fitted state")
+    if state.regressor_kind != expected_kind:
+        raise ValueError("state must match requested neighbor regressor kind")
+    _check_weights(state.weights)
+    return n_queries, state.target.shape[1]
 
 
 def witness_kneighbors_graph(
@@ -153,6 +168,74 @@ def witness_radius_neighbors_transform(X: AbstractArray, state: NeighborsGraphTr
     if n_features != state.n_features_in:
         raise ValueError("X feature count must match fitted state")
     return AbstractArray(shape=(n_queries, state.training_data.shape[0]), dtype="float64")
+
+
+def witness_kneighbors_regressor_fit(
+    X: AbstractArray,
+    y: AbstractArray,
+    *,
+    n_neighbors: int = 5,
+    weights: str = "uniform",
+    algorithm: str = "auto",
+    leaf_size: int = 30,
+    p: float = 2.0,
+    metric: str = "minkowski",
+    metric_params: None = None,
+    n_jobs: None = None,
+) -> AbstractArray:
+    """Describe fitting a dense k-neighbor regressor."""
+    n_samples, n_features = _check_matrix(X)
+    if len(y.shape) not in {1, 2} or y.shape[0] != n_samples:
+        raise ValueError("y must be 1D or 2D and match X samples")
+    if not isinstance(n_neighbors, int) or isinstance(n_neighbors, bool) or n_neighbors < 1:
+        raise ValueError("n_neighbors must be positive")
+    if n_neighbors > n_samples:
+        raise ValueError("n_neighbors must not exceed sample count")
+    _check_weights(weights)
+    _check_algorithm_options(algorithm, leaf_size)
+    _check_minkowski_options(metric, p, metric_params, n_jobs)
+    return AbstractArray(shape=(n_samples, n_features), dtype="float64")
+
+
+def witness_kneighbors_regressor_predict(X: AbstractArray, state: NeighborsRegressorState) -> AbstractArray:
+    """Describe dense k-neighbor regression prediction."""
+    n_queries, n_outputs = _check_regressor_state(X, state, "kneighbors")
+    if state.outputs_2d:
+        return AbstractArray(shape=(n_queries, n_outputs), dtype="float64")
+    return AbstractArray(shape=(n_queries,), dtype="float64")
+
+
+def witness_radius_neighbors_regressor_fit(
+    X: AbstractArray,
+    y: AbstractArray,
+    *,
+    radius: float = 1.0,
+    weights: str = "uniform",
+    algorithm: str = "auto",
+    leaf_size: int = 30,
+    p: float = 2.0,
+    metric: str = "minkowski",
+    metric_params: None = None,
+    n_jobs: None = None,
+) -> AbstractArray:
+    """Describe fitting a dense radius-neighbor regressor."""
+    n_samples, n_features = _check_matrix(X)
+    if len(y.shape) not in {1, 2} or y.shape[0] != n_samples:
+        raise ValueError("y must be 1D or 2D and match X samples")
+    if not isinstance(radius, (int, float)) or isinstance(radius, bool) or radius < 0:
+        raise ValueError("radius must be nonnegative")
+    _check_weights(weights)
+    _check_algorithm_options(algorithm, leaf_size)
+    _check_minkowski_options(metric, p, metric_params, n_jobs)
+    return AbstractArray(shape=(n_samples, n_features), dtype="float64")
+
+
+def witness_radius_neighbors_regressor_predict(X: AbstractArray, state: NeighborsRegressorState) -> AbstractArray:
+    """Describe dense radius-neighbor regression prediction."""
+    n_queries, n_outputs = _check_regressor_state(X, state, "radius_neighbors")
+    if state.outputs_2d:
+        return AbstractArray(shape=(n_queries, n_outputs), dtype="float64")
+    return AbstractArray(shape=(n_queries,), dtype="float64")
 
 
 def witness_nearest_centroid_fit(
