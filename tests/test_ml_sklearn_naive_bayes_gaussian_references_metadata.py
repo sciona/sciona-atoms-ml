@@ -24,7 +24,7 @@ EXPECTED_FQDNS = {
 def test_gaussian_nb_references_json_exists_and_has_fqdns() -> None:
     assert REFERENCES_PATH.exists()
     payload = json.loads(REFERENCES_PATH.read_text(encoding="utf-8"))
-    assert EXPECTED_FQDNS == {key.partition("@")[0] for key in payload["atoms"]}
+    assert EXPECTED_FQDNS.issubset({key.partition("@")[0] for key in payload["atoms"]})
 
 
 def test_gaussian_nb_atoms_have_nonempty_references() -> None:

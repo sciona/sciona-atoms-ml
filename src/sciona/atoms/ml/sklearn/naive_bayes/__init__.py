@@ -7,15 +7,32 @@ from .atoms import (
     gaussian_nb_predict_log_proba,
     gaussian_nb_predict_proba,
     gaussian_nb_update_mean_variance,
+    multinomial_nb_class_log_prior,
+    multinomial_nb_count,
+    multinomial_nb_feature_log_prob,
+    multinomial_nb_fit,
+    multinomial_nb_joint_log_likelihood,
+    multinomial_nb_predict,
+    multinomial_nb_predict_log_proba,
+    multinomial_nb_predict_proba,
 )
-from .state_models import GaussianNBState
+from .state_models import GaussianNBState, MultinomialNBState
 
 __all__ = [
     "GaussianNBState",
+    "MultinomialNBState",
     "gaussian_nb_fit",
     "gaussian_nb_joint_log_likelihood",
     "gaussian_nb_predict",
     "gaussian_nb_predict_log_proba",
     "gaussian_nb_predict_proba",
     "gaussian_nb_update_mean_variance",
+    "multinomial_nb_class_log_prior",
+    "multinomial_nb_count",
+    "multinomial_nb_feature_log_prob",
+    "multinomial_nb_fit",
+    "multinomial_nb_joint_log_likelihood",
+    "multinomial_nb_predict",
+    "multinomial_nb_predict_log_proba",
+    "multinomial_nb_predict_proba",
 ]

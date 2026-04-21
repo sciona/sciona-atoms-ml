@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "atoms": {
-    "sciona.atoms.ml.sklearn.naive_bayes.gaussian_nb_update_mean_variance@sciona/atoms/ml/sklearn/naive_bayes/atoms.py:183": {
+    "sciona.atoms.ml.sklearn.naive_bayes.gaussian_nb_update_mean_variance@sciona/atoms/ml/sklearn/naive_bayes/atoms.py:191": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -36,7 +36,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.naive_bayes.gaussian_nb_fit@sciona/atoms/ml/sklearn/naive_bayes/atoms.py:226": {
+    "sciona.atoms.ml.sklearn.naive_bayes.gaussian_nb_fit@sciona/atoms/ml/sklearn/naive_bayes/atoms.py:234": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -71,7 +71,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.naive_bayes.gaussian_nb_joint_log_likelihood@sciona/atoms/ml/sklearn/naive_bayes/atoms.py:283": {
+    "sciona.atoms.ml.sklearn.naive_bayes.gaussian_nb_joint_log_likelihood@sciona/atoms/ml/sklearn/naive_bayes/atoms.py:291": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -96,7 +96,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.naive_bayes.gaussian_nb_predict_log_proba@sciona/atoms/ml/sklearn/naive_bayes/atoms.py:298": {
+    "sciona.atoms.ml.sklearn.naive_bayes.gaussian_nb_predict_log_proba@sciona/atoms/ml/sklearn/naive_bayes/atoms.py:306": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -121,7 +121,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.naive_bayes.gaussian_nb_predict_proba@sciona/atoms/ml/sklearn/naive_bayes/atoms.py:307": {
+    "sciona.atoms.ml.sklearn.naive_bayes.gaussian_nb_predict_proba@sciona/atoms/ml/sklearn/naive_bayes/atoms.py:315": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -146,7 +146,237 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.naive_bayes.gaussian_nb_predict@sciona/atoms/ml/sklearn/naive_bayes/atoms.py:315": {
+    "sciona.atoms.ml.sklearn.naive_bayes.gaussian_nb_predict@sciona/atoms/ml/sklearn/naive_bayes/atoms.py:323": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.naive_bayes._BaseNB.predict lines 70-93 in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.naive_bayes.multinomial_nb_count@sciona/atoms/ml/sklearn/naive_bayes/atoms.py:446": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.naive_bayes._BaseDiscreteNB.fit lines 747-798 and MultinomialNB._count lines 919-923 in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "manning2008ir",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Information retrieval text reference cited by scikit-learn for multinomial naive Bayes."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.naive_bayes.multinomial_nb_feature_log_prob@sciona/atoms/ml/sklearn/naive_bayes/atoms.py:467": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.naive_bayes.MultinomialNB._update_feature_log_prob lines 925-932 in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "manning2008ir",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Information retrieval text reference cited by scikit-learn for multinomial naive Bayes."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.naive_bayes.multinomial_nb_class_log_prior@sciona/atoms/ml/sklearn/naive_bayes/atoms.py:478": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.naive_bayes._BaseDiscreteNB._update_class_log_prior lines 615-637 in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.naive_bayes.multinomial_nb_fit@sciona/atoms/ml/sklearn/naive_bayes/atoms.py:500": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.naive_bayes._BaseDiscreteNB.fit lines 747-798 and MultinomialNB count/probability helpers lines 919-936 in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "manning2008ir",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Information retrieval text reference cited by scikit-learn for multinomial naive Bayes."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.naive_bayes.multinomial_nb_joint_log_likelihood@sciona/atoms/ml/sklearn/naive_bayes/atoms.py:528": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.naive_bayes.MultinomialNB._joint_log_likelihood lines 934-936 in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.naive_bayes.multinomial_nb_predict_log_proba@sciona/atoms/ml/sklearn/naive_bayes/atoms.py:536": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.naive_bayes._BaseNB.predict_log_proba lines 95-121 in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.naive_bayes.multinomial_nb_predict_proba@sciona/atoms/ml/sklearn/naive_bayes/atoms.py:545": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.naive_bayes._BaseNB.predict_proba lines 123-139 in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.naive_bayes.multinomial_nb_predict@sciona/atoms/ml/sklearn/naive_bayes/atoms.py:553": {
       "references": [
         {
           "ref_id": "repo_sklearn",

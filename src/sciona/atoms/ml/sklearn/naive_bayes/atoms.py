@@ -8,7 +8,7 @@ from numpy.typing import NDArray
 
 from sciona.ghost.registry import register_atom
 
-from .state_models import GaussianNBState
+from .state_models import GaussianNBState, MultinomialNBState
 from .witnesses import (
     witness_gaussian_nb_fit,
     witness_gaussian_nb_joint_log_likelihood,
@@ -16,6 +16,14 @@ from .witnesses import (
     witness_gaussian_nb_predict_log_proba,
     witness_gaussian_nb_predict_proba,
     witness_gaussian_nb_update_mean_variance,
+    witness_multinomial_nb_class_log_prior,
+    witness_multinomial_nb_count,
+    witness_multinomial_nb_feature_log_prob,
+    witness_multinomial_nb_fit,
+    witness_multinomial_nb_joint_log_likelihood,
+    witness_multinomial_nb_predict,
+    witness_multinomial_nb_predict_log_proba,
+    witness_multinomial_nb_predict_proba,
 )
 
 
@@ -315,4 +323,234 @@ def gaussian_nb_predict_proba(X: NDArray[np.float64], state: GaussianNBState) ->
 def gaussian_nb_predict(X: NDArray[np.float64], state: GaussianNBState) -> NDArray[np.int64]:
     """Return the fitted class with largest Gaussian joint log likelihood."""
     joint = gaussian_nb_joint_log_likelihood(X, state)
+    return state.classes[np.argmax(joint, axis=1)]
+
+
+def _nonnegative_matrix(X: NDArray[np.float64]) -> bool:
+    return bool(_numeric_matrix(X) and np.all(np.asarray(X, dtype=np.float64) >= 0.0))
+
+
+def _count_result_valid(
+    result: tuple[NDArray[np.int64], NDArray[np.float64], NDArray[np.float64]],
+    X: NDArray[np.float64],
+    y: NDArray[np.int64],
+) -> bool:
+    classes, class_count, feature_count = result
+    n_classes = np.unique(np.asarray(y, dtype=np.int64)).shape[0]
+    return bool(
+        classes.shape == (n_classes,)
+        and class_count.shape == (n_classes,)
+        and feature_count.shape == (n_classes, _feature_count(X))
+        and np.all(np.isfinite(class_count))
+        and np.all(class_count > 0.0)
+        and np.all(np.isfinite(feature_count))
+        and np.all(feature_count >= 0.0)
+    )
+
+
+def _feature_count_matrix_valid(feature_count: NDArray[np.float64]) -> bool:
+    values = np.asarray(feature_count, dtype=np.float64)
+    return bool(values.ndim == 2 and values.shape[0] >= 2 and values.shape[1] >= 1 and np.all(np.isfinite(values)) and np.all(values >= 0.0))
+
+
+def _feature_log_prob_result_valid(result: NDArray[np.float64], feature_count: NDArray[np.float64]) -> bool:
+    values = np.asarray(result, dtype=np.float64)
+    return bool(
+        values.shape == np.asarray(feature_count).shape
+        and np.all(np.isfinite(values))
+        and np.all(values <= 0.0)
+        and np.allclose(np.sum(np.exp(values), axis=1), 1.0)
+    )
+
+
+def _class_count_valid(class_count: NDArray[np.float64]) -> bool:
+    values = np.asarray(class_count, dtype=np.float64)
+    return bool(values.ndim == 1 and values.shape[0] >= 2 and np.all(np.isfinite(values)) and np.all(values > 0.0))
+
+
+def _class_prior_valid_for_count(class_prior: NDArray[np.float64] | None, n_classes: int) -> bool:
+    return _optional_priors_valid(class_prior, n_classes)
+
+
+def _class_log_prior_result_valid(result: NDArray[np.float64], class_count: NDArray[np.float64]) -> bool:
+    values = np.asarray(result, dtype=np.float64)
+    return bool(
+        values.shape == np.asarray(class_count).shape
+        and np.all(np.isfinite(values))
+        and np.all(values <= 0.0)
+        and np.isclose(np.sum(np.exp(values)), 1.0)
+    )
+
+
+def _multinomial_state_valid(state: MultinomialNBState) -> bool:
+    n_classes = int(state.classes.shape[0])
+    return bool(
+        state.classes.ndim == 1
+        and n_classes >= 2
+        and state.class_count.shape == (n_classes,)
+        and state.feature_count.shape == (n_classes, state.n_features_in)
+        and state.class_log_prior.shape == (n_classes,)
+        and state.feature_log_prob.shape == (n_classes, state.n_features_in)
+        and state.n_features_in >= 1
+        and np.all(np.isfinite(state.class_count))
+        and np.all(state.class_count > 0.0)
+        and np.all(np.isfinite(state.feature_count))
+        and np.all(state.feature_count >= 0.0)
+        and np.all(np.isfinite(state.class_log_prior))
+        and np.isclose(np.sum(np.exp(state.class_log_prior)), 1.0)
+        and np.all(np.isfinite(state.feature_log_prob))
+        and np.allclose(np.sum(np.exp(state.feature_log_prob), axis=1), 1.0)
+        and np.isfinite(state.alpha)
+        and state.alpha > 0.0
+    )
+
+
+def _multinomial_fit_result_valid(result: MultinomialNBState, X: NDArray[np.float64], y: NDArray[np.int64]) -> bool:
+    return bool(
+        _multinomial_state_valid(result)
+        and result.n_features_in == _feature_count(X)
+        and result.classes.shape[0] == np.unique(np.asarray(y, dtype=np.int64)).shape[0]
+    )
+
+
+def _multinomial_matrix_against_state(X: NDArray[np.float64], state: MultinomialNBState) -> bool:
+    return bool(_nonnegative_matrix(X) and _multinomial_state_valid(state) and _feature_count(X) == state.n_features_in)
+
+
+def _multinomial_class_matrix_result_valid(result: NDArray[np.float64], X: NDArray[np.float64], state: MultinomialNBState) -> bool:
+    values = np.asarray(result, dtype=np.float64)
+    return bool(values.shape == (_row_count(X), state.classes.shape[0]) and np.all(np.isfinite(values)))
+
+
+def _multinomial_probability_result_valid(result: NDArray[np.float64], X: NDArray[np.float64], state: MultinomialNBState) -> bool:
+    values = np.asarray(result, dtype=np.float64)
+    return bool(
+        values.shape == (_row_count(X), state.classes.shape[0])
+        and np.all(np.isfinite(values))
+        and np.all(values >= 0.0)
+        and np.all(values <= 1.0)
+        and np.allclose(np.sum(values, axis=1), 1.0)
+    )
+
+
+def _multinomial_prediction_result_valid(result: NDArray[np.int64], X: NDArray[np.float64], state: MultinomialNBState) -> bool:
+    values = np.asarray(result, dtype=np.int64)
+    return bool(values.shape == (_row_count(X),) and np.all(np.isin(values, state.classes)))
+
+
+@register_atom(witness_multinomial_nb_count)
+@icontract.require(lambda X: _nonnegative_matrix(X), "X must be a dense finite nonnegative 2D matrix")
+@icontract.require(lambda X, y: _int_label_vector(y, X), "y must be an integer label vector with at least two classes")
+@icontract.require(lambda X, sample_weight: _optional_weights_valid(sample_weight, _row_count(X)), "sample_weight must be positive and match X rows")
+@icontract.ensure(lambda result, X, y: _count_result_valid(result, X, y), "counts must match class and feature dimensions")
+def multinomial_nb_count(
+    X: NDArray[np.float64],
+    y: NDArray[np.int64],
+    sample_weight: NDArray[np.float64] | None = None,
+) -> tuple[NDArray[np.int64], NDArray[np.float64], NDArray[np.float64]]:
+    """Accumulate multinomial class counts and class-feature counts."""
+    values = np.asarray(X, dtype=np.float64)
+    labels = np.asarray(y, dtype=np.int64)
+    classes = np.unique(labels).astype(np.int64)
+    label_matrix = (labels[:, np.newaxis] == classes[np.newaxis, :]).astype(np.float64)
+    if sample_weight is not None:
+        label_matrix *= np.asarray(sample_weight, dtype=np.float64)[:, np.newaxis]
+    class_count = np.sum(label_matrix, axis=0)
+    feature_count = label_matrix.T @ values
+    return classes, class_count, feature_count
+
+
+@register_atom(witness_multinomial_nb_feature_log_prob)
+@icontract.require(lambda feature_count: _feature_count_matrix_valid(feature_count), "feature_count must be a finite nonnegative class-feature matrix")
+@icontract.require(lambda alpha: np.isfinite(alpha) and alpha > 0.0, "alpha must be positive")
+@icontract.ensure(lambda result, feature_count: _feature_log_prob_result_valid(result, feature_count), "feature log probabilities must normalize by class")
+def multinomial_nb_feature_log_prob(feature_count: NDArray[np.float64], *, alpha: float = 1.0) -> NDArray[np.float64]:
+    """Apply additive smoothing to multinomial feature counts."""
+    smoothed = np.asarray(feature_count, dtype=np.float64) + float(alpha)
+    smoothed_class_count = np.sum(smoothed, axis=1)
+    return np.log(smoothed) - np.log(smoothed_class_count[:, np.newaxis])
+
+
+@register_atom(witness_multinomial_nb_class_log_prior)
+@icontract.require(lambda class_count: _class_count_valid(class_count), "class_count must be positive and one-dimensional")
+@icontract.require(lambda class_count, class_prior: _class_prior_valid_for_count(class_prior, np.asarray(class_count).shape[0]), "class_prior must be positive, sum to one, and match class count")
+@icontract.ensure(lambda result, class_count: _class_log_prior_result_valid(result, class_count), "class log priors must normalize across classes")
+def multinomial_nb_class_log_prior(
+    class_count: NDArray[np.float64],
+    *,
+    fit_prior: bool = True,
+    class_prior: NDArray[np.float64] | None = None,
+) -> NDArray[np.float64]:
+    """Compute multinomial naive Bayes class log priors."""
+    counts = np.asarray(class_count, dtype=np.float64)
+    if class_prior is not None:
+        return np.log(np.asarray(class_prior, dtype=np.float64))
+    if fit_prior:
+        return np.log(counts) - np.log(np.sum(counts))
+    return np.full(counts.shape[0], -np.log(counts.shape[0]), dtype=np.float64)
+
+
+@register_atom(witness_multinomial_nb_fit)
+@icontract.require(lambda X: _nonnegative_matrix(X), "X must be a dense finite nonnegative 2D matrix")
+@icontract.require(lambda X, y: _int_label_vector(y, X), "y must be an integer label vector with at least two classes")
+@icontract.require(lambda alpha: np.isfinite(alpha) and alpha > 0.0, "alpha must be positive")
+@icontract.require(lambda X, sample_weight: _optional_weights_valid(sample_weight, _row_count(X)), "sample_weight must be positive and match X rows")
+@icontract.require(lambda X, y, class_prior: _optional_priors_valid(class_prior, np.unique(np.asarray(y, dtype=np.int64)).shape[0]), "class_prior must be positive, sum to one, and match class count")
+@icontract.ensure(lambda result, X, y: _multinomial_fit_result_valid(result, X, y), "state must contain multinomial probabilities for each class")
+def multinomial_nb_fit(
+    X: NDArray[np.float64],
+    y: NDArray[np.int64],
+    *,
+    alpha: float = 1.0,
+    fit_prior: bool = True,
+    class_prior: NDArray[np.float64] | None = None,
+    sample_weight: NDArray[np.float64] | None = None,
+) -> MultinomialNBState:
+    """Fit dense multinomial naive Bayes counts and log probabilities."""
+    classes, class_count, feature_count = multinomial_nb_count(X, y, sample_weight)
+    feature_log_prob = multinomial_nb_feature_log_prob(feature_count, alpha=alpha)
+    class_log_prior = multinomial_nb_class_log_prior(class_count, fit_prior=fit_prior, class_prior=class_prior)
+    return MultinomialNBState(
+        classes=classes,
+        class_count=class_count,
+        feature_count=feature_count,
+        class_log_prior=class_log_prior,
+        feature_log_prob=feature_log_prob,
+        alpha=float(alpha),
+        fit_prior=bool(fit_prior),
+        n_features_in=_feature_count(X),
+    )
+
+
+@register_atom(witness_multinomial_nb_joint_log_likelihood)
+@icontract.require(lambda X, state: _multinomial_matrix_against_state(X, state), "X must match a valid fitted MultinomialNB state")
+@icontract.ensure(lambda result, X, state: _multinomial_class_matrix_result_valid(result, X, state), "joint log likelihood must have one column per class")
+def multinomial_nb_joint_log_likelihood(X: NDArray[np.float64], state: MultinomialNBState) -> NDArray[np.float64]:
+    """Return unnormalized multinomial naive Bayes log likelihoods by class."""
+    return np.asarray(X, dtype=np.float64) @ state.feature_log_prob.T + state.class_log_prior
+
+
+@register_atom(witness_multinomial_nb_predict_log_proba)
+@icontract.require(lambda X, state: _multinomial_matrix_against_state(X, state), "X must match a valid fitted MultinomialNB state")
+@icontract.ensure(lambda result, X, state: _multinomial_class_matrix_result_valid(result, X, state), "log probabilities must have one column per class")
+def multinomial_nb_predict_log_proba(X: NDArray[np.float64], state: MultinomialNBState) -> NDArray[np.float64]:
+    """Normalize multinomial joint log likelihoods into class log probabilities."""
+    joint = multinomial_nb_joint_log_likelihood(X, state)
+    return joint - _logsumexp(joint, axis=1)[:, np.newaxis]
+
+
+@register_atom(witness_multinomial_nb_predict_proba)
+@icontract.require(lambda X, state: _multinomial_matrix_against_state(X, state), "X must match a valid fitted MultinomialNB state")
+@icontract.ensure(lambda result, X, state: _multinomial_probability_result_valid(result, X, state), "probabilities must be normalized by row")
+def multinomial_nb_predict_proba(X: NDArray[np.float64], state: MultinomialNBState) -> NDArray[np.float64]:
+    """Return normalized multinomial naive Bayes class probabilities."""
+    return np.exp(multinomial_nb_predict_log_proba(X, state))
+
+
+@register_atom(witness_multinomial_nb_predict)
+@icontract.require(lambda X, state: _multinomial_matrix_against_state(X, state), "X must match a valid fitted MultinomialNB state")
+@icontract.ensure(lambda result, X, state: _multinomial_prediction_result_valid(result, X, state), "predictions must be fitted class labels")
+def multinomial_nb_predict(X: NDArray[np.float64], state: MultinomialNBState) -> NDArray[np.int64]:
+    """Return the fitted class with largest multinomial joint log likelihood."""
+    joint = multinomial_nb_joint_log_likelihood(X, state)
     return state.classes[np.argmax(joint, axis=1)]
