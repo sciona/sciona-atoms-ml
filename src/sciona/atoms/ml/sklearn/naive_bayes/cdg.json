@@ -1,0 +1,128 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_naive_bayes_root",
+      "name": "Sklearn Naive Bayes Atoms",
+      "description": "Dense Gaussian naive Bayes decomposition for selected sklearn.naive_bayes.GaussianNB behavior",
+      "status": "decomposed",
+      "children": [
+        "gaussian_nb_update_mean_variance",
+        "gaussian_nb_fit",
+        "gaussian_nb_joint_log_likelihood",
+        "gaussian_nb_predict_log_proba",
+        "gaussian_nb_predict_proba",
+        "gaussian_nb_predict"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "gaussian_nb_update_mean_variance",
+      "name": "gaussian_nb_update_mean_variance",
+      "description": "Combine existing Gaussian feature moments with a new dense sample block.",
+      "concept_type": "online_moment_update",
+      "status": "atomic",
+      "type_signature": "(n_past: float, mu: NDArray[np.float64], var: NDArray[np.float64], X: NDArray[np.float64], sample_weight: NDArray[np.float64] | None = None) -> tuple[NDArray[np.float64], NDArray[np.float64]]",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_past", "type_desc": "float", "required": true},
+        {"name": "mu", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "var", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "sample_weight", "type_desc": "NDArray[np.float64] | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[NDArray[np.float64], NDArray[np.float64]]"}
+      ]
+    },
+    {
+      "node_id": "gaussian_nb_fit",
+      "name": "gaussian_nb_fit",
+      "description": "Fit dense Gaussian naive Bayes class means, variances, and priors.",
+      "concept_type": "fit_state",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], y: NDArray[np.int64], priors: NDArray[np.float64] | None = None, var_smoothing: float = 1e-9, sample_weight: NDArray[np.float64] | None = None) -> GaussianNBState",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "y", "type_desc": "NDArray[np.int64]", "required": true},
+        {"name": "priors", "type_desc": "NDArray[np.float64] | None", "required": false},
+        {"name": "var_smoothing", "type_desc": "float", "required": false},
+        {"name": "sample_weight", "type_desc": "NDArray[np.float64] | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "GaussianNBState"}
+      ]
+    },
+    {
+      "node_id": "gaussian_nb_joint_log_likelihood",
+      "name": "gaussian_nb_joint_log_likelihood",
+      "description": "Return unnormalized Gaussian naive Bayes log likelihoods by class.",
+      "concept_type": "class_score",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: GaussianNBState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "state", "type_desc": "GaussianNBState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "gaussian_nb_predict_log_proba",
+      "name": "gaussian_nb_predict_log_proba",
+      "description": "Normalize Gaussian joint log likelihoods into class log probabilities.",
+      "concept_type": "class_probability",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: GaussianNBState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "state", "type_desc": "GaussianNBState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "gaussian_nb_predict_proba",
+      "name": "gaussian_nb_predict_proba",
+      "description": "Return normalized Gaussian naive Bayes class probabilities.",
+      "concept_type": "class_probability",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: GaussianNBState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "state", "type_desc": "GaussianNBState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "gaussian_nb_predict",
+      "name": "gaussian_nb_predict",
+      "description": "Return the fitted class with largest Gaussian joint log likelihood.",
+      "concept_type": "prediction",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: GaussianNBState) -> NDArray[np.int64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "state", "type_desc": "GaussianNBState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.int64]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "gaussian_nb_update_mean_variance", "target": "gaussian_nb_fit", "kind": "called_by"},
+    {"source": "gaussian_nb_fit", "target": "gaussian_nb_joint_log_likelihood", "kind": "provides_state"},
+    {"source": "gaussian_nb_joint_log_likelihood", "target": "gaussian_nb_predict_log_proba", "kind": "normalizes"},
+    {"source": "gaussian_nb_predict_log_proba", "target": "gaussian_nb_predict_proba", "kind": "exponentiates"},
+    {"source": "gaussian_nb_joint_log_likelihood", "target": "gaussian_nb_predict", "kind": "argmax"}
+  ]
+}
