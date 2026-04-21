@@ -39,7 +39,12 @@
         "lars_path",
         "lars_path_gram",
         "lars_fit",
-        "lars_predict"
+        "lars_predict",
+        "lasso_lars_path",
+        "lasso_lars_fit",
+        "lasso_lars_predict",
+        "lasso_lars_ic_fit",
+        "lasso_lars_ic_predict"
       ],
       "depth": 0
     },
@@ -738,6 +743,118 @@
       "outputs": [
         {"name": "result", "type_desc": "NDArray[np.float64]"}
       ]
+    },
+    {
+      "node_id": "lasso_lars_path",
+      "name": "lasso_lars_path",
+      "description": "Compute a dense unconstrained Lasso-LARS coefficient path.",
+      "concept_type": "coefficient_path",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], Xy: NDArray[np.float64] | None = None, Gram: NDArray[np.float64] | bool | str | None = None, max_iter: int = 500, alpha_min: float = 0.0, copy_X: bool = True, eps: float = np.finfo(float).eps, copy_Gram: bool = True, verbose: int | bool = 0, return_path: bool = True, return_n_iter: bool = False, positive: bool = False) -> LarsPathState",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "Xy", "type_desc": "NDArray[np.float64] | None", "required": false},
+        {"name": "Gram", "type_desc": "NDArray[np.float64] | bool | str | None", "required": false},
+        {"name": "max_iter", "type_desc": "int", "required": false},
+        {"name": "alpha_min", "type_desc": "float", "required": false},
+        {"name": "copy_X", "type_desc": "bool", "required": false},
+        {"name": "eps", "type_desc": "float", "required": false},
+        {"name": "copy_Gram", "type_desc": "bool", "required": false},
+        {"name": "verbose", "type_desc": "int | bool", "required": false},
+        {"name": "return_path", "type_desc": "bool", "required": false},
+        {"name": "return_n_iter", "type_desc": "bool", "required": false},
+        {"name": "positive", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "LarsPathState"}
+      ]
+    },
+    {
+      "node_id": "lasso_lars_fit",
+      "name": "lasso_lars_fit",
+      "description": "Fit dense single-output Lasso-LARS coefficients.",
+      "concept_type": "fit_state_builder",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], Xy: NDArray[np.float64] | None = None, alpha: float = 1.0, fit_intercept: bool = True, verbose: int | bool = False, precompute: bool | str | NDArray[np.float64] = 'auto', max_iter: int = 500, eps: float = np.finfo(float).eps, copy_X: bool = True, fit_path: bool = True, positive: bool = False, jitter: None = None, random_state: None = None) -> LassoLarsState",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "Xy", "type_desc": "NDArray[np.float64] | None", "required": false},
+        {"name": "alpha", "type_desc": "float", "required": false},
+        {"name": "fit_intercept", "type_desc": "bool", "required": false},
+        {"name": "verbose", "type_desc": "int | bool", "required": false},
+        {"name": "precompute", "type_desc": "bool | str | NDArray[np.float64]", "required": false},
+        {"name": "max_iter", "type_desc": "int", "required": false},
+        {"name": "eps", "type_desc": "float", "required": false},
+        {"name": "copy_X", "type_desc": "bool", "required": false},
+        {"name": "fit_path", "type_desc": "bool", "required": false},
+        {"name": "positive", "type_desc": "bool", "required": false},
+        {"name": "jitter", "type_desc": "None", "required": false},
+        {"name": "random_state", "type_desc": "None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "LassoLarsState"}
+      ]
+    },
+    {
+      "node_id": "lasso_lars_predict",
+      "name": "lasso_lars_predict",
+      "description": "Predict dense Lasso-LARS regression outputs.",
+      "concept_type": "prediction",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: LassoLarsState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "state", "type_desc": "LassoLarsState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "lasso_lars_ic_fit",
+      "name": "lasso_lars_ic_fit",
+      "description": "Fit dense Lasso-LARS coefficients selected by AIC or BIC.",
+      "concept_type": "model_selection",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], criterion: str = 'aic', fit_intercept: bool = True, verbose: int | bool = False, precompute: bool | str | NDArray[np.float64] = 'auto', max_iter: int = 500, eps: float = np.finfo(float).eps, copy_X: bool = True, positive: bool = False, noise_variance: float | None = None) -> LassoLarsICState",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "criterion", "type_desc": "str", "required": false},
+        {"name": "fit_intercept", "type_desc": "bool", "required": false},
+        {"name": "verbose", "type_desc": "int | bool", "required": false},
+        {"name": "precompute", "type_desc": "bool | str | NDArray[np.float64]", "required": false},
+        {"name": "max_iter", "type_desc": "int", "required": false},
+        {"name": "eps", "type_desc": "float", "required": false},
+        {"name": "copy_X", "type_desc": "bool", "required": false},
+        {"name": "positive", "type_desc": "bool", "required": false},
+        {"name": "noise_variance", "type_desc": "float | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "LassoLarsICState"}
+      ]
+    },
+    {
+      "node_id": "lasso_lars_ic_predict",
+      "name": "lasso_lars_ic_predict",
+      "description": "Predict dense Lasso-LARS IC regression outputs.",
+      "concept_type": "prediction",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: LassoLarsICState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "state", "type_desc": "LassoLarsICState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
     }
   ],
   "edges": [
@@ -767,7 +884,11 @@
     {"source": "theil_sen_regressor_fit", "target": "theil_sen_regressor_predict", "kind": "state"},
     {"source": "lars_path_gram", "target": "lars_path", "kind": "sufficient_statistics"},
     {"source": "lars_path", "target": "lars_fit", "kind": "solver"},
-    {"source": "lars_fit", "target": "lars_predict", "kind": "state"}
+    {"source": "lars_fit", "target": "lars_predict", "kind": "state"},
+    {"source": "lasso_lars_path", "target": "lasso_lars_fit", "kind": "solver"},
+    {"source": "lasso_lars_fit", "target": "lasso_lars_predict", "kind": "state"},
+    {"source": "lasso_lars_path", "target": "lasso_lars_ic_fit", "kind": "model_selection"},
+    {"source": "lasso_lars_ic_fit", "target": "lasso_lars_ic_predict", "kind": "state"}
   ],
   "metadata": {
     "source": "agent_ingestion",

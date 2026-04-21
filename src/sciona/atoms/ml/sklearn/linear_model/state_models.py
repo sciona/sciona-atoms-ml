@@ -181,3 +181,36 @@ class LarsState:
     fit_intercept: bool
     n_nonzero_coefs: int
     n_features_in: int
+
+
+@dataclass(frozen=True)
+class LassoLarsState:
+    """Fitted dense Lasso-LARS regression state."""
+
+    coef: NDArray[np.float64]
+    intercept: float
+    alpha: float
+    alphas: NDArray[np.float64]
+    active: NDArray[np.int64]
+    coef_path: NDArray[np.float64]
+    n_iter: int
+    fit_intercept: bool
+    max_iter: int
+    n_features_in: int
+
+
+@dataclass(frozen=True)
+class LassoLarsICState:
+    """Fitted dense Lasso-LARS information-criterion state."""
+
+    coef: NDArray[np.float64]
+    intercept: float
+    alpha: float
+    alphas: NDArray[np.float64]
+    criterion_values: NDArray[np.float64]
+    noise_variance: float
+    n_iter: int
+    criterion: str
+    fit_intercept: bool
+    max_iter: int
+    n_features_in: int

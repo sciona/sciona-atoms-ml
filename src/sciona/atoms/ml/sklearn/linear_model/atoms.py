@@ -21,6 +21,8 @@ from .state_models import (
     BayesianRidgeState,
     LarsPathState,
     LarsState,
+    LassoLarsICState,
+    LassoLarsState,
     LinearRegressionState,
     OrthogonalMatchingPursuitCVState,
     OrthogonalMatchingPursuitState,
@@ -41,6 +43,11 @@ from .witnesses import (
     witness_lars_path,
     witness_lars_path_gram,
     witness_lars_predict,
+    witness_lasso_lars_fit,
+    witness_lasso_lars_ic_fit,
+    witness_lasso_lars_ic_predict,
+    witness_lasso_lars_path,
+    witness_lasso_lars_predict,
     witness_linear_regression_fit,
     witness_linear_regression_predict,
     witness_orthogonal_matching_pursuit_fit,
@@ -2177,7 +2184,7 @@ def _lars_path_state_valid(state: LarsPathState) -> bool:
         and state.coefs.shape[1] == state.alphas.shape[0]
         and state.active.shape[0] <= state.n_iter
         and state.n_iter >= 0
-        and state.method == "lar"
+        and state.method in {"lar", "lasso"}
         and state.alpha_min >= 0.0
         and state.n_samples >= 1
         and state.n_features_in >= 1
@@ -2213,6 +2220,64 @@ def _lars_feature_count_matches(X: NDArray[np.float64], state: LarsState) -> boo
 def _lars_prediction_valid(result: NDArray[np.float64], X: NDArray[np.float64]) -> bool:
     values = np.asarray(result)
     return bool(values.shape == (np.asarray(X).shape[0],) and np.all(np.isfinite(values)))
+
+
+def _lasso_lars_state_valid(state: LassoLarsState) -> bool:
+    return bool(
+        state.coef.shape == (state.n_features_in,)
+        and state.coef_path.shape[0] == state.n_features_in
+        and state.coef_path.shape[1] == state.alphas.shape[0]
+        and state.active.ndim == 1
+        and state.n_iter >= 0
+        and isinstance(state.fit_intercept, bool)
+        and state.max_iter >= 0
+        and state.n_features_in >= 1
+        and np.isfinite(state.intercept)
+        and np.isfinite(state.alpha)
+        and state.alpha >= 0.0
+        and np.all(np.isfinite(state.coef))
+        and np.all(np.isfinite(state.alphas))
+        and np.all(state.alphas >= 0.0)
+        and np.all(np.isfinite(state.coef_path))
+        and np.all((state.active >= 0) & (state.active < state.n_features_in))
+    )
+
+
+def _lasso_lars_ic_state_valid(state: LassoLarsICState) -> bool:
+    return bool(
+        state.coef.shape == (state.n_features_in,)
+        and state.alphas.ndim == 1
+        and state.criterion_values.shape == state.alphas.shape
+        and state.n_iter >= 0
+        and state.criterion in {"aic", "bic"}
+        and isinstance(state.fit_intercept, bool)
+        and state.max_iter >= 0
+        and state.n_features_in >= 1
+        and np.isfinite(state.intercept)
+        and np.isfinite(state.alpha)
+        and state.alpha >= 0.0
+        and np.isfinite(state.noise_variance)
+        and state.noise_variance > 0.0
+        and np.all(np.isfinite(state.coef))
+        and np.all(np.isfinite(state.alphas))
+        and np.all(state.alphas >= 0.0)
+        and np.all(np.isfinite(state.criterion_values))
+    )
+
+
+def _lasso_lars_feature_count_matches(X: NDArray[np.float64], state: LassoLarsState | LassoLarsICState) -> bool:
+    return bool(np.asarray(X).ndim == 2 and np.asarray(X).shape[1] == state.n_features_in)
+
+
+def _lasso_lars_noise_variance_allowed(
+    X: NDArray[np.float64],
+    fit_intercept: bool,
+    noise_variance: float | None,
+) -> bool:
+    if noise_variance is not None:
+        return _positive_finite(noise_variance)
+    x_values = np.asarray(X)
+    return bool(x_values.ndim == 2 and x_values.shape[0] > x_values.shape[1] + int(fit_intercept))
 
 
 def _lars_precompute_valid(precompute: bool | str | NDArray[np.float64]) -> bool:
@@ -2469,5 +2534,325 @@ def lars_fit(
 @icontract.ensure(lambda result, X: _lars_prediction_valid(result, X), "predictions must be finite per-row values")
 def lars_predict(X: NDArray[np.float64], state: LarsState) -> NDArray[np.float64]:
     """Predict dense LARS regression outputs."""
+    checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
+    return np.asarray(np.dot(checked_x, state.coef) + state.intercept, dtype=np.float64)
+
+
+def _lasso_lars_path_output_from_gram(
+    Xy: NDArray[np.float64],
+    Gram: NDArray[np.float64],
+    *,
+    n_samples: int,
+    max_iter: int,
+    alpha_min: float,
+) -> LarsPathState:
+    n_features = Xy.shape[0]
+    max_steps = max(0, int(max_iter))
+    active: list[int] = []
+    signs: list[float] = []
+    coef = np.zeros(n_features, dtype=np.float64)
+    alphas: list[float] = []
+    coefs: list[NDArray[np.float64]] = []
+    cov = np.asarray(Xy, dtype=np.float64).copy()
+    tiny = np.finfo(np.float64).tiny
+    equality_tolerance = np.finfo(np.float32).eps
+    n_iter = 0
+    drop_previous = False
+
+    while True:
+        inactive = np.asarray([idx for idx in range(n_features) if idx not in active], dtype=np.int64)
+        if inactive.size:
+            C = float(np.max(np.abs(cov[inactive])))
+        else:
+            C = 0.0
+        current_alpha = C / n_samples
+        if current_alpha <= alpha_min + equality_tolerance:
+            if alphas and abs(current_alpha - alpha_min) > equality_tolerance:
+                previous_alpha = alphas[-1]
+                previous_coef = coefs[-1]
+                if abs(previous_alpha - current_alpha) > equality_tolerance:
+                    ss = (previous_alpha - alpha_min) / (previous_alpha - current_alpha)
+                    coef = previous_coef + ss * (coef - previous_coef)
+                current_alpha = alpha_min
+            alphas.append(float(current_alpha))
+            coefs.append(coef.copy())
+            break
+        alphas.append(float(current_alpha))
+        coefs.append(coef.copy())
+
+        if n_iter >= max_steps or len(active) >= n_features:
+            break
+
+        if not drop_previous and inactive.size:
+            selected = int(inactive[int(np.argmax(np.abs(cov[inactive])))])
+            selected_sign = float(np.sign(cov[selected]))
+            active.append(selected)
+            signs.append(1.0 if selected_sign == 0.0 else selected_sign)
+
+        if not active:
+            break
+
+        active_index = np.asarray(active, dtype=np.int64)
+        sign_array = np.asarray(signs, dtype=np.float64)
+        gram_active = Gram[np.ix_(active_index, active_index)]
+        try:
+            least_squares = linalg.solve(gram_active, sign_array, assume_a="sym")
+        except linalg.LinAlgError:
+            least_squares, _, _, _ = linalg.lstsq(gram_active, sign_array, cond=None)
+        denom = float(np.sum(least_squares * sign_array))
+        if denom <= tiny:
+            break
+        AA = float(1.0 / np.sqrt(denom))
+        direction = AA * least_squares
+        corr_eq_dir = Gram[:, active_index] @ direction
+
+        inactive_after = np.asarray([idx for idx in range(n_features) if idx not in active], dtype=np.int64)
+        if inactive_after.size:
+            g1 = _min_positive((C - cov[inactive_after]) / (AA - corr_eq_dir[inactive_after] + tiny))
+            g2 = _min_positive((C + cov[inactive_after]) / (AA + corr_eq_dir[inactive_after] + tiny))
+            gamma = min(g1, g2, C / AA)
+        else:
+            gamma = C / AA
+        if not np.isfinite(gamma):
+            gamma = C / AA
+
+        z = -coef[active_index] / (direction + tiny)
+        z_pos = _min_positive(z)
+        drop_indices = np.asarray([], dtype=np.int64)
+        drop_previous = False
+        if z_pos < gamma:
+            gamma = z_pos
+            drop_indices = np.where(np.isclose(z, z_pos, rtol=1e-12, atol=1e-12))[0][::-1]
+            drop_previous = True
+
+        coef[active_index] += gamma * direction
+        if drop_indices.size:
+            for drop_position in drop_indices:
+                coef[active[drop_position]] = 0.0
+            for drop_position in drop_indices:
+                del active[int(drop_position)]
+                del signs[int(drop_position)]
+
+        cov = Xy - Gram @ coef
+        n_iter += 1
+
+    return LarsPathState(
+        alphas=np.asarray(alphas, dtype=np.float64),
+        active=np.asarray(active, dtype=np.int64),
+        coefs=np.asarray(coefs, dtype=np.float64).T,
+        n_iter=int(n_iter),
+        method="lasso",
+        alpha_min=float(alpha_min),
+        n_samples=int(n_samples),
+        n_features_in=int(n_features),
+    )
+
+
+@register_atom(witness_lasso_lars_path)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda y: _target_1d(y), "y must be 1D")
+@icontract.require(lambda X, y: _same_sample_count(X, y), "X and y must have matching sample counts")
+@icontract.require(lambda X, y: _finite_inputs(X, y), "X and y must contain finite numeric values")
+@icontract.require(lambda Xy, X: Xy is None or (np.asarray(Xy).ndim == 1 and np.asarray(Xy).shape[0] == np.asarray(X).shape[1] and np.all(np.isfinite(np.asarray(Xy)))), "Xy must be 1D and match feature count")
+@icontract.require(lambda Gram: Gram is None or isinstance(Gram, (bool, str)) or _square_matrix(Gram), "Gram must be None, boolean, auto, or square")
+@icontract.require(lambda max_iter: isinstance(max_iter, int) and not isinstance(max_iter, bool) and max_iter >= 0, "max_iter must be non-negative")
+@icontract.require(lambda alpha_min: _nonnegative_finite(alpha_min), "alpha_min must be non-negative")
+@icontract.require(lambda copy_X: _bool_value(copy_X), "copy_X must be boolean")
+@icontract.require(lambda eps: _positive_finite(eps), "eps must be positive")
+@icontract.require(lambda copy_Gram: _bool_value(copy_Gram), "copy_Gram must be boolean")
+@icontract.require(lambda verbose: verbose in {False, 0}, "verbose output is outside this atom scope")
+@icontract.require(lambda return_path: return_path is True, "return_path=False is outside this atom scope")
+@icontract.require(lambda return_n_iter: _bool_value(return_n_iter), "return_n_iter must be boolean")
+@icontract.require(lambda positive: positive is False, "positive=True is outside this atom scope")
+@icontract.ensure(lambda result: _lars_path_state_valid(result), "Lasso-LARS path state must contain finite path arrays")
+def lasso_lars_path(
+    X: NDArray[np.float64],
+    y: NDArray[np.float64],
+    Xy: NDArray[np.float64] | None = None,
+    *,
+    Gram: NDArray[np.float64] | bool | str | None = None,
+    max_iter: int = 500,
+    alpha_min: float = 0.0,
+    copy_X: bool = True,
+    eps: float = np.finfo(float).eps,
+    copy_Gram: bool = True,
+    verbose: int | bool = 0,
+    return_path: bool = True,
+    return_n_iter: bool = False,
+    positive: bool = False,
+) -> LarsPathState:
+    """Compute a dense unconstrained Lasso-LARS coefficient path."""
+    del copy_X, eps, copy_Gram, verbose, return_path, return_n_iter, positive
+    checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
+    checked_y = check_array(y, dtype=np.float64, ensure_2d=False, input_name="y")
+    xy = np.asarray(checked_x.T @ checked_y if Xy is None else Xy, dtype=np.float64)
+    if Gram is None or (isinstance(Gram, bool) and Gram is False):
+        gram = np.asarray(checked_x.T @ checked_x, dtype=np.float64)
+    elif (isinstance(Gram, bool) and Gram is True) or (isinstance(Gram, str) and Gram == "auto"):
+        gram = np.asarray(checked_x.T @ checked_x, dtype=np.float64)
+    else:
+        gram = check_array(Gram, dtype=np.float64, ensure_2d=True)
+    return _lasso_lars_path_output_from_gram(xy, gram, n_samples=checked_x.shape[0], max_iter=max_iter, alpha_min=alpha_min)
+
+
+@register_atom(witness_lasso_lars_fit)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda y: _target_1d(y), "y must be 1D")
+@icontract.require(lambda X, y: _same_sample_count(X, y), "X and y must have matching sample counts")
+@icontract.require(lambda X, y: _finite_inputs(X, y), "X and y must contain finite numeric values")
+@icontract.require(lambda Xy, X: Xy is None or (np.asarray(Xy).ndim == 1 and np.asarray(Xy).shape[0] == np.asarray(X).shape[1] and np.all(np.isfinite(np.asarray(Xy)))), "Xy must be 1D and match feature count")
+@icontract.require(lambda alpha: _nonnegative_finite(alpha), "alpha must be non-negative")
+@icontract.require(lambda fit_intercept: _bool_value(fit_intercept), "fit_intercept must be boolean")
+@icontract.require(lambda verbose: verbose in {False, 0}, "verbose output is outside this atom scope")
+@icontract.require(lambda precompute: _lars_precompute_valid(precompute), "precompute must be boolean, auto, or square Gram")
+@icontract.require(lambda max_iter: isinstance(max_iter, int) and not isinstance(max_iter, bool) and max_iter >= 0, "max_iter must be non-negative")
+@icontract.require(lambda eps: _positive_finite(eps), "eps must be positive")
+@icontract.require(lambda copy_X: _bool_value(copy_X), "copy_X must be boolean")
+@icontract.require(lambda fit_path: fit_path is True, "fit_path=False is outside this atom scope")
+@icontract.require(lambda positive: positive is False, "positive=True is outside this atom scope")
+@icontract.require(lambda jitter: jitter is None, "jitter is outside this atom scope")
+@icontract.require(lambda random_state: random_state is None, "random_state is only used with jitter")
+@icontract.ensure(lambda result: _lasso_lars_state_valid(result), "Lasso-LARS state must contain finite fitted coefficients")
+def lasso_lars_fit(
+    X: NDArray[np.float64],
+    y: NDArray[np.float64],
+    Xy: NDArray[np.float64] | None = None,
+    *,
+    alpha: float = 1.0,
+    fit_intercept: bool = True,
+    verbose: int | bool = False,
+    precompute: bool | str | NDArray[np.float64] = "auto",
+    max_iter: int = 500,
+    eps: float = np.finfo(float).eps,
+    copy_X: bool = True,
+    fit_path: bool = True,
+    positive: bool = False,
+    jitter: None = None,
+    random_state: None = None,
+) -> LassoLarsState:
+    """Fit dense single-output Lasso-LARS coefficients."""
+    del verbose, eps, copy_X, fit_path, positive, jitter, random_state
+    checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
+    checked_y = check_array(y, dtype=np.float64, ensure_2d=False, input_name="y")
+    centered_x, centered_y_2d, x_offset, y_offset = _center_and_rescale(checked_x, checked_y.reshape(-1, 1), fit_intercept, None)
+    centered_y = np.ravel(centered_y_2d)
+    xy = None if Xy is None else np.asarray(Xy, dtype=np.float64)
+    if isinstance(precompute, np.ndarray):
+        gram: NDArray[np.float64] | bool | str | None = np.asarray(precompute, dtype=np.float64)
+    elif precompute is True or (precompute == "auto" and checked_x.shape[0] > checked_x.shape[1]):
+        gram = np.asarray(centered_x.T @ centered_x, dtype=np.float64)
+    else:
+        gram = None
+    path = lasso_lars_path(centered_x, centered_y, xy, Gram=gram, max_iter=max_iter, alpha_min=alpha)
+    coef = np.asarray(path.coefs[:, -1], dtype=np.float64)
+    intercept = float(y_offset[0] - np.dot(x_offset, coef)) if fit_intercept else 0.0
+    return LassoLarsState(
+        coef=coef,
+        intercept=intercept,
+        alpha=float(alpha),
+        alphas=path.alphas,
+        active=path.active,
+        coef_path=path.coefs,
+        n_iter=path.n_iter,
+        fit_intercept=fit_intercept,
+        max_iter=int(max_iter),
+        n_features_in=int(checked_x.shape[1]),
+    )
+
+
+@register_atom(witness_lasso_lars_predict)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X, state: _lasso_lars_feature_count_matches(X, state), "X feature count must match fitted Lasso-LARS state")
+@icontract.require(lambda state: _lasso_lars_state_valid(state), "state must be a fitted Lasso-LARS state")
+@icontract.ensure(lambda result, X: _lars_prediction_valid(result, X), "predictions must be finite per-row values")
+def lasso_lars_predict(X: NDArray[np.float64], state: LassoLarsState) -> NDArray[np.float64]:
+    """Predict dense Lasso-LARS regression outputs."""
+    checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
+    return np.asarray(np.dot(checked_x, state.coef) + state.intercept, dtype=np.float64)
+
+
+@register_atom(witness_lasso_lars_ic_fit)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda y: _target_1d(y), "y must be 1D")
+@icontract.require(lambda X, y: _same_sample_count(X, y), "X and y must have matching sample counts")
+@icontract.require(lambda X, y: _finite_inputs(X, y), "X and y must contain finite numeric values")
+@icontract.require(lambda criterion: criterion in {"aic", "bic"}, "criterion must be aic or bic")
+@icontract.require(lambda fit_intercept: _bool_value(fit_intercept), "fit_intercept must be boolean")
+@icontract.require(lambda verbose: verbose in {False, 0}, "verbose output is outside this atom scope")
+@icontract.require(lambda precompute: _lars_precompute_valid(precompute), "precompute must be boolean, auto, or square Gram")
+@icontract.require(lambda max_iter: isinstance(max_iter, int) and not isinstance(max_iter, bool) and max_iter >= 0, "max_iter must be non-negative")
+@icontract.require(lambda eps: _positive_finite(eps), "eps must be positive")
+@icontract.require(lambda copy_X: _bool_value(copy_X), "copy_X must be boolean")
+@icontract.require(lambda positive: positive is False, "positive=True is outside this atom scope")
+@icontract.require(lambda X, fit_intercept, noise_variance: _lasso_lars_noise_variance_allowed(X, fit_intercept, noise_variance), "noise variance must be positive or estimable")
+@icontract.ensure(lambda result: _lasso_lars_ic_state_valid(result), "Lasso-LARS IC state must contain finite criterion values")
+def lasso_lars_ic_fit(
+    X: NDArray[np.float64],
+    y: NDArray[np.float64],
+    *,
+    criterion: str = "aic",
+    fit_intercept: bool = True,
+    verbose: int | bool = False,
+    precompute: bool | str | NDArray[np.float64] = "auto",
+    max_iter: int = 500,
+    eps: float = np.finfo(float).eps,
+    copy_X: bool = True,
+    positive: bool = False,
+    noise_variance: float | None = None,
+) -> LassoLarsICState:
+    """Fit dense Lasso-LARS coefficients selected by AIC or BIC."""
+    del verbose, eps, copy_X, positive
+    checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
+    checked_y = check_array(y, dtype=np.float64, ensure_2d=False, input_name="y")
+    centered_x, centered_y_2d, x_offset, y_offset = _center_and_rescale(checked_x, checked_y.reshape(-1, 1), fit_intercept, None)
+    centered_y = np.ravel(centered_y_2d)
+    if isinstance(precompute, np.ndarray):
+        gram: NDArray[np.float64] | bool | str | None = np.asarray(precompute, dtype=np.float64)
+    elif precompute is True or (precompute == "auto" and checked_x.shape[0] > checked_x.shape[1]):
+        gram = np.asarray(centered_x.T @ centered_x, dtype=np.float64)
+    else:
+        gram = None
+    path = lasso_lars_path(centered_x, centered_y, Gram=gram, max_iter=max_iter, alpha_min=0.0)
+    residuals = centered_y[:, np.newaxis] - centered_x @ path.coefs
+    residuals_sum_squares = np.sum(residuals**2, axis=0)
+    degrees_of_freedom = np.sum(np.abs(path.coefs) > np.finfo(np.float64).eps, axis=0)
+    if noise_variance is None:
+        denominator = centered_x.shape[0] - centered_x.shape[1] - int(fit_intercept)
+        coef_ols, _, _, _ = linalg.lstsq(centered_x, centered_y, cond=None)
+        ols_residual = centered_y - centered_x @ coef_ols
+        selected_noise_variance = float(np.sum(ols_residual**2) / denominator)
+    else:
+        selected_noise_variance = float(noise_variance)
+    criterion_factor = 2.0 if criterion == "aic" else log(centered_x.shape[0])
+    criterion_values = (
+        centered_x.shape[0] * np.log(2.0 * np.pi * selected_noise_variance)
+        + residuals_sum_squares / selected_noise_variance
+        + criterion_factor * degrees_of_freedom
+    )
+    best_index = int(np.argmin(criterion_values))
+    coef = np.asarray(path.coefs[:, best_index], dtype=np.float64)
+    intercept = float(y_offset[0] - np.dot(x_offset, coef)) if fit_intercept else 0.0
+    return LassoLarsICState(
+        coef=coef,
+        intercept=intercept,
+        alpha=float(path.alphas[best_index]),
+        alphas=path.alphas,
+        criterion_values=np.asarray(criterion_values, dtype=np.float64),
+        noise_variance=float(selected_noise_variance),
+        n_iter=path.n_iter,
+        criterion=criterion,
+        fit_intercept=fit_intercept,
+        max_iter=int(max_iter),
+        n_features_in=int(checked_x.shape[1]),
+    )
+
+
+@register_atom(witness_lasso_lars_ic_predict)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X, state: _lasso_lars_feature_count_matches(X, state), "X feature count must match fitted Lasso-LARS IC state")
+@icontract.require(lambda state: _lasso_lars_ic_state_valid(state), "state must be a fitted Lasso-LARS IC state")
+@icontract.ensure(lambda result, X: _lars_prediction_valid(result, X), "predictions must be finite per-row values")
+def lasso_lars_ic_predict(X: NDArray[np.float64], state: LassoLarsICState) -> NDArray[np.float64]:
+    """Predict dense Lasso-LARS IC regression outputs."""
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     return np.asarray(np.dot(checked_x, state.coef) + state.intercept, dtype=np.float64)

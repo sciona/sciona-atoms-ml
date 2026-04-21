@@ -9,6 +9,8 @@ from .state_models import (
     BayesianRidgeState,
     LarsPathState,
     LarsState,
+    LassoLarsICState,
+    LassoLarsState,
     LinearRegressionState,
     OrthogonalMatchingPursuitCVState,
     OrthogonalMatchingPursuitState,
@@ -725,6 +727,128 @@ def witness_lars_fit(
 
 def witness_lars_predict(X: AbstractArray, state: LarsState) -> AbstractArray:
     """Describe predicting with fitted dense LARS coefficients."""
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    if X.shape[1] != state.n_features_in:
+        raise ValueError("X feature count must match fitted state")
+    return AbstractArray(shape=(int(X.shape[0]),), dtype="float64")
+
+
+def witness_lasso_lars_path(
+    X: AbstractArray,
+    y: AbstractArray,
+    Xy: AbstractArray | None = None,
+    *,
+    Gram: AbstractArray | str | bool | None = None,
+    max_iter: int = 500,
+    alpha_min: float = 0.0,
+    copy_X: bool = True,
+    eps: float = 2.220446049250313e-16,
+    copy_Gram: bool = True,
+    verbose: int | bool = 0,
+    return_path: bool = True,
+    return_n_iter: bool = False,
+    positive: bool = False,
+) -> AbstractArray:
+    """Describe dense unconstrained Lasso-LARS path coefficients."""
+    del Xy, Gram, copy_X, eps, copy_Gram, verbose, return_n_iter
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    if len(y.shape) != 1:
+        raise ValueError("y must be 1D")
+    if X.shape[0] != y.shape[0]:
+        raise ValueError("X and y must have matching sample counts")
+    if max_iter < 0:
+        raise ValueError("max_iter must be non-negative")
+    if alpha_min < 0.0:
+        raise ValueError("alpha_min must be non-negative")
+    if positive:
+        raise ValueError("positive=True is outside this atom scope")
+    if not return_path:
+        raise ValueError("return_path=False is outside this atom scope")
+    return AbstractArray(shape=(int(X.shape[1]), min(int(X.shape[1]), max_iter) + 1), dtype="float64")
+
+
+def witness_lasso_lars_fit(
+    X: AbstractArray,
+    y: AbstractArray,
+    Xy: AbstractArray | None = None,
+    *,
+    alpha: float = 1.0,
+    fit_intercept: bool = True,
+    verbose: int | bool = False,
+    precompute: bool | str = "auto",
+    max_iter: int = 500,
+    eps: float = 2.220446049250313e-16,
+    copy_X: bool = True,
+    fit_path: bool = True,
+    positive: bool = False,
+    jitter: float | None = None,
+    random_state: int | None = None,
+) -> AbstractArray:
+    """Describe fitting dense single-output Lasso-LARS coefficients."""
+    del Xy, alpha, verbose, precompute, eps, copy_X, random_state
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    if len(y.shape) != 1:
+        raise ValueError("y must be 1D")
+    if X.shape[0] != y.shape[0]:
+        raise ValueError("X and y must have matching sample counts")
+    if not isinstance(fit_intercept, bool) or not isinstance(fit_path, bool):
+        raise ValueError("boolean options must be boolean")
+    if max_iter < 0:
+        raise ValueError("max_iter must be non-negative")
+    if positive:
+        raise ValueError("positive=True is outside this atom scope")
+    if jitter is not None:
+        raise ValueError("jitter is outside this atom scope")
+    return AbstractArray(shape=(int(X.shape[1]),), dtype="float64")
+
+
+def witness_lasso_lars_predict(X: AbstractArray, state: LassoLarsState) -> AbstractArray:
+    """Describe predicting with fitted dense Lasso-LARS coefficients."""
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    if X.shape[1] != state.n_features_in:
+        raise ValueError("X feature count must match fitted state")
+    return AbstractArray(shape=(int(X.shape[0]),), dtype="float64")
+
+
+def witness_lasso_lars_ic_fit(
+    X: AbstractArray,
+    y: AbstractArray,
+    *,
+    criterion: str = "aic",
+    fit_intercept: bool = True,
+    verbose: int | bool = False,
+    precompute: bool | str = "auto",
+    max_iter: int = 500,
+    eps: float = 2.220446049250313e-16,
+    copy_X: bool = True,
+    positive: bool = False,
+    noise_variance: float | None = None,
+) -> AbstractArray:
+    """Describe fitting dense Lasso-LARS after AIC or BIC alpha selection."""
+    del verbose, precompute, eps, copy_X, noise_variance
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    if len(y.shape) != 1:
+        raise ValueError("y must be 1D")
+    if X.shape[0] != y.shape[0]:
+        raise ValueError("X and y must have matching sample counts")
+    if criterion not in {"aic", "bic"}:
+        raise ValueError("criterion must be aic or bic")
+    if not isinstance(fit_intercept, bool):
+        raise ValueError("fit_intercept must be boolean")
+    if max_iter < 0:
+        raise ValueError("max_iter must be non-negative")
+    if positive:
+        raise ValueError("positive=True is outside this atom scope")
+    return AbstractArray(shape=(int(X.shape[1]),), dtype="float64")
+
+
+def witness_lasso_lars_ic_predict(X: AbstractArray, state: LassoLarsICState) -> AbstractArray:
+    """Describe predicting with fitted dense Lasso-LARS IC coefficients."""
     if len(X.shape) != 2:
         raise ValueError("X must be 2D")
     if X.shape[1] != state.n_features_in:
