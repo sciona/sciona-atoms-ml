@@ -2,14 +2,19 @@
 
 from __future__ import annotations
 
+import math
+
 import icontract
 import numpy as np
 from numpy.typing import NDArray
+from scipy.special import gammainc
+from sklearn.utils import check_random_state
 from sklearn.utils.validation import check_X_y, check_array
 
 from sciona.ghost.registry import register_atom
 
 from .state_models import (
+    KernelDensityState,
     NearestCentroidState,
     NearestNeighborsState,
     NeighborsClassifierState,
@@ -25,6 +30,10 @@ from .witnesses import (
     witness_kneighbors_regressor_predict,
     witness_kneighbors_transform,
     witness_kneighbors_transformer_fit,
+    witness_kernel_density_fit,
+    witness_kernel_density_sample,
+    witness_kernel_density_score,
+    witness_kernel_density_score_samples,
     witness_nearest_centroid_decision_function,
     witness_nearest_centroid_fit,
     witness_nearest_centroid_predict,
@@ -541,10 +550,194 @@ def _radius_neighbors_query_result_valid(
     )
 
 
+def _kernel_density_kernel_valid(kernel: str) -> bool:
+    return kernel in {"gaussian", "tophat", "epanechnikov", "exponential", "linear", "cosine"}
+
+
+def _kernel_density_bandwidth_valid(bandwidth: float | str) -> bool:
+    if bandwidth in {"scott", "silverman"}:
+        return True
+    return bool(
+        isinstance(bandwidth, (int, float))
+        and not isinstance(bandwidth, bool)
+        and np.isfinite(float(bandwidth))
+        and float(bandwidth) > 0.0
+    )
+
+
+def _kernel_density_options_valid(
+    algorithm: str,
+    kernel: str,
+    metric: str,
+    atol: float,
+    rtol: float,
+    breadth_first: bool,
+    leaf_size: int,
+    metric_params: None,
+) -> bool:
+    return bool(
+        algorithm in {"auto", "kd_tree", "ball_tree"}
+        and _kernel_density_kernel_valid(kernel)
+        and metric == "euclidean"
+        and isinstance(atol, (int, float))
+        and not isinstance(atol, bool)
+        and np.isfinite(float(atol))
+        and float(atol) >= 0.0
+        and isinstance(rtol, (int, float))
+        and not isinstance(rtol, bool)
+        and np.isfinite(float(rtol))
+        and float(rtol) >= 0.0
+        and isinstance(breadth_first, bool)
+        and isinstance(leaf_size, int)
+        and not isinstance(leaf_size, bool)
+        and leaf_size >= 1
+        and metric_params is None
+    )
+
+
+def _sample_weight_valid(sample_weight: NDArray[np.float64] | None, X: NDArray[np.float64]) -> bool:
+    if sample_weight is None:
+        return True
+    try:
+        weights = np.asarray(sample_weight, dtype=np.float64)
+    except (TypeError, ValueError):
+        return False
+    return bool(
+        weights.ndim == 1
+        and weights.shape[0] == np.asarray(X).shape[0]
+        and np.all(np.isfinite(weights))
+        and np.all(weights >= 0.0)
+        and np.sum(weights) > 0.0
+    )
+
+
+def _kernel_density_state_valid(state: KernelDensityState) -> bool:
+    n_samples = state.training_data.shape[0]
+    weights_valid = (
+        state.sample_weight is None
+        or (
+            state.sample_weight.ndim == 1
+            and state.sample_weight.shape[0] == n_samples
+            and np.all(np.isfinite(state.sample_weight))
+            and np.all(state.sample_weight >= 0.0)
+            and np.sum(state.sample_weight) > 0.0
+        )
+    )
+    return bool(
+        state.training_data.ndim == 2
+        and n_samples >= 1
+        and state.training_data.shape[1] == state.n_features_in
+        and np.all(np.isfinite(state.training_data))
+        and np.isfinite(state.bandwidth)
+        and state.bandwidth > 0.0
+        and _kernel_density_kernel_valid(state.kernel)
+        and state.metric == "euclidean"
+        and np.isfinite(state.atol)
+        and state.atol >= 0.0
+        and np.isfinite(state.rtol)
+        and state.rtol >= 0.0
+        and isinstance(state.breadth_first, bool)
+        and weights_valid
+    )
+
+
+def _kernel_density_feature_count_matches(X: NDArray[np.float64], state: KernelDensityState) -> bool:
+    values = np.asarray(X)
+    return bool(values.ndim == 2 and values.shape[1] == state.n_features_in)
+
+
+def _log_density_valid(result: NDArray[np.float64], X: NDArray[np.float64]) -> bool:
+    values = np.asarray(result, dtype=np.float64)
+    return bool(values.shape == (np.asarray(X).shape[0],) and not np.any(np.isnan(values)))
+
+
+def _log_score_valid(result: float) -> bool:
+    return bool(isinstance(result, (int, float, np.floating)) and not np.isnan(float(result)))
+
+
+def _positive_sample_count(n_samples: int) -> bool:
+    return bool(isinstance(n_samples, int) and not isinstance(n_samples, bool) and n_samples >= 1)
+
+
+def _kernel_density_sampling_state_valid(state: KernelDensityState) -> bool:
+    return bool(_kernel_density_state_valid(state) and state.kernel in {"gaussian", "tophat"})
+
+
+def _kernel_density_sample_valid(result: NDArray[np.float64], state: KernelDensityState, n_samples: int) -> bool:
+    values = np.asarray(result, dtype=np.float64)
+    return bool(values.shape == (n_samples, state.n_features_in) and np.all(np.isfinite(values)))
+
+
 def _object_array_from_rows(rows: list[NDArray[np.float64]] | list[NDArray[np.int64]]) -> NDArray[np.object_]:
     result = np.empty(len(rows), dtype=object)
     for row_index, row in enumerate(rows):
         result[row_index] = row
+    return result
+
+
+def _kernel_density_bandwidth(bandwidth: float | str, n_samples: int, n_features: int) -> float:
+    if bandwidth == "scott":
+        return float(n_samples ** (-1.0 / (n_features + 4.0)))
+    if bandwidth == "silverman":
+        return float((n_samples * (n_features + 2.0) / 4.0) ** (-1.0 / (n_features + 4.0)))
+    return float(bandwidth)
+
+
+def _log_unit_ball_volume(dimension: int) -> float:
+    return 0.5 * dimension * math.log(math.pi) - math.lgamma(0.5 * dimension + 1.0)
+
+
+def _log_sphere_surface(dimension: int) -> float:
+    return math.log(2.0 * math.pi) + _log_unit_ball_volume(dimension - 1)
+
+
+def _kernel_log_norm(bandwidth: float, dimension: int, kernel: str) -> float:
+    if kernel == "gaussian":
+        factor = 0.5 * dimension * math.log(2.0 * math.pi)
+    elif kernel == "tophat":
+        factor = _log_unit_ball_volume(dimension)
+    elif kernel == "epanechnikov":
+        factor = _log_unit_ball_volume(dimension) + math.log(2.0 / (dimension + 2.0))
+    elif kernel == "exponential":
+        factor = _log_sphere_surface(dimension - 1) + math.lgamma(dimension)
+    elif kernel == "linear":
+        factor = _log_unit_ball_volume(dimension) - math.log(dimension + 1.0)
+    else:
+        factor_value = 0.0
+        term = 2.0 / math.pi
+        for k in range(1, dimension + 1, 2):
+            factor_value += term
+            term *= -float((dimension - k) * (dimension - k - 1)) * (2.0 / math.pi) ** 2
+        factor = math.log(factor_value) + _log_sphere_surface(dimension - 1)
+    return -factor - dimension * math.log(bandwidth)
+
+
+def _kernel_log_values(distances: NDArray[np.float64], bandwidth: float, kernel: str) -> NDArray[np.float64]:
+    scaled = np.asarray(distances, dtype=np.float64) / float(bandwidth)
+    if kernel == "gaussian":
+        return np.asarray(-0.5 * scaled * scaled, dtype=np.float64)
+    if kernel == "exponential":
+        return np.asarray(-scaled, dtype=np.float64)
+    log_values = np.full(scaled.shape, -np.inf, dtype=np.float64)
+    inside = scaled < 1.0
+    if kernel == "tophat":
+        log_values[inside] = 0.0
+    elif kernel == "epanechnikov":
+        log_values[inside] = np.log1p(-(scaled[inside] * scaled[inside]))
+    elif kernel == "linear":
+        log_values[inside] = np.log1p(-scaled[inside])
+    else:
+        log_values[inside] = np.log(np.cos(0.5 * math.pi * scaled[inside]))
+    return log_values
+
+
+def _logsumexp_rows(values: NDArray[np.float64]) -> NDArray[np.float64]:
+    row_max = np.max(values, axis=1)
+    result = np.full(row_max.shape, -np.inf, dtype=np.float64)
+    finite = np.isfinite(row_max)
+    if np.any(finite):
+        shifted = values[finite] - row_max[finite, np.newaxis]
+        result[finite] = row_max[finite] + np.log(np.sum(np.exp(shifted), axis=1))
     return result
 
 
@@ -1287,6 +1480,107 @@ def nearest_neighbors_radius_neighbors_graph(
         else:
             graph[row_index, row_indices_int] = np.asarray(distances[row_index], dtype=np.float64)
     return graph
+
+
+@register_atom(witness_kernel_density_fit)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X: _finite_matrix(X), "X must contain finite values")
+@icontract.require(lambda bandwidth: _kernel_density_bandwidth_valid(bandwidth), "bandwidth must be positive or a supported rule")
+@icontract.require(lambda sample_weight, X: _sample_weight_valid(sample_weight, X), "sample weights must be finite nonnegative values")
+@icontract.require(lambda algorithm, kernel, metric, atol, rtol, breadth_first, leaf_size, metric_params: _kernel_density_options_valid(algorithm, kernel, metric, atol, rtol, breadth_first, leaf_size, metric_params), "kernel density options must be in dense Euclidean scope")
+@icontract.ensure(lambda result: _kernel_density_state_valid(result), "state must contain finite dense kernel-density data")
+def kernel_density_fit(
+    X: NDArray[np.float64],
+    *,
+    bandwidth: float | str = 1.0,
+    algorithm: str = "auto",
+    kernel: str = "gaussian",
+    metric: str = "euclidean",
+    atol: float = 0.0,
+    rtol: float = 0.0,
+    breadth_first: bool = True,
+    leaf_size: int = 40,
+    metric_params: None = None,
+    sample_weight: NDArray[np.float64] | None = None,
+) -> KernelDensityState:
+    """Fit dense Euclidean kernel-density state for finite numeric samples."""
+    del algorithm, leaf_size, metric_params
+    checked = check_array(X, dtype=np.float64, ensure_2d=True)
+    weights = None if sample_weight is None else np.asarray(sample_weight, dtype=np.float64).copy()
+    return KernelDensityState(
+        training_data=np.asarray(checked, dtype=np.float64).copy(),
+        sample_weight=weights,
+        bandwidth=_kernel_density_bandwidth(bandwidth, int(checked.shape[0]), int(checked.shape[1])),
+        kernel=kernel,
+        metric=metric,
+        atol=float(atol),
+        rtol=float(rtol),
+        breadth_first=breadth_first,
+        n_features_in=int(checked.shape[1]),
+    )
+
+
+@register_atom(witness_kernel_density_score_samples)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X: _finite_matrix(X), "X must contain finite values")
+@icontract.require(lambda state: _kernel_density_state_valid(state), "state must be a fitted dense kernel-density estimator")
+@icontract.require(lambda X, state: _kernel_density_feature_count_matches(X, state), "X feature count must match fitted state")
+@icontract.ensure(lambda result, X: _log_density_valid(result, X), "log densities must be shaped and non-NaN")
+def kernel_density_score_samples(X: NDArray[np.float64], state: KernelDensityState) -> NDArray[np.float64]:
+    """Compute per-sample Euclidean kernel log densities."""
+    checked = check_array(X, dtype=np.float64, ensure_2d=True)
+    distances = _pairwise_minkowski(checked, state.training_data, 2.0)
+    log_terms = _kernel_log_values(distances, state.bandwidth, state.kernel)
+    log_terms += _kernel_log_norm(state.bandwidth, state.n_features_in, state.kernel)
+    if state.sample_weight is None:
+        total_weight = float(state.training_data.shape[0])
+    else:
+        weights = np.asarray(state.sample_weight, dtype=np.float64)
+        log_terms = log_terms + np.where(weights > 0.0, np.log(weights), -np.inf)[np.newaxis, :]
+        total_weight = float(np.sum(weights))
+    return np.asarray(_logsumexp_rows(log_terms) - math.log(total_weight), dtype=np.float64)
+
+
+@register_atom(witness_kernel_density_score)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X: _finite_matrix(X), "X must contain finite values")
+@icontract.require(lambda state: _kernel_density_state_valid(state), "state must be a fitted dense kernel-density estimator")
+@icontract.require(lambda X, state: _kernel_density_feature_count_matches(X, state), "X feature count must match fitted state")
+@icontract.ensure(lambda result: _log_score_valid(result), "total log density must be non-NaN")
+def kernel_density_score(X: NDArray[np.float64], state: KernelDensityState) -> float:
+    """Compute total Euclidean kernel log density over query samples."""
+    return float(np.sum(kernel_density_score_samples(X, state)))
+
+
+@register_atom(witness_kernel_density_sample)
+@icontract.require(lambda state: _kernel_density_sampling_state_valid(state), "state must support gaussian or tophat sampling")
+@icontract.require(lambda n_samples: _positive_sample_count(n_samples), "n_samples must be positive")
+@icontract.ensure(lambda result, state, n_samples: _kernel_density_sample_valid(result, state, n_samples), "samples must be finite with fitted feature count")
+def kernel_density_sample(
+    state: KernelDensityState,
+    n_samples: int = 1,
+    random_state: int | None = None,
+) -> NDArray[np.float64]:
+    """Generate samples from fitted gaussian or tophat kernel density."""
+    rng = check_random_state(random_state)
+    u = rng.uniform(0.0, 1.0, size=n_samples)
+    if state.sample_weight is None:
+        indices = (u * state.training_data.shape[0]).astype(np.int64)
+    else:
+        cumulative = np.cumsum(np.asarray(state.sample_weight, dtype=np.float64))
+        indices = np.searchsorted(cumulative, u * cumulative[-1])
+    if state.kernel == "gaussian":
+        return np.asarray(np.atleast_2d(rng.normal(state.training_data[indices], state.bandwidth)), dtype=np.float64)
+    raw = rng.normal(size=(n_samples, state.n_features_in))
+    squared_norm = np.sum(raw * raw, axis=1)
+    correction = np.zeros(n_samples, dtype=np.float64)
+    nonzero = squared_norm > 0.0
+    correction[nonzero] = (
+        gammainc(0.5 * state.n_features_in, 0.5 * squared_norm[nonzero]) ** (1.0 / state.n_features_in)
+        * state.bandwidth
+        / np.sqrt(squared_norm[nonzero])
+    )
+    return np.asarray(state.training_data[indices] + raw * correction[:, np.newaxis], dtype=np.float64)
 
 
 @register_atom(witness_nearest_centroid_fit)

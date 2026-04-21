@@ -12,7 +12,7 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 - Scope for this first ingestion pass: public algorithmic estimators, transformers, kernels, and algorithmic helper functions in the selected sklearn modules below.
 - Intentionally excluded for now: datasets, metrics, displays, exceptions, low-level utils, orchestration/composition (`compose`, `pipeline`), and model-selection/search APIs.
 - Source locations come from each object page's official `[source]` link. `BallTree` and `KDTree` use the matching source files from the same scikit-learn revision because their generated docs pages do not expose a direct `[source]` link.
-- Total targets in this inventory: 18
+- Total targets in this inventory: 17
 
 ## Module Summary
 
@@ -42,7 +42,7 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 | `sklearn.multiclass` | 3 |
 | `sklearn.multioutput` | 4 |
 | `sklearn.naive_bayes` | 0 |
-| `sklearn.neighbors` | 5 |
+| `sklearn.neighbors` | 4 |
 | `sklearn.neural_network` | 3 |
 | `sklearn.preprocessing` | 0 |
 | `sklearn.semi_supervised` | 0 |
@@ -185,7 +185,6 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 | --- | --- | --- |
 | `BallTree` | BallTree for fast generalized N-point problems | `sklearn/neighbors/_ball_tree.pyx.tp:L282` |
 | `KDTree` | KDTree for fast generalized N-point problems | `sklearn/neighbors/_kd_tree.pyx.tp:L334` |
-| `KernelDensity` | Kernel Density Estimation. | `sklearn/neighbors/_kde.py:L42` |
 | `LocalOutlierFactor` | Unsupervised Outlier Detection using the Local Outlier Factor (LOF). | `sklearn/neighbors/_lof.py:L19` |
 | `NeighborhoodComponentsAnalysis` | Neighborhood Components Analysis. | `sklearn/neighbors/_nca.py:L34` |
 

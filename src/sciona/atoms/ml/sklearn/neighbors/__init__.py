@@ -9,6 +9,10 @@ from .atoms import (
     kneighbors_regressor_predict,
     kneighbors_transform,
     kneighbors_transformer_fit,
+    kernel_density_fit,
+    kernel_density_sample,
+    kernel_density_score,
+    kernel_density_score_samples,
     nearest_centroid_decision_function,
     nearest_centroid_fit,
     nearest_centroid_predict,
@@ -29,6 +33,7 @@ from .atoms import (
     radius_neighbors_transformer_fit,
 )
 from .state_models import (
+    KernelDensityState,
     NearestCentroidState,
     NearestNeighborsState,
     NeighborsClassifierState,
@@ -38,6 +43,7 @@ from .state_models import (
 
 __all__ = [
     "NearestCentroidState",
+    "KernelDensityState",
     "NearestNeighborsState",
     "NeighborsClassifierState",
     "NeighborsGraphTransformerState",
@@ -50,6 +56,10 @@ __all__ = [
     "kneighbors_regressor_predict",
     "kneighbors_transform",
     "kneighbors_transformer_fit",
+    "kernel_density_fit",
+    "kernel_density_sample",
+    "kernel_density_score",
+    "kernel_density_score_samples",
     "nearest_centroid_decision_function",
     "nearest_centroid_fit",
     "nearest_centroid_predict",

@@ -5,6 +5,7 @@ from __future__ import annotations
 from sciona.ghost.abstract import AbstractArray
 
 from .state_models import (
+    KernelDensityState,
     NearestCentroidState,
     NearestNeighborsState,
     NeighborsClassifierState,
@@ -83,6 +84,17 @@ def _check_nearest_neighbors_state(X: AbstractArray, state: NearestNeighborsStat
     if state.metric != "minkowski" or state.p < 1:
         raise ValueError("state must use covered minkowski search")
     return n_queries, state.training_data.shape[0]
+
+
+def _check_kernel_density_state(X: AbstractArray, state: KernelDensityState) -> int:
+    n_queries, n_features = _check_matrix(X)
+    if n_features != state.n_features_in:
+        raise ValueError("X feature count must match fitted state")
+    if state.metric != "euclidean" or state.bandwidth <= 0:
+        raise ValueError("state must use covered Euclidean density estimation")
+    if state.kernel not in {"gaussian", "tophat", "epanechnikov", "exponential", "linear", "cosine"}:
+        raise ValueError("unsupported kernel")
+    return n_queries
 
 
 def witness_kneighbors_graph(
@@ -436,6 +448,71 @@ def witness_nearest_neighbors_radius_neighbors_graph(
     if not isinstance(radius_value, (int, float)) or isinstance(radius_value, bool) or radius_value < 0:
         raise ValueError("radius must be nonnegative")
     return AbstractArray(shape=(n_queries, n_fit), dtype="float64")
+
+
+def witness_kernel_density_fit(
+    X: AbstractArray,
+    *,
+    bandwidth: float | str = 1.0,
+    algorithm: str = "auto",
+    kernel: str = "gaussian",
+    metric: str = "euclidean",
+    atol: float = 0.0,
+    rtol: float = 0.0,
+    breadth_first: bool = True,
+    leaf_size: int = 40,
+    metric_params: None = None,
+    sample_weight: AbstractArray | None = None,
+) -> AbstractArray:
+    """Describe fitting dense kernel-density state."""
+    n_samples, n_features = _check_matrix(X)
+    if bandwidth not in {"scott", "silverman"} and (
+        not isinstance(bandwidth, (int, float)) or isinstance(bandwidth, bool) or bandwidth <= 0
+    ):
+        raise ValueError("bandwidth must be positive or a supported rule")
+    if algorithm not in {"auto", "kd_tree", "ball_tree"}:
+        raise ValueError("algorithm must be a sklearn tree option")
+    if kernel not in {"gaussian", "tophat", "epanechnikov", "exponential", "linear", "cosine"}:
+        raise ValueError("unsupported kernel")
+    if metric != "euclidean":
+        raise ValueError("only Euclidean density normalization is covered")
+    if atol < 0 or rtol < 0:
+        raise ValueError("tolerances must be nonnegative")
+    if not isinstance(breadth_first, bool):
+        raise ValueError("breadth_first must be boolean")
+    if not isinstance(leaf_size, int) or isinstance(leaf_size, bool) or leaf_size < 1:
+        raise ValueError("leaf_size must be positive")
+    if metric_params is not None:
+        raise ValueError("metric_params are outside this atom scope")
+    if sample_weight is not None and (len(sample_weight.shape) != 1 or sample_weight.shape[0] != n_samples):
+        raise ValueError("sample_weight must be 1D and match X samples")
+    return AbstractArray(shape=(n_samples, n_features), dtype="float64")
+
+
+def witness_kernel_density_score_samples(X: AbstractArray, state: KernelDensityState) -> AbstractArray:
+    """Describe per-sample kernel log densities."""
+    n_queries = _check_kernel_density_state(X, state)
+    return AbstractArray(shape=(n_queries,), dtype="float64")
+
+
+def witness_kernel_density_score(X: AbstractArray, state: KernelDensityState) -> float:
+    """Describe total kernel log density."""
+    _check_kernel_density_state(X, state)
+    return 0.0
+
+
+def witness_kernel_density_sample(
+    state: KernelDensityState,
+    n_samples: int = 1,
+    random_state: int | None = None,
+) -> AbstractArray:
+    """Describe random sampling from fitted kernel-density state."""
+    del random_state
+    if state.kernel not in {"gaussian", "tophat"}:
+        raise ValueError("sampling is covered for gaussian and tophat kernels")
+    if not isinstance(n_samples, int) or isinstance(n_samples, bool) or n_samples < 1:
+        raise ValueError("n_samples must be positive")
+    return AbstractArray(shape=(n_samples, state.n_features_in), dtype="float64")
 
 
 def witness_nearest_centroid_fit(

@@ -41991,6 +41991,468 @@
       "review_record_path": "data/review_bundles/ml_sklearn_nearest_neighbors.review_bundle.json",
       "has_references": true,
       "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.neighbors.kernel_density_fit",
+      "atom_key": "sciona.atoms.ml.sklearn.neighbors.kernel_density_fit",
+      "atom_id": "sciona.atoms.ml.sklearn.neighbors.kernel_density_fit",
+      "module_import_path": "sciona.atoms.ml.sklearn.neighbors",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/neighbors/atoms.py",
+      "module_family": "sklearn",
+      "domain_family": "ml.sklearn",
+      "wrapper_symbol": "kernel_density_fit",
+      "argument_names": [
+        "X",
+        "bandwidth",
+        "algorithm",
+        "kernel",
+        "metric",
+        "atol",
+        "rtol",
+        "breadth_first",
+        "leaf_size",
+        "metric_params",
+        "sample_weight"
+      ],
+      "argument_details": [
+        {
+          "name": "X",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "bandwidth",
+          "annotation": "float | str",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "algorithm",
+          "annotation": "str",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "kernel",
+          "annotation": "str",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "metric",
+          "annotation": "str",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "atol",
+          "annotation": "float",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "rtol",
+          "annotation": "float",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "breadth_first",
+          "annotation": "bool",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "leaf_size",
+          "annotation": "int",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "metric_params",
+          "annotation": "None",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "sample_weight",
+          "annotation": "NDArray[np.float64] | None",
+          "required": false,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "KernelDensityState",
+      "docstring_summary": "Fit dense Euclidean kernel-density state for finite numeric samples.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/atoms.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_kernel_density_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_kernel_density_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_kernel_density_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [
+        "Dense finite numeric arrays only; sparse inputs and non-Euclidean metrics are outside this atom batch.",
+        "Tree algorithm, leaf_size, tolerance, and breadth-first options are validated for source API compatibility but scoring uses exact dense pairwise kernel sums.",
+        "Sampling is exposed only for gaussian and tophat kernels, matching sklearn sample support.",
+        "Compact kernels may produce negative infinity log densities for zero-density queries; atoms guarantee non-NaN shaped outputs rather than finite scores for those cases."
+      ],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "medium",
+      "risk_score": 38,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "medium",
+        "runtime": "low",
+        "scope": "medium"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 83,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "positive_path",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 3,
+      "parity_case_count": 10,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_kernel_density.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.neighbors.kernel_density_sample",
+      "atom_key": "sciona.atoms.ml.sklearn.neighbors.kernel_density_sample",
+      "atom_id": "sciona.atoms.ml.sklearn.neighbors.kernel_density_sample",
+      "module_import_path": "sciona.atoms.ml.sklearn.neighbors",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/neighbors/atoms.py",
+      "module_family": "sklearn",
+      "domain_family": "ml.sklearn",
+      "wrapper_symbol": "kernel_density_sample",
+      "argument_names": [
+        "state",
+        "n_samples",
+        "random_state"
+      ],
+      "argument_details": [
+        {
+          "name": "state",
+          "annotation": "KernelDensityState",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "n_samples",
+          "annotation": "int",
+          "required": false,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "random_state",
+          "annotation": "int | None",
+          "required": false,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.float64]",
+      "docstring_summary": "Generate samples from fitted gaussian or tophat kernel density.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/atoms.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_kernel_density_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_kernel_density_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_kernel_density_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [
+        "Dense finite numeric arrays only; sparse inputs and non-Euclidean metrics are outside this atom batch.",
+        "Tree algorithm, leaf_size, tolerance, and breadth-first options are validated for source API compatibility but scoring uses exact dense pairwise kernel sums.",
+        "Sampling is exposed only for gaussian and tophat kernels, matching sklearn sample support.",
+        "Compact kernels may produce negative infinity log densities for zero-density queries; atoms guarantee non-NaN shaped outputs rather than finite scores for those cases."
+      ],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "medium",
+      "risk_score": 38,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "medium",
+        "runtime": "low",
+        "scope": "medium"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 83,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "positive_path",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 3,
+      "parity_case_count": 10,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_kernel_density.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.neighbors.kernel_density_score",
+      "atom_key": "sciona.atoms.ml.sklearn.neighbors.kernel_density_score",
+      "atom_id": "sciona.atoms.ml.sklearn.neighbors.kernel_density_score",
+      "module_import_path": "sciona.atoms.ml.sklearn.neighbors",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/neighbors/atoms.py",
+      "module_family": "sklearn",
+      "domain_family": "ml.sklearn",
+      "wrapper_symbol": "kernel_density_score",
+      "argument_names": [
+        "X",
+        "state"
+      ],
+      "argument_details": [
+        {
+          "name": "X",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "state",
+          "annotation": "KernelDensityState",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "float",
+      "docstring_summary": "Compute total Euclidean kernel log density over query samples.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/atoms.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_kernel_density_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_kernel_density_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_kernel_density_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [
+        "Dense finite numeric arrays only; sparse inputs and non-Euclidean metrics are outside this atom batch.",
+        "Tree algorithm, leaf_size, tolerance, and breadth-first options are validated for source API compatibility but scoring uses exact dense pairwise kernel sums.",
+        "Sampling is exposed only for gaussian and tophat kernels, matching sklearn sample support.",
+        "Compact kernels may produce negative infinity log densities for zero-density queries; atoms guarantee non-NaN shaped outputs rather than finite scores for those cases."
+      ],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "medium",
+      "risk_score": 38,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "medium",
+        "runtime": "low",
+        "scope": "medium"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 83,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "positive_path",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 3,
+      "parity_case_count": 10,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_kernel_density.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.neighbors.kernel_density_score_samples",
+      "atom_key": "sciona.atoms.ml.sklearn.neighbors.kernel_density_score_samples",
+      "atom_id": "sciona.atoms.ml.sklearn.neighbors.kernel_density_score_samples",
+      "module_import_path": "sciona.atoms.ml.sklearn.neighbors",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/neighbors/atoms.py",
+      "module_family": "sklearn",
+      "domain_family": "ml.sklearn",
+      "wrapper_symbol": "kernel_density_score_samples",
+      "argument_names": [
+        "X",
+        "state"
+      ],
+      "argument_details": [
+        {
+          "name": "X",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "state",
+          "annotation": "KernelDensityState",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.float64]",
+      "docstring_summary": "Compute per-sample Euclidean kernel log densities.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/atoms.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_kernel_density_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_kernel_density_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_kernel_density_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [
+        "Dense finite numeric arrays only; sparse inputs and non-Euclidean metrics are outside this atom batch.",
+        "Tree algorithm, leaf_size, tolerance, and breadth-first options are validated for source API compatibility but scoring uses exact dense pairwise kernel sums.",
+        "Sampling is exposed only for gaussian and tophat kernels, matching sklearn sample support.",
+        "Compact kernels may produce negative infinity log densities for zero-density queries; atoms guarantee non-NaN shaped outputs rather than finite scores for those cases."
+      ],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "medium",
+      "risk_score": 38,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "medium",
+        "runtime": "low",
+        "scope": "medium"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 83,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "positive_path",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 3,
+      "parity_case_count": 10,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_kernel_density.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
     }
   ]
 }

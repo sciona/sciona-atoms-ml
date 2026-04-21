@@ -67,6 +67,21 @@ class NearestNeighborsState:
 
 
 @dataclass(frozen=True)
+class KernelDensityState:
+    """Fitted dense kernel-density state."""
+
+    training_data: NDArray[np.float64]
+    sample_weight: NDArray[np.float64] | None
+    bandwidth: float
+    kernel: str
+    metric: str
+    atol: float
+    rtol: float
+    breadth_first: bool
+    n_features_in: int
+
+
+@dataclass(frozen=True)
 class NearestCentroidState:
     """Fitted dense nearest-centroid classifier state."""
 
