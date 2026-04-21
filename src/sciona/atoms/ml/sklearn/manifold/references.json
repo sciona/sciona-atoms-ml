@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "atoms": {
-    "sciona.atoms.ml.sklearn.manifold.classical_mds_dissimilarity_matrix@sciona/atoms/ml/sklearn/manifold/atoms.py:101": {
+    "sciona.atoms.ml.sklearn.manifold.classical_mds_dissimilarity_matrix@sciona/atoms/ml/sklearn/manifold/atoms.py:159": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -36,7 +36,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.manifold.classical_mds_double_center@sciona/atoms/ml/sklearn/manifold/atoms.py:119": {
+    "sciona.atoms.ml.sklearn.manifold.classical_mds_double_center@sciona/atoms/ml/sklearn/manifold/atoms.py:177": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -71,7 +71,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.manifold.classical_mds_fit@sciona/atoms/ml/sklearn/manifold/atoms.py:138": {
+    "sciona.atoms.ml.sklearn.manifold.classical_mds_fit@sciona/atoms/ml/sklearn/manifold/atoms.py:196": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -101,6 +101,96 @@
             "matched_nodes": [],
             "confidence": "high",
             "notes": "Classical multidimensional scaling reference cited by scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.manifold.smacof@sciona/atoms/ml/sklearn/manifold/atoms.py:290": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.manifold.smacof and _smacof_single metric SMACOF update in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "kruskal1964nonmetric",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Foundational nonmetric multidimensional scaling reference cited by scikit-learn."
+          }
+        },
+        {
+          "ref_id": "borg1997modernmds",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Modern multidimensional scaling reference cited by scikit-learn."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.manifold.mds_fit@sciona/atoms/ml/sklearn/manifold/atoms.py:338": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.manifold.MDS.fit_transform dense metric branch using SMACOF in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "kruskal1964nonmetric",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Foundational nonmetric multidimensional scaling reference cited by scikit-learn."
+          }
+        },
+        {
+          "ref_id": "borg1997modernmds",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Modern multidimensional scaling reference cited by scikit-learn."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
           }
         }
       ],
