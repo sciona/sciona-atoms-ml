@@ -58,6 +58,22 @@ Potential remediation path:
   limited state wrappers, or ingest the underlying SciPy/sklearn/native solver
   boundaries with explicit provenance and parity tests.
 
+## `sklearn.linear_model` LARS cross-validation orchestration
+
+Deferred targets:
+
+| Target | Source | Reason |
+| --- | --- | --- |
+| `LarsCV` | `sklearn/linear_model/_least_angle.py:L1515` | Cross-validation computes per-fold LARS paths with joblib scheduling, interpolates residual curves onto a shared alpha grid, and refits the selected model; publishing the public estimator would combine path solving, CV splitting, scoring, interpolation, and refit orchestration. |
+| `LassoLarsCV` | `sklearn/linear_model/_least_angle.py:L1831` | The estimator inherits the same cross-validated LARS path orchestration and adds Lasso-specific path behavior; a publishable atom should first expose the base LARS/Lasso path boundary and then model CV selection separately. |
+
+Potential remediation path:
+
+- Ingest base `lars_path`/`lars_path_gram` solver atoms first.
+- Then add explicit atoms for fold residual-path computation, shared-alpha
+  interpolation, mean-MSE selection, and final refit, instead of publishing a
+  single estimator wrapper.
+
 ## `sklearn.feature_selection` estimator-callback selectors
 
 Deferred targets:
