@@ -5,6 +5,7 @@ from __future__ import annotations
 from sciona.ghost.abstract import AbstractArray
 
 from .state_models import (
+    BayesianRidgeState,
     LinearRegressionState,
     OrthogonalMatchingPursuitCVState,
     OrthogonalMatchingPursuitState,
@@ -469,3 +470,55 @@ def witness_orthogonal_matching_pursuit_cv_predict(X: AbstractArray, state: Orth
     if X.shape[1] != state.n_features_in:
         raise ValueError("X feature count must match fitted state")
     return AbstractArray(shape=(int(X.shape[0]),), dtype="float64")
+
+
+def witness_bayesian_ridge_fit(
+    X: AbstractArray,
+    y: AbstractArray,
+    *,
+    max_iter: int = 300,
+    tol: float = 1e-3,
+    alpha_1: float = 1e-6,
+    alpha_2: float = 1e-6,
+    lambda_1: float = 1e-6,
+    lambda_2: float = 1e-6,
+    alpha_init: float | None = None,
+    lambda_init: float | None = None,
+    compute_score: bool = False,
+    fit_intercept: bool = True,
+    copy_X: bool = True,
+    sample_weight: float | tuple[float, ...] | None = None,
+) -> AbstractArray:
+    """Describe fitting dense Bayesian ridge posterior state."""
+    del tol, alpha_1, alpha_2, lambda_1, lambda_2, alpha_init, lambda_init, copy_X, sample_weight
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    if len(y.shape) != 1:
+        raise ValueError("y must be 1D")
+    if X.shape[0] != y.shape[0]:
+        raise ValueError("X and y must have matching sample counts")
+    if max_iter < 1:
+        raise ValueError("max_iter must be positive")
+    if not isinstance(compute_score, bool) or not isinstance(fit_intercept, bool):
+        raise ValueError("boolean options must be boolean")
+    return AbstractArray(shape=(int(X.shape[1]),), dtype="float64")
+
+
+def witness_bayesian_ridge_predict(
+    X: AbstractArray,
+    state: BayesianRidgeState,
+    *,
+    return_std: bool = False,
+) -> AbstractArray:
+    """Describe Bayesian ridge posterior mean predictions."""
+    del return_std
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    if X.shape[1] != state.n_features_in:
+        raise ValueError("X feature count must match fitted state")
+    return AbstractArray(shape=(int(X.shape[0]),), dtype="float64")
+
+
+def witness_bayesian_ridge_predict_std(X: AbstractArray, state: BayesianRidgeState) -> AbstractArray:
+    """Describe Bayesian ridge posterior predictive standard deviations."""
+    return witness_bayesian_ridge_predict(X, state)

@@ -12,7 +12,7 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 - Scope for this first ingestion pass: public algorithmic estimators, transformers, kernels, and algorithmic helper functions in the selected sklearn modules below.
 - Intentionally excluded for now: datasets, metrics, displays, exceptions, low-level utils, orchestration/composition (`compose`, `pipeline`), and model-selection/search APIs.
 - Source locations come from each object page's official `[source]` link. `BallTree` and `KDTree` use the matching source files from the same scikit-learn revision because their generated docs pages do not expose a direct `[source]` link.
-- Total targets in this inventory: 69
+- Total targets in this inventory: 68
 
 ## Module Summary
 
@@ -36,7 +36,7 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 | `sklearn.inspection` | 0 |
 | `sklearn.kernel_approximation` | 0 |
 | `sklearn.kernel_ridge` | 0 |
-| `sklearn.linear_model` | 34 |
+| `sklearn.linear_model` | 33 |
 | `sklearn.manifold` | 8 |
 | `sklearn.mixture` | 2 |
 | `sklearn.multiclass` | 3 |
@@ -144,7 +144,6 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 | Target | Description | Source |
 | --- | --- | --- |
 | `ARDRegression` | Bayesian ARD regression. | `sklearn/linear_model/_bayes.py:L466` |
-| `BayesianRidge` | Bayesian ridge regression. | `sklearn/linear_model/_bayes.py:L26` |
 | `ElasticNet` | Linear regression with combined L1 and L2 priors as regularizer. | `sklearn/linear_model/_coordinate_descent.py:L758` |
 | `ElasticNetCV` | Elastic Net model with iterative fitting along a regularization path. | `sklearn/linear_model/_coordinate_descent.py:L2237` |
 | `enet_path` | Compute elastic net path with coordinate descent. | `sklearn/linear_model/_coordinate_descent.py:L393` |

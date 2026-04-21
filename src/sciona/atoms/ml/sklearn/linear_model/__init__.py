@@ -1,6 +1,9 @@
 """Selected sklearn linear model atoms."""
 
 from .atoms import (
+    bayesian_ridge_fit,
+    bayesian_ridge_predict,
+    bayesian_ridge_predict_std,
     linear_regression_fit,
     linear_regression_predict,
     omp_path_residues,
@@ -25,6 +28,7 @@ from .atoms import (
     ridge_regression,
 )
 from .state_models import (
+    BayesianRidgeState,
     LinearRegressionState,
     OrthogonalMatchingPursuitCVState,
     OrthogonalMatchingPursuitState,
@@ -35,6 +39,7 @@ from .state_models import (
 )
 
 __all__ = [
+    "BayesianRidgeState",
     "LinearRegressionState",
     "OrthogonalMatchingPursuitCVState",
     "OrthogonalMatchingPursuitState",
@@ -42,6 +47,9 @@ __all__ = [
     "RidgeClassifierState",
     "RidgeCVState",
     "RidgeState",
+    "bayesian_ridge_fit",
+    "bayesian_ridge_predict",
+    "bayesian_ridge_predict_std",
     "linear_regression_fit",
     "linear_regression_predict",
     "omp_path_residues",

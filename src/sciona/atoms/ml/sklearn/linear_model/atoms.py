@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from math import log
+
 import icontract
 import numpy as np
 from numpy.typing import NDArray
@@ -12,6 +14,7 @@ from sklearn.utils import check_array
 from sciona.ghost.registry import register_atom
 
 from .state_models import (
+    BayesianRidgeState,
     LinearRegressionState,
     OrthogonalMatchingPursuitCVState,
     OrthogonalMatchingPursuitState,
@@ -21,6 +24,9 @@ from .state_models import (
     RidgeState,
 )
 from .witnesses import (
+    witness_bayesian_ridge_fit,
+    witness_bayesian_ridge_predict,
+    witness_bayesian_ridge_predict_std,
     witness_linear_regression_fit,
     witness_linear_regression_predict,
     witness_orthogonal_matching_pursuit_fit,
@@ -196,6 +202,16 @@ def _class_weight_valid(class_weight: dict[float, float] | str | None) -> bool:
         isinstance(class_weight, dict)
         and all(np.isfinite(float(key)) and np.isfinite(float(value)) and float(value) >= 0.0 for key, value in class_weight.items())
     )
+
+
+def _positive_finite(value: float | None, *, allow_none: bool = False) -> bool:
+    if value is None:
+        return allow_none
+    return bool(isinstance(value, (int, float)) and not isinstance(value, bool) and np.isfinite(float(value)) and float(value) > 0.0)
+
+
+def _nonnegative_finite(value: float) -> bool:
+    return bool(isinstance(value, (int, float)) and not isinstance(value, bool) and np.isfinite(float(value)) and float(value) >= 0.0)
 
 
 def _state_valid(state: LinearRegressionState) -> bool:
@@ -442,6 +458,39 @@ def _omp_cv_prediction_valid(result: NDArray[np.float64], X: NDArray[np.float64]
     return bool(values.shape == (np.asarray(X).shape[0],) and np.all(np.isfinite(values)))
 
 
+def _bayesian_ridge_state_valid(state: BayesianRidgeState) -> bool:
+    return bool(
+        state.coef.shape == (state.n_features_in,)
+        and state.sigma.shape == (state.n_features_in, state.n_features_in)
+        and state.scores.ndim == 1
+        and state.x_offset.shape == (state.n_features_in,)
+        and state.x_scale.shape == (state.n_features_in,)
+        and state.n_iter >= 1
+        and state.alpha > 0.0
+        and state.lambda_ > 0.0
+        and isinstance(state.fit_intercept, bool)
+        and isinstance(state.compute_score, bool)
+        and np.isfinite(state.intercept)
+        and np.isfinite(state.alpha)
+        and np.isfinite(state.lambda_)
+        and np.all(np.isfinite(state.coef))
+        and np.all(np.isfinite(state.sigma))
+        and np.allclose(state.sigma, state.sigma.T)
+        and np.all(np.isfinite(state.scores))
+        and np.all(np.isfinite(state.x_offset))
+        and np.all(np.isfinite(state.x_scale))
+    )
+
+
+def _bayesian_ridge_feature_count_matches(X: NDArray[np.float64], state: BayesianRidgeState) -> bool:
+    return bool(np.asarray(X).ndim == 2 and np.asarray(X).shape[1] == state.n_features_in)
+
+
+def _bayesian_ridge_prediction_valid(result: NDArray[np.float64], X: NDArray[np.float64]) -> bool:
+    values = np.asarray(result)
+    return bool(values.shape == (np.asarray(X).shape[0],) and np.all(np.isfinite(values)))
+
+
 def _center_and_rescale(
     X: NDArray[np.float64],
     y: NDArray[np.float64],
@@ -520,6 +569,225 @@ def _ridge_solve_dense(
         system.flat[:: n_features + 1] += current_alpha
         coefficients[output_index] = linalg.solve(system, rhs[:, output_index], assume_a="pos", overwrite_a=False).ravel()
     return coefficients
+
+
+@register_atom(witness_bayesian_ridge_fit)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda y: _target_1d(y), "y must be 1D")
+@icontract.require(lambda X, y: _same_sample_count(X, y), "X and y must have matching sample counts")
+@icontract.require(lambda X: _sample_count_at_least_two(X), "X must contain at least two samples")
+@icontract.require(lambda X, y: _finite_inputs(X, y), "X and y must contain finite numeric values")
+@icontract.require(lambda max_iter: isinstance(max_iter, int) and not isinstance(max_iter, bool) and max_iter >= 1, "max_iter must be positive")
+@icontract.require(lambda tol: _positive_finite(tol), "tol must be positive")
+@icontract.require(lambda alpha_1: _nonnegative_finite(alpha_1), "alpha_1 must be non-negative")
+@icontract.require(lambda alpha_2: _nonnegative_finite(alpha_2), "alpha_2 must be non-negative")
+@icontract.require(lambda lambda_1: _nonnegative_finite(lambda_1), "lambda_1 must be non-negative")
+@icontract.require(lambda lambda_2: _nonnegative_finite(lambda_2), "lambda_2 must be non-negative")
+@icontract.require(lambda alpha_init: _positive_finite(alpha_init, allow_none=True), "alpha_init must be positive when provided")
+@icontract.require(lambda lambda_init: _positive_finite(lambda_init, allow_none=True), "lambda_init must be positive when provided")
+@icontract.require(lambda compute_score: _bool_value(compute_score), "compute_score must be boolean")
+@icontract.require(lambda fit_intercept: _bool_value(fit_intercept), "fit_intercept must be boolean")
+@icontract.require(lambda copy_X: _bool_value(copy_X), "copy_X must be boolean")
+@icontract.require(lambda sample_weight, X: _sample_weight_valid(sample_weight, X), "sample_weight must be non-negative and scalar or match sample count")
+@icontract.ensure(lambda result: _bayesian_ridge_state_valid(result), "Bayesian ridge state must contain finite posterior parameters")
+def bayesian_ridge_fit(
+    X: NDArray[np.float64],
+    y: NDArray[np.float64],
+    *,
+    max_iter: int = 300,
+    tol: float = 1e-3,
+    alpha_1: float = 1e-6,
+    alpha_2: float = 1e-6,
+    lambda_1: float = 1e-6,
+    lambda_2: float = 1e-6,
+    alpha_init: float | None = None,
+    lambda_init: float | None = None,
+    compute_score: bool = False,
+    fit_intercept: bool = True,
+    copy_X: bool = True,
+    sample_weight: float | tuple[float, ...] | NDArray[np.float64] | None = None,
+) -> BayesianRidgeState:
+    """Fit dense Bayesian ridge posterior parameters."""
+    del copy_X
+    checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
+    checked_y = check_array(y, dtype=np.float64, ensure_2d=False, input_name="y")
+    weights = _expand_sample_weight(sample_weight, checked_x.shape[0])
+    n_samples, n_features = checked_x.shape
+    sw_sum = float(n_samples) if weights is None else float(np.sum(weights))
+    if weights is None:
+        y_var = float(np.var(checked_y))
+    else:
+        y_mean = float(np.average(checked_y, weights=weights))
+        y_var = float(np.average((checked_y - y_mean) ** 2, weights=weights))
+
+    centered_x_2d, centered_y_2d, x_offset, y_offset = _center_and_rescale(
+        checked_x,
+        checked_y.reshape(-1, 1),
+        fit_intercept,
+        weights,
+    )
+    centered_y = np.ravel(centered_y_2d)
+    eps = np.finfo(np.float64).eps
+    alpha = float(alpha_init) if alpha_init is not None else float(1.0 / (y_var + eps))
+    lambda_value = float(lambda_init) if lambda_init is not None else 1.0
+
+    scores: list[float] = []
+    coef_old: NDArray[np.float64] | None = None
+    XT_y = np.dot(centered_x_2d.T, centered_y)
+    U, singular_values, Vh_full = linalg.svd(centered_x_2d, full_matrices=(n_samples < n_features))
+    k_rank = len(singular_values)
+    eigen_vals = singular_values**2
+    eigen_vals_full = np.zeros(n_features, dtype=np.float64)
+    eigen_vals_full[:k_rank] = eigen_vals
+    Vh = Vh_full[:k_rank, :]
+    coef = np.zeros(n_features, dtype=np.float64)
+    sse = 0.0
+
+    iteration = 0
+    for iteration in range(max_iter):
+        coef, sse = _bayesian_ridge_update_coef(centered_x_2d, centered_y, XT_y, U, Vh, eigen_vals, alpha, lambda_value)
+        if compute_score:
+            scores.append(
+                _bayesian_ridge_log_marginal_likelihood(
+                    n_samples=n_samples,
+                    n_features=n_features,
+                    sw_sum=sw_sum,
+                    eigen_vals=eigen_vals,
+                    alpha=alpha,
+                    lambda_=lambda_value,
+                    coef=coef,
+                    sse=sse,
+                    alpha_1=alpha_1,
+                    alpha_2=alpha_2,
+                    lambda_1=lambda_1,
+                    lambda_2=lambda_2,
+                )
+            )
+        gamma = float(np.sum((alpha * eigen_vals) / (lambda_value + alpha * eigen_vals)))
+        lambda_value = float((gamma + 2.0 * lambda_1) / (np.sum(coef**2) + 2.0 * lambda_2))
+        alpha = float((sw_sum - gamma + 2.0 * alpha_1) / (sse + 2.0 * alpha_2))
+        if iteration != 0 and coef_old is not None and np.sum(np.abs(coef_old - coef)) < tol:
+            break
+        coef_old = np.copy(coef)
+
+    n_iter = int(iteration + 1)
+    final_coef, final_sse = _bayesian_ridge_update_coef(centered_x_2d, centered_y, XT_y, U, Vh, eigen_vals, alpha, lambda_value)
+    if compute_score:
+        scores.append(
+            _bayesian_ridge_log_marginal_likelihood(
+                n_samples=n_samples,
+                n_features=n_features,
+                sw_sum=sw_sum,
+                eigen_vals=eigen_vals,
+                alpha=alpha,
+                lambda_=lambda_value,
+                coef=coef,
+                sse=final_sse,
+                alpha_1=alpha_1,
+                alpha_2=alpha_2,
+                lambda_1=lambda_1,
+                lambda_2=lambda_2,
+            )
+        )
+    sigma = np.dot(Vh_full.T, Vh_full / (alpha * eigen_vals_full + lambda_value)[:, np.newaxis])
+    intercept = float(y_offset[0] - np.dot(x_offset, final_coef)) if fit_intercept else 0.0
+    return BayesianRidgeState(
+        coef=np.asarray(final_coef, dtype=np.float64),
+        intercept=intercept,
+        alpha=float(alpha),
+        lambda_=float(lambda_value),
+        sigma=np.asarray(sigma, dtype=np.float64),
+        scores=np.asarray(scores, dtype=np.float64),
+        n_iter=n_iter,
+        x_offset=np.asarray(x_offset, dtype=np.float64),
+        x_scale=np.ones(n_features, dtype=np.float64),
+        fit_intercept=fit_intercept,
+        compute_score=compute_score,
+        n_features_in=int(n_features),
+    )
+
+
+@register_atom(witness_bayesian_ridge_predict)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X, state: _bayesian_ridge_feature_count_matches(X, state), "X feature count must match fitted Bayesian ridge state")
+@icontract.require(lambda state: _bayesian_ridge_state_valid(state), "state must be a fitted Bayesian ridge state")
+@icontract.require(lambda return_std: return_std is False, "use bayesian_ridge_predict_std for posterior standard deviations")
+@icontract.ensure(lambda result, X: _bayesian_ridge_prediction_valid(result, X), "predictions must be finite per-row values")
+def bayesian_ridge_predict(
+    X: NDArray[np.float64],
+    state: BayesianRidgeState,
+    *,
+    return_std: bool = False,
+) -> NDArray[np.float64]:
+    """Predict posterior mean values from fitted Bayesian ridge state."""
+    del return_std
+    checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
+    return np.asarray(np.dot(checked_x, state.coef) + state.intercept, dtype=np.float64)
+
+
+@register_atom(witness_bayesian_ridge_predict_std)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X, state: _bayesian_ridge_feature_count_matches(X, state), "X feature count must match fitted Bayesian ridge state")
+@icontract.require(lambda state: _bayesian_ridge_state_valid(state), "state must be a fitted Bayesian ridge state")
+@icontract.ensure(lambda result, X: _bayesian_ridge_prediction_valid(result, X), "standard deviations must be finite per-row values")
+def bayesian_ridge_predict_std(X: NDArray[np.float64], state: BayesianRidgeState) -> NDArray[np.float64]:
+    """Predict posterior standard deviations from fitted Bayesian ridge state."""
+    checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
+    sigmas_squared = (np.dot(checked_x, state.sigma) * checked_x).sum(axis=1)
+    return np.asarray(np.sqrt(sigmas_squared + (1.0 / state.alpha)), dtype=np.float64)
+
+
+def _bayesian_ridge_update_coef(
+    X: NDArray[np.float64],
+    y: NDArray[np.float64],
+    XT_y: NDArray[np.float64],
+    U: NDArray[np.float64],
+    Vh: NDArray[np.float64],
+    eigen_vals: NDArray[np.float64],
+    alpha: float,
+    lambda_: float,
+) -> tuple[NDArray[np.float64], float]:
+    n_samples, n_features = X.shape
+    if n_samples > n_features:
+        coef = np.linalg.multi_dot([Vh.T, Vh / (eigen_vals + lambda_ / alpha)[:, np.newaxis], XT_y])
+    else:
+        coef = np.linalg.multi_dot([X.T, U / (eigen_vals + lambda_ / alpha)[None, :], U.T, y])
+    sse = float(np.sum((y - np.dot(X, coef)) ** 2))
+    return np.asarray(coef, dtype=np.float64), sse
+
+
+def _bayesian_ridge_log_marginal_likelihood(
+    *,
+    n_samples: int,
+    n_features: int,
+    sw_sum: float,
+    eigen_vals: NDArray[np.float64],
+    alpha: float,
+    lambda_: float,
+    coef: NDArray[np.float64],
+    sse: float,
+    alpha_1: float,
+    alpha_2: float,
+    lambda_1: float,
+    lambda_2: float,
+) -> float:
+    if n_samples > n_features:
+        logdet_sigma = -np.sum(np.log(lambda_ + alpha * eigen_vals))
+    else:
+        logdet_values = np.full(n_features, lambda_, dtype=np.float64)
+        logdet_values[:n_samples] += alpha * eigen_vals
+        logdet_sigma = -np.sum(np.log(logdet_values))
+    score = lambda_1 * log(lambda_) - lambda_2 * lambda_
+    score += alpha_1 * log(alpha) - alpha_2 * alpha
+    score += 0.5 * (
+        n_features * log(lambda_)
+        + sw_sum * log(alpha)
+        - alpha * sse
+        - lambda_ * np.sum(coef**2)
+        + logdet_sigma
+        - sw_sum * log(2.0 * np.pi)
+    )
+    return float(score)
 
 
 def _classifier_sample_weight(

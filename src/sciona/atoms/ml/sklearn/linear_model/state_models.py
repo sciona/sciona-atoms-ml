@@ -100,3 +100,21 @@ class OrthogonalMatchingPursuitCVState:
     cv: int
     fit_intercept: bool
     n_features_in: int
+
+
+@dataclass(frozen=True)
+class BayesianRidgeState:
+    """Fitted Bayesian ridge posterior mean and covariance state."""
+
+    coef: NDArray[np.float64]
+    intercept: float
+    alpha: float
+    lambda_: float
+    sigma: NDArray[np.float64]
+    scores: NDArray[np.float64]
+    n_iter: int
+    x_offset: NDArray[np.float64]
+    x_scale: NDArray[np.float64]
+    fit_intercept: bool
+    compute_score: bool
+    n_features_in: int
