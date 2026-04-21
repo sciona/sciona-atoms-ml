@@ -12,7 +12,7 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 - Scope for this first ingestion pass: public algorithmic estimators, transformers, kernels, and algorithmic helper functions in the selected sklearn modules below.
 - Intentionally excluded for now: datasets, metrics, displays, exceptions, low-level utils, orchestration/composition (`compose`, `pipeline`), and model-selection/search APIs.
 - Source locations come from each object page's official `[source]` link. `BallTree` and `KDTree` use the matching source files from the same scikit-learn revision because their generated docs pages do not expose a direct `[source]` link.
-- Total targets in this inventory: 123
+- Total targets in this inventory: 122
 
 ## Module Summary
 
@@ -32,7 +32,7 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 | `sklearn.feature_selection` | 6 |
 | `sklearn.gaussian_process` | 2 |
 | `sklearn.gaussian_process.kernels` | 0 |
-| `sklearn.impute` | 1 |
+| `sklearn.impute` | 0 |
 | `sklearn.inspection` | 2 |
 | `sklearn.kernel_approximation` | 0 |
 | `sklearn.kernel_ridge` | 0 |
@@ -169,7 +169,6 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 
 | Target | Description | Source |
 | --- | --- | --- |
-| `KNNImputer` | Imputation for completing missing values using k-Nearest Neighbors. | `sklearn/impute/_knn.py:L24` |
 
 ## `sklearn.inspection`
 

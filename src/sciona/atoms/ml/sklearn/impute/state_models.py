@@ -25,3 +25,15 @@ class MissingIndicatorState:
     features: NDArray[np.int64]
     n_features_in: int
     missing_only: bool
+
+
+@dataclass(frozen=True)
+class KNNImputerState:
+    """Training data and masks for dense numeric k-nearest-neighbor imputation."""
+
+    fit_X: NDArray[np.float64]
+    mask_fit_X: NDArray[np.bool_]
+    valid_mask: NDArray[np.bool_]
+    n_neighbors: int
+    weights: str
+    keep_empty_features: bool

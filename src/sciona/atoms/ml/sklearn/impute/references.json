@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "atoms": {
-    "sciona.atoms.ml.sklearn.impute.simple_imputer_fit@sciona/atoms/ml/sklearn/impute/atoms.py:95": {
+    "sciona.atoms.ml.sklearn.impute.simple_imputer_fit@sciona/atoms/ml/sklearn/impute/atoms.py:161": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -26,7 +26,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.impute.simple_imputer_transform@sciona/atoms/ml/sklearn/impute/atoms.py:141": {
+    "sciona.atoms.ml.sklearn.impute.simple_imputer_transform@sciona/atoms/ml/sklearn/impute/atoms.py:207": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -51,7 +51,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.impute.missing_indicator_fit@sciona/atoms/ml/sklearn/impute/atoms.py:159": {
+    "sciona.atoms.ml.sklearn.impute.missing_indicator_fit@sciona/atoms/ml/sklearn/impute/atoms.py:225": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -76,7 +76,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.impute.missing_indicator_transform@sciona/atoms/ml/sklearn/impute/atoms.py:182": {
+    "sciona.atoms.ml.sklearn.impute.missing_indicator_transform@sciona/atoms/ml/sklearn/impute/atoms.py:248": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -96,6 +96,146 @@
             "matched_nodes": [],
             "confidence": "high",
             "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.impute.nan_euclidean_distances@sciona/atoms/ml/sklearn/impute/atoms.py:268": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.metrics.pairwise nan_euclidean distance behavior used by sklearn.impute.KNNImputer.transform lines 368-375 in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        },
+        {
+          "ref_id": "troyanskaya2001knnimpute",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "KNN missing-value estimation reference cited by sklearn.impute.KNNImputer."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.impute.knn_imputer_calc_impute@sciona/atoms/ml/sklearn/impute/atoms.py:289": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.impute._knn.KNNImputer._calc_impute lines 163-211 in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        },
+        {
+          "ref_id": "troyanskaya2001knnimpute",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "KNN missing-value estimation reference cited by sklearn.impute.KNNImputer."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.impute.knn_imputer_fit@sciona/atoms/ml/sklearn/impute/atoms.py:328": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.impute._knn.KNNImputer.fit lines 213-252 in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        },
+        {
+          "ref_id": "troyanskaya2001knnimpute",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "KNN missing-value estimation reference cited by sklearn.impute.KNNImputer."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.impute.knn_imputer_transform@sciona/atoms/ml/sklearn/impute/atoms.py:353": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.impute._knn.KNNImputer.transform lines 254-386 in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        },
+        {
+          "ref_id": "troyanskaya2001knnimpute",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "KNN missing-value estimation reference cited by sklearn.impute.KNNImputer."
           }
         }
       ],
