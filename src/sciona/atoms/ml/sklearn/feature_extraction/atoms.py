@@ -24,6 +24,8 @@ from .witnesses import (
     witness_dict_vectorizer_inverse_transform,
     witness_dict_vectorizer_restrict,
     witness_dict_vectorizer_transform,
+    witness_hashing_vectorizer_token,
+    witness_hashing_vectorizer_transform,
     witness_tfidf_document_frequency,
     witness_tfidf_idf,
     witness_tfidf_transform,
@@ -128,6 +130,10 @@ def _max_features_valid(max_features: int | None) -> bool:
     return bool(max_features is None or (isinstance(max_features, int) and not isinstance(max_features, bool) and max_features >= 1))
 
 
+def _hashing_n_features_valid(n_features: int) -> bool:
+    return bool(isinstance(n_features, int) and not isinstance(n_features, bool) and n_features >= 1)
+
+
 def _vocabulary_valid(vocabulary: VocabularySpec | None) -> bool:
     if vocabulary is None:
         return True
@@ -165,6 +171,26 @@ def _count_vectorizer_config_valid(
         and _df_threshold_valid(min_df)
         and _max_features_valid(max_features)
         and _vocabulary_valid(vocabulary)
+    )
+
+
+def _hashing_vectorizer_config_valid(
+    raw_documents: tuple[str, ...],
+    strip_accents: str | None,
+    token_pattern: str,
+    ngram_range: tuple[int, int],
+    stop_words: tuple[str, ...] | None,
+    n_features: int,
+    norm: str | None,
+) -> bool:
+    return bool(
+        _raw_documents_valid(raw_documents)
+        and _strip_accents_valid(strip_accents)
+        and _token_pattern_valid(token_pattern)
+        and _ngram_range_valid(ngram_range)
+        and _stop_words_valid(stop_words)
+        and _hashing_n_features_valid(n_features)
+        and _norm_valid(norm)
     )
 
 
@@ -271,6 +297,27 @@ def _count_transform_result_valid(result: NDArray[np.float64], raw_documents: tu
 
 def _count_inverse_result_valid(result: list[tuple[str, ...]], X: NDArray[np.float64]) -> bool:
     return bool(len(result) == np.asarray(X).shape[0] and all(isinstance(row, tuple) and all(isinstance(term, str) for term in row) for row in result))
+
+
+def _hashing_token_result_valid(result: tuple[int, float], n_features: int) -> bool:
+    return bool(
+        isinstance(result, tuple)
+        and len(result) == 2
+        and isinstance(result[0], int)
+        and 0 <= result[0] < n_features
+        and result[1] in {-1.0, 1.0}
+    )
+
+
+def _hashing_transform_result_valid(
+    result: NDArray[np.float64],
+    raw_documents: tuple[str, ...],
+    n_features: int,
+    binary: bool,
+) -> bool:
+    values = np.asarray(result, dtype=np.float64)
+    binary_values = np.all((values == 0.0) | (values > 0.0)) if binary else True
+    return bool(values.shape == (len(raw_documents), n_features) and np.all(np.isfinite(values)) and binary_values)
 
 
 def _feature_name(key: str, value: FeatureValue, separator: str) -> str | None:
@@ -397,6 +444,68 @@ def _limit_count_features(
         if mask[old_index]:
             new_vocabulary[term] = int(np.searchsorted(kept_indices, old_index))
     return matrix[:, kept_indices], new_vocabulary
+
+
+def _rotate_left_32(value: int, count: int) -> int:
+    value &= 0xFFFFFFFF
+    return ((value << count) | (value >> (32 - count))) & 0xFFFFFFFF
+
+
+def _fmix_32(value: int) -> int:
+    value ^= value >> 16
+    value = (value * 0x85EBCA6B) & 0xFFFFFFFF
+    value ^= value >> 13
+    value = (value * 0xC2B2AE35) & 0xFFFFFFFF
+    value ^= value >> 16
+    return value & 0xFFFFFFFF
+
+
+def _murmurhash3_32_signed(text: str) -> int:
+    data = text.encode("utf-8")
+    length = len(data)
+    h1 = 0
+    c1 = 0xCC9E2D51
+    c2 = 0x1B873593
+
+    rounded_end = length & 0xFFFFFFFC
+    for block_start in range(0, rounded_end, 4):
+        k1 = data[block_start] | (data[block_start + 1] << 8) | (data[block_start + 2] << 16) | (data[block_start + 3] << 24)
+        k1 = (k1 * c1) & 0xFFFFFFFF
+        k1 = _rotate_left_32(k1, 15)
+        k1 = (k1 * c2) & 0xFFFFFFFF
+
+        h1 ^= k1
+        h1 = _rotate_left_32(h1, 13)
+        h1 = (h1 * 5 + 0xE6546B64) & 0xFFFFFFFF
+
+    k1 = 0
+    tail_size = length & 3
+    if tail_size == 3:
+        k1 ^= data[rounded_end + 2] << 16
+    if tail_size >= 2:
+        k1 ^= data[rounded_end + 1] << 8
+    if tail_size >= 1:
+        k1 ^= data[rounded_end]
+        k1 = (k1 * c1) & 0xFFFFFFFF
+        k1 = _rotate_left_32(k1, 15)
+        k1 = (k1 * c2) & 0xFFFFFFFF
+        h1 ^= k1
+
+    h1 ^= length
+    unsigned = _fmix_32(h1)
+    return unsigned - 0x100000000 if unsigned & 0x80000000 else unsigned
+
+
+def _normalize_rows(values: NDArray[np.float64], norm: str | None) -> NDArray[np.float64]:
+    if norm == "l1":
+        row_norm = np.sum(np.abs(values), axis=1)
+        nonzero = row_norm > 0.0
+        values[nonzero] /= row_norm[nonzero, np.newaxis]
+    elif norm == "l2":
+        row_norm = np.sqrt(np.sum(values * values, axis=1))
+        nonzero = row_norm > 0.0
+        values[nonzero] /= row_norm[nonzero, np.newaxis]
+    return values
 
 
 @register_atom(witness_dict_vectorizer_fit)
@@ -562,15 +671,7 @@ def tfidf_transform(X: NDArray[np.float64], state: TfidfTransformerState) -> NDA
         values[mask] = np.log(values[mask]) + 1.0
     if state.idf is not None:
         values *= state.idf[np.newaxis, :]
-    if state.norm == "l1":
-        row_norm = np.sum(np.abs(values), axis=1)
-        nonzero = row_norm > 0.0
-        values[nonzero] /= row_norm[nonzero, np.newaxis]
-    elif state.norm == "l2":
-        row_norm = np.sqrt(np.sum(values * values, axis=1))
-        nonzero = row_norm > 0.0
-        values[nonzero] /= row_norm[nonzero, np.newaxis]
-    return values
+    return _normalize_rows(values, state.norm)
 
 
 @register_atom(witness_count_vectorizer_analyze)
@@ -726,3 +827,71 @@ def count_vectorizer_inverse_transform(X: NDArray[np.float64], state: CountVecto
     for row in range(values.shape[0]):
         rows.append(tuple(state.feature_names[index] for index in np.flatnonzero(values[row, :])))
     return rows
+
+
+@register_atom(witness_hashing_vectorizer_token)
+@icontract.require(lambda token: isinstance(token, str) and len(token) > 0, "token must be a non-empty string")
+@icontract.require(lambda n_features: _hashing_n_features_valid(n_features), "n_features must be a positive integer")
+@icontract.ensure(lambda result, n_features: _hashing_token_result_valid(result, n_features), "hash result must be a valid feature column and sign")
+def hashing_vectorizer_token(
+    token: str,
+    *,
+    n_features: int = 2**20,
+    alternate_sign: bool = True,
+) -> tuple[int, float]:
+    """Map one token to a hashed feature column and signed contribution."""
+    signed_hash = _murmurhash3_32_signed(token)
+    column = abs(signed_hash) % n_features
+    sign = -1.0 if bool(alternate_sign) and signed_hash < 0 else 1.0
+    return int(column), sign
+
+
+@register_atom(witness_hashing_vectorizer_transform)
+@icontract.require(
+    lambda raw_documents, strip_accents, token_pattern, ngram_range, stop_words, n_features, norm: _hashing_vectorizer_config_valid(
+        raw_documents,
+        strip_accents,
+        token_pattern,
+        ngram_range,
+        stop_words,
+        n_features,
+        norm,
+    ),
+    "raw documents and HashingVectorizer configuration must be supported",
+)
+@icontract.ensure(
+    lambda result, raw_documents, n_features, binary: _hashing_transform_result_valid(result, raw_documents, n_features, binary),
+    "hashed document matrix must match documents and feature count",
+)
+def hashing_vectorizer_transform(
+    raw_documents: tuple[str, ...],
+    *,
+    lowercase: bool = True,
+    strip_accents: str | None = None,
+    token_pattern: str = r"(?u)\b\w\w+\b",
+    ngram_range: tuple[int, int] = (1, 1),
+    stop_words: tuple[str, ...] | None = None,
+    n_features: int = 2**20,
+    binary: bool = False,
+    norm: str | None = "l2",
+    alternate_sign: bool = True,
+) -> NDArray[np.float64]:
+    """Transform text documents into a dense hashing-vectorizer matrix."""
+    matrix = np.zeros((len(raw_documents), n_features), dtype=np.float64)
+    seen_columns = np.zeros((len(raw_documents), n_features), dtype=bool) if binary else None
+    for row, document in enumerate(raw_documents):
+        for token in count_vectorizer_analyze(
+            document,
+            lowercase=lowercase,
+            strip_accents=strip_accents,
+            token_pattern=token_pattern,
+            ngram_range=ngram_range,
+            stop_words=stop_words,
+        ):
+            column, sign = hashing_vectorizer_token(token, n_features=n_features, alternate_sign=alternate_sign)
+            matrix[row, column] += sign
+            if seen_columns is not None:
+                seen_columns[row, column] = True
+    if seen_columns is not None:
+        matrix[:, :] = seen_columns.astype(np.float64)
+    return _normalize_rows(matrix, norm)

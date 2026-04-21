@@ -149,3 +149,40 @@ def witness_count_vectorizer_inverse_transform(X: AbstractArray, state: CountVec
     if X.shape[1] != len(state.feature_names):
         raise ValueError("X feature count must match fitted state")
     return AbstractArray(shape=(int(X.shape[0]),), dtype="object")
+
+
+def witness_hashing_vectorizer_token(
+    token: str,
+    *,
+    n_features: int = 2**20,
+    alternate_sign: bool = True,
+) -> AbstractArray:
+    """Describe hashing one token to a column/sign pair."""
+    del token, alternate_sign
+    if n_features < 1:
+        raise ValueError("n_features must be positive")
+    return AbstractArray(shape=(2,), dtype="object")
+
+
+def witness_hashing_vectorizer_transform(
+    raw_documents: tuple[str, ...],
+    *,
+    lowercase: bool = True,
+    strip_accents: str | None = None,
+    token_pattern: str = r"(?u)\b\w\w+\b",
+    ngram_range: tuple[int, int] = (1, 1),
+    stop_words: tuple[str, ...] | None = None,
+    n_features: int = 2**20,
+    binary: bool = False,
+    norm: str | None = "l2",
+    alternate_sign: bool = True,
+) -> AbstractArray:
+    """Describe dense hashed document-term matrix output."""
+    del lowercase, strip_accents, token_pattern, stop_words, binary, norm, alternate_sign
+    if not raw_documents:
+        raise ValueError("raw_documents must not be empty")
+    if ngram_range[0] < 1 or ngram_range[0] > ngram_range[1]:
+        raise ValueError("ngram_range must be valid")
+    if n_features < 1:
+        raise ValueError("n_features must be positive")
+    return AbstractArray(shape=(len(raw_documents), n_features), dtype="float64")

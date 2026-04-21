@@ -19,7 +19,9 @@
         "count_vectorizer_fit",
         "count_vectorizer_transform",
         "count_vectorizer_feature_names",
-        "count_vectorizer_inverse_transform"
+        "count_vectorizer_inverse_transform",
+        "hashing_vectorizer_token",
+        "hashing_vectorizer_transform"
       ],
       "depth": 0
     },
@@ -475,6 +477,105 @@
           "type_desc": "list[tuple[str, ...]]"
         }
       ]
+    },
+    {
+      "node_id": "hashing_vectorizer_token",
+      "name": "hashing_vectorizer_token",
+      "description": "Map one token to a hashed feature column and signed contribution.",
+      "concept_type": "feature_hash",
+      "status": "atomic",
+      "type_signature": "(token: str, n_features: int = 2**20, alternate_sign: bool = True) -> tuple[int, float]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "token",
+          "type_desc": "str",
+          "required": true
+        },
+        {
+          "name": "n_features",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "alternate_sign",
+          "type_desc": "bool",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "tuple[int, float]"
+        }
+      ]
+    },
+    {
+      "node_id": "hashing_vectorizer_transform",
+      "name": "hashing_vectorizer_transform",
+      "description": "Transform text documents into a dense hashing-vectorizer matrix.",
+      "concept_type": "array_transform",
+      "status": "atomic",
+      "type_signature": "(raw_documents: tuple[str, ...], lowercase: bool = True, strip_accents: str | None = None, token_pattern: str = r\"(?u)\\b\\w\\w+\\b\", ngram_range: tuple[int, int] = (1, 1), stop_words: tuple[str, ...] | None = None, n_features: int = 2**20, binary: bool = False, norm: str | None = \"l2\", alternate_sign: bool = True) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "raw_documents",
+          "type_desc": "tuple[str, ...]",
+          "required": true
+        },
+        {
+          "name": "lowercase",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "strip_accents",
+          "type_desc": "str | None",
+          "required": false
+        },
+        {
+          "name": "token_pattern",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "ngram_range",
+          "type_desc": "tuple[int, int]",
+          "required": false
+        },
+        {
+          "name": "stop_words",
+          "type_desc": "tuple[str, ...] | None",
+          "required": false
+        },
+        {
+          "name": "n_features",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "binary",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "norm",
+          "type_desc": "str | None",
+          "required": false
+        },
+        {
+          "name": "alternate_sign",
+          "type_desc": "bool",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
     }
   ],
   "edges": [
@@ -547,11 +648,21 @@
       "source": "count_vectorizer_fit",
       "target": "count_vectorizer_inverse_transform",
       "kind": "state_dependency"
+    },
+    {
+      "source": "count_vectorizer_analyze",
+      "target": "hashing_vectorizer_transform",
+      "kind": "called_by"
+    },
+    {
+      "source": "hashing_vectorizer_token",
+      "target": "hashing_vectorizer_transform",
+      "kind": "called_by"
     }
   ],
   "metadata": {
     "source": "agent_ingestion",
-    "source_module": "sklearn.feature_extraction._dict_vectorizer",
+    "source_module": "sklearn.feature_extraction.text",
     "source_version": "1.8.0",
     "source_license": "BSD-3-Clause"
   }
