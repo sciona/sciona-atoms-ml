@@ -88,6 +88,22 @@ Potential remediation path:
   reimplement the exact signed Murmurhash3 feature-index logic with provenance
   and parity tests for dict, pair, and string input modes.
 
+## `sklearn.inspection` estimator callback workflows
+
+Deferred targets:
+
+| Target | Source | Reason |
+| --- | --- | --- |
+| `partial_dependence` | `sklearn/inspection/_partial_dependence.py:L350` | Public computation is defined around fitted estimator prediction methods, estimator-type dispatch, recursion support for selected tree estimators, and brute-force prediction callbacks; publishing a standalone atom would hide estimator behavior behind callback boundaries. |
+| `permutation_importance` | `sklearn/inspection/_permutation_importance.py:L114` | Public computation depends on fitted estimator scoring callbacks, scorer validation, joblib column parallelism, and optional subsampling; a shell atom would wrap estimator-specific scoring rather than decompose a stable algorithmic core. |
+
+Potential remediation path:
+
+- Ingest small helper atoms only where the boundary is explicit, such as
+  permutation score aggregation from baseline and permuted score arrays.
+- Decide how estimator callback boundaries should be represented before
+  publishing full inspection workflows.
+
 ## `sklearn.cluster` agglomerative hierarchy
 
 Deferred targets:
