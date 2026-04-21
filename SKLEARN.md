@@ -12,7 +12,7 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 - Scope for this first ingestion pass: public algorithmic estimators, transformers, kernels, and algorithmic helper functions in the selected sklearn modules below.
 - Intentionally excluded for now: datasets, metrics, displays, exceptions, low-level utils, orchestration/composition (`compose`, `pipeline`), and model-selection/search APIs.
 - Source locations come from each object page's official `[source]` link. `BallTree` and `KDTree` use the matching source files from the same scikit-learn revision because their generated docs pages do not expose a direct `[source]` link.
-- Total targets in this inventory: 118
+- Total targets in this inventory: 116
 
 ## Module Summary
 
@@ -30,7 +30,7 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 | `sklearn.feature_extraction.image` | 0 |
 | `sklearn.feature_extraction.text` | 4 |
 | `sklearn.feature_selection` | 6 |
-| `sklearn.gaussian_process` | 2 |
+| `sklearn.gaussian_process` | 0 |
 | `sklearn.gaussian_process.kernels` | 0 |
 | `sklearn.impute` | 0 |
 | `sklearn.inspection` | 0 |
@@ -155,8 +155,6 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 
 | Target | Description | Source |
 | --- | --- | --- |
-| `GaussianProcessClassifier` | Gaussian process classification (GPC) based on Laplace approximation. | `sklearn/gaussian_process/_gpc.py:L516` |
-| `GaussianProcessRegressor` | Gaussian process regression (GPR). | `sklearn/gaussian_process/_gpr.py:L32` |
 
 ## `sklearn.gaussian_process.kernels`
 

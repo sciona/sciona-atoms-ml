@@ -104,6 +104,23 @@ Potential remediation path:
 - Decide how estimator callback boundaries should be represented before
   publishing full inspection workflows.
 
+## `sklearn.gaussian_process` estimator optimizer boundaries
+
+Deferred targets:
+
+| Target | Source | Reason |
+| --- | --- | --- |
+| `GaussianProcessRegressor` | `sklearn/gaussian_process/_gpr.py:L32` | Fit and prediction combine mutable kernel objects, optional L-BFGS-B hyperparameter optimization, Cholesky factorization, log-marginal likelihood evaluation, and posterior sampling; a public estimator atom would hide the optimizer and linear-algebra state boundaries. |
+| `GaussianProcessClassifier` | `sklearn/gaussian_process/_gpc.py:L516` | Classification wraps binary Laplace-approximation estimators, kernel optimization, Newton posterior-mode iterations, and one-vs-rest/one-vs-one multiclass orchestration; a shell atom would obscure the posterior solver and meta-estimator boundaries. |
+
+Potential remediation path:
+
+- Ingest standalone Gaussian-process linear algebra primitives first, such as
+  kernel regularization, Cholesky solve, posterior mean/covariance, and
+  log-marginal-likelihood components.
+- Decide how optimizer and Laplace posterior-mode loops should be represented
+  before publishing full estimator state atoms.
+
 ## `sklearn.cluster` agglomerative hierarchy
 
 Deferred targets:
