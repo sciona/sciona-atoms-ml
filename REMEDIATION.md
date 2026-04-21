@@ -58,6 +58,22 @@ Potential remediation path:
   `sklearn.metrics.pairwise` as first-class atoms, then decide whether a
   limited adapter atom is useful.
 
+## `sklearn.impute` iterative estimator loop
+
+Deferred target:
+
+| Target | Source | Reason |
+| --- | --- | --- |
+| `IterativeImputer` | `sklearn/impute/_iterative.py:L60` | The estimator is experimental and its core loop repeatedly fits and predicts with a configurable estimator per feature; publishing only the public estimator shell would hide the model-training boundary and the broader orchestration around feature ordering, posterior sampling, and convergence. |
+
+Potential remediation path:
+
+- Decompose the deterministic helper boundaries first, including feature order,
+  correlation-based neighbor selection, limit validation, and one-feature
+  imputation.
+- Decide how fitted per-feature estimators should be represented before
+  publishing the full fit/transform state surface.
+
 ## `sklearn.cluster` agglomerative hierarchy
 
 Deferred targets:

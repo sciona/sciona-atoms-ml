@@ -1,0 +1,158 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_impute_root",
+      "name": "Sklearn Impute Basic Atoms",
+      "description": "Dense numeric decomposition for selected sklearn.impute SimpleImputer and MissingIndicator behavior",
+      "status": "decomposed",
+      "children": [
+        "simple_imputer_fit",
+        "simple_imputer_transform",
+        "missing_indicator_fit",
+        "missing_indicator_transform"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "simple_imputer_fit",
+      "name": "simple_imputer_fit",
+      "description": "Learn dense numeric fill statistics for simple missing-value imputation.",
+      "concept_type": "fit_state",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], strategy: str = mean, fill_value: float = 0.0, keep_empty_features: bool = False) -> SimpleImputerState",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "strategy",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "fill_value",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "keep_empty_features",
+          "type_desc": "bool",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "SimpleImputerState"
+        }
+      ]
+    },
+    {
+      "node_id": "simple_imputer_transform",
+      "name": "simple_imputer_transform",
+      "description": "Replace missing entries with fitted simple-imputer statistics.",
+      "concept_type": "array_transform",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: SimpleImputerState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "SimpleImputerState",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
+    },
+    {
+      "node_id": "missing_indicator_fit",
+      "name": "missing_indicator_fit",
+      "description": "Learn which dense numeric feature columns should emit missing indicators.",
+      "concept_type": "fit_state",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], features: str = missing-only) -> MissingIndicatorState",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "features",
+          "type_desc": "str",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "MissingIndicatorState"
+        }
+      ]
+    },
+    {
+      "node_id": "missing_indicator_transform",
+      "name": "missing_indicator_transform",
+      "description": "Return a fitted boolean missing-value indicator mask for dense input.",
+      "concept_type": "array_transform",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: MissingIndicatorState, error_on_new: bool = True) -> NDArray[np.bool_]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "MissingIndicatorState",
+          "required": true
+        },
+        {
+          "name": "error_on_new",
+          "type_desc": "bool",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.bool_]"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "simple_imputer_fit",
+      "target": "simple_imputer_transform",
+      "kind": "state_dependency"
+    },
+    {
+      "source": "missing_indicator_fit",
+      "target": "missing_indicator_transform",
+      "kind": "state_dependency"
+    }
+  ],
+  "metadata": {
+    "source": "agent_ingestion",
+    "source_module": "sklearn.impute",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause"
+  }
+}
