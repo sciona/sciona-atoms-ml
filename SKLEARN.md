@@ -12,7 +12,7 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 - Scope for this first ingestion pass: public algorithmic estimators, transformers, kernels, and algorithmic helper functions in the selected sklearn modules below.
 - Intentionally excluded for now: datasets, metrics, displays, exceptions, low-level utils, orchestration/composition (`compose`, `pipeline`), and model-selection/search APIs.
 - Source locations come from each object page's official `[source]` link. `BallTree` and `KDTree` use the matching source files from the same scikit-learn revision because their generated docs pages do not expose a direct `[source]` link.
-- Total targets in this inventory: 21
+- Total targets in this inventory: 19
 
 ## Module Summary
 
@@ -42,7 +42,7 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 | `sklearn.multiclass` | 3 |
 | `sklearn.multioutput` | 4 |
 | `sklearn.naive_bayes` | 0 |
-| `sklearn.neighbors` | 8 |
+| `sklearn.neighbors` | 6 |
 | `sklearn.neural_network` | 3 |
 | `sklearn.preprocessing` | 0 |
 | `sklearn.semi_supervised` | 0 |
@@ -186,11 +186,9 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 | `BallTree` | BallTree for fast generalized N-point problems | `sklearn/neighbors/_ball_tree.pyx.tp:L282` |
 | `KDTree` | KDTree for fast generalized N-point problems | `sklearn/neighbors/_kd_tree.pyx.tp:L334` |
 | `KernelDensity` | Kernel Density Estimation. | `sklearn/neighbors/_kde.py:L42` |
-| `KNeighborsClassifier` | Classifier implementing the k-nearest neighbors vote. | `sklearn/neighbors/_classification.py:L44` |
 | `LocalOutlierFactor` | Unsupervised Outlier Detection using the Local Outlier Factor (LOF). | `sklearn/neighbors/_lof.py:L19` |
 | `NearestNeighbors` | Unsupervised learner for implementing neighbor searches. | `sklearn/neighbors/_unsupervised.py:L10` |
 | `NeighborhoodComponentsAnalysis` | Neighborhood Components Analysis. | `sklearn/neighbors/_nca.py:L34` |
-| `RadiusNeighborsClassifier` | Classifier implementing a vote among neighbors within a given radius. | `sklearn/neighbors/_classification.py:L459` |
 
 ## `sklearn.neural_network`
 

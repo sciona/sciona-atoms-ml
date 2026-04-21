@@ -9,8 +9,11 @@ from sklearn.utils.validation import check_X_y, check_array
 
 from sciona.ghost.registry import register_atom
 
-from .state_models import NearestCentroidState, NeighborsGraphTransformerState, NeighborsRegressorState
+from .state_models import NearestCentroidState, NeighborsClassifierState, NeighborsGraphTransformerState, NeighborsRegressorState
 from .witnesses import (
+    witness_kneighbors_classifier_fit,
+    witness_kneighbors_classifier_predict,
+    witness_kneighbors_classifier_predict_proba,
     witness_kneighbors_graph,
     witness_kneighbors_regressor_fit,
     witness_kneighbors_regressor_predict,
@@ -21,6 +24,9 @@ from .witnesses import (
     witness_nearest_centroid_predict,
     witness_nearest_centroid_predict_log_proba,
     witness_nearest_centroid_predict_proba,
+    witness_radius_neighbors_classifier_fit,
+    witness_radius_neighbors_classifier_predict,
+    witness_radius_neighbors_classifier_predict_proba,
     witness_radius_neighbors_graph,
     witness_radius_neighbors_regressor_fit,
     witness_radius_neighbors_regressor_predict,
@@ -164,6 +170,15 @@ def _finite_inputs(X: NDArray[np.float64], y: NDArray[np.float64]) -> bool:
     except (TypeError, ValueError):
         return False
     return bool(np.all(np.isfinite(values_x)) and np.all(np.isfinite(values_y)))
+
+
+def _finite_classification_inputs(X: NDArray[np.float64], y: NDArray[np.float64]) -> bool:
+    try:
+        values_x = np.asarray(X, dtype=np.float64)
+        values_y = np.asarray(y, dtype=np.float64)
+    except (TypeError, ValueError):
+        return False
+    return bool(values_y.ndim == 1 and np.all(np.isfinite(values_x)) and np.all(np.isfinite(values_y)))
 
 
 def _weights_valid(weights: str) -> bool:
@@ -352,6 +367,80 @@ def _radius_regressor_queries_have_neighbors(X: NDArray[np.float64], state: Neig
     return bool(np.all(np.any(distances <= float(state.radius), axis=1)))
 
 
+def _classifier_state_valid(state: NeighborsClassifierState) -> bool:
+    n_samples = state.training_data.shape[0]
+    return bool(
+        state.training_data.ndim == 2
+        and state.training_data.shape[1] == state.n_features_in
+        and state.labels.ndim == 1
+        and state.labels.shape[0] == n_samples
+        and state.classes.ndim == 1
+        and state.classes.shape[0] >= 2
+        and state.weights in {"uniform", "distance"}
+        and state.metric == "minkowski"
+        and np.isfinite(state.p)
+        and state.p >= 1.0
+        and state.classifier_kind in {"kneighbors", "radius_neighbors"}
+        and np.all(np.isfinite(state.training_data))
+        and np.all(np.isfinite(state.classes))
+        and np.all(state.labels >= 0)
+        and np.all(state.labels < state.classes.shape[0])
+        and (
+            (
+                state.classifier_kind == "kneighbors"
+                and state.n_neighbors is not None
+                and 1 <= state.n_neighbors <= n_samples
+                and state.radius is None
+            )
+            or (
+                state.classifier_kind == "radius_neighbors"
+                and state.n_neighbors is None
+                and state.radius is not None
+                and np.isfinite(state.radius)
+                and state.radius >= 0.0
+            )
+        )
+    )
+
+
+def _classifier_feature_count_matches(X: NDArray[np.float64], state: NeighborsClassifierState) -> bool:
+    values = np.asarray(X)
+    return bool(values.ndim == 2 and values.shape[1] == state.n_features_in)
+
+
+def _classifier_prediction_valid(result: NDArray[np.float64], X: NDArray[np.float64], state: NeighborsClassifierState) -> bool:
+    values = np.asarray(result, dtype=np.float64)
+    return bool(
+        values.shape == (np.asarray(X).shape[0],)
+        and np.all(np.isfinite(values))
+        and np.all(np.isin(values, state.classes))
+    )
+
+
+def _classifier_proba_valid(result: NDArray[np.float64], X: NDArray[np.float64], state: NeighborsClassifierState) -> bool:
+    values = np.asarray(result, dtype=np.float64)
+    return bool(
+        values.shape == (np.asarray(X).shape[0], state.classes.shape[0])
+        and np.all(np.isfinite(values))
+        and np.all(values >= 0.0)
+        and np.all(values <= 1.0)
+        and np.allclose(np.sum(values, axis=1), 1.0)
+    )
+
+
+def _radius_classifier_queries_have_neighbors(X: NDArray[np.float64], state: NeighborsClassifierState) -> bool:
+    try:
+        values = np.asarray(X, dtype=np.float64)
+    except (TypeError, ValueError):
+        return False
+    if not _classifier_state_valid(state) or state.classifier_kind != "radius_neighbors" or values.ndim != 2:
+        return False
+    if values.shape[1] != state.n_features_in:
+        return False
+    distances = _pairwise_minkowski(values, state.training_data, state.p)
+    return bool(np.all(np.any(distances <= float(state.radius), axis=1)))
+
+
 def _resolve_include_self(include_self: bool | str, mode: str) -> bool:
     if include_self == "auto":
         return mode == "connectivity"
@@ -421,12 +510,23 @@ def _checked_regression_inputs(
 
 def _kneighbor_indices_and_distances(
     X: NDArray[np.float64],
-    state: NeighborsRegressorState,
+    state: NeighborsRegressorState | NeighborsClassifierState,
 ) -> tuple[NDArray[np.int64], NDArray[np.float64]]:
     distances = _pairwise_minkowski(X, state.training_data, state.p)
     order = np.argsort(distances, axis=1, kind="stable")[:, : int(state.n_neighbors or 0)]
     rows = np.arange(distances.shape[0])[:, np.newaxis]
     return np.asarray(order, dtype=np.int64), np.asarray(distances[rows, order], dtype=np.float64)
+
+
+def _checked_classification_inputs(
+    X: NDArray[np.float64],
+    y: NDArray[np.float64],
+) -> tuple[NDArray[np.float64], NDArray[np.int64], NDArray[np.float64]]:
+    checked_x, checked_y = check_X_y(X, y, dtype=np.float64)
+    labels_raw = np.asarray(checked_y, dtype=np.float64)
+    classes = np.unique(labels_raw)
+    encoded = np.searchsorted(classes, labels_raw)
+    return np.asarray(checked_x, dtype=np.float64), np.asarray(encoded, dtype=np.int64), np.asarray(classes, dtype=np.float64)
 
 
 def _distance_weight_matrix(distances: NDArray[np.float64]) -> NDArray[np.float64]:
@@ -454,6 +554,39 @@ def _weighted_regression_targets(
     numerator = np.sum(targets[indices] * weights[:, :, np.newaxis], axis=1)
     denominator = np.sum(weights, axis=1)[:, np.newaxis]
     return np.asarray(numerator / denominator, dtype=np.float64)
+
+
+def _class_probabilities(
+    labels: NDArray[np.int64],
+    classes: NDArray[np.float64],
+    neighbor_indices: NDArray[np.int64],
+    weights: NDArray[np.float64],
+) -> NDArray[np.float64]:
+    probabilities = np.zeros((neighbor_indices.shape[0], classes.shape[0]), dtype=np.float64)
+    rows = np.arange(neighbor_indices.shape[0])
+    for neighbor_position in range(neighbor_indices.shape[1]):
+        probabilities[rows, labels[neighbor_indices[:, neighbor_position]]] += weights[:, neighbor_position]
+    normalizer = probabilities.sum(axis=1)[:, np.newaxis]
+    return np.asarray(probabilities / normalizer, dtype=np.float64)
+
+
+def _radius_class_probabilities(
+    labels: NDArray[np.int64],
+    classes: NDArray[np.float64],
+    distances: NDArray[np.float64],
+    radius: float,
+    weights_kind: str,
+) -> NDArray[np.float64]:
+    probabilities = np.zeros((distances.shape[0], classes.shape[0]), dtype=np.float64)
+    for row_index, row_distances in enumerate(distances):
+        neighbor_indices = np.asarray(np.flatnonzero(row_distances <= float(radius)), dtype=np.int64)
+        if weights_kind == "uniform":
+            weights = np.ones(neighbor_indices.shape[0], dtype=np.float64)
+        else:
+            weights = _distance_weight_vector(np.asarray(row_distances[neighbor_indices], dtype=np.float64))
+        probabilities[row_index] = np.bincount(labels[neighbor_indices], weights=weights, minlength=classes.shape[0])
+    normalizer = probabilities.sum(axis=1)[:, np.newaxis]
+    return np.asarray(probabilities / normalizer, dtype=np.float64)
 
 
 def _nearest_centroid_distances(
@@ -764,6 +897,150 @@ def radius_neighbors_regressor_predict(X: NDArray[np.float64], state: NeighborsR
     if state.outputs_2d:
         return y_pred
     return np.asarray(y_pred.ravel(), dtype=np.float64)
+
+
+@register_atom(witness_kneighbors_classifier_fit)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda y: _target_1d(y), "y must be 1D")
+@icontract.require(lambda X, y: _sample_counts_match(X, y), "X and y must have matching sample counts")
+@icontract.require(lambda X, y: _finite_classification_inputs(X, y), "X and labels must be finite numeric arrays")
+@icontract.require(lambda y: _at_least_two_classes(y), "classifier requires at least two classes")
+@icontract.require(lambda n_neighbors, X: _positive_neighbors(n_neighbors, X), "n_neighbors must fit sample count")
+@icontract.require(lambda weights: _weights_valid(weights), "weights must be uniform or distance")
+@icontract.require(lambda algorithm, leaf_size: _algorithm_options_valid(algorithm, leaf_size), "algorithm and leaf_size must be valid")
+@icontract.require(lambda metric, p, metric_params, n_jobs: _minkowski_options_valid(metric, p, metric_params, n_jobs), "only dense minkowski search is covered")
+@icontract.ensure(lambda result: _classifier_state_valid(result), "state must contain finite dense k-neighbor classification data")
+def kneighbors_classifier_fit(
+    X: NDArray[np.float64],
+    y: NDArray[np.float64],
+    *,
+    n_neighbors: int = 5,
+    weights: str = "uniform",
+    algorithm: str = "auto",
+    leaf_size: int = 30,
+    p: float = 2.0,
+    metric: str = "minkowski",
+    metric_params: None = None,
+    n_jobs: None = None,
+) -> NeighborsClassifierState:
+    """Fit dense k-neighbor classification state for finite numeric labels."""
+    del algorithm, leaf_size, metric_params, n_jobs
+    checked_x, labels, classes = _checked_classification_inputs(X, y)
+    return NeighborsClassifierState(
+        training_data=checked_x.copy(),
+        labels=labels.copy(),
+        classes=classes.copy(),
+        weights=weights,
+        n_neighbors=int(n_neighbors),
+        radius=None,
+        metric=metric,
+        p=float(p),
+        classifier_kind="kneighbors",
+        n_features_in=int(checked_x.shape[1]),
+    )
+
+
+@register_atom(witness_kneighbors_classifier_predict_proba)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X: _finite_matrix(X), "X must contain finite values")
+@icontract.require(lambda state: _classifier_state_valid(state), "state must be a fitted dense k-neighbor classifier")
+@icontract.require(lambda state: state.classifier_kind == "kneighbors", "state must be a k-neighbor classifier")
+@icontract.require(lambda X, state: _classifier_feature_count_matches(X, state), "X feature count must match fitted state")
+@icontract.ensure(lambda result, X, state: _classifier_proba_valid(result, X, state), "probabilities must normalize")
+def kneighbors_classifier_predict_proba(X: NDArray[np.float64], state: NeighborsClassifierState) -> NDArray[np.float64]:
+    """Compute dense k-neighbor class probabilities for numeric labels."""
+    checked = check_array(X, dtype=np.float64, ensure_2d=True)
+    neighbor_indices, neighbor_distances = _kneighbor_indices_and_distances(checked, state)
+    if state.weights == "uniform":
+        weights = np.ones_like(neighbor_distances, dtype=np.float64)
+    else:
+        weights = _distance_weight_matrix(neighbor_distances)
+    return _class_probabilities(state.labels, state.classes, neighbor_indices, weights)
+
+
+@register_atom(witness_kneighbors_classifier_predict)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X: _finite_matrix(X), "X must contain finite values")
+@icontract.require(lambda state: _classifier_state_valid(state), "state must be a fitted dense k-neighbor classifier")
+@icontract.require(lambda state: state.classifier_kind == "kneighbors", "state must be a k-neighbor classifier")
+@icontract.require(lambda X, state: _classifier_feature_count_matches(X, state), "X feature count must match fitted state")
+@icontract.ensure(lambda result, X, state: _classifier_prediction_valid(result, X, state), "predictions must be finite class labels")
+def kneighbors_classifier_predict(X: NDArray[np.float64], state: NeighborsClassifierState) -> NDArray[np.float64]:
+    """Predict numeric class labels by dense k-neighbor vote."""
+    probabilities = kneighbors_classifier_predict_proba(X, state)
+    return np.asarray(state.classes[np.argmax(probabilities, axis=1)], dtype=np.float64)
+
+
+@register_atom(witness_radius_neighbors_classifier_fit)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda y: _target_1d(y), "y must be 1D")
+@icontract.require(lambda X, y: _sample_counts_match(X, y), "X and y must have matching sample counts")
+@icontract.require(lambda X, y: _finite_classification_inputs(X, y), "X and labels must be finite numeric arrays")
+@icontract.require(lambda y: _at_least_two_classes(y), "classifier requires at least two classes")
+@icontract.require(lambda radius: _radius_valid(radius), "radius must be nonnegative and finite")
+@icontract.require(lambda weights: _weights_valid(weights), "weights must be uniform or distance")
+@icontract.require(lambda outlier_label: outlier_label is None, "outlier labels are outside this atom scope")
+@icontract.require(lambda algorithm, leaf_size: _algorithm_options_valid(algorithm, leaf_size), "algorithm and leaf_size must be valid")
+@icontract.require(lambda metric, p, metric_params, n_jobs: _minkowski_options_valid(metric, p, metric_params, n_jobs), "only dense minkowski search is covered")
+@icontract.ensure(lambda result: _classifier_state_valid(result), "state must contain finite dense radius-neighbor classification data")
+def radius_neighbors_classifier_fit(
+    X: NDArray[np.float64],
+    y: NDArray[np.float64],
+    *,
+    radius: float = 1.0,
+    weights: str = "uniform",
+    algorithm: str = "auto",
+    leaf_size: int = 30,
+    p: float = 2.0,
+    metric: str = "minkowski",
+    outlier_label: None = None,
+    metric_params: None = None,
+    n_jobs: None = None,
+) -> NeighborsClassifierState:
+    """Fit dense radius-neighbor classification state for finite numeric labels."""
+    del algorithm, leaf_size, outlier_label, metric_params, n_jobs
+    checked_x, labels, classes = _checked_classification_inputs(X, y)
+    return NeighborsClassifierState(
+        training_data=checked_x.copy(),
+        labels=labels.copy(),
+        classes=classes.copy(),
+        weights=weights,
+        n_neighbors=None,
+        radius=float(radius),
+        metric=metric,
+        p=float(p),
+        classifier_kind="radius_neighbors",
+        n_features_in=int(checked_x.shape[1]),
+    )
+
+
+@register_atom(witness_radius_neighbors_classifier_predict_proba)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X: _finite_matrix(X), "X must contain finite values")
+@icontract.require(lambda state: _classifier_state_valid(state), "state must be a fitted dense radius-neighbor classifier")
+@icontract.require(lambda state: state.classifier_kind == "radius_neighbors", "state must be a radius-neighbor classifier")
+@icontract.require(lambda X, state: _classifier_feature_count_matches(X, state), "X feature count must match fitted state")
+@icontract.require(lambda X, state: _radius_classifier_queries_have_neighbors(X, state), "each query must have a neighbor inside radius")
+@icontract.ensure(lambda result, X, state: _classifier_proba_valid(result, X, state), "probabilities must normalize")
+def radius_neighbors_classifier_predict_proba(X: NDArray[np.float64], state: NeighborsClassifierState) -> NDArray[np.float64]:
+    """Compute dense radius-neighbor class probabilities for numeric labels."""
+    checked = check_array(X, dtype=np.float64, ensure_2d=True)
+    distances = _pairwise_minkowski(checked, state.training_data, state.p)
+    return _radius_class_probabilities(state.labels, state.classes, distances, float(state.radius), state.weights)
+
+
+@register_atom(witness_radius_neighbors_classifier_predict)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X: _finite_matrix(X), "X must contain finite values")
+@icontract.require(lambda state: _classifier_state_valid(state), "state must be a fitted dense radius-neighbor classifier")
+@icontract.require(lambda state: state.classifier_kind == "radius_neighbors", "state must be a radius-neighbor classifier")
+@icontract.require(lambda X, state: _classifier_feature_count_matches(X, state), "X feature count must match fitted state")
+@icontract.require(lambda X, state: _radius_classifier_queries_have_neighbors(X, state), "each query must have a neighbor inside radius")
+@icontract.ensure(lambda result, X, state: _classifier_prediction_valid(result, X, state), "predictions must be finite class labels")
+def radius_neighbors_classifier_predict(X: NDArray[np.float64], state: NeighborsClassifierState) -> NDArray[np.float64]:
+    """Predict numeric class labels by dense radius-neighbor vote."""
+    probabilities = radius_neighbors_classifier_predict_proba(X, state)
+    return np.asarray(state.classes[np.argmax(probabilities, axis=1)], dtype=np.float64)
 
 
 @register_atom(witness_nearest_centroid_fit)

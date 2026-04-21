@@ -1,6 +1,9 @@
 """Selected sklearn neighbors atoms."""
 
 from .atoms import (
+    kneighbors_classifier_fit,
+    kneighbors_classifier_predict,
+    kneighbors_classifier_predict_proba,
     kneighbors_graph,
     kneighbors_regressor_fit,
     kneighbors_regressor_predict,
@@ -11,18 +14,25 @@ from .atoms import (
     nearest_centroid_predict,
     nearest_centroid_predict_log_proba,
     nearest_centroid_predict_proba,
+    radius_neighbors_classifier_fit,
+    radius_neighbors_classifier_predict,
+    radius_neighbors_classifier_predict_proba,
     radius_neighbors_graph,
     radius_neighbors_regressor_fit,
     radius_neighbors_regressor_predict,
     radius_neighbors_transform,
     radius_neighbors_transformer_fit,
 )
-from .state_models import NearestCentroidState, NeighborsGraphTransformerState, NeighborsRegressorState
+from .state_models import NearestCentroidState, NeighborsClassifierState, NeighborsGraphTransformerState, NeighborsRegressorState
 
 __all__ = [
     "NearestCentroidState",
+    "NeighborsClassifierState",
     "NeighborsGraphTransformerState",
     "NeighborsRegressorState",
+    "kneighbors_classifier_fit",
+    "kneighbors_classifier_predict",
+    "kneighbors_classifier_predict_proba",
     "kneighbors_graph",
     "kneighbors_regressor_fit",
     "kneighbors_regressor_predict",
@@ -33,6 +43,9 @@ __all__ = [
     "nearest_centroid_predict",
     "nearest_centroid_predict_log_proba",
     "nearest_centroid_predict_proba",
+    "radius_neighbors_classifier_fit",
+    "radius_neighbors_classifier_predict",
+    "radius_neighbors_classifier_predict_proba",
     "radius_neighbors_graph",
     "radius_neighbors_regressor_fit",
     "radius_neighbors_regressor_predict",

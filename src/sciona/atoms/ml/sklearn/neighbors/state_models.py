@@ -39,6 +39,22 @@ class NeighborsRegressorState:
 
 
 @dataclass(frozen=True)
+class NeighborsClassifierState:
+    """Fitted dense neighbor-classification state."""
+
+    training_data: NDArray[np.float64]
+    labels: NDArray[np.int64]
+    classes: NDArray[np.float64]
+    weights: str
+    n_neighbors: int | None
+    radius: float | None
+    metric: str
+    p: float
+    classifier_kind: str
+    n_features_in: int
+
+
+@dataclass(frozen=True)
 class NearestCentroidState:
     """Fitted dense nearest-centroid classifier state."""
 
