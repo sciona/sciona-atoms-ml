@@ -1,0 +1,312 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "sciona.atoms.review_bundle.ml.sklearn_local_outlier_factor.v1",
+  "provider_repo": "sciona-atoms-ml",
+  "family_batch": "ml_sklearn_local_outlier_factor",
+  "review_status": "reviewed",
+  "review_semantic_verdict": "pass_with_limits",
+  "review_developer_semantic_verdict": "pass_with_limits",
+  "trust_readiness": "catalog_ready",
+  "authoritative_sources": [
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/sklearn/neighbors/atoms.py"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/sklearn/neighbors/references.json"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/sklearn/neighbors/cdg.json"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_sklearn_local_outlier_factor_behavior.py"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_sklearn_local_outlier_factor_references_metadata.py"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_sklearn_local_outlier_factor_review_bundle.py"
+    }
+  ],
+  "limitations": [
+    "Dense finite numeric arrays only; sparse, precomputed, callable metrics, and non-Minkowski metrics are outside this atom batch.",
+    "Neighbor search uses exact dense pairwise distances; algorithm, leaf_size, and n_jobs are validated for API compatibility but do not change execution.",
+    "Fit adjusts n_neighbors to at most n_samples - 1, matching sklearn behavior, but warnings are not surfaced as atom outputs.",
+    "Novelty scoring, decision function, and predict atoms require a state fitted with novelty=True; training labels are exposed through fit_predict."
+  ],
+  "blocking_findings": [],
+  "required_actions": [],
+  "review_record_path": "data/review_bundles/ml_sklearn_local_outlier_factor.review_bundle.json",
+  "rows": [
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.neighbors.local_outlier_factor_fit",
+      "atom_name": "sciona.atoms.ml.sklearn.neighbors.local_outlier_factor_fit",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/neighbors/atoms.py",
+        "src/sciona/atoms/ml/sklearn/neighbors/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/neighbors/cdg.json",
+        "src/sciona/atoms/ml/sklearn/neighbors/references.json"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_local_outlier_factor.review_bundle.json",
+      "overall_verdict": "pass",
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass_with_limits",
+      "developer_semantics_status": "pass_with_limits",
+      "risk_tier": "medium",
+      "risk_score": 40,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "medium",
+        "runtime": "low",
+        "scope": "medium"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 82,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "positive_path",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 3,
+      "parity_case_count": 8,
+      "review_limitations": [
+        "Dense finite numeric arrays only; sparse, precomputed, callable metrics, and non-Minkowski metrics are outside this atom batch.",
+        "Neighbor search uses exact dense pairwise distances; algorithm, leaf_size, and n_jobs are validated for API compatibility but do not change execution.",
+        "Fit adjusts n_neighbors to at most n_samples - 1, matching sklearn behavior, but warnings are not surfaced as atom outputs.",
+        "Novelty scoring, decision function, and predict atoms require a state fitted with novelty=True; training labels are exposed through fit_predict."
+      ],
+      "review_required_actions": [],
+      "trust_blockers": [],
+      "has_references": true,
+      "references_status": "pass",
+      "limitations": [
+        "Dense finite numeric arrays only; sparse, precomputed, callable metrics, and non-Minkowski metrics are outside this atom batch.",
+        "Neighbor search uses exact dense pairwise distances; algorithm, leaf_size, and n_jobs are validated for API compatibility but do not change execution.",
+        "Fit adjusts n_neighbors to at most n_samples - 1, matching sklearn behavior, but warnings are not surfaced as atom outputs.",
+        "Novelty scoring, decision function, and predict atoms require a state fitted with novelty=True; training labels are exposed through fit_predict."
+      ],
+      "blocking_findings": [],
+      "required_actions": []
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.neighbors.local_outlier_factor_fit_predict",
+      "atom_name": "sciona.atoms.ml.sklearn.neighbors.local_outlier_factor_fit_predict",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/neighbors/atoms.py",
+        "src/sciona/atoms/ml/sklearn/neighbors/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/neighbors/cdg.json",
+        "src/sciona/atoms/ml/sklearn/neighbors/references.json"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_local_outlier_factor.review_bundle.json",
+      "overall_verdict": "pass",
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass_with_limits",
+      "developer_semantics_status": "pass_with_limits",
+      "risk_tier": "medium",
+      "risk_score": 40,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "medium",
+        "runtime": "low",
+        "scope": "medium"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 82,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "positive_path",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 3,
+      "parity_case_count": 8,
+      "review_limitations": [
+        "Dense finite numeric arrays only; sparse, precomputed, callable metrics, and non-Minkowski metrics are outside this atom batch.",
+        "Neighbor search uses exact dense pairwise distances; algorithm, leaf_size, and n_jobs are validated for API compatibility but do not change execution.",
+        "Fit adjusts n_neighbors to at most n_samples - 1, matching sklearn behavior, but warnings are not surfaced as atom outputs.",
+        "Novelty scoring, decision function, and predict atoms require a state fitted with novelty=True; training labels are exposed through fit_predict."
+      ],
+      "review_required_actions": [],
+      "trust_blockers": [],
+      "has_references": true,
+      "references_status": "pass",
+      "limitations": [
+        "Dense finite numeric arrays only; sparse, precomputed, callable metrics, and non-Minkowski metrics are outside this atom batch.",
+        "Neighbor search uses exact dense pairwise distances; algorithm, leaf_size, and n_jobs are validated for API compatibility but do not change execution.",
+        "Fit adjusts n_neighbors to at most n_samples - 1, matching sklearn behavior, but warnings are not surfaced as atom outputs.",
+        "Novelty scoring, decision function, and predict atoms require a state fitted with novelty=True; training labels are exposed through fit_predict."
+      ],
+      "blocking_findings": [],
+      "required_actions": []
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.neighbors.local_outlier_factor_score_samples",
+      "atom_name": "sciona.atoms.ml.sklearn.neighbors.local_outlier_factor_score_samples",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/neighbors/atoms.py",
+        "src/sciona/atoms/ml/sklearn/neighbors/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/neighbors/cdg.json",
+        "src/sciona/atoms/ml/sklearn/neighbors/references.json"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_local_outlier_factor.review_bundle.json",
+      "overall_verdict": "pass",
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass_with_limits",
+      "developer_semantics_status": "pass_with_limits",
+      "risk_tier": "medium",
+      "risk_score": 40,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "medium",
+        "runtime": "low",
+        "scope": "medium"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 82,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "positive_path",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 3,
+      "parity_case_count": 8,
+      "review_limitations": [
+        "Dense finite numeric arrays only; sparse, precomputed, callable metrics, and non-Minkowski metrics are outside this atom batch.",
+        "Neighbor search uses exact dense pairwise distances; algorithm, leaf_size, and n_jobs are validated for API compatibility but do not change execution.",
+        "Fit adjusts n_neighbors to at most n_samples - 1, matching sklearn behavior, but warnings are not surfaced as atom outputs.",
+        "Novelty scoring, decision function, and predict atoms require a state fitted with novelty=True; training labels are exposed through fit_predict."
+      ],
+      "review_required_actions": [],
+      "trust_blockers": [],
+      "has_references": true,
+      "references_status": "pass",
+      "limitations": [
+        "Dense finite numeric arrays only; sparse, precomputed, callable metrics, and non-Minkowski metrics are outside this atom batch.",
+        "Neighbor search uses exact dense pairwise distances; algorithm, leaf_size, and n_jobs are validated for API compatibility but do not change execution.",
+        "Fit adjusts n_neighbors to at most n_samples - 1, matching sklearn behavior, but warnings are not surfaced as atom outputs.",
+        "Novelty scoring, decision function, and predict atoms require a state fitted with novelty=True; training labels are exposed through fit_predict."
+      ],
+      "blocking_findings": [],
+      "required_actions": []
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.neighbors.local_outlier_factor_decision_function",
+      "atom_name": "sciona.atoms.ml.sklearn.neighbors.local_outlier_factor_decision_function",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/neighbors/atoms.py",
+        "src/sciona/atoms/ml/sklearn/neighbors/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/neighbors/cdg.json",
+        "src/sciona/atoms/ml/sklearn/neighbors/references.json"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_local_outlier_factor.review_bundle.json",
+      "overall_verdict": "pass",
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass_with_limits",
+      "developer_semantics_status": "pass_with_limits",
+      "risk_tier": "medium",
+      "risk_score": 40,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "medium",
+        "runtime": "low",
+        "scope": "medium"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 82,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "positive_path",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 3,
+      "parity_case_count": 8,
+      "review_limitations": [
+        "Dense finite numeric arrays only; sparse, precomputed, callable metrics, and non-Minkowski metrics are outside this atom batch.",
+        "Neighbor search uses exact dense pairwise distances; algorithm, leaf_size, and n_jobs are validated for API compatibility but do not change execution.",
+        "Fit adjusts n_neighbors to at most n_samples - 1, matching sklearn behavior, but warnings are not surfaced as atom outputs.",
+        "Novelty scoring, decision function, and predict atoms require a state fitted with novelty=True; training labels are exposed through fit_predict."
+      ],
+      "review_required_actions": [],
+      "trust_blockers": [],
+      "has_references": true,
+      "references_status": "pass",
+      "limitations": [
+        "Dense finite numeric arrays only; sparse, precomputed, callable metrics, and non-Minkowski metrics are outside this atom batch.",
+        "Neighbor search uses exact dense pairwise distances; algorithm, leaf_size, and n_jobs are validated for API compatibility but do not change execution.",
+        "Fit adjusts n_neighbors to at most n_samples - 1, matching sklearn behavior, but warnings are not surfaced as atom outputs.",
+        "Novelty scoring, decision function, and predict atoms require a state fitted with novelty=True; training labels are exposed through fit_predict."
+      ],
+      "blocking_findings": [],
+      "required_actions": []
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.neighbors.local_outlier_factor_predict",
+      "atom_name": "sciona.atoms.ml.sklearn.neighbors.local_outlier_factor_predict",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/neighbors/atoms.py",
+        "src/sciona/atoms/ml/sklearn/neighbors/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/neighbors/cdg.json",
+        "src/sciona/atoms/ml/sklearn/neighbors/references.json"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_local_outlier_factor.review_bundle.json",
+      "overall_verdict": "pass",
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass_with_limits",
+      "developer_semantics_status": "pass_with_limits",
+      "risk_tier": "medium",
+      "risk_score": 40,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "medium",
+        "runtime": "low",
+        "scope": "medium"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 82,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "positive_path",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 3,
+      "parity_case_count": 8,
+      "review_limitations": [
+        "Dense finite numeric arrays only; sparse, precomputed, callable metrics, and non-Minkowski metrics are outside this atom batch.",
+        "Neighbor search uses exact dense pairwise distances; algorithm, leaf_size, and n_jobs are validated for API compatibility but do not change execution.",
+        "Fit adjusts n_neighbors to at most n_samples - 1, matching sklearn behavior, but warnings are not surfaced as atom outputs.",
+        "Novelty scoring, decision function, and predict atoms require a state fitted with novelty=True; training labels are exposed through fit_predict."
+      ],
+      "review_required_actions": [],
+      "trust_blockers": [],
+      "has_references": true,
+      "references_status": "pass",
+      "limitations": [
+        "Dense finite numeric arrays only; sparse, precomputed, callable metrics, and non-Minkowski metrics are outside this atom batch.",
+        "Neighbor search uses exact dense pairwise distances; algorithm, leaf_size, and n_jobs are validated for API compatibility but do not change execution.",
+        "Fit adjusts n_neighbors to at most n_samples - 1, matching sklearn behavior, but warnings are not surfaced as atom outputs.",
+        "Novelty scoring, decision function, and predict atoms require a state fitted with novelty=True; training labels are exposed through fit_predict."
+      ],
+      "blocking_findings": [],
+      "required_actions": []
+    }
+  ]
+}

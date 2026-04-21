@@ -3,7 +3,7 @@
     {
       "node_id": "sklearn_neighbors_root",
       "name": "Sklearn Neighbors Atoms",
-      "description": "Dense finite neighbor graph, regression, classification, nearest-neighbor search, kernel-density, and nearest-centroid atoms for selected sklearn.neighbors APIs.",
+      "description": "Dense finite neighbor graph, regression, classification, nearest-neighbor search, kernel-density, local-outlier-factor, and nearest-centroid atoms for selected sklearn.neighbors APIs.",
       "status": "decomposed",
       "children": [
         "kneighbors_graph",
@@ -31,6 +31,11 @@
         "kernel_density_score_samples",
         "kernel_density_score",
         "kernel_density_sample",
+        "local_outlier_factor_fit",
+        "local_outlier_factor_fit_predict",
+        "local_outlier_factor_score_samples",
+        "local_outlier_factor_decision_function",
+        "local_outlier_factor_predict",
         "nearest_centroid_fit",
         "nearest_centroid_predict",
         "nearest_centroid_decision_function",
@@ -696,6 +701,216 @@
         {
           "name": "result",
           "type_desc": "NDArray[np.float64]"
+        }
+      ]
+    },
+    {
+      "node_id": "local_outlier_factor_fit",
+      "name": "local_outlier_factor_fit",
+      "description": "Fit dense local reachability statistics for LOF scoring.",
+      "concept_type": "fit_state_builder",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], n_neighbors: int = 20, algorithm: str = auto, leaf_size: int = 30, metric: str = minkowski, p: float = 2.0, metric_params: None = None, contamination: float | str = auto, novelty: bool = False, n_jobs: None = None) -> LocalOutlierFactorState",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "n_neighbors",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "algorithm",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "leaf_size",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "metric",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "p",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "metric_params",
+          "type_desc": "None",
+          "required": false
+        },
+        {
+          "name": "contamination",
+          "type_desc": "float | str",
+          "required": false
+        },
+        {
+          "name": "novelty",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "n_jobs",
+          "type_desc": "None",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "LocalOutlierFactorState"
+        }
+      ]
+    },
+    {
+      "node_id": "local_outlier_factor_fit_predict",
+      "name": "local_outlier_factor_fit_predict",
+      "description": "Fit dense LOF state and label training rows as inliers or outliers.",
+      "concept_type": "fit_predict",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], n_neighbors: int = 20, algorithm: str = auto, leaf_size: int = 30, metric: str = minkowski, p: float = 2.0, metric_params: None = None, contamination: float | str = auto, n_jobs: None = None) -> NDArray[np.int64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "n_neighbors",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "algorithm",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "leaf_size",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "metric",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "p",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "metric_params",
+          "type_desc": "None",
+          "required": false
+        },
+        {
+          "name": "contamination",
+          "type_desc": "float | str",
+          "required": false
+        },
+        {
+          "name": "n_jobs",
+          "type_desc": "None",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.int64]"
+        }
+      ]
+    },
+    {
+      "node_id": "local_outlier_factor_score_samples",
+      "name": "local_outlier_factor_score_samples",
+      "description": "Compute novelty-mode opposite LOF scores for query samples.",
+      "concept_type": "score_samples",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: LocalOutlierFactorState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "LocalOutlierFactorState",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
+    },
+    {
+      "node_id": "local_outlier_factor_decision_function",
+      "name": "local_outlier_factor_decision_function",
+      "description": "Compute novelty-mode LOF scores shifted by the fitted offset.",
+      "concept_type": "decision_function",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: LocalOutlierFactorState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "LocalOutlierFactorState",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
+    },
+    {
+      "node_id": "local_outlier_factor_predict",
+      "name": "local_outlier_factor_predict",
+      "description": "Predict novelty-mode LOF inlier labels for query samples.",
+      "concept_type": "predict",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: LocalOutlierFactorState) -> NDArray[np.int64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "LocalOutlierFactorState",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.int64]"
         }
       ]
     },
@@ -1390,6 +1605,26 @@
       "source": "kernel_density_fit",
       "target": "kernel_density_sample",
       "kind": "state"
+    },
+    {
+      "source": "local_outlier_factor_fit",
+      "target": "local_outlier_factor_fit_predict",
+      "kind": "training_labels"
+    },
+    {
+      "source": "local_outlier_factor_fit",
+      "target": "local_outlier_factor_score_samples",
+      "kind": "state"
+    },
+    {
+      "source": "local_outlier_factor_score_samples",
+      "target": "local_outlier_factor_decision_function",
+      "kind": "offset"
+    },
+    {
+      "source": "local_outlier_factor_decision_function",
+      "target": "local_outlier_factor_predict",
+      "kind": "threshold"
     }
   ],
   "metadata": {

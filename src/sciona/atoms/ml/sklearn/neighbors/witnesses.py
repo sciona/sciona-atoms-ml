@@ -6,6 +6,7 @@ from sciona.ghost.abstract import AbstractArray
 
 from .state_models import (
     KernelDensityState,
+    LocalOutlierFactorState,
     NearestCentroidState,
     NearestNeighborsState,
     NeighborsClassifierState,
@@ -94,6 +95,15 @@ def _check_kernel_density_state(X: AbstractArray, state: KernelDensityState) -> 
         raise ValueError("state must use covered Euclidean density estimation")
     if state.kernel not in {"gaussian", "tophat", "epanechnikov", "exponential", "linear", "cosine"}:
         raise ValueError("unsupported kernel")
+    return n_queries
+
+
+def _check_lof_state(X: AbstractArray, state: LocalOutlierFactorState) -> int:
+    n_queries, n_features = _check_matrix(X)
+    if n_features != state.n_features_in:
+        raise ValueError("X feature count must match fitted state")
+    if state.metric != "minkowski" or state.p < 1:
+        raise ValueError("state must use covered minkowski search")
     return n_queries
 
 
@@ -513,6 +523,92 @@ def witness_kernel_density_sample(
     if not isinstance(n_samples, int) or isinstance(n_samples, bool) or n_samples < 1:
         raise ValueError("n_samples must be positive")
     return AbstractArray(shape=(n_samples, state.n_features_in), dtype="float64")
+
+
+def witness_local_outlier_factor_fit(
+    X: AbstractArray,
+    n_neighbors: int = 20,
+    *,
+    algorithm: str = "auto",
+    leaf_size: int = 30,
+    metric: str = "minkowski",
+    p: float = 2.0,
+    metric_params: None = None,
+    contamination: float | str = "auto",
+    novelty: bool = False,
+    n_jobs: None = None,
+) -> AbstractArray:
+    """Describe fitting dense local-outlier-factor state."""
+    n_samples, n_features = _check_matrix(X)
+    if not isinstance(n_neighbors, int) or isinstance(n_neighbors, bool) or n_neighbors < 1:
+        raise ValueError("n_neighbors must be positive")
+    if n_samples < 2:
+        raise ValueError("at least two samples are required")
+    _check_algorithm_options(algorithm, leaf_size)
+    _check_minkowski_options(metric, p, metric_params, n_jobs)
+    if contamination != "auto" and (
+        not isinstance(contamination, (int, float))
+        or isinstance(contamination, bool)
+        or contamination <= 0.0
+        or contamination > 0.5
+    ):
+        raise ValueError("contamination must be auto or in (0, 0.5]")
+    if not isinstance(novelty, bool):
+        raise ValueError("novelty must be boolean")
+    return AbstractArray(shape=(n_samples, n_features), dtype="float64")
+
+
+def witness_local_outlier_factor_fit_predict(
+    X: AbstractArray,
+    n_neighbors: int = 20,
+    *,
+    algorithm: str = "auto",
+    leaf_size: int = 30,
+    metric: str = "minkowski",
+    p: float = 2.0,
+    metric_params: None = None,
+    contamination: float | str = "auto",
+    n_jobs: None = None,
+) -> AbstractArray:
+    """Describe dense LOF training-set inlier labels."""
+    n_samples, _ = _check_matrix(X)
+    _ = witness_local_outlier_factor_fit(
+        X,
+        n_neighbors,
+        algorithm=algorithm,
+        leaf_size=leaf_size,
+        metric=metric,
+        p=p,
+        metric_params=metric_params,
+        contamination=contamination,
+        novelty=False,
+        n_jobs=n_jobs,
+    )
+    return AbstractArray(shape=(n_samples,), dtype="int64")
+
+
+def witness_local_outlier_factor_score_samples(X: AbstractArray, state: LocalOutlierFactorState) -> AbstractArray:
+    """Describe novelty-mode LOF opposite scores."""
+    n_queries = _check_lof_state(X, state)
+    if not state.novelty:
+        raise ValueError("score_samples requires novelty state")
+    return AbstractArray(shape=(n_queries,), dtype="float64")
+
+
+def witness_local_outlier_factor_decision_function(X: AbstractArray, state: LocalOutlierFactorState) -> AbstractArray:
+    """Describe novelty-mode shifted LOF scores."""
+    n_queries = _check_lof_state(X, state)
+    if not state.novelty:
+        raise ValueError("decision_function requires novelty state")
+    return AbstractArray(shape=(n_queries,), dtype="float64")
+
+
+def witness_local_outlier_factor_predict(X: AbstractArray, state: LocalOutlierFactorState) -> AbstractArray:
+    """Describe novelty-mode LOF inlier labels."""
+    n_queries = _check_lof_state(X, state)
+    if not state.novelty:
+        raise ValueError("predict requires novelty state")
+    return AbstractArray(shape=(n_queries,), dtype="int64")
 
 
 def witness_nearest_centroid_fit(

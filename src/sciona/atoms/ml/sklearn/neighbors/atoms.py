@@ -15,6 +15,7 @@ from sciona.ghost.registry import register_atom
 
 from .state_models import (
     KernelDensityState,
+    LocalOutlierFactorState,
     NearestCentroidState,
     NearestNeighborsState,
     NeighborsClassifierState,
@@ -34,6 +35,11 @@ from .witnesses import (
     witness_kernel_density_sample,
     witness_kernel_density_score,
     witness_kernel_density_score_samples,
+    witness_local_outlier_factor_decision_function,
+    witness_local_outlier_factor_fit,
+    witness_local_outlier_factor_fit_predict,
+    witness_local_outlier_factor_predict,
+    witness_local_outlier_factor_score_samples,
     witness_nearest_centroid_decision_function,
     witness_nearest_centroid_fit,
     witness_nearest_centroid_predict,
@@ -668,6 +674,72 @@ def _kernel_density_sample_valid(result: NDArray[np.float64], state: KernelDensi
     return bool(values.shape == (n_samples, state.n_features_in) and np.all(np.isfinite(values)))
 
 
+def _positive_lof_neighbors(n_neighbors: int, X: NDArray[np.float64]) -> bool:
+    values = np.asarray(X)
+    return bool(
+        isinstance(n_neighbors, int)
+        and not isinstance(n_neighbors, bool)
+        and n_neighbors >= 1
+        and values.ndim == 2
+        and values.shape[0] >= 2
+    )
+
+
+def _lof_contamination_valid(contamination: float | str) -> bool:
+    return bool(
+        contamination == "auto"
+        or (
+            isinstance(contamination, (int, float))
+            and not isinstance(contamination, bool)
+            and np.isfinite(float(contamination))
+            and 0.0 < float(contamination) <= 0.5
+        )
+    )
+
+
+def _lof_state_valid(state: LocalOutlierFactorState) -> bool:
+    n_samples = state.training_data.shape[0]
+    return bool(
+        state.training_data.ndim == 2
+        and n_samples >= 2
+        and state.training_data.shape[1] == state.n_features_in
+        and 1 <= state.n_neighbors <= n_samples - 1
+        and state.distances_fit.shape == (n_samples, state.n_neighbors)
+        and state.neighbor_indices_fit.shape == (n_samples, state.n_neighbors)
+        and state.local_reachability_density.shape == (n_samples,)
+        and state.negative_outlier_factor.shape == (n_samples,)
+        and np.all(np.isfinite(state.training_data))
+        and np.all(np.isfinite(state.distances_fit))
+        and np.all(state.distances_fit >= 0.0)
+        and np.all(state.neighbor_indices_fit >= 0)
+        and np.all(state.neighbor_indices_fit < n_samples)
+        and np.all(np.isfinite(state.local_reachability_density))
+        and np.all(state.local_reachability_density > 0.0)
+        and np.all(np.isfinite(state.negative_outlier_factor))
+        and np.isfinite(state.offset)
+        and _lof_contamination_valid(state.contamination)
+        and isinstance(state.novelty, bool)
+        and state.metric == "minkowski"
+        and np.isfinite(state.p)
+        and state.p >= 1.0
+    )
+
+
+def _lof_feature_count_matches(X: NDArray[np.float64], state: LocalOutlierFactorState) -> bool:
+    values = np.asarray(X)
+    return bool(values.ndim == 2 and values.shape[1] == state.n_features_in)
+
+
+def _lof_score_valid(result: NDArray[np.float64], X: NDArray[np.float64]) -> bool:
+    values = np.asarray(result, dtype=np.float64)
+    return bool(values.shape == (np.asarray(X).shape[0],) and np.all(np.isfinite(values)))
+
+
+def _lof_label_valid(result: NDArray[np.int64], n_rows: int) -> bool:
+    values = np.asarray(result, dtype=np.int64)
+    return bool(values.shape == (n_rows,) and np.all(np.isin(values, np.array([-1, 1], dtype=np.int64))))
+
+
 def _object_array_from_rows(rows: list[NDArray[np.float64]] | list[NDArray[np.int64]]) -> NDArray[np.object_]:
     result = np.empty(len(rows), dtype=object)
     for row_index, row in enumerate(rows):
@@ -739,6 +811,36 @@ def _logsumexp_rows(values: NDArray[np.float64]) -> NDArray[np.float64]:
         shifted = values[finite] - row_max[finite, np.newaxis]
         result[finite] = row_max[finite] + np.log(np.sum(np.exp(shifted), axis=1))
     return result
+
+
+def _kneighbor_indices_and_distances_excluding_self(
+    X: NDArray[np.float64],
+    n_neighbors: int,
+    p: float,
+) -> tuple[NDArray[np.int64], NDArray[np.float64]]:
+    distances = _pairwise_minkowski(X, X, p)
+    ranking = distances.copy()
+    ranking.flat[:: ranking.shape[0] + 1] = np.inf
+    order = np.argsort(ranking, axis=1, kind="stable")[:, :n_neighbors]
+    rows = np.arange(distances.shape[0])[:, np.newaxis]
+    return np.asarray(order, dtype=np.int64), np.asarray(distances[rows, order], dtype=np.float64)
+
+
+def _local_reachability_density(
+    distances: NDArray[np.float64],
+    neighbor_indices: NDArray[np.int64],
+    distances_fit: NDArray[np.float64],
+    n_neighbors: int,
+) -> NDArray[np.float64]:
+    kth_distances = distances_fit[neighbor_indices, n_neighbors - 1]
+    reachability = np.maximum(distances, kth_distances)
+    return np.asarray(1.0 / (np.mean(reachability, axis=1) + 1e-10), dtype=np.float64)
+
+
+def _lof_training_labels(state: LocalOutlierFactorState) -> NDArray[np.int64]:
+    labels = np.ones(state.training_data.shape[0], dtype=np.int64)
+    labels[state.negative_outlier_factor < state.offset] = -1
+    return labels
 
 
 def _resolve_include_self(include_self: bool | str, mode: str) -> bool:
@@ -1581,6 +1683,134 @@ def kernel_density_sample(
         / np.sqrt(squared_norm[nonzero])
     )
     return np.asarray(state.training_data[indices] + raw * correction[:, np.newaxis], dtype=np.float64)
+
+
+@register_atom(witness_local_outlier_factor_fit)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X: _finite_matrix(X), "X must contain finite values")
+@icontract.require(lambda n_neighbors, X: _positive_lof_neighbors(n_neighbors, X), "n_neighbors must be positive and X must have at least two samples")
+@icontract.require(lambda algorithm, leaf_size: _algorithm_options_valid(algorithm, leaf_size), "algorithm and leaf_size must be valid")
+@icontract.require(lambda metric, p, metric_params, n_jobs: _minkowski_options_valid(metric, p, metric_params, n_jobs), "only dense minkowski search is covered")
+@icontract.require(lambda contamination: _lof_contamination_valid(contamination), "contamination must be auto or in (0, 0.5]")
+@icontract.require(lambda novelty: isinstance(novelty, bool), "novelty must be boolean")
+@icontract.ensure(lambda result: _lof_state_valid(result), "state must contain finite dense local-outlier-factor data")
+def local_outlier_factor_fit(
+    X: NDArray[np.float64],
+    n_neighbors: int = 20,
+    *,
+    algorithm: str = "auto",
+    leaf_size: int = 30,
+    metric: str = "minkowski",
+    p: float = 2.0,
+    metric_params: None = None,
+    contamination: float | str = "auto",
+    novelty: bool = False,
+    n_jobs: None = None,
+) -> LocalOutlierFactorState:
+    """Fit dense local reachability statistics for LOF scoring."""
+    del algorithm, leaf_size, metric_params, n_jobs
+    checked = check_array(X, dtype=np.float64, ensure_2d=True)
+    k = max(1, min(int(n_neighbors), checked.shape[0] - 1))
+    neighbor_indices, neighbor_distances = _kneighbor_indices_and_distances_excluding_self(checked, k, float(p))
+    lrd = _local_reachability_density(neighbor_distances, neighbor_indices, neighbor_distances, k)
+    negative_outlier_factor = np.asarray(-np.mean(lrd[neighbor_indices] / lrd[:, np.newaxis], axis=1), dtype=np.float64)
+    if contamination == "auto":
+        offset = -1.5
+    else:
+        offset = float(np.percentile(negative_outlier_factor, 100.0 * float(contamination)))
+    return LocalOutlierFactorState(
+        training_data=np.asarray(checked, dtype=np.float64).copy(),
+        n_neighbors=k,
+        distances_fit=neighbor_distances.copy(),
+        neighbor_indices_fit=neighbor_indices.copy(),
+        local_reachability_density=lrd,
+        negative_outlier_factor=negative_outlier_factor,
+        offset=offset,
+        contamination=contamination,
+        novelty=novelty,
+        metric=metric,
+        p=float(p),
+        n_features_in=int(checked.shape[1]),
+    )
+
+
+@register_atom(witness_local_outlier_factor_fit_predict)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X: _finite_matrix(X), "X must contain finite values")
+@icontract.require(lambda n_neighbors, X: _positive_lof_neighbors(n_neighbors, X), "n_neighbors must be positive and X must have at least two samples")
+@icontract.require(lambda algorithm, leaf_size: _algorithm_options_valid(algorithm, leaf_size), "algorithm and leaf_size must be valid")
+@icontract.require(lambda metric, p, metric_params, n_jobs: _minkowski_options_valid(metric, p, metric_params, n_jobs), "only dense minkowski search is covered")
+@icontract.require(lambda contamination: _lof_contamination_valid(contamination), "contamination must be auto or in (0, 0.5]")
+@icontract.ensure(lambda result, X: _lof_label_valid(result, np.asarray(X).shape[0]), "labels must be -1 or 1 for each training row")
+def local_outlier_factor_fit_predict(
+    X: NDArray[np.float64],
+    n_neighbors: int = 20,
+    *,
+    algorithm: str = "auto",
+    leaf_size: int = 30,
+    metric: str = "minkowski",
+    p: float = 2.0,
+    metric_params: None = None,
+    contamination: float | str = "auto",
+    n_jobs: None = None,
+) -> NDArray[np.int64]:
+    """Fit dense LOF state and label training rows as inliers or outliers."""
+    state = local_outlier_factor_fit(
+        X,
+        n_neighbors,
+        algorithm=algorithm,
+        leaf_size=leaf_size,
+        metric=metric,
+        p=p,
+        metric_params=metric_params,
+        contamination=contamination,
+        novelty=False,
+        n_jobs=n_jobs,
+    )
+    return _lof_training_labels(state)
+
+
+@register_atom(witness_local_outlier_factor_score_samples)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X: _finite_matrix(X), "X must contain finite values")
+@icontract.require(lambda state: _lof_state_valid(state), "state must be a fitted dense local-outlier-factor estimator")
+@icontract.require(lambda state: state.novelty, "score_samples requires novelty=True state")
+@icontract.require(lambda X, state: _lof_feature_count_matches(X, state), "X feature count must match fitted state")
+@icontract.ensure(lambda result, X: _lof_score_valid(result, X), "scores must be finite per query")
+def local_outlier_factor_score_samples(X: NDArray[np.float64], state: LocalOutlierFactorState) -> NDArray[np.float64]:
+    """Compute novelty-mode opposite LOF scores for query samples."""
+    checked = check_array(X, dtype=np.float64, ensure_2d=True)
+    neighbor_indices, neighbor_distances = _kneighbor_indices_and_distances(checked, state, state.n_neighbors)
+    query_lrd = _local_reachability_density(neighbor_distances, neighbor_indices, state.distances_fit, state.n_neighbors)
+    ratios = state.local_reachability_density[neighbor_indices] / query_lrd[:, np.newaxis]
+    return np.asarray(-np.mean(ratios, axis=1), dtype=np.float64)
+
+
+@register_atom(witness_local_outlier_factor_decision_function)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X: _finite_matrix(X), "X must contain finite values")
+@icontract.require(lambda state: _lof_state_valid(state), "state must be a fitted dense local-outlier-factor estimator")
+@icontract.require(lambda state: state.novelty, "decision_function requires novelty=True state")
+@icontract.require(lambda X, state: _lof_feature_count_matches(X, state), "X feature count must match fitted state")
+@icontract.ensure(lambda result, X: _lof_score_valid(result, X), "shifted scores must be finite per query")
+def local_outlier_factor_decision_function(X: NDArray[np.float64], state: LocalOutlierFactorState) -> NDArray[np.float64]:
+    """Compute novelty-mode LOF scores shifted by the fitted offset."""
+    return np.asarray(local_outlier_factor_score_samples(X, state) - state.offset, dtype=np.float64)
+
+
+@register_atom(witness_local_outlier_factor_predict)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X: _finite_matrix(X), "X must contain finite values")
+@icontract.require(lambda state: _lof_state_valid(state), "state must be a fitted dense local-outlier-factor estimator")
+@icontract.require(lambda state: state.novelty, "predict requires novelty=True state")
+@icontract.require(lambda X, state: _lof_feature_count_matches(X, state), "X feature count must match fitted state")
+@icontract.ensure(lambda result, X: _lof_label_valid(result, np.asarray(X).shape[0]), "labels must be -1 or 1 for each query")
+def local_outlier_factor_predict(X: NDArray[np.float64], state: LocalOutlierFactorState) -> NDArray[np.int64]:
+    """Predict novelty-mode LOF inlier labels for query samples."""
+    scores = local_outlier_factor_decision_function(X, state)
+    labels = np.ones(scores.shape[0], dtype=np.int64)
+    labels[scores < 0.0] = -1
+    return labels
 
 
 @register_atom(witness_nearest_centroid_fit)

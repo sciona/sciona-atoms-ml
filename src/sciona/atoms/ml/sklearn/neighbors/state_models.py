@@ -82,6 +82,24 @@ class KernelDensityState:
 
 
 @dataclass(frozen=True)
+class LocalOutlierFactorState:
+    """Fitted dense local-outlier-factor state."""
+
+    training_data: NDArray[np.float64]
+    n_neighbors: int
+    distances_fit: NDArray[np.float64]
+    neighbor_indices_fit: NDArray[np.int64]
+    local_reachability_density: NDArray[np.float64]
+    negative_outlier_factor: NDArray[np.float64]
+    offset: float
+    contamination: float | str
+    novelty: bool
+    metric: str
+    p: float
+    n_features_in: int
+
+
+@dataclass(frozen=True)
 class NearestCentroidState:
     """Fitted dense nearest-centroid classifier state."""
 

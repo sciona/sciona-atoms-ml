@@ -42453,6 +42453,601 @@
       "review_record_path": "data/review_bundles/ml_sklearn_kernel_density.review_bundle.json",
       "has_references": true,
       "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.neighbors.local_outlier_factor_decision_function",
+      "atom_key": "sciona.atoms.ml.sklearn.neighbors.local_outlier_factor_decision_function",
+      "atom_id": "sciona.atoms.ml.sklearn.neighbors.local_outlier_factor_decision_function",
+      "module_import_path": "sciona.atoms.ml.sklearn.neighbors",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/neighbors/atoms.py",
+      "module_family": "sklearn",
+      "domain_family": "ml.sklearn",
+      "wrapper_symbol": "local_outlier_factor_decision_function",
+      "argument_names": [
+        "X",
+        "state"
+      ],
+      "argument_details": [
+        {
+          "name": "X",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "state",
+          "annotation": "LocalOutlierFactorState",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.float64]",
+      "docstring_summary": "Compute novelty-mode LOF scores shifted by the fitted offset.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/atoms.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_local_outlier_factor_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_local_outlier_factor_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_local_outlier_factor_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [
+        "Dense finite numeric arrays only; sparse, precomputed, callable metrics, and non-Minkowski metrics are outside this atom batch.",
+        "Neighbor search uses exact dense pairwise distances; algorithm, leaf_size, and n_jobs are validated for API compatibility but do not change execution.",
+        "Fit adjusts n_neighbors to at most n_samples - 1, matching sklearn behavior, but warnings are not surfaced as atom outputs.",
+        "Novelty scoring, decision function, and predict atoms require a state fitted with novelty=True; training labels are exposed through fit_predict."
+      ],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "medium",
+      "risk_score": 40,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "medium",
+        "runtime": "low",
+        "scope": "medium"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 82,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "positive_path",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 3,
+      "parity_case_count": 8,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_local_outlier_factor.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.neighbors.local_outlier_factor_fit",
+      "atom_key": "sciona.atoms.ml.sklearn.neighbors.local_outlier_factor_fit",
+      "atom_id": "sciona.atoms.ml.sklearn.neighbors.local_outlier_factor_fit",
+      "module_import_path": "sciona.atoms.ml.sklearn.neighbors",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/neighbors/atoms.py",
+      "module_family": "sklearn",
+      "domain_family": "ml.sklearn",
+      "wrapper_symbol": "local_outlier_factor_fit",
+      "argument_names": [
+        "X",
+        "n_neighbors",
+        "algorithm",
+        "leaf_size",
+        "metric",
+        "p",
+        "metric_params",
+        "contamination",
+        "novelty",
+        "n_jobs"
+      ],
+      "argument_details": [
+        {
+          "name": "X",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "n_neighbors",
+          "annotation": "int",
+          "required": false,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "algorithm",
+          "annotation": "str",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "leaf_size",
+          "annotation": "int",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "metric",
+          "annotation": "str",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "p",
+          "annotation": "float",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "metric_params",
+          "annotation": "None",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "contamination",
+          "annotation": "float | str",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "novelty",
+          "annotation": "bool",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "n_jobs",
+          "annotation": "None",
+          "required": false,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "LocalOutlierFactorState",
+      "docstring_summary": "Fit dense local reachability statistics for LOF scoring.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/atoms.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_local_outlier_factor_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_local_outlier_factor_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_local_outlier_factor_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [
+        "Dense finite numeric arrays only; sparse, precomputed, callable metrics, and non-Minkowski metrics are outside this atom batch.",
+        "Neighbor search uses exact dense pairwise distances; algorithm, leaf_size, and n_jobs are validated for API compatibility but do not change execution.",
+        "Fit adjusts n_neighbors to at most n_samples - 1, matching sklearn behavior, but warnings are not surfaced as atom outputs.",
+        "Novelty scoring, decision function, and predict atoms require a state fitted with novelty=True; training labels are exposed through fit_predict."
+      ],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "medium",
+      "risk_score": 40,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "medium",
+        "runtime": "low",
+        "scope": "medium"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 82,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "positive_path",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 3,
+      "parity_case_count": 8,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_local_outlier_factor.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.neighbors.local_outlier_factor_fit_predict",
+      "atom_key": "sciona.atoms.ml.sklearn.neighbors.local_outlier_factor_fit_predict",
+      "atom_id": "sciona.atoms.ml.sklearn.neighbors.local_outlier_factor_fit_predict",
+      "module_import_path": "sciona.atoms.ml.sklearn.neighbors",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/neighbors/atoms.py",
+      "module_family": "sklearn",
+      "domain_family": "ml.sklearn",
+      "wrapper_symbol": "local_outlier_factor_fit_predict",
+      "argument_names": [
+        "X",
+        "n_neighbors",
+        "algorithm",
+        "leaf_size",
+        "metric",
+        "p",
+        "metric_params",
+        "contamination",
+        "n_jobs"
+      ],
+      "argument_details": [
+        {
+          "name": "X",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "n_neighbors",
+          "annotation": "int",
+          "required": false,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "algorithm",
+          "annotation": "str",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "leaf_size",
+          "annotation": "int",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "metric",
+          "annotation": "str",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "p",
+          "annotation": "float",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "metric_params",
+          "annotation": "None",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "contamination",
+          "annotation": "float | str",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "n_jobs",
+          "annotation": "None",
+          "required": false,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.int64]",
+      "docstring_summary": "Fit dense LOF state and label training rows as inliers or outliers.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/atoms.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_local_outlier_factor_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_local_outlier_factor_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_local_outlier_factor_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [
+        "Dense finite numeric arrays only; sparse, precomputed, callable metrics, and non-Minkowski metrics are outside this atom batch.",
+        "Neighbor search uses exact dense pairwise distances; algorithm, leaf_size, and n_jobs are validated for API compatibility but do not change execution.",
+        "Fit adjusts n_neighbors to at most n_samples - 1, matching sklearn behavior, but warnings are not surfaced as atom outputs.",
+        "Novelty scoring, decision function, and predict atoms require a state fitted with novelty=True; training labels are exposed through fit_predict."
+      ],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "medium",
+      "risk_score": 40,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "medium",
+        "runtime": "low",
+        "scope": "medium"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 82,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "positive_path",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 3,
+      "parity_case_count": 8,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_local_outlier_factor.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.neighbors.local_outlier_factor_predict",
+      "atom_key": "sciona.atoms.ml.sklearn.neighbors.local_outlier_factor_predict",
+      "atom_id": "sciona.atoms.ml.sklearn.neighbors.local_outlier_factor_predict",
+      "module_import_path": "sciona.atoms.ml.sklearn.neighbors",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/neighbors/atoms.py",
+      "module_family": "sklearn",
+      "domain_family": "ml.sklearn",
+      "wrapper_symbol": "local_outlier_factor_predict",
+      "argument_names": [
+        "X",
+        "state"
+      ],
+      "argument_details": [
+        {
+          "name": "X",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "state",
+          "annotation": "LocalOutlierFactorState",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.int64]",
+      "docstring_summary": "Predict novelty-mode LOF inlier labels for query samples.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/atoms.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_local_outlier_factor_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_local_outlier_factor_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_local_outlier_factor_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [
+        "Dense finite numeric arrays only; sparse, precomputed, callable metrics, and non-Minkowski metrics are outside this atom batch.",
+        "Neighbor search uses exact dense pairwise distances; algorithm, leaf_size, and n_jobs are validated for API compatibility but do not change execution.",
+        "Fit adjusts n_neighbors to at most n_samples - 1, matching sklearn behavior, but warnings are not surfaced as atom outputs.",
+        "Novelty scoring, decision function, and predict atoms require a state fitted with novelty=True; training labels are exposed through fit_predict."
+      ],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "medium",
+      "risk_score": 40,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "medium",
+        "runtime": "low",
+        "scope": "medium"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 82,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "positive_path",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 3,
+      "parity_case_count": 8,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_local_outlier_factor.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.neighbors.local_outlier_factor_score_samples",
+      "atom_key": "sciona.atoms.ml.sklearn.neighbors.local_outlier_factor_score_samples",
+      "atom_id": "sciona.atoms.ml.sklearn.neighbors.local_outlier_factor_score_samples",
+      "module_import_path": "sciona.atoms.ml.sklearn.neighbors",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/neighbors/atoms.py",
+      "module_family": "sklearn",
+      "domain_family": "ml.sklearn",
+      "wrapper_symbol": "local_outlier_factor_score_samples",
+      "argument_names": [
+        "X",
+        "state"
+      ],
+      "argument_details": [
+        {
+          "name": "X",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "state",
+          "annotation": "LocalOutlierFactorState",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.float64]",
+      "docstring_summary": "Compute novelty-mode opposite LOF scores for query samples.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/atoms.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neighbors/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_local_outlier_factor_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_local_outlier_factor_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_local_outlier_factor_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [
+        "Dense finite numeric arrays only; sparse, precomputed, callable metrics, and non-Minkowski metrics are outside this atom batch.",
+        "Neighbor search uses exact dense pairwise distances; algorithm, leaf_size, and n_jobs are validated for API compatibility but do not change execution.",
+        "Fit adjusts n_neighbors to at most n_samples - 1, matching sklearn behavior, but warnings are not surfaced as atom outputs.",
+        "Novelty scoring, decision function, and predict atoms require a state fitted with novelty=True; training labels are exposed through fit_predict."
+      ],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "medium",
+      "risk_score": 40,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "medium",
+        "runtime": "low",
+        "scope": "medium"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 82,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "positive_path",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 3,
+      "parity_case_count": 8,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_local_outlier_factor.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
     }
   ]
 }
