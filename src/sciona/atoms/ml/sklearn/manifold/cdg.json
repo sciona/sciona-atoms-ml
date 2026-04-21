@@ -17,7 +17,13 @@
         "isomap_geodesic_distances",
         "isomap_fit",
         "isomap_transform",
-        "isomap_reconstruction_error"
+        "isomap_reconstruction_error",
+        "lle_barycenter_weights",
+        "lle_barycenter_graph",
+        "lle_standard_reconstruction_matrix",
+        "locally_linear_embedding",
+        "locally_linear_embedding_fit",
+        "locally_linear_embedding_transform"
       ],
       "depth": 0
     },
@@ -599,6 +605,288 @@
           "type_desc": "float"
         }
       ]
+    },
+    {
+      "node_id": "lle_barycenter_weights",
+      "name": "lle_barycenter_weights",
+      "description": "Compute row-normalized local reconstruction weights for LLE.",
+      "concept_type": "local_reconstruction_weights",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], Y: NDArray[np.float64], indices: NDArray[np.int64], reg: float = 1e-3) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "Y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "indices",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        },
+        {
+          "name": "reg",
+          "type_desc": "float",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
+    },
+    {
+      "node_id": "lle_barycenter_graph",
+      "name": "lle_barycenter_graph",
+      "description": "Build the dense barycenter-weight matrix for standard LLE.",
+      "concept_type": "neighbor_weight_matrix",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], n_neighbors: int, reg: float = 1e-3, n_jobs: None = None) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "n_neighbors",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "reg",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "n_jobs",
+          "type_desc": "None",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
+    },
+    {
+      "node_id": "lle_standard_reconstruction_matrix",
+      "name": "lle_standard_reconstruction_matrix",
+      "description": "Compute the dense standard LLE matrix (I - W)'(I - W).",
+      "concept_type": "reconstruction_matrix",
+      "status": "atomic",
+      "type_signature": "(weights: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "weights",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
+    },
+    {
+      "node_id": "locally_linear_embedding",
+      "name": "locally_linear_embedding",
+      "description": "Fit standard dense locally linear embedding coordinates.",
+      "concept_type": "embedding_fit",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], n_neighbors: int, n_components: int, reg: float = 1e-3, eigen_solver: str = 'dense', tol: float = 1e-6, max_iter: int = 100, method: str = 'standard', hessian_tol: float = 1e-4, modified_tol: float = 1e-12, random_state: int | None = None, n_jobs: None = None) -> LocallyLinearEmbeddingState",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "n_neighbors",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "n_components",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "reg",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "eigen_solver",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "tol",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "method",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "hessian_tol",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "modified_tol",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int | None",
+          "required": false
+        },
+        {
+          "name": "n_jobs",
+          "type_desc": "None",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "LocallyLinearEmbeddingState"
+        }
+      ]
+    },
+    {
+      "node_id": "locally_linear_embedding_fit",
+      "name": "locally_linear_embedding_fit",
+      "description": "Fit standard dense LocallyLinearEmbedding estimator state.",
+      "concept_type": "fit_state_builder",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], n_neighbors: int = 5, n_components: int = 2, reg: float = 1e-3, eigen_solver: str = 'dense', tol: float = 1e-6, max_iter: int = 100, method: str = 'standard', hessian_tol: float = 1e-4, modified_tol: float = 1e-12, neighbors_algorithm: str = 'auto', random_state: int | None = None, n_jobs: None = None) -> LocallyLinearEmbeddingState",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "n_neighbors",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "n_components",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "reg",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "eigen_solver",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "tol",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "method",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "hessian_tol",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "modified_tol",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "neighbors_algorithm",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int | None",
+          "required": false
+        },
+        {
+          "name": "n_jobs",
+          "type_desc": "None",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "LocallyLinearEmbeddingState"
+        }
+      ]
+    },
+    {
+      "node_id": "locally_linear_embedding_transform",
+      "name": "locally_linear_embedding_transform",
+      "description": "Transform samples with a fitted standard dense LLE state.",
+      "concept_type": "transform",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: LocallyLinearEmbeddingState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "LocallyLinearEmbeddingState",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
     }
   ],
   "edges": [
@@ -650,6 +938,41 @@
     {
       "source": "isomap_fit",
       "target": "isomap_reconstruction_error",
+      "kind": "state"
+    },
+    {
+      "source": "lle_barycenter_weights",
+      "target": "lle_barycenter_graph",
+      "kind": "local_weights"
+    },
+    {
+      "source": "lle_barycenter_graph",
+      "target": "lle_standard_reconstruction_matrix",
+      "kind": "weights"
+    },
+    {
+      "source": "lle_barycenter_graph",
+      "target": "locally_linear_embedding",
+      "kind": "weights"
+    },
+    {
+      "source": "lle_standard_reconstruction_matrix",
+      "target": "locally_linear_embedding",
+      "kind": "null_space_matrix"
+    },
+    {
+      "source": "locally_linear_embedding",
+      "target": "locally_linear_embedding_fit",
+      "kind": "fit_state"
+    },
+    {
+      "source": "lle_barycenter_weights",
+      "target": "locally_linear_embedding_transform",
+      "kind": "query_weights"
+    },
+    {
+      "source": "locally_linear_embedding_fit",
+      "target": "locally_linear_embedding_transform",
       "kind": "state"
     }
   ],

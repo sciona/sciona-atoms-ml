@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from sciona.ghost.abstract import AbstractArray
 
-from .state_models import IsomapState
+from .state_models import IsomapState, LocallyLinearEmbeddingState
 
 
 def witness_classical_mds_dissimilarity_matrix(
@@ -276,3 +276,146 @@ def witness_isomap_reconstruction_error(state: IsomapState) -> AbstractArray:
     """Describe the scalar Isomap reconstruction error."""
     del state
     return AbstractArray(shape=(), dtype="float64")
+
+
+def witness_lle_barycenter_weights(
+    X: AbstractArray,
+    Y: AbstractArray,
+    indices: AbstractArray,
+    *,
+    reg: float = 1e-3,
+) -> AbstractArray:
+    """Describe local reconstruction weights for LLE neighbors."""
+    if len(X.shape) != 2 or len(Y.shape) != 2 or len(indices.shape) != 2:
+        raise ValueError("X, Y, and indices must be 2D")
+    if X.shape[0] != indices.shape[0]:
+        raise ValueError("indices must have one row per X sample")
+    if X.shape[1] != Y.shape[1]:
+        raise ValueError("X and Y must have the same feature count")
+    if indices.shape[1] < 1:
+        raise ValueError("indices must select at least one neighbor")
+    if not isinstance(reg, (int, float)) or isinstance(reg, bool) or reg < 0:
+        raise ValueError("reg must be nonnegative")
+    return AbstractArray(shape=(int(X.shape[0]), int(indices.shape[1])), dtype="float64")
+
+
+def witness_lle_barycenter_graph(
+    X: AbstractArray,
+    *,
+    n_neighbors: int,
+    reg: float = 1e-3,
+    n_jobs: None = None,
+) -> AbstractArray:
+    """Describe the dense LLE barycenter weight matrix."""
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    if not isinstance(n_neighbors, int) or isinstance(n_neighbors, bool) or n_neighbors < 1:
+        raise ValueError("n_neighbors must be positive")
+    if n_neighbors >= X.shape[0]:
+        raise ValueError("n_neighbors must be below sample count")
+    if not isinstance(reg, (int, float)) or isinstance(reg, bool) or reg < 0:
+        raise ValueError("reg must be nonnegative")
+    if n_jobs is not None:
+        raise ValueError("parallel neighbor search is outside this atom scope")
+    return AbstractArray(shape=(int(X.shape[0]), int(X.shape[0])), dtype="float64")
+
+
+def witness_lle_standard_reconstruction_matrix(weights: AbstractArray) -> AbstractArray:
+    """Describe the standard LLE reconstruction matrix."""
+    if len(weights.shape) != 2 or weights.shape[0] != weights.shape[1]:
+        raise ValueError("weights must be square")
+    return AbstractArray(shape=(int(weights.shape[0]), int(weights.shape[1])), dtype="float64")
+
+
+def witness_locally_linear_embedding(
+    X: AbstractArray,
+    *,
+    n_neighbors: int,
+    n_components: int,
+    reg: float = 1e-3,
+    eigen_solver: str = "dense",
+    tol: float = 1e-6,
+    max_iter: int = 100,
+    method: str = "standard",
+    hessian_tol: float = 1e-4,
+    modified_tol: float = 1e-12,
+    random_state: int | None = None,
+    n_jobs: None = None,
+) -> AbstractArray:
+    """Describe fitting standard dense locally linear embedding coordinates."""
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    if not isinstance(n_neighbors, int) or isinstance(n_neighbors, bool) or n_neighbors < 1:
+        raise ValueError("n_neighbors must be positive")
+    if n_neighbors >= X.shape[0]:
+        raise ValueError("n_neighbors must be below sample count")
+    if not isinstance(n_components, int) or isinstance(n_components, bool) or n_components < 1:
+        raise ValueError("n_components must be positive")
+    if n_components > X.shape[1]:
+        raise ValueError("n_components must not exceed feature count")
+    if not isinstance(reg, (int, float)) or isinstance(reg, bool) or reg < 0:
+        raise ValueError("reg must be nonnegative")
+    if eigen_solver != "dense":
+        raise ValueError("only dense eigen solving is covered")
+    if not isinstance(tol, (int, float)) or isinstance(tol, bool) or tol < 0:
+        raise ValueError("tol must be nonnegative")
+    if not isinstance(max_iter, int) or isinstance(max_iter, bool) or max_iter < 1:
+        raise ValueError("max_iter must be positive")
+    if method != "standard":
+        raise ValueError("only standard LLE is covered")
+    if not isinstance(hessian_tol, (int, float)) or isinstance(hessian_tol, bool) or hessian_tol < 0:
+        raise ValueError("hessian_tol must be nonnegative")
+    if not isinstance(modified_tol, (int, float)) or isinstance(modified_tol, bool) or modified_tol < 0:
+        raise ValueError("modified_tol must be nonnegative")
+    if random_state is not None and (not isinstance(random_state, int) or isinstance(random_state, bool)):
+        raise ValueError("random_state must be an integer or None")
+    if n_jobs is not None:
+        raise ValueError("parallel neighbor search is outside this atom scope")
+    return AbstractArray(shape=(int(X.shape[0]), n_components), dtype="float64")
+
+
+def witness_locally_linear_embedding_fit(
+    X: AbstractArray,
+    *,
+    n_neighbors: int = 5,
+    n_components: int = 2,
+    reg: float = 1e-3,
+    eigen_solver: str = "dense",
+    tol: float = 1e-6,
+    max_iter: int = 100,
+    method: str = "standard",
+    hessian_tol: float = 1e-4,
+    modified_tol: float = 1e-12,
+    neighbors_algorithm: str = "auto",
+    random_state: int | None = None,
+    n_jobs: None = None,
+) -> AbstractArray:
+    """Describe fitting a standard dense LLE estimator state."""
+    if neighbors_algorithm not in {"auto", "brute", "kd_tree", "ball_tree"}:
+        raise ValueError("unsupported neighbors_algorithm")
+    return witness_locally_linear_embedding(
+        X,
+        n_neighbors=n_neighbors,
+        n_components=n_components,
+        reg=reg,
+        eigen_solver=eigen_solver,
+        tol=tol,
+        max_iter=max_iter,
+        method=method,
+        hessian_tol=hessian_tol,
+        modified_tol=modified_tol,
+        random_state=random_state,
+        n_jobs=n_jobs,
+    )
+
+
+def witness_locally_linear_embedding_transform(
+    X: AbstractArray,
+    state: LocallyLinearEmbeddingState,
+) -> AbstractArray:
+    """Describe transforming samples with a fitted standard dense LLE state."""
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    if X.shape[1] != state.n_features_in:
+        raise ValueError("X feature count must match fitted LLE state")
+    return AbstractArray(shape=(int(X.shape[0]), state.n_components), dtype="float64")

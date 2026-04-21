@@ -77,3 +77,20 @@ class IsomapState:
     metric: str
     p: float
     n_features_in: int
+
+
+@dataclass(frozen=True)
+class LocallyLinearEmbeddingState:
+    """Fitted dense standard LLE embedding and reconstruction state."""
+
+    embedding: NDArray[np.float64]
+    reconstruction_error: float
+    training_data: NDArray[np.float64]
+    weights: NDArray[np.float64]
+    reconstruction_matrix: NDArray[np.float64]
+    n_neighbors: int
+    n_components: int
+    reg: float
+    eigen_solver: str
+    method: str
+    n_features_in: int

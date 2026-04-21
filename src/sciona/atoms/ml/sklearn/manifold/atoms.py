@@ -19,7 +19,14 @@ from sklearn.utils.validation import _check_psd_eigenvalues, check_array
 
 from sciona.ghost.registry import register_atom
 
-from .state_models import ClassicalMDSState, IsomapState, MDSState, SMACOFState, SpectralEmbeddingState
+from .state_models import (
+    ClassicalMDSState,
+    IsomapState,
+    LocallyLinearEmbeddingState,
+    MDSState,
+    SMACOFState,
+    SpectralEmbeddingState,
+)
 from .witnesses import (
     witness_classical_mds_dissimilarity_matrix,
     witness_classical_mds_double_center,
@@ -29,6 +36,12 @@ from .witnesses import (
     witness_isomap_neighbors_graph,
     witness_isomap_reconstruction_error,
     witness_isomap_transform,
+    witness_lle_barycenter_graph,
+    witness_lle_barycenter_weights,
+    witness_lle_standard_reconstruction_matrix,
+    witness_locally_linear_embedding,
+    witness_locally_linear_embedding_fit,
+    witness_locally_linear_embedding_transform,
     witness_mds_fit,
     witness_smacof,
     witness_spectral_embedding,
@@ -337,6 +350,175 @@ def _isomap_transform_valid(result: NDArray[np.float64], X: NDArray[np.float64],
 
 def _nonnegative_finite_scalar(value: float) -> bool:
     return bool(np.isfinite(float(value)) and float(value) >= 0.0)
+
+
+def _integer_index_matrix(indices: NDArray[np.int64]) -> bool:
+    values = np.asarray(indices)
+    return bool(values.ndim == 2 and np.issubdtype(values.dtype, np.integer))
+
+
+def _lle_indices_valid(X: NDArray[np.float64], Y: NDArray[np.float64], indices: NDArray[np.int64]) -> bool:
+    x_values = np.asarray(X)
+    y_values = np.asarray(Y)
+    idx = np.asarray(indices)
+    return bool(
+        x_values.ndim == 2
+        and y_values.ndim == 2
+        and idx.ndim == 2
+        and x_values.shape[0] == idx.shape[0]
+        and x_values.shape[1] == y_values.shape[1]
+        and idx.shape[1] >= 1
+        and np.issubdtype(idx.dtype, np.integer)
+        and np.all(idx >= 0)
+        and np.all(idx < y_values.shape[0])
+    )
+
+
+def _lle_reg_valid(reg: float) -> bool:
+    return bool(isinstance(reg, (int, float)) and not isinstance(reg, bool) and np.isfinite(float(reg)) and float(reg) >= 0.0)
+
+
+def _lle_neighbors_valid(n_neighbors: int, X: NDArray[np.float64]) -> bool:
+    values = np.asarray(X)
+    return bool(
+        isinstance(n_neighbors, int)
+        and not isinstance(n_neighbors, bool)
+        and values.ndim == 2
+        and 1 <= n_neighbors < values.shape[0]
+    )
+
+
+def _lle_components_valid(n_components: int, X: NDArray[np.float64]) -> bool:
+    values = np.asarray(X)
+    return bool(
+        isinstance(n_components, int)
+        and not isinstance(n_components, bool)
+        and values.ndim == 2
+        and 1 <= n_components <= values.shape[1]
+    )
+
+
+def _lle_options_valid(
+    eigen_solver: str,
+    tol: float,
+    max_iter: int,
+    method: str,
+    hessian_tol: float,
+    modified_tol: float,
+    random_state: int | None,
+    n_jobs: None,
+) -> bool:
+    return bool(
+        eigen_solver == "dense"
+        and isinstance(tol, (int, float))
+        and not isinstance(tol, bool)
+        and np.isfinite(float(tol))
+        and float(tol) >= 0.0
+        and isinstance(max_iter, int)
+        and not isinstance(max_iter, bool)
+        and max_iter >= 1
+        and method == "standard"
+        and isinstance(hessian_tol, (int, float))
+        and not isinstance(hessian_tol, bool)
+        and np.isfinite(float(hessian_tol))
+        and float(hessian_tol) >= 0.0
+        and isinstance(modified_tol, (int, float))
+        and not isinstance(modified_tol, bool)
+        and np.isfinite(float(modified_tol))
+        and float(modified_tol) >= 0.0
+        and _random_state_valid(random_state)
+        and n_jobs is None
+    )
+
+
+def _lle_fit_options_valid(
+    eigen_solver: str,
+    tol: float,
+    max_iter: int,
+    method: str,
+    hessian_tol: float,
+    modified_tol: float,
+    neighbors_algorithm: str,
+    random_state: int | None,
+    n_jobs: None,
+) -> bool:
+    return bool(
+        neighbors_algorithm in {"auto", "brute", "kd_tree", "ball_tree"}
+        and _lle_options_valid(
+            eigen_solver,
+            tol,
+            max_iter,
+            method,
+            hessian_tol,
+            modified_tol,
+            random_state,
+            n_jobs,
+        )
+    )
+
+
+def _lle_weights_valid(result: NDArray[np.float64], indices: NDArray[np.int64]) -> bool:
+    values = np.asarray(result, dtype=np.float64)
+    idx = np.asarray(indices)
+    return bool(
+        values.shape == idx.shape
+        and np.all(np.isfinite(values))
+        and np.allclose(np.sum(values, axis=1), 1.0)
+    )
+
+
+def _lle_graph_valid(result: NDArray[np.float64], X: NDArray[np.float64]) -> bool:
+    values = np.asarray(result, dtype=np.float64)
+    n_samples = np.asarray(X).shape[0]
+    return bool(
+        values.shape == (n_samples, n_samples)
+        and np.all(np.isfinite(values))
+        and np.allclose(np.sum(values, axis=1), 1.0)
+    )
+
+
+def _lle_matrix_valid(result: NDArray[np.float64], weights: NDArray[np.float64]) -> bool:
+    values = np.asarray(result, dtype=np.float64)
+    source = np.asarray(weights)
+    return bool(
+        values.shape == source.shape
+        and values.shape[0] == values.shape[1]
+        and np.all(np.isfinite(values))
+        and np.allclose(values, values.T)
+    )
+
+
+def _lle_state_valid(state: LocallyLinearEmbeddingState) -> bool:
+    n_samples = state.training_data.shape[0]
+    return bool(
+        state.embedding.shape == (n_samples, state.n_components)
+        and state.weights.shape == (n_samples, n_samples)
+        and state.reconstruction_matrix.shape == (n_samples, n_samples)
+        and state.training_data.shape[1] == state.n_features_in
+        and 1 <= state.n_neighbors < n_samples
+        and 1 <= state.n_components <= state.n_features_in
+        and state.reg >= 0.0
+        and state.eigen_solver == "dense"
+        and state.method == "standard"
+        and np.all(np.isfinite(state.embedding))
+        and np.all(np.isfinite(state.training_data))
+        and np.all(np.isfinite(state.weights))
+        and np.all(np.isfinite(state.reconstruction_matrix))
+        and np.isfinite(state.reconstruction_error)
+        and state.reconstruction_error >= 0.0
+        and np.allclose(np.sum(state.weights, axis=1), 1.0)
+        and np.allclose(state.reconstruction_matrix, state.reconstruction_matrix.T)
+    )
+
+
+def _lle_feature_count_matches(X: NDArray[np.float64], state: LocallyLinearEmbeddingState) -> bool:
+    values = np.asarray(X)
+    return bool(values.ndim == 2 and values.shape[1] == state.n_features_in)
+
+
+def _lle_transform_valid(result: NDArray[np.float64], X: NDArray[np.float64], state: LocallyLinearEmbeddingState) -> bool:
+    values = np.asarray(result, dtype=np.float64)
+    return bool(values.shape == (np.asarray(X).shape[0], state.n_components) and np.all(np.isfinite(values)))
 
 
 @register_atom(witness_classical_mds_dissimilarity_matrix)
@@ -893,3 +1075,215 @@ def isomap_reconstruction_error(state: IsomapState) -> float:
     centered_kernel, _, _ = _center_precomputed_kernel(kernel_matrix)
     residual = float(np.sum(centered_kernel**2) - np.sum(state.eigenvalues**2))
     return float(np.sqrt(max(residual, 0.0)) / state.dist_matrix.shape[0])
+
+
+@register_atom(witness_lle_barycenter_weights)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda Y: _matrix_2d(Y), "Y must be 2D")
+@icontract.require(lambda X: _finite_matrix(X), "X must contain only finite values")
+@icontract.require(lambda Y: _finite_matrix(Y), "Y must contain only finite values")
+@icontract.require(lambda indices: _integer_index_matrix(indices), "indices must be a 2D integer matrix")
+@icontract.require(lambda X, Y, indices: _lle_indices_valid(X, Y, indices), "indices must select rows of Y for each X row")
+@icontract.require(lambda reg: _lle_reg_valid(reg), "reg must be nonnegative and finite")
+@icontract.ensure(lambda result, indices: _lle_weights_valid(result, indices), "barycenter weights must be finite and row-normalized")
+def lle_barycenter_weights(
+    X: NDArray[np.float64],
+    Y: NDArray[np.float64],
+    indices: NDArray[np.int64],
+    *,
+    reg: float = 1e-3,
+) -> NDArray[np.float64]:
+    """Compute row-normalized local reconstruction weights for LLE."""
+    checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
+    checked_y = check_array(Y, dtype=np.float64, ensure_2d=True)
+    checked_indices = check_array(indices, dtype=np.int64, ensure_2d=True)
+    n_samples, n_neighbors = checked_indices.shape
+    weights = np.empty((n_samples, n_neighbors), dtype=np.float64)
+    ones = np.ones(n_neighbors, dtype=np.float64)
+    for row, neighbor_indices in enumerate(checked_indices):
+        centered = checked_y[neighbor_indices] - checked_x[row]
+        gram = np.dot(centered, centered.T)
+        trace = float(np.trace(gram))
+        regularization = float(reg) * trace if trace > 0.0 else float(reg)
+        gram.flat[:: n_neighbors + 1] += regularization
+        raw_weights = linalg.solve(gram, ones, assume_a="pos")
+        weights[row, :] = raw_weights / np.sum(raw_weights)
+    return np.asarray(weights, dtype=np.float64)
+
+
+@register_atom(witness_lle_barycenter_graph)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X: _finite_matrix(X), "X must contain only finite values")
+@icontract.require(lambda n_neighbors, X: _lle_neighbors_valid(n_neighbors, X), "n_neighbors must be positive and below sample count")
+@icontract.require(lambda reg: _lle_reg_valid(reg), "reg must be nonnegative and finite")
+@icontract.require(lambda n_jobs: n_jobs is None, "parallel neighbor search is outside this atom scope")
+@icontract.ensure(lambda result, X: _lle_graph_valid(result, X), "LLE graph must contain finite row-normalized weights")
+def lle_barycenter_graph(
+    X: NDArray[np.float64],
+    *,
+    n_neighbors: int,
+    reg: float = 1e-3,
+    n_jobs: None = None,
+) -> NDArray[np.float64]:
+    """Build the dense barycenter-weight matrix for standard LLE."""
+    checked = check_array(X, dtype=np.float64, ensure_2d=True, ensure_min_samples=2)
+    nbrs = NearestNeighbors(n_neighbors=n_neighbors + 1, n_jobs=n_jobs)
+    nbrs.fit(checked)
+    indices = nbrs.kneighbors(checked, return_distance=False)[:, 1:]
+    local_weights = lle_barycenter_weights(checked, checked, np.asarray(indices, dtype=np.int64), reg=reg)
+    graph = np.zeros((checked.shape[0], checked.shape[0]), dtype=np.float64)
+    for row, neighbor_indices in enumerate(indices):
+        graph[row, neighbor_indices] = local_weights[row]
+    return graph
+
+
+@register_atom(witness_lle_standard_reconstruction_matrix)
+@icontract.require(lambda weights: _square_matrix(weights), "weights must be square")
+@icontract.require(lambda weights: _finite_matrix(weights), "weights must contain only finite values")
+@icontract.ensure(lambda result, weights: _lle_matrix_valid(result, weights), "reconstruction matrix must be finite and symmetric")
+def lle_standard_reconstruction_matrix(weights: NDArray[np.float64]) -> NDArray[np.float64]:
+    """Compute the dense standard LLE matrix (I - W)'(I - W)."""
+    checked = check_array(weights, dtype=np.float64, ensure_2d=True)
+    matrix = np.asarray(checked.T @ checked - checked.T - checked, dtype=np.float64)
+    matrix.flat[:: matrix.shape[0] + 1] += 1.0
+    return matrix
+
+
+@register_atom(witness_locally_linear_embedding)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X: _finite_matrix(X), "X must contain only finite values")
+@icontract.require(lambda n_neighbors, X: _lle_neighbors_valid(n_neighbors, X), "n_neighbors must be positive and below sample count")
+@icontract.require(lambda n_components, X: _lle_components_valid(n_components, X), "n_components must be positive and no larger than feature count")
+@icontract.require(lambda reg: _lle_reg_valid(reg), "reg must be nonnegative and finite")
+@icontract.require(
+    lambda eigen_solver, tol, max_iter, method, hessian_tol, modified_tol, random_state, n_jobs: _lle_options_valid(
+        eigen_solver,
+        tol,
+        max_iter,
+        method,
+        hessian_tol,
+        modified_tol,
+        random_state,
+        n_jobs,
+    ),
+    "only standard dense LLE is covered",
+)
+@icontract.ensure(lambda result: _lle_state_valid(result), "LLE state must contain finite dense standard embedding data")
+def locally_linear_embedding(
+    X: NDArray[np.float64],
+    *,
+    n_neighbors: int,
+    n_components: int,
+    reg: float = 1e-3,
+    eigen_solver: str = "dense",
+    tol: float = 1e-6,
+    max_iter: int = 100,
+    method: str = "standard",
+    hessian_tol: float = 1e-4,
+    modified_tol: float = 1e-12,
+    random_state: int | None = None,
+    n_jobs: None = None,
+) -> LocallyLinearEmbeddingState:
+    """Fit standard dense locally linear embedding coordinates."""
+    del eigen_solver, tol, max_iter, method, hessian_tol, modified_tol, random_state
+    checked = check_array(X, dtype=np.float64, ensure_2d=True, ensure_min_samples=2)
+    weights = lle_barycenter_graph(checked, n_neighbors=n_neighbors, reg=reg, n_jobs=n_jobs)
+    reconstruction_matrix = lle_standard_reconstruction_matrix(weights)
+    eigen_values, eigen_vectors = linalg.eigh(
+        reconstruction_matrix,
+        subset_by_index=(1, n_components),
+        overwrite_a=True,
+    )
+    order = np.argsort(np.abs(eigen_values))
+    embedding = np.asarray(eigen_vectors[:, order], dtype=np.float64)
+    reconstruction_error = float(np.sum(eigen_values))
+    return LocallyLinearEmbeddingState(
+        embedding=embedding,
+        reconstruction_error=reconstruction_error,
+        training_data=np.asarray(checked, dtype=np.float64).copy(),
+        weights=weights.copy(),
+        reconstruction_matrix=reconstruction_matrix.copy(),
+        n_neighbors=int(n_neighbors),
+        n_components=int(n_components),
+        reg=float(reg),
+        eigen_solver="dense",
+        method="standard",
+        n_features_in=int(checked.shape[1]),
+    )
+
+
+@register_atom(witness_locally_linear_embedding_fit)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X: _finite_matrix(X), "X must contain only finite values")
+@icontract.require(lambda n_neighbors, X: _lle_neighbors_valid(n_neighbors, X), "n_neighbors must be positive and below sample count")
+@icontract.require(lambda n_components, X: _lle_components_valid(n_components, X), "n_components must be positive and no larger than feature count")
+@icontract.require(lambda reg: _lle_reg_valid(reg), "reg must be nonnegative and finite")
+@icontract.require(
+    lambda eigen_solver, tol, max_iter, method, hessian_tol, modified_tol, neighbors_algorithm, random_state, n_jobs: _lle_fit_options_valid(
+        eigen_solver,
+        tol,
+        max_iter,
+        method,
+        hessian_tol,
+        modified_tol,
+        neighbors_algorithm,
+        random_state,
+        n_jobs,
+    ),
+    "only standard dense LLE estimator fitting is covered",
+)
+@icontract.ensure(lambda result: _lle_state_valid(result), "LLE estimator state must contain finite dense standard embedding data")
+def locally_linear_embedding_fit(
+    X: NDArray[np.float64],
+    *,
+    n_neighbors: int = 5,
+    n_components: int = 2,
+    reg: float = 1e-3,
+    eigen_solver: str = "dense",
+    tol: float = 1e-6,
+    max_iter: int = 100,
+    method: str = "standard",
+    hessian_tol: float = 1e-4,
+    modified_tol: float = 1e-12,
+    neighbors_algorithm: str = "auto",
+    random_state: int | None = None,
+    n_jobs: None = None,
+) -> LocallyLinearEmbeddingState:
+    """Fit standard dense LocallyLinearEmbedding estimator state."""
+    del neighbors_algorithm
+    return locally_linear_embedding(
+        X,
+        n_neighbors=n_neighbors,
+        n_components=n_components,
+        reg=reg,
+        eigen_solver=eigen_solver,
+        tol=tol,
+        max_iter=max_iter,
+        method=method,
+        hessian_tol=hessian_tol,
+        modified_tol=modified_tol,
+        random_state=random_state,
+        n_jobs=n_jobs,
+    )
+
+
+@register_atom(witness_locally_linear_embedding_transform)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X: _finite_matrix(X), "X must contain only finite values")
+@icontract.require(lambda state: _lle_state_valid(state), "state must be a fitted standard dense LLE state")
+@icontract.require(lambda X, state: _lle_feature_count_matches(X, state), "X feature count must match fitted LLE state")
+@icontract.ensure(lambda result, X, state: _lle_transform_valid(result, X, state), "LLE transform must contain finite coordinates")
+def locally_linear_embedding_transform(
+    X: NDArray[np.float64],
+    state: LocallyLinearEmbeddingState,
+) -> NDArray[np.float64]:
+    """Transform samples with a fitted standard dense LLE state."""
+    checked = check_array(X, dtype=np.float64, ensure_2d=True)
+    nbrs = NearestNeighbors(n_neighbors=state.n_neighbors)
+    nbrs.fit(state.training_data)
+    indices = nbrs.kneighbors(checked, n_neighbors=state.n_neighbors, return_distance=False)
+    weights = lle_barycenter_weights(checked, state.training_data, np.asarray(indices, dtype=np.int64), reg=state.reg)
+    transformed = np.empty((checked.shape[0], state.n_components), dtype=np.float64)
+    for row in range(checked.shape[0]):
+        transformed[row] = np.dot(state.embedding[indices[row]].T, weights[row])
+    return transformed

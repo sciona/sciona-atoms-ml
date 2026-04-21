@@ -9,16 +9,23 @@ from .atoms import (
     isomap_neighbors_graph,
     isomap_reconstruction_error,
     isomap_transform,
+    lle_barycenter_graph,
+    lle_barycenter_weights,
+    lle_standard_reconstruction_matrix,
+    locally_linear_embedding,
+    locally_linear_embedding_fit,
+    locally_linear_embedding_transform,
     mds_fit,
     smacof,
     spectral_embedding,
     spectral_embedding_fit,
 )
-from .state_models import ClassicalMDSState, IsomapState, MDSState, SMACOFState, SpectralEmbeddingState
+from .state_models import ClassicalMDSState, IsomapState, LocallyLinearEmbeddingState, MDSState, SMACOFState, SpectralEmbeddingState
 
 __all__ = [
     "ClassicalMDSState",
     "IsomapState",
+    "LocallyLinearEmbeddingState",
     "MDSState",
     "SMACOFState",
     "SpectralEmbeddingState",
@@ -30,6 +37,12 @@ __all__ = [
     "isomap_neighbors_graph",
     "isomap_reconstruction_error",
     "isomap_transform",
+    "lle_barycenter_graph",
+    "lle_barycenter_weights",
+    "lle_standard_reconstruction_matrix",
+    "locally_linear_embedding",
+    "locally_linear_embedding_fit",
+    "locally_linear_embedding_transform",
     "mds_fit",
     "smacof",
     "spectral_embedding",

@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "atoms": {
-    "sciona.atoms.ml.sklearn.manifold.classical_mds_dissimilarity_matrix@sciona/atoms/ml/sklearn/manifold/atoms.py:349": {
+    "sciona.atoms.ml.sklearn.manifold.classical_mds_dissimilarity_matrix@sciona/atoms/ml/sklearn/manifold/atoms.py:531": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -36,7 +36,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.manifold.classical_mds_double_center@sciona/atoms/ml/sklearn/manifold/atoms.py:367": {
+    "sciona.atoms.ml.sklearn.manifold.classical_mds_double_center@sciona/atoms/ml/sklearn/manifold/atoms.py:549": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -71,7 +71,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.manifold.classical_mds_fit@sciona/atoms/ml/sklearn/manifold/atoms.py:386": {
+    "sciona.atoms.ml.sklearn.manifold.classical_mds_fit@sciona/atoms/ml/sklearn/manifold/atoms.py:568": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -106,7 +106,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.manifold.smacof@sciona/atoms/ml/sklearn/manifold/atoms.py:480": {
+    "sciona.atoms.ml.sklearn.manifold.smacof@sciona/atoms/ml/sklearn/manifold/atoms.py:662": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -151,7 +151,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.manifold.mds_fit@sciona/atoms/ml/sklearn/manifold/atoms.py:528": {
+    "sciona.atoms.ml.sklearn.manifold.mds_fit@sciona/atoms/ml/sklearn/manifold/atoms.py:710": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -196,7 +196,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.manifold.spectral_embedding@sciona/atoms/ml/sklearn/manifold/atoms.py:587": {
+    "sciona.atoms.ml.sklearn.manifold.spectral_embedding@sciona/atoms/ml/sklearn/manifold/atoms.py:769": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -261,7 +261,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.manifold.spectral_embedding_fit@sciona/atoms/ml/sklearn/manifold/atoms.py:631": {
+    "sciona.atoms.ml.sklearn.manifold.spectral_embedding_fit@sciona/atoms/ml/sklearn/manifold/atoms.py:813": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -316,7 +316,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.manifold.isomap_neighbors_graph@sciona/atoms/ml/sklearn/manifold/atoms.py:723": {
+    "sciona.atoms.ml.sklearn.manifold.isomap_neighbors_graph@sciona/atoms/ml/sklearn/manifold/atoms.py:905": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -351,7 +351,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.manifold.isomap_geodesic_distances@sciona/atoms/ml/sklearn/manifold/atoms.py:763": {
+    "sciona.atoms.ml.sklearn.manifold.isomap_geodesic_distances@sciona/atoms/ml/sklearn/manifold/atoms.py:945": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -386,7 +386,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.manifold.isomap_fit@sciona/atoms/ml/sklearn/manifold/atoms.py:797": {
+    "sciona.atoms.ml.sklearn.manifold.isomap_fit@sciona/atoms/ml/sklearn/manifold/atoms.py:979": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -421,7 +421,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.manifold.isomap_transform@sciona/atoms/ml/sklearn/manifold/atoms.py:855": {
+    "sciona.atoms.ml.sklearn.manifold.isomap_transform@sciona/atoms/ml/sklearn/manifold/atoms.py:1037": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -456,7 +456,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.manifold.isomap_reconstruction_error@sciona/atoms/ml/sklearn/manifold/atoms.py:890": {
+    "sciona.atoms.ml.sklearn.manifold.isomap_reconstruction_error@sciona/atoms/ml/sklearn/manifold/atoms.py:1072": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -476,6 +476,216 @@
             "matched_nodes": [],
             "confidence": "high",
             "notes": "Original Isomap method reference cited by scikit-learn."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.manifold.lle_barycenter_weights@sciona/atoms/ml/sklearn/manifold/atoms.py:1089": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.manifold._locally_linear.barycenter_weights in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "roweis2000lle",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Original locally linear embedding method reference cited by scikit-learn."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.manifold.lle_barycenter_graph@sciona/atoms/ml/sklearn/manifold/atoms.py:1121": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.manifold._locally_linear.barycenter_kneighbors_graph in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "roweis2000lle",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Original locally linear embedding method reference cited by scikit-learn."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.manifold.lle_standard_reconstruction_matrix@sciona/atoms/ml/sklearn/manifold/atoms.py:1144": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from the standard LLE reconstruction-matrix branch of sklearn.manifold._locally_linear_embedding in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "roweis2000lle",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Original locally linear embedding method reference cited by scikit-learn."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.manifold.locally_linear_embedding@sciona/atoms/ml/sklearn/manifold/atoms.py:1172": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.manifold.locally_linear_embedding and the standard dense branch of _locally_linear_embedding in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "roweis2000lle",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Original locally linear embedding method reference cited by scikit-learn."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.manifold.locally_linear_embedding_fit@sciona/atoms/ml/sklearn/manifold/atoms.py:1236": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.manifold.LocallyLinearEmbedding._fit_transform in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "roweis2000lle",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Original locally linear embedding method reference cited by scikit-learn."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.manifold.locally_linear_embedding_transform@sciona/atoms/ml/sklearn/manifold/atoms.py:1276": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.manifold.LocallyLinearEmbedding.transform in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "roweis2000lle",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Original locally linear embedding method reference cited by scikit-learn."
           }
         },
         {
