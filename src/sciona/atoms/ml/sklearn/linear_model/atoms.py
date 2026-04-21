@@ -14,6 +14,7 @@ from sklearn.utils import check_array
 from sciona.ghost.registry import register_atom
 
 from .state_models import (
+    ARDRegressionState,
     BayesianRidgeState,
     LinearRegressionState,
     OrthogonalMatchingPursuitCVState,
@@ -24,6 +25,9 @@ from .state_models import (
     RidgeState,
 )
 from .witnesses import (
+    witness_ard_regression_fit,
+    witness_ard_regression_predict,
+    witness_ard_regression_predict_std,
     witness_bayesian_ridge_fit,
     witness_bayesian_ridge_predict,
     witness_bayesian_ridge_predict_std,
@@ -1727,3 +1731,224 @@ def ridge_classifier_cv_predict(X: NDArray[np.float64], state: RidgeClassifierCV
     else:
         indices = np.argmax(scores, axis=1)
     return np.asarray(state.classes[indices], dtype=np.float64)
+
+
+def _ard_keep_mask(state: ARDRegressionState) -> NDArray[np.bool_]:
+    return np.asarray(state.lambda_ < state.threshold_lambda, dtype=np.bool_)
+
+
+def _ard_regression_state_valid(state: ARDRegressionState) -> bool:
+    keep = _ard_keep_mask(state)
+    return bool(
+        state.coef.shape == (state.n_features_in,)
+        and state.lambda_.shape == (state.n_features_in,)
+        and state.sigma.shape == (int(np.sum(keep)), int(np.sum(keep)))
+        and state.scores.ndim == 1
+        and state.x_offset.shape == (state.n_features_in,)
+        and state.x_scale.shape == (state.n_features_in,)
+        and state.n_iter >= 1
+        and state.alpha > 0.0
+        and state.threshold_lambda > 0.0
+        and isinstance(state.fit_intercept, bool)
+        and isinstance(state.compute_score, bool)
+        and np.isfinite(state.intercept)
+        and np.isfinite(state.alpha)
+        and np.isfinite(state.threshold_lambda)
+        and np.all(np.isfinite(state.coef))
+        and np.all(np.isfinite(state.lambda_))
+        and np.all(state.lambda_ > 0.0)
+        and np.all(np.isfinite(state.sigma))
+        and np.allclose(state.sigma, state.sigma.T)
+        and np.all(np.isfinite(state.scores))
+        and np.all(np.isfinite(state.x_offset))
+        and np.all(np.isfinite(state.x_scale))
+    )
+
+
+def _ard_regression_feature_count_matches(X: NDArray[np.float64], state: ARDRegressionState) -> bool:
+    return bool(np.asarray(X).ndim == 2 and np.asarray(X).shape[1] == state.n_features_in)
+
+
+def _ard_regression_prediction_valid(result: NDArray[np.float64], X: NDArray[np.float64]) -> bool:
+    values = np.asarray(result)
+    return bool(values.shape == (np.asarray(X).shape[0],) and np.all(np.isfinite(values)))
+
+
+def _ard_update_sigma(
+    X: NDArray[np.float64],
+    alpha: float,
+    lambda_values: NDArray[np.float64],
+    keep_lambda: NDArray[np.bool_],
+) -> NDArray[np.float64]:
+    X_keep = X[:, keep_lambda]
+    if X.shape[0] >= X.shape[1]:
+        gram = np.dot(X_keep.T, X_keep)
+        eye = np.eye(gram.shape[0], dtype=np.float64)
+        sigma_inv = lambda_values[keep_lambda] * eye + alpha * gram
+        return np.asarray(linalg.pinvh(sigma_inv), dtype=np.float64)
+    inv_lambda = 1.0 / lambda_values[keep_lambda].reshape(1, -1)
+    sigma = linalg.pinvh(np.eye(X.shape[0], dtype=np.float64) / alpha + np.dot(X_keep * inv_lambda, X_keep.T))
+    sigma = np.dot(sigma, X_keep * inv_lambda)
+    sigma = -np.dot(inv_lambda.reshape(-1, 1) * X_keep.T, sigma)
+    sigma[np.diag_indices(sigma.shape[1])] += 1.0 / lambda_values[keep_lambda]
+    return np.asarray(sigma, dtype=np.float64)
+
+
+def _ard_update_coefficients(
+    X: NDArray[np.float64],
+    y: NDArray[np.float64],
+    coef: NDArray[np.float64],
+    alpha: float,
+    keep_lambda: NDArray[np.bool_],
+    sigma: NDArray[np.float64],
+) -> NDArray[np.float64]:
+    updated = coef.copy()
+    updated[keep_lambda] = alpha * np.linalg.multi_dot([sigma, X[:, keep_lambda].T, y])
+    return np.asarray(updated, dtype=np.float64)
+
+
+def _ard_logdet(matrix: NDArray[np.float64]) -> float:
+    sign, value = np.linalg.slogdet(matrix)
+    if sign <= 0:
+        return float("-inf")
+    return float(value)
+
+
+@register_atom(witness_ard_regression_fit)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda y: _target_1d(y), "y must be 1D")
+@icontract.require(lambda X, y: _same_sample_count(X, y), "X and y must have matching sample counts")
+@icontract.require(lambda X: _sample_count_at_least_two(X), "X must contain at least two samples")
+@icontract.require(lambda X, y: _finite_inputs(X, y), "X and y must contain finite numeric values")
+@icontract.require(lambda max_iter: isinstance(max_iter, int) and not isinstance(max_iter, bool) and max_iter >= 1, "max_iter must be positive")
+@icontract.require(lambda tol: _positive_finite(tol), "tol must be positive")
+@icontract.require(lambda alpha_1: _nonnegative_finite(alpha_1), "alpha_1 must be non-negative")
+@icontract.require(lambda alpha_2: _nonnegative_finite(alpha_2), "alpha_2 must be non-negative")
+@icontract.require(lambda lambda_1: _nonnegative_finite(lambda_1), "lambda_1 must be non-negative")
+@icontract.require(lambda lambda_2: _nonnegative_finite(lambda_2), "lambda_2 must be non-negative")
+@icontract.require(lambda compute_score: _bool_value(compute_score), "compute_score must be boolean")
+@icontract.require(lambda threshold_lambda: _positive_finite(threshold_lambda), "threshold_lambda must be positive")
+@icontract.require(lambda fit_intercept: _bool_value(fit_intercept), "fit_intercept must be boolean")
+@icontract.require(lambda copy_X: _bool_value(copy_X), "copy_X must be boolean")
+@icontract.require(lambda verbose: verbose is False, "verbose output is outside this atom scope")
+@icontract.ensure(lambda result: _ard_regression_state_valid(result), "ARD state must contain finite posterior parameters")
+def ard_regression_fit(
+    X: NDArray[np.float64],
+    y: NDArray[np.float64],
+    *,
+    max_iter: int = 300,
+    tol: float = 1e-3,
+    alpha_1: float = 1e-6,
+    alpha_2: float = 1e-6,
+    lambda_1: float = 1e-6,
+    lambda_2: float = 1e-6,
+    compute_score: bool = False,
+    threshold_lambda: float = 1e4,
+    fit_intercept: bool = True,
+    copy_X: bool = True,
+    verbose: bool = False,
+) -> ARDRegressionState:
+    """Fit dense automatic relevance determination posterior parameters."""
+    del copy_X, verbose
+    checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
+    checked_y = check_array(y, dtype=np.float64, ensure_2d=False, input_name="y")
+    n_samples, n_features = checked_x.shape
+    coef = np.zeros(n_features, dtype=np.float64)
+    centered_x_2d, centered_y_2d, x_offset, y_offset = _center_and_rescale(
+        checked_x,
+        checked_y.reshape(-1, 1),
+        fit_intercept,
+        None,
+    )
+    centered_y = np.ravel(centered_y_2d)
+    keep_lambda = np.ones(n_features, dtype=bool)
+    eps = np.finfo(np.float64).eps
+    alpha = float(1.0 / (np.var(centered_y) + eps))
+    lambda_values = np.ones(n_features, dtype=np.float64)
+    scores: list[float] = []
+    coef_old: NDArray[np.float64] | None = None
+    sigma = np.empty((n_features, n_features), dtype=np.float64)
+
+    iteration = 0
+    for iteration in range(max_iter):
+        sigma = _ard_update_sigma(centered_x_2d, alpha, lambda_values, keep_lambda)
+        coef = _ard_update_coefficients(centered_x_2d, centered_y, coef, alpha, keep_lambda, sigma)
+        sse = float(np.sum((centered_y - np.dot(centered_x_2d, coef)) ** 2))
+        gamma = 1.0 - lambda_values[keep_lambda] * np.diag(sigma)
+        lambda_values[keep_lambda] = (gamma + 2.0 * lambda_1) / (coef[keep_lambda] ** 2 + 2.0 * lambda_2)
+        alpha = float((n_samples - float(np.sum(gamma)) + 2.0 * alpha_1) / (sse + 2.0 * alpha_2))
+        keep_lambda = lambda_values < threshold_lambda
+        coef[~keep_lambda] = 0.0
+
+        if compute_score:
+            score = float(np.sum(lambda_1 * np.log(lambda_values) - lambda_2 * lambda_values))
+            score += alpha_1 * log(alpha) - alpha_2 * alpha
+            score += 0.5 * (
+                _ard_logdet(sigma)
+                + n_samples * log(alpha)
+                + float(np.sum(np.log(lambda_values)))
+                - alpha * sse
+                - float(np.sum(lambda_values * coef**2))
+            )
+            scores.append(float(score))
+
+        if iteration > 0 and coef_old is not None and np.sum(np.abs(coef_old - coef)) < tol:
+            break
+        coef_old = np.copy(coef)
+        if not bool(np.any(keep_lambda)):
+            break
+
+    n_iter = int(iteration + 1)
+    if bool(np.any(keep_lambda)):
+        sigma = _ard_update_sigma(centered_x_2d, alpha, lambda_values, keep_lambda)
+        coef = _ard_update_coefficients(centered_x_2d, centered_y, coef, alpha, keep_lambda, sigma)
+    else:
+        sigma = np.empty((0, 0), dtype=np.float64)
+    intercept = float(y_offset[0] - np.dot(x_offset, coef)) if fit_intercept else 0.0
+    return ARDRegressionState(
+        coef=np.asarray(coef, dtype=np.float64),
+        intercept=intercept,
+        alpha=float(alpha),
+        lambda_=np.asarray(lambda_values, dtype=np.float64),
+        sigma=np.asarray(sigma, dtype=np.float64),
+        scores=np.asarray(scores, dtype=np.float64),
+        n_iter=n_iter,
+        threshold_lambda=float(threshold_lambda),
+        x_offset=np.asarray(x_offset, dtype=np.float64),
+        x_scale=np.ones(n_features, dtype=np.float64),
+        fit_intercept=fit_intercept,
+        compute_score=compute_score,
+        n_features_in=int(n_features),
+    )
+
+
+@register_atom(witness_ard_regression_predict)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X, state: _ard_regression_feature_count_matches(X, state), "X feature count must match fitted ARD state")
+@icontract.require(lambda state: _ard_regression_state_valid(state), "state must be a fitted ARD state")
+@icontract.require(lambda return_std: return_std is False, "use ard_regression_predict_std for posterior standard deviations")
+@icontract.ensure(lambda result, X: _ard_regression_prediction_valid(result, X), "predictions must be finite per-row values")
+def ard_regression_predict(
+    X: NDArray[np.float64],
+    state: ARDRegressionState,
+    *,
+    return_std: bool = False,
+) -> NDArray[np.float64]:
+    """Predict posterior mean values from fitted ARD state."""
+    del return_std
+    checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
+    return np.asarray(np.dot(checked_x, state.coef) + state.intercept, dtype=np.float64)
+
+
+@register_atom(witness_ard_regression_predict_std)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X, state: _ard_regression_feature_count_matches(X, state), "X feature count must match fitted ARD state")
+@icontract.require(lambda state: _ard_regression_state_valid(state), "state must be a fitted ARD state")
+@icontract.ensure(lambda result, X: _ard_regression_prediction_valid(result, X), "standard deviations must be finite per-row values")
+def ard_regression_predict_std(X: NDArray[np.float64], state: ARDRegressionState) -> NDArray[np.float64]:
+    """Predict posterior standard deviations from fitted ARD state."""
+    checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
+    keep = _ard_keep_mask(state)
+    checked_x = checked_x[:, keep]
+    sigmas_squared = (np.dot(checked_x, state.sigma) * checked_x).sum(axis=1)
+    return np.asarray(np.sqrt(sigmas_squared + (1.0 / state.alpha)), dtype=np.float64)

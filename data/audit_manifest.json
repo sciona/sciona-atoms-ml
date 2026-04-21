@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "metadata": {
-    "generated_at": "2026-04-21T16:09:07.634753+00:00",
+    "generated_at": "2026-04-21T16:19:03.766072+00:00",
     "generator": "scripts/apply_audit_review_bundles.py",
     "phase": "phase_1_review_bundle_merge"
   },
@@ -17163,6 +17163,393 @@
       "required_actions": [],
       "blocking_findings": [],
       "review_record_path": "data/review_bundles/ml_sklearn_kernel_ridge.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.ard_regression_fit",
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.ard_regression_fit",
+      "atom_id": "sciona.atoms.ml.sklearn.linear_model.ard_regression_fit",
+      "module_import_path": "sciona.atoms.ml.sklearn.linear_model",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/linear_model/atoms.py",
+      "module_family": "sklearn",
+      "domain_family": "ml.sklearn",
+      "wrapper_symbol": "ard_regression_fit",
+      "argument_names": [
+        "X",
+        "y",
+        "max_iter",
+        "tol",
+        "alpha_1",
+        "alpha_2",
+        "lambda_1",
+        "lambda_2",
+        "compute_score",
+        "threshold_lambda",
+        "fit_intercept",
+        "copy_X",
+        "verbose"
+      ],
+      "argument_details": [
+        {
+          "name": "X",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "y",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "max_iter",
+          "annotation": "int",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "tol",
+          "annotation": "float",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "alpha_1",
+          "annotation": "float",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "alpha_2",
+          "annotation": "float",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "lambda_1",
+          "annotation": "float",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "lambda_2",
+          "annotation": "float",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "compute_score",
+          "annotation": "bool",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "threshold_lambda",
+          "annotation": "float",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "fit_intercept",
+          "annotation": "bool",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "copy_X",
+          "annotation": "bool",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "verbose",
+          "annotation": "bool",
+          "required": false,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "ARDRegressionState",
+      "docstring_summary": "Fit dense automatic relevance determination posterior parameters.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/linear_model/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/linear_model/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/linear_model/state_models.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/linear_model/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/linear_model/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_linear_model_ard_regression_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_linear_model_ard_regression_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_linear_model_ard_regression_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 24,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "medium",
+        "api_surface": "medium"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 84,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 3,
+      "parity_case_count": 5,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_ard_regression.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.ard_regression_predict",
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.ard_regression_predict",
+      "atom_id": "sciona.atoms.ml.sklearn.linear_model.ard_regression_predict",
+      "module_import_path": "sciona.atoms.ml.sklearn.linear_model",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/linear_model/atoms.py",
+      "module_family": "sklearn",
+      "domain_family": "ml.sklearn",
+      "wrapper_symbol": "ard_regression_predict",
+      "argument_names": [
+        "X",
+        "state",
+        "return_std"
+      ],
+      "argument_details": [
+        {
+          "name": "X",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "state",
+          "annotation": "ARDRegressionState",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "return_std",
+          "annotation": "bool",
+          "required": false,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.float64]",
+      "docstring_summary": "Predict posterior mean values from fitted ARD state.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/linear_model/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/linear_model/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/linear_model/state_models.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/linear_model/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/linear_model/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_linear_model_ard_regression_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_linear_model_ard_regression_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_linear_model_ard_regression_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 16,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "medium"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 88,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 3,
+      "parity_case_count": 5,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_ard_regression.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.ard_regression_predict_std",
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.ard_regression_predict_std",
+      "atom_id": "sciona.atoms.ml.sklearn.linear_model.ard_regression_predict_std",
+      "module_import_path": "sciona.atoms.ml.sklearn.linear_model",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/linear_model/atoms.py",
+      "module_family": "sklearn",
+      "domain_family": "ml.sklearn",
+      "wrapper_symbol": "ard_regression_predict_std",
+      "argument_names": [
+        "X",
+        "state"
+      ],
+      "argument_details": [
+        {
+          "name": "X",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "state",
+          "annotation": "ARDRegressionState",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.float64]",
+      "docstring_summary": "Predict posterior standard deviations from fitted ARD state.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/linear_model/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/linear_model/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/linear_model/state_models.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/linear_model/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/linear_model/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_linear_model_ard_regression_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_linear_model_ard_regression_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_linear_model_ard_regression_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 16,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "medium"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 88,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 3,
+      "parity_case_count": 5,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_ard_regression.review_bundle.json",
       "has_references": true,
       "references_status": "pass"
     },

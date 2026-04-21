@@ -118,3 +118,22 @@ class BayesianRidgeState:
     fit_intercept: bool
     compute_score: bool
     n_features_in: int
+
+
+@dataclass(frozen=True)
+class ARDRegressionState:
+    """Fitted automatic relevance determination regression state."""
+
+    coef: NDArray[np.float64]
+    intercept: float
+    alpha: float
+    lambda_: NDArray[np.float64]
+    sigma: NDArray[np.float64]
+    scores: NDArray[np.float64]
+    n_iter: int
+    threshold_lambda: float
+    x_offset: NDArray[np.float64]
+    x_scale: NDArray[np.float64]
+    fit_intercept: bool
+    compute_score: bool
+    n_features_in: int

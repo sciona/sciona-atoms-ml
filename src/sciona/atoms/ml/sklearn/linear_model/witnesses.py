@@ -5,6 +5,7 @@ from __future__ import annotations
 from sciona.ghost.abstract import AbstractArray
 
 from .state_models import (
+    ARDRegressionState,
     BayesianRidgeState,
     LinearRegressionState,
     OrthogonalMatchingPursuitCVState,
@@ -522,3 +523,56 @@ def witness_bayesian_ridge_predict(
 def witness_bayesian_ridge_predict_std(X: AbstractArray, state: BayesianRidgeState) -> AbstractArray:
     """Describe Bayesian ridge posterior predictive standard deviations."""
     return witness_bayesian_ridge_predict(X, state)
+
+
+def witness_ard_regression_fit(
+    X: AbstractArray,
+    y: AbstractArray,
+    *,
+    max_iter: int = 300,
+    tol: float = 1e-3,
+    alpha_1: float = 1e-6,
+    alpha_2: float = 1e-6,
+    lambda_1: float = 1e-6,
+    lambda_2: float = 1e-6,
+    compute_score: bool = False,
+    threshold_lambda: float = 1e4,
+    fit_intercept: bool = True,
+    copy_X: bool = True,
+    verbose: bool = False,
+) -> AbstractArray:
+    """Describe fitting dense automatic relevance determination state."""
+    del tol, alpha_1, alpha_2, lambda_1, lambda_2, copy_X, verbose
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    if len(y.shape) != 1:
+        raise ValueError("y must be 1D")
+    if X.shape[0] != y.shape[0]:
+        raise ValueError("X and y must have matching sample counts")
+    if max_iter < 1:
+        raise ValueError("max_iter must be positive")
+    if threshold_lambda <= 0:
+        raise ValueError("threshold_lambda must be positive")
+    if not isinstance(compute_score, bool) or not isinstance(fit_intercept, bool):
+        raise ValueError("boolean options must be boolean")
+    return AbstractArray(shape=(int(X.shape[1]),), dtype="float64")
+
+
+def witness_ard_regression_predict(
+    X: AbstractArray,
+    state: ARDRegressionState,
+    *,
+    return_std: bool = False,
+) -> AbstractArray:
+    """Describe ARD posterior mean predictions."""
+    del return_std
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    if X.shape[1] != state.n_features_in:
+        raise ValueError("X feature count must match fitted state")
+    return AbstractArray(shape=(int(X.shape[0]),), dtype="float64")
+
+
+def witness_ard_regression_predict_std(X: AbstractArray, state: ARDRegressionState) -> AbstractArray:
+    """Describe ARD posterior predictive standard deviations."""
+    return witness_ard_regression_predict(X, state)

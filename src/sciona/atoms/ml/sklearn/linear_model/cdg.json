@@ -30,7 +30,10 @@
         "ridge_classifier_cv_predict",
         "bayesian_ridge_fit",
         "bayesian_ridge_predict",
-        "bayesian_ridge_predict_std"
+        "bayesian_ridge_predict_std",
+        "ard_regression_fit",
+        "ard_regression_predict",
+        "ard_regression_predict_std"
       ],
       "depth": 0
     },
@@ -532,6 +535,66 @@
       "outputs": [
         {"name": "result", "type_desc": "NDArray[np.float64]"}
       ]
+    },
+    {
+      "node_id": "ard_regression_fit",
+      "name": "ard_regression_fit",
+      "description": "Fit dense automatic relevance determination posterior state with precision pruning.",
+      "concept_type": "fit_state_builder",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], max_iter: int = 300, tol: float = 1e-3, alpha_1: float = 1e-6, alpha_2: float = 1e-6, lambda_1: float = 1e-6, lambda_2: float = 1e-6, compute_score: bool = False, threshold_lambda: float = 1e4, fit_intercept: bool = True, copy_X: bool = True, verbose: bool = False) -> ARDRegressionState",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "max_iter", "type_desc": "int", "required": false},
+        {"name": "tol", "type_desc": "float", "required": false},
+        {"name": "alpha_1", "type_desc": "float", "required": false},
+        {"name": "alpha_2", "type_desc": "float", "required": false},
+        {"name": "lambda_1", "type_desc": "float", "required": false},
+        {"name": "lambda_2", "type_desc": "float", "required": false},
+        {"name": "compute_score", "type_desc": "bool", "required": false},
+        {"name": "threshold_lambda", "type_desc": "float", "required": false},
+        {"name": "fit_intercept", "type_desc": "bool", "required": false},
+        {"name": "copy_X", "type_desc": "bool", "required": false},
+        {"name": "verbose", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "ARDRegressionState"}
+      ]
+    },
+    {
+      "node_id": "ard_regression_predict",
+      "name": "ard_regression_predict",
+      "description": "Predict posterior mean values from fitted ARD state.",
+      "concept_type": "prediction",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: ARDRegressionState, return_std: bool = False) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "state", "type_desc": "ARDRegressionState", "required": true},
+        {"name": "return_std", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "ard_regression_predict_std",
+      "name": "ard_regression_predict_std",
+      "description": "Predict posterior standard deviations from fitted ARD state.",
+      "concept_type": "uncertainty",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: ARDRegressionState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "state", "type_desc": "ARDRegressionState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
     }
   ],
   "edges": [
@@ -555,7 +618,9 @@
     {"source": "ridge_classifier_cv_fit", "target": "ridge_classifier_cv_predict", "kind": "state"},
     {"source": "ridge_classifier_cv_decision_function", "target": "ridge_classifier_cv_predict", "kind": "score"},
     {"source": "bayesian_ridge_fit", "target": "bayesian_ridge_predict", "kind": "state"},
-    {"source": "bayesian_ridge_fit", "target": "bayesian_ridge_predict_std", "kind": "state"}
+    {"source": "bayesian_ridge_fit", "target": "bayesian_ridge_predict_std", "kind": "state"},
+    {"source": "ard_regression_fit", "target": "ard_regression_predict", "kind": "state"},
+    {"source": "ard_regression_fit", "target": "ard_regression_predict_std", "kind": "state"}
   ],
   "metadata": {
     "source": "agent_ingestion",
