@@ -13,7 +13,13 @@
         "dot_product_kernel",
         "dot_product_kernel_diag",
         "rbf_kernel_matrix",
-        "rbf_kernel_diag"
+        "rbf_kernel_diag",
+        "rational_quadratic_kernel",
+        "rational_quadratic_kernel_diag",
+        "matern_kernel_matrix",
+        "matern_kernel_diag",
+        "exp_sine_squared_kernel",
+        "exp_sine_squared_kernel_diag"
       ],
       "depth": 0
     },
@@ -147,13 +153,115 @@
       "outputs": [
         {"name": "result", "type_desc": "NDArray[np.float64]"}
       ]
+    },
+    {
+      "node_id": "rational_quadratic_kernel",
+      "name": "rational_quadratic_kernel",
+      "description": "Return rational quadratic covariance from squared distances.",
+      "concept_type": "kernel_matrix",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], Y: NDArray[np.float64] | None = None, length_scale: float = 1.0, alpha: float = 1.0) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "Y", "type_desc": "NDArray[np.float64] | None", "required": false},
+        {"name": "length_scale", "type_desc": "float", "required": false},
+        {"name": "alpha", "type_desc": "float", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "rational_quadratic_kernel_diag",
+      "name": "rational_quadratic_kernel_diag",
+      "description": "Return the unit diagonal for the rational quadratic kernel.",
+      "concept_type": "kernel_diagonal",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "matern_kernel_matrix",
+      "name": "matern_kernel_matrix",
+      "description": "Return Matern covariance from scaled Euclidean distances.",
+      "concept_type": "kernel_matrix",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], Y: NDArray[np.float64] | None = None, length_scale: float | tuple[float, ...] | NDArray[np.float64] = 1.0, nu: float = 1.5) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "Y", "type_desc": "NDArray[np.float64] | None", "required": false},
+        {"name": "length_scale", "type_desc": "float | tuple[float, ...] | NDArray[np.float64]", "required": false},
+        {"name": "nu", "type_desc": "float", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "matern_kernel_diag",
+      "name": "matern_kernel_diag",
+      "description": "Return the unit diagonal for the Matern kernel.",
+      "concept_type": "kernel_diagonal",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "exp_sine_squared_kernel",
+      "name": "exp_sine_squared_kernel",
+      "description": "Return periodic covariance from Euclidean distances.",
+      "concept_type": "kernel_matrix",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], Y: NDArray[np.float64] | None = None, length_scale: float = 1.0, periodicity: float = 1.0) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "Y", "type_desc": "NDArray[np.float64] | None", "required": false},
+        {"name": "length_scale", "type_desc": "float", "required": false},
+        {"name": "periodicity", "type_desc": "float", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "exp_sine_squared_kernel_diag",
+      "name": "exp_sine_squared_kernel_diag",
+      "description": "Return the unit diagonal for the periodic kernel.",
+      "concept_type": "kernel_diagonal",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
     }
   ],
   "edges": [
     {"source": "constant_kernel", "target": "constant_kernel_diag", "kind": "diagonal"},
     {"source": "white_kernel", "target": "white_kernel_diag", "kind": "diagonal"},
     {"source": "dot_product_kernel", "target": "dot_product_kernel_diag", "kind": "diagonal"},
-    {"source": "rbf_kernel_matrix", "target": "rbf_kernel_diag", "kind": "diagonal"}
+    {"source": "rbf_kernel_matrix", "target": "rbf_kernel_diag", "kind": "diagonal"},
+    {"source": "rational_quadratic_kernel", "target": "rational_quadratic_kernel_diag", "kind": "diagonal"},
+    {"source": "matern_kernel_matrix", "target": "matern_kernel_diag", "kind": "diagonal"},
+    {"source": "exp_sine_squared_kernel", "target": "exp_sine_squared_kernel_diag", "kind": "diagonal"}
   ],
   "metadata": {
     "source": "agent_ingestion",

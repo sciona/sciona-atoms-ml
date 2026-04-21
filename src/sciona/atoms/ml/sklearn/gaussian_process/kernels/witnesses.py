@@ -87,3 +87,68 @@ def witness_rbf_kernel_diag(X: AbstractArray) -> AbstractArray:
     if len(X.shape) != 2:
         raise ValueError("X must be 2D")
     return AbstractArray(shape=(int(X.shape[0]),), dtype="float64")
+
+
+def witness_rational_quadratic_kernel(
+    X: AbstractArray,
+    Y: AbstractArray | None = None,
+    *,
+    length_scale: float = 1.0,
+    alpha: float = 1.0,
+) -> AbstractArray:
+    """Describe a rational quadratic covariance matrix."""
+    _positive_scalar(length_scale, "length_scale")
+    _positive_scalar(alpha, "alpha")
+    rows, cols = _check_xy(X, Y)
+    return AbstractArray(shape=(rows, cols), dtype="float64")
+
+
+def witness_rational_quadratic_kernel_diag(X: AbstractArray) -> AbstractArray:
+    """Describe the diagonal of a rational quadratic covariance matrix."""
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    return AbstractArray(shape=(int(X.shape[0]),), dtype="float64")
+
+
+def witness_matern_kernel_matrix(
+    X: AbstractArray,
+    Y: AbstractArray | None = None,
+    *,
+    length_scale: float | tuple[float, ...] = 1.0,
+    nu: float = 1.5,
+) -> AbstractArray:
+    """Describe a Matern covariance matrix."""
+    if nu <= 0.0:
+        raise ValueError("nu must be positive")
+    rows, cols = _check_xy(X, Y)
+    if isinstance(length_scale, tuple) and len(length_scale) not in {1, int(X.shape[1])}:
+        raise ValueError("length_scale must be scalar or match feature count")
+    return AbstractArray(shape=(rows, cols), dtype="float64")
+
+
+def witness_matern_kernel_diag(X: AbstractArray) -> AbstractArray:
+    """Describe the diagonal of a Matern covariance matrix."""
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    return AbstractArray(shape=(int(X.shape[0]),), dtype="float64")
+
+
+def witness_exp_sine_squared_kernel(
+    X: AbstractArray,
+    Y: AbstractArray | None = None,
+    *,
+    length_scale: float = 1.0,
+    periodicity: float = 1.0,
+) -> AbstractArray:
+    """Describe a periodic covariance matrix."""
+    _positive_scalar(length_scale, "length_scale")
+    _positive_scalar(periodicity, "periodicity")
+    rows, cols = _check_xy(X, Y)
+    return AbstractArray(shape=(rows, cols), dtype="float64")
+
+
+def witness_exp_sine_squared_kernel_diag(X: AbstractArray) -> AbstractArray:
+    """Describe the diagonal of a periodic covariance matrix."""
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    return AbstractArray(shape=(int(X.shape[0]),), dtype="float64")

@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "atoms": {
-    "sciona.atoms.ml.sklearn.gaussian_process.kernels.constant_kernel@sciona/atoms/ml/sklearn/gaussian_process/kernels/atoms.py:103": {
+    "sciona.atoms.ml.sklearn.gaussian_process.kernels.constant_kernel@sciona/atoms/ml/sklearn/gaussian_process/kernels/atoms.py:125": {
       "references": [
         {"ref_id": "repo_sklearn", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Adapted from sklearn.gaussian_process.kernels.ConstantKernel.__call__ in scikit-learn 1.8.0."}},
         {"ref_id": "pedregosa2011sklearn", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Project-level publication for scikit-learn."}},
@@ -9,7 +9,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.gaussian_process.kernels.constant_kernel_diag@sciona/atoms/ml/sklearn/gaussian_process/kernels/atoms.py:115": {
+    "sciona.atoms.ml.sklearn.gaussian_process.kernels.constant_kernel_diag@sciona/atoms/ml/sklearn/gaussian_process/kernels/atoms.py:137": {
       "references": [
         {"ref_id": "repo_sklearn", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Adapted from sklearn.gaussian_process.kernels.ConstantKernel.diag in scikit-learn 1.8.0."}},
         {"ref_id": "pedregosa2011sklearn", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Project-level publication for scikit-learn."}},
@@ -17,7 +17,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.gaussian_process.kernels.white_kernel@sciona/atoms/ml/sklearn/gaussian_process/kernels/atoms.py:129": {
+    "sciona.atoms.ml.sklearn.gaussian_process.kernels.white_kernel@sciona/atoms/ml/sklearn/gaussian_process/kernels/atoms.py:151": {
       "references": [
         {"ref_id": "repo_sklearn", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Adapted from sklearn.gaussian_process.kernels.WhiteKernel.__call__ in scikit-learn 1.8.0."}},
         {"ref_id": "pedregosa2011sklearn", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Project-level publication for scikit-learn."}},
@@ -25,7 +25,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.gaussian_process.kernels.white_kernel_diag@sciona/atoms/ml/sklearn/gaussian_process/kernels/atoms.py:143": {
+    "sciona.atoms.ml.sklearn.gaussian_process.kernels.white_kernel_diag@sciona/atoms/ml/sklearn/gaussian_process/kernels/atoms.py:165": {
       "references": [
         {"ref_id": "repo_sklearn", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Adapted from sklearn.gaussian_process.kernels.WhiteKernel.diag in scikit-learn 1.8.0."}},
         {"ref_id": "pedregosa2011sklearn", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Project-level publication for scikit-learn."}},
@@ -33,7 +33,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.gaussian_process.kernels.dot_product_kernel@sciona/atoms/ml/sklearn/gaussian_process/kernels/atoms.py:157": {
+    "sciona.atoms.ml.sklearn.gaussian_process.kernels.dot_product_kernel@sciona/atoms/ml/sklearn/gaussian_process/kernels/atoms.py:179": {
       "references": [
         {"ref_id": "repo_sklearn", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Adapted from sklearn.gaussian_process.kernels.DotProduct.__call__ in scikit-learn 1.8.0."}},
         {"ref_id": "pedregosa2011sklearn", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Project-level publication for scikit-learn."}},
@@ -41,7 +41,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.gaussian_process.kernels.dot_product_kernel_diag@sciona/atoms/ml/sklearn/gaussian_process/kernels/atoms.py:169": {
+    "sciona.atoms.ml.sklearn.gaussian_process.kernels.dot_product_kernel_diag@sciona/atoms/ml/sklearn/gaussian_process/kernels/atoms.py:191": {
       "references": [
         {"ref_id": "repo_sklearn", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Adapted from sklearn.gaussian_process.kernels.DotProduct.diag in scikit-learn 1.8.0."}},
         {"ref_id": "pedregosa2011sklearn", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Project-level publication for scikit-learn."}},
@@ -49,7 +49,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.gaussian_process.kernels.rbf_kernel_matrix@sciona/atoms/ml/sklearn/gaussian_process/kernels/atoms.py:183": {
+    "sciona.atoms.ml.sklearn.gaussian_process.kernels.rbf_kernel_matrix@sciona/atoms/ml/sklearn/gaussian_process/kernels/atoms.py:205": {
       "references": [
         {"ref_id": "repo_sklearn", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Adapted from sklearn.gaussian_process.kernels.RBF.__call__ in scikit-learn 1.8.0."}},
         {"ref_id": "pedregosa2011sklearn", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Project-level publication for scikit-learn."}},
@@ -58,12 +58,62 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.gaussian_process.kernels.rbf_kernel_diag@sciona/atoms/ml/sklearn/gaussian_process/kernels/atoms.py:207": {
+    "sciona.atoms.ml.sklearn.gaussian_process.kernels.rbf_kernel_diag@sciona/atoms/ml/sklearn/gaussian_process/kernels/atoms.py:229": {
       "references": [
         {"ref_id": "repo_sklearn", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Adapted from the normalized diagonal behavior of sklearn.gaussian_process.kernels.RBF in scikit-learn 1.8.0."}},
         {"ref_id": "pedregosa2011sklearn", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Project-level publication for scikit-learn."}},
         {"ref_id": "duvenaud2014kernelcookbook", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "RBF kernel advice reference cited by scikit-learn."}},
         {"ref_id": "rasmussen2006gpml", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Gaussian process kernel reference cited by scikit-learn."}}
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.kernels.rational_quadratic_kernel@sciona/atoms/ml/sklearn/gaussian_process/kernels/atoms.py:244": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Adapted from sklearn.gaussian_process.kernels.RationalQuadratic.__call__ in scikit-learn 1.8.0."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Project-level publication for scikit-learn."}},
+        {"ref_id": "duvenaud2014kernelcookbook", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Rational quadratic kernel advice reference cited by scikit-learn."}},
+        {"ref_id": "rasmussen2006gpml", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Gaussian process kernel reference cited by scikit-learn."}}
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.kernels.rational_quadratic_kernel_diag@sciona/atoms/ml/sklearn/gaussian_process/kernels/atoms.py:267": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Adapted from normalized diagonal behavior of sklearn.gaussian_process.kernels.RationalQuadratic in scikit-learn 1.8.0."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Project-level publication for scikit-learn."}},
+        {"ref_id": "duvenaud2014kernelcookbook", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Rational quadratic kernel advice reference cited by scikit-learn."}},
+        {"ref_id": "rasmussen2006gpml", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Gaussian process kernel reference cited by scikit-learn."}}
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.kernels.matern_kernel_matrix@sciona/atoms/ml/sklearn/gaussian_process/kernels/atoms.py:282": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Adapted from sklearn.gaussian_process.kernels.Matern.__call__ in scikit-learn 1.8.0."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Project-level publication for scikit-learn."}},
+        {"ref_id": "rasmussen2006gpml", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Matern kernel reference cited by scikit-learn."}}
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.kernels.matern_kernel_diag@sciona/atoms/ml/sklearn/gaussian_process/kernels/atoms.py:329": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Adapted from normalized diagonal behavior of sklearn.gaussian_process.kernels.Matern in scikit-learn 1.8.0."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Project-level publication for scikit-learn."}},
+        {"ref_id": "rasmussen2006gpml", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Matern kernel reference cited by scikit-learn."}}
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.kernels.exp_sine_squared_kernel@sciona/atoms/ml/sklearn/gaussian_process/kernels/atoms.py:344": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Adapted from sklearn.gaussian_process.kernels.ExpSineSquared.__call__ in scikit-learn 1.8.0."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Project-level publication for scikit-learn."}},
+        {"ref_id": "rasmussen2006gpml", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Gaussian process periodic-kernel reference cited by scikit-learn."}}
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.kernels.exp_sine_squared_kernel_diag@sciona/atoms/ml/sklearn/gaussian_process/kernels/atoms.py:366": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Adapted from normalized diagonal behavior of sklearn.gaussian_process.kernels.ExpSineSquared in scikit-learn 1.8.0."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Project-level publication for scikit-learn."}},
+        {"ref_id": "rasmussen2006gpml", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Gaussian process periodic-kernel reference cited by scikit-learn."}}
       ],
       "auto_attribution_runs": []
     }
