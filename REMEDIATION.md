@@ -248,3 +248,33 @@ Potential remediation path:
 - Ingest robust covariance by decomposing FastMCD helpers (`fast_mcd`,
   candidate selection, correction, reweighting, and Mahalanobis scoring) before
   publishing `MinCovDet` or `EllipticEnvelope` fit states.
+
+## `sklearn.decomposition` sparse coding and matrix factorization solvers
+
+Deferred targets:
+
+| Target | Source | Reason |
+| --- | --- | --- |
+| `sparse_encode` | `sklearn/decomposition/_dict_learning.py:L226` | The public helper multiplexes LARS, Lasso-LARS, coordinate descent, OMP, thresholding, joblib slicing, Gram/covariance precomputation, and positivity constraints; publishing a single wrapper atom would hide the selected sparse-code solver. |
+| `SparseCoder` | `sklearn/decomposition/_dict_learning.py:L1182` | The estimator is a transform/inverse shell over `sparse_encode`, so it inherits the same deferred sparse-code solver boundary. |
+| `dict_learning` | `sklearn/decomposition/_dict_learning.py:L892` | The public helper delegates to `DictionaryLearning.fit_transform`, which alternates sparse-code solves with dictionary updates and optional callbacks. |
+| `dict_learning_online` | `sklearn/decomposition/_dict_learning.py:L673` | The public helper delegates to `MiniBatchDictionaryLearning.fit` and combines mini-batch iteration, sparse-code solves, sufficient-statistic updates, and callbacks. |
+| `DictionaryLearning` | `sklearn/decomposition/_dict_learning.py:L1417` | Fit is an alternating optimization loop over sparse coding and dictionary updates; an estimator state atom would obscure the LARS/Lasso/OMP solver choices and callback boundary. |
+| `MiniBatchDictionaryLearning` | `sklearn/decomposition/_dict_learning.py:L1760` | Fit adds mini-batch scheduling, sufficient statistics, early stopping, and the same sparse-code solver dependency. |
+| `SparsePCA` | `sklearn/decomposition/_sparse_pca.py:L162` | Fit delegates sparse component extraction to dictionary learning, then uses ridge regression for transform; it should wait for the dictionary-learning solver boundary. |
+| `MiniBatchSparsePCA` | `sklearn/decomposition/_sparse_pca.py:L342` | Fit delegates to mini-batch dictionary learning and inherits its sparse-code and mini-batch solver boundaries. |
+| `non_negative_factorization` | `sklearn/decomposition/_nmf.py:L897` | The public helper dispatches between coordinate descent and multiplicative-update solvers, with the coordinate-descent path calling compiled `_update_cdnmf_fast`. |
+| `NMF` | `sklearn/decomposition/_nmf.py:L1317` | Fit wraps `non_negative_factorization` and inherits the compiled coordinate-descent or iterative multiplicative-update solver boundary. |
+| `MiniBatchNMF` | `sklearn/decomposition/_nmf.py:L1758` | Fit adds mini-batch scheduling and online updates over the NMF solver surface, so a public atom would hide both the update loop and solver choice. |
+| `LatentDirichletAllocation` | `sklearn/decomposition/_lda.py:L160` | Fit/partial_fit/transform rely on online variational Bayes loops and compiled `_online_lda_fast` routines for Dirichlet expectation and mean-change inner updates. |
+
+Potential remediation path:
+
+- Ingest small explicit helper kernels separately where they are not solver
+  shells, such as NMF `trace_dot`, beta-divergence, NNDSVD initialization, or
+  dictionary-update normalization.
+- Decide whether sparse-code solvers, compiled NMF coordinate descent, and
+  online-LDA Cython helpers should be represented through native/FFI-backed
+  atoms or through limited solver-boundary atoms with direct parity tests.
+- Publish dictionary learning, SparsePCA, NMF, and LDA estimator states only
+  after their inner solver boundaries have first-class provenance and tests.
