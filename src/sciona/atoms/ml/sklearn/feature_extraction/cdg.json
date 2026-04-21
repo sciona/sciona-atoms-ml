@@ -21,7 +21,11 @@
         "count_vectorizer_feature_names",
         "count_vectorizer_inverse_transform",
         "hashing_vectorizer_token",
-        "hashing_vectorizer_transform"
+        "hashing_vectorizer_transform",
+        "tfidf_vectorizer_fit",
+        "tfidf_vectorizer_transform",
+        "tfidf_vectorizer_feature_names",
+        "tfidf_vectorizer_idf"
       ],
       "depth": 0
     },
@@ -576,6 +580,169 @@
           "type_desc": "NDArray[np.float64]"
         }
       ]
+    },
+    {
+      "node_id": "tfidf_vectorizer_fit",
+      "name": "tfidf_vectorizer_fit",
+      "description": "Fit count vocabulary and inverse-document-frequency weights from text.",
+      "concept_type": "fit_state",
+      "status": "atomic",
+      "type_signature": "(raw_documents: tuple[str, ...], lowercase: bool = True, strip_accents: str | None = None, token_pattern: str = r\"(?u)\\\\b\\\\w\\\\w+\\\\b\", ngram_range: tuple[int, int] = (1, 1), stop_words: tuple[str, ...] | None = None, max_df: int | float = 1.0, min_df: int | float = 1, max_features: int | None = None, vocabulary: tuple[str, ...] | dict[str, int] | None = None, binary: bool = False, norm: str | None = \"l2\", use_idf: bool = True, smooth_idf: bool = True, sublinear_tf: bool = False) -> TfidfVectorizerState",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "raw_documents",
+          "type_desc": "tuple[str, ...]",
+          "required": true
+        },
+        {
+          "name": "lowercase",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "strip_accents",
+          "type_desc": "str | None",
+          "required": false
+        },
+        {
+          "name": "token_pattern",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "ngram_range",
+          "type_desc": "tuple[int, int]",
+          "required": false
+        },
+        {
+          "name": "stop_words",
+          "type_desc": "tuple[str, ...] | None",
+          "required": false
+        },
+        {
+          "name": "max_df",
+          "type_desc": "int | float",
+          "required": false
+        },
+        {
+          "name": "min_df",
+          "type_desc": "int | float",
+          "required": false
+        },
+        {
+          "name": "max_features",
+          "type_desc": "int | None",
+          "required": false
+        },
+        {
+          "name": "vocabulary",
+          "type_desc": "tuple[str, ...] | dict[str, int] | None",
+          "required": false
+        },
+        {
+          "name": "binary",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "norm",
+          "type_desc": "str | None",
+          "required": false
+        },
+        {
+          "name": "use_idf",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "smooth_idf",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "sublinear_tf",
+          "type_desc": "bool",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "TfidfVectorizerState"
+        }
+      ]
+    },
+    {
+      "node_id": "tfidf_vectorizer_transform",
+      "name": "tfidf_vectorizer_transform",
+      "description": "Transform text documents into dense TF-IDF feature weights.",
+      "concept_type": "array_transform",
+      "status": "atomic",
+      "type_signature": "(raw_documents: tuple[str, ...], state: TfidfVectorizerState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "raw_documents",
+          "type_desc": "tuple[str, ...]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "TfidfVectorizerState",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
+    },
+    {
+      "node_id": "tfidf_vectorizer_feature_names",
+      "name": "tfidf_vectorizer_feature_names",
+      "description": "Return TF-IDF vectorizer feature names in output-column order.",
+      "concept_type": "state_query",
+      "status": "atomic",
+      "type_signature": "(state: TfidfVectorizerState) -> tuple[str, ...]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "state",
+          "type_desc": "TfidfVectorizerState",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "tuple[str, ...]"
+        }
+      ]
+    },
+    {
+      "node_id": "tfidf_vectorizer_idf",
+      "name": "tfidf_vectorizer_idf",
+      "description": "Return learned inverse-document-frequency weights in feature order.",
+      "concept_type": "state_query",
+      "status": "atomic",
+      "type_signature": "(state: TfidfVectorizerState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "state",
+          "type_desc": "TfidfVectorizerState",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
     }
   ],
   "edges": [
@@ -657,6 +824,51 @@
     {
       "source": "hashing_vectorizer_token",
       "target": "hashing_vectorizer_transform",
+      "kind": "called_by"
+    },
+    {
+      "source": "count_vectorizer_fit",
+      "target": "tfidf_vectorizer_fit",
+      "kind": "called_by"
+    },
+    {
+      "source": "count_vectorizer_transform",
+      "target": "tfidf_vectorizer_fit",
+      "kind": "called_by"
+    },
+    {
+      "source": "tfidf_transformer_fit",
+      "target": "tfidf_vectorizer_fit",
+      "kind": "called_by"
+    },
+    {
+      "source": "tfidf_vectorizer_fit",
+      "target": "tfidf_vectorizer_transform",
+      "kind": "state_dependency"
+    },
+    {
+      "source": "tfidf_vectorizer_fit",
+      "target": "tfidf_vectorizer_feature_names",
+      "kind": "state_dependency"
+    },
+    {
+      "source": "tfidf_vectorizer_fit",
+      "target": "tfidf_vectorizer_idf",
+      "kind": "state_dependency"
+    },
+    {
+      "source": "count_vectorizer_transform",
+      "target": "tfidf_vectorizer_transform",
+      "kind": "called_by"
+    },
+    {
+      "source": "tfidf_transform",
+      "target": "tfidf_vectorizer_transform",
+      "kind": "called_by"
+    },
+    {
+      "source": "count_vectorizer_feature_names",
+      "target": "tfidf_vectorizer_feature_names",
       "kind": "called_by"
     }
   ],

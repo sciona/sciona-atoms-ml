@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from sciona.ghost.abstract import AbstractArray
 
-from .state_models import CountVectorizerState, DictVectorizerState, TfidfTransformerState
+from .state_models import CountVectorizerState, DictVectorizerState, TfidfTransformerState, TfidfVectorizerState
 
 
 def witness_dict_vectorizer_fit(records: tuple[dict[str, object], ...], *, separator: str = "=", sort: bool = True) -> AbstractArray:
@@ -186,3 +186,49 @@ def witness_hashing_vectorizer_transform(
     if n_features < 1:
         raise ValueError("n_features must be positive")
     return AbstractArray(shape=(len(raw_documents), n_features), dtype="float64")
+
+
+def witness_tfidf_vectorizer_fit(
+    raw_documents: tuple[str, ...],
+    *,
+    lowercase: bool = True,
+    strip_accents: str | None = None,
+    token_pattern: str = r"(?u)\b\w\w+\b",
+    ngram_range: tuple[int, int] = (1, 1),
+    stop_words: tuple[str, ...] | None = None,
+    max_df: int | float = 1.0,
+    min_df: int | float = 1,
+    max_features: int | None = None,
+    vocabulary: tuple[str, ...] | dict[str, int] | None = None,
+    binary: bool = False,
+    norm: str | None = "l2",
+    use_idf: bool = True,
+    smooth_idf: bool = True,
+    sublinear_tf: bool = False,
+) -> AbstractArray:
+    """Describe fitting dense TF-IDF vectorizer state."""
+    del lowercase, strip_accents, token_pattern, stop_words, max_df, min_df, max_features, vocabulary, binary, norm, use_idf, smooth_idf, sublinear_tf
+    if not raw_documents:
+        raise ValueError("raw_documents must not be empty")
+    if ngram_range[0] < 1 or ngram_range[0] > ngram_range[1]:
+        raise ValueError("ngram_range must be valid")
+    return AbstractArray(shape=(len(raw_documents),), dtype="object")
+
+
+def witness_tfidf_vectorizer_transform(raw_documents: tuple[str, ...], state: TfidfVectorizerState) -> AbstractArray:
+    """Describe transforming text with fitted TF-IDF vectorizer state."""
+    if not raw_documents:
+        raise ValueError("raw_documents must not be empty")
+    return AbstractArray(shape=(len(raw_documents), len(state.count_state.feature_names)), dtype="float64")
+
+
+def witness_tfidf_vectorizer_feature_names(state: TfidfVectorizerState) -> AbstractArray:
+    """Describe TF-IDF vectorizer feature names in output order."""
+    return AbstractArray(shape=(len(state.count_state.feature_names),), dtype="object")
+
+
+def witness_tfidf_vectorizer_idf(state: TfidfVectorizerState) -> AbstractArray:
+    """Describe learned inverse-document-frequency weights."""
+    if state.tfidf_state.idf is None:
+        raise ValueError("state must have idf weights")
+    return AbstractArray(shape=(state.tfidf_state.n_features_in,), dtype="float64", min_val=0.0)

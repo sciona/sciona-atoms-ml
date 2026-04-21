@@ -42,3 +42,11 @@ class CountVectorizerState:
     stop_words: tuple[str, ...] | None
     binary: bool
     fixed_vocabulary: bool
+
+
+@dataclass(frozen=True)
+class TfidfVectorizerState:
+    """Learned count vocabulary and IDF weights for dense TF-IDF vectorization."""
+
+    count_state: CountVectorizerState
+    tfidf_state: TfidfTransformerState

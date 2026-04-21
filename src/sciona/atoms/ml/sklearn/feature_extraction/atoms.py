@@ -12,7 +12,7 @@ from numpy.typing import NDArray
 
 from sciona.ghost.registry import register_atom
 
-from .state_models import CountVectorizerState, DictVectorizerState, TfidfTransformerState
+from .state_models import CountVectorizerState, DictVectorizerState, TfidfTransformerState, TfidfVectorizerState
 from .witnesses import (
     witness_count_vectorizer_analyze,
     witness_count_vectorizer_feature_names,
@@ -30,6 +30,10 @@ from .witnesses import (
     witness_tfidf_idf,
     witness_tfidf_transform,
     witness_tfidf_transformer_fit,
+    witness_tfidf_vectorizer_feature_names,
+    witness_tfidf_vectorizer_fit,
+    witness_tfidf_vectorizer_idf,
+    witness_tfidf_vectorizer_transform,
 )
 
 FeatureValue = int | float | str | tuple[str, ...]
@@ -194,6 +198,40 @@ def _hashing_vectorizer_config_valid(
     )
 
 
+def _tfidf_vectorizer_config_valid(
+    raw_documents: tuple[str, ...],
+    strip_accents: str | None,
+    token_pattern: str,
+    ngram_range: tuple[int, int],
+    stop_words: tuple[str, ...] | None,
+    max_df: int | float,
+    min_df: int | float,
+    max_features: int | None,
+    vocabulary: VocabularySpec | None,
+    norm: str | None,
+    use_idf: bool,
+    smooth_idf: bool,
+    sublinear_tf: bool,
+) -> bool:
+    return bool(
+        _count_vectorizer_config_valid(
+            raw_documents,
+            strip_accents,
+            token_pattern,
+            ngram_range,
+            stop_words,
+            max_df,
+            min_df,
+            max_features,
+            vocabulary,
+        )
+        and _norm_valid(norm)
+        and isinstance(use_idf, bool)
+        and isinstance(smooth_idf, bool)
+        and isinstance(sublinear_tf, bool)
+    )
+
+
 def _fit_result_valid(result: DictVectorizerState) -> bool:
     return _state_valid(result)
 
@@ -297,6 +335,37 @@ def _count_transform_result_valid(result: NDArray[np.float64], raw_documents: tu
 
 def _count_inverse_result_valid(result: list[tuple[str, ...]], X: NDArray[np.float64]) -> bool:
     return bool(len(result) == np.asarray(X).shape[0] and all(isinstance(row, tuple) and all(isinstance(term, str) for term in row) for row in result))
+
+
+def _tfidf_vectorizer_state_valid(state: TfidfVectorizerState) -> bool:
+    return bool(
+        _count_vectorizer_state_valid(state.count_state)
+        and _tfidf_state_valid(state.tfidf_state)
+        and state.tfidf_state.n_features_in == len(state.count_state.feature_names)
+    )
+
+
+def _tfidf_vectorizer_fit_result_valid(result: TfidfVectorizerState) -> bool:
+    return _tfidf_vectorizer_state_valid(result)
+
+
+def _tfidf_vectorizer_transform_result_valid(result: NDArray[np.float64], raw_documents: tuple[str, ...], state: TfidfVectorizerState) -> bool:
+    values = np.asarray(result, dtype=np.float64)
+    return bool(
+        values.shape == (len(raw_documents), len(state.count_state.feature_names))
+        and np.all(np.isfinite(values))
+        and np.all(values >= 0.0)
+    )
+
+
+def _tfidf_vectorizer_idf_result_valid(result: NDArray[np.float64], state: TfidfVectorizerState) -> bool:
+    values = np.asarray(result, dtype=np.float64)
+    return bool(
+        state.tfidf_state.idf is not None
+        and values.shape == (state.tfidf_state.n_features_in,)
+        and np.all(np.isfinite(values))
+        and np.all(values >= 1.0)
+    )
 
 
 def _hashing_token_result_valid(result: tuple[int, float], n_features: int) -> bool:
@@ -895,3 +964,98 @@ def hashing_vectorizer_transform(
     if seen_columns is not None:
         matrix[:, :] = seen_columns.astype(np.float64)
     return _normalize_rows(matrix, norm)
+
+
+@register_atom(witness_tfidf_vectorizer_fit)
+@icontract.require(
+    lambda raw_documents, strip_accents, token_pattern, ngram_range, stop_words, max_df, min_df, max_features, vocabulary, norm, use_idf, smooth_idf, sublinear_tf: _tfidf_vectorizer_config_valid(
+        raw_documents,
+        strip_accents,
+        token_pattern,
+        ngram_range,
+        stop_words,
+        max_df,
+        min_df,
+        max_features,
+        vocabulary,
+        norm,
+        use_idf,
+        smooth_idf,
+        sublinear_tf,
+    ),
+    "raw documents and TfidfVectorizer configuration must be supported",
+)
+@icontract.ensure(lambda result: _tfidf_vectorizer_fit_result_valid(result), "state must contain valid count and TF-IDF components")
+def tfidf_vectorizer_fit(
+    raw_documents: tuple[str, ...],
+    *,
+    lowercase: bool = True,
+    strip_accents: str | None = None,
+    token_pattern: str = r"(?u)\b\w\w+\b",
+    ngram_range: tuple[int, int] = (1, 1),
+    stop_words: tuple[str, ...] | None = None,
+    max_df: int | float = 1.0,
+    min_df: int | float = 1,
+    max_features: int | None = None,
+    vocabulary: VocabularySpec | None = None,
+    binary: bool = False,
+    norm: str | None = "l2",
+    use_idf: bool = True,
+    smooth_idf: bool = True,
+    sublinear_tf: bool = False,
+) -> TfidfVectorizerState:
+    """Fit count vocabulary and inverse-document-frequency weights from text."""
+    count_state = count_vectorizer_fit(
+        raw_documents,
+        lowercase=lowercase,
+        strip_accents=strip_accents,
+        token_pattern=token_pattern,
+        ngram_range=ngram_range,
+        stop_words=stop_words,
+        max_df=max_df,
+        min_df=min_df,
+        max_features=max_features,
+        vocabulary=vocabulary,
+        binary=bool(binary),
+    )
+    counts = count_vectorizer_transform(raw_documents, count_state)
+    tfidf_state = tfidf_transformer_fit(
+        counts,
+        norm=norm,
+        use_idf=use_idf,
+        smooth_idf=smooth_idf,
+        sublinear_tf=sublinear_tf,
+    )
+    return TfidfVectorizerState(count_state=count_state, tfidf_state=tfidf_state)
+
+
+@register_atom(witness_tfidf_vectorizer_transform)
+@icontract.require(lambda raw_documents: _raw_documents_valid(raw_documents), "raw_documents must be a non-empty tuple of strings")
+@icontract.require(lambda state: _tfidf_vectorizer_state_valid(state), "state must contain valid count and TF-IDF components")
+@icontract.ensure(
+    lambda result, raw_documents, state: _tfidf_vectorizer_transform_result_valid(result, raw_documents, state),
+    "TF-IDF matrix must match documents and fitted vocabulary",
+)
+def tfidf_vectorizer_transform(raw_documents: tuple[str, ...], state: TfidfVectorizerState) -> NDArray[np.float64]:
+    """Transform text documents into dense TF-IDF feature weights."""
+    counts = count_vectorizer_transform(raw_documents, state.count_state)
+    return tfidf_transform(counts, state.tfidf_state)
+
+
+@register_atom(witness_tfidf_vectorizer_feature_names)
+@icontract.require(lambda state: _tfidf_vectorizer_state_valid(state), "state must contain valid count and TF-IDF components")
+@icontract.ensure(lambda result, state: len(result) == len(state.count_state.feature_names), "feature names must match fitted state")
+def tfidf_vectorizer_feature_names(state: TfidfVectorizerState) -> tuple[str, ...]:
+    """Return TF-IDF vectorizer feature names in output-column order."""
+    return count_vectorizer_feature_names(state.count_state)
+
+
+@register_atom(witness_tfidf_vectorizer_idf)
+@icontract.require(lambda state: _tfidf_vectorizer_state_valid(state), "state must contain valid count and TF-IDF components")
+@icontract.require(lambda state: state.tfidf_state.idf is not None, "state must include inverse-document-frequency weights")
+@icontract.ensure(lambda result, state: _tfidf_vectorizer_idf_result_valid(result, state), "idf values must match fitted state")
+def tfidf_vectorizer_idf(state: TfidfVectorizerState) -> NDArray[np.float64]:
+    """Return learned inverse-document-frequency weights in feature order."""
+    if state.tfidf_state.idf is None:
+        raise ValueError("state does not include inverse-document-frequency weights")
+    return np.asarray(state.tfidf_state.idf, dtype=np.float64).copy()

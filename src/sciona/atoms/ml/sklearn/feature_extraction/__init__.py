@@ -17,13 +17,18 @@ from .atoms import (
     tfidf_idf,
     tfidf_transform,
     tfidf_transformer_fit,
+    tfidf_vectorizer_feature_names,
+    tfidf_vectorizer_fit,
+    tfidf_vectorizer_idf,
+    tfidf_vectorizer_transform,
 )
-from .state_models import CountVectorizerState, DictVectorizerState, TfidfTransformerState
+from .state_models import CountVectorizerState, DictVectorizerState, TfidfTransformerState, TfidfVectorizerState
 
 __all__ = [
     "CountVectorizerState",
     "DictVectorizerState",
     "TfidfTransformerState",
+    "TfidfVectorizerState",
     "count_vectorizer_analyze",
     "count_vectorizer_feature_names",
     "count_vectorizer_fit",
@@ -40,4 +45,8 @@ __all__ = [
     "tfidf_idf",
     "tfidf_transform",
     "tfidf_transformer_fit",
+    "tfidf_vectorizer_feature_names",
+    "tfidf_vectorizer_fit",
+    "tfidf_vectorizer_idf",
+    "tfidf_vectorizer_transform",
 ]
