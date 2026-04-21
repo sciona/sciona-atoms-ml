@@ -8,8 +8,16 @@ from numpy.typing import NDArray
 
 from sciona.ghost.registry import register_atom
 
-from .state_models import ComplementNBState, GaussianNBState, MultinomialNBState
+from .state_models import BernoulliNBState, ComplementNBState, GaussianNBState, MultinomialNBState
 from .witnesses import (
+    witness_bernoulli_nb_binarize,
+    witness_bernoulli_nb_count,
+    witness_bernoulli_nb_feature_log_prob,
+    witness_bernoulli_nb_fit,
+    witness_bernoulli_nb_joint_log_likelihood,
+    witness_bernoulli_nb_predict,
+    witness_bernoulli_nb_predict_log_proba,
+    witness_bernoulli_nb_predict_proba,
     witness_complement_nb_count,
     witness_complement_nb_feature_log_prob,
     witness_complement_nb_fit,
@@ -762,4 +770,247 @@ def complement_nb_predict_proba(X: NDArray[np.float64], state: ComplementNBState
 def complement_nb_predict(X: NDArray[np.float64], state: ComplementNBState) -> NDArray[np.int64]:
     """Return the fitted class with largest complement class score."""
     joint = complement_nb_joint_log_likelihood(X, state)
+    return state.classes[np.argmax(joint, axis=1)]
+
+
+def _valid_binarize_threshold(binarize: float | None) -> bool:
+    return bool(binarize is None or (np.isfinite(binarize) and binarize >= 0.0))
+
+
+def _binary_matrix(X: NDArray[np.float64]) -> bool:
+    values = np.asarray(X, dtype=np.float64)
+    return bool(_numeric_matrix(values) and np.all((values == 0.0) | (values == 1.0)))
+
+
+def _bernoulli_count_result_valid(
+    result: tuple[NDArray[np.int64], NDArray[np.float64], NDArray[np.float64]],
+    X: NDArray[np.float64],
+    y: NDArray[np.int64],
+) -> bool:
+    classes, class_count, feature_count = result
+    n_classes = np.unique(np.asarray(y, dtype=np.int64)).shape[0]
+    return bool(
+        classes.shape == (n_classes,)
+        and class_count.shape == (n_classes,)
+        and feature_count.shape == (n_classes, _feature_count(X))
+        and np.all(np.isfinite(class_count))
+        and np.all(class_count > 0.0)
+        and np.all(np.isfinite(feature_count))
+        and np.all(feature_count >= 0.0)
+        and np.all(feature_count <= class_count[:, np.newaxis])
+    )
+
+
+def _bernoulli_counts_valid(feature_count: NDArray[np.float64], class_count: NDArray[np.float64]) -> bool:
+    features = np.asarray(feature_count, dtype=np.float64)
+    counts = np.asarray(class_count, dtype=np.float64)
+    return bool(
+        _feature_count_matrix_valid(features)
+        and _class_count_valid(counts)
+        and features.shape[0] == counts.shape[0]
+        and np.all(features <= counts[:, np.newaxis])
+    )
+
+
+def _bernoulli_feature_log_prob_result_valid(result: NDArray[np.float64], feature_count: NDArray[np.float64]) -> bool:
+    values = np.asarray(result, dtype=np.float64)
+    probabilities = np.exp(values)
+    return bool(
+        values.shape == np.asarray(feature_count).shape
+        and np.all(np.isfinite(values))
+        and np.all(values < 0.0)
+        and np.all(probabilities > 0.0)
+        and np.all(probabilities < 1.0)
+    )
+
+
+def _bernoulli_state_valid(state: BernoulliNBState) -> bool:
+    n_classes = int(state.classes.shape[0])
+    return bool(
+        state.classes.ndim == 1
+        and n_classes >= 2
+        and state.class_count.shape == (n_classes,)
+        and state.feature_count.shape == (n_classes, state.n_features_in)
+        and state.class_log_prior.shape == (n_classes,)
+        and state.feature_log_prob.shape == (n_classes, state.n_features_in)
+        and state.n_features_in >= 1
+        and np.all(np.isfinite(state.class_count))
+        and np.all(state.class_count > 0.0)
+        and np.all(np.isfinite(state.feature_count))
+        and np.all(state.feature_count >= 0.0)
+        and np.all(state.feature_count <= state.class_count[:, np.newaxis])
+        and np.all(np.isfinite(state.class_log_prior))
+        and np.isclose(np.sum(np.exp(state.class_log_prior)), 1.0)
+        and np.all(np.isfinite(state.feature_log_prob))
+        and np.all(np.exp(state.feature_log_prob) > 0.0)
+        and np.all(np.exp(state.feature_log_prob) < 1.0)
+        and np.isfinite(state.alpha)
+        and state.alpha > 0.0
+        and _valid_binarize_threshold(state.binarize)
+    )
+
+
+def _bernoulli_fit_result_valid(result: BernoulliNBState, X: NDArray[np.float64], y: NDArray[np.int64]) -> bool:
+    return bool(
+        _bernoulli_state_valid(result)
+        and result.n_features_in == _feature_count(X)
+        and result.classes.shape[0] == np.unique(np.asarray(y, dtype=np.int64)).shape[0]
+    )
+
+
+def _bernoulli_matrix_against_state(X: NDArray[np.float64], state: BernoulliNBState) -> bool:
+    return bool(
+        _numeric_matrix(X)
+        and _bernoulli_state_valid(state)
+        and _feature_count(X) == state.n_features_in
+        and (state.binarize is not None or _binary_matrix(X))
+    )
+
+
+def _bernoulli_class_matrix_result_valid(result: NDArray[np.float64], X: NDArray[np.float64], state: BernoulliNBState) -> bool:
+    values = np.asarray(result, dtype=np.float64)
+    return bool(values.shape == (_row_count(X), state.classes.shape[0]) and np.all(np.isfinite(values)))
+
+
+def _bernoulli_probability_result_valid(result: NDArray[np.float64], X: NDArray[np.float64], state: BernoulliNBState) -> bool:
+    values = np.asarray(result, dtype=np.float64)
+    return bool(
+        values.shape == (_row_count(X), state.classes.shape[0])
+        and np.all(np.isfinite(values))
+        and np.all(values >= 0.0)
+        and np.all(values <= 1.0)
+        and np.allclose(np.sum(values, axis=1), 1.0)
+    )
+
+
+def _bernoulli_prediction_result_valid(result: NDArray[np.int64], X: NDArray[np.float64], state: BernoulliNBState) -> bool:
+    values = np.asarray(result, dtype=np.int64)
+    return bool(values.shape == (_row_count(X),) and np.all(np.isin(values, state.classes)))
+
+
+@register_atom(witness_bernoulli_nb_binarize)
+@icontract.require(lambda X: _numeric_matrix(X), "X must be a dense finite numeric 2D matrix")
+@icontract.require(lambda binarize: _valid_binarize_threshold(binarize), "binarize must be nonnegative or None")
+@icontract.require(lambda X, binarize: binarize is not None or _binary_matrix(X), "X must already be binary when binarize is None")
+@icontract.ensure(lambda result, X: np.asarray(result).shape == np.asarray(X).shape, "binarized output must preserve input shape")
+def bernoulli_nb_binarize(X: NDArray[np.float64], *, binarize: float | None = 0.0) -> NDArray[np.float64]:
+    """Threshold dense features into Bernoulli event indicators."""
+    values = np.asarray(X, dtype=np.float64)
+    if binarize is None:
+        return values.copy()
+    return (values > float(binarize)).astype(np.float64)
+
+
+@register_atom(witness_bernoulli_nb_count)
+@icontract.require(lambda X: _numeric_matrix(X), "X must be a dense finite numeric 2D matrix")
+@icontract.require(lambda binarize: _valid_binarize_threshold(binarize), "binarize must be nonnegative or None")
+@icontract.require(lambda X, binarize: binarize is not None or _binary_matrix(X), "X must already be binary when binarize is None")
+@icontract.require(lambda X, y: _int_label_vector(y, X), "y must be an integer label vector with at least two classes")
+@icontract.require(lambda X, sample_weight: _optional_weights_valid(sample_weight, _row_count(X)), "sample_weight must be positive and match X rows")
+@icontract.ensure(lambda result, X, y: _bernoulli_count_result_valid(result, X, y), "counts must match class and feature dimensions")
+def bernoulli_nb_count(
+    X: NDArray[np.float64],
+    y: NDArray[np.int64],
+    *,
+    binarize: float | None = 0.0,
+    sample_weight: NDArray[np.float64] | None = None,
+) -> tuple[NDArray[np.int64], NDArray[np.float64], NDArray[np.float64]]:
+    """Accumulate Bernoulli class counts and positive feature counts."""
+    binary = bernoulli_nb_binarize(X, binarize=binarize)
+    labels = np.asarray(y, dtype=np.int64)
+    classes = np.unique(labels).astype(np.int64)
+    label_matrix = (labels[:, np.newaxis] == classes[np.newaxis, :]).astype(np.float64)
+    if sample_weight is not None:
+        label_matrix *= np.asarray(sample_weight, dtype=np.float64)[:, np.newaxis]
+    class_count = np.sum(label_matrix, axis=0)
+    feature_count = label_matrix.T @ binary
+    return classes, class_count, feature_count
+
+
+@register_atom(witness_bernoulli_nb_feature_log_prob)
+@icontract.require(lambda feature_count, class_count: _bernoulli_counts_valid(feature_count, class_count), "feature counts must be bounded by positive class counts")
+@icontract.require(lambda alpha: np.isfinite(alpha) and alpha > 0.0, "alpha must be positive")
+@icontract.ensure(lambda result, feature_count: _bernoulli_feature_log_prob_result_valid(result, feature_count), "Bernoulli feature log probabilities must be finite probabilities")
+def bernoulli_nb_feature_log_prob(
+    feature_count: NDArray[np.float64],
+    class_count: NDArray[np.float64],
+    *,
+    alpha: float = 1.0,
+) -> NDArray[np.float64]:
+    """Apply additive smoothing to Bernoulli feature event counts."""
+    smoothed_fc = np.asarray(feature_count, dtype=np.float64) + float(alpha)
+    smoothed_cc = np.asarray(class_count, dtype=np.float64) + float(alpha) * 2.0
+    return np.log(smoothed_fc) - np.log(smoothed_cc[:, np.newaxis])
+
+
+@register_atom(witness_bernoulli_nb_fit)
+@icontract.require(lambda X: _numeric_matrix(X), "X must be a dense finite numeric 2D matrix")
+@icontract.require(lambda binarize: _valid_binarize_threshold(binarize), "binarize must be nonnegative or None")
+@icontract.require(lambda X, binarize: binarize is not None or _binary_matrix(X), "X must already be binary when binarize is None")
+@icontract.require(lambda X, y: _int_label_vector(y, X), "y must be an integer label vector with at least two classes")
+@icontract.require(lambda alpha: np.isfinite(alpha) and alpha > 0.0, "alpha must be positive")
+@icontract.require(lambda X, sample_weight: _optional_weights_valid(sample_weight, _row_count(X)), "sample_weight must be positive and match X rows")
+@icontract.require(lambda X, y, class_prior: _optional_priors_valid(class_prior, np.unique(np.asarray(y, dtype=np.int64)).shape[0]), "class_prior must be positive, sum to one, and match class count")
+@icontract.ensure(lambda result, X, y: _bernoulli_fit_result_valid(result, X, y), "state must contain Bernoulli probabilities for each class")
+def bernoulli_nb_fit(
+    X: NDArray[np.float64],
+    y: NDArray[np.int64],
+    *,
+    alpha: float = 1.0,
+    binarize: float | None = 0.0,
+    fit_prior: bool = True,
+    class_prior: NDArray[np.float64] | None = None,
+    sample_weight: NDArray[np.float64] | None = None,
+) -> BernoulliNBState:
+    """Fit dense Bernoulli naive Bayes counts and log probabilities."""
+    classes, class_count, feature_count = bernoulli_nb_count(X, y, binarize=binarize, sample_weight=sample_weight)
+    feature_log_prob = bernoulli_nb_feature_log_prob(feature_count, class_count, alpha=alpha)
+    class_log_prior = multinomial_nb_class_log_prior(class_count, fit_prior=fit_prior, class_prior=class_prior)
+    return BernoulliNBState(
+        classes=classes,
+        class_count=class_count,
+        feature_count=feature_count,
+        class_log_prior=class_log_prior,
+        feature_log_prob=feature_log_prob,
+        alpha=float(alpha),
+        fit_prior=bool(fit_prior),
+        binarize=binarize,
+        n_features_in=_feature_count(X),
+    )
+
+
+@register_atom(witness_bernoulli_nb_joint_log_likelihood)
+@icontract.require(lambda X, state: _bernoulli_matrix_against_state(X, state), "X must match a valid fitted BernoulliNB state")
+@icontract.ensure(lambda result, X, state: _bernoulli_class_matrix_result_valid(result, X, state), "joint log likelihood must have one column per class")
+def bernoulli_nb_joint_log_likelihood(X: NDArray[np.float64], state: BernoulliNBState) -> NDArray[np.float64]:
+    """Return Bernoulli naive Bayes joint log likelihoods by class."""
+    binary = bernoulli_nb_binarize(X, binarize=state.binarize)
+    neg_prob = np.log(1.0 - np.exp(state.feature_log_prob))
+    joint = binary @ (state.feature_log_prob - neg_prob).T
+    return joint + state.class_log_prior + np.sum(neg_prob, axis=1)
+
+
+@register_atom(witness_bernoulli_nb_predict_log_proba)
+@icontract.require(lambda X, state: _bernoulli_matrix_against_state(X, state), "X must match a valid fitted BernoulliNB state")
+@icontract.ensure(lambda result, X, state: _bernoulli_class_matrix_result_valid(result, X, state), "log probabilities must have one column per class")
+def bernoulli_nb_predict_log_proba(X: NDArray[np.float64], state: BernoulliNBState) -> NDArray[np.float64]:
+    """Normalize Bernoulli joint log likelihoods into class log probabilities."""
+    joint = bernoulli_nb_joint_log_likelihood(X, state)
+    return joint - _logsumexp(joint, axis=1)[:, np.newaxis]
+
+
+@register_atom(witness_bernoulli_nb_predict_proba)
+@icontract.require(lambda X, state: _bernoulli_matrix_against_state(X, state), "X must match a valid fitted BernoulliNB state")
+@icontract.ensure(lambda result, X, state: _bernoulli_probability_result_valid(result, X, state), "probabilities must be normalized by row")
+def bernoulli_nb_predict_proba(X: NDArray[np.float64], state: BernoulliNBState) -> NDArray[np.float64]:
+    """Return normalized Bernoulli naive Bayes class probabilities."""
+    return np.exp(bernoulli_nb_predict_log_proba(X, state))
+
+
+@register_atom(witness_bernoulli_nb_predict)
+@icontract.require(lambda X, state: _bernoulli_matrix_against_state(X, state), "X must match a valid fitted BernoulliNB state")
+@icontract.ensure(lambda result, X, state: _bernoulli_prediction_result_valid(result, X, state), "predictions must be fitted class labels")
+def bernoulli_nb_predict(X: NDArray[np.float64], state: BernoulliNBState) -> NDArray[np.int64]:
+    """Return the fitted class with largest Bernoulli joint log likelihood."""
+    joint = bernoulli_nb_joint_log_likelihood(X, state)
     return state.classes[np.argmax(joint, axis=1)]

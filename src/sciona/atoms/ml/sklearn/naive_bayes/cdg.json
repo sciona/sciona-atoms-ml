@@ -3,7 +3,7 @@
     {
       "node_id": "sklearn_naive_bayes_root",
       "name": "Sklearn Naive Bayes Atoms",
-      "description": "Dense naive Bayes decompositions for selected sklearn.naive_bayes Gaussian, multinomial, and complement behavior",
+      "description": "Dense naive Bayes decompositions for selected sklearn.naive_bayes Gaussian, multinomial, complement, and Bernoulli behavior",
       "status": "decomposed",
       "children": [
         "gaussian_nb_update_mean_variance",
@@ -26,7 +26,15 @@
         "complement_nb_joint_log_likelihood",
         "complement_nb_predict_log_proba",
         "complement_nb_predict_proba",
-        "complement_nb_predict"
+        "complement_nb_predict",
+        "bernoulli_nb_binarize",
+        "bernoulli_nb_count",
+        "bernoulli_nb_feature_log_prob",
+        "bernoulli_nb_fit",
+        "bernoulli_nb_joint_log_likelihood",
+        "bernoulli_nb_predict_log_proba",
+        "bernoulli_nb_predict_proba",
+        "bernoulli_nb_predict"
       ],
       "depth": 0
     },
@@ -696,6 +704,262 @@
           "type_desc": "NDArray[np.int64]"
         }
       ]
+    },
+    {
+      "node_id": "bernoulli_nb_binarize",
+      "name": "bernoulli_nb_binarize",
+      "description": "Threshold dense features into Bernoulli event indicators.",
+      "concept_type": "feature_binarization",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], binarize: float | None = 0.0) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "binarize",
+          "type_desc": "float | None",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
+    },
+    {
+      "node_id": "bernoulli_nb_count",
+      "name": "bernoulli_nb_count",
+      "description": "Accumulate Bernoulli class counts and positive feature counts.",
+      "concept_type": "sufficient_statistic",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], y: NDArray[np.int64], binarize: float | None = 0.0, sample_weight: NDArray[np.float64] | None = None) -> tuple[NDArray[np.int64], NDArray[np.float64], NDArray[np.float64]]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        },
+        {
+          "name": "binarize",
+          "type_desc": "float | None",
+          "required": false
+        },
+        {
+          "name": "sample_weight",
+          "type_desc": "NDArray[np.float64] | None",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "tuple[NDArray[np.int64], NDArray[np.float64], NDArray[np.float64]]"
+        }
+      ]
+    },
+    {
+      "node_id": "bernoulli_nb_feature_log_prob",
+      "name": "bernoulli_nb_feature_log_prob",
+      "description": "Apply additive smoothing to Bernoulli feature event counts.",
+      "concept_type": "smoothed_log_probability",
+      "status": "atomic",
+      "type_signature": "(feature_count: NDArray[np.float64], class_count: NDArray[np.float64], alpha: float = 1.0) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "feature_count",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "class_count",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "alpha",
+          "type_desc": "float",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
+    },
+    {
+      "node_id": "bernoulli_nb_fit",
+      "name": "bernoulli_nb_fit",
+      "description": "Fit dense Bernoulli naive Bayes counts and log probabilities.",
+      "concept_type": "fit_state",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], y: NDArray[np.int64], alpha: float = 1.0, binarize: float | None = 0.0, fit_prior: bool = True, class_prior: NDArray[np.float64] | None = None, sample_weight: NDArray[np.float64] | None = None) -> BernoulliNBState",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        },
+        {
+          "name": "alpha",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "binarize",
+          "type_desc": "float | None",
+          "required": false
+        },
+        {
+          "name": "fit_prior",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "class_prior",
+          "type_desc": "NDArray[np.float64] | None",
+          "required": false
+        },
+        {
+          "name": "sample_weight",
+          "type_desc": "NDArray[np.float64] | None",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "BernoulliNBState"
+        }
+      ]
+    },
+    {
+      "node_id": "bernoulli_nb_joint_log_likelihood",
+      "name": "bernoulli_nb_joint_log_likelihood",
+      "description": "Return Bernoulli naive Bayes joint log likelihoods by class.",
+      "concept_type": "class_score",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: BernoulliNBState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "BernoulliNBState",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
+    },
+    {
+      "node_id": "bernoulli_nb_predict_log_proba",
+      "name": "bernoulli_nb_predict_log_proba",
+      "description": "Normalize Bernoulli joint log likelihoods into class log probabilities.",
+      "concept_type": "class_probability",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: BernoulliNBState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "BernoulliNBState",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
+    },
+    {
+      "node_id": "bernoulli_nb_predict_proba",
+      "name": "bernoulli_nb_predict_proba",
+      "description": "Return normalized Bernoulli naive Bayes class probabilities.",
+      "concept_type": "class_probability",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: BernoulliNBState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "BernoulliNBState",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
+    },
+    {
+      "node_id": "bernoulli_nb_predict",
+      "name": "bernoulli_nb_predict",
+      "description": "Return the fitted class with largest Bernoulli joint log likelihood.",
+      "concept_type": "prediction",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: BernoulliNBState) -> NDArray[np.int64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "BernoulliNBState",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.int64]"
+        }
+      ]
     }
   ],
   "edges": [
@@ -797,6 +1061,51 @@
     {
       "source": "complement_nb_joint_log_likelihood",
       "target": "complement_nb_predict",
+      "kind": "argmax"
+    },
+    {
+      "source": "bernoulli_nb_binarize",
+      "target": "bernoulli_nb_count",
+      "kind": "called_by"
+    },
+    {
+      "source": "bernoulli_nb_count",
+      "target": "bernoulli_nb_fit",
+      "kind": "called_by"
+    },
+    {
+      "source": "bernoulli_nb_feature_log_prob",
+      "target": "bernoulli_nb_fit",
+      "kind": "called_by"
+    },
+    {
+      "source": "multinomial_nb_class_log_prior",
+      "target": "bernoulli_nb_fit",
+      "kind": "called_by"
+    },
+    {
+      "source": "bernoulli_nb_binarize",
+      "target": "bernoulli_nb_joint_log_likelihood",
+      "kind": "called_by"
+    },
+    {
+      "source": "bernoulli_nb_fit",
+      "target": "bernoulli_nb_joint_log_likelihood",
+      "kind": "provides_state"
+    },
+    {
+      "source": "bernoulli_nb_joint_log_likelihood",
+      "target": "bernoulli_nb_predict_log_proba",
+      "kind": "normalizes"
+    },
+    {
+      "source": "bernoulli_nb_predict_log_proba",
+      "target": "bernoulli_nb_predict_proba",
+      "kind": "exponentiates"
+    },
+    {
+      "source": "bernoulli_nb_joint_log_likelihood",
+      "target": "bernoulli_nb_predict",
       "kind": "argmax"
     }
   ]

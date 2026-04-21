@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from sciona.ghost.abstract import AbstractArray
 
-from .state_models import ComplementNBState, GaussianNBState, MultinomialNBState
+from .state_models import BernoulliNBState, ComplementNBState, GaussianNBState, MultinomialNBState
 
 
 def witness_gaussian_nb_update_mean_variance(
@@ -238,6 +238,98 @@ def witness_complement_nb_predict_proba(X: AbstractArray, state: ComplementNBSta
 
 def witness_complement_nb_predict(X: AbstractArray, state: ComplementNBState) -> AbstractArray:
     """Describe one integer class prediction per complement input row."""
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    if X.shape[1] != state.n_features_in:
+        raise ValueError("X feature count must match fitted state")
+    return AbstractArray(shape=(int(X.shape[0]),), dtype="int64")
+
+
+def witness_bernoulli_nb_binarize(X: AbstractArray, *, binarize: float | None = 0.0) -> AbstractArray:
+    """Describe Bernoulli thresholding of dense input features."""
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    return AbstractArray(shape=X.shape, dtype="float64")
+
+
+def witness_bernoulli_nb_count(
+    X: AbstractArray,
+    y: AbstractArray,
+    *,
+    binarize: float | None = 0.0,
+    sample_weight: AbstractArray | None = None,
+) -> AbstractArray:
+    """Describe Bernoulli class-feature count accumulation."""
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    if y.shape != (X.shape[0],):
+        raise ValueError("y must match the row count of X")
+    if sample_weight is not None and sample_weight.shape != (X.shape[0],):
+        raise ValueError("sample_weight must match the row count of X")
+    return AbstractArray(shape=X.shape, dtype="float64")
+
+
+def witness_bernoulli_nb_feature_log_prob(
+    feature_count: AbstractArray,
+    class_count: AbstractArray,
+    *,
+    alpha: float = 1.0,
+) -> AbstractArray:
+    """Describe smoothed Bernoulli feature log probabilities."""
+    if len(feature_count.shape) != 2 or len(class_count.shape) != 1:
+        raise ValueError("feature_count must be 2D and class_count must be 1D")
+    if feature_count.shape[0] != class_count.shape[0]:
+        raise ValueError("class dimensions must match")
+    if alpha <= 0:
+        raise ValueError("alpha must be positive")
+    return AbstractArray(shape=feature_count.shape, dtype="float64")
+
+
+def witness_bernoulli_nb_fit(
+    X: AbstractArray,
+    y: AbstractArray,
+    *,
+    alpha: float = 1.0,
+    binarize: float | None = 0.0,
+    fit_prior: bool = True,
+    class_prior: AbstractArray | None = None,
+    sample_weight: AbstractArray | None = None,
+) -> AbstractArray:
+    """Describe dense Bernoulli naive Bayes state learned from labels."""
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    if y.shape != (X.shape[0],):
+        raise ValueError("y must match the row count of X")
+    if class_prior is not None and len(class_prior.shape) != 1:
+        raise ValueError("class_prior must be 1D")
+    if sample_weight is not None and sample_weight.shape != (X.shape[0],):
+        raise ValueError("sample_weight must match the row count of X")
+    if alpha <= 0:
+        raise ValueError("alpha must be positive")
+    return AbstractArray(shape=X.shape, dtype="float64")
+
+
+def witness_bernoulli_nb_joint_log_likelihood(X: AbstractArray, state: BernoulliNBState) -> AbstractArray:
+    """Describe Bernoulli class joint log likelihoods for each row."""
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    if X.shape[1] != state.n_features_in:
+        raise ValueError("X feature count must match fitted state")
+    return AbstractArray(shape=(int(X.shape[0]), int(state.classes.shape[0])), dtype="float64")
+
+
+def witness_bernoulli_nb_predict_log_proba(X: AbstractArray, state: BernoulliNBState) -> AbstractArray:
+    """Describe normalized Bernoulli log probabilities for each class."""
+    return witness_bernoulli_nb_joint_log_likelihood(X, state)
+
+
+def witness_bernoulli_nb_predict_proba(X: AbstractArray, state: BernoulliNBState) -> AbstractArray:
+    """Describe normalized Bernoulli probabilities for each class."""
+    return witness_bernoulli_nb_joint_log_likelihood(X, state)
+
+
+def witness_bernoulli_nb_predict(X: AbstractArray, state: BernoulliNBState) -> AbstractArray:
+    """Describe one integer class prediction per Bernoulli input row."""
     if len(X.shape) != 2:
         raise ValueError("X must be 2D")
     if X.shape[1] != state.n_features_in:

@@ -1,6 +1,14 @@
 """Selected sklearn naive Bayes atoms."""
 
 from .atoms import (
+    bernoulli_nb_binarize,
+    bernoulli_nb_count,
+    bernoulli_nb_feature_log_prob,
+    bernoulli_nb_fit,
+    bernoulli_nb_joint_log_likelihood,
+    bernoulli_nb_predict,
+    bernoulli_nb_predict_log_proba,
+    bernoulli_nb_predict_proba,
     complement_nb_count,
     complement_nb_feature_log_prob,
     complement_nb_fit,
@@ -23,12 +31,21 @@ from .atoms import (
     multinomial_nb_predict_log_proba,
     multinomial_nb_predict_proba,
 )
-from .state_models import ComplementNBState, GaussianNBState, MultinomialNBState
+from .state_models import BernoulliNBState, ComplementNBState, GaussianNBState, MultinomialNBState
 
 __all__ = [
+    "BernoulliNBState",
     "ComplementNBState",
     "GaussianNBState",
     "MultinomialNBState",
+    "bernoulli_nb_binarize",
+    "bernoulli_nb_count",
+    "bernoulli_nb_feature_log_prob",
+    "bernoulli_nb_fit",
+    "bernoulli_nb_joint_log_likelihood",
+    "bernoulli_nb_predict",
+    "bernoulli_nb_predict_log_proba",
+    "bernoulli_nb_predict_proba",
     "complement_nb_count",
     "complement_nb_feature_log_prob",
     "complement_nb_fit",

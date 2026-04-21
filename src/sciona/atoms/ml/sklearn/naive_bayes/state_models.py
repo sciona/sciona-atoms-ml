@@ -49,3 +49,18 @@ class ComplementNBState:
     fit_prior: bool
     norm: bool
     n_features_in: int
+
+
+@dataclass(frozen=True)
+class BernoulliNBState:
+    """Learned dense Bernoulli naive Bayes counts and log probabilities."""
+
+    classes: NDArray[np.int64]
+    class_count: NDArray[np.float64]
+    feature_count: NDArray[np.float64]
+    class_log_prior: NDArray[np.float64]
+    feature_log_prob: NDArray[np.float64]
+    alpha: float
+    fit_prior: bool
+    binarize: float | None
+    n_features_in: int
