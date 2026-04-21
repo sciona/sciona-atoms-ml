@@ -74,6 +74,20 @@ Potential remediation path:
 - Decide how fitted per-feature estimators should be represented before
   publishing the full fit/transform state surface.
 
+## `sklearn.feature_extraction` native hashing boundary
+
+Deferred target:
+
+| Target | Source | Reason |
+| --- | --- | --- |
+| `FeatureHasher` | `sklearn/feature_extraction/_hash.py:L21` | The public transform delegates core index/sign/value construction to compiled `sklearn.feature_extraction._hashing_fast.transform`; publishing the estimator shell would hide the Murmurhash feature hashing implementation. |
+
+Potential remediation path:
+
+- Ingest the hashing transform through a native or FFI-backed decomposition, or
+  reimplement the exact signed Murmurhash3 feature-index logic with provenance
+  and parity tests for dict, pair, and string input modes.
+
 ## `sklearn.cluster` agglomerative hierarchy
 
 Deferred targets:

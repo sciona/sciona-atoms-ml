@@ -1,0 +1,186 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_feature_extraction_root",
+      "name": "Sklearn Feature Extraction Atoms",
+      "description": "Dense dictionary vectorization atoms for selected sklearn.feature_extraction behavior",
+      "status": "decomposed",
+      "children": [
+        "dict_vectorizer_fit",
+        "dict_vectorizer_transform",
+        "dict_vectorizer_inverse_transform",
+        "dict_vectorizer_feature_names",
+        "dict_vectorizer_restrict"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "dict_vectorizer_fit",
+      "name": "dict_vectorizer_fit",
+      "description": "Learn feature names and indices from dense dictionary records.",
+      "concept_type": "fit_state",
+      "status": "atomic",
+      "type_signature": "(records: tuple[dict[str, int | float | str | tuple[str, ...]], ...], separator: str = =, sort: bool = True) -> DictVectorizerState",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "records",
+          "type_desc": "tuple[dict[str, int | float | str | tuple[str, ...]], ...]",
+          "required": true
+        },
+        {
+          "name": "separator",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "sort",
+          "type_desc": "bool",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "DictVectorizerState"
+        }
+      ]
+    },
+    {
+      "node_id": "dict_vectorizer_transform",
+      "name": "dict_vectorizer_transform",
+      "description": "Transform dictionary records into a dense numeric feature matrix.",
+      "concept_type": "array_transform",
+      "status": "atomic",
+      "type_signature": "(records: tuple[dict[str, int | float | str | tuple[str, ...]], ...], state: DictVectorizerState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "records",
+          "type_desc": "tuple[dict[str, int | float | str | tuple[str, ...]], ...]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "DictVectorizerState",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
+    },
+    {
+      "node_id": "dict_vectorizer_inverse_transform",
+      "name": "dict_vectorizer_inverse_transform",
+      "description": "Convert nonzero dense feature matrix entries back to feature mappings.",
+      "concept_type": "inverse_transform",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: DictVectorizerState) -> list[dict[str, float]]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "DictVectorizerState",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "list[dict[str, float]]"
+        }
+      ]
+    },
+    {
+      "node_id": "dict_vectorizer_feature_names",
+      "name": "dict_vectorizer_feature_names",
+      "description": "Return learned feature names in output-column order.",
+      "concept_type": "state_query",
+      "status": "atomic",
+      "type_signature": "(state: DictVectorizerState) -> tuple[str, ...]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "state",
+          "type_desc": "DictVectorizerState",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "tuple[str, ...]"
+        }
+      ]
+    },
+    {
+      "node_id": "dict_vectorizer_restrict",
+      "name": "dict_vectorizer_restrict",
+      "description": "Return a vocabulary state restricted to selected feature columns.",
+      "concept_type": "state_transform",
+      "status": "atomic",
+      "type_signature": "(state: DictVectorizerState, support: tuple[int, ...]) -> DictVectorizerState",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "state",
+          "type_desc": "DictVectorizerState",
+          "required": true
+        },
+        {
+          "name": "support",
+          "type_desc": "tuple[int, ...]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "DictVectorizerState"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "dict_vectorizer_fit",
+      "target": "dict_vectorizer_transform",
+      "kind": "state_dependency"
+    },
+    {
+      "source": "dict_vectorizer_fit",
+      "target": "dict_vectorizer_inverse_transform",
+      "kind": "state_dependency"
+    },
+    {
+      "source": "dict_vectorizer_fit",
+      "target": "dict_vectorizer_feature_names",
+      "kind": "state_dependency"
+    },
+    {
+      "source": "dict_vectorizer_fit",
+      "target": "dict_vectorizer_restrict",
+      "kind": "state_dependency"
+    },
+    {
+      "source": "dict_vectorizer_restrict",
+      "target": "dict_vectorizer_transform",
+      "kind": "state_dependency"
+    }
+  ],
+  "metadata": {
+    "source": "agent_ingestion",
+    "source_module": "sklearn.feature_extraction._dict_vectorizer",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause"
+  }
+}

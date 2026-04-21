@@ -12,7 +12,7 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 - Scope for this first ingestion pass: public algorithmic estimators, transformers, kernels, and algorithmic helper functions in the selected sklearn modules below.
 - Intentionally excluded for now: datasets, metrics, displays, exceptions, low-level utils, orchestration/composition (`compose`, `pipeline`), and model-selection/search APIs.
 - Source locations come from each object page's official `[source]` link. `BallTree` and `KDTree` use the matching source files from the same scikit-learn revision because their generated docs pages do not expose a direct `[source]` link.
-- Total targets in this inventory: 122
+- Total targets in this inventory: 120
 
 ## Module Summary
 
@@ -26,7 +26,7 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 | `sklearn.discriminant_analysis` | 0 |
 | `sklearn.dummy` | 0 |
 | `sklearn.ensemble` | 18 |
-| `sklearn.feature_extraction` | 2 |
+| `sklearn.feature_extraction` | 0 |
 | `sklearn.feature_extraction.image` | 0 |
 | `sklearn.feature_extraction.text` | 4 |
 | `sklearn.feature_selection` | 6 |
@@ -125,8 +125,6 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 
 | Target | Description | Source |
 | --- | --- | --- |
-| `DictVectorizer` | Transforms lists of feature-value mappings to vectors. | `sklearn/feature_extraction/_dict_vectorizer.py:L17` |
-| `FeatureHasher` | Implements feature hashing, aka the hashing trick. | `sklearn/feature_extraction/_hash.py:L21` |
 
 ## `sklearn.feature_extraction.image`
 
