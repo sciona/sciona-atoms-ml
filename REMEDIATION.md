@@ -211,6 +211,23 @@ Potential remediation path:
 - Decide how optimizer and Laplace posterior-mode loops should be represented
   before publishing full estimator state atoms.
 
+## `sklearn.manifold` t-SNE optimization boundaries
+
+Deferred target:
+
+| Target | Source | Reason |
+| --- | --- | --- |
+| `TSNE` | `sklearn/manifold/_t_sne.py:L560` | The public estimator combines pairwise or nearest-neighbor probability construction, PCA/random initialization, a two-stage gradient-descent schedule, and the default Barnes-Hut path delegates the core gradient to compiled `sklearn.manifold._barnes_hut_tsne.gradient`; publishing the class as a single atom would hide native and optimizer boundaries. |
+
+Potential remediation path:
+
+- Ingest the exact-method helper atoms separately where the algorithm is
+  Python-level, including dense joint-probability normalization,
+  Kullback-Leibler objective/gradient, and the deterministic momentum/gain
+  update loop.
+- Treat Barnes-Hut t-SNE as a native/FFI-backed ingestion target around the
+  compiled gradient kernel before publishing the default estimator surface.
+
 ## `sklearn.cluster` agglomerative hierarchy
 
 Deferred targets:
