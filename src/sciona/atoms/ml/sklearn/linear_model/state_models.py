@@ -137,3 +137,18 @@ class ARDRegressionState:
     fit_intercept: bool
     compute_score: bool
     n_features_in: int
+
+
+@dataclass(frozen=True)
+class TheilSenRegressorState:
+    """Fitted dense Theil-Sen regression state."""
+
+    coef: NDArray[np.float64]
+    intercept: float
+    breakdown: float
+    n_iter: int
+    n_subpopulation: int
+    n_subsamples: int
+    fit_intercept: bool
+    max_subpopulation: int
+    n_features_in: int

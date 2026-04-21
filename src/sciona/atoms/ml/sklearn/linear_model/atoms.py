@@ -2,12 +2,15 @@
 
 from __future__ import annotations
 
+from itertools import combinations
 from math import log
 
 import icontract
 import numpy as np
 from numpy.typing import NDArray
 from scipy import linalg
+from scipy.linalg.lapack import get_lapack_funcs
+from scipy.special import binom
 from sklearn.model_selection import KFold
 from sklearn.utils import check_array
 
@@ -23,6 +26,7 @@ from .state_models import (
     RidgeClassifierState,
     RidgeCVState,
     RidgeState,
+    TheilSenRegressorState,
 )
 from .witnesses import (
     witness_ard_regression_fit,
@@ -53,6 +57,8 @@ from .witnesses import (
     witness_ridge_fit,
     witness_ridge_predict,
     witness_ridge_regression,
+    witness_theil_sen_regressor_fit,
+    witness_theil_sen_regressor_predict,
 )
 
 
@@ -1952,3 +1958,204 @@ def ard_regression_predict_std(X: NDArray[np.float64], state: ARDRegressionState
     checked_x = checked_x[:, keep]
     sigmas_squared = (np.dot(checked_x, state.sigma) * checked_x).sum(axis=1)
     return np.asarray(np.sqrt(sigmas_squared + (1.0 / state.alpha)), dtype=np.float64)
+
+
+def _theil_sen_state_valid(state: TheilSenRegressorState) -> bool:
+    return bool(
+        state.coef.shape == (state.n_features_in,)
+        and np.all(np.isfinite(state.coef))
+        and np.isfinite(state.intercept)
+        and np.isfinite(state.breakdown)
+        and 0.0 <= state.breakdown <= 0.5
+        and state.n_iter >= 0
+        and state.n_subpopulation >= 1
+        and state.n_subsamples >= 1
+        and isinstance(state.fit_intercept, bool)
+        and state.max_subpopulation >= 1
+        and state.n_features_in >= 1
+    )
+
+
+def _theil_sen_feature_count_matches(X: NDArray[np.float64], state: TheilSenRegressorState) -> bool:
+    return bool(np.asarray(X).ndim == 2 and np.asarray(X).shape[1] == state.n_features_in)
+
+
+def _theil_sen_prediction_valid(result: NDArray[np.float64], X: NDArray[np.float64]) -> bool:
+    values = np.asarray(result)
+    return bool(values.shape == (np.asarray(X).shape[0],) and np.all(np.isfinite(values)))
+
+
+def _random_state_valid(random_state: int | None) -> bool:
+    return random_state is None or (isinstance(random_state, int) and not isinstance(random_state, bool) and random_state >= 0)
+
+
+def _theil_sen_n_jobs_valid(n_jobs: int | None) -> bool:
+    return n_jobs is None or n_jobs == 1
+
+
+def _theil_sen_subsample_params(
+    n_samples: int,
+    n_features: int,
+    *,
+    fit_intercept: bool,
+    n_subsamples: int | None,
+    max_subpopulation: int,
+) -> tuple[int, int]:
+    n_dim = n_features + int(fit_intercept)
+    if n_subsamples is not None:
+        if n_subsamples > n_samples:
+            raise ValueError("n_subsamples must not exceed n_samples")
+        if n_samples >= n_features:
+            if n_dim > n_subsamples:
+                raise ValueError("n_subsamples must cover the feature dimension")
+        elif n_subsamples != n_samples:
+            raise ValueError("n_subsamples must equal n_samples when n_samples < n_features")
+    else:
+        n_subsamples = min(n_dim, n_samples)
+    all_combinations = max(1, int(np.rint(binom(n_samples, n_subsamples))))
+    return int(n_subsamples), int(min(max_subpopulation, all_combinations))
+
+
+def _theil_sen_breakdown_point(n_samples: int, n_subsamples: int) -> float:
+    return float(1.0 - (0.5 ** (1.0 / n_subsamples) * (n_samples - n_subsamples + 1) + n_subsamples - 1) / n_samples)
+
+
+def _theil_sen_lstsq(
+    X: NDArray[np.float64],
+    y: NDArray[np.float64],
+    indices: NDArray[np.int64],
+    fit_intercept: bool,
+) -> NDArray[np.float64]:
+    intercept_width = int(fit_intercept)
+    n_features = X.shape[1] + intercept_width
+    n_subsamples = indices.shape[1]
+    weights = np.empty((indices.shape[0], n_features), dtype=np.float64)
+    X_subpopulation = np.ones((n_subsamples, n_features), dtype=np.float64)
+    y_subpopulation = np.zeros(max(n_subsamples, n_features), dtype=np.float64)
+    (lstsq,) = get_lapack_funcs(("gelss",), (X_subpopulation, y_subpopulation))
+    for index, subset in enumerate(indices):
+        X_subpopulation[:, intercept_width:] = X[subset, :]
+        y_subpopulation[:n_subsamples] = y[subset]
+        weights[index] = lstsq(X_subpopulation, y_subpopulation)[1][:n_features]
+    return weights
+
+
+def _theil_sen_modified_weiszfeld_step(X: NDArray[np.float64], x_old: NDArray[np.float64]) -> NDArray[np.float64]:
+    epsilon = np.finfo(np.float64).eps
+    diff = X - x_old
+    diff_norm = np.sqrt(np.sum(diff**2, axis=1))
+    mask = diff_norm >= epsilon
+    is_x_old_in_x = int(np.sum(mask) < X.shape[0])
+    diff_norm = diff_norm[mask][:, np.newaxis]
+    quotient_norm = linalg.norm(np.sum(diff[mask] / diff_norm, axis=0))
+    if quotient_norm > epsilon:
+        new_direction = np.sum(X[mask, :] / diff_norm, axis=0) / np.sum(1.0 / diff_norm, axis=0)
+    else:
+        new_direction = 1.0
+        quotient_norm = 1.0
+    return np.asarray(
+        max(0.0, 1.0 - is_x_old_in_x / quotient_norm) * new_direction
+        + min(1.0, is_x_old_in_x / quotient_norm) * x_old,
+        dtype=np.float64,
+    )
+
+
+def _theil_sen_spatial_median(
+    X: NDArray[np.float64],
+    *,
+    max_iter: int = 300,
+    tol: float = 1.0e-3,
+) -> tuple[int, NDArray[np.float64]]:
+    if X.shape[1] == 1:
+        return 1, np.asarray(np.median(X.ravel(), keepdims=True), dtype=np.float64)
+    squared_tol = tol**2
+    spatial_median_old = np.mean(X, axis=0)
+    n_iter = 0
+    for n_iter in range(max_iter):
+        spatial_median = _theil_sen_modified_weiszfeld_step(X, spatial_median_old)
+        if np.sum((spatial_median_old - spatial_median) ** 2) < squared_tol:
+            break
+        spatial_median_old = spatial_median
+    return int(n_iter), np.asarray(spatial_median, dtype=np.float64)
+
+
+@register_atom(witness_theil_sen_regressor_fit)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda y: _target_1d(y), "y must be 1D")
+@icontract.require(lambda X, y: _same_sample_count(X, y), "X and y must have matching sample counts")
+@icontract.require(lambda X: _sample_count_at_least_two(X), "X must contain at least two samples")
+@icontract.require(lambda X, y: _finite_inputs(X, y), "X and y must contain finite numeric values")
+@icontract.require(lambda fit_intercept: _bool_value(fit_intercept), "fit_intercept must be boolean")
+@icontract.require(lambda max_subpopulation: isinstance(max_subpopulation, (int, float)) and not isinstance(max_subpopulation, bool) and np.isfinite(float(max_subpopulation)) and int(max_subpopulation) >= 1, "max_subpopulation must be positive")
+@icontract.require(lambda n_subsamples: n_subsamples is None or (isinstance(n_subsamples, int) and not isinstance(n_subsamples, bool) and n_subsamples >= 1), "n_subsamples must be positive when provided")
+@icontract.require(lambda max_iter: isinstance(max_iter, int) and not isinstance(max_iter, bool) and max_iter >= 1, "max_iter must be positive")
+@icontract.require(lambda tol: _positive_finite(tol), "tol must be positive")
+@icontract.require(lambda random_state: _random_state_valid(random_state), "random_state must be a non-negative integer or None")
+@icontract.require(lambda n_jobs: _theil_sen_n_jobs_valid(n_jobs), "only single-process n_jobs is covered")
+@icontract.require(lambda verbose: verbose is False, "verbose output is outside this atom scope")
+@icontract.ensure(lambda result: _theil_sen_state_valid(result), "Theil-Sen state must contain finite fitted coefficients")
+def theil_sen_regressor_fit(
+    X: NDArray[np.float64],
+    y: NDArray[np.float64],
+    *,
+    fit_intercept: bool = True,
+    max_subpopulation: int | float = 10000,
+    n_subsamples: int | None = None,
+    max_iter: int = 300,
+    tol: float = 1.0e-3,
+    random_state: int | None = None,
+    n_jobs: int | None = None,
+    verbose: bool = False,
+) -> TheilSenRegressorState:
+    """Fit dense single-output Theil-Sen regression coefficients."""
+    del n_jobs, verbose
+    checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
+    checked_y = check_array(y, dtype=np.float64, ensure_2d=False, input_name="y")
+    n_samples, n_features = checked_x.shape
+    max_subpopulation_int = int(max_subpopulation)
+    resolved_n_subsamples, n_subpopulation = _theil_sen_subsample_params(
+        n_samples,
+        n_features,
+        fit_intercept=fit_intercept,
+        n_subsamples=n_subsamples,
+        max_subpopulation=max_subpopulation_int,
+    )
+    all_combinations = int(np.rint(binom(n_samples, resolved_n_subsamples)))
+    if all_combinations <= max_subpopulation_int:
+        indices = np.asarray(list(combinations(range(n_samples), resolved_n_subsamples)), dtype=np.int64)
+    else:
+        rng = np.random.RandomState(random_state)
+        indices = np.asarray(
+            [rng.choice(n_samples, size=resolved_n_subsamples, replace=False) for _ in range(n_subpopulation)],
+            dtype=np.int64,
+        )
+    weights = _theil_sen_lstsq(checked_x, checked_y, indices, fit_intercept)
+    n_iter, coefs = _theil_sen_spatial_median(weights, max_iter=max_iter, tol=tol)
+    if fit_intercept:
+        intercept = float(coefs[0])
+        coef = np.asarray(coefs[1:], dtype=np.float64)
+    else:
+        intercept = 0.0
+        coef = np.asarray(coefs, dtype=np.float64)
+    return TheilSenRegressorState(
+        coef=coef,
+        intercept=intercept,
+        breakdown=_theil_sen_breakdown_point(n_samples, resolved_n_subsamples),
+        n_iter=int(n_iter),
+        n_subpopulation=int(n_subpopulation),
+        n_subsamples=int(resolved_n_subsamples),
+        fit_intercept=fit_intercept,
+        max_subpopulation=max_subpopulation_int,
+        n_features_in=int(n_features),
+    )
+
+
+@register_atom(witness_theil_sen_regressor_predict)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X, state: _theil_sen_feature_count_matches(X, state), "X feature count must match fitted Theil-Sen state")
+@icontract.require(lambda state: _theil_sen_state_valid(state), "state must be a fitted Theil-Sen state")
+@icontract.ensure(lambda result, X: _theil_sen_prediction_valid(result, X), "predictions must be finite per-row values")
+def theil_sen_regressor_predict(X: NDArray[np.float64], state: TheilSenRegressorState) -> NDArray[np.float64]:
+    """Predict dense Theil-Sen regression outputs."""
+    checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
+    return np.asarray(np.dot(checked_x, state.coef) + state.intercept, dtype=np.float64)

@@ -12,7 +12,7 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 - Scope for this first ingestion pass: public algorithmic estimators, transformers, kernels, and algorithmic helper functions in the selected sklearn modules below.
 - Intentionally excluded for now: datasets, metrics, displays, exceptions, low-level utils, orchestration/composition (`compose`, `pipeline`), and model-selection/search APIs.
 - Source locations come from each object page's official `[source]` link. `BallTree` and `KDTree` use the matching source files from the same scikit-learn revision because their generated docs pages do not expose a direct `[source]` link.
-- Total targets in this inventory: 43
+- Total targets in this inventory: 42
 
 ## Module Summary
 
@@ -36,7 +36,7 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 | `sklearn.inspection` | 0 |
 | `sklearn.kernel_approximation` | 0 |
 | `sklearn.kernel_ridge` | 0 |
-| `sklearn.linear_model` | 8 |
+| `sklearn.linear_model` | 7 |
 | `sklearn.manifold` | 8 |
 | `sklearn.mixture` | 2 |
 | `sklearn.multiclass` | 3 |
@@ -150,7 +150,6 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 | `LassoLars` | Lasso model fit with Least Angle Regression a.k.a. Lars. | `sklearn/linear_model/_least_angle.py:L1210` |
 | `LassoLarsCV` | Cross-validated Lasso, using the LARS algorithm. | `sklearn/linear_model/_least_angle.py:L1831` |
 | `LassoLarsIC` | Lasso model fit with Lars using BIC or AIC for model selection. | `sklearn/linear_model/_least_angle.py:L2029` |
-| `TheilSenRegressor` | Theil-Sen Estimator: robust multivariate regression model. | `sklearn/linear_model/_theil_sen.py:L207` |
 
 ## `sklearn.manifold`
 

@@ -29,6 +29,8 @@ from .atoms import (
     ridge_fit,
     ridge_predict,
     ridge_regression,
+    theil_sen_regressor_fit,
+    theil_sen_regressor_predict,
 )
 from .state_models import (
     ARDRegressionState,
@@ -40,6 +42,7 @@ from .state_models import (
     RidgeClassifierState,
     RidgeCVState,
     RidgeState,
+    TheilSenRegressorState,
 )
 
 __all__ = [
@@ -52,6 +55,7 @@ __all__ = [
     "RidgeClassifierState",
     "RidgeCVState",
     "RidgeState",
+    "TheilSenRegressorState",
     "ard_regression_fit",
     "ard_regression_predict",
     "ard_regression_predict_std",
@@ -80,4 +84,6 @@ __all__ = [
     "ridge_fit",
     "ridge_predict",
     "ridge_regression",
+    "theil_sen_regressor_fit",
+    "theil_sen_regressor_predict",
 ]

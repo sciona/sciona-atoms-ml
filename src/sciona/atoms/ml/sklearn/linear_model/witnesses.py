@@ -14,6 +14,7 @@ from .state_models import (
     RidgeClassifierState,
     RidgeCVState,
     RidgeState,
+    TheilSenRegressorState,
 )
 
 
@@ -576,3 +577,44 @@ def witness_ard_regression_predict(
 def witness_ard_regression_predict_std(X: AbstractArray, state: ARDRegressionState) -> AbstractArray:
     """Describe ARD posterior predictive standard deviations."""
     return witness_ard_regression_predict(X, state)
+
+
+def witness_theil_sen_regressor_fit(
+    X: AbstractArray,
+    y: AbstractArray,
+    *,
+    fit_intercept: bool = True,
+    max_subpopulation: int = 10000,
+    n_subsamples: int | None = None,
+    max_iter: int = 300,
+    tol: float = 1e-3,
+    random_state: int | None = None,
+    n_jobs: int | None = None,
+    verbose: bool = False,
+) -> AbstractArray:
+    """Describe fitting dense Theil-Sen regression state."""
+    del tol, random_state, n_jobs, verbose
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    if len(y.shape) != 1:
+        raise ValueError("y must be 1D")
+    if X.shape[0] != y.shape[0]:
+        raise ValueError("X and y must have matching sample counts")
+    if not isinstance(fit_intercept, bool):
+        raise ValueError("fit_intercept must be boolean")
+    if max_subpopulation < 1:
+        raise ValueError("max_subpopulation must be positive")
+    if n_subsamples is not None and n_subsamples < 1:
+        raise ValueError("n_subsamples must be positive when provided")
+    if max_iter < 1:
+        raise ValueError("max_iter must be positive")
+    return AbstractArray(shape=(int(X.shape[1]),), dtype="float64")
+
+
+def witness_theil_sen_regressor_predict(X: AbstractArray, state: TheilSenRegressorState) -> AbstractArray:
+    """Describe predicting with fitted dense Theil-Sen coefficients."""
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    if X.shape[1] != state.n_features_in:
+        raise ValueError("X feature count must match fitted state")
+    return AbstractArray(shape=(int(X.shape[0]),), dtype="float64")
