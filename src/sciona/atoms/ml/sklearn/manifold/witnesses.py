@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from sciona.ghost.abstract import AbstractArray
 
+from .state_models import IsomapState
+
 
 def witness_classical_mds_dissimilarity_matrix(
     X: AbstractArray,
@@ -196,3 +198,81 @@ def witness_spectral_embedding_fit(
     if n_jobs is not None:
         raise ValueError("parallel neighbor construction is outside this atom scope")
     return AbstractArray(shape=(int(X.shape[0]), n_components), dtype="float64")
+
+
+def witness_isomap_neighbors_graph(
+    X: AbstractArray,
+    *,
+    n_neighbors: int = 5,
+    radius: None = None,
+    neighbors_algorithm: str = "auto",
+    metric: str = "minkowski",
+    p: float = 2.0,
+    metric_params: None = None,
+    n_jobs: None = None,
+) -> AbstractArray:
+    """Describe the dense distance graph used by the Isomap fit path."""
+    del radius, neighbors_algorithm, metric, p, metric_params, n_jobs
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    if not isinstance(n_neighbors, int) or isinstance(n_neighbors, bool) or n_neighbors < 1:
+        raise ValueError("n_neighbors must be positive")
+    if n_neighbors >= X.shape[0]:
+        raise ValueError("n_neighbors must be below sample count")
+    return AbstractArray(shape=(int(X.shape[0]), int(X.shape[0])), dtype="float64")
+
+
+def witness_isomap_geodesic_distances(
+    neighbors_graph: AbstractArray,
+    *,
+    path_method: str = "auto",
+) -> AbstractArray:
+    """Describe all-pairs shortest paths over an Isomap neighbor graph."""
+    del path_method
+    if len(neighbors_graph.shape) != 2 or neighbors_graph.shape[0] != neighbors_graph.shape[1]:
+        raise ValueError("neighbors_graph must be square")
+    return AbstractArray(shape=(int(neighbors_graph.shape[0]), int(neighbors_graph.shape[1])), dtype="float64")
+
+
+def witness_isomap_fit(
+    X: AbstractArray,
+    *,
+    n_neighbors: int = 5,
+    radius: None = None,
+    n_components: int = 2,
+    eigen_solver: str = "dense",
+    tol: float = 0.0,
+    max_iter: None = None,
+    path_method: str = "auto",
+    neighbors_algorithm: str = "auto",
+    n_jobs: None = None,
+    metric: str = "minkowski",
+    p: float = 2.0,
+    metric_params: None = None,
+) -> AbstractArray:
+    """Describe fitting dense Isomap coordinates."""
+    del radius, eigen_solver, tol, max_iter, path_method, neighbors_algorithm, n_jobs, metric, p, metric_params
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    if not isinstance(n_components, int) or isinstance(n_components, bool) or n_components < 1:
+        raise ValueError("n_components must be positive")
+    if not isinstance(n_neighbors, int) or isinstance(n_neighbors, bool) or n_neighbors < 1:
+        raise ValueError("n_neighbors must be positive")
+    if n_neighbors >= X.shape[0]:
+        raise ValueError("n_neighbors must be below sample count")
+    return AbstractArray(shape=(int(X.shape[0]), n_components), dtype="float64")
+
+
+def witness_isomap_transform(X: AbstractArray, state: IsomapState) -> AbstractArray:
+    """Describe transforming query samples through a fitted Isomap state."""
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    if X.shape[1] != state.n_features_in:
+        raise ValueError("X feature count must match fitted Isomap state")
+    return AbstractArray(shape=(int(X.shape[0]), state.n_components), dtype="float64")
+
+
+def witness_isomap_reconstruction_error(state: IsomapState) -> AbstractArray:
+    """Describe the scalar Isomap reconstruction error."""
+    del state
+    return AbstractArray(shape=(), dtype="float64")

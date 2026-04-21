@@ -58,3 +58,22 @@ class SpectralEmbeddingState:
     gamma: float | None
     eigen_solver: str
     n_features_in: int
+
+
+@dataclass(frozen=True)
+class IsomapState:
+    """Fitted dense Isomap embedding and geodesic-kernel state."""
+
+    embedding: NDArray[np.float64]
+    dist_matrix: NDArray[np.float64]
+    training_data: NDArray[np.float64]
+    eigenvalues: NDArray[np.float64]
+    eigenvectors: NDArray[np.float64]
+    kernel_centerer_rows: NDArray[np.float64]
+    kernel_centerer_all: float
+    n_neighbors: int
+    n_components: int
+    path_method: str
+    metric: str
+    p: float
+    n_features_in: int

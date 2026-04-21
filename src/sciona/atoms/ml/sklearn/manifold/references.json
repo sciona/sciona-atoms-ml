@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "atoms": {
-    "sciona.atoms.ml.sklearn.manifold.classical_mds_dissimilarity_matrix@sciona/atoms/ml/sklearn/manifold/atoms.py:211": {
+    "sciona.atoms.ml.sklearn.manifold.classical_mds_dissimilarity_matrix@sciona/atoms/ml/sklearn/manifold/atoms.py:349": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -36,7 +36,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.manifold.classical_mds_double_center@sciona/atoms/ml/sklearn/manifold/atoms.py:229": {
+    "sciona.atoms.ml.sklearn.manifold.classical_mds_double_center@sciona/atoms/ml/sklearn/manifold/atoms.py:367": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -71,7 +71,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.manifold.classical_mds_fit@sciona/atoms/ml/sklearn/manifold/atoms.py:248": {
+    "sciona.atoms.ml.sklearn.manifold.classical_mds_fit@sciona/atoms/ml/sklearn/manifold/atoms.py:386": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -106,7 +106,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.manifold.smacof@sciona/atoms/ml/sklearn/manifold/atoms.py:342": {
+    "sciona.atoms.ml.sklearn.manifold.smacof@sciona/atoms/ml/sklearn/manifold/atoms.py:480": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -151,7 +151,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.manifold.mds_fit@sciona/atoms/ml/sklearn/manifold/atoms.py:390": {
+    "sciona.atoms.ml.sklearn.manifold.mds_fit@sciona/atoms/ml/sklearn/manifold/atoms.py:528": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -196,7 +196,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.manifold.spectral_embedding@sciona/atoms/ml/sklearn/manifold/atoms.py:449": {
+    "sciona.atoms.ml.sklearn.manifold.spectral_embedding@sciona/atoms/ml/sklearn/manifold/atoms.py:587": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -261,7 +261,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.manifold.spectral_embedding_fit@sciona/atoms/ml/sklearn/manifold/atoms.py:493": {
+    "sciona.atoms.ml.sklearn.manifold.spectral_embedding_fit@sciona/atoms/ml/sklearn/manifold/atoms.py:631": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -301,6 +301,181 @@
             "matched_nodes": [],
             "confidence": "high",
             "notes": "Normalized graph cuts reference for graph Laplacian embeddings cited by scikit-learn."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.manifold.isomap_neighbors_graph@sciona/atoms/ml/sklearn/manifold/atoms.py:723": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from the n-neighbor graph construction branch of sklearn.manifold.Isomap._fit_transform in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "tenenbaum2000isomap",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Original Isomap method reference cited by scikit-learn."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.manifold.isomap_geodesic_distances@sciona/atoms/ml/sklearn/manifold/atoms.py:763": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from the connected-component check and shortest-path branch of sklearn.manifold.Isomap._fit_transform in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "tenenbaum2000isomap",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Original Isomap method reference cited by scikit-learn."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.manifold.isomap_fit@sciona/atoms/ml/sklearn/manifold/atoms.py:797": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.manifold.Isomap._fit_transform using dense precomputed KernelPCA in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "tenenbaum2000isomap",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Original Isomap method reference cited by scikit-learn."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.manifold.isomap_transform@sciona/atoms/ml/sklearn/manifold/atoms.py:855": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.manifold.Isomap.transform in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "tenenbaum2000isomap",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Original Isomap method reference cited by scikit-learn."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.manifold.isomap_reconstruction_error@sciona/atoms/ml/sklearn/manifold/atoms.py:890": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.manifold.Isomap.reconstruction_error in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "tenenbaum2000isomap",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Original Isomap method reference cited by scikit-learn."
           }
         },
         {

@@ -12,7 +12,12 @@
         "smacof",
         "mds_fit",
         "spectral_embedding",
-        "spectral_embedding_fit"
+        "spectral_embedding_fit",
+        "isomap_neighbors_graph",
+        "isomap_geodesic_distances",
+        "isomap_fit",
+        "isomap_transform",
+        "isomap_reconstruction_error"
       ],
       "depth": 0
     },
@@ -25,12 +30,27 @@
       "type_signature": "(X: NDArray[np.float64], metric: str = 'euclidean', metric_params: None = None) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "metric", "type_desc": "str", "required": false},
-        {"name": "metric_params", "type_desc": "None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "metric",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "metric_params",
+          "type_desc": "None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
       ]
     },
     {
@@ -42,10 +62,17 @@
       "type_signature": "(dissimilarity_matrix: NDArray[np.float64]) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "dissimilarity_matrix", "type_desc": "NDArray[np.float64]", "required": true}
+        {
+          "name": "dissimilarity_matrix",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
       ]
     },
     {
@@ -57,13 +84,32 @@
       "type_signature": "(X: NDArray[np.float64], n_components: int = 2, metric: str = 'euclidean', metric_params: None = None) -> ClassicalMDSState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "n_components", "type_desc": "int", "required": false},
-        {"name": "metric", "type_desc": "str", "required": false},
-        {"name": "metric_params", "type_desc": "None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "n_components",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "metric",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "metric_params",
+          "type_desc": "None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "ClassicalMDSState"}
+        {
+          "name": "result",
+          "type_desc": "ClassicalMDSState"
+        }
       ]
     },
     {
@@ -75,21 +121,72 @@
       "type_signature": "(dissimilarities: NDArray[np.float64], metric: bool = True, n_components: int = 2, init: NDArray[np.float64] | None = None, n_init: int = 1, n_jobs: None = None, max_iter: int = 300, verbose: int | bool = 0, eps: float = 1e-6, random_state: int | None = None, return_n_iter: bool = False, normalized_stress: bool | str = 'auto') -> SMACOFState",
       "depth": 1,
       "inputs": [
-        {"name": "dissimilarities", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "metric", "type_desc": "bool", "required": false},
-        {"name": "n_components", "type_desc": "int", "required": false},
-        {"name": "init", "type_desc": "NDArray[np.float64] | None", "required": false},
-        {"name": "n_init", "type_desc": "int", "required": false},
-        {"name": "n_jobs", "type_desc": "None", "required": false},
-        {"name": "max_iter", "type_desc": "int", "required": false},
-        {"name": "verbose", "type_desc": "int | bool", "required": false},
-        {"name": "eps", "type_desc": "float", "required": false},
-        {"name": "random_state", "type_desc": "int | None", "required": false},
-        {"name": "return_n_iter", "type_desc": "bool", "required": false},
-        {"name": "normalized_stress", "type_desc": "bool | str", "required": false}
+        {
+          "name": "dissimilarities",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "metric",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "n_components",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "init",
+          "type_desc": "NDArray[np.float64] | None",
+          "required": false
+        },
+        {
+          "name": "n_init",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "n_jobs",
+          "type_desc": "None",
+          "required": false
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "verbose",
+          "type_desc": "int | bool",
+          "required": false
+        },
+        {
+          "name": "eps",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int | None",
+          "required": false
+        },
+        {
+          "name": "return_n_iter",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "normalized_stress",
+          "type_desc": "bool | str",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "SMACOFState"}
+        {
+          "name": "result",
+          "type_desc": "SMACOFState"
+        }
       ]
     },
     {
@@ -101,22 +198,77 @@
       "type_signature": "(X: NDArray[np.float64], n_components: int = 2, metric_mds: bool = True, n_init: int = 1, init: NDArray[np.float64] | None = None, max_iter: int = 300, verbose: int | bool = 0, eps: float = 1e-6, n_jobs: None = None, random_state: int | None = None, metric: str = 'euclidean', metric_params: None = None, normalized_stress: bool | str = 'auto') -> MDSState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "n_components", "type_desc": "int", "required": false},
-        {"name": "metric_mds", "type_desc": "bool", "required": false},
-        {"name": "n_init", "type_desc": "int", "required": false},
-        {"name": "init", "type_desc": "NDArray[np.float64] | None", "required": false},
-        {"name": "max_iter", "type_desc": "int", "required": false},
-        {"name": "verbose", "type_desc": "int | bool", "required": false},
-        {"name": "eps", "type_desc": "float", "required": false},
-        {"name": "n_jobs", "type_desc": "None", "required": false},
-        {"name": "random_state", "type_desc": "int | None", "required": false},
-        {"name": "metric", "type_desc": "str", "required": false},
-        {"name": "metric_params", "type_desc": "None", "required": false},
-        {"name": "normalized_stress", "type_desc": "bool | str", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "n_components",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "metric_mds",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "n_init",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "init",
+          "type_desc": "NDArray[np.float64] | None",
+          "required": false
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "verbose",
+          "type_desc": "int | bool",
+          "required": false
+        },
+        {
+          "name": "eps",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "n_jobs",
+          "type_desc": "None",
+          "required": false
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int | None",
+          "required": false
+        },
+        {
+          "name": "metric",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "metric_params",
+          "type_desc": "None",
+          "required": false
+        },
+        {
+          "name": "normalized_stress",
+          "type_desc": "bool | str",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "MDSState"}
+        {
+          "name": "result",
+          "type_desc": "MDSState"
+        }
       ]
     },
     {
@@ -128,16 +280,47 @@
       "type_signature": "(adjacency: NDArray[np.float64], n_components: int = 8, eigen_solver: str | None = None, random_state: int | None = None, eigen_tol: float | str = 'auto', norm_laplacian: bool = True, drop_first: bool = True) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "adjacency", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "n_components", "type_desc": "int", "required": false},
-        {"name": "eigen_solver", "type_desc": "str | None", "required": false},
-        {"name": "random_state", "type_desc": "int | None", "required": false},
-        {"name": "eigen_tol", "type_desc": "float | str", "required": false},
-        {"name": "norm_laplacian", "type_desc": "bool", "required": false},
-        {"name": "drop_first", "type_desc": "bool", "required": false}
+        {
+          "name": "adjacency",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "n_components",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "eigen_solver",
+          "type_desc": "str | None",
+          "required": false
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int | None",
+          "required": false
+        },
+        {
+          "name": "eigen_tol",
+          "type_desc": "float | str",
+          "required": false
+        },
+        {
+          "name": "norm_laplacian",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "drop_first",
+          "type_desc": "bool",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
       ]
     },
     {
@@ -149,27 +332,326 @@
       "type_signature": "(X: NDArray[np.float64], n_components: int = 2, affinity: str = 'rbf', gamma: float | None = None, random_state: int | None = None, eigen_solver: str | None = None, eigen_tol: float | str = 'auto', n_neighbors: None = None, n_jobs: None = None) -> SpectralEmbeddingState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "n_components", "type_desc": "int", "required": false},
-        {"name": "affinity", "type_desc": "str", "required": false},
-        {"name": "gamma", "type_desc": "float | None", "required": false},
-        {"name": "random_state", "type_desc": "int | None", "required": false},
-        {"name": "eigen_solver", "type_desc": "str | None", "required": false},
-        {"name": "eigen_tol", "type_desc": "float | str", "required": false},
-        {"name": "n_neighbors", "type_desc": "None", "required": false},
-        {"name": "n_jobs", "type_desc": "None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "n_components",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "affinity",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "gamma",
+          "type_desc": "float | None",
+          "required": false
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int | None",
+          "required": false
+        },
+        {
+          "name": "eigen_solver",
+          "type_desc": "str | None",
+          "required": false
+        },
+        {
+          "name": "eigen_tol",
+          "type_desc": "float | str",
+          "required": false
+        },
+        {
+          "name": "n_neighbors",
+          "type_desc": "None",
+          "required": false
+        },
+        {
+          "name": "n_jobs",
+          "type_desc": "None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "SpectralEmbeddingState"}
+        {
+          "name": "result",
+          "type_desc": "SpectralEmbeddingState"
+        }
+      ]
+    },
+    {
+      "node_id": "isomap_neighbors_graph",
+      "name": "isomap_neighbors_graph",
+      "description": "Build the dense distance graph used by the n-neighbor Isomap path.",
+      "concept_type": "neighbor_graph",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], n_neighbors: int = 5, radius: None = None, neighbors_algorithm: str = 'auto', metric: str = 'minkowski', p: float = 2.0, metric_params: None = None, n_jobs: None = None) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "n_neighbors",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "radius",
+          "type_desc": "None",
+          "required": false
+        },
+        {
+          "name": "neighbors_algorithm",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "metric",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "p",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "metric_params",
+          "type_desc": "None",
+          "required": false
+        },
+        {
+          "name": "n_jobs",
+          "type_desc": "None",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
+    },
+    {
+      "node_id": "isomap_geodesic_distances",
+      "name": "isomap_geodesic_distances",
+      "description": "Compute all-pairs geodesic distances from an Isomap neighbor graph.",
+      "concept_type": "shortest_path",
+      "status": "atomic",
+      "type_signature": "(neighbors_graph: NDArray[np.float64], path_method: str = 'auto') -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "neighbors_graph",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "path_method",
+          "type_desc": "str",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
+    },
+    {
+      "node_id": "isomap_fit",
+      "name": "isomap_fit",
+      "description": "Fit dense n-neighbor Isomap coordinates and reusable transform state.",
+      "concept_type": "fit_state_builder",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], n_neighbors: int = 5, radius: None = None, n_components: int = 2, eigen_solver: str = 'dense', tol: float = 0.0, max_iter: None = None, path_method: str = 'auto', neighbors_algorithm: str = 'auto', n_jobs: None = None, metric: str = 'minkowski', p: float = 2.0, metric_params: None = None) -> IsomapState",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "n_neighbors",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "radius",
+          "type_desc": "None",
+          "required": false
+        },
+        {
+          "name": "n_components",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "eigen_solver",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "tol",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "None",
+          "required": false
+        },
+        {
+          "name": "path_method",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "neighbors_algorithm",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "n_jobs",
+          "type_desc": "None",
+          "required": false
+        },
+        {
+          "name": "metric",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "p",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "metric_params",
+          "type_desc": "None",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "IsomapState"
+        }
+      ]
+    },
+    {
+      "node_id": "isomap_transform",
+      "name": "isomap_transform",
+      "description": "Project query samples through a fitted dense Isomap state.",
+      "concept_type": "transform",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: IsomapState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "IsomapState",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
+    },
+    {
+      "node_id": "isomap_reconstruction_error",
+      "name": "isomap_reconstruction_error",
+      "description": "Compute Isomap reconstruction error from the centered geodesic kernel.",
+      "concept_type": "model_diagnostic",
+      "status": "atomic",
+      "type_signature": "(state: IsomapState) -> float",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "state",
+          "type_desc": "IsomapState",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
       ]
     }
   ],
   "edges": [
-    {"source": "classical_mds_dissimilarity_matrix", "target": "classical_mds_double_center", "kind": "data"},
-    {"source": "classical_mds_double_center", "target": "classical_mds_fit", "kind": "computation"},
-    {"source": "classical_mds_dissimilarity_matrix", "target": "mds_fit", "kind": "dissimilarity"},
-    {"source": "smacof", "target": "mds_fit", "kind": "optimizer"},
-    {"source": "spectral_embedding", "target": "spectral_embedding_fit", "kind": "eigensolver"}
+    {
+      "source": "classical_mds_dissimilarity_matrix",
+      "target": "classical_mds_double_center",
+      "kind": "data"
+    },
+    {
+      "source": "classical_mds_double_center",
+      "target": "classical_mds_fit",
+      "kind": "computation"
+    },
+    {
+      "source": "classical_mds_dissimilarity_matrix",
+      "target": "mds_fit",
+      "kind": "dissimilarity"
+    },
+    {
+      "source": "smacof",
+      "target": "mds_fit",
+      "kind": "optimizer"
+    },
+    {
+      "source": "spectral_embedding",
+      "target": "spectral_embedding_fit",
+      "kind": "eigensolver"
+    },
+    {
+      "source": "isomap_neighbors_graph",
+      "target": "isomap_geodesic_distances",
+      "kind": "graph"
+    },
+    {
+      "source": "isomap_neighbors_graph",
+      "target": "isomap_fit",
+      "kind": "neighbor_graph"
+    },
+    {
+      "source": "isomap_geodesic_distances",
+      "target": "isomap_fit",
+      "kind": "geodesic_distances"
+    },
+    {
+      "source": "isomap_fit",
+      "target": "isomap_transform",
+      "kind": "state"
+    },
+    {
+      "source": "isomap_fit",
+      "target": "isomap_reconstruction_error",
+      "kind": "state"
+    }
   ],
   "metadata": {
     "source": "agent_ingestion",

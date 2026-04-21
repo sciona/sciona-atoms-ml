@@ -6,22 +6,29 @@ import icontract
 import numpy as np
 from numpy.typing import NDArray
 from scipy import linalg
-from scipy.sparse.csgraph import laplacian as csgraph_laplacian
+from scipy.sparse.csgraph import connected_components, laplacian as csgraph_laplacian
+from scipy.sparse.csgraph import shortest_path
 from scipy.sparse.linalg import eigsh
-from sklearn.metrics.pairwise import rbf_kernel
 from sklearn.metrics import pairwise_distances
+from sklearn.metrics.pairwise import rbf_kernel
+from sklearn.neighbors import NearestNeighbors, kneighbors_graph
 from sklearn.utils import check_symmetric
 from sklearn.utils._arpack import _init_arpack_v0
 from sklearn.utils.extmath import _deterministic_vector_sign_flip, svd_flip
-from sklearn.utils.validation import check_array
+from sklearn.utils.validation import _check_psd_eigenvalues, check_array
 
 from sciona.ghost.registry import register_atom
 
-from .state_models import ClassicalMDSState, MDSState, SMACOFState, SpectralEmbeddingState
+from .state_models import ClassicalMDSState, IsomapState, MDSState, SMACOFState, SpectralEmbeddingState
 from .witnesses import (
     witness_classical_mds_dissimilarity_matrix,
     witness_classical_mds_double_center,
     witness_classical_mds_fit,
+    witness_isomap_fit,
+    witness_isomap_geodesic_distances,
+    witness_isomap_neighbors_graph,
+    witness_isomap_reconstruction_error,
+    witness_isomap_transform,
     witness_mds_fit,
     witness_smacof,
     witness_spectral_embedding,
@@ -199,6 +206,137 @@ def _spectral_state_valid(state: SpectralEmbeddingState) -> bool:
         and np.all(np.isfinite(state.affinity_matrix))
         and np.allclose(state.affinity_matrix, state.affinity_matrix.T)
     )
+
+
+def _isomap_neighbors_valid(n_neighbors: int, X: NDArray[np.float64]) -> bool:
+    values = np.asarray(X)
+    return bool(
+        isinstance(n_neighbors, int)
+        and not isinstance(n_neighbors, bool)
+        and values.ndim == 2
+        and 1 <= n_neighbors < values.shape[0]
+    )
+
+
+def _isomap_components_valid(n_components: int, X: NDArray[np.float64]) -> bool:
+    values = np.asarray(X)
+    return bool(
+        isinstance(n_components, int)
+        and not isinstance(n_components, bool)
+        and values.ndim == 2
+        and 1 <= n_components <= values.shape[0]
+    )
+
+
+def _isomap_options_valid(
+    radius: None,
+    eigen_solver: str,
+    tol: float,
+    max_iter: None,
+    path_method: str,
+    neighbors_algorithm: str,
+    n_jobs: None,
+    metric: str,
+    p: float,
+    metric_params: None,
+) -> bool:
+    return bool(
+        radius is None
+        and eigen_solver == "dense"
+        and isinstance(tol, (int, float))
+        and not isinstance(tol, bool)
+        and float(tol) >= 0.0
+        and max_iter is None
+        and path_method in {"auto", "FW", "D"}
+        and neighbors_algorithm in {"auto", "brute", "kd_tree", "ball_tree"}
+        and n_jobs is None
+        and metric == "minkowski"
+        and isinstance(p, (int, float))
+        and not isinstance(p, bool)
+        and float(p) >= 1.0
+        and metric_params is None
+    )
+
+
+def _isomap_neighbor_options_valid(
+    radius: None,
+    neighbors_algorithm: str,
+    n_jobs: None,
+    metric: str,
+    p: float,
+    metric_params: None,
+) -> bool:
+    return bool(
+        radius is None
+        and neighbors_algorithm in {"auto", "brute", "kd_tree", "ball_tree"}
+        and n_jobs is None
+        and metric == "minkowski"
+        and isinstance(p, (int, float))
+        and not isinstance(p, bool)
+        and float(p) >= 1.0
+        and metric_params is None
+    )
+
+
+def _isomap_graph_valid(result: NDArray[np.float64], X: NDArray[np.float64]) -> bool:
+    graph = np.asarray(result, dtype=np.float64)
+    n_samples = np.asarray(X).shape[0]
+    return bool(
+        graph.shape == (n_samples, n_samples)
+        and np.all(np.isfinite(graph))
+        and np.all(graph >= 0.0)
+    )
+
+
+def _isomap_distances_valid(result: NDArray[np.float64], neighbors_graph: NDArray[np.float64]) -> bool:
+    distances = np.asarray(result, dtype=np.float64)
+    graph = np.asarray(neighbors_graph)
+    return bool(
+        distances.shape == graph.shape
+        and distances.shape[0] == distances.shape[1]
+        and np.all(np.isfinite(distances))
+        and np.allclose(distances, distances.T)
+        and np.all(distances >= 0.0)
+    )
+
+
+def _isomap_state_valid(state: IsomapState) -> bool:
+    n_samples = state.training_data.shape[0]
+    return bool(
+        state.embedding.shape == (n_samples, state.n_components)
+        and state.dist_matrix.shape == (n_samples, n_samples)
+        and state.eigenvalues.shape == (state.n_components,)
+        and state.eigenvectors.shape == (n_samples, state.n_components)
+        and state.kernel_centerer_rows.shape == (n_samples,)
+        and state.training_data.shape[1] == state.n_features_in
+        and 1 <= state.n_neighbors < n_samples
+        and state.path_method in {"auto", "FW", "D"}
+        and state.metric == "minkowski"
+        and state.p >= 1.0
+        and np.all(np.isfinite(state.embedding))
+        and np.all(np.isfinite(state.dist_matrix))
+        and np.all(np.isfinite(state.training_data))
+        and np.all(np.isfinite(state.eigenvalues))
+        and np.all(np.isfinite(state.eigenvectors))
+        and np.all(np.isfinite(state.kernel_centerer_rows))
+        and np.isfinite(state.kernel_centerer_all)
+        and np.all(state.eigenvalues >= 0.0)
+        and np.allclose(state.dist_matrix, state.dist_matrix.T)
+    )
+
+
+def _isomap_feature_count_matches(X: NDArray[np.float64], state: IsomapState) -> bool:
+    values = np.asarray(X)
+    return bool(values.ndim == 2 and values.shape[1] == state.n_features_in)
+
+
+def _isomap_transform_valid(result: NDArray[np.float64], X: NDArray[np.float64], state: IsomapState) -> bool:
+    values = np.asarray(result, dtype=np.float64)
+    return bool(values.shape == (np.asarray(X).shape[0], state.n_components) and np.all(np.isfinite(values)))
+
+
+def _nonnegative_finite_scalar(value: float) -> bool:
+    return bool(np.isfinite(float(value)) and float(value) >= 0.0)
 
 
 @register_atom(witness_classical_mds_dissimilarity_matrix)
@@ -531,3 +669,227 @@ def spectral_embedding_fit(
         eigen_solver="arpack",
         n_features_in=n_features_in,
     )
+
+
+def _center_precomputed_kernel(kernel_matrix: NDArray[np.float64]) -> tuple[NDArray[np.float64], NDArray[np.float64], float]:
+    checked = np.asarray(kernel_matrix, dtype=np.float64)
+    n_samples = checked.shape[0]
+    rows = np.sum(checked, axis=0) / n_samples
+    all_mean = float(np.sum(rows) / n_samples)
+    centered = checked.copy()
+    column_means = (np.sum(centered, axis=1) / n_samples)[:, np.newaxis]
+    centered -= rows
+    centered -= column_means
+    centered += all_mean
+    return np.asarray(centered, dtype=np.float64), np.asarray(rows, dtype=np.float64), all_mean
+
+
+def _fit_precomputed_kernel_pca(
+    kernel_matrix: NDArray[np.float64],
+    n_components: int,
+) -> tuple[NDArray[np.float64], NDArray[np.float64], NDArray[np.float64], NDArray[np.float64], float]:
+    centered, rows, all_mean = _center_precomputed_kernel(kernel_matrix)
+    n_samples = centered.shape[0]
+    resolved_components = min(n_samples, int(n_components))
+    eigenvalues, eigenvectors = linalg.eigh(
+        centered,
+        subset_by_index=(n_samples - resolved_components, n_samples - 1),
+    )
+    eigenvalues = _check_psd_eigenvalues(eigenvalues, enable_warnings=False)
+    eigenvectors, _ = svd_flip(u=eigenvectors, v=None)
+    indices = eigenvalues.argsort()[::-1]
+    ordered_values = np.asarray(eigenvalues[indices], dtype=np.float64)
+    ordered_vectors = np.asarray(eigenvectors[:, indices], dtype=np.float64)
+    embedding = np.asarray(ordered_vectors * np.sqrt(ordered_values), dtype=np.float64)
+    return embedding, ordered_values, ordered_vectors, rows, all_mean
+
+
+@register_atom(witness_isomap_neighbors_graph)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X: _finite_matrix(X), "X must contain only finite values")
+@icontract.require(lambda n_neighbors, X: _isomap_neighbors_valid(n_neighbors, X), "n_neighbors must be positive and below sample count")
+@icontract.require(
+    lambda radius, neighbors_algorithm, n_jobs, metric, p, metric_params: _isomap_neighbor_options_valid(
+        radius,
+        neighbors_algorithm,
+        n_jobs,
+        metric,
+        p,
+        metric_params,
+    ),
+    "only dense n-neighbor minkowski graph construction is covered",
+)
+@icontract.ensure(lambda result, X: _isomap_graph_valid(result, X), "neighbor graph must contain finite nonnegative distances")
+def isomap_neighbors_graph(
+    X: NDArray[np.float64],
+    *,
+    n_neighbors: int = 5,
+    radius: None = None,
+    neighbors_algorithm: str = "auto",
+    metric: str = "minkowski",
+    p: float = 2.0,
+    metric_params: None = None,
+    n_jobs: None = None,
+) -> NDArray[np.float64]:
+    """Build the dense distance graph used by the n-neighbor Isomap path."""
+    del radius
+    checked = check_array(X, dtype=np.float64, ensure_2d=True, ensure_min_samples=2)
+    nbrs = NearestNeighbors(
+        n_neighbors=n_neighbors,
+        algorithm=neighbors_algorithm,
+        metric=metric,
+        p=p,
+        metric_params=metric_params,
+        n_jobs=n_jobs,
+    )
+    nbrs.fit(checked)
+    graph = kneighbors_graph(
+        nbrs,
+        n_neighbors,
+        mode="distance",
+        metric=metric,
+        p=p,
+        metric_params=metric_params,
+        n_jobs=n_jobs,
+    )
+    return np.asarray(graph.toarray(), dtype=np.float64)
+
+
+@register_atom(witness_isomap_geodesic_distances)
+@icontract.require(lambda neighbors_graph: _square_matrix(neighbors_graph), "neighbors_graph must be square")
+@icontract.require(lambda neighbors_graph: _finite_matrix(neighbors_graph), "neighbors_graph must contain finite values")
+@icontract.require(lambda path_method: path_method in {"auto", "FW", "D"}, "path_method must be auto, FW, or D")
+@icontract.ensure(lambda result, neighbors_graph: _isomap_distances_valid(result, neighbors_graph), "geodesic distances must be finite and symmetric")
+def isomap_geodesic_distances(
+    neighbors_graph: NDArray[np.float64],
+    *,
+    path_method: str = "auto",
+) -> NDArray[np.float64]:
+    """Compute all-pairs geodesic distances from an Isomap neighbor graph."""
+    graph = check_array(neighbors_graph, dtype=np.float64, ensure_2d=True)
+    n_components, _ = connected_components(graph)
+    if n_components != 1:
+        raise ValueError("Isomap neighbor graph must be connected in this atom scope")
+    return np.asarray(shortest_path(graph, method=path_method, directed=False), dtype=np.float64)
+
+
+@register_atom(witness_isomap_fit)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X: _finite_matrix(X), "X must contain only finite values")
+@icontract.require(lambda n_neighbors, X: _isomap_neighbors_valid(n_neighbors, X), "n_neighbors must be positive and below sample count")
+@icontract.require(lambda n_components, X: _isomap_components_valid(n_components, X), "n_components must be positive and no larger than sample count")
+@icontract.require(
+    lambda radius, eigen_solver, tol, max_iter, path_method, neighbors_algorithm, n_jobs, metric, p, metric_params: _isomap_options_valid(
+        radius,
+        eigen_solver,
+        tol,
+        max_iter,
+        path_method,
+        neighbors_algorithm,
+        n_jobs,
+        metric,
+        p,
+        metric_params,
+    ),
+    "only dense n-neighbor minkowski Isomap with dense KernelPCA is covered",
+)
+@icontract.ensure(lambda result: _isomap_state_valid(result), "Isomap state must contain finite embedding and geodesic-kernel data")
+def isomap_fit(
+    X: NDArray[np.float64],
+    *,
+    n_neighbors: int = 5,
+    radius: None = None,
+    n_components: int = 2,
+    eigen_solver: str = "dense",
+    tol: float = 0.0,
+    max_iter: None = None,
+    path_method: str = "auto",
+    neighbors_algorithm: str = "auto",
+    n_jobs: None = None,
+    metric: str = "minkowski",
+    p: float = 2.0,
+    metric_params: None = None,
+) -> IsomapState:
+    """Fit dense n-neighbor Isomap coordinates and reusable transform state."""
+    del radius, eigen_solver, tol, max_iter
+    checked = check_array(X, dtype=np.float64, ensure_2d=True, ensure_min_samples=2)
+    graph = isomap_neighbors_graph(
+        checked,
+        n_neighbors=n_neighbors,
+        neighbors_algorithm=neighbors_algorithm,
+        metric=metric,
+        p=p,
+        metric_params=metric_params,
+        n_jobs=n_jobs,
+    )
+    dist_matrix = isomap_geodesic_distances(graph, path_method=path_method)
+    kernel_matrix = np.asarray(dist_matrix**2, dtype=np.float64)
+    kernel_matrix *= -0.5
+    embedding, eigenvalues, eigenvectors, centerer_rows, centerer_all = _fit_precomputed_kernel_pca(
+        kernel_matrix,
+        n_components,
+    )
+    return IsomapState(
+        embedding=embedding,
+        dist_matrix=np.asarray(dist_matrix, dtype=np.float64).copy(),
+        training_data=np.asarray(checked, dtype=np.float64).copy(),
+        eigenvalues=eigenvalues.copy(),
+        eigenvectors=eigenvectors.copy(),
+        kernel_centerer_rows=centerer_rows.copy(),
+        kernel_centerer_all=centerer_all,
+        n_neighbors=int(n_neighbors),
+        n_components=int(min(checked.shape[0], n_components)),
+        path_method=path_method,
+        metric=metric,
+        p=float(p),
+        n_features_in=int(checked.shape[1]),
+    )
+
+
+@register_atom(witness_isomap_transform)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X: _finite_matrix(X), "X must contain only finite values")
+@icontract.require(lambda state: _isomap_state_valid(state), "state must be a fitted dense Isomap state")
+@icontract.require(lambda X, state: _isomap_feature_count_matches(X, state), "X feature count must match fitted Isomap state")
+@icontract.ensure(lambda result, X, state: _isomap_transform_valid(result, X, state), "Isomap transform must contain finite coordinates")
+def isomap_transform(X: NDArray[np.float64], state: IsomapState) -> NDArray[np.float64]:
+    """Project query samples through a fitted dense Isomap state."""
+    checked = check_array(X, dtype=np.float64, ensure_2d=True)
+    nbrs = NearestNeighbors(
+        n_neighbors=state.n_neighbors,
+        algorithm="auto",
+        metric=state.metric,
+        p=state.p,
+        metric_params=None,
+        n_jobs=None,
+    )
+    nbrs.fit(state.training_data)
+    distances, indices = nbrs.kneighbors(checked, return_distance=True)
+    n_queries = checked.shape[0]
+    n_samples_fit = state.training_data.shape[0]
+    query_kernel = np.zeros((n_queries, n_samples_fit), dtype=np.float64)
+    for row in range(n_queries):
+        query_kernel[row] = np.min(state.dist_matrix[indices[row]] + distances[row][:, np.newaxis], axis=0)
+    query_kernel **= 2
+    query_kernel *= -0.5
+    predicted_column_means = (np.sum(query_kernel, axis=1) / n_samples_fit)[:, np.newaxis]
+    query_kernel -= state.kernel_centerer_rows
+    query_kernel -= predicted_column_means
+    query_kernel += state.kernel_centerer_all
+    non_zero_indices = np.flatnonzero(state.eigenvalues)
+    scaled_eigenvectors = np.zeros_like(state.eigenvectors)
+    scaled_eigenvectors[:, non_zero_indices] = (
+        state.eigenvectors[:, non_zero_indices] / np.sqrt(state.eigenvalues[non_zero_indices])
+    )
+    return np.asarray(np.dot(query_kernel, scaled_eigenvectors), dtype=np.float64)
+
+
+@register_atom(witness_isomap_reconstruction_error)
+@icontract.require(lambda state: _isomap_state_valid(state), "state must be a fitted dense Isomap state")
+@icontract.ensure(lambda result: _nonnegative_finite_scalar(result), "reconstruction error must be finite and nonnegative")
+def isomap_reconstruction_error(state: IsomapState) -> float:
+    """Compute Isomap reconstruction error from the centered geodesic kernel."""
+    kernel_matrix = -0.5 * state.dist_matrix**2
+    centered_kernel, _, _ = _center_precomputed_kernel(kernel_matrix)
+    residual = float(np.sum(centered_kernel**2) - np.sum(state.eigenvalues**2))
+    return float(np.sqrt(max(residual, 0.0)) / state.dist_matrix.shape[0])
