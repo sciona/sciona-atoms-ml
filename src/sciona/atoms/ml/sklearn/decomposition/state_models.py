@@ -94,3 +94,25 @@ class FactorAnalysisState:
     max_iter: int
     svd_method: str
     rotation: None
+
+
+@dataclass(frozen=True)
+class FastICAState:
+    """Fitted FastICA unmixing, mixing, and optional whitening metadata."""
+
+    components: NDArray[np.float64]
+    mixing: NDArray[np.float64]
+    unmixing: NDArray[np.float64]
+    whitening: NDArray[np.float64] | None
+    mean: NDArray[np.float64] | None
+    n_iter: int
+    n_components: int
+    n_features_in: int
+    algorithm: str
+    whiten: str | bool
+    fun: str
+    alpha: float
+    max_iter: int
+    tol: float
+    whiten_solver: str
+    random_state: int | None

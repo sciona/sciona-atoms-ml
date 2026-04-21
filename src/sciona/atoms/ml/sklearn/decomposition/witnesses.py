@@ -6,7 +6,7 @@ import numpy as np
 
 from sciona.ghost.abstract import AbstractArray
 
-from .state_models import FactorAnalysisState, IncrementalPCAState, KernelPCAState, TruncatedSVDState
+from .state_models import FactorAnalysisState, FastICAState, IncrementalPCAState, KernelPCAState, TruncatedSVDState
 
 
 def witness_pca_fit(
@@ -256,6 +256,64 @@ def witness_factor_analysis_score(X: AbstractArray, state: FactorAnalysisState) 
     """Describe average sample log likelihood."""
     _ = witness_factor_analysis_score_samples(X, state)
     return AbstractArray(shape=(), dtype="float64")
+
+
+def witness_fastica_fit(
+    X: AbstractArray,
+    n_components: int | None = None,
+    *,
+    algorithm: str = "parallel",
+    whiten: str | bool = "unit-variance",
+    fun: str = "logcosh",
+    fun_args: dict[str, float] | None = None,
+    max_iter: int = 200,
+    tol: float = 1e-4,
+    w_init: tuple[tuple[float, ...], ...] | None = None,
+    whiten_solver: str = "svd",
+    random_state: int | None = None,
+) -> AbstractArray:
+    """Describe fitting a dense FastICA unmixing state."""
+    del fun_args, w_init, random_state
+    n_samples, n_features = _check_2d(X, "X")
+    if n_samples < 2:
+        raise ValueError("FastICA requires at least two samples")
+    if whiten not in {"unit-variance", "arbitrary-variance", False}:
+        raise ValueError("unsupported whitening mode")
+    if n_components is None or whiten is False:
+        width = min(n_samples, n_features)
+    elif isinstance(n_components, int) and not isinstance(n_components, bool):
+        if n_components < 1 or n_components > min(n_samples, n_features):
+            raise ValueError("n_components must fit the sample/feature rank bound")
+        width = n_components
+    else:
+        raise ValueError("n_components must be None or a positive integer")
+    if algorithm not in {"parallel", "deflation"}:
+        raise ValueError("unsupported FastICA algorithm")
+    if fun not in {"logcosh", "exp", "cube"}:
+        raise ValueError("unsupported FastICA nonlinearity")
+    if max_iter < 1:
+        raise ValueError("max_iter must be positive")
+    if tol < 0.0:
+        raise ValueError("tol must be non-negative")
+    if whiten_solver not in {"svd", "eigh"}:
+        raise ValueError("unsupported whitening solver")
+    return AbstractArray(shape=(width, n_features), dtype="float64")
+
+
+def witness_fastica_transform(X: AbstractArray, state: FastICAState) -> AbstractArray:
+    """Describe recovering independent sources with fitted FastICA components."""
+    n_samples, n_features = _check_2d(X, "X")
+    if n_features != state.n_features_in:
+        raise ValueError("X feature count must match fitted state")
+    return AbstractArray(shape=(n_samples, state.n_components), dtype="float64")
+
+
+def witness_fastica_inverse_transform(X: AbstractArray, state: FastICAState) -> AbstractArray:
+    """Describe mapping FastICA source coordinates back to feature space."""
+    n_samples, n_components = _check_2d(X, "X")
+    if n_components != state.n_components:
+        raise ValueError("X width must match fitted component count")
+    return AbstractArray(shape=(n_samples, state.n_features_in), dtype="float64")
 
 
 def _check_2d(array: AbstractArray, name: str) -> tuple[int, int]:

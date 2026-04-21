@@ -6,13 +6,13 @@ import icontract
 import numpy as np
 from numpy.typing import NDArray
 from scipy import linalg
-from sklearn.utils import check_array
+from sklearn.utils import check_array, check_random_state
 from sklearn.utils.extmath import _incremental_mean_and_var, _randomized_svd, fast_logdet, squared_norm, svd_flip
 from sklearn.utils.validation import _check_psd_eigenvalues
 
 from sciona.ghost.registry import register_atom
 
-from .state_models import FactorAnalysisState, IncrementalPCAState, KernelPCAState, PCAState, TruncatedSVDState
+from .state_models import FactorAnalysisState, FastICAState, IncrementalPCAState, KernelPCAState, PCAState, TruncatedSVDState
 from .witnesses import (
     witness_factor_analysis_covariance,
     witness_factor_analysis_fit,
@@ -20,6 +20,9 @@ from .witnesses import (
     witness_factor_analysis_score,
     witness_factor_analysis_score_samples,
     witness_factor_analysis_transform,
+    witness_fastica_fit,
+    witness_fastica_inverse_transform,
+    witness_fastica_transform,
     witness_incremental_pca_inverse_transform,
     witness_incremental_pca_partial_fit,
     witness_incremental_pca_transform,
@@ -408,6 +411,323 @@ def _factor_square_matrix_valid(result: NDArray[np.float64], state: FactorAnalys
 def _factor_score_samples_valid(result: NDArray[np.float64], X: NDArray[np.float64]) -> bool:
     values = np.asarray(result)
     return bool(values.ndim == 1 and values.shape[0] == np.asarray(X).shape[0] and np.all(np.isfinite(values)))
+
+
+def _fastica_components_valid(n_components: int | None, X: NDArray[np.float64], whiten: str | bool) -> bool:
+    values = np.asarray(X)
+    if values.ndim != 2:
+        return False
+    if n_components is None or whiten is False:
+        return True
+    return bool(
+        isinstance(n_components, int)
+        and not isinstance(n_components, bool)
+        and 1 <= n_components <= min(values.shape)
+    )
+
+
+def _fastica_options_valid(
+    algorithm: str,
+    whiten: str | bool,
+    fun: str,
+    fun_args: dict[str, float] | None,
+    max_iter: int,
+    tol: float,
+    w_init: NDArray[np.float64] | None,
+    whiten_solver: str,
+    random_state: int | None,
+) -> bool:
+    alpha = 1.0 if fun_args is None else float(fun_args.get("alpha", 1.0))
+    return bool(
+        algorithm in {"parallel", "deflation"}
+        and whiten in {"unit-variance", "arbitrary-variance", False}
+        and fun in {"logcosh", "exp", "cube"}
+        and 1.0 <= alpha <= 2.0
+        and isinstance(max_iter, int)
+        and not isinstance(max_iter, bool)
+        and max_iter >= 1
+        and tol >= 0.0
+        and (w_init is None or np.asarray(w_init).ndim == 2)
+        and whiten_solver in {"svd", "eigh"}
+        and (random_state is None or (isinstance(random_state, int) and not isinstance(random_state, bool)))
+    )
+
+
+def _fastica_state_valid(state: FastICAState) -> bool:
+    whitened = state.whiten in {"unit-variance", "arbitrary-variance"}
+    return bool(
+        state.components.shape == (state.n_components, state.n_features_in)
+        and state.mixing.shape == (state.n_features_in, state.n_components)
+        and state.unmixing.shape == (state.n_components, state.n_components)
+        and ((state.whitening is None) if not whitened else (state.whitening is not None and state.whitening.shape == (state.n_components, state.n_features_in)))
+        and ((state.mean is None) if not whitened else (state.mean is not None and state.mean.shape == (state.n_features_in,)))
+        and state.n_iter >= 1
+        and state.n_iter <= state.max_iter
+        and state.n_components >= 1
+        and state.n_features_in >= 1
+        and state.algorithm in {"parallel", "deflation"}
+        and state.whiten in {"unit-variance", "arbitrary-variance", False}
+        and state.fun in {"logcosh", "exp", "cube"}
+        and 1.0 <= state.alpha <= 2.0
+        and state.max_iter >= 1
+        and state.tol >= 0.0
+        and state.whiten_solver in {"svd", "eigh"}
+        and (state.random_state is None or isinstance(state.random_state, int))
+        and np.all(np.isfinite(state.components))
+        and np.all(np.isfinite(state.mixing))
+        and np.all(np.isfinite(state.unmixing))
+        and (state.whitening is None or np.all(np.isfinite(state.whitening)))
+        and (state.mean is None or np.all(np.isfinite(state.mean)))
+    )
+
+
+def _fastica_feature_count_matches(X: NDArray[np.float64], state: FastICAState) -> bool:
+    return bool(np.asarray(X).ndim == 2 and np.asarray(X).shape[1] == state.n_features_in)
+
+
+def _fastica_component_count_matches(X: NDArray[np.float64], state: FastICAState) -> bool:
+    return bool(np.asarray(X).ndim == 2 and np.asarray(X).shape[1] == state.n_components)
+
+
+def _fastica_transform_valid(result: NDArray[np.float64], X: NDArray[np.float64], state: FastICAState) -> bool:
+    values = np.asarray(result)
+    return bool(values.shape == (np.asarray(X).shape[0], state.n_components) and np.all(np.isfinite(values)))
+
+
+def _fastica_inverse_valid(result: NDArray[np.float64], X: NDArray[np.float64], state: FastICAState) -> bool:
+    values = np.asarray(result)
+    return bool(values.shape == (np.asarray(X).shape[0], state.n_features_in) and np.all(np.isfinite(values)))
+
+
+def _fastica_gs_decorrelation(w: NDArray[np.float64], W: NDArray[np.float64], j: int) -> NDArray[np.float64]:
+    w -= np.linalg.multi_dot([w, W[:j].T, W[:j]])
+    return w
+
+
+def _fastica_sym_decorrelation(W: NDArray[np.float64]) -> NDArray[np.float64]:
+    eigenvalues, eigenvectors = linalg.eigh(np.dot(W, W.T))
+    eigenvalues = np.clip(eigenvalues, a_min=np.finfo(W.dtype).tiny, a_max=None)
+    return np.linalg.multi_dot([eigenvectors * (1.0 / np.sqrt(eigenvalues)), eigenvectors.T, W])
+
+
+def _fastica_logcosh(x: NDArray[np.float64], alpha: float) -> tuple[NDArray[np.float64], NDArray[np.float64]]:
+    gx = np.asarray(x, dtype=np.float64).copy()
+    gx *= alpha
+    gx = np.tanh(gx, gx)
+    g_x = np.empty(gx.shape[0], dtype=np.float64)
+    for i, gx_i in enumerate(gx):
+        g_x[i] = (alpha * (1.0 - gx_i**2)).mean()
+    return gx, g_x
+
+
+def _fastica_exp(x: NDArray[np.float64]) -> tuple[NDArray[np.float64], NDArray[np.float64]]:
+    exp = np.exp(-(x**2) / 2.0)
+    gx = x * exp
+    g_x = (1.0 - x**2) * exp
+    return gx, g_x.mean(axis=-1)
+
+
+def _fastica_cube(x: NDArray[np.float64]) -> tuple[NDArray[np.float64], NDArray[np.float64]]:
+    return x**3, (3.0 * x**2).mean(axis=-1)
+
+
+def _fastica_g(x: NDArray[np.float64], fun: str, alpha: float) -> tuple[NDArray[np.float64], NDArray[np.float64]]:
+    if fun == "logcosh":
+        return _fastica_logcosh(x, alpha)
+    if fun == "exp":
+        return _fastica_exp(x)
+    return _fastica_cube(x)
+
+
+def _fastica_ica_def(
+    X: NDArray[np.float64],
+    tol: float,
+    fun: str,
+    alpha: float,
+    max_iter: int,
+    w_init: NDArray[np.float64],
+) -> tuple[NDArray[np.float64], int]:
+    n_components = w_init.shape[0]
+    W = np.zeros((n_components, n_components), dtype=X.dtype)
+    n_iter: list[int] = []
+    for j in range(n_components):
+        w = w_init[j, :].copy()
+        w /= np.sqrt((w**2).sum())
+        for i in range(max_iter):
+            gwtx, g_wtx = _fastica_g(np.dot(w.T, X), fun, alpha)
+            w1 = (X * gwtx).mean(axis=1) - g_wtx.mean() * w
+            _fastica_gs_decorrelation(w1, W, j)
+            w1 /= np.sqrt((w1**2).sum())
+            lim = np.abs(np.abs((w1 * w).sum()) - 1.0)
+            w = w1
+            if lim < tol:
+                break
+        n_iter.append(i + 1)
+        W[j, :] = w
+    return W, max(n_iter)
+
+
+def _fastica_ica_par(
+    X: NDArray[np.float64],
+    tol: float,
+    fun: str,
+    alpha: float,
+    max_iter: int,
+    w_init: NDArray[np.float64],
+) -> tuple[NDArray[np.float64], int]:
+    W = _fastica_sym_decorrelation(w_init)
+    p_ = float(X.shape[1])
+    for ii in range(max_iter):
+        gwtx, g_wtx = _fastica_g(np.dot(W, X), fun, alpha)
+        W1 = _fastica_sym_decorrelation(np.dot(gwtx, X.T) / p_ - g_wtx[:, np.newaxis] * W)
+        lim = max(abs(abs(np.einsum("ij,ij->i", W1, W)) - 1.0))
+        W = W1
+        if lim < tol:
+            break
+    return W, ii + 1
+
+
+@register_atom(witness_fastica_fit)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X: _has_enough_samples(X), "X must contain at least two samples")
+@icontract.require(lambda X: _has_positive_centered_variance(X), "X must have positive centered variance")
+@icontract.require(lambda n_components, X, whiten: _fastica_components_valid(n_components, X, whiten), "n_components must fit the FastICA rank bound")
+@icontract.require(
+    lambda algorithm, whiten, fun, fun_args, max_iter, tol, w_init, whiten_solver, random_state: _fastica_options_valid(
+        algorithm,
+        whiten,
+        fun,
+        fun_args,
+        max_iter,
+        tol,
+        w_init,
+        whiten_solver,
+        random_state,
+    ),
+    "FastICA options must be supported",
+)
+@icontract.ensure(lambda result: _fastica_state_valid(result), "FastICA state must contain finite mixing and unmixing matrices")
+def fastica_fit(
+    X: NDArray[np.float64],
+    n_components: int | None = None,
+    *,
+    algorithm: str = "parallel",
+    whiten: str | bool = "unit-variance",
+    fun: str = "logcosh",
+    fun_args: dict[str, float] | None = None,
+    max_iter: int = 200,
+    tol: float = 1e-4,
+    w_init: NDArray[np.float64] | None = None,
+    whiten_solver: str = "svd",
+    random_state: int | None = None,
+) -> FastICAState:
+    """Fit dense FastICA state with sklearn-compatible fixed-point updates."""
+    checked_x = check_array(X, dtype=np.float64, ensure_2d=True, ensure_min_samples=2, copy=bool(whiten))
+    XT = checked_x.T
+    alpha = 1.0 if fun_args is None else float(fun_args.get("alpha", 1.0))
+
+    n_features, n_samples = XT.shape
+    resolved_components = n_components
+    if not whiten and resolved_components is not None:
+        resolved_components = None
+    if resolved_components is None:
+        resolved_components = min(n_samples, n_features)
+    resolved_components = min(int(resolved_components), n_samples, n_features)
+
+    K: NDArray[np.float64] | None
+    mean: NDArray[np.float64] | None
+    if whiten:
+        mean = XT.mean(axis=-1)
+        XT = np.asarray(XT - mean[:, np.newaxis], dtype=np.float64)
+        if whiten_solver == "eigh":
+            eigenvalues, eigenvectors = linalg.eigh(XT.dot(checked_x))
+            sort_indices = np.argsort(eigenvalues)[::-1]
+            eps = np.finfo(eigenvalues.dtype).eps * 10.0
+            eigenvalues[eigenvalues < eps] = eps
+            np.sqrt(eigenvalues, out=eigenvalues)
+            singular_values, left_vectors = eigenvalues[sort_indices], eigenvectors[:, sort_indices]
+        else:
+            left_vectors, singular_values = linalg.svd(XT, full_matrices=False, check_finite=False)[:2]
+        left_vectors *= np.sign(left_vectors[0])
+        K = (left_vectors / singular_values).T[:resolved_components]
+        X1 = np.dot(K, XT)
+        X1 *= np.sqrt(float(n_samples))
+    else:
+        mean = None
+        K = None
+        X1 = np.asarray(XT, dtype=np.float64)
+
+    if w_init is None:
+        rng = check_random_state(random_state)
+        initial_w = np.asarray(rng.normal(size=(resolved_components, resolved_components)), dtype=X1.dtype)
+    else:
+        initial_w = np.asarray(w_init, dtype=X1.dtype)
+        if initial_w.shape != (resolved_components, resolved_components):
+            raise ValueError("w_init has invalid shape")
+
+    if algorithm == "parallel":
+        W, n_iter = _fastica_ica_par(X1, tol, fun, alpha, max_iter, initial_w)
+    else:
+        W, n_iter = _fastica_ica_def(X1, tol, fun, alpha, max_iter, initial_w)
+
+    if whiten:
+        if K is None:
+            raise AssertionError("whitening matrix must exist when whitening is enabled")
+        if whiten == "unit-variance":
+            sources = np.linalg.multi_dot([W, K, XT]).T
+            sources_std = np.std(sources, axis=0, keepdims=True)
+            W = W / sources_std.T
+        components = np.dot(W, K)
+        whitening = K
+    else:
+        components = W
+        whitening = None
+
+    return FastICAState(
+        components=np.asarray(components, dtype=np.float64).copy(),
+        mixing=np.asarray(linalg.pinv(components, check_finite=False), dtype=np.float64).copy(),
+        unmixing=np.asarray(W, dtype=np.float64).copy(),
+        whitening=None if whitening is None else np.asarray(whitening, dtype=np.float64).copy(),
+        mean=None if mean is None else np.asarray(mean, dtype=np.float64).copy(),
+        n_iter=int(n_iter),
+        n_components=int(resolved_components),
+        n_features_in=int(n_features),
+        algorithm=algorithm,
+        whiten=whiten,
+        fun=fun,
+        alpha=float(alpha),
+        max_iter=int(max_iter),
+        tol=float(tol),
+        whiten_solver=whiten_solver,
+        random_state=random_state,
+    )
+
+
+@register_atom(witness_fastica_transform)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X, state: _fastica_feature_count_matches(X, state), "X feature count must match fitted FastICA state")
+@icontract.require(lambda state: _fastica_state_valid(state), "state must be a fitted FastICA state")
+@icontract.ensure(lambda result, X, state: _fastica_transform_valid(result, X, state), "sources must be a finite component matrix")
+def fastica_transform(X: NDArray[np.float64], state: FastICAState) -> NDArray[np.float64]:
+    """Recover independent source coordinates from samples."""
+    checked_x = check_array(X, dtype=np.float64, ensure_2d=True, copy=bool(state.whiten))
+    if state.mean is not None:
+        checked_x = checked_x - state.mean
+    return np.asarray(np.dot(checked_x, state.components.T), dtype=np.float64)
+
+
+@register_atom(witness_fastica_inverse_transform)
+@icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
+@icontract.require(lambda X, state: _fastica_component_count_matches(X, state), "X width must match fitted component count")
+@icontract.require(lambda state: _fastica_state_valid(state), "state must be a fitted FastICA state")
+@icontract.ensure(lambda result, X, state: _fastica_inverse_valid(result, X, state), "reconstruction must be a finite feature matrix")
+def fastica_inverse_transform(X: NDArray[np.float64], state: FastICAState) -> NDArray[np.float64]:
+    """Map FastICA source coordinates back to the original feature space."""
+    checked_x = check_array(X, dtype=np.float64, ensure_2d=True, copy=bool(state.whiten))
+    reconstructed = np.dot(checked_x, state.mixing.T)
+    if state.mean is not None:
+        reconstructed = reconstructed + state.mean
+    return np.asarray(reconstructed, dtype=np.float64)
 
 
 @register_atom(witness_pca_fit)

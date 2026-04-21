@@ -7,6 +7,9 @@ from .atoms import (
     factor_analysis_score,
     factor_analysis_score_samples,
     factor_analysis_transform,
+    fastica_fit,
+    fastica_inverse_transform,
+    fastica_transform,
     incremental_pca_inverse_transform,
     incremental_pca_partial_fit,
     incremental_pca_transform,
@@ -17,10 +20,11 @@ from .atoms import (
     truncated_svd_inverse_transform,
     truncated_svd_transform,
 )
-from .state_models import FactorAnalysisState, IncrementalPCAState, KernelPCAState, PCAState, TruncatedSVDState
+from .state_models import FactorAnalysisState, FastICAState, IncrementalPCAState, KernelPCAState, PCAState, TruncatedSVDState
 
 __all__ = [
     "FactorAnalysisState",
+    "FastICAState",
     "IncrementalPCAState",
     "KernelPCAState",
     "PCAState",
@@ -31,6 +35,9 @@ __all__ = [
     "factor_analysis_score",
     "factor_analysis_score_samples",
     "factor_analysis_transform",
+    "fastica_fit",
+    "fastica_inverse_transform",
+    "fastica_transform",
     "incremental_pca_inverse_transform",
     "incremental_pca_partial_fit",
     "incremental_pca_transform",
