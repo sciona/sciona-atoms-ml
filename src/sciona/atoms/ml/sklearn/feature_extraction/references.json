@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "atoms": {
-    "sciona.atoms.ml.sklearn.feature_extraction.dict_vectorizer_fit@sciona/atoms/ml/sklearn/feature_extraction/atoms.py:98": {
+    "sciona.atoms.ml.sklearn.feature_extraction.dict_vectorizer_fit@sciona/atoms/ml/sklearn/feature_extraction/atoms.py:159": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -26,7 +26,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.feature_extraction.dict_vectorizer_transform@sciona/atoms/ml/sklearn/feature_extraction/atoms.py:135": {
+    "sciona.atoms.ml.sklearn.feature_extraction.dict_vectorizer_transform@sciona/atoms/ml/sklearn/feature_extraction/atoms.py:196": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -51,7 +51,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.feature_extraction.dict_vectorizer_inverse_transform@sciona/atoms/ml/sklearn/feature_extraction/atoms.py:158": {
+    "sciona.atoms.ml.sklearn.feature_extraction.dict_vectorizer_inverse_transform@sciona/atoms/ml/sklearn/feature_extraction/atoms.py:219": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -76,7 +76,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.feature_extraction.dict_vectorizer_feature_names@sciona/atoms/ml/sklearn/feature_extraction/atoms.py:174": {
+    "sciona.atoms.ml.sklearn.feature_extraction.dict_vectorizer_feature_names@sciona/atoms/ml/sklearn/feature_extraction/atoms.py:235": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -101,7 +101,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.feature_extraction.dict_vectorizer_restrict@sciona/atoms/ml/sklearn/feature_extraction/atoms.py:184": {
+    "sciona.atoms.ml.sklearn.feature_extraction.dict_vectorizer_restrict@sciona/atoms/ml/sklearn/feature_extraction/atoms.py:245": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -111,6 +111,186 @@
             "matched_nodes": [],
             "confidence": "high",
             "notes": "Adapted from sklearn.feature_extraction._dict_vectorizer.DictVectorizer.restrict lines 403-451 in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.feature_extraction.tfidf_document_frequency@sciona/atoms/ml/sklearn/feature_extraction/atoms.py:259": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.feature_extraction.text._document_frequency and TfidfTransformer.fit lines 1664-1674 in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "manning2008ir",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Information retrieval text reference cited by scikit-learn for TF-IDF weighting."
+          }
+        },
+        {
+          "ref_id": "baezayates2011mir",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Information retrieval reference cited by scikit-learn for TF-IDF weighting."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.feature_extraction.tfidf_idf@sciona/atoms/ml/sklearn/feature_extraction/atoms.py:268": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.feature_extraction.text.TfidfTransformer.fit lines 1671-1688 in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "manning2008ir",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Information retrieval text reference cited by scikit-learn for TF-IDF weighting."
+          }
+        },
+        {
+          "ref_id": "baezayates2011mir",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Information retrieval reference cited by scikit-learn for TF-IDF weighting."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.feature_extraction.tfidf_transformer_fit@sciona/atoms/ml/sklearn/feature_extraction/atoms.py:287": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.feature_extraction.text.TfidfTransformer.fit lines 1645-1690 in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "manning2008ir",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Information retrieval text reference cited by scikit-learn for TF-IDF weighting."
+          }
+        },
+        {
+          "ref_id": "baezayates2011mir",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Information retrieval reference cited by scikit-learn for TF-IDF weighting."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.feature_extraction.tfidf_transform@sciona/atoms/ml/sklearn/feature_extraction/atoms.py:310": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.feature_extraction.text.TfidfTransformer.transform lines 1692-1733 in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "manning2008ir",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Information retrieval text reference cited by scikit-learn for TF-IDF weighting."
+          }
+        },
+        {
+          "ref_id": "baezayates2011mir",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Information retrieval reference cited by scikit-learn for TF-IDF weighting."
           }
         },
         {

@@ -3,14 +3,18 @@
     {
       "node_id": "sklearn_feature_extraction_root",
       "name": "Sklearn Feature Extraction Atoms",
-      "description": "Dense dictionary vectorization atoms for selected sklearn.feature_extraction behavior",
+      "description": "Dense dictionary vectorization and dense TF-IDF atoms for selected sklearn.feature_extraction behavior",
       "status": "decomposed",
       "children": [
         "dict_vectorizer_fit",
         "dict_vectorizer_transform",
         "dict_vectorizer_inverse_transform",
         "dict_vectorizer_feature_names",
-        "dict_vectorizer_restrict"
+        "dict_vectorizer_restrict",
+        "tfidf_document_frequency",
+        "tfidf_idf",
+        "tfidf_transformer_fit",
+        "tfidf_transform"
       ],
       "depth": 0
     },
@@ -148,6 +152,129 @@
           "type_desc": "DictVectorizerState"
         }
       ]
+    },
+    {
+      "node_id": "tfidf_document_frequency",
+      "name": "tfidf_document_frequency",
+      "description": "Count how many documents contain each term feature.",
+      "concept_type": "document_frequency",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
+    },
+    {
+      "node_id": "tfidf_idf",
+      "name": "tfidf_idf",
+      "description": "Compute inverse-document-frequency weights from document frequencies.",
+      "concept_type": "inverse_document_frequency",
+      "status": "atomic",
+      "type_signature": "(document_frequency: NDArray[np.float64], n_samples: int, smooth_idf: bool = True) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "document_frequency",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "n_samples",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "smooth_idf",
+          "type_desc": "bool",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
+    },
+    {
+      "node_id": "tfidf_transformer_fit",
+      "name": "tfidf_transformer_fit",
+      "description": "Fit dense TF-IDF transformer weights for a count matrix.",
+      "concept_type": "fit_state",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], norm: str | None = \"l2\", use_idf: bool = True, smooth_idf: bool = True, sublinear_tf: bool = False) -> TfidfTransformerState",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "norm",
+          "type_desc": "str | None",
+          "required": false
+        },
+        {
+          "name": "use_idf",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "smooth_idf",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "sublinear_tf",
+          "type_desc": "bool",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "TfidfTransformerState"
+        }
+      ]
+    },
+    {
+      "node_id": "tfidf_transform",
+      "name": "tfidf_transform",
+      "description": "Transform dense term counts into TF-IDF weights.",
+      "concept_type": "array_transform",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: TfidfTransformerState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "TfidfTransformerState",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ]
     }
   ],
   "edges": [
@@ -174,6 +301,26 @@
     {
       "source": "dict_vectorizer_restrict",
       "target": "dict_vectorizer_transform",
+      "kind": "state_dependency"
+    },
+    {
+      "source": "tfidf_document_frequency",
+      "target": "tfidf_idf",
+      "kind": "called_by"
+    },
+    {
+      "source": "tfidf_document_frequency",
+      "target": "tfidf_transformer_fit",
+      "kind": "called_by"
+    },
+    {
+      "source": "tfidf_idf",
+      "target": "tfidf_transformer_fit",
+      "kind": "called_by"
+    },
+    {
+      "source": "tfidf_transformer_fit",
+      "target": "tfidf_transform",
       "kind": "state_dependency"
     }
   ],
