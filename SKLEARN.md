@@ -12,7 +12,7 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 - Scope for this first ingestion pass: public algorithmic estimators, transformers, kernels, and algorithmic helper functions in the selected sklearn modules below.
 - Intentionally excluded for now: datasets, metrics, displays, exceptions, low-level utils, orchestration/composition (`compose`, `pipeline`), and model-selection/search APIs.
 - Source locations come from each object page's official `[source]` link. `BallTree` and `KDTree` use the matching source files from the same scikit-learn revision because their generated docs pages do not expose a direct `[source]` link.
-- Total targets in this inventory: 87
+- Total targets in this inventory: 69
 
 ## Module Summary
 
@@ -25,7 +25,7 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 | `sklearn.decomposition` | 0 |
 | `sklearn.discriminant_analysis` | 0 |
 | `sklearn.dummy` | 0 |
-| `sklearn.ensemble` | 18 |
+| `sklearn.ensemble` | 0 |
 | `sklearn.feature_extraction` | 0 |
 | `sklearn.feature_extraction.image` | 0 |
 | `sklearn.feature_extraction.text` | 0 |
@@ -88,24 +88,6 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 
 | Target | Description | Source |
 | --- | --- | --- |
-| `AdaBoostClassifier` | An AdaBoost classifier. | `sklearn/ensemble/_weight_boosting.py:L321` |
-| `AdaBoostRegressor` | An AdaBoost regressor. | `sklearn/ensemble/_weight_boosting.py:L823` |
-| `BaggingClassifier` | A Bagging classifier. | `sklearn/ensemble/_bagging.py:L741` |
-| `BaggingRegressor` | A Bagging regressor. | `sklearn/ensemble/_bagging.py:L1253` |
-| `ExtraTreesClassifier` | An extra-trees classifier. | `sklearn/ensemble/_forest.py:L1944` |
-| `ExtraTreesRegressor` | An extra-trees regressor. | `sklearn/ensemble/_forest.py:L2328` |
-| `GradientBoostingClassifier` | Gradient Boosting for classification. | `sklearn/ensemble/_gb.py:L1134` |
-| `GradientBoostingRegressor` | Gradient Boosting for regression. | `sklearn/ensemble/_gb.py:L1746` |
-| `HistGradientBoostingClassifier` | Histogram-based Gradient Boosting Classification Tree. | `sklearn/ensemble/_hist_gradient_boosting/gradient_boosting.py:L1875` |
-| `HistGradientBoostingRegressor` | Histogram-based Gradient Boosting Regression Tree. | `sklearn/ensemble/_hist_gradient_boosting/gradient_boosting.py:L1472` |
-| `IsolationForest` | Isolation Forest Algorithm. | `sklearn/ensemble/_iforest.py:L55` |
-| `RandomForestClassifier` | A random forest classifier. | `sklearn/ensemble/_forest.py:L1174` |
-| `RandomForestRegressor` | A random forest regressor. | `sklearn/ensemble/_forest.py:L1572` |
-| `RandomTreesEmbedding` | An ensemble of totally random trees. | `sklearn/ensemble/_forest.py:L2679` |
-| `StackingClassifier` | Stack of estimators with a final classifier. | `sklearn/ensemble/_stacking.py:L422` |
-| `StackingRegressor` | Stack of estimators with a final regressor. | `sklearn/ensemble/_stacking.py:L841` |
-| `VotingClassifier` | Soft Voting/Majority Rule classifier for unfitted estimators. | `sklearn/ensemble/_voting.py:L194` |
-| `VotingRegressor` | Prediction voting regressor for unfitted estimators. | `sklearn/ensemble/_voting.py:L542` |
 
 ## `sklearn.feature_extraction`
 

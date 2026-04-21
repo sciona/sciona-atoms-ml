@@ -278,3 +278,39 @@ Potential remediation path:
   atoms or through limited solver-boundary atoms with direct parity tests.
 - Publish dictionary learning, SparsePCA, NMF, and LDA estimator states only
   after their inner solver boundaries have first-class provenance and tests.
+
+## `sklearn.ensemble` tree, estimator-callback, and native solver boundaries
+
+Deferred targets:
+
+| Target | Source | Reason |
+| --- | --- | --- |
+| `AdaBoostClassifier` | `sklearn/ensemble/_weight_boosting.py:L321` | Fit is a boosting loop around a mutable base estimator, defaulting to `DecisionTreeClassifier`; a publishable atom would need the classifier's fit/predict behavior and the SAMME weight update decomposed separately. |
+| `AdaBoostRegressor` | `sklearn/ensemble/_weight_boosting.py:L823` | Fit wraps repeated base-regressor training and AdaBoost.R2 weighted-error updates; default tree training and arbitrary estimator callbacks are hidden behind the public estimator shell. |
+| `BaggingClassifier` | `sklearn/ensemble/_bagging.py:L741` | Fit clones and trains arbitrary classifiers over sampled rows/features in joblib workers, so a wrapper atom would hide estimator-specific fit/predict behavior. |
+| `BaggingRegressor` | `sklearn/ensemble/_bagging.py:L1253` | Fit/predict aggregate arbitrary regressors over bootstrap samples and feature subsets; the core learned behavior lives in estimator callbacks. |
+| `RandomForestClassifier` | `sklearn/ensemble/_forest.py:L1174` | Fit delegates each base learner to `DecisionTreeClassifier._fit`, whose tree-building core is native/compiled; a forest shell would obscure the tree growth boundary. |
+| `RandomForestRegressor` | `sklearn/ensemble/_forest.py:L1572` | Fit delegates to compiled decision-tree growth through `DecisionTreeRegressor._fit`, with only bootstrap orchestration visible in Python. |
+| `ExtraTreesClassifier` | `sklearn/ensemble/_forest.py:L1944` | Fit delegates randomized tree construction to `ExtraTreeClassifier._fit`, which depends on the native tree builder. |
+| `ExtraTreesRegressor` | `sklearn/ensemble/_forest.py:L2328` | Fit delegates randomized regression-tree construction to the native tree builder through `ExtraTreeRegressor._fit`. |
+| `RandomTreesEmbedding` | `sklearn/ensemble/_forest.py:L2679` | Fit builds an ensemble of totally random trees and one-hot encodes leaf indices; the tree induction boundary is the same native forest dependency. |
+| `IsolationForest` | `sklearn/ensemble/_iforest.py:L55` | Fit uses random ExtraTreeRegressor ensembles and scoring depends on learned tree paths; helper kernels like average path length can be separated, but the public estimator hides native tree construction. |
+| `GradientBoostingClassifier` | `sklearn/ensemble/_gb.py:L1134` | Fit repeatedly trains regression trees and updates terminal regions; the tree training and loss-specific boosting loop need separate decomposition before publishing an estimator state. |
+| `GradientBoostingRegressor` | `sklearn/ensemble/_gb.py:L1746` | Fit uses staged regression-tree training and terminal-region updates; a public atom would hide the tree solver and staged loss update boundary. |
+| `HistGradientBoostingClassifier` | `sklearn/ensemble/_hist_gradient_boosting/gradient_boosting.py:L1875` | Fit uses histogram binning, native grower/predictor internals, and loss-specific boosting updates; the compiled histogram-tree solver is not decomposed. |
+| `HistGradientBoostingRegressor` | `sklearn/ensemble/_hist_gradient_boosting/gradient_boosting.py:L1472` | Fit shares the compiled histogram-tree grower and predictor boundary with the classifier variant. |
+| `StackingClassifier` | `sklearn/ensemble/_stacking.py:L422` | Fit trains arbitrary base estimators, obtains cross-validated predictions, and trains a final estimator; publishing a shell would hide both estimator callbacks and CV orchestration. |
+| `StackingRegressor` | `sklearn/ensemble/_stacking.py:L841` | Fit trains arbitrary regressors and a final estimator over generated meta-features, so the algorithmic behavior is estimator-callback orchestration. |
+| `VotingClassifier` | `sklearn/ensemble/_voting.py:L194` | Fit clones arbitrary classifiers and prediction aggregates their labels/probabilities; the publishable pieces are aggregation helpers, not the unfitted-estimator meta-estimator itself. |
+| `VotingRegressor` | `sklearn/ensemble/_voting.py:L542` | Fit clones arbitrary regressors and prediction averages callback outputs; a state atom would hide estimator-specific fit/predict behavior. |
+
+Potential remediation path:
+
+- Ingest small standalone helper kernels separately, such as bootstrap index
+  generation, weighted voting/probability aggregation, forest prediction
+  averaging, and IsolationForest average path length.
+- Decide whether sklearn tree builders and histogram-gradient-boosting native
+  internals should be represented through FFI/native atoms before publishing
+  random forest, extra trees, isolation forest, and gradient boosting states.
+- Define a general policy for arbitrary-estimator meta-estimators before
+  publishing bagging, stacking, voting, or AdaBoost wrappers.
