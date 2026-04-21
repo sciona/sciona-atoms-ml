@@ -1,0 +1,164 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_gp_kernels_root",
+      "name": "Sklearn Gaussian Process Kernel Atoms",
+      "description": "Function decomposition for selected sklearn.gaussian_process.kernels classes",
+      "status": "decomposed",
+      "children": [
+        "constant_kernel",
+        "constant_kernel_diag",
+        "white_kernel",
+        "white_kernel_diag",
+        "dot_product_kernel",
+        "dot_product_kernel_diag",
+        "rbf_kernel_matrix",
+        "rbf_kernel_diag"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "constant_kernel",
+      "name": "constant_kernel",
+      "description": "Return a constant covariance matrix.",
+      "concept_type": "kernel_matrix",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], Y: NDArray[np.float64] | None = None, constant_value: float = 1.0) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "Y", "type_desc": "NDArray[np.float64] | None", "required": false},
+        {"name": "constant_value", "type_desc": "float", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "constant_kernel_diag",
+      "name": "constant_kernel_diag",
+      "description": "Return diagonal entries for a constant covariance matrix.",
+      "concept_type": "kernel_diagonal",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], constant_value: float = 1.0) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "constant_value", "type_desc": "float", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "white_kernel",
+      "name": "white_kernel",
+      "description": "Return a diagonal white-noise covariance matrix.",
+      "concept_type": "kernel_matrix",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], Y: NDArray[np.float64] | None = None, noise_level: float = 1.0) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "Y", "type_desc": "NDArray[np.float64] | None", "required": false},
+        {"name": "noise_level", "type_desc": "float", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "white_kernel_diag",
+      "name": "white_kernel_diag",
+      "description": "Return diagonal entries for a white-noise covariance matrix.",
+      "concept_type": "kernel_diagonal",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], noise_level: float = 1.0) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "noise_level", "type_desc": "float", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "dot_product_kernel",
+      "name": "dot_product_kernel",
+      "description": "Return dot products plus a squared offset.",
+      "concept_type": "kernel_matrix",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], Y: NDArray[np.float64] | None = None, sigma_0: float = 1.0) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "Y", "type_desc": "NDArray[np.float64] | None", "required": false},
+        {"name": "sigma_0", "type_desc": "float", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "dot_product_kernel_diag",
+      "name": "dot_product_kernel_diag",
+      "description": "Return self dot products plus a squared offset.",
+      "concept_type": "kernel_diagonal",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], sigma_0: float = 1.0) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "sigma_0", "type_desc": "float", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "rbf_kernel_matrix",
+      "name": "rbf_kernel_matrix",
+      "description": "Return squared-exponential covariance from scaled distances.",
+      "concept_type": "kernel_matrix",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], Y: NDArray[np.float64] | None = None, length_scale: float | tuple[float, ...] | NDArray[np.float64] = 1.0) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "Y", "type_desc": "NDArray[np.float64] | None", "required": false},
+        {"name": "length_scale", "type_desc": "float | tuple[float, ...] | NDArray[np.float64]", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "rbf_kernel_diag",
+      "name": "rbf_kernel_diag",
+      "description": "Return the unit diagonal for the squared-exponential kernel.",
+      "concept_type": "kernel_diagonal",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "constant_kernel", "target": "constant_kernel_diag", "kind": "diagonal"},
+    {"source": "white_kernel", "target": "white_kernel_diag", "kind": "diagonal"},
+    {"source": "dot_product_kernel", "target": "dot_product_kernel_diag", "kind": "diagonal"},
+    {"source": "rbf_kernel_matrix", "target": "rbf_kernel_diag", "kind": "diagonal"}
+  ],
+  "metadata": {
+    "source": "agent_ingestion",
+    "source_module": "sklearn.gaussian_process.kernels",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause"
+  }
+}
