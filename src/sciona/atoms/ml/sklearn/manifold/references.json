@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "atoms": {
-    "sciona.atoms.ml.sklearn.manifold.classical_mds_dissimilarity_matrix@sciona/atoms/ml/sklearn/manifold/atoms.py:159": {
+    "sciona.atoms.ml.sklearn.manifold.classical_mds_dissimilarity_matrix@sciona/atoms/ml/sklearn/manifold/atoms.py:211": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -36,7 +36,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.manifold.classical_mds_double_center@sciona/atoms/ml/sklearn/manifold/atoms.py:177": {
+    "sciona.atoms.ml.sklearn.manifold.classical_mds_double_center@sciona/atoms/ml/sklearn/manifold/atoms.py:229": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -71,7 +71,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.manifold.classical_mds_fit@sciona/atoms/ml/sklearn/manifold/atoms.py:196": {
+    "sciona.atoms.ml.sklearn.manifold.classical_mds_fit@sciona/atoms/ml/sklearn/manifold/atoms.py:248": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -106,7 +106,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.manifold.smacof@sciona/atoms/ml/sklearn/manifold/atoms.py:290": {
+    "sciona.atoms.ml.sklearn.manifold.smacof@sciona/atoms/ml/sklearn/manifold/atoms.py:342": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -151,7 +151,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.manifold.mds_fit@sciona/atoms/ml/sklearn/manifold/atoms.py:338": {
+    "sciona.atoms.ml.sklearn.manifold.mds_fit@sciona/atoms/ml/sklearn/manifold/atoms.py:390": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -181,6 +181,126 @@
             "matched_nodes": [],
             "confidence": "high",
             "notes": "Modern multidimensional scaling reference cited by scikit-learn."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.manifold.spectral_embedding@sciona/atoms/ml/sklearn/manifold/atoms.py:449": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.manifold.spectral_embedding and dense arpack graph Laplacian branch in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "knyazev2001lobpcg",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Eigenvalue-solver reference cited by scikit-learn for spectral embedding."
+          }
+        },
+        {
+          "ref_id": "luxburg2007spectral",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Graph Laplacian and spectral embedding reference cited by scikit-learn."
+          }
+        },
+        {
+          "ref_id": "ng2001spectral",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Spectral clustering analysis reference cited by scikit-learn."
+          }
+        },
+        {
+          "ref_id": "shi2000normalizedcuts",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Normalized graph cuts reference for graph Laplacian embeddings cited by scikit-learn."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.manifold.spectral_embedding_fit@sciona/atoms/ml/sklearn/manifold/atoms.py:493": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.manifold.SpectralEmbedding.fit and rbf/precomputed affinity construction in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "luxburg2007spectral",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Graph Laplacian and spectral embedding reference cited by scikit-learn."
+          }
+        },
+        {
+          "ref_id": "ng2001spectral",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Spectral clustering analysis reference cited by scikit-learn."
+          }
+        },
+        {
+          "ref_id": "shi2000normalizedcuts",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Normalized graph cuts reference for graph Laplacian embeddings cited by scikit-learn."
           }
         },
         {

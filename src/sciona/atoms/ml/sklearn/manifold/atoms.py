@@ -6,20 +6,26 @@ import icontract
 import numpy as np
 from numpy.typing import NDArray
 from scipy import linalg
+from scipy.sparse.csgraph import laplacian as csgraph_laplacian
+from scipy.sparse.linalg import eigsh
+from sklearn.metrics.pairwise import rbf_kernel
 from sklearn.metrics import pairwise_distances
 from sklearn.utils import check_symmetric
-from sklearn.utils.extmath import svd_flip
+from sklearn.utils._arpack import _init_arpack_v0
+from sklearn.utils.extmath import _deterministic_vector_sign_flip, svd_flip
 from sklearn.utils.validation import check_array
 
 from sciona.ghost.registry import register_atom
 
-from .state_models import ClassicalMDSState, MDSState, SMACOFState
+from .state_models import ClassicalMDSState, MDSState, SMACOFState, SpectralEmbeddingState
 from .witnesses import (
     witness_classical_mds_dissimilarity_matrix,
     witness_classical_mds_double_center,
     witness_classical_mds_fit,
     witness_mds_fit,
     witness_smacof,
+    witness_spectral_embedding,
+    witness_spectral_embedding_fit,
 )
 
 
@@ -79,6 +85,31 @@ def _init_shape_valid(init: NDArray[np.float64] | None, n_samples: int, n_compon
 
 def _normalized_stress_valid(normalized_stress: bool | str) -> bool:
     return bool(isinstance(normalized_stress, bool) or normalized_stress == "auto")
+
+
+def _eigen_solver_valid(eigen_solver: str | None) -> bool:
+    return bool(eigen_solver in {None, "arpack"})
+
+
+def _eigen_tol_valid(eigen_tol: float | str) -> bool:
+    return bool(eigen_tol == "auto" or (isinstance(eigen_tol, (int, float)) and not isinstance(eigen_tol, bool) and np.isfinite(float(eigen_tol)) and float(eigen_tol) >= 0.0))
+
+
+def _spectral_components_valid(n_components: int, adjacency: NDArray[np.float64]) -> bool:
+    values = np.asarray(adjacency)
+    return bool(isinstance(n_components, int) and not isinstance(n_components, bool) and values.ndim == 2 and 1 <= n_components < values.shape[0])
+
+
+def _spectral_affinity_valid(affinity: str) -> bool:
+    return affinity in {"rbf", "precomputed"}
+
+
+def _spectral_gamma_valid(gamma: float | None) -> bool:
+    return bool(gamma is None or _positive_finite(gamma))
+
+
+def _spectral_optional_none(value: None) -> bool:
+    return value is None
 
 
 def _dissimilarity_valid(result: NDArray[np.float64], X: NDArray[np.float64]) -> bool:
@@ -146,6 +177,27 @@ def _mds_state_valid(state: MDSState) -> bool:
         and np.all(np.isfinite(state.embedding))
         and np.all(np.isfinite(state.dissimilarity_matrix))
         and np.allclose(state.dissimilarity_matrix, state.dissimilarity_matrix.T)
+    )
+
+
+def _spectral_embedding_valid(result: NDArray[np.float64], adjacency: NDArray[np.float64], n_components: int) -> bool:
+    values = np.asarray(result, dtype=np.float64)
+    source = np.asarray(adjacency)
+    return bool(values.shape == (source.shape[0], n_components) and np.all(np.isfinite(values)))
+
+
+def _spectral_state_valid(state: SpectralEmbeddingState) -> bool:
+    n_samples = state.affinity_matrix.shape[0]
+    return bool(
+        state.embedding.shape == (n_samples, state.n_components)
+        and state.affinity_matrix.shape == (n_samples, n_samples)
+        and state.n_components >= 1
+        and state.affinity in {"rbf", "precomputed"}
+        and state.eigen_solver == "arpack"
+        and state.n_features_in >= 1
+        and np.all(np.isfinite(state.embedding))
+        and np.all(np.isfinite(state.affinity_matrix))
+        and np.allclose(state.affinity_matrix, state.affinity_matrix.T)
     )
 
 
@@ -373,5 +425,109 @@ def mds_fit(
         metric=metric,
         metric_mds=True,
         normalized_stress=smacof_state.normalized_stress,
+        n_features_in=n_features_in,
+    )
+
+
+def _spectral_set_diag(laplacian: NDArray[np.float64], value: float, norm_laplacian: bool) -> NDArray[np.float64]:
+    result = np.asarray(laplacian, dtype=np.float64).copy()
+    if norm_laplacian:
+        result.flat[:: result.shape[0] + 1] = value
+    return result
+
+
+@register_atom(witness_spectral_embedding)
+@icontract.require(lambda adjacency: _square_matrix(adjacency), "adjacency must be square")
+@icontract.require(lambda adjacency: _finite_matrix(adjacency), "adjacency must contain only finite values")
+@icontract.require(lambda n_components, adjacency: _spectral_components_valid(n_components, adjacency), "n_components must be positive and below sample count")
+@icontract.require(lambda eigen_solver: _eigen_solver_valid(eigen_solver), "only arpack/default eigen solving is covered")
+@icontract.require(lambda random_state: _random_state_valid(random_state), "random_state must be an integer or None")
+@icontract.require(lambda eigen_tol: _eigen_tol_valid(eigen_tol), "eigen_tol must be non-negative or auto")
+@icontract.require(lambda norm_laplacian: isinstance(norm_laplacian, bool), "norm_laplacian must be boolean")
+@icontract.require(lambda drop_first: isinstance(drop_first, bool), "drop_first must be boolean")
+@icontract.ensure(lambda result, adjacency, n_components: _spectral_embedding_valid(result, adjacency, n_components), "spectral embedding must contain finite coordinates")
+def spectral_embedding(
+    adjacency: NDArray[np.float64],
+    *,
+    n_components: int = 8,
+    eigen_solver: str | None = None,
+    random_state: int | None = None,
+    eigen_tol: float | str = "auto",
+    norm_laplacian: bool = True,
+    drop_first: bool = True,
+) -> NDArray[np.float64]:
+    """Project a dense affinity graph onto Laplacian eigenvectors."""
+    del eigen_solver
+    checked = check_array(adjacency, dtype=np.float64, ensure_2d=True)
+    checked = np.asarray(check_symmetric(checked, raise_exception=True), dtype=np.float64)
+    effective_components = n_components + 1 if drop_first else n_components
+    laplacian, diagonal = csgraph_laplacian(checked, normed=norm_laplacian, return_diag=True)
+    laplacian = _spectral_set_diag(np.asarray(laplacian, dtype=np.float64), 1.0, norm_laplacian)
+    laplacian *= -1.0
+    rng = np.random.RandomState(random_state)
+    tolerance = 0.0 if eigen_tol == "auto" else float(eigen_tol)
+    v0 = _init_arpack_v0(laplacian.shape[0], rng)
+    _, diffusion_map = eigsh(laplacian, k=effective_components, sigma=1.0, which="LM", tol=tolerance, v0=v0)
+    embedding = diffusion_map.T[effective_components::-1]
+    if norm_laplacian:
+        embedding = embedding / diagonal
+    embedding = _deterministic_vector_sign_flip(embedding)
+    if drop_first:
+        return np.asarray(embedding[1:effective_components].T, dtype=np.float64)
+    return np.asarray(embedding[:effective_components].T, dtype=np.float64)
+
+
+@register_atom(witness_spectral_embedding_fit)
+@icontract.require(lambda X: _matrix_2d(X), "X must be a two-dimensional matrix")
+@icontract.require(lambda X: _finite_matrix(X), "X must contain only finite values")
+@icontract.require(lambda n_components, X: _spectral_components_valid(n_components, X), "n_components must be positive and below sample count")
+@icontract.require(lambda affinity: _spectral_affinity_valid(affinity), "only rbf and precomputed affinities are covered")
+@icontract.require(lambda gamma: _spectral_gamma_valid(gamma), "gamma must be positive when provided")
+@icontract.require(lambda random_state: _random_state_valid(random_state), "random_state must be an integer or None")
+@icontract.require(lambda eigen_solver: _eigen_solver_valid(eigen_solver), "only arpack/default eigen solving is covered")
+@icontract.require(lambda eigen_tol: _eigen_tol_valid(eigen_tol), "eigen_tol must be non-negative or auto")
+@icontract.require(lambda n_neighbors: _spectral_optional_none(n_neighbors), "nearest-neighbor affinity is outside this atom scope")
+@icontract.require(lambda n_jobs: _spectral_optional_none(n_jobs), "parallel neighbor construction is outside this atom scope")
+@icontract.require(lambda X, affinity: _precomputed_shape_valid(X, affinity), "precomputed affinity must be square")
+@icontract.ensure(lambda result: _spectral_state_valid(result), "Spectral embedding state must contain finite coordinates")
+def spectral_embedding_fit(
+    X: NDArray[np.float64],
+    *,
+    n_components: int = 2,
+    affinity: str = "rbf",
+    gamma: float | None = None,
+    random_state: int | None = None,
+    eigen_solver: str | None = None,
+    eigen_tol: float | str = "auto",
+    n_neighbors: None = None,
+    n_jobs: None = None,
+) -> SpectralEmbeddingState:
+    """Fit dense spectral embedding coordinates from rbf or precomputed affinity."""
+    del n_neighbors, n_jobs
+    checked = check_array(X, dtype=np.float64, ensure_2d=True)
+    if affinity == "precomputed":
+        affinity_matrix = np.asarray(check_symmetric(checked, raise_exception=True), dtype=np.float64)
+        n_features_in = int(checked.shape[1])
+        gamma_value = gamma
+    else:
+        gamma_value = float(gamma) if gamma is not None else 1.0 / checked.shape[1]
+        affinity_matrix = np.asarray(rbf_kernel(checked, gamma=gamma_value), dtype=np.float64)
+        n_features_in = int(checked.shape[1])
+    embedding = spectral_embedding(
+        affinity_matrix,
+        n_components=n_components,
+        eigen_solver=eigen_solver,
+        random_state=random_state,
+        eigen_tol=eigen_tol,
+        norm_laplacian=True,
+        drop_first=True,
+    )
+    return SpectralEmbeddingState(
+        embedding=embedding,
+        affinity_matrix=affinity_matrix,
+        n_components=int(n_components),
+        affinity=affinity,
+        gamma=gamma_value,
+        eigen_solver="arpack",
         n_features_in=n_features_in,
     )

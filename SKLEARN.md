@@ -12,7 +12,7 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 - Scope for this first ingestion pass: public algorithmic estimators, transformers, kernels, and algorithmic helper functions in the selected sklearn modules below.
 - Intentionally excluded for now: datasets, metrics, displays, exceptions, low-level utils, orchestration/composition (`compose`, `pipeline`), and model-selection/search APIs.
 - Source locations come from each object page's official `[source]` link. `BallTree` and `KDTree` use the matching source files from the same scikit-learn revision because their generated docs pages do not expose a direct `[source]` link.
-- Total targets in this inventory: 33
+- Total targets in this inventory: 31
 
 ## Module Summary
 
@@ -37,7 +37,7 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 | `sklearn.kernel_approximation` | 0 |
 | `sklearn.kernel_ridge` | 0 |
 | `sklearn.linear_model` | 0 |
-| `sklearn.manifold` | 6 |
+| `sklearn.manifold` | 4 |
 | `sklearn.mixture` | 2 |
 | `sklearn.multiclass` | 3 |
 | `sklearn.multioutput` | 4 |
@@ -151,8 +151,6 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 | `Isomap` | Isomap Embedding. | `sklearn/manifold/_isomap.py:L28` |
 | `locally_linear_embedding` | Perform a Locally Linear Embedding analysis on the data. | `sklearn/manifold/_locally_linear.py:L447` |
 | `LocallyLinearEmbedding` | Locally Linear Embedding. | `sklearn/manifold/_locally_linear.py:L601` |
-| `spectral_embedding` | Project the sample on the first eigenvectors of the graph Laplacian. | `sklearn/manifold/_spectral_embedding.py:L150` |
-| `SpectralEmbedding` | Spectral embedding for non-linear dimensionality reduction. | `sklearn/manifold/_spectral_embedding.py:L466` |
 | `TSNE` | T-distributed Stochastic Neighbor Embedding. | `sklearn/manifold/_t_sne.py:L560` |
 
 ## `sklearn.mixture`

@@ -120,3 +120,79 @@ def witness_mds_fit(
     if init is not None and (len(init.shape) != 2 or init.shape[0] != X.shape[0] or init.shape[1] != n_components):
         raise ValueError("init must match sample and component counts")
     return AbstractArray(shape=(int(X.shape[0]), n_components), dtype="float64")
+
+
+def witness_spectral_embedding(
+    adjacency: AbstractArray,
+    *,
+    n_components: int = 8,
+    eigen_solver: str | None = None,
+    random_state: int | None = None,
+    eigen_tol: float | str = "auto",
+    norm_laplacian: bool = True,
+    drop_first: bool = True,
+) -> AbstractArray:
+    """Describe dense graph Laplacian eigenmap coordinates."""
+    del random_state
+    if len(adjacency.shape) != 2 or adjacency.shape[0] != adjacency.shape[1]:
+        raise ValueError("adjacency must be square")
+    if (
+        not isinstance(n_components, int)
+        or isinstance(n_components, bool)
+        or n_components < 1
+        or n_components >= adjacency.shape[0]
+    ):
+        raise ValueError("n_components must be positive and below sample count")
+    if eigen_solver not in {None, "arpack"}:
+        raise ValueError("only arpack/default eigen solving is covered")
+    if eigen_tol != "auto" and (
+        not isinstance(eigen_tol, (int, float)) or isinstance(eigen_tol, bool) or eigen_tol < 0
+    ):
+        raise ValueError("eigen_tol must be non-negative or auto")
+    if not isinstance(norm_laplacian, bool):
+        raise ValueError("norm_laplacian must be boolean")
+    if not isinstance(drop_first, bool):
+        raise ValueError("drop_first must be boolean")
+    return AbstractArray(shape=(int(adjacency.shape[0]), n_components), dtype="float64")
+
+
+def witness_spectral_embedding_fit(
+    X: AbstractArray,
+    *,
+    n_components: int = 2,
+    affinity: str = "rbf",
+    gamma: float | None = None,
+    random_state: int | None = None,
+    eigen_solver: str | None = None,
+    eigen_tol: float | str = "auto",
+    n_neighbors: None = None,
+    n_jobs: None = None,
+) -> AbstractArray:
+    """Describe fitting dense spectral embedding coordinates."""
+    del random_state
+    if len(X.shape) != 2:
+        raise ValueError("X must be 2D")
+    if (
+        not isinstance(n_components, int)
+        or isinstance(n_components, bool)
+        or n_components < 1
+        or n_components >= X.shape[0]
+    ):
+        raise ValueError("n_components must be positive and below sample count")
+    if affinity not in {"rbf", "precomputed"}:
+        raise ValueError("only rbf and precomputed affinities are covered")
+    if affinity == "precomputed" and X.shape[0] != X.shape[1]:
+        raise ValueError("precomputed affinity must be square")
+    if gamma is not None and (not isinstance(gamma, (int, float)) or isinstance(gamma, bool) or gamma <= 0):
+        raise ValueError("gamma must be positive when provided")
+    if eigen_solver not in {None, "arpack"}:
+        raise ValueError("only arpack/default eigen solving is covered")
+    if eigen_tol != "auto" and (
+        not isinstance(eigen_tol, (int, float)) or isinstance(eigen_tol, bool) or eigen_tol < 0
+    ):
+        raise ValueError("eigen_tol must be non-negative or auto")
+    if n_neighbors is not None:
+        raise ValueError("nearest-neighbor affinity is outside this atom scope")
+    if n_jobs is not None:
+        raise ValueError("parallel neighbor construction is outside this atom scope")
+    return AbstractArray(shape=(int(X.shape[0]), n_components), dtype="float64")

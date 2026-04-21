@@ -45,3 +45,16 @@ class MDSState:
     metric_mds: bool
     normalized_stress: bool
     n_features_in: int
+
+
+@dataclass(frozen=True)
+class SpectralEmbeddingState:
+    """Fitted dense spectral embedding state."""
+
+    embedding: NDArray[np.float64]
+    affinity_matrix: NDArray[np.float64]
+    n_components: int
+    affinity: str
+    gamma: float | None
+    eigen_solver: str
+    n_features_in: int
