@@ -15,17 +15,29 @@
       "sanctioned_producer_kinds": ["atom_output"],
       "family_notes": [
         "Selects between OLS, Ridge, Lasso, and ElasticNet based on condition number, n/p ratio, and mutual incoherence.",
-        "When the irrepresentable condition is violated, Lasso is unreliable and ElasticNet or Ridge should be preferred."
+        "When the irrepresentable condition is violated (mu > 1), Lasso selection consistency drops to near zero and it operates as a screening operator only; prefer ElasticNet or Ridge.",
+        "Ridge adds lambda*I to the diagonal, shifting kappa from sigma_max/sigma_min to sigma_max/(sigma_min+lambda), guaranteeing finiteness even for singular X'X.",
+        "When p > n, Lasso is algebraically constrained to select at most n features; ElasticNet overcomes this via the L1+L2 grouping effect."
       ],
       "supported_action_classes": ["replace_stage", "precondition"],
       "action_priority": ["replace_stage", "precondition"],
       "expected_evidence_strength": "strong",
-      "admissibility_notes": ["Use condition number and mutual incoherence as hard gates before committing to a regularization strategy."],
-      "escalation_conditions": ["Escalate when condition number exceeds 1e6 (numerically singular)."],
-      "uncertainty_notes": ["Mutual incoherence boundary is sharp for Gaussian ensembles but approximate for real data."],
+      "admissibility_notes": [
+        "Use condition number and mutual incoherence as hard gates before committing to a regularization strategy.",
+        "condition_number is shared with dimensionality_reduction_selection: high kappa may be resolved by either regularization OR PCA, and the architect must choose one intervention, not both redundantly."
+      ],
+      "escalation_conditions": [
+        "Escalate when condition number exceeds 1e6 (numerically singular).",
+        "Escalate when p >> n and full SVD for condition number is computationally prohibitive; bypass exact decomposition and default to iterative ElasticNet."
+      ],
+      "uncertainty_notes": [
+        "Mutual incoherence boundary (mu <= 1) is sharp for Gaussian ensembles but only approximate for real-world feature distributions.",
+        "The n > 2k*log(p-k) sample complexity bound assumes a Gaussian ensemble; for structured or adversarial designs the required n may be substantially higher."
+      ],
       "references": [
-        {"title": "Hoerl & Kennard (1970)", "note": "Ridge regularization for ill-conditioned design matrices."},
-        {"title": "Wainwright (2009)", "note": "Lasso sharp recovery thresholds."}
+        {"title": "Hoerl & Kennard (1970)", "note": "Ridge regularization: kappa > 30 instability limit."},
+        {"title": "Wainwright (2009)", "note": "Lasso sharp recovery thresholds and mutual incoherence."},
+        {"title": "Zou & Hastie (2005)", "note": "ElasticNet grouping effect for correlated features."}
       ]
     },
     {
@@ -33,16 +45,27 @@
       "sanctioned_producer_kinds": ["atom_output"],
       "family_notes": [
         "Selects between squared_error, huber, and absolute_error based on residual and target kurtosis.",
-        "Heavy-tailed residuals require robust loss to prevent outlier domination."
+        "Residual kurtosis is more informative than target kurtosis alone because it isolates the noise distribution from the signal component.",
+        "Huber loss bridges MSE (quadratic for small errors, precise and differentiable) with MAE (linear for large errors, outlier-robust). The delta transition point must be set dynamically from the 90th-95th percentile of baseline absolute residuals, not as a fixed scalar.",
+        "MAE is median-seeking rather than mean-seeking, making it inherently robust to extreme values."
       ],
       "supported_action_classes": ["replace_stage"],
       "action_priority": ["replace_stage"],
       "expected_evidence_strength": "strong",
-      "admissibility_notes": ["Check residual kurtosis rather than target kurtosis alone for more accurate loss selection."],
-      "escalation_conditions": ["Escalate when residuals are bimodal rather than simply heavy-tailed."],
-      "uncertainty_notes": ["Kurtosis threshold is empirical; exact boundary varies by domain."],
+      "admissibility_notes": [
+        "Check residual kurtosis rather than target kurtosis alone for more accurate loss selection.",
+        "This heuristic requires a baseline OLS fit to have been run first (to produce residuals). Ensure compute_residual_kurtosis is sequenced after the design matrix is available."
+      ],
+      "escalation_conditions": [
+        "Escalate when residuals are bimodal rather than simply heavy-tailed: neither MAE nor Huber models multimodal noise, and mixture models or domain-specific losses are needed.",
+        "Escalate when asymmetric cost is detected (under-prediction costlier than over-prediction): quantile/pinball loss is required instead."
+      ],
+      "uncertainty_notes": [
+        "Kurtosis > 1.0 threshold is empirical; the exact boundary at which OLS sensitivity becomes practically problematic varies by domain and sample size.",
+        "Huber delta is not scale-invariant: must standardize y or compute delta dynamically from MAD(residuals) to avoid arbitrary transition points."
+      ],
       "references": [
-        {"title": "Huber (1964)", "note": "Original robust location estimation."}
+        {"title": "Huber (1964)", "note": "Original robust location estimation and piecewise loss function."}
       ]
     },
     {
@@ -50,33 +73,57 @@
       "sanctioned_producer_kinds": ["atom_output"],
       "family_notes": [
         "Selects between Gaussian, Poisson, Gamma, and Tweedie regressors plus appropriate solver.",
-        "Dispersion index and Tweedie power parameter determine the exponential family."
+        "Dispersion index DI = Var(y)/E(y) and Tweedie power parameter determine the exponential family: DI=1 Poisson, DI>1.1 overdispersion, power=2 Gamma, 1<power<2 compound Poisson-Gamma.",
+        "newton-cholesky computes the explicit Hessian with O(p^2) space; enforce the p <= 1000 threshold to prevent memory exhaustion.",
+        "Feature scaling must happen BEFORE linear model fitting: lbfgs and sag solvers are sensitive to cross-feature variance differences by orders of magnitude.",
+        "is_sparse from the diagnostics family drives solver selection: sparse matrices require saga for L1/ElasticNet support."
       ],
       "supported_action_classes": ["replace_stage", "precondition"],
       "action_priority": ["replace_stage", "precondition"],
       "expected_evidence_strength": "strong",
-      "admissibility_notes": ["Validate that target is non-negative before recommending Poisson/Gamma/Tweedie."],
-      "escalation_conditions": ["Escalate when underdispersion is detected (DI < 1)."],
-      "uncertainty_notes": ["Tweedie power estimation via binning is approximate."],
+      "admissibility_notes": [
+        "Validate that target is non-negative before recommending Poisson/Gamma/Tweedie.",
+        "preprocessing_selection must run before this heuristic to ensure features are scaled; otherwise solver convergence may fail silently."
+      ],
+      "escalation_conditions": [
+        "Escalate when underdispersion is detected (DI < 1, variance less than mean): neither Poisson nor Negative Binomial fits, and specialized distributions like Conway-Maxwell-Poisson lack sklearn implementations.",
+        "Escalate when solver fails to converge after preprocessing: likely indicates a fundamental model-data mismatch rather than a scaling issue."
+      ],
+      "uncertainty_notes": [
+        "Tweedie power estimation via binned mean-variance regression is approximate and can be noisy for small datasets or targets with limited range.",
+        "The compound Poisson-Gamma (1 < power < 2) interpretation assumes the target has a discrete mass at zero plus continuous positive tail; this is appropriate for insurance claims but not for general positive-valued data."
+      ],
       "references": [
-        {"title": "Hastie, Tibshirani & Friedman (2009)", "note": "GLM family selection."}
+        {"title": "Hastie, Tibshirani & Friedman (2009)", "note": "GLM family selection and variance functions."},
+        {"title": "scikit-learn linear model docs", "note": "Solver complexity boundaries and convergence requirements."}
       ]
     },
     {
       "heuristic_id": "tree_ensemble_selection",
       "sanctioned_producer_kinds": ["atom_output"],
       "family_notes": [
-        "Selects between HistGradientBoosting, RandomForest, and GradientBoosting.",
-        "High noise favors bagging (variance reduction); low noise favors boosting (bias reduction)."
+        "Selects between HistGradientBoosting, RandomForest, and GradientBoosting based on the bias-variance decomposition.",
+        "Bagging (RandomForest) trains independent deep trees on bootstrapped subsamples and averages; targets variance reduction. Boosting (GradientBoosting) trains weak shallow learners sequentially on residuals; targets bias reduction.",
+        "HistGradientBoosting discretizes features into up to 256 integer bins, making split-finding O(n*bins) vs O(n*p*log(n)) for exact splits.",
+        "noise_level from estimate_noise_level and n_categorical from count_categorical_features are required diagnostics. High noise favors bagging; categoricals favor HistGB."
       ],
       "supported_action_classes": ["replace_stage"],
       "action_priority": ["replace_stage"],
       "expected_evidence_strength": "moderate",
-      "admissibility_notes": ["Noise level estimation via shallow tree is a rough proxy."],
-      "escalation_conditions": ["Escalate when categorical cardinality is extreme (> 1000 unique values)."],
-      "uncertainty_notes": ["Noise threshold between bagging and boosting is soft."],
+      "admissibility_notes": [
+        "Noise level estimation via shallow tree is a rough proxy; the bagging/boosting boundary should be treated as soft guidance, not a hard gate.",
+        "All tree ensembles are incapable of extrapolation: if the task requires predicting values beyond the training range (e.g., upward-trending time series), a linear model MUST be used instead or in combination."
+      ],
+      "escalation_conditions": [
+        "Escalate when categorical cardinality is extreme (> 1000 unique values): HistGB encounters severe degradation or memory spikes; target encoding must precede the ensemble.",
+        "Escalate when the target exhibits trends beyond the training distribution: trees will flatline at the max observed value."
+      ],
+      "uncertainty_notes": [
+        "The noise threshold between bagging and boosting is soft and domain-dependent; at intermediate noise levels, both approaches may perform similarly.",
+        "HistGradientBoosting's early_stopping='auto' heuristic activates at n > 10,000 but this is an implementation detail that may change across sklearn versions."
+      ],
       "references": [
-        {"title": "Friedman (2001)", "note": "Gradient boosting machine."}
+        {"title": "Friedman (2001)", "note": "Gradient boosting: sequential residual fitting and learning rate tradeoff."}
       ]
     },
     {
@@ -84,16 +131,29 @@
       "sanctioned_producer_kinds": ["atom_output"],
       "family_notes": [
         "Recommends scaling, power transforms, and feature removal based on skewness, VIF, and sparsity.",
-        "Sparse matrices must avoid mean centering to prevent memory exhaustion."
+        "Box-Cox transform is undefined for x <= 0; must detect non-positive values and override to Yeo-Johnson automatically.",
+        "StandardScaler(with_mean=True) on sparse matrices replaces structural zeros with dense negative values, destroying sparsity and causing catastrophic RAM exhaustion. Use MaxAbsScaler or with_mean=False for sparse inputs.",
+        "VIF > 10 means coefficient variance is inflated tenfold by collinearity; when ALL features exceed VIF > 10, individual removal offers no selective guidance and PCA from dimensionality_reduction_selection is the only viable path.",
+        "This heuristic interacts with both regularization_selection (VIF drives Ridge preference) and dimensionality_reduction_selection (severe VIF triggers PCA)."
       ],
       "supported_action_classes": ["precondition", "gate_or_validate"],
       "action_priority": ["precondition", "gate_or_validate"],
       "expected_evidence_strength": "strong",
-      "admissibility_notes": ["VIF > 10 is a hard signal for feature removal or dimensionality reduction."],
-      "escalation_conditions": ["Escalate when all features exceed VIF > 10 (total multicollinearity)."],
-      "uncertainty_notes": ["Skewness threshold is conventional; some models tolerate skew well."],
+      "admissibility_notes": [
+        "VIF > 10 is a hard signal for feature removal or dimensionality reduction.",
+        "is_sparse from the diagnostics family is a hard gate on scaler selection: never use mean-centering on sparse matrices.",
+        "This heuristic must run BEFORE linear_model_selection (solver convergence depends on scaled features) and BEFORE regularization_selection (VIF informs Ridge vs Lasso preference)."
+      ],
+      "escalation_conditions": [
+        "Escalate when all features exceed VIF > 10 (total multicollinearity): only PCA or domain-driven feature engineering can resolve this.",
+        "Escalate when features contain non-positive values and Box-Cox was initially selected: must switch to Yeo-Johnson."
+      ],
+      "uncertainty_notes": [
+        "Skewness threshold (|skewness| > 1) is conventional: tree-based models tolerate skew well while distance-based models (KNN, SVC, K-Means) do not. The threshold should be applied conditionally based on the downstream model family.",
+        "VIF is undefined or misleading when p >= n and should be skipped in favor of direct regularization."
+      ],
       "references": [
-        {"title": "Hastie, Tibshirani & Friedman (2009)", "note": "Preprocessing thresholds."}
+        {"title": "Hastie, Tibshirani & Friedman (2009)", "note": "Preprocessing thresholds for skewness and collinearity."}
       ]
     },
     {
@@ -101,16 +161,27 @@
       "sanctioned_producer_kinds": ["atom_output"],
       "family_notes": [
         "Selects between PCA, TruncatedSVD, and no reduction based on condition number and sparsity.",
-        "PCA eliminates multicollinearity by producing orthogonal components."
+        "PCA produces orthogonal components with condition number exactly 1, eliminating multicollinearity completely.",
+        "TruncatedSVD is mandatory for sparse matrices because PCA's required mean-centering annihilates zero-structure.",
+        "condition_number is shared with regularization_selection: the architect must decide whether to resolve high kappa via regularization (preserves original features) or PCA (projects to latent space). Both resolve ill-conditioning but with different interpretability tradeoffs."
       ],
       "supported_action_classes": ["replace_stage", "precondition"],
       "action_priority": ["replace_stage", "precondition"],
       "expected_evidence_strength": "strong",
-      "admissibility_notes": ["TruncatedSVD is mandatory for sparse matrices."],
-      "escalation_conditions": ["Escalate when data lies on a nonlinear manifold (PCA collapses classes)."],
-      "uncertainty_notes": ["Explained variance threshold is conventional (0.95 default)."],
+      "admissibility_notes": [
+        "TruncatedSVD is mandatory for sparse matrices: this is a hard constraint, not a soft preference.",
+        "If preprocessing_selection detected severe collinearity (all VIF > 10), PCA should be strongly preferred over individual feature removal."
+      ],
+      "escalation_conditions": [
+        "Escalate when data lies on a nonlinear manifold: PCA will collapse classes by projecting a curved surface onto a flat subspace. Manifold methods (t-SNE, UMAP, Isomap) may be needed for visualization but are transductive and cannot serve as preprocessors for predictive pipelines.",
+        "Escalate when the explained variance curve has no clear elbow: uniform eigenvalue spectrum suggests the data has no low-rank structure and PCA will not help."
+      ],
+      "uncertainty_notes": [
+        "0.95 explained variance threshold is an industry convention, not a principled criterion. In some domains, discriminative information may concentrate in low-variance components.",
+        "PCA is a linear-only method: high explained variance does not guarantee that the retained components capture the features most useful for prediction."
+      ],
       "references": [
-        {"title": "Hastie, Tibshirani & Friedman (2009)", "note": "PCA and dimensionality reduction."}
+        {"title": "Hastie, Tibshirani & Friedman (2009)", "note": "PCA eigendecomposition and variance retention."}
       ]
     },
     {
@@ -118,16 +189,28 @@
       "sanctioned_producer_kinds": ["atom_output"],
       "family_notes": [
         "Generates intelligent search grids based on model type and data dimensions.",
-        "Alpha grids are log-spaced with a hard floor at 1e-5 to prevent zero-regularization collapse."
+        "Alpha grids are log-spaced with a hard floor at 1e-5: sklearn Lasso/ElasticNet scale residuals by 1/(2n), making alpha sample-size-invariant and allowing standardized grids.",
+        "For boosting: the prediction f += lr * tree creates a strict inverse lr/n_estimators tradeoff; lr < 0.125 yields diminishing returns, and error typically flatlines after ~200 estimators.",
+        "model_type is determined by upstream regularization_selection or tree_ensemble_selection; this heuristic must be sequenced AFTER those decisions."
       ],
       "supported_action_classes": ["precondition"],
       "action_priority": ["precondition"],
       "expected_evidence_strength": "moderate",
-      "admissibility_notes": ["Never set alpha=0; enforce hard floor."],
-      "escalation_conditions": ["Escalate when optimal hyperparameters sit at grid boundaries."],
-      "uncertainty_notes": ["Grid ranges are heuristic starting points, not guarantees."],
+      "admissibility_notes": [
+        "Never set alpha=0: this bypasses regularized solvers entirely, reverting to unregularized OLS and triggering floating-point instability.",
+        "If optimal parameters sit at grid boundaries after tuning, the grid itself is miscalibrated and must be expanded before trusting the result."
+      ],
+      "escalation_conditions": [
+        "Escalate when optimal hyperparameters sit at grid boundaries: indicates the search space is too narrow.",
+        "Escalate when n_estimators exceeds 200 with lr > 0.125: the model may be overfitting to noise rather than signal."
+      ],
+      "uncertainty_notes": [
+        "Grid ranges are heuristic starting points derived from standard tabular datasets; for highly structured domains the asymptotic behavior may differ.",
+        "The 1/(2n) scaling invariance holds for sklearn's specific cost function formulation; other implementations may normalize differently."
+      ],
       "references": [
-        {"title": "Friedman (2001)", "note": "Learning rate / n_estimators tradeoff."}
+        {"title": "Friedman (2001)", "note": "Learning rate and n_estimators inverse tradeoff, diminishing returns below lr=0.125."},
+        {"title": "Tibshirani (1996)", "note": "Lasso objective with 1/(2n) residual scaling."}
       ]
     },
     {
@@ -135,16 +218,29 @@
       "sanctioned_producer_kinds": ["atom_output"],
       "family_notes": [
         "Selects between KFold, StratifiedKFold, TimeSeriesSplit, GroupKFold, and LOOCV.",
-        "Temporal data absolutely requires TimeSeriesSplit to prevent future leakage."
+        "TimeSeriesSplit enforces a forward-rolling, causally sound validation structure that prevents future-to-past leakage. This is a hard requirement for temporal data, not a soft preference.",
+        "StratifiedKFold preserves class proportions across folds; without it, a rare class may be absent from a validation fold, making metrics undefined.",
+        "Single-loop CV for a tuned model inflates error estimates by up to 30% on null datasets (Varma & Simon 2006). Nested CV uses an inner loop for tuning and an outer loop for estimation to eliminate this bias.",
+        "is_timeseries comes from check_time_series_index in the diagnostics family. has_groups requires external domain metadata not derivable from X alone."
       ],
       "supported_action_classes": ["precondition", "gate_or_validate"],
       "action_priority": ["precondition", "gate_or_validate"],
       "expected_evidence_strength": "strong",
-      "admissibility_notes": ["TimeSeriesSplit and GroupKFold are hard requirements, not suggestions."],
-      "escalation_conditions": ["Escalate when group membership overlaps between entities."],
-      "uncertainty_notes": ["LOOCV has high variance despite low bias for small n."],
+      "admissibility_notes": [
+        "TimeSeriesSplit and GroupKFold are hard requirements when their conditions are met, not suggestions that can be overridden.",
+        "If the pipeline includes hyperparameter tuning, nested CV is mandatory for unbiased error estimation; the architect must wrap the tuning loop in an outer CV."
+      ],
+      "escalation_conditions": [
+        "Escalate when multiple records originate from the same entity (same patient, same user): standard CV places same-entity records in both train and test, creating massive leakage that GroupKFold must prevent.",
+        "Escalate when LOOCV is selected for time series data: leaving a single isolated time-step out destroys temporal contiguity; walk-forward validation must be used instead."
+      ],
+      "uncertainty_notes": [
+        "LOOCV has near-zero bias but very high variance because the n training sets overlap by n-2 samples, making the trained models highly correlated.",
+        "n <= 100 LOOCV threshold is a computational viability boundary (n model fits), not a statistical optimality boundary; RepeatedKFold may reduce variance even at small n.",
+        "has_groups detection requires domain knowledge (entity IDs, session boundaries) that cannot be inferred from the design matrix; the architect should prompt for this metadata when entity-level structure is suspected."
+      ],
       "references": [
-        {"title": "Varma & Simon (2006)", "note": "Nested CV bias correction."}
+        {"title": "Varma & Simon (2006)", "note": "Up to 30% error inflation from single-loop CV on tuned models."}
       ]
     }
   ],
@@ -155,7 +251,8 @@
     "rationale": "Deterministic model selection heuristics derived from the Gemini deep research survey on scikit-learn best practices.",
     "dejargonized_summary": "These are the decision rules that look at measurable properties of a dataset and pick which prediction method, error measure, data cleanup steps, and testing strategy to use without human judgment.",
     "uncertainty_notes": [
-      "Thresholds are empirically motivated but may require domain-specific calibration."
+      "Thresholds are empirically motivated but may require domain-specific calibration.",
+      "Inter-heuristic sequencing matters: preprocessing must precede linear model fitting, regularization and dimensionality reduction address the same symptom (high condition number) via different mechanisms, and hyperparameter ranges depend on upstream model family selection."
     ],
     "references": [
       {
