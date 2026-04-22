@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "metadata": {
-    "generated_at": "2026-04-22T23:13:22.620348+00:00",
+    "generated_at": "2026-04-22T23:40:33.469777+00:00",
     "generator": "scripts/apply_audit_review_bundles.py",
     "phase": "phase_1_review_bundle_merge"
   },
@@ -34542,6 +34542,304 @@
       "required_actions": [],
       "blocking_findings": [],
       "review_record_path": "data/review_bundles/ml_sklearn_dummy_regressor.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.ensemble.isolation_forest.isolation_forest_average_path_length",
+      "atom_key": "sciona.atoms.ml.sklearn.ensemble.isolation_forest.isolation_forest_average_path_length",
+      "atom_id": "sciona.atoms.ml.sklearn.ensemble.isolation_forest.isolation_forest_average_path_length",
+      "module_import_path": "sciona.atoms.ml.sklearn.ensemble.isolation_forest",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/ensemble/isolation_forest/atoms.py",
+      "module_family": "ensemble",
+      "domain_family": "ml.sklearn.ensemble",
+      "wrapper_symbol": "isolation_forest_average_path_length",
+      "argument_names": [
+        "n_samples_leaf"
+      ],
+      "argument_details": [
+        {
+          "name": "n_samples_leaf",
+          "annotation": "NDArray[np.int64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.float64]",
+      "docstring_summary": "Compute sklearn's average path length for isolation-tree leaf counts.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/ensemble/isolation_forest/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/ensemble/isolation_forest/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/ensemble/isolation_forest/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/ensemble/isolation_forest/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_ensemble_isolation_forest_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_ensemble_isolation_forest_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_ensemble_isolation_forest_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 9,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 93,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 3,
+      "parity_case_count": 7,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_ensemble_isolation_forest.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.ensemble.isolation_forest.isolation_forest_leaf_depths",
+      "atom_key": "sciona.atoms.ml.sklearn.ensemble.isolation_forest.isolation_forest_leaf_depths",
+      "atom_id": "sciona.atoms.ml.sklearn.ensemble.isolation_forest.isolation_forest_leaf_depths",
+      "module_import_path": "sciona.atoms.ml.sklearn.ensemble.isolation_forest",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/ensemble/isolation_forest/atoms.py",
+      "module_family": "ensemble",
+      "domain_family": "ml.sklearn.ensemble",
+      "wrapper_symbol": "isolation_forest_leaf_depths",
+      "argument_names": [
+        "leaf_indices",
+        "tree_decision_path_lengths",
+        "tree_average_path_lengths"
+      ],
+      "argument_details": [
+        {
+          "name": "leaf_indices",
+          "annotation": "NDArray[np.int64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "tree_decision_path_lengths",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "tree_average_path_lengths",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.float64]",
+      "docstring_summary": "Compute one tree's depth contribution for samples that reached leaves.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/ensemble/isolation_forest/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/ensemble/isolation_forest/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/ensemble/isolation_forest/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/ensemble/isolation_forest/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_ensemble_isolation_forest_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_ensemble_isolation_forest_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_ensemble_isolation_forest_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 10,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 92,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 2,
+      "parity_case_count": 4,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_ensemble_isolation_forest.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.ensemble.isolation_forest.isolation_forest_raw_scores",
+      "atom_key": "sciona.atoms.ml.sklearn.ensemble.isolation_forest.isolation_forest_raw_scores",
+      "atom_id": "sciona.atoms.ml.sklearn.ensemble.isolation_forest.isolation_forest_raw_scores",
+      "module_import_path": "sciona.atoms.ml.sklearn.ensemble.isolation_forest",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/ensemble/isolation_forest/atoms.py",
+      "module_family": "ensemble",
+      "domain_family": "ml.sklearn.ensemble",
+      "wrapper_symbol": "isolation_forest_raw_scores",
+      "argument_names": [
+        "depths",
+        "n_estimators",
+        "max_samples"
+      ],
+      "argument_details": [
+        {
+          "name": "depths",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "n_estimators",
+          "annotation": "int",
+          "required": true,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "max_samples",
+          "annotation": "int",
+          "required": true,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.float64]",
+      "docstring_summary": "Convert accumulated tree depths to sklearn's positive raw anomaly scores.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/ensemble/isolation_forest/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/ensemble/isolation_forest/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/ensemble/isolation_forest/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/ensemble/isolation_forest/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_ensemble_isolation_forest_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_ensemble_isolation_forest_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_ensemble_isolation_forest_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 10,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 92,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 2,
+      "parity_case_count": 4,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_ensemble_isolation_forest.review_bundle.json",
       "has_references": true,
       "references_status": "pass"
     },

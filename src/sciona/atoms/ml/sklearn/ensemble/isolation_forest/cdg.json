@@ -1,0 +1,77 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_ensemble_isolation_forest_root",
+      "name": "Sklearn IsolationForest Helper Atoms",
+      "description": "Estimator-independent path-length and score helpers for sklearn IsolationForest",
+      "status": "decomposed",
+      "children": [
+        "isolation_forest_average_path_length",
+        "isolation_forest_leaf_depths",
+        "isolation_forest_raw_scores"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "isolation_forest_average_path_length",
+      "name": "isolation_forest_average_path_length",
+      "description": "Compute sklearn's average path length for isolation-tree leaf counts.",
+      "concept_type": "path_length_normalization",
+      "status": "atomic",
+      "type_signature": "(n_samples_leaf: NDArray[np.int64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_samples_leaf", "type_desc": "NDArray[np.int64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "isolation_forest_leaf_depths",
+      "name": "isolation_forest_leaf_depths",
+      "description": "Compute one tree's depth contribution for samples that reached leaves.",
+      "concept_type": "tree_depth_accumulation",
+      "status": "atomic",
+      "type_signature": "(leaf_indices: NDArray[np.int64], tree_decision_path_lengths: NDArray[np.float64], tree_average_path_lengths: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "leaf_indices", "type_desc": "NDArray[np.int64]", "required": true},
+        {"name": "tree_decision_path_lengths", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "tree_average_path_lengths", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "isolation_forest_raw_scores",
+      "name": "isolation_forest_raw_scores",
+      "description": "Convert accumulated tree depths to sklearn's positive raw anomaly scores.",
+      "concept_type": "anomaly_score_normalization",
+      "status": "atomic",
+      "type_signature": "(depths: NDArray[np.float64], n_estimators: int, max_samples: int) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "depths", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "n_estimators", "type_desc": "int", "required": true},
+        {"name": "max_samples", "type_desc": "int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "isolation_forest_average_path_length", "target": "isolation_forest_leaf_depths", "kind": "tree_leaf_average_path_lengths"},
+    {"source": "isolation_forest_leaf_depths", "target": "isolation_forest_raw_scores", "kind": "accumulated_depths"},
+    {"source": "isolation_forest_average_path_length", "target": "isolation_forest_raw_scores", "kind": "max_samples_normalization"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.ensemble._iforest",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 3 tree-ensemble deterministic helpers"
+  }
+}
