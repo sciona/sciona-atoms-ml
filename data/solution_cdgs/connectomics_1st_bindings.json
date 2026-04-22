@@ -1,0 +1,217 @@
+{
+  "schema_version": "1.0",
+  "solution_id": "solution.kaggle.connectomics_1st",
+  "solution_metadata": {
+    "competition": "Kaggle Connectomics",
+    "placement": "1st",
+    "team": "AAAGV",
+    "year": 2014,
+    "metric": "AUC",
+    "problem_domain": "graph_inference",
+    "source_url": "https://github.com/asutera/kaggle-connectomics",
+    "source_license": "BSD-3-Clause",
+    "paper_doi": "10.48550/arXiv.1406.7865"
+  },
+  "bindings": [
+    {
+      "stage_id": "calcium_lowpass_filter",
+      "bound_artifact_fqdn": null,
+      "binding_confidence": 0.0,
+      "binding_source": "manual_analysis",
+      "status": "gap",
+      "action_class": "replace_stage",
+      "evidence_summary": {
+        "search_attempted": true,
+        "concept_type_searched": "signal_filter",
+        "keywords_searched": ["lowpass", "moving_average", "convolution", "causal_filter"],
+        "candidates_found": [],
+        "gap_reason": "Novel atom: circular-shift moving average with multiple kernel variants specific to calcium imaging. No existing atom in sciona-atoms-ml covers this. Closest conceptual match would be scipy.signal.convolve1d but the circular-shift (np.roll) behavior and multi-kernel ensemble are domain-specific."
+      },
+      "alternatives": []
+    },
+    {
+      "stage_id": "first_difference",
+      "bound_artifact_fqdn": null,
+      "binding_confidence": 0.3,
+      "binding_source": "manual_analysis",
+      "status": "gap",
+      "action_class": "replace_stage",
+      "evidence_summary": {
+        "search_attempted": true,
+        "concept_type_searched": "signal_transform",
+        "keywords_searched": ["difference", "derivative", "diff", "gradient"],
+        "candidates_found": [],
+        "gap_reason": "Trivial numpy operation (np.diff or subtraction). Not worth a standalone atom but no existing atom wraps it either. Could be inlined in a preprocessing pipeline atom."
+      },
+      "alternatives": []
+    },
+    {
+      "stage_id": "fluorescence_hard_threshold",
+      "bound_artifact_fqdn": null,
+      "binding_confidence": 0.15,
+      "binding_source": "manual_analysis",
+      "status": "gap",
+      "action_class": "replace_stage",
+      "evidence_summary": {
+        "search_attempted": true,
+        "concept_type_searched": "signal_filter",
+        "keywords_searched": ["threshold", "hard_threshold", "clip", "relu", "variance_threshold"],
+        "candidates_found": ["sciona.atoms.ml.sklearn.variance_threshold.variance_threshold_fit"],
+        "gap_reason": "sklearn VarianceThreshold removes constant features (column-wise). This atom thresholds VALUES (element-wise) on the derivative signal. Conceptually different operation despite keyword overlap. True gap."
+      },
+      "alternatives": [
+        {
+          "fqdn": "sciona.atoms.ml.sklearn.variance_threshold.variance_threshold_fit",
+          "why_rejected": "VarianceThreshold operates on feature variance (column-wise), not on individual values. Wrong semantic."
+        }
+      ]
+    },
+    {
+      "stage_id": "global_activity_sample_reweighting",
+      "bound_artifact_fqdn": null,
+      "binding_confidence": 0.0,
+      "binding_source": "manual_analysis",
+      "status": "gap",
+      "action_class": "replace_stage",
+      "evidence_summary": {
+        "search_attempted": true,
+        "concept_type_searched": "signal_transform",
+        "keywords_searched": ["reweight", "sample_weight", "activity", "burst", "deconfound"],
+        "candidates_found": [],
+        "gap_reason": "Highly novel atom. The (x+1)^(1+1/S) nonlinear reweighting with regime-dependent exponents is original to this solution. No existing atom in any sciona repo covers this. This is the key winning technique."
+      },
+      "alternatives": []
+    },
+    {
+      "stage_id": "pca_precision_matrix",
+      "bound_artifact_fqdn": "sciona.atoms.ml.sklearn.decomposition.pca_fit",
+      "binding_confidence": 0.7,
+      "binding_source": "manual_analysis",
+      "status": "active",
+      "action_class": "replace_stage",
+      "evidence_summary": {
+        "search_attempted": true,
+        "concept_type_searched": "dimensionality_reduction",
+        "keywords_searched": ["pca", "precision_matrix", "inverse_covariance", "whiten"],
+        "candidates_found": [
+          "sciona.atoms.ml.sklearn.decomposition.pca_fit",
+          "sciona.atoms.ml.sklearn.decomposition.pca_transform"
+        ],
+        "binding_rationale": "pca_fit creates the PCA state with whiten=True and n_components. The solution then calls get_precision() on the fitted model. The fit atom exists; the get_precision step may require a state query atom that doesn't exist yet.",
+        "partial_coverage_note": "pca_fit covers the decomposition step. The precision matrix extraction (get_precision + negation) is a separate operation not covered by an existing atom. Binding confidence 0.7 because the core computation is covered but the output transformation is not."
+      },
+      "alternatives": [
+        {
+          "fqdn": "sciona.atoms.ml.sklearn.covariance.graphical_lasso_fit",
+          "why_rejected": "Graphical Lasso computes the same output (precision matrix) but via L1 penalization instead of rank reduction. The solution explicitly chose PCA over GraphicalLasso for computational reasons (O(N^2) vs O(N^3))."
+        }
+      ]
+    },
+    {
+      "stage_id": "score_matrix_normalization",
+      "bound_artifact_fqdn": null,
+      "binding_confidence": 0.2,
+      "binding_source": "manual_analysis",
+      "status": "gap",
+      "action_class": "replace_stage",
+      "evidence_summary": {
+        "search_attempted": true,
+        "concept_type_searched": "signal_transform",
+        "keywords_searched": ["normalize", "min_max", "scale", "minmax_scale"],
+        "candidates_found": ["sciona.atoms.ml.sklearn.preprocessing.min_max_scaler_fit"],
+        "gap_reason": "MinMaxScaler operates on features (columns). This normalization operates on a square matrix with diagonal handling. Different semantic despite similar math."
+      },
+      "alternatives": [
+        {
+          "fqdn": "sciona.atoms.ml.sklearn.preprocessing.min_max_scaler_fit",
+          "why_rejected": "MinMaxScaler is column-wise. This is a full-matrix normalization with diagonal zeroing."
+        }
+      ]
+    },
+    {
+      "stage_id": "threshold_sweep_ensemble",
+      "bound_artifact_fqdn": null,
+      "binding_confidence": 0.0,
+      "binding_source": "manual_analysis",
+      "status": "gap",
+      "action_class": "branch_and_compare",
+      "evidence_summary": {
+        "search_attempted": true,
+        "concept_type_searched": "analysis",
+        "keywords_searched": ["ensemble", "sweep", "grid", "bayesian_averaging", "hyperparameter"],
+        "candidates_found": [],
+        "gap_reason": "Meta-strategy that wraps the inner pipeline in a loop over 120 thresholds × 2-4 filters. This is an orchestration pattern (MAP_OVER or FIXED_POINT), not a single atom. The architect would need to represent this as a higher-order composition."
+      },
+      "alternatives": []
+    },
+    {
+      "stage_id": "temporal_precedence_directivity",
+      "bound_artifact_fqdn": null,
+      "binding_confidence": 0.0,
+      "binding_source": "manual_analysis",
+      "status": "gap",
+      "action_class": "replace_stage",
+      "evidence_summary": {
+        "search_attempted": true,
+        "concept_type_searched": "analysis",
+        "keywords_searched": ["temporal", "precedence", "directivity", "causal", "lag", "granger"],
+        "candidates_found": [],
+        "gap_reason": "Novel atom specific to calcium imaging. Detects directed connections via a biophysics-tuned temporal lag signature [+0.2, +0.5]. No general causal lag atom exists."
+      },
+      "alternatives": []
+    },
+    {
+      "stage_id": "weighted_score_combination",
+      "bound_artifact_fqdn": null,
+      "binding_confidence": 0.1,
+      "binding_source": "manual_analysis",
+      "status": "gap",
+      "action_class": "replace_stage",
+      "evidence_summary": {
+        "search_attempted": true,
+        "concept_type_searched": "analysis",
+        "keywords_searched": ["weighted_average", "combine", "blend", "ensemble_combine"],
+        "candidates_found": [],
+        "gap_reason": "Trivial weighted sum (0.997 * symmetric + 0.003 * asymmetric). Could be a one-line numpy operation but no atom wraps this specific pattern."
+      },
+      "alternatives": []
+    }
+  ],
+  "binding_summary": {
+    "total_stages": 9,
+    "bound_active": 1,
+    "bound_approximate": 0,
+    "gaps": 8,
+    "sklearn_atoms_used": ["sciona.atoms.ml.sklearn.decomposition.pca_fit"],
+    "novel_atoms_needed": [
+      "calcium_lowpass_filter",
+      "fluorescence_hard_threshold",
+      "global_activity_sample_reweighting",
+      "temporal_precedence_directivity"
+    ],
+    "trivial_ops_unbound": [
+      "first_difference",
+      "score_matrix_normalization",
+      "weighted_score_combination"
+    ],
+    "meta_strategies_unbound": [
+      "threshold_sweep_ensemble"
+    ]
+  },
+  "architect_test_expectations": {
+    "description": "What the architect should find when searching for atoms to bind to each stage, and what it should NOT find.",
+    "pca_precision_matrix": {
+      "should_find": "sciona.atoms.ml.sklearn.decomposition.pca_fit via concept_type=dimensionality_reduction search",
+      "should_also_consider": "sciona.atoms.ml.sklearn.covariance.graphical_lasso_fit as alternative (same output type)",
+      "should_not_bind": "Any preprocessing atom (wrong semantic level)"
+    },
+    "fluorescence_hard_threshold": {
+      "should_not_confuse_with": "sciona.atoms.ml.sklearn.variance_threshold.variance_threshold_fit (column-wise vs element-wise)",
+      "expected_gap": true
+    },
+    "threshold_sweep_ensemble": {
+      "should_recognize_as": "MAP_OVER or FIXED_POINT orchestration pattern, not a single atom",
+      "expected_gap": true
+    }
+  }
+}
