@@ -1,0 +1,115 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_ransac_root",
+      "name": "Sklearn Linear Model RANSAC Helper Atoms",
+      "description": "Estimator-independent consensus bookkeeping helpers for RANSAC regression",
+      "status": "decomposed",
+      "children": [
+        "ransac_default_residual_threshold",
+        "ransac_loss_residuals",
+        "ransac_inlier_mask",
+        "ransac_consensus_is_better",
+        "ransac_dynamic_max_trials"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "ransac_default_residual_threshold",
+      "name": "ransac_default_residual_threshold",
+      "description": "Compute the default residual threshold from target spread.",
+      "concept_type": "threshold_estimation",
+      "status": "atomic",
+      "type_signature": "(y: NDArray[np.float64]) -> float",
+      "depth": 1,
+      "inputs": [
+        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "float"}
+      ]
+    },
+    {
+      "node_id": "ransac_loss_residuals",
+      "name": "ransac_loss_residuals",
+      "description": "Compute per-sample residual values for built-in loss choices.",
+      "concept_type": "residual_scoring",
+      "status": "atomic",
+      "type_signature": "(y_true: NDArray[np.float64], y_pred: NDArray[np.float64], loss: str = 'absolute_error') -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "y_true", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "y_pred", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "loss", "type_desc": "str", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "ransac_inlier_mask",
+      "name": "ransac_inlier_mask",
+      "description": "Classify samples as inliers when residuals are within the threshold.",
+      "concept_type": "consensus_mask",
+      "status": "atomic",
+      "type_signature": "(residuals: NDArray[np.float64], residual_threshold: float) -> NDArray[np.bool_]",
+      "depth": 1,
+      "inputs": [
+        {"name": "residuals", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "residual_threshold", "type_desc": "float", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.bool_]"}
+      ]
+    },
+    {
+      "node_id": "ransac_consensus_is_better",
+      "name": "ransac_consensus_is_better",
+      "description": "Decide whether a candidate consensus should replace the current best.",
+      "concept_type": "consensus_selection",
+      "status": "atomic",
+      "type_signature": "(n_inliers: int, score: float, best_n_inliers: int, best_score: float) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_inliers", "type_desc": "int", "required": true},
+        {"name": "score", "type_desc": "float", "required": true},
+        {"name": "best_n_inliers", "type_desc": "int", "required": true},
+        {"name": "best_score", "type_desc": "float", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "ransac_dynamic_max_trials",
+      "name": "ransac_dynamic_max_trials",
+      "description": "Compute the trial bound needed to sample one all-inlier subset.",
+      "concept_type": "trial_bound",
+      "status": "atomic",
+      "type_signature": "(n_inliers: int, n_samples: int, min_samples: int, probability: float) -> float",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_inliers", "type_desc": "int", "required": true},
+        {"name": "n_samples", "type_desc": "int", "required": true},
+        {"name": "min_samples", "type_desc": "int", "required": true},
+        {"name": "probability", "type_desc": "float", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "float"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "ransac_default_residual_threshold", "target": "ransac_inlier_mask", "kind": "threshold"},
+    {"source": "ransac_loss_residuals", "target": "ransac_inlier_mask", "kind": "residuals"},
+    {"source": "ransac_inlier_mask", "target": "ransac_consensus_is_better", "kind": "inlier_count"},
+    {"source": "ransac_consensus_is_better", "target": "ransac_dynamic_max_trials", "kind": "accepted_consensus"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._ransac",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 3 estimator callback workflow"
+  }
+}
