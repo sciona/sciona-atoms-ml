@@ -1,0 +1,73 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_ensemble_voting_root",
+      "name": "Sklearn Ensemble Voting Aggregation Atoms",
+      "description": "Estimator-independent aggregation helpers for sklearn ensemble voting estimators",
+      "status": "decomposed",
+      "children": [
+        "voting_classifier_hard_labels",
+        "voting_classifier_soft_probabilities",
+        "voting_regressor_average"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "voting_classifier_hard_labels",
+      "name": "voting_classifier_hard_labels",
+      "description": "Choose each sample's class by sklearn's weighted hard-vote tie rule.",
+      "concept_type": "classifier_aggregation",
+      "status": "atomic",
+      "type_signature": "(encoded_predictions: NDArray[np.int64], classes: NDArray[np.float64], weights: tuple[float, ...] | None = None) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "encoded_predictions", "type_desc": "NDArray[np.int64]", "required": true},
+        {"name": "classes", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "weights", "type_desc": "tuple[float, ...] | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "voting_classifier_soft_probabilities",
+      "name": "voting_classifier_soft_probabilities",
+      "description": "Average per-estimator class probabilities the way sklearn soft voting does.",
+      "concept_type": "classifier_aggregation",
+      "status": "atomic",
+      "type_signature": "(probabilities: NDArray[np.float64], weights: tuple[float, ...] | None = None) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "probabilities", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "weights", "type_desc": "tuple[float, ...] | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "voting_regressor_average",
+      "name": "voting_regressor_average",
+      "description": "Average per-estimator regression predictions the way sklearn voting regression does.",
+      "concept_type": "regressor_aggregation",
+      "status": "atomic",
+      "type_signature": "(predictions: NDArray[np.float64], weights: tuple[float, ...] | None = None) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "predictions", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "weights", "type_desc": "tuple[float, ...] | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    }
+  ],
+  "edges": [],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.ensemble._voting",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 3 meta-estimator wrappers"
+  }
+}
