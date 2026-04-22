@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "metadata": {
-    "generated_at": "2026-04-22T22:22:01.067579+00:00",
+    "generated_at": "2026-04-22T22:32:49.696626+00:00",
     "generator": "scripts/apply_audit_review_bundles.py",
     "phase": "phase_1_review_bundle_merge"
   },
@@ -52013,6 +52013,611 @@
       "required_actions": [],
       "blocking_findings": [],
       "review_record_path": "data/review_bundles/ml_sklearn_linear_model_ridge.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.sgd.passive_aggressive_classifier_sgd_config",
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.sgd.passive_aggressive_classifier_sgd_config",
+      "atom_id": "sciona.atoms.ml.sklearn.linear_model.sgd.passive_aggressive_classifier_sgd_config",
+      "module_import_path": "sciona.atoms.ml.sklearn.linear_model.sgd",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/linear_model/sgd/atoms.py",
+      "module_family": "linear_model",
+      "domain_family": "ml.sklearn.linear_model",
+      "wrapper_symbol": "passive_aggressive_classifier_sgd_config",
+      "argument_names": [
+        "loss"
+      ],
+      "argument_details": [
+        {
+          "name": "loss",
+          "annotation": "str",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "tuple[str, str, float]",
+      "docstring_summary": "Map a classifier loss option to the lower-level training settings.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/linear_model/sgd/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/linear_model/sgd/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/linear_model/sgd/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/linear_model/sgd/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_linear_model_sgd_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_linear_model_sgd_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_linear_model_sgd_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 8,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 94,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 4,
+      "parity_case_count": 13,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_sgd.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.sgd.passive_aggressive_regressor_sgd_config",
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.sgd.passive_aggressive_regressor_sgd_config",
+      "atom_id": "sciona.atoms.ml.sklearn.linear_model.sgd.passive_aggressive_regressor_sgd_config",
+      "module_import_path": "sciona.atoms.ml.sklearn.linear_model.sgd",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/linear_model/sgd/atoms.py",
+      "module_family": "linear_model",
+      "domain_family": "ml.sklearn.linear_model",
+      "wrapper_symbol": "passive_aggressive_regressor_sgd_config",
+      "argument_names": [
+        "loss"
+      ],
+      "argument_details": [
+        {
+          "name": "loss",
+          "annotation": "str",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "tuple[str, str, float]",
+      "docstring_summary": "Map a regressor loss option to the lower-level training settings.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/linear_model/sgd/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/linear_model/sgd/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/linear_model/sgd/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/linear_model/sgd/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_linear_model_sgd_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_linear_model_sgd_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_linear_model_sgd_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 8,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 94,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 4,
+      "parity_case_count": 13,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_sgd.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.sgd.sgd_l1_ratio_or_zero",
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.sgd.sgd_l1_ratio_or_zero",
+      "atom_id": "sciona.atoms.ml.sklearn.linear_model.sgd.sgd_l1_ratio_or_zero",
+      "module_import_path": "sciona.atoms.ml.sklearn.linear_model.sgd",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/linear_model/sgd/atoms.py",
+      "module_family": "linear_model",
+      "domain_family": "ml.sklearn.linear_model",
+      "wrapper_symbol": "sgd_l1_ratio_or_zero",
+      "argument_names": [
+        "l1_ratio"
+      ],
+      "argument_details": [
+        {
+          "name": "l1_ratio",
+          "annotation": "float | None",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "float",
+      "docstring_summary": "Return the l1-ratio value consumed by sklearn's SGD kernel.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/linear_model/sgd/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/linear_model/sgd/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/linear_model/sgd/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/linear_model/sgd/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_linear_model_sgd_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_linear_model_sgd_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_linear_model_sgd_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 7,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 95,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 4,
+      "parity_case_count": 13,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_sgd.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.sgd.sgd_learning_rate_value",
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.sgd.sgd_learning_rate_value",
+      "atom_id": "sciona.atoms.ml.sklearn.linear_model.sgd.sgd_learning_rate_value",
+      "module_import_path": "sciona.atoms.ml.sklearn.linear_model.sgd",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/linear_model/sgd/atoms.py",
+      "module_family": "linear_model",
+      "domain_family": "ml.sklearn.linear_model",
+      "wrapper_symbol": "sgd_learning_rate_value",
+      "argument_names": [
+        "learning_rate",
+        "eta0",
+        "alpha",
+        "t",
+        "power_t",
+        "t0"
+      ],
+      "argument_details": [
+        {
+          "name": "learning_rate",
+          "annotation": "str",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "eta0",
+          "annotation": "float",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "alpha",
+          "annotation": "float",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "t",
+          "annotation": "float",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "power_t",
+          "annotation": "float",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "t0",
+          "annotation": "float",
+          "required": false,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "float",
+      "docstring_summary": "Evaluate a non-PA SGD learning-rate schedule at one step.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/linear_model/sgd/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/linear_model/sgd/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/linear_model/sgd/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/linear_model/sgd/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_linear_model_sgd_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_linear_model_sgd_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_linear_model_sgd_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 12,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "medium",
+        "runtime": "low",
+        "api_surface": "medium"
+      },
+      "risk_reasons": [
+        "The optimal schedule depends on a supplied t0 because sklearn chooses t0 inside the compiled optimization path."
+      ],
+      "acceptability_score": 90,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "positive_path",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 4,
+      "parity_case_count": 13,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_sgd.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.sgd.sgd_modified_huber_proba",
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.sgd.sgd_modified_huber_proba",
+      "atom_id": "sciona.atoms.ml.sklearn.linear_model.sgd.sgd_modified_huber_proba",
+      "module_import_path": "sciona.atoms.ml.sklearn.linear_model.sgd",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/linear_model/sgd/atoms.py",
+      "module_family": "linear_model",
+      "domain_family": "ml.sklearn.linear_model",
+      "wrapper_symbol": "sgd_modified_huber_proba",
+      "argument_names": [
+        "scores",
+        "binary"
+      ],
+      "argument_details": [
+        {
+          "name": "scores",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "binary",
+          "annotation": "bool",
+          "required": true,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.float64]",
+      "docstring_summary": "Normalize modified-Huber decision scores as sklearn probabilities.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/linear_model/sgd/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/linear_model/sgd/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/linear_model/sgd/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/linear_model/sgd/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_linear_model_sgd_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_linear_model_sgd_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_linear_model_sgd_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 9,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 94,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 4,
+      "parity_case_count": 13,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_sgd.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.sgd.sgd_passive_aggressive_step_size",
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.sgd.sgd_passive_aggressive_step_size",
+      "atom_id": "sciona.atoms.ml.sklearn.linear_model.sgd.sgd_passive_aggressive_step_size",
+      "module_import_path": "sciona.atoms.ml.sklearn.linear_model.sgd",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/linear_model/sgd/atoms.py",
+      "module_family": "linear_model",
+      "domain_family": "ml.sklearn.linear_model",
+      "wrapper_symbol": "sgd_passive_aggressive_step_size",
+      "argument_names": [
+        "loss_value",
+        "squared_norm",
+        "eta0",
+        "learning_rate"
+      ],
+      "argument_details": [
+        {
+          "name": "loss_value",
+          "annotation": "float",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "squared_norm",
+          "annotation": "float",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "eta0",
+          "annotation": "float",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "learning_rate",
+          "annotation": "str",
+          "required": true,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "float",
+      "docstring_summary": "Compute a PA-I or PA-II step size from loss and feature norm.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/linear_model/sgd/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/linear_model/sgd/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/linear_model/sgd/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/linear_model/sgd/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_linear_model_sgd_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_linear_model_sgd_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_linear_model_sgd_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 10,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "medium"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 92,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "positive_and_negative",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 4,
+      "parity_case_count": 13,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_sgd.review_bundle.json",
       "has_references": true,
       "references_status": "pass"
     },
