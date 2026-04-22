@@ -1,0 +1,119 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_impute_iterative_root",
+      "name": "Sklearn IterativeImputer Helper Atoms",
+      "description": "Deterministic helper boundaries for IterativeImputer orchestration",
+      "status": "decomposed",
+      "children": [
+        "iterative_ordered_feature_indices",
+        "iterative_normalized_abs_corr_matrix",
+        "iterative_neighbor_feature_indices",
+        "iterative_limit_vector",
+        "iterative_convergence_reached"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "iterative_ordered_feature_indices",
+      "name": "iterative_ordered_feature_indices",
+      "description": "Choose the feature update order for one IterativeImputer round.",
+      "concept_type": "feature_ordering",
+      "status": "atomic",
+      "type_signature": "(mask_missing_values: NDArray[np.bool_], imputation_order: str = 'ascending', skip_complete: bool = False, random_state: int = 0) -> NDArray[np.int64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "mask_missing_values", "type_desc": "NDArray[np.bool_]", "required": true},
+        {"name": "imputation_order", "type_desc": "str", "required": false},
+        {"name": "skip_complete", "type_desc": "bool", "required": false},
+        {"name": "random_state", "type_desc": "int", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.int64]"}
+      ]
+    },
+    {
+      "node_id": "iterative_normalized_abs_corr_matrix",
+      "name": "iterative_normalized_abs_corr_matrix",
+      "description": "Build normalized absolute-correlation probabilities between features.",
+      "concept_type": "feature_neighbor_probabilities",
+      "status": "atomic",
+      "type_signature": "(X_filled: NDArray[np.float64], tolerance: float = 1e-6) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X_filled", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "tolerance", "type_desc": "float", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "iterative_neighbor_feature_indices",
+      "name": "iterative_neighbor_feature_indices",
+      "description": "Select neighbor feature indices for one imputed target feature.",
+      "concept_type": "feature_neighbor_selection",
+      "status": "atomic",
+      "type_signature": "(n_features: int, feat_idx: int, n_nearest_features: int | None, abs_corr_mat: NDArray[np.float64] | None = None, random_state: int = 0) -> NDArray[np.int64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_features", "type_desc": "int", "required": true},
+        {"name": "feat_idx", "type_desc": "int", "required": true},
+        {"name": "n_nearest_features", "type_desc": "int | None", "required": true},
+        {"name": "abs_corr_mat", "type_desc": "NDArray[np.float64] | None", "required": false},
+        {"name": "random_state", "type_desc": "int", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.int64]"}
+      ]
+    },
+    {
+      "node_id": "iterative_limit_vector",
+      "name": "iterative_limit_vector",
+      "description": "Expand and filter a min or max bound for iterative imputation.",
+      "concept_type": "bound_validation",
+      "status": "atomic",
+      "type_signature": "(limit: float | NDArray[np.float64] | None, is_empty_feature: NDArray[np.bool_], limit_type: str, keep_empty_features: bool) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "limit", "type_desc": "float | NDArray[np.float64] | None", "required": true},
+        {"name": "is_empty_feature", "type_desc": "NDArray[np.bool_]", "required": true},
+        {"name": "limit_type", "type_desc": "str", "required": true},
+        {"name": "keep_empty_features", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "iterative_convergence_reached",
+      "name": "iterative_convergence_reached",
+      "description": "Apply sklearn's IterativeImputer early-stopping comparison.",
+      "concept_type": "convergence_check",
+      "status": "atomic",
+      "type_signature": "(X_current: NDArray[np.float64], X_previous: NDArray[np.float64], X_original: NDArray[np.float64], mask_missing_values: NDArray[np.bool_], tol: float) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "X_current", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "X_previous", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "X_original", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "mask_missing_values", "type_desc": "NDArray[np.bool_]", "required": true},
+        {"name": "tol", "type_desc": "float", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "iterative_normalized_abs_corr_matrix", "target": "iterative_neighbor_feature_indices", "kind": "probability_input"},
+    {"source": "iterative_ordered_feature_indices", "target": "iterative_neighbor_feature_indices", "kind": "feature_iteration_order"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.impute._iterative",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 3 estimator-callback orchestration helpers"
+  }
+}
