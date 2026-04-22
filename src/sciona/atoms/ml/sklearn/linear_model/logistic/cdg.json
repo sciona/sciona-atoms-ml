@@ -1,0 +1,78 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_logistic_root",
+      "name": "Sklearn Linear Model Binary Logistic Objective Helper Atoms",
+      "description": "Optimizer-independent helpers for dense binary logistic probabilities and objective gradients",
+      "status": "decomposed",
+      "children": [
+        "binary_logistic_positive_probability",
+        "binary_logistic_half_loss_gradient",
+        "binary_logistic_dense_loss_gradient"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "binary_logistic_positive_probability",
+      "name": "binary_logistic_positive_probability",
+      "description": "Compute positive-class probabilities from binary logistic raw scores.",
+      "concept_type": "probability_transform",
+      "status": "atomic",
+      "type_signature": "(raw_prediction: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "raw_prediction", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "binary_logistic_half_loss_gradient",
+      "name": "binary_logistic_half_loss_gradient",
+      "description": "Compute pointwise binary logistic half loss and raw gradients.",
+      "concept_type": "loss_gradient",
+      "status": "atomic",
+      "type_signature": "(y: NDArray[np.float64], raw_prediction: NDArray[np.float64], sample_weight: NDArray[np.float64] | None = None) -> tuple[NDArray[np.float64], NDArray[np.float64]]",
+      "depth": 1,
+      "inputs": [
+        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "raw_prediction", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "sample_weight", "type_desc": "NDArray[np.float64] | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[NDArray[np.float64], NDArray[np.float64]]"}
+      ]
+    },
+    {
+      "node_id": "binary_logistic_dense_loss_gradient",
+      "name": "binary_logistic_dense_loss_gradient",
+      "description": "Compute dense binary logistic objective value and gradient at supplied parameters.",
+      "concept_type": "objective_gradient",
+      "status": "atomic",
+      "type_signature": "(params: NDArray[np.float64], X: NDArray[np.float64], y: NDArray[np.float64], alpha: float = 0.0, sample_weight: NDArray[np.float64] | None = None) -> tuple[float, NDArray[np.float64]]",
+      "depth": 1,
+      "inputs": [
+        {"name": "params", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "alpha", "type_desc": "float", "required": false},
+        {"name": "sample_weight", "type_desc": "NDArray[np.float64] | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[float, NDArray[np.float64]]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "binary_logistic_positive_probability", "target": "binary_logistic_half_loss_gradient", "kind": "inverse_link"},
+    {"source": "binary_logistic_half_loss_gradient", "target": "binary_logistic_dense_loss_gradient", "kind": "pointwise_loss_gradient"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._logistic",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 2 external optimizer boundary"
+  }
+}
