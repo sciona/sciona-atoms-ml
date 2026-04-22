@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "sciona.atoms.ml.review_bundle.datadriven.core.v1",
+  "provider_repo": "sciona-atoms-ml",
+  "family_batch": "ml_datadriven",
+  "review_status": "reviewed",
+  "review_semantic_verdict": "pass",
+  "review_developer_semantic_verdict": "pass_with_limits",
+  "trust_readiness": "reviewed_with_limits",
+  "authoritative_sources": [
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/datadriven/atoms.py"
+    },
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/datadriven/witnesses.py"
+    },
+    {
+      "kind": "local_references",
+      "path": "src/sciona/atoms/ml/datadriven/references.json"
+    },
+    {
+      "kind": "local_cdg",
+      "path": "src/sciona/atoms/ml/datadriven/cdg.json"
+    },
+    {
+      "kind": "local_probe",
+      "path": "src/sciona/probes/ml/datadriven.py"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_datadriven_import_smoke.py"
+    }
+  ],
+  "limitations": [
+    "The wrapper prefers the Julia DataDrivenDiffEq path when available and falls back to a NumPy least-squares approximation otherwise."
+  ],
+  "blocking_findings": [],
+  "required_actions": [],
+  "review_record_path": "data/review_bundles/ml_datadriven.review_bundle.json",
+  "rows": [
+    {
+      "atom_key": "sciona.atoms.ml.datadriven.discover_equations",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/datadriven/atoms.py",
+        "src/sciona/atoms/ml/datadriven/witnesses.py",
+        "src/sciona/atoms/ml/datadriven/references.json",
+        "src/sciona/atoms/ml/datadriven/cdg.json",
+        "src/sciona/probes/ml/datadriven.py",
+        "tests/test_ml_datadriven_import_smoke.py"
+      ],
+      "limitations": [],
+      "blocking_findings": [],
+      "required_actions": [],
+      "review_record_path": "data/review_bundles/ml_datadriven.review_bundle.json"
+    }
+  ]
+}

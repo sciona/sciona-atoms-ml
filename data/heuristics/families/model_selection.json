@@ -1,0 +1,170 @@
+{
+  "asset_id": "family.model_selection.heuristics.v1",
+  "asset_version": "phase8.v1",
+  "family": "model_selection",
+  "family_aliases": [
+    "automl_heuristics",
+    "pipeline_selection"
+  ],
+  "domain": "ml_model_selection",
+  "name": "Model Selection Heuristic Registry",
+  "summary": "Family-local interpretation of shared heuristics for deterministic ML model selection pipelines.",
+  "heuristic_bindings": [
+    {
+      "heuristic_id": "regularization_selection",
+      "sanctioned_producer_kinds": ["atom_output"],
+      "family_notes": [
+        "Selects between OLS, Ridge, Lasso, and ElasticNet based on condition number, n/p ratio, and mutual incoherence.",
+        "When the irrepresentable condition is violated, Lasso is unreliable and ElasticNet or Ridge should be preferred."
+      ],
+      "supported_action_classes": ["replace_stage", "precondition"],
+      "action_priority": ["replace_stage", "precondition"],
+      "expected_evidence_strength": "strong",
+      "admissibility_notes": ["Use condition number and mutual incoherence as hard gates before committing to a regularization strategy."],
+      "escalation_conditions": ["Escalate when condition number exceeds 1e6 (numerically singular)."],
+      "uncertainty_notes": ["Mutual incoherence boundary is sharp for Gaussian ensembles but approximate for real data."],
+      "references": [
+        {"title": "Hoerl & Kennard (1970)", "note": "Ridge regularization for ill-conditioned design matrices."},
+        {"title": "Wainwright (2009)", "note": "Lasso sharp recovery thresholds."}
+      ]
+    },
+    {
+      "heuristic_id": "loss_function_selection",
+      "sanctioned_producer_kinds": ["atom_output"],
+      "family_notes": [
+        "Selects between squared_error, huber, and absolute_error based on residual and target kurtosis.",
+        "Heavy-tailed residuals require robust loss to prevent outlier domination."
+      ],
+      "supported_action_classes": ["replace_stage"],
+      "action_priority": ["replace_stage"],
+      "expected_evidence_strength": "strong",
+      "admissibility_notes": ["Check residual kurtosis rather than target kurtosis alone for more accurate loss selection."],
+      "escalation_conditions": ["Escalate when residuals are bimodal rather than simply heavy-tailed."],
+      "uncertainty_notes": ["Kurtosis threshold is empirical; exact boundary varies by domain."],
+      "references": [
+        {"title": "Huber (1964)", "note": "Original robust location estimation."}
+      ]
+    },
+    {
+      "heuristic_id": "linear_model_selection",
+      "sanctioned_producer_kinds": ["atom_output"],
+      "family_notes": [
+        "Selects between Gaussian, Poisson, Gamma, and Tweedie regressors plus appropriate solver.",
+        "Dispersion index and Tweedie power parameter determine the exponential family."
+      ],
+      "supported_action_classes": ["replace_stage", "precondition"],
+      "action_priority": ["replace_stage", "precondition"],
+      "expected_evidence_strength": "strong",
+      "admissibility_notes": ["Validate that target is non-negative before recommending Poisson/Gamma/Tweedie."],
+      "escalation_conditions": ["Escalate when underdispersion is detected (DI < 1)."],
+      "uncertainty_notes": ["Tweedie power estimation via binning is approximate."],
+      "references": [
+        {"title": "Hastie, Tibshirani & Friedman (2009)", "note": "GLM family selection."}
+      ]
+    },
+    {
+      "heuristic_id": "tree_ensemble_selection",
+      "sanctioned_producer_kinds": ["atom_output"],
+      "family_notes": [
+        "Selects between HistGradientBoosting, RandomForest, and GradientBoosting.",
+        "High noise favors bagging (variance reduction); low noise favors boosting (bias reduction)."
+      ],
+      "supported_action_classes": ["replace_stage"],
+      "action_priority": ["replace_stage"],
+      "expected_evidence_strength": "moderate",
+      "admissibility_notes": ["Noise level estimation via shallow tree is a rough proxy."],
+      "escalation_conditions": ["Escalate when categorical cardinality is extreme (> 1000 unique values)."],
+      "uncertainty_notes": ["Noise threshold between bagging and boosting is soft."],
+      "references": [
+        {"title": "Friedman (2001)", "note": "Gradient boosting machine."}
+      ]
+    },
+    {
+      "heuristic_id": "preprocessing_selection",
+      "sanctioned_producer_kinds": ["atom_output"],
+      "family_notes": [
+        "Recommends scaling, power transforms, and feature removal based on skewness, VIF, and sparsity.",
+        "Sparse matrices must avoid mean centering to prevent memory exhaustion."
+      ],
+      "supported_action_classes": ["precondition", "gate_or_validate"],
+      "action_priority": ["precondition", "gate_or_validate"],
+      "expected_evidence_strength": "strong",
+      "admissibility_notes": ["VIF > 10 is a hard signal for feature removal or dimensionality reduction."],
+      "escalation_conditions": ["Escalate when all features exceed VIF > 10 (total multicollinearity)."],
+      "uncertainty_notes": ["Skewness threshold is conventional; some models tolerate skew well."],
+      "references": [
+        {"title": "Hastie, Tibshirani & Friedman (2009)", "note": "Preprocessing thresholds."}
+      ]
+    },
+    {
+      "heuristic_id": "dimensionality_reduction_selection",
+      "sanctioned_producer_kinds": ["atom_output"],
+      "family_notes": [
+        "Selects between PCA, TruncatedSVD, and no reduction based on condition number and sparsity.",
+        "PCA eliminates multicollinearity by producing orthogonal components."
+      ],
+      "supported_action_classes": ["replace_stage", "precondition"],
+      "action_priority": ["replace_stage", "precondition"],
+      "expected_evidence_strength": "strong",
+      "admissibility_notes": ["TruncatedSVD is mandatory for sparse matrices."],
+      "escalation_conditions": ["Escalate when data lies on a nonlinear manifold (PCA collapses classes)."],
+      "uncertainty_notes": ["Explained variance threshold is conventional (0.95 default)."],
+      "references": [
+        {"title": "Hastie, Tibshirani & Friedman (2009)", "note": "PCA and dimensionality reduction."}
+      ]
+    },
+    {
+      "heuristic_id": "hyperparameter_range_selection",
+      "sanctioned_producer_kinds": ["atom_output"],
+      "family_notes": [
+        "Generates intelligent search grids based on model type and data dimensions.",
+        "Alpha grids are log-spaced with a hard floor at 1e-5 to prevent zero-regularization collapse."
+      ],
+      "supported_action_classes": ["precondition"],
+      "action_priority": ["precondition"],
+      "expected_evidence_strength": "moderate",
+      "admissibility_notes": ["Never set alpha=0; enforce hard floor."],
+      "escalation_conditions": ["Escalate when optimal hyperparameters sit at grid boundaries."],
+      "uncertainty_notes": ["Grid ranges are heuristic starting points, not guarantees."],
+      "references": [
+        {"title": "Friedman (2001)", "note": "Learning rate / n_estimators tradeoff."}
+      ]
+    },
+    {
+      "heuristic_id": "cv_strategy_selection",
+      "sanctioned_producer_kinds": ["atom_output"],
+      "family_notes": [
+        "Selects between KFold, StratifiedKFold, TimeSeriesSplit, GroupKFold, and LOOCV.",
+        "Temporal data absolutely requires TimeSeriesSplit to prevent future leakage."
+      ],
+      "supported_action_classes": ["precondition", "gate_or_validate"],
+      "action_priority": ["precondition", "gate_or_validate"],
+      "expected_evidence_strength": "strong",
+      "admissibility_notes": ["TimeSeriesSplit and GroupKFold are hard requirements, not suggestions."],
+      "escalation_conditions": ["Escalate when group membership overlaps between entities."],
+      "uncertainty_notes": ["LOOCV has high variance despite low bias for small n."],
+      "references": [
+        {"title": "Varma & Simon (2006)", "note": "Nested CV bias correction."}
+      ]
+    }
+  ],
+  "audit": {
+    "provenance": "namespace_pilot_asset",
+    "source_kind": "sciona_atoms_asset",
+    "review_status": "draft",
+    "rationale": "Deterministic model selection heuristics derived from the Gemini deep research survey on scikit-learn best practices.",
+    "dejargonized_summary": "These are the decision rules that look at measurable properties of a dataset and pick which prediction method, error measure, data cleanup steps, and testing strategy to use without human judgment.",
+    "uncertainty_notes": [
+      "Thresholds are empirically motivated but may require domain-specific calibration."
+    ],
+    "references": [
+      {
+        "title": "Decision Heuristics for Deterministic Model Selection in scikit-learn",
+        "note": "heuristics.pdf research document driving all threshold selections."
+      }
+    ],
+    "maintainers": [
+      "sciona-atoms-ml"
+    ]
+  }
+}

@@ -1,0 +1,175 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.model_selection.recommendations.recommend_regularization@sciona/atoms/ml/model_selection/recommendations/atoms.py:91": {
+      "references": [
+        {
+          "ref_id": "hoerl1970ridge",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Ridge regularization for ill-conditioned matrices; heuristics.pdf Section A."
+          }
+        },
+        {
+          "ref_id": "wainwright2009lasso",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Lasso recovery thresholds and mutual incoherence; heuristics.pdf Section A."
+          }
+        },
+        {
+          "ref_id": "zou2005elasticnet",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "ElasticNet grouping effect for correlated features; heuristics.pdf Section A."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.model_selection.recommendations.recommend_loss_function@sciona/atoms/ml/model_selection/recommendations/atoms.py:212": {
+      "references": [
+        {
+          "ref_id": "huber1964robust",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Huber loss piecewise quadratic-linear transition for heavy tails; heuristics.pdf Section B."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.model_selection.recommendations.recommend_linear_model@sciona/atoms/ml/model_selection/recommendations/atoms.py:297": {
+      "references": [
+        {
+          "ref_id": "hastie2009esl",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "GLM family selection via dispersion index and Tweedie power; heuristics.pdf Section C."
+          }
+        },
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Solver selection (newton-cholesky, sag, saga) per sklearn linear model docs."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.model_selection.recommendations.recommend_tree_ensemble@sciona/atoms/ml/model_selection/recommendations/atoms.py:428": {
+      "references": [
+        {
+          "ref_id": "friedman1999boosting",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Bias-variance tradeoff between bagging and boosting; heuristics.pdf Section D."
+          }
+        },
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "HistGradientBoosting n > 10,000 boundary and native categorical support."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.model_selection.recommendations.recommend_preprocessing@sciona/atoms/ml/model_selection/recommendations/atoms.py:542": {
+      "references": [
+        {
+          "ref_id": "hastie2009esl",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Skewness, VIF, and scaling thresholds for preprocessing; heuristics.pdf Section E."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.model_selection.recommendations.recommend_dimensionality_reduction@sciona/atoms/ml/model_selection/recommendations/atoms.py:648": {
+      "references": [
+        {
+          "ref_id": "hastie2009esl",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "PCA vs TruncatedSVD selection based on sparsity and condition number; heuristics.pdf Section F."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.model_selection.recommendations.recommend_hyperparameter_ranges@sciona/atoms/ml/model_selection/recommendations/atoms.py:745": {
+      "references": [
+        {
+          "ref_id": "friedman1999boosting",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Learning rate / n_estimators inverse tradeoff; heuristics.pdf Section G."
+          }
+        },
+        {
+          "ref_id": "tibshirani1996regression",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Alpha grid for Lasso with 1/(2n) scaling invariance; heuristics.pdf Section G."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.model_selection.recommendations.recommend_cv_strategy@sciona/atoms/ml/model_selection/recommendations/atoms.py:861": {
+      "references": [
+        {
+          "ref_id": "varma2006nested",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Nested CV to eliminate selection bias; LOOCV viability boundary n <= 100; heuristics.pdf Section H."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

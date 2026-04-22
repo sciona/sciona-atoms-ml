@@ -1,0 +1,245 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.model_selection.diagnostics.compute_condition_number@sciona/atoms/ml/model_selection/diagnostics/atoms.py:54": {
+      "references": [
+        {
+          "ref_id": "hoerl1970ridge",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Condition number threshold kappa > 30 from Ridge regression theory; heuristics.pdf Section A."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.model_selection.diagnostics.compute_n_p_ratio@sciona/atoms/ml/model_selection/diagnostics/atoms.py:81": {
+      "references": [
+        {
+          "ref_id": "hastie2009esl",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Sample-to-feature ratio n/p >= 10 viability threshold; heuristics.pdf Section A."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.model_selection.diagnostics.compute_mutual_incoherence@sciona/atoms/ml/model_selection/diagnostics/atoms.py:103": {
+      "references": [
+        {
+          "ref_id": "wainwright2009lasso",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Mutual incoherence limit mu <= 1 for Lasso recovery; heuristics.pdf Section A."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.model_selection.diagnostics.check_lasso_sample_complexity@sciona/atoms/ml/model_selection/diagnostics/atoms.py:134": {
+      "references": [
+        {
+          "ref_id": "wainwright2009lasso",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Sharp recovery threshold n > 2k log(p-k) for Lasso; heuristics.pdf Section A."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.model_selection.diagnostics.compute_excess_kurtosis@sciona/atoms/ml/model_selection/diagnostics/atoms.py:170": {
+      "references": [
+        {
+          "ref_id": "huber1964robust",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Excess kurtosis > 1.0 triggers robust loss; heuristics.pdf Section B."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.model_selection.diagnostics.compute_residual_kurtosis@sciona/atoms/ml/model_selection/diagnostics/atoms.py:194": {
+      "references": [
+        {
+          "ref_id": "huber1964robust",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Residual kurtosis isolates noise distribution for robust loss selection; heuristics.pdf Section B."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.model_selection.diagnostics.compute_dispersion_index@sciona/atoms/ml/model_selection/diagnostics/atoms.py:228": {
+      "references": [
+        {
+          "ref_id": "hastie2009esl",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Dispersion index DI = Var/Mean for Poisson evaluation; heuristics.pdf Section C."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.model_selection.diagnostics.estimate_tweedie_power@sciona/atoms/ml/model_selection/diagnostics/atoms.py:251": {
+      "references": [
+        {
+          "ref_id": "hastie2009esl",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Tweedie power estimation for GLM family selection; heuristics.pdf Section C."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.model_selection.diagnostics.estimate_noise_level@sciona/atoms/ml/model_selection/diagnostics/atoms.py:298": {
+      "references": [
+        {
+          "ref_id": "friedman1999boosting",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Noise level estimation for bagging vs boosting selection; heuristics.pdf Section D."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.model_selection.diagnostics.count_categorical_features@sciona/atoms/ml/model_selection/diagnostics/atoms.py:329": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "HistGradientBoosting native categorical support; heuristics.pdf Section D."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.model_selection.diagnostics.compute_skewness@sciona/atoms/ml/model_selection/diagnostics/atoms.py:362": {
+      "references": [
+        {
+          "ref_id": "hastie2009esl",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Skewness > 1 threshold for PowerTransformer; heuristics.pdf Section E."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.model_selection.diagnostics.compute_vif@sciona/atoms/ml/model_selection/diagnostics/atoms.py:385": {
+      "references": [
+        {
+          "ref_id": "hastie2009esl",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "VIF > 5 moderate, > 10 severe collinearity thresholds; heuristics.pdf Section E."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.model_selection.diagnostics.test_normality@sciona/atoms/ml/model_selection/diagnostics/atoms.py:427": {
+      "references": [
+        {
+          "ref_id": "hastie2009esl",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Shapiro-Wilk normality test for preprocessing decisions; heuristics.pdf Section E."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.model_selection.diagnostics.is_sparse@sciona/atoms/ml/model_selection/diagnostics/atoms.py:450": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Sparsity check drives solver selection and preprocessing; heuristics.pdf Sections C, E, F."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.model_selection.diagnostics.compute_explained_variance_ratio@sciona/atoms/ml/model_selection/diagnostics/atoms.py:477": {
+      "references": [
+        {
+          "ref_id": "hastie2009esl",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Explained variance ratio 0.95 default for PCA retention; heuristics.pdf Section F."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.model_selection.diagnostics.check_time_series_index@sciona/atoms/ml/model_selection/diagnostics/atoms.py:514": {
+      "references": [
+        {
+          "ref_id": "varma2006nested",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Time series index detection for TimeSeriesSplit; heuristics.pdf Section H."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

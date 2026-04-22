@@ -2,14 +2,17 @@
 
 ## Status
 
-**Family 1 (diagnostics): COMPLETE — 16 atoms, tested, not yet published**
+**Family 1 (diagnostics): COMPLETE — 16 atoms, tested, published**
 
-All 16 diagnostic atoms are implemented and functionally verified at:
+All 16 diagnostic atoms are implemented, tested, and published at:
 `src/sciona/atoms/ml/model_selection/diagnostics/atoms.py`
 
-**Family 2 (recommendations): NOT STARTED**
+**Family 2 (recommendations): COMPLETE — 8 atoms, tested, published**
 
-**Publishing artifacts: NOT STARTED for either family**
+All 8 recommendation atoms are implemented, tested, and published at:
+`src/sciona/atoms/ml/model_selection/recommendations/atoms.py`
+
+**Publishing artifacts: COMPLETE for both families**
 
 ## What's Done
 

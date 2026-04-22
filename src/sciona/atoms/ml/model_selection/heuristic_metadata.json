@@ -1,0 +1,245 @@
+{
+  "records": [
+    {
+      "atom_fqdn": "sciona.atoms.ml.model_selection.recommendations.recommend_regularization",
+      "summary": "Recommend a regularization strategy based on design matrix diagnostics.",
+      "dejargonized_summary": "Choose between no penalty, Ridge, Lasso, or ElasticNet based on how ill-conditioned and correlated the features are.",
+      "heuristic_outputs": [
+        {
+          "output_name": "recommendation",
+          "output_path": "recommendation",
+          "role": "decision",
+          "semantic_kind": "regularization_strategy",
+          "heuristic": {
+            "heuristic_id": "regularization_selection",
+            "display_name": "Regularization Selection",
+            "dejargonized_meaning": "The penalty type that best stabilizes the model given the feature geometry.",
+            "evidence_type": "structured_summary",
+            "value_kind": "decision_dict",
+            "value_shape": "dict",
+            "confidence": 0.88,
+            "producer_kind": "atom_output",
+            "applicability_scope": "cross_family",
+            "supported_action_classes": ["replace_stage", "precondition"],
+            "provenance_requirements": ["condition_number", "n_p_ratio", "mutual_incoherence", "lasso_viable"]
+          }
+        }
+      ],
+      "references": [
+        {"title": "Hoerl & Kennard (1970)", "citation": "Ridge regularization.", "note": "heuristics.pdf Section A."},
+        {"title": "Wainwright (2009)", "citation": "Lasso sharp recovery thresholds.", "note": "heuristics.pdf Section A."}
+      ],
+      "maintainers": ["sciona-atoms-ml"]
+    },
+    {
+      "atom_fqdn": "sciona.atoms.ml.model_selection.recommendations.recommend_loss_function",
+      "summary": "Recommend a loss function based on tail heaviness of target and residuals.",
+      "dejargonized_summary": "Choose between squared error, Huber, or absolute error based on how many outliers the data has.",
+      "heuristic_outputs": [
+        {
+          "output_name": "recommendation",
+          "output_path": "recommendation",
+          "role": "decision",
+          "semantic_kind": "loss_function_strategy",
+          "heuristic": {
+            "heuristic_id": "loss_function_selection",
+            "display_name": "Loss Function Selection",
+            "dejargonized_meaning": "The error function that best handles the data's tail behavior.",
+            "evidence_type": "structured_summary",
+            "value_kind": "decision_dict",
+            "value_shape": "dict",
+            "confidence": 0.85,
+            "producer_kind": "atom_output",
+            "applicability_scope": "cross_family",
+            "supported_action_classes": ["replace_stage"],
+            "provenance_requirements": ["excess_kurtosis", "residual_kurtosis"]
+          }
+        }
+      ],
+      "references": [
+        {"title": "Huber (1964)", "citation": "Robust location estimation.", "note": "heuristics.pdf Section B."}
+      ],
+      "maintainers": ["sciona-atoms-ml"]
+    },
+    {
+      "atom_fqdn": "sciona.atoms.ml.model_selection.recommendations.recommend_linear_model",
+      "summary": "Recommend a linear model class and solver based on data characteristics.",
+      "dejargonized_summary": "Pick the right linear model family and optimizer based on data size, sparsity, and target distribution.",
+      "heuristic_outputs": [
+        {
+          "output_name": "recommendation",
+          "output_path": "recommendation",
+          "role": "decision",
+          "semantic_kind": "linear_model_strategy",
+          "heuristic": {
+            "heuristic_id": "linear_model_selection",
+            "display_name": "Linear Model Selection",
+            "dejargonized_meaning": "The linear model family and solver that matches the data's distribution and scale.",
+            "evidence_type": "structured_summary",
+            "value_kind": "decision_dict",
+            "value_shape": "dict",
+            "confidence": 0.82,
+            "producer_kind": "atom_output",
+            "applicability_scope": "cross_family",
+            "supported_action_classes": ["replace_stage", "precondition"],
+            "provenance_requirements": ["n", "p", "is_sparse", "dispersion_index", "tweedie_power"]
+          }
+        }
+      ],
+      "references": [
+        {"title": "Hastie, Tibshirani & Friedman (2009)", "citation": "GLM family selection.", "note": "heuristics.pdf Section C."}
+      ],
+      "maintainers": ["sciona-atoms-ml"]
+    },
+    {
+      "atom_fqdn": "sciona.atoms.ml.model_selection.recommendations.recommend_tree_ensemble",
+      "summary": "Recommend a tree ensemble type based on sample size, categoricals, and noise.",
+      "dejargonized_summary": "Choose between histogram boosting, random forest, or gradient boosting based on data size and noise level.",
+      "heuristic_outputs": [
+        {
+          "output_name": "recommendation",
+          "output_path": "recommendation",
+          "role": "decision",
+          "semantic_kind": "tree_ensemble_strategy",
+          "heuristic": {
+            "heuristic_id": "tree_ensemble_selection",
+            "display_name": "Tree Ensemble Selection",
+            "dejargonized_meaning": "The tree ensemble architecture that best fits the data size and noise profile.",
+            "evidence_type": "structured_summary",
+            "value_kind": "decision_dict",
+            "value_shape": "dict",
+            "confidence": 0.80,
+            "producer_kind": "atom_output",
+            "applicability_scope": "cross_family",
+            "supported_action_classes": ["replace_stage"],
+            "provenance_requirements": ["n", "n_categorical", "noise_level"]
+          }
+        }
+      ],
+      "references": [
+        {"title": "Friedman (2001)", "citation": "Gradient boosting machine.", "note": "heuristics.pdf Section D."}
+      ],
+      "maintainers": ["sciona-atoms-ml"]
+    },
+    {
+      "atom_fqdn": "sciona.atoms.ml.model_selection.recommendations.recommend_preprocessing",
+      "summary": "Recommend preprocessing transformations based on feature diagnostics.",
+      "dejargonized_summary": "Decide which scaling, transforms, and feature removal steps the data needs before modeling.",
+      "heuristic_outputs": [
+        {
+          "output_name": "recommendation",
+          "output_path": "recommendation",
+          "role": "decision",
+          "semantic_kind": "preprocessing_strategy",
+          "heuristic": {
+            "heuristic_id": "preprocessing_selection",
+            "display_name": "Preprocessing Selection",
+            "dejargonized_meaning": "The data preparation steps that fix distributional and collinearity problems.",
+            "evidence_type": "structured_summary",
+            "value_kind": "decision_dict",
+            "value_shape": "dict",
+            "confidence": 0.85,
+            "producer_kind": "atom_output",
+            "applicability_scope": "cross_family",
+            "supported_action_classes": ["precondition", "gate_or_validate"],
+            "provenance_requirements": ["skewness_array", "vif_array", "is_sparse", "model_requires_scaling"]
+          }
+        }
+      ],
+      "references": [
+        {"title": "Hastie, Tibshirani & Friedman (2009)", "citation": "Preprocessing thresholds.", "note": "heuristics.pdf Section E."}
+      ],
+      "maintainers": ["sciona-atoms-ml"]
+    },
+    {
+      "atom_fqdn": "sciona.atoms.ml.model_selection.recommendations.recommend_dimensionality_reduction",
+      "summary": "Recommend dimensionality reduction based on condition number and sparsity.",
+      "dejargonized_summary": "Decide whether to reduce dimensions with PCA or TruncatedSVD, or skip it entirely.",
+      "heuristic_outputs": [
+        {
+          "output_name": "recommendation",
+          "output_path": "recommendation",
+          "role": "decision",
+          "semantic_kind": "dimred_strategy",
+          "heuristic": {
+            "heuristic_id": "dimensionality_reduction_selection",
+            "display_name": "Dimensionality Reduction Selection",
+            "dejargonized_meaning": "Whether the feature space needs compressing and which method preserves the right structure.",
+            "evidence_type": "structured_summary",
+            "value_kind": "decision_dict",
+            "value_shape": "dict",
+            "confidence": 0.84,
+            "producer_kind": "atom_output",
+            "applicability_scope": "cross_family",
+            "supported_action_classes": ["replace_stage", "precondition"],
+            "provenance_requirements": ["condition_number", "is_sparse", "explained_variance"]
+          }
+        }
+      ],
+      "references": [
+        {"title": "Hastie, Tibshirani & Friedman (2009)", "citation": "PCA and dimensionality reduction.", "note": "heuristics.pdf Section F."}
+      ],
+      "maintainers": ["sciona-atoms-ml"]
+    },
+    {
+      "atom_fqdn": "sciona.atoms.ml.model_selection.recommendations.recommend_hyperparameter_ranges",
+      "summary": "Recommend hyperparameter search ranges for a given model type.",
+      "dejargonized_summary": "Set smart starting ranges for tuning knobs based on the model type and data size.",
+      "heuristic_outputs": [
+        {
+          "output_name": "recommendation",
+          "output_path": "recommendation",
+          "role": "decision",
+          "semantic_kind": "hyperparam_ranges",
+          "heuristic": {
+            "heuristic_id": "hyperparameter_range_selection",
+            "display_name": "Hyperparameter Range Selection",
+            "dejargonized_meaning": "The initial search boundaries for model tuning that avoid wasted compute.",
+            "evidence_type": "structured_summary",
+            "value_kind": "decision_dict",
+            "value_shape": "dict",
+            "confidence": 0.75,
+            "producer_kind": "atom_output",
+            "applicability_scope": "cross_family",
+            "supported_action_classes": ["precondition"],
+            "provenance_requirements": ["model_type", "n", "p"]
+          }
+        }
+      ],
+      "references": [
+        {"title": "Friedman (2001)", "citation": "Learning rate / n_estimators tradeoff.", "note": "heuristics.pdf Section G."}
+      ],
+      "maintainers": ["sciona-atoms-ml"]
+    },
+    {
+      "atom_fqdn": "sciona.atoms.ml.model_selection.recommendations.recommend_cv_strategy",
+      "summary": "Recommend a cross-validation splitting strategy.",
+      "dejargonized_summary": "Pick the right way to split the data for testing so that error estimates are honest.",
+      "heuristic_outputs": [
+        {
+          "output_name": "recommendation",
+          "output_path": "recommendation",
+          "role": "decision",
+          "semantic_kind": "cv_strategy",
+          "heuristic": {
+            "heuristic_id": "cv_strategy_selection",
+            "display_name": "CV Strategy Selection",
+            "dejargonized_meaning": "The data splitting method that prevents leakage and gives reliable error estimates.",
+            "evidence_type": "structured_summary",
+            "value_kind": "decision_dict",
+            "value_shape": "dict",
+            "confidence": 0.90,
+            "producer_kind": "atom_output",
+            "applicability_scope": "cross_family",
+            "supported_action_classes": ["precondition", "gate_or_validate"],
+            "provenance_requirements": ["n", "is_classification", "is_timeseries", "has_groups"]
+          }
+        }
+      ],
+      "references": [
+        {"title": "Varma & Simon (2006)", "citation": "Nested CV bias correction.", "note": "heuristics.pdf Section H."}
+      ],
+      "maintainers": ["sciona-atoms-ml"]
+    }
+  ]
+}
