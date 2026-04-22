@@ -1,0 +1,56 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_cluster_spectral_labeling_root",
+      "name": "Sklearn Spectral Clustering Label Assignment Atoms",
+      "description": "Estimator-independent label assignment helpers for spectral clustering embeddings",
+      "status": "decomposed",
+      "children": [
+        "spectral_cluster_qr_labels",
+        "spectral_discretize_labels"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "spectral_cluster_qr_labels",
+      "name": "spectral_cluster_qr_labels",
+      "description": "Assign spectral-clustering labels with sklearn's QR/SVD postprocessing.",
+      "concept_type": "spectral_label_assignment",
+      "status": "atomic",
+      "type_signature": "(vectors: NDArray[np.float64]) -> NDArray[np.int64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "vectors", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.int64]"}
+      ]
+    },
+    {
+      "node_id": "spectral_discretize_labels",
+      "name": "spectral_discretize_labels",
+      "description": "Assign spectral-clustering labels with sklearn's Yu-Shi discretization.",
+      "concept_type": "spectral_label_assignment",
+      "status": "atomic",
+      "type_signature": "(vectors: NDArray[np.float64], max_svd_restarts: int = 30, n_iter_max: int = 20, random_state: int | None = None) -> NDArray[np.int64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "vectors", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "max_svd_restarts", "type_desc": "int", "required": false},
+        {"name": "n_iter_max", "type_desc": "int", "required": false},
+        {"name": "random_state", "type_desc": "int | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.int64]"}
+      ]
+    }
+  ],
+  "edges": [],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.cluster._spectral",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 3 spectral-clustering deterministic label assignment helpers"
+  }
+}
