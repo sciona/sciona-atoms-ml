@@ -1,0 +1,93 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_neighbors_nca_root",
+      "name": "Sklearn Neighborhood Components Analysis Helper Atoms",
+      "description": "Estimator-independent NCA math helpers around label masks, linear transforms, and objective gradients",
+      "status": "decomposed",
+      "children": [
+        "nca_same_class_mask",
+        "nca_linear_transform",
+        "nca_neighbor_probabilities",
+        "nca_loss_gradient"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "nca_same_class_mask",
+      "name": "nca_same_class_mask",
+      "description": "Build the fixed same-class mask used by NCA optimization.",
+      "concept_type": "label_mask",
+      "status": "atomic",
+      "type_signature": "(y: NDArray[np.int64]) -> NDArray[np.bool_]",
+      "depth": 1,
+      "inputs": [
+        {"name": "y", "type_desc": "NDArray[np.int64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.bool_]"}
+      ]
+    },
+    {
+      "node_id": "nca_linear_transform",
+      "name": "nca_linear_transform",
+      "description": "Apply an NCA component matrix to dense samples.",
+      "concept_type": "linear_transform",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], components: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "components", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "nca_neighbor_probabilities",
+      "name": "nca_neighbor_probabilities",
+      "description": "Compute NCA softmax neighbor probabilities from embedded samples.",
+      "concept_type": "neighbor_probability",
+      "status": "atomic",
+      "type_signature": "(X_embedded: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X_embedded", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "nca_loss_gradient",
+      "name": "nca_loss_gradient",
+      "description": "Compute the NCA objective and flattened gradient for a transformation.",
+      "concept_type": "objective_gradient",
+      "status": "atomic",
+      "type_signature": "(transformation: NDArray[np.float64], X: NDArray[np.float64], same_class_mask: NDArray[np.bool_], sign: float = 1.0) -> tuple[float, NDArray[np.float64]]",
+      "depth": 1,
+      "inputs": [
+        {"name": "transformation", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "same_class_mask", "type_desc": "NDArray[np.bool_]", "required": true},
+        {"name": "sign", "type_desc": "float", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[float, NDArray[np.float64]]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "nca_same_class_mask", "target": "nca_loss_gradient", "kind": "same_class_mask"},
+    {"source": "nca_linear_transform", "target": "nca_neighbor_probabilities", "kind": "embedded_samples"},
+    {"source": "nca_neighbor_probabilities", "target": "nca_loss_gradient", "kind": "neighbor_probabilities"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.neighbors._nca",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 2 external optimizer boundary"
+  }
+}
