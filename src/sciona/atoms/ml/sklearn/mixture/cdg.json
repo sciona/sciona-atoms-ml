@@ -3,7 +3,7 @@
     {
       "node_id": "sklearn_mixture_root",
       "name": "Sklearn Mixture Atoms",
-      "description": "Dense finite diagonal-covariance Gaussian mixture atoms for explicit-initialization expectation-maximization, scoring, prediction, and information criteria.",
+      "description": "Dense finite diagonal-covariance Gaussian mixture and variational Gaussian mixture atoms for explicit-initialization fitting, scoring, prediction, and information criteria.",
       "status": "decomposed",
       "children": [
         "gaussian_mixture_diag_fit",
@@ -12,7 +12,12 @@
         "gaussian_mixture_diag_predict_proba",
         "gaussian_mixture_diag_predict",
         "gaussian_mixture_diag_bic",
-        "gaussian_mixture_diag_aic"
+        "gaussian_mixture_diag_aic",
+        "bayesian_gaussian_mixture_diag_fit",
+        "bayesian_gaussian_mixture_diag_score_samples",
+        "bayesian_gaussian_mixture_diag_score",
+        "bayesian_gaussian_mixture_diag_predict_proba",
+        "bayesian_gaussian_mixture_diag_predict"
       ],
       "depth": 0
     },
@@ -132,6 +137,95 @@
       "outputs": [
         {"name": "result", "type_desc": "float"}
       ]
+    },
+    {
+      "node_id": "bayesian_gaussian_mixture_diag_fit",
+      "name": "bayesian_gaussian_mixture_diag_fit",
+      "description": "Fit a diagonal variational Gaussian mixture from explicit initial responsibilities and priors.",
+      "concept_type": "fit_state",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], initial_responsibilities: NDArray[np.float64], reg_covar: float = 1e-6, max_iter: int = 100, tol: float = 1e-3, weight_concentration_prior_type: str = 'dirichlet_process', weight_concentration_prior: float | None = None, mean_precision_prior: float = 1.0, mean_prior: NDArray[np.float64] | None = None, degrees_of_freedom_prior: float | None = None, covariance_prior: NDArray[np.float64] | None = None) -> BayesianGaussianMixtureDiagState",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "initial_responsibilities", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "reg_covar", "type_desc": "float", "required": false},
+        {"name": "max_iter", "type_desc": "int", "required": false},
+        {"name": "tol", "type_desc": "float", "required": false},
+        {"name": "weight_concentration_prior_type", "type_desc": "str", "required": false},
+        {"name": "weight_concentration_prior", "type_desc": "float | None", "required": false},
+        {"name": "mean_precision_prior", "type_desc": "float", "required": false},
+        {"name": "mean_prior", "type_desc": "NDArray[np.float64] | None", "required": false},
+        {"name": "degrees_of_freedom_prior", "type_desc": "float | None", "required": false},
+        {"name": "covariance_prior", "type_desc": "NDArray[np.float64] | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "BayesianGaussianMixtureDiagState"}
+      ]
+    },
+    {
+      "node_id": "bayesian_gaussian_mixture_diag_score_samples",
+      "name": "bayesian_gaussian_mixture_diag_score_samples",
+      "description": "Compute per-sample variational log scores for a fitted diagonal Bayesian Gaussian mixture.",
+      "concept_type": "density_score",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: BayesianGaussianMixtureDiagState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "state", "type_desc": "BayesianGaussianMixtureDiagState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "bayesian_gaussian_mixture_diag_score",
+      "name": "bayesian_gaussian_mixture_diag_score",
+      "description": "Compute the mean variational log score for a fitted diagonal Bayesian Gaussian mixture.",
+      "concept_type": "density_score",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: BayesianGaussianMixtureDiagState) -> float",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "state", "type_desc": "BayesianGaussianMixtureDiagState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "float"}
+      ]
+    },
+    {
+      "node_id": "bayesian_gaussian_mixture_diag_predict_proba",
+      "name": "bayesian_gaussian_mixture_diag_predict_proba",
+      "description": "Compute posterior component probabilities for a fitted diagonal Bayesian Gaussian mixture.",
+      "concept_type": "posterior_probability",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: BayesianGaussianMixtureDiagState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "state", "type_desc": "BayesianGaussianMixtureDiagState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "bayesian_gaussian_mixture_diag_predict",
+      "name": "bayesian_gaussian_mixture_diag_predict",
+      "description": "Assign samples to their highest-posterior variational component.",
+      "concept_type": "component_prediction",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: BayesianGaussianMixtureDiagState) -> NDArray[np.int64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "state", "type_desc": "BayesianGaussianMixtureDiagState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.int64]"}
+      ]
     }
   ],
   "edges": [
@@ -140,6 +234,10 @@
     {"source": "gaussian_mixture_diag_fit", "target": "gaussian_mixture_diag_predict_proba", "kind": "state"},
     {"source": "gaussian_mixture_diag_predict_proba", "target": "gaussian_mixture_diag_predict", "kind": "posterior_argmax"},
     {"source": "gaussian_mixture_diag_score_samples", "target": "gaussian_mixture_diag_bic", "kind": "likelihood_sum"},
-    {"source": "gaussian_mixture_diag_score_samples", "target": "gaussian_mixture_diag_aic", "kind": "likelihood_sum"}
+    {"source": "gaussian_mixture_diag_score_samples", "target": "gaussian_mixture_diag_aic", "kind": "likelihood_sum"},
+    {"source": "bayesian_gaussian_mixture_diag_fit", "target": "bayesian_gaussian_mixture_diag_score_samples", "kind": "state"},
+    {"source": "bayesian_gaussian_mixture_diag_score_samples", "target": "bayesian_gaussian_mixture_diag_score", "kind": "mean_score"},
+    {"source": "bayesian_gaussian_mixture_diag_fit", "target": "bayesian_gaussian_mixture_diag_predict_proba", "kind": "state"},
+    {"source": "bayesian_gaussian_mixture_diag_predict_proba", "target": "bayesian_gaussian_mixture_diag_predict", "kind": "posterior_argmax"}
   ]
 }

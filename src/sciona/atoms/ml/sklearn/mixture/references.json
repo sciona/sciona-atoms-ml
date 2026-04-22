@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "atoms": {
-    "sciona.atoms.ml.sklearn.mixture.gaussian_mixture_diag_fit@sciona/atoms/ml/sklearn/mixture/atoms.py:198": {
+    "sciona.atoms.ml.sklearn.mixture.gaussian_mixture_diag_fit@sciona/atoms/ml/sklearn/mixture/atoms.py:464": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -36,7 +36,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.mixture.gaussian_mixture_diag_score_samples@sciona/atoms/ml/sklearn/mixture/atoms.py:286": {
+    "sciona.atoms.ml.sklearn.mixture.gaussian_mixture_diag_score_samples@sciona/atoms/ml/sklearn/mixture/atoms.py:552": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -61,7 +61,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.mixture.gaussian_mixture_diag_score@sciona/atoms/ml/sklearn/mixture/atoms.py:304": {
+    "sciona.atoms.ml.sklearn.mixture.gaussian_mixture_diag_score@sciona/atoms/ml/sklearn/mixture/atoms.py:570": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -86,7 +86,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.mixture.gaussian_mixture_diag_predict_proba@sciona/atoms/ml/sklearn/mixture/atoms.py:318": {
+    "sciona.atoms.ml.sklearn.mixture.gaussian_mixture_diag_predict_proba@sciona/atoms/ml/sklearn/mixture/atoms.py:584": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -111,7 +111,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.mixture.gaussian_mixture_diag_predict@sciona/atoms/ml/sklearn/mixture/atoms.py:337": {
+    "sciona.atoms.ml.sklearn.mixture.gaussian_mixture_diag_predict@sciona/atoms/ml/sklearn/mixture/atoms.py:603": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -136,7 +136,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.mixture.gaussian_mixture_diag_bic@sciona/atoms/ml/sklearn/mixture/atoms.py:351": {
+    "sciona.atoms.ml.sklearn.mixture.gaussian_mixture_diag_bic@sciona/atoms/ml/sklearn/mixture/atoms.py:617": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -161,7 +161,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.mixture.gaussian_mixture_diag_aic@sciona/atoms/ml/sklearn/mixture/atoms.py:367": {
+    "sciona.atoms.ml.sklearn.mixture.gaussian_mixture_diag_aic@sciona/atoms/ml/sklearn/mixture/atoms.py:633": {
       "references": [
         {
           "ref_id": "repo_sklearn",
@@ -181,6 +181,161 @@
             "matched_nodes": [],
             "confidence": "high",
             "notes": "Gaussian mixture model-selection context."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.mixture.bayesian_gaussian_mixture_diag_fit@sciona/atoms/ml/sklearn/mixture/atoms.py:649": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.mixture.BayesianGaussianMixture diagonal-covariance variational initialization and update equations in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "bishop2006prml",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Variational Gaussian mixture reference cited by scikit-learn."
+          }
+        },
+        {
+          "ref_id": "attias2000variational",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Variational Bayesian graphical-model reference cited by sklearn BayesianGaussianMixture."
+          }
+        },
+        {
+          "ref_id": "blei2006dirichlet",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Dirichlet-process mixture variational inference reference cited by sklearn BayesianGaussianMixture."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.mixture.bayesian_gaussian_mixture_diag_score_samples@sciona/atoms/ml/sklearn/mixture/atoms.py:774": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from BayesianGaussianMixture expected log-probability and BaseMixture.score_samples semantics."
+          }
+        },
+        {
+          "ref_id": "bishop2006prml",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Variational mixture log-probability reference."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.mixture.bayesian_gaussian_mixture_diag_score@sciona/atoms/ml/sklearn/mixture/atoms.py:790": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.mixture.BaseMixture.score mean log-score semantics."
+          }
+        },
+        {
+          "ref_id": "bishop2006prml",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Variational Gaussian mixture scoring context."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.mixture.bayesian_gaussian_mixture_diag_predict_proba@sciona/atoms/ml/sklearn/mixture/atoms.py:804": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.mixture.BaseMixture.predict_proba and BayesianGaussianMixture weighted log-probability semantics."
+          }
+        },
+        {
+          "ref_id": "bishop2006prml",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Variational posterior responsibility calculation."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.mixture.bayesian_gaussian_mixture_diag_predict@sciona/atoms/ml/sklearn/mixture/atoms.py:820": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.mixture.BaseMixture.predict argmax over Bayesian mixture weighted log probabilities."
+          }
+        },
+        {
+          "ref_id": "bishop2006prml",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Maximum-posterior assignment for variational Gaussian mixtures."
           }
         }
       ],

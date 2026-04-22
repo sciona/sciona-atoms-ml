@@ -16,6 +16,11 @@ EXPECTED = {
     "sciona.atoms.ml.sklearn.mixture.gaussian_mixture_diag_predict",
     "sciona.atoms.ml.sklearn.mixture.gaussian_mixture_diag_bic",
     "sciona.atoms.ml.sklearn.mixture.gaussian_mixture_diag_aic",
+    "sciona.atoms.ml.sklearn.mixture.bayesian_gaussian_mixture_diag_fit",
+    "sciona.atoms.ml.sklearn.mixture.bayesian_gaussian_mixture_diag_score_samples",
+    "sciona.atoms.ml.sklearn.mixture.bayesian_gaussian_mixture_diag_score",
+    "sciona.atoms.ml.sklearn.mixture.bayesian_gaussian_mixture_diag_predict_proba",
+    "sciona.atoms.ml.sklearn.mixture.bayesian_gaussian_mixture_diag_predict",
 }
 
 

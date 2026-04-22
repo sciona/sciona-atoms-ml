@@ -1,6 +1,11 @@
 """Sklearn mixture atoms."""
 
 from .atoms import (
+    bayesian_gaussian_mixture_diag_fit,
+    bayesian_gaussian_mixture_diag_predict,
+    bayesian_gaussian_mixture_diag_predict_proba,
+    bayesian_gaussian_mixture_diag_score,
+    bayesian_gaussian_mixture_diag_score_samples,
     gaussian_mixture_diag_aic,
     gaussian_mixture_diag_bic,
     gaussian_mixture_diag_fit,
@@ -9,10 +14,16 @@ from .atoms import (
     gaussian_mixture_diag_score,
     gaussian_mixture_diag_score_samples,
 )
-from .state_models import GaussianMixtureDiagState
+from .state_models import BayesianGaussianMixtureDiagState, GaussianMixtureDiagState
 
 __all__ = [
+    "BayesianGaussianMixtureDiagState",
     "GaussianMixtureDiagState",
+    "bayesian_gaussian_mixture_diag_fit",
+    "bayesian_gaussian_mixture_diag_predict",
+    "bayesian_gaussian_mixture_diag_predict_proba",
+    "bayesian_gaussian_mixture_diag_score",
+    "bayesian_gaussian_mixture_diag_score_samples",
     "gaussian_mixture_diag_aic",
     "gaussian_mixture_diag_bic",
     "gaussian_mixture_diag_fit",

@@ -15,6 +15,11 @@ EXPECTED = {
     "gaussian_mixture_diag_predict",
     "gaussian_mixture_diag_bic",
     "gaussian_mixture_diag_aic",
+    "bayesian_gaussian_mixture_diag_fit",
+    "bayesian_gaussian_mixture_diag_score_samples",
+    "bayesian_gaussian_mixture_diag_score",
+    "bayesian_gaussian_mixture_diag_predict_proba",
+    "bayesian_gaussian_mixture_diag_predict",
 }
 
 
