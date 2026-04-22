@@ -3,6 +3,129 @@
 This file tracks sklearn targets that should not be ingested as publishable
 atoms until the decomposition boundary is clarified.
 
+## Remediation decision rules
+
+These rules are authoritative for the target groups below. They refine the
+general ingestion rules from `../sciona-atoms/AGENT_INGESTION.md` and prevent
+CDG fiction by making every opaque boundary explicit. Where an older section
+below says to "decide whether" a wrapper, native decomposition, or helper-first
+path is acceptable, apply the case rules here as the current decision.
+
+### Case 1: native and compiled core boundaries
+
+Targets whose public Python API delegates core behavior to compiled kernels may
+be ingested at the API level only when the atom surface is honest about that
+boundary.
+
+Required treatment:
+
+- Ingest the public Python methods as the atoms.
+- Add strict `@icontract` preconditions and postconditions around data entering
+  and leaving the compiled kernel boundary.
+- Publish the review bundle with `review_semantic_verdict:
+  "pass_with_limits"`.
+- Add a `limitations` entry stating that the internal algorithmic topology is
+  obscured by a compiled FFI boundary.
+
+### Case 2: external optimizer boundaries
+
+Targets that hide the core model math inside a closure or helper passed to
+`scipy.optimize`, liblinear, or another solver must not use the orchestration
+loop as the primary atom.
+
+Required treatment:
+
+- Ingest objective-function and gradient-function atoms wherever the source
+  exposes them.
+- Treat the optimizer call itself as an FFI-style boundary under Case 1.
+- For models such as logistic regression, prefer atoms like logistic loss and
+  logistic gradient over a monolithic `fit` wrapper.
+
+### Case 3: meta-estimator wrappers
+
+Targets that call arbitrary user-provided estimators through `fit`, `predict`,
+`predict_proba`, `decision_function`, `score`, or importance callbacks must be
+modeled as higher-order functions over explicit protocols.
+
+Required treatment:
+
+- Define contracts against a callable or structured object conforming to a
+  Python `Protocol`, such as `SupportsPredictProba`, rather than assuming a
+  specific estimator implementation.
+- Keep witnesses focused on the meta-estimator combinatorics. For example, a
+  voting witness models majority voting or probability averaging over abstract
+  base outputs; it does not model how each base estimator produced those
+  outputs.
+
+### Case 4: cross-validation and path orchestration
+
+Targets such as `LassoCV` are macro workflows, not mathematical atoms. They
+must expand into smaller CDG nodes rather than publish as one opaque atom.
+
+Required treatment:
+
+- Decompose into reusable workflow atoms such as `generate_cv_folds`,
+  `fit_and_score_fold`, `aggregate_cv_results`, and `refit_best_model`.
+- Model `fit_and_score_fold` as a higher-order atom when it consumes a base
+  estimator or scorer.
+- Treat the public estimator API as a known CDG wiring template once the
+  component atoms exist.
+
+### Case 5: decomposition and matrix-factorization pipelines
+
+Targets that mix Python/NumPy preprocessing with compiled SVD, sparse coding,
+KMeans, or other heavy solvers must be sliced horizontally.
+
+Required treatment:
+
+- Extract pure Python or NumPy math steps as explicit, fully verifiable atoms.
+- Treat solver calls such as SVD, sparse-code solvers, KMeans, or compiled
+  coordinate-descent updates as FFI boundaries under Case 1.
+- Preserve intermediate states as atom outputs when those states are useful to
+  the matching engine.
+
+### Case 6: clustering and spectral pipelines
+
+Clustering pipelines should expose their graph, matrix, and embedding
+intermediates instead of hiding them behind the estimator shell.
+
+Required treatment:
+
+- Break spectral workflows into atoms such as affinity construction, graph
+  Laplacian construction, eigenvector solving, and label discretization.
+- Mark eigensolver, ARPACK, KMeans, and compiled clustering kernels as
+  `pass_with_limits` FFI boundaries.
+- Do not publish a full estimator wrapper until the meaningful intermediate
+  atoms and solver-boundary atoms exist.
+
+### Case 7: probabilistic and mutable-kernel workflows
+
+Targets with mutable kernels or optimizer-driven posterior state must use
+state-passing style so atoms remain pure and side-effect free.
+
+Required treatment:
+
+- Represent updates as functions returning new state, such as
+  `new_kernel_state = optimize_hyperparams(X, y, old_kernel_state)`.
+- Ingest Gaussian-process likelihood, gradient, posterior linear algebra, and
+  kernel-state transition atoms before publishing estimator surfaces.
+- Treat L-BFGS-B, Newton loops, and other solver calls as Case 1 or Case 2
+  boundaries depending on whether the objective and gradient are exposed.
+
+### Case 8: thin wrappers and aliases
+
+Targets that only route to another estimator or helper stay blocked until the
+upstream atoms they depend on are published.
+
+Required treatment:
+
+- Keep the target on the blocked backlog rather than creating a phantom CDG
+  node.
+- Ingest the wrapper only after the delegated atoms are verified, provenanced,
+  and published.
+- When ingested, the wrapper should route data to existing CDG nodes rather
+  than duplicate or obscure the upstream computation.
+
 ## `sklearn.linear_model` coordinate-descent solvers
 
 Deferred targets:
