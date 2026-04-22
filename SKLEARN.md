@@ -12,7 +12,7 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 - Scope for this first ingestion pass: public algorithmic estimators, transformers, kernels, and algorithmic helper functions in the selected sklearn modules below.
 - Intentionally excluded for now: datasets, metrics, displays, exceptions, low-level utils, orchestration/composition (`compose`, `pipeline`), and model-selection/search APIs.
 - Source locations come from each object page's official `[source]` link. `BallTree` and `KDTree` use the matching source files from the same scikit-learn revision because their generated docs pages do not expose a direct `[source]` link.
-- Total targets in this inventory: 13
+- Total targets in this inventory: 0
 
 ## Module Summary
 
@@ -39,11 +39,11 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 | `sklearn.linear_model` | 0 |
 | `sklearn.manifold` | 0 |
 | `sklearn.mixture` | 0 |
-| `sklearn.multiclass` | 3 |
-| `sklearn.multioutput` | 4 |
+| `sklearn.multiclass` | 0 |
+| `sklearn.multioutput` | 0 |
 | `sklearn.naive_bayes` | 0 |
-| `sklearn.neighbors` | 3 |
-| `sklearn.neural_network` | 3 |
+| `sklearn.neighbors` | 0 |
+| `sklearn.neural_network` | 0 |
 | `sklearn.preprocessing` | 0 |
 | `sklearn.semi_supervised` | 0 |
 | `sklearn.svm` | 0 |
@@ -158,18 +158,11 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 
 | Target | Description | Source |
 | --- | --- | --- |
-| `OneVsOneClassifier` | One-vs-one multiclass strategy. | `sklearn/multiclass.py:L678` |
-| `OneVsRestClassifier` | One-vs-the-rest (OvR) multiclass strategy. | `sklearn/multiclass.py:L202` |
-| `OutputCodeClassifier` | (Error-Correcting) Output-Code multiclass strategy. | `sklearn/multiclass.py:L1043` |
 
 ## `sklearn.multioutput`
 
 | Target | Description | Source |
 | --- | --- | --- |
-| `ClassifierChain` | A multi-label model that arranges binary classifiers into a chain. | `sklearn/multioutput.py:L877` |
-| `MultiOutputClassifier` | Multi target classification. | `sklearn/multioutput.py:L445` |
-| `MultiOutputRegressor` | Multi target regression. | `sklearn/multioutput.py:L342` |
-| `RegressorChain` | A multi-label model that arranges regressions into a chain. | `sklearn/multioutput.py:L1167` |
 
 ## `sklearn.naive_bayes`
 
@@ -180,17 +173,11 @@ This inventory is based on the official stable API reference for scikit-learn 1.
 
 | Target | Description | Source |
 | --- | --- | --- |
-| `BallTree` | BallTree for fast generalized N-point problems | `sklearn/neighbors/_ball_tree.pyx.tp:L282` |
-| `KDTree` | KDTree for fast generalized N-point problems | `sklearn/neighbors/_kd_tree.pyx.tp:L334` |
-| `NeighborhoodComponentsAnalysis` | Neighborhood Components Analysis. | `sklearn/neighbors/_nca.py:L34` |
 
 ## `sklearn.neural_network`
 
 | Target | Description | Source |
 | --- | --- | --- |
-| `BernoulliRBM` | Bernoulli Restricted Boltzmann Machine (RBM). | `sklearn/neural_network/_rbm.py:L25` |
-| `MLPClassifier` | Multi-layer Perceptron classifier. | `sklearn/neural_network/_multilayer_perceptron.py:L879` |
-| `MLPRegressor` | Multi-layer Perceptron regressor. | `sklearn/neural_network/_multilayer_perceptron.py:L1386` |
 
 ## `sklearn.preprocessing`
 

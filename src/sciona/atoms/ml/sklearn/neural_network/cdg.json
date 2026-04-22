@@ -1,0 +1,167 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_neural_network_root",
+      "name": "Sklearn Neural Network Atoms",
+      "description": "Dense Bernoulli restricted Boltzmann machine atoms for hidden activation, Gibbs sampling, persistent contrastive-divergence updates, fitting, and pseudo-likelihood scoring.",
+      "status": "decomposed",
+      "children": [
+        "bernoulli_rbm_fit",
+        "bernoulli_rbm_mean_hiddens",
+        "bernoulli_rbm_sample_hiddens",
+        "bernoulli_rbm_sample_visibles",
+        "bernoulli_rbm_free_energy",
+        "bernoulli_rbm_gibbs",
+        "bernoulli_rbm_partial_fit",
+        "bernoulli_rbm_score_samples"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "bernoulli_rbm_fit",
+      "name": "bernoulli_rbm_fit",
+      "description": "Fit dense Bernoulli RBM parameters with persistent contrastive divergence from binary visible samples.",
+      "concept_type": "fit_state",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], n_components: int = 256, learning_rate: float = 0.1, batch_size: int = 10, n_iter: int = 10, random_state: int | None = None) -> BernoulliRBMState",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "n_components", "type_desc": "int", "required": false},
+        {"name": "learning_rate", "type_desc": "float", "required": false},
+        {"name": "batch_size", "type_desc": "int", "required": false},
+        {"name": "n_iter", "type_desc": "int", "required": false},
+        {"name": "random_state", "type_desc": "int | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "BernoulliRBMState"}
+      ]
+    },
+    {
+      "node_id": "bernoulli_rbm_mean_hiddens",
+      "name": "bernoulli_rbm_mean_hiddens",
+      "description": "Compute hidden-unit activation probabilities for dense visible samples.",
+      "concept_type": "transform",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: BernoulliRBMState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "state", "type_desc": "BernoulliRBMState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "bernoulli_rbm_sample_hiddens",
+      "name": "bernoulli_rbm_sample_hiddens",
+      "description": "Draw binary hidden states from visible activation probabilities.",
+      "concept_type": "stochastic_sample",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: BernoulliRBMState, random_state: int | None = None) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "state", "type_desc": "BernoulliRBMState", "required": true},
+        {"name": "random_state", "type_desc": "int | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "bernoulli_rbm_sample_visibles",
+      "name": "bernoulli_rbm_sample_visibles",
+      "description": "Draw binary visible states from hidden samples.",
+      "concept_type": "stochastic_sample",
+      "status": "atomic",
+      "type_signature": "(H: NDArray[np.float64], state: BernoulliRBMState, random_state: int | None = None) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "H", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "state", "type_desc": "BernoulliRBMState", "required": true},
+        {"name": "random_state", "type_desc": "int | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "bernoulli_rbm_free_energy",
+      "name": "bernoulli_rbm_free_energy",
+      "description": "Compute Bernoulli RBM free energy for each visible sample.",
+      "concept_type": "energy_score",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: BernoulliRBMState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "state", "type_desc": "BernoulliRBMState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "bernoulli_rbm_gibbs",
+      "name": "bernoulli_rbm_gibbs",
+      "description": "Run one hidden-visible Gibbs transition from dense visible samples.",
+      "concept_type": "stochastic_transition",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: BernoulliRBMState, random_state: int | None = None) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "state", "type_desc": "BernoulliRBMState", "required": true},
+        {"name": "random_state", "type_desc": "int | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "bernoulli_rbm_partial_fit",
+      "name": "bernoulli_rbm_partial_fit",
+      "description": "Apply one persistent contrastive-divergence update to a fitted Bernoulli RBM state.",
+      "concept_type": "state_update",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: BernoulliRBMState, random_state: int | None = None) -> BernoulliRBMState",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "state", "type_desc": "BernoulliRBMState", "required": true},
+        {"name": "random_state", "type_desc": "int | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "BernoulliRBMState"}
+      ]
+    },
+    {
+      "node_id": "bernoulli_rbm_score_samples",
+      "name": "bernoulli_rbm_score_samples",
+      "description": "Compute pseudo-likelihood scores by flipping one visible feature per sample.",
+      "concept_type": "likelihood_score",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], state: BernoulliRBMState, random_state: int | None = None) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "state", "type_desc": "BernoulliRBMState", "required": true},
+        {"name": "random_state", "type_desc": "int | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "bernoulli_rbm_fit", "target": "bernoulli_rbm_mean_hiddens", "kind": "state"},
+    {"source": "bernoulli_rbm_mean_hiddens", "target": "bernoulli_rbm_sample_hiddens", "kind": "probability"},
+    {"source": "bernoulli_rbm_sample_hiddens", "target": "bernoulli_rbm_gibbs", "kind": "sample"},
+    {"source": "bernoulli_rbm_sample_visibles", "target": "bernoulli_rbm_gibbs", "kind": "sample"},
+    {"source": "bernoulli_rbm_fit", "target": "bernoulli_rbm_free_energy", "kind": "state"},
+    {"source": "bernoulli_rbm_free_energy", "target": "bernoulli_rbm_score_samples", "kind": "energy"},
+    {"source": "bernoulli_rbm_fit", "target": "bernoulli_rbm_partial_fit", "kind": "state"}
+  ]
+}

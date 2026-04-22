@@ -115,6 +115,78 @@ Potential remediation path:
   or FFI-backed decomposition, with provenance and runtime validation at the
   solver boundary.
 
+## `sklearn.multiclass` meta-estimator orchestration
+
+Deferred targets:
+
+| Target | Source | Reason |
+| --- | --- | --- |
+| `OneVsOneClassifier` | `sklearn/multiclass.py:L678` | Fit clones and trains one configurable estimator for each class pair, while prediction delegates to estimator-specific `predict`, `decision_function`, or probability behavior; a publishable atom around the class would hide the base-estimator boundary. |
+| `OneVsRestClassifier` | `sklearn/multiclass.py:L202` | Fit binarizes labels and trains one configurable estimator per class through joblib and metadata routing; prediction depends on estimator-specific decision or probability callbacks. |
+| `OutputCodeClassifier` | `sklearn/multiclass.py:L1043` | Fit creates a random code book and trains one configurable binary estimator per code column, then prediction uses estimator-specific response methods and code-distance decoding; the estimator callbacks need a first-class boundary before publication. |
+
+Potential remediation path:
+
+- Ingest estimator-independent helpers first, such as one-vs-one class-pair
+  index generation, one-vs-rest score aggregation, output-code book creation,
+  and code-distance decoding from supplied response matrices.
+- Decide how cloned fitted estimators and metadata routing should be
+  represented before publishing the full meta-estimator workflows.
+
+## `sklearn.multioutput` estimator-callback orchestration
+
+Deferred targets:
+
+| Target | Source | Reason |
+| --- | --- | --- |
+| `ClassifierChain` | `sklearn/multioutput.py:L877` | Fit trains a chain of configurable estimators, optionally using cross-validated predictions for previous outputs; publishing the class directly would obscure estimator and CV callback boundaries. |
+| `MultiOutputClassifier` | `sklearn/multioutput.py:L445` | Fit trains one configurable classifier per output and prediction/probability methods delegate to each estimator's implementation. |
+| `MultiOutputRegressor` | `sklearn/multioutput.py:L342` | Fit trains one configurable regressor per target, and prediction delegates to fitted estimators; a shell atom would not describe the underlying regression algorithm. |
+| `RegressorChain` | `sklearn/multioutput.py:L1167` | Fit trains configurable regressors in a prediction-augmented chain, optionally with cross-validation; full publication needs an explicit representation of estimator training and prediction callbacks. |
+
+Potential remediation path:
+
+- Ingest estimator-independent chain-order validation, feature augmentation
+  from supplied previous predictions, independent-output stacking, and
+  multioutput score aggregation.
+- Decide how configured estimator clones and CV prediction callbacks should be
+  represented before publishing full multioutput workflows.
+
+## `sklearn.neighbors` native tree and optimizer boundaries
+
+Deferred targets:
+
+| Target | Source | Reason |
+| --- | --- | --- |
+| `BallTree` | `sklearn/neighbors/_ball_tree.pyx.tp:L282` | The public data structure is implemented in Cython templates and compiled extension modules; publishing a Python-facing wrapper would hide the tree construction, metric dispatch, and query implementation. |
+| `KDTree` | `sklearn/neighbors/_kd_tree.pyx.tp:L334` | The public data structure is implemented in Cython templates and compiled extension modules; a publishable atom needs native/FFI provenance at the tree-building and query boundary. |
+| `NeighborhoodComponentsAnalysis` | `sklearn/neighbors/_nca.py:L34` | Fit initializes through optional PCA/LDA/random paths and delegates optimization to `scipy.optimize.minimize(method="L-BFGS-B")` with callbacks; publishing the estimator shell would hide optimizer and initialization boundaries. |
+
+Potential remediation path:
+
+- For `BallTree` and `KDTree`, ingest the Cython/native tree construction and
+  query kernels through a native or FFI-backed decomposition with parity tests.
+- For NCA, publish standalone atoms for the supervised loss/gradient and
+  linear transform from supplied components before deciding how to represent
+  L-BFGS-B optimization and PCA/LDA initialization.
+
+## `sklearn.neural_network` multilayer perceptron optimizers
+
+Deferred targets:
+
+| Target | Source | Reason |
+| --- | --- | --- |
+| `MLPClassifier` | `sklearn/neural_network/_multilayer_perceptron.py:L879` | Fit combines multilayer initialization, forward/backpropagation, sample weighting, early stopping, and either SciPy L-BFGS-B, SGD, or Adam optimizer state; publishing the estimator shell would hide optimizer-specific training behavior. |
+| `MLPRegressor` | `sklearn/neural_network/_multilayer_perceptron.py:L1386` | Fit shares the same optimizer framework as `MLPClassifier` and adds regression-specific output/loss behavior; a publishable atom should first expose feed-forward, loss, gradient, and optimizer update boundaries. |
+
+Potential remediation path:
+
+- Ingest deterministic neural-network primitives first: activation functions,
+  forward pass from supplied weights, output-layer loss terms, and backprop
+  gradients for fixed parameters.
+- Decide whether SGD/Adam/L-BFGS optimizer state should be represented as
+  separate atom families before publishing full MLP training surfaces.
+
 ## `sklearn.tree`
 
 Deferred targets:
