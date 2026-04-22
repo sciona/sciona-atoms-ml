@@ -1,0 +1,134 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_feature_selection_selectors_root",
+      "name": "Sklearn Feature Selection Selector Helper Atoms",
+      "description": "Estimator-independent bookkeeping helpers for callback-backed sklearn feature selectors",
+      "status": "decomposed",
+      "children": [
+        "feature_importances_transform",
+        "select_from_model_threshold",
+        "select_from_model_support_mask",
+        "rfe_elimination_step",
+        "sequential_candidate_masks",
+        "sequential_best_feature"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "feature_importances_transform",
+      "name": "feature_importances_transform",
+      "description": "Transform retrieved estimator importances into one score per feature.",
+      "concept_type": "importance_transform",
+      "status": "atomic",
+      "type_signature": "(importances: NDArray[np.float64], transform_func: TransformSpec = None, norm_order: int = 1) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "importances", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "transform_func", "type_desc": "str | None", "required": false},
+        {"name": "norm_order", "type_desc": "int", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "select_from_model_threshold",
+      "name": "select_from_model_threshold",
+      "description": "Resolve sklearn SelectFromModel threshold text against importance scores.",
+      "concept_type": "threshold_parsing",
+      "status": "atomic",
+      "type_signature": "(importances: NDArray[np.float64], threshold: ThresholdSpec = None, l1_default: bool = False) -> float",
+      "depth": 1,
+      "inputs": [
+        {"name": "importances", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "threshold", "type_desc": "str | float | None", "required": false},
+        {"name": "l1_default", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "float"}
+      ]
+    },
+    {
+      "node_id": "select_from_model_support_mask",
+      "name": "select_from_model_support_mask",
+      "description": "Build sklearn SelectFromModel support mask from supplied scores.",
+      "concept_type": "support_mask_generation",
+      "status": "atomic",
+      "type_signature": "(scores: NDArray[np.float64], threshold: float, max_features: int | None = None) -> NDArray[np.bool_]",
+      "depth": 1,
+      "inputs": [
+        {"name": "scores", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "threshold", "type_desc": "float", "required": true},
+        {"name": "max_features", "type_desc": "int | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.bool_]"}
+      ]
+    },
+    {
+      "node_id": "rfe_elimination_step",
+      "name": "rfe_elimination_step",
+      "description": "Apply one sklearn RFE elimination update from current importances.",
+      "concept_type": "support_mask_update",
+      "status": "atomic",
+      "type_signature": "(support_mask: NDArray[np.bool_], ranking: NDArray[np.int64], importances: NDArray[np.float64], n_features_to_select: int, step: int) -> tuple[NDArray[np.bool_], NDArray[np.int64]]",
+      "depth": 1,
+      "inputs": [
+        {"name": "support_mask", "type_desc": "NDArray[np.bool_]", "required": true},
+        {"name": "ranking", "type_desc": "NDArray[np.int64]", "required": true},
+        {"name": "importances", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "n_features_to_select", "type_desc": "int", "required": true},
+        {"name": "step", "type_desc": "int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[NDArray[np.bool_], NDArray[np.int64]]"}
+      ]
+    },
+    {
+      "node_id": "sequential_candidate_masks",
+      "name": "sequential_candidate_masks",
+      "description": "Create sklearn sequential feature-selection candidate masks.",
+      "concept_type": "candidate_mask_generation",
+      "status": "atomic",
+      "type_signature": "(current_mask: NDArray[np.bool_], direction: str = 'forward') -> tuple[NDArray[np.int64], NDArray[np.bool_]]",
+      "depth": 1,
+      "inputs": [
+        {"name": "current_mask", "type_desc": "NDArray[np.bool_]", "required": true},
+        {"name": "direction", "type_desc": "str", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[NDArray[np.int64], NDArray[np.bool_]]"}
+      ]
+    },
+    {
+      "node_id": "sequential_best_feature",
+      "name": "sequential_best_feature",
+      "description": "Choose the candidate feature with largest sequential-selection score.",
+      "concept_type": "candidate_selection",
+      "status": "atomic",
+      "type_signature": "(candidate_indices: NDArray[np.int64], scores: NDArray[np.float64]) -> int",
+      "depth": 1,
+      "inputs": [
+        {"name": "candidate_indices", "type_desc": "NDArray[np.int64]", "required": true},
+        {"name": "scores", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "int"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "feature_importances_transform", "target": "select_from_model_threshold", "kind": "scores"},
+    {"source": "select_from_model_threshold", "target": "select_from_model_support_mask", "kind": "threshold"},
+    {"source": "feature_importances_transform", "target": "rfe_elimination_step", "kind": "importance_scores"},
+    {"source": "sequential_candidate_masks", "target": "sequential_best_feature", "kind": "candidate_indices"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.feature_selection",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 3 meta-estimator wrappers"
+  }
+}
