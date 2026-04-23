@@ -684,6 +684,9 @@ Potential remediation path:
   mean class-probability aggregation, class selection from aggregated
   probabilities, and regression prediction averaging over already-computed
   tree outputs.
+- Completed helper slice: `sklearn.ensemble.gradient_boosting` publishes
+  deterministic helper math for numerically safe line-search division and
+  Huber delta selection from residual magnitudes and sample weights.
 - Decide whether sklearn tree builders and histogram-gradient-boosting native
   internals should be represented through FFI/native atoms before publishing
   random forest, extra trees, isolation forest, and gradient boosting states.
