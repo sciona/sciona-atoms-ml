@@ -664,6 +664,15 @@ Potential remediation path:
 - Ingest small standalone helper kernels separately, such as bootstrap index
   generation, weighted voting/probability aggregation, forest prediction
   averaging, and IsolationForest average path length.
+- Completed helper slice: `sklearn.ensemble.voting` publishes weighted hard
+  voting, soft probability averaging, and regression averaging over
+  already-computed estimator outputs.
+- Completed helper slice: `sklearn.ensemble.isolation_forest` publishes
+  average path length, per-tree leaf depth accumulation, and raw anomaly-score
+  conversion while tree growth remains deferred.
+- Completed helper slice: `sklearn.ensemble.bagging_sampling` publishes
+  bootstrap and sampling-without-replacement feature/sample index draws for
+  one bagging estimator.
 - Decide whether sklearn tree builders and histogram-gradient-boosting native
   internals should be represented through FFI/native atoms before publishing
   random forest, extra trees, isolation forest, and gradient boosting states.

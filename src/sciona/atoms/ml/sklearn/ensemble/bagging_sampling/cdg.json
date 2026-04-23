@@ -1,0 +1,65 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_ensemble_bagging_sampling_root",
+      "name": "Sklearn Bagging Sampling Atoms",
+      "description": "Estimator-independent sampling helpers for sklearn bagging",
+      "status": "decomposed",
+      "children": [
+        "bagging_generate_indices",
+        "bagging_generate_bagging_indices"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "bagging_generate_indices",
+      "name": "bagging_generate_indices",
+      "description": "Draw sample or feature indices the way sklearn bagging does for one axis.",
+      "concept_type": "ensemble_sampling",
+      "status": "atomic",
+      "type_signature": "(bootstrap: bool, n_population: int, n_draws: int, random_state: int | np.random.RandomState | None = None) -> NDArray[np.int64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "bootstrap", "type_desc": "bool", "required": true},
+        {"name": "n_population", "type_desc": "int", "required": true},
+        {"name": "n_draws", "type_desc": "int", "required": true},
+        {"name": "random_state", "type_desc": "int | np.random.RandomState | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.int64]"}
+      ]
+    },
+    {
+      "node_id": "bagging_generate_bagging_indices",
+      "name": "bagging_generate_bagging_indices",
+      "description": "Draw feature and sample indices for one sklearn bagging estimator.",
+      "concept_type": "ensemble_sampling",
+      "status": "atomic",
+      "type_signature": "(bootstrap_features: bool, bootstrap_samples: bool, n_features: int, n_samples: int, max_features: int, max_samples: int, random_state: int | np.random.RandomState | None = None, sample_weight: NDArray[np.float64] | None = None) -> tuple[NDArray[np.int64], NDArray[np.int64]]",
+      "depth": 1,
+      "inputs": [
+        {"name": "bootstrap_features", "type_desc": "bool", "required": true},
+        {"name": "bootstrap_samples", "type_desc": "bool", "required": true},
+        {"name": "n_features", "type_desc": "int", "required": true},
+        {"name": "n_samples", "type_desc": "int", "required": true},
+        {"name": "max_features", "type_desc": "int", "required": true},
+        {"name": "max_samples", "type_desc": "int", "required": true},
+        {"name": "random_state", "type_desc": "int | np.random.RandomState | None", "required": false},
+        {"name": "sample_weight", "type_desc": "NDArray[np.float64] | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[NDArray[np.int64], NDArray[np.int64]]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "bagging_generate_indices", "target": "bagging_generate_bagging_indices", "kind": "subsample_helper"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.ensemble._bagging",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 3 meta-estimator sampling helpers"
+  }
+}

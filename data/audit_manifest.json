@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "metadata": {
-    "generated_at": "2026-04-23T16:32:37.437481+00:00",
+    "generated_at": "2026-04-23T19:15:58.387227+00:00",
     "generator": "scripts/apply_audit_review_bundles.py",
     "phase": "phase_1_review_bundle_merge"
   },
@@ -38809,6 +38809,256 @@
       "required_actions": [],
       "blocking_findings": [],
       "review_record_path": "data/review_bundles/ml_sklearn_dummy_regressor.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.ensemble.bagging_sampling.bagging_generate_bagging_indices",
+      "atom_key": "sciona.atoms.ml.sklearn.ensemble.bagging_sampling.bagging_generate_bagging_indices",
+      "atom_id": "sciona.atoms.ml.sklearn.ensemble.bagging_sampling.bagging_generate_bagging_indices",
+      "module_import_path": "sciona.atoms.ml.sklearn.ensemble.bagging_sampling",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/ensemble/bagging_sampling/atoms.py",
+      "module_family": "ensemble",
+      "domain_family": "ml.sklearn.ensemble",
+      "wrapper_symbol": "bagging_generate_bagging_indices",
+      "argument_names": [
+        "bootstrap_features",
+        "bootstrap_samples",
+        "n_features",
+        "n_samples",
+        "max_features",
+        "max_samples",
+        "random_state",
+        "sample_weight"
+      ],
+      "argument_details": [
+        {
+          "name": "bootstrap_features",
+          "annotation": "bool",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "bootstrap_samples",
+          "annotation": "bool",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "n_features",
+          "annotation": "int",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "n_samples",
+          "annotation": "int",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "max_features",
+          "annotation": "int",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "max_samples",
+          "annotation": "int",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "random_state",
+          "annotation": "RandomStateLike",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "sample_weight",
+          "annotation": "SampleWeightLike",
+          "required": false,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "IndexPair",
+      "docstring_summary": "Draw feature and sample indices for one sklearn bagging estimator.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/ensemble/bagging_sampling/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/ensemble/bagging_sampling/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/ensemble/bagging_sampling/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/ensemble/bagging_sampling/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_ensemble_bagging_sampling_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_ensemble_bagging_sampling_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_ensemble_bagging_sampling_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 11,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "medium"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 91,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 4,
+      "parity_case_count": 8,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_ensemble_bagging_sampling.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.ensemble.bagging_sampling.bagging_generate_indices",
+      "atom_key": "sciona.atoms.ml.sklearn.ensemble.bagging_sampling.bagging_generate_indices",
+      "atom_id": "sciona.atoms.ml.sklearn.ensemble.bagging_sampling.bagging_generate_indices",
+      "module_import_path": "sciona.atoms.ml.sklearn.ensemble.bagging_sampling",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/ensemble/bagging_sampling/atoms.py",
+      "module_family": "ensemble",
+      "domain_family": "ml.sklearn.ensemble",
+      "wrapper_symbol": "bagging_generate_indices",
+      "argument_names": [
+        "bootstrap",
+        "n_population",
+        "n_draws",
+        "random_state"
+      ],
+      "argument_details": [
+        {
+          "name": "bootstrap",
+          "annotation": "bool",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "n_population",
+          "annotation": "int",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "n_draws",
+          "annotation": "int",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "random_state",
+          "annotation": "RandomStateLike",
+          "required": false,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.int64]",
+      "docstring_summary": "Draw sample or feature indices the way sklearn bagging does for one axis.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/ensemble/bagging_sampling/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/ensemble/bagging_sampling/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/ensemble/bagging_sampling/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/ensemble/bagging_sampling/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_ensemble_bagging_sampling_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_ensemble_bagging_sampling_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_ensemble_bagging_sampling_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 10,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 92,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 2,
+      "parity_case_count": 5,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_ensemble_bagging_sampling.review_bundle.json",
       "has_references": true,
       "references_status": "pass"
     },
