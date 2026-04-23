@@ -515,6 +515,11 @@ Deferred target:
 
 Potential remediation path:
 
+- Completed helper slice: `sklearn.cluster.birch` now publishes BIRCH
+  no-global-clustering fit, predict, and transform atoms with `n_clusters=None`
+  and immutable subcluster state.
+- Default `AgglomerativeClustering`, custom global clusterers, sparse inputs,
+  `partial_fit`, and live mutable CF-tree object surfaces remain deferred.
 - Ingest the CF-tree insertion, subcluster merge, and node-splitting logic as
   separate atoms with an explicit `n_clusters=None` or no-global-clustering
   boundary.
