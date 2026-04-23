@@ -8,10 +8,10 @@ the architect tooling can reconstruct atom bindings from conceptual nodes.
 
 | Solution | Stages | Bound | Partial | Gaps | Coverage | Post-fix notes |
 |----------|--------|-------|---------|------|----------|----------------|
-| Connectomics 1st | 9 | 1 | 1→0 | 7 | 11%→22% | pca_get_precision closes partial; threshold_sweep recognized as MAP_OVER |
-| Cause-Effect 2nd | 17 | 16 | 0 | 0→1 | 94%→100%* | All 16 atoms get category search + 0.75 bonus; asymmetric_feature_difference recognized as MAP_OVER |
-| TrackML 5th | 11 | 4 | 0 | 7 | 36% | 5 helix atoms get category=geometry bonus; NearestNeighbors gets category=searching bonus |
-| **Totals (3 done)** | **37** | **21→22** | **1→0** | **15** | **57%→62%** | |
+| Connectomics 1st | 9 | 6 | 0 | 3 | **67%** | 5 connectome atoms ingested + pca_get_precision; remaining: np.diff, MAP_OVER, weighted_sum |
+| Cause-Effect 2nd | 17 | 16 | 0 | 1 | **100%*** | All 16 atoms category-searchable; asymmetric_feature_difference = MAP_OVER |
+| TrackML 5th | 11 | 4 | 0 | 7 | **36%** | helix + neighbors atoms get category bonus |
+| **Totals (3 done)** | **37** | **26** | **0** | **11** | **70%** | |
 
 \* Cause-Effect reaches 100% if asymmetric_feature_difference is counted as
 "resolved via MAP_OVER pattern" rather than a single-atom binding.
@@ -98,19 +98,19 @@ more solution CDGs are built.
 
 ## 1. Connectomics 1st Place (Graph Inference from Calcium Fluorescence)
 
-**CDG:** `data/solution_cdgs/connectomics_1st.json` | **Coverage:** 1/9 → 2/9 (22%)
+**CDG:** `data/solution_cdgs/connectomics_1st.json` | **Coverage:** 6/9 (67%)
 
-| Stage | Binding | Confidence | Category | Post-fix |
-|-------|---------|------------|----------|----------|
-| calcium_lowpass_filter | gap | 0.0 | `MISSING_ATOM` | unchanged |
-| first_difference | gap | 0.3 | `TRIVIAL` | unchanged |
-| fluorescence_hard_threshold | gap | 0.15 | `MISSING_ATOM` | unchanged |
-| global_activity_sample_reweighting | gap | 0.0 | `MISSING_ATOM` | unchanged |
-| pca_precision_matrix | `pca_fit` | 0.7 | `PARTIAL_BIND` | **FIXED → `pca_fit` + `pca_get_precision`, confidence ~1.0** |
-| score_matrix_normalization | gap | 0.2 | `TRIVIAL` | unchanged |
-| threshold_sweep_ensemble | gap | 0.0 | `ORCH_GAP` | **RESOLVED → recognized as MAP_OVER skeleton** |
-| temporal_precedence_directivity | gap | 0.0 | `MISSING_ATOM` | unchanged |
-| weighted_score_combination | gap | 0.1 | `TRIVIAL` | unchanged |
+| Stage | Binding | Confidence | Status |
+|-------|---------|------------|--------|
+| calcium_lowpass_filter | `...connectome.calcium_lowpass_filter` | 1.0 | **INGESTED** |
+| first_difference | gap | — | `TRIVIAL` (np.diff) |
+| fluorescence_hard_threshold | `...connectome.fluorescence_hard_threshold` | 1.0 | **INGESTED** |
+| global_activity_sample_reweighting | `...connectome.global_activity_sample_reweighting` | 1.0 | **INGESTED** |
+| pca_precision_matrix | `pca_fit` + `pca_get_precision` | 1.0 | **FIXED** (S-3) |
+| score_matrix_normalization | `...connectome.score_matrix_normalization` | 1.0 | **INGESTED** |
+| threshold_sweep_ensemble | gap | — | `ORCH_GAP` → MAP_OVER (S-2) |
+| temporal_precedence_directivity | `...connectome.temporal_precedence_directivity` | 1.0 | **INGESTED** |
+| weighted_score_combination | gap | — | `TRIVIAL` (weighted sum) |
 
 ---
 
