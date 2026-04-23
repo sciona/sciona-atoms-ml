@@ -614,10 +614,14 @@ Potential remediation path:
 - Completed helper slice: `sklearn.decomposition.dictionary_update` publishes
   dense dictionary-learning sufficient statistics and active-atom update
   helpers with unit-norm projection.
+- Completed helper slice:
+  `sklearn.decomposition.sparse_encode_preprocessing` publishes sparse-encode
+  regularization selection, Gram and covariance precompute helpers, and the
+  threshold-only encoding branch.
 - Sparse-code solving, LARS/Lasso/OMP/coordinate-descent branches, joblib
   parallel sparse encoding, dictionary-learning callbacks, mini-batch
-  scheduling, and sklearn's random unused-atom resampling branch remain
-  deferred.
+  scheduling, sklearn's random unused-atom resampling branch, and non-threshold
+  sparse-code solvers remain deferred.
 - Decide whether sparse-code solvers, compiled NMF coordinate descent, and
   online-LDA Cython helpers should be represented through native/FFI-backed
   atoms or through limited solver-boundary atoms with direct parity tests.

@@ -1,0 +1,97 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_decomposition_sparse_encode_preprocessing_root",
+      "name": "Sklearn Sparse Encode Preprocessing Atoms",
+      "description": "Deterministic preprocessing helpers for sparse_encode before solver dispatch",
+      "status": "decomposed",
+      "children": [
+        "sparse_encode_regularization",
+        "sparse_encode_gram",
+        "sparse_encode_covariance",
+        "sparse_encode_threshold"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "sparse_encode_regularization",
+      "name": "sparse_encode_regularization",
+      "description": "Select sklearn's sparse_encode regularization scalar before solver dispatch.",
+      "concept_type": "sparse_encode_preprocessing",
+      "status": "atomic",
+      "type_signature": "(algorithm: str, n_features: int, n_components: int, n_nonzero_coefs: int | None = None, alpha: float | None = None) -> float",
+      "depth": 1,
+      "inputs": [
+        {"name": "algorithm", "type_desc": "str", "required": true},
+        {"name": "n_features", "type_desc": "int", "required": true},
+        {"name": "n_components", "type_desc": "int", "required": true},
+        {"name": "n_nonzero_coefs", "type_desc": "int | None", "required": false},
+        {"name": "alpha", "type_desc": "float | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "float"}
+      ]
+    },
+    {
+      "node_id": "sparse_encode_gram",
+      "name": "sparse_encode_gram",
+      "description": "Compute the sparse_encode Gram matrix dictionary @ dictionary.T.",
+      "concept_type": "sparse_encode_preprocessing",
+      "status": "atomic",
+      "type_signature": "(dictionary: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "dictionary", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "sparse_encode_covariance",
+      "name": "sparse_encode_covariance",
+      "description": "Compute the sparse_encode covariance matrix dictionary @ X.T.",
+      "concept_type": "sparse_encode_preprocessing",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], dictionary: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "dictionary", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "sparse_encode_threshold",
+      "name": "sparse_encode_threshold",
+      "description": "Apply sklearn's threshold sparse_encode branch from covariance precompute and regularization selection.",
+      "concept_type": "sparse_encode_preprocessing",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], dictionary: NDArray[np.float64], cov: NDArray[np.float64] | None = None, alpha: float | None = None, positive: bool = False) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "dictionary", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "cov", "type_desc": "NDArray[np.float64] | None", "required": false},
+        {"name": "alpha", "type_desc": "float | None", "required": false},
+        {"name": "positive", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "sparse_encode_regularization", "target": "sparse_encode_threshold", "kind": "regularization_input"},
+    {"source": "sparse_encode_covariance", "target": "sparse_encode_threshold", "kind": "covariance_input"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.decomposition._dict_learning",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 5 sparse_encode preprocessing and threshold-only branch before sparse-code solver boundaries"
+  }
+}
