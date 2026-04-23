@@ -1,0 +1,73 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_ensemble_adaboost_root",
+      "name": "Sklearn Ensemble AdaBoost Aggregation Atoms",
+      "description": "Estimator-independent aggregation helpers for sklearn AdaBoost classifier and regressor outputs",
+      "status": "decomposed",
+      "children": [
+        "adaboost_classifier_decision_function",
+        "adaboost_classifier_probabilities_from_decision",
+        "adaboost_regressor_weighted_median"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "adaboost_classifier_decision_function",
+      "name": "adaboost_classifier_decision_function",
+      "description": "Aggregate encoded per-estimator class predictions into sklearn AdaBoost decision outputs.",
+      "concept_type": "classifier_aggregation",
+      "status": "atomic",
+      "type_signature": "(encoded_predictions: NDArray[np.int64], classes: NDArray[np.float64], estimator_weights: tuple[float, ...]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "encoded_predictions", "type_desc": "NDArray[np.int64]", "required": true},
+        {"name": "classes", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "estimator_weights", "type_desc": "tuple[float, ...]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "adaboost_classifier_probabilities_from_decision",
+      "name": "adaboost_classifier_probabilities_from_decision",
+      "description": "Convert AdaBoost decision outputs to class probabilities using sklearn's binary and multiclass rules.",
+      "concept_type": "classifier_aggregation",
+      "status": "atomic",
+      "type_signature": "(decision: NDArray[np.float64], n_classes: int) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "decision", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "n_classes", "type_desc": "int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "adaboost_regressor_weighted_median",
+      "name": "adaboost_regressor_weighted_median",
+      "description": "Select AdaBoost.R2's weighted-median regression prediction for each sample.",
+      "concept_type": "regressor_aggregation",
+      "status": "atomic",
+      "type_signature": "(predictions: NDArray[np.float64], estimator_weights: tuple[float, ...]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "predictions", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "estimator_weights", "type_desc": "tuple[float, ...]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    }
+  ],
+  "edges": [],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.ensemble._weight_boosting",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 3 meta-estimator wrappers"
+  }
+}

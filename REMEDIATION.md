@@ -676,6 +676,10 @@ Potential remediation path:
 - Completed helper slice: `sklearn.ensemble.forest_sampling` publishes
   validated bootstrap sample-count resolution plus sampled and unsampled index
   draws for one forest tree before tree growth or OOB scoring.
+- Completed helper slice: `sklearn.ensemble.adaboost` publishes
+  estimator-independent SAMME decision aggregation, decision-to-probability
+  conversion, and AdaBoost.R2 weighted-median regression aggregation over
+  already-computed estimator outputs.
 - Decide whether sklearn tree builders and histogram-gradient-boosting native
   internals should be represented through FFI/native atoms before publishing
   random forest, extra trees, isolation forest, and gradient boosting states.
