@@ -14,6 +14,7 @@ Start a new remediation session by reading these files:
 
 - `../sciona-atoms/AGENT_INGESTION.md`
 - `REMEDIATION.md`
+- `REMEDIATION_PROMPT.md`
 - `SKLEARN.md`
 - `PUBLISHING.md` if present in the active repo or shared atom repo
 
