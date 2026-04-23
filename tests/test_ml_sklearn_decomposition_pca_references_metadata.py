@@ -13,6 +13,9 @@ REGISTRY_PATH = ROOT / "data" / "references" / "registry.json"
 
 EXPECTED_FQDNS = {
     "sciona.atoms.ml.sklearn.decomposition.pca_fit",
+    "sciona.atoms.ml.sklearn.decomposition.pca_get_precision",
+    "sciona.atoms.ml.sklearn.decomposition.pca_components",
+    "sciona.atoms.ml.sklearn.decomposition.pca_explained_variance_ratio",
 }
 
 

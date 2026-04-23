@@ -16,6 +16,9 @@ MANIFEST_PATH = ROOT / "data" / "audit_manifest.json"
 
 EXPECTED_ATOM_NAMES = {
     "sciona.atoms.ml.sklearn.decomposition.pca_fit",
+    "sciona.atoms.ml.sklearn.decomposition.pca_get_precision",
+    "sciona.atoms.ml.sklearn.decomposition.pca_components",
+    "sciona.atoms.ml.sklearn.decomposition.pca_explained_variance_ratio",
 }
 
 
@@ -26,7 +29,7 @@ def _bundle() -> dict:
 def test_bundle_exists_and_has_pca_atom() -> None:
     assert BUNDLE_PATH.exists()
     bundle = _bundle()
-    assert len(bundle["rows"]) == 1
+    assert len(bundle["rows"]) == 4
     assert {row["atom_key"] for row in bundle["rows"]} == EXPECTED_ATOM_NAMES
 
 
@@ -45,7 +48,7 @@ def test_each_row_has_review_metadata_and_existing_sources() -> None:
     for row in bundle["rows"]:
         assert row["review_status"] == "reviewed"
         assert row["review_semantic_verdict"] in {"pass", "pass_with_limits"}
-        assert row["review_developer_semantic_verdict"] == "pass_with_limits"
+        assert row["review_developer_semantic_verdict"] in {"pass", "pass_with_limits"}
         assert row["trust_readiness"] == "catalog_ready"
         assert row["has_references"] is True
         assert row["references_status"] == "pass"
@@ -68,9 +71,10 @@ def test_scores_and_enums_are_db_compatible() -> None:
 def test_cdg_atomic_nodes_have_publishable_io_specs() -> None:
     cdg = json.loads(CDG_PATH.read_text(encoding="utf-8"))
     atomic = [node for node in cdg["nodes"] if node.get("status") == "atomic"]
-    assert {"pca_fit"}.issubset({node["name"] for node in atomic})
+    pca_node_names = {"pca_fit", "pca_get_precision", "pca_components", "pca_explained_variance_ratio"}
+    assert pca_node_names.issubset({node["name"] for node in atomic})
     for node in atomic:
-        if node["name"] != "pca_fit":
+        if node["name"] not in pca_node_names:
             continue
         assert node["node_id"] == node["name"]
         assert node["inputs"]
