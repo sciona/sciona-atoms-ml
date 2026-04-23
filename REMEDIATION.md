@@ -680,6 +680,10 @@ Potential remediation path:
   estimator-independent SAMME decision aggregation, decision-to-probability
   conversion, and AdaBoost.R2 weighted-median regression aggregation over
   already-computed estimator outputs.
+- Completed helper slice: `sklearn.ensemble.forest_aggregation` publishes
+  mean class-probability aggregation, class selection from aggregated
+  probabilities, and regression prediction averaging over already-computed
+  tree outputs.
 - Decide whether sklearn tree builders and histogram-gradient-boosting native
   internals should be represented through FFI/native atoms before publishing
   random forest, extra trees, isolation forest, and gradient boosting states.
