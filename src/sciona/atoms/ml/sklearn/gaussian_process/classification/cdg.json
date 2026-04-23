@@ -1,0 +1,150 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_gaussian_process_classification_root",
+      "name": "Sklearn Gaussian Process Classification Laplace Atoms",
+      "description": "Deterministic binary Laplace-approximation helpers for sklearn Gaussian-process classification from supplied kernel blocks.",
+      "status": "decomposed",
+      "children": [
+        "gp_classifier_laplace_newton_step",
+        "gp_classifier_laplace_log_marginal_likelihood",
+        "gp_classifier_posterior_mean",
+        "gp_classifier_posterior_cross_solve",
+        "gp_classifier_posterior_variance",
+        "gp_classifier_predictive_probability",
+        "gp_classifier_predictive_proba"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "gp_classifier_laplace_newton_step",
+      "name": "gp_classifier_laplace_newton_step",
+      "description": "Compute one binary Laplace Newton step from a training kernel, binary targets, and the current latent state.",
+      "concept_type": "gaussian_process_helper",
+      "status": "atomic",
+      "type_signature": "(K: NDArray[np.float64], y_train: NDArray[np.float64], f: NDArray[np.float64]) -> LaplaceNewtonStep",
+      "depth": 1,
+      "inputs": [
+        {"name": "K", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "y_train", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "f", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "LaplaceNewtonStep"}
+      ]
+    },
+    {
+      "node_id": "gp_classifier_laplace_log_marginal_likelihood",
+      "name": "gp_classifier_laplace_log_marginal_likelihood",
+      "description": "Compute the binary Laplace log-marginal-likelihood term from a Newton-step state.",
+      "concept_type": "gaussian_process_helper",
+      "status": "atomic",
+      "type_signature": "(y_train: NDArray[np.float64], f: NDArray[np.float64], a: NDArray[np.float64], L: NDArray[np.float64]) -> float",
+      "depth": 1,
+      "inputs": [
+        {"name": "y_train", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "f", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "a", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "L", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "float"}
+      ]
+    },
+    {
+      "node_id": "gp_classifier_posterior_mean",
+      "name": "gp_classifier_posterior_mean",
+      "description": "Compute binary GP-classifier latent posterior means at test points.",
+      "concept_type": "gaussian_process_helper",
+      "status": "atomic",
+      "type_signature": "(K_star: NDArray[np.float64], y_train: NDArray[np.float64], pi: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "K_star", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "y_train", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "pi", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "gp_classifier_posterior_cross_solve",
+      "name": "gp_classifier_posterior_cross_solve",
+      "description": "Solve the triangular binary GP-classifier cross term used in predictive variance.",
+      "concept_type": "gaussian_process_helper",
+      "status": "atomic",
+      "type_signature": "(L: NDArray[np.float64], W_sr: NDArray[np.float64], K_star: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "L", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "W_sr", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "K_star", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "gp_classifier_posterior_variance",
+      "name": "gp_classifier_posterior_variance",
+      "description": "Compute binary GP-classifier latent posterior variances at test points from a diagonal kernel and cross solve.",
+      "concept_type": "gaussian_process_helper",
+      "status": "atomic",
+      "type_signature": "(kernel_diag: NDArray[np.float64], v: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "kernel_diag", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "v", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "gp_classifier_predictive_probability",
+      "name": "gp_classifier_predictive_probability",
+      "description": "Approximate binary predictive probabilities from latent Gaussian moments using sklearn's Williams-Barber mixture approximation.",
+      "concept_type": "gaussian_process_helper",
+      "status": "atomic",
+      "type_signature": "(f_star: NDArray[np.float64], var_f_star: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "f_star", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "var_f_star", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "gp_classifier_predictive_proba",
+      "name": "gp_classifier_predictive_proba",
+      "description": "Stack binary predictive probabilities into sklearn's two-column class-probability output.",
+      "concept_type": "gaussian_process_helper",
+      "status": "atomic",
+      "type_signature": "(pi_star: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "pi_star", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "gp_classifier_laplace_newton_step", "target": "gp_classifier_laplace_log_marginal_likelihood", "kind": "state_term"},
+    {"source": "gp_classifier_posterior_mean", "target": "gp_classifier_predictive_probability", "kind": "latent_moment"},
+    {"source": "gp_classifier_posterior_cross_solve", "target": "gp_classifier_posterior_variance", "kind": "variance_term"},
+    {"source": "gp_classifier_posterior_variance", "target": "gp_classifier_predictive_probability", "kind": "latent_moment"},
+    {"source": "gp_classifier_predictive_probability", "target": "gp_classifier_predictive_proba", "kind": "probability_stack"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.gaussian_process._gpc",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 2 optimizer and estimator-state boundaries"
+  }
+}

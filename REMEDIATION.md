@@ -496,6 +496,12 @@ Potential remediation path:
   covariance, and posterior standard deviation. This covers
   `GaussianProcessRegressor` deterministic matrix algebra after kernel matrices
   are supplied.
+- Completed helper slice: `sklearn.gaussian_process.classification` now
+  publishes deterministic binary Laplace helpers for one Newton step,
+  Laplace log-marginal-likelihood scoring, posterior mean/cross-solve/variance
+  evaluation, and predictive probability stacking from supplied kernel blocks.
+  Kernel optimization, the outer Newton loop, mutable kernel state, and
+  multiclass one-vs-rest/one-vs-one orchestration remain deferred.
 - Ingest standalone Gaussian-process linear algebra primitives first, such as
   kernel regularization, Cholesky solve, posterior mean/covariance, and
   log-marginal-likelihood components. The first regression slice is complete;

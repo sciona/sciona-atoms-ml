@@ -114743,6 +114743,727 @@
       "review_record_path": "data/review_bundles/ml_sklearn_neural_network_mlp_initialization.review_bundle.json",
       "has_references": true,
       "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.gaussian_process.classification.gp_classifier_laplace_newton_step",
+      "atom_key": "sciona.atoms.ml.sklearn.gaussian_process.classification.gp_classifier_laplace_newton_step",
+      "atom_id": "sciona.atoms.ml.sklearn.gaussian_process.classification.gp_classifier_laplace_newton_step",
+      "module_import_path": "sciona.atoms.ml.sklearn.gaussian_process.classification",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/gaussian_process/classification/atoms.py",
+      "module_family": "gaussian_process",
+      "domain_family": "ml.sklearn.gaussian_process",
+      "wrapper_symbol": "gp_classifier_laplace_newton_step",
+      "argument_names": [
+        "K",
+        "y_train",
+        "f"
+      ],
+      "argument_details": [
+        {
+          "name": "K",
+          "annotation": "'NDArray[np.float64]'",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "y_train",
+          "annotation": "'NDArray[np.float64]'",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "f",
+          "annotation": "'NDArray[np.float64]'",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "'LaplaceNewtonStep'",
+      "docstring_summary": "Compute one binary Laplace-approximation Newton step for Gaussian-process classification.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/classification/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/classification/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/classification/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/classification/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_gaussian_process_classification_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_gaussian_process_classification_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_gaussian_process_classification_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [
+        "Computes only one Newton update from a supplied latent state and does not perform warm starts, convergence checks, or outer iteration scheduling."
+      ],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass_with_limits",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 12,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "medium"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 91,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 1,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_gaussian_process_classification.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.gaussian_process.classification.gp_classifier_laplace_log_marginal_likelihood",
+      "atom_key": "sciona.atoms.ml.sklearn.gaussian_process.classification.gp_classifier_laplace_log_marginal_likelihood",
+      "atom_id": "sciona.atoms.ml.sklearn.gaussian_process.classification.gp_classifier_laplace_log_marginal_likelihood",
+      "module_import_path": "sciona.atoms.ml.sklearn.gaussian_process.classification",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/gaussian_process/classification/atoms.py",
+      "module_family": "gaussian_process",
+      "domain_family": "ml.sklearn.gaussian_process",
+      "wrapper_symbol": "gp_classifier_laplace_log_marginal_likelihood",
+      "argument_names": [
+        "y_train",
+        "f",
+        "a",
+        "L"
+      ],
+      "argument_details": [
+        {
+          "name": "y_train",
+          "annotation": "'NDArray[np.float64]'",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "f",
+          "annotation": "'NDArray[np.float64]'",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "a",
+          "annotation": "'NDArray[np.float64]'",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "L",
+          "annotation": "'NDArray[np.float64]'",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "'float'",
+      "docstring_summary": "Compute sklearn's binary Laplace Gaussian-process-classifier log-marginal likelihood.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/classification/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/classification/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/classification/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/classification/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_gaussian_process_classification_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_gaussian_process_classification_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_gaussian_process_classification_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [
+        "Scores a supplied Laplace Newton-step state only and does not optimize kernel hyperparameters."
+      ],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass_with_limits",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 10,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 93,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 1,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_gaussian_process_classification.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.gaussian_process.classification.gp_classifier_posterior_mean",
+      "atom_key": "sciona.atoms.ml.sklearn.gaussian_process.classification.gp_classifier_posterior_mean",
+      "atom_id": "sciona.atoms.ml.sklearn.gaussian_process.classification.gp_classifier_posterior_mean",
+      "module_import_path": "sciona.atoms.ml.sklearn.gaussian_process.classification",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/gaussian_process/classification/atoms.py",
+      "module_family": "gaussian_process",
+      "domain_family": "ml.sklearn.gaussian_process",
+      "wrapper_symbol": "gp_classifier_posterior_mean",
+      "argument_names": [
+        "K_star",
+        "y_train",
+        "pi"
+      ],
+      "argument_details": [
+        {
+          "name": "K_star",
+          "annotation": "'NDArray[np.float64]'",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "y_train",
+          "annotation": "'NDArray[np.float64]'",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "pi",
+          "annotation": "'NDArray[np.float64]'",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "'NDArray[np.float64]'",
+      "docstring_summary": "Compute binary GP-classifier latent posterior means for test points.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/classification/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/classification/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/classification/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/classification/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_gaussian_process_classification_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_gaussian_process_classification_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_gaussian_process_classification_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [
+        "Computes only the latent posterior mean from supplied kernel blocks and classifier state."
+      ],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass_with_limits",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 8,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 95,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 1,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_gaussian_process_classification.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.gaussian_process.classification.gp_classifier_posterior_cross_solve",
+      "atom_key": "sciona.atoms.ml.sklearn.gaussian_process.classification.gp_classifier_posterior_cross_solve",
+      "atom_id": "sciona.atoms.ml.sklearn.gaussian_process.classification.gp_classifier_posterior_cross_solve",
+      "module_import_path": "sciona.atoms.ml.sklearn.gaussian_process.classification",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/gaussian_process/classification/atoms.py",
+      "module_family": "gaussian_process",
+      "domain_family": "ml.sklearn.gaussian_process",
+      "wrapper_symbol": "gp_classifier_posterior_cross_solve",
+      "argument_names": [
+        "L",
+        "W_sr",
+        "K_star"
+      ],
+      "argument_details": [
+        {
+          "name": "L",
+          "annotation": "'NDArray[np.float64]'",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "W_sr",
+          "annotation": "'NDArray[np.float64]'",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "K_star",
+          "annotation": "'NDArray[np.float64]'",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "'NDArray[np.float64]'",
+      "docstring_summary": "Solve the triangular binary GP-classifier posterior cross term.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/classification/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/classification/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/classification/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/classification/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_gaussian_process_classification_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_gaussian_process_classification_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_gaussian_process_classification_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [
+        "Solves only the posterior train-by-test triangular term and does not evaluate the full predictive distribution by itself."
+      ],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass_with_limits",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 9,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 94,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 1,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_gaussian_process_classification.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.gaussian_process.classification.gp_classifier_posterior_variance",
+      "atom_key": "sciona.atoms.ml.sklearn.gaussian_process.classification.gp_classifier_posterior_variance",
+      "atom_id": "sciona.atoms.ml.sklearn.gaussian_process.classification.gp_classifier_posterior_variance",
+      "module_import_path": "sciona.atoms.ml.sklearn.gaussian_process.classification",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/gaussian_process/classification/atoms.py",
+      "module_family": "gaussian_process",
+      "domain_family": "ml.sklearn.gaussian_process",
+      "wrapper_symbol": "gp_classifier_posterior_variance",
+      "argument_names": [
+        "kernel_diag",
+        "v"
+      ],
+      "argument_details": [
+        {
+          "name": "kernel_diag",
+          "annotation": "'NDArray[np.float64]'",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "v",
+          "annotation": "'NDArray[np.float64]'",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "'NDArray[np.float64]'",
+      "docstring_summary": "Compute binary GP-classifier latent posterior variances for test points.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/classification/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/classification/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/classification/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/classification/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_gaussian_process_classification_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_gaussian_process_classification_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_gaussian_process_classification_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [
+        "Computes only latent posterior variances from a supplied kernel diagonal and cross solve."
+      ],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass_with_limits",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 8,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 95,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 1,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_gaussian_process_classification.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.gaussian_process.classification.gp_classifier_predictive_probability",
+      "atom_key": "sciona.atoms.ml.sklearn.gaussian_process.classification.gp_classifier_predictive_probability",
+      "atom_id": "sciona.atoms.ml.sklearn.gaussian_process.classification.gp_classifier_predictive_probability",
+      "module_import_path": "sciona.atoms.ml.sklearn.gaussian_process.classification",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/gaussian_process/classification/atoms.py",
+      "module_family": "gaussian_process",
+      "domain_family": "ml.sklearn.gaussian_process",
+      "wrapper_symbol": "gp_classifier_predictive_probability",
+      "argument_names": [
+        "f_star",
+        "var_f_star"
+      ],
+      "argument_details": [
+        {
+          "name": "f_star",
+          "annotation": "'NDArray[np.float64]'",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "var_f_star",
+          "annotation": "'NDArray[np.float64]'",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "'NDArray[np.float64]'",
+      "docstring_summary": "Approximate binary GP-classifier predictive probabilities from latent moments.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/classification/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/classification/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/classification/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/classification/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_gaussian_process_classification_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_gaussian_process_classification_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_gaussian_process_classification_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [
+        "Approximates only binary predictive probabilities from supplied latent moments and does not compute kernel blocks or posterior modes."
+      ],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass_with_limits",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 10,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 93,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 2,
+      "parity_case_count": 2,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_gaussian_process_classification.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.gaussian_process.classification.gp_classifier_predictive_proba",
+      "atom_key": "sciona.atoms.ml.sklearn.gaussian_process.classification.gp_classifier_predictive_proba",
+      "atom_id": "sciona.atoms.ml.sklearn.gaussian_process.classification.gp_classifier_predictive_proba",
+      "module_import_path": "sciona.atoms.ml.sklearn.gaussian_process.classification",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/gaussian_process/classification/atoms.py",
+      "module_family": "gaussian_process",
+      "domain_family": "ml.sklearn.gaussian_process",
+      "wrapper_symbol": "gp_classifier_predictive_proba",
+      "argument_names": [
+        "pi_star"
+      ],
+      "argument_details": [
+        {
+          "name": "pi_star",
+          "annotation": "'NDArray[np.float64]'",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "'NDArray[np.float64]'",
+      "docstring_summary": "Stack binary class probabilities into sklearn's two-column output format.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/classification/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/classification/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/classification/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/classification/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_gaussian_process_classification_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_gaussian_process_classification_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_gaussian_process_classification_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [
+        "Stacks only binary probabilities into sklearn's two-column output format."
+      ],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass_with_limits",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 7,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 96,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 2,
+      "parity_case_count": 2,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_gaussian_process_classification.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
     }
   ]
 }
