@@ -113638,6 +113638,666 @@
       "review_record_path": "data/review_bundles/ml_sklearn_neural_network_mlp_primitives.review_bundle.json",
       "has_references": true,
       "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.neural_network.mlp_optimizers.mlp_sgd_initialize_state",
+      "atom_key": "sciona.atoms.ml.sklearn.neural_network.mlp_optimizers.mlp_sgd_initialize_state",
+      "atom_id": "sciona.atoms.ml.sklearn.neural_network.mlp_optimizers.mlp_sgd_initialize_state",
+      "module_import_path": "sciona.atoms.ml.sklearn.neural_network.mlp_optimizers",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/neural_network/mlp_optimizers/atoms.py",
+      "module_family": "neural_network",
+      "domain_family": "ml.sklearn.neural_network",
+      "wrapper_symbol": "mlp_sgd_initialize_state",
+      "argument_names": [
+        "params",
+        "learning_rate_init",
+        "lr_schedule",
+        "momentum",
+        "nesterov",
+        "power_t"
+      ],
+      "argument_details": [
+        {
+          "name": "params",
+          "annotation": "'TensorTuple'",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "learning_rate_init",
+          "annotation": "'float'",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "lr_schedule",
+          "annotation": "'LrScheduleName'",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "momentum",
+          "annotation": "'float'",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "nesterov",
+          "annotation": "'bool'",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "power_t",
+          "annotation": "'float'",
+          "required": false,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "'SgdOptimizerState'",
+      "docstring_summary": "Initialize persistent state for sklearn's SGDOptimizer update kernel.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_optimizers/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_optimizers/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_optimizers/state_models.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_optimizers/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_optimizers/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_optimizers_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_optimizers_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_optimizers_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [
+        "Initializes only optimizer state and does not mutate parameters or allocate estimator-side training history."
+      ],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass_with_limits",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 9,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 94,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 1,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_neural_network_mlp_optimizers.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.neural_network.mlp_optimizers.mlp_sgd_updates",
+      "atom_key": "sciona.atoms.ml.sklearn.neural_network.mlp_optimizers.mlp_sgd_updates",
+      "atom_id": "sciona.atoms.ml.sklearn.neural_network.mlp_optimizers.mlp_sgd_updates",
+      "module_import_path": "sciona.atoms.ml.sklearn.neural_network.mlp_optimizers",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/neural_network/mlp_optimizers/atoms.py",
+      "module_family": "neural_network",
+      "domain_family": "ml.sklearn.neural_network",
+      "wrapper_symbol": "mlp_sgd_updates",
+      "argument_names": [
+        "grads",
+        "state"
+      ],
+      "argument_details": [
+        {
+          "name": "grads",
+          "annotation": "'TensorTuple'",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "state",
+          "annotation": "'SgdOptimizerState'",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "'SgdUpdateResult'",
+      "docstring_summary": "Compute one SGDOptimizer update step and the next optimizer state.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_optimizers/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_optimizers/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_optimizers/state_models.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_optimizers/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_optimizers/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_optimizers_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_optimizers_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_optimizers_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [
+        "Computes one SGD update tuple and next velocity state only; parameter application and epoch orchestration remain out of scope."
+      ],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass_with_limits",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 10,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 93,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 2,
+      "parity_case_count": 2,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_neural_network_mlp_optimizers.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.neural_network.mlp_optimizers.mlp_sgd_iteration_end",
+      "atom_key": "sciona.atoms.ml.sklearn.neural_network.mlp_optimizers.mlp_sgd_iteration_end",
+      "atom_id": "sciona.atoms.ml.sklearn.neural_network.mlp_optimizers.mlp_sgd_iteration_end",
+      "module_import_path": "sciona.atoms.ml.sklearn.neural_network.mlp_optimizers",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/neural_network/mlp_optimizers/atoms.py",
+      "module_family": "neural_network",
+      "domain_family": "ml.sklearn.neural_network",
+      "wrapper_symbol": "mlp_sgd_iteration_end",
+      "argument_names": [
+        "state",
+        "time_step"
+      ],
+      "argument_details": [
+        {
+          "name": "state",
+          "annotation": "'SgdOptimizerState'",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "time_step",
+          "annotation": "'int'",
+          "required": true,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "'SgdOptimizerState'",
+      "docstring_summary": "Apply sklearn's SGDOptimizer iteration-end learning-rate schedule update.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_optimizers/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_optimizers/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_optimizers/state_models.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_optimizers/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_optimizers/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_optimizers_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_optimizers_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_optimizers_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [
+        "Handles only the inverse-scaling schedule update at iteration end."
+      ],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass_with_limits",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 8,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 95,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 1,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_neural_network_mlp_optimizers.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.neural_network.mlp_optimizers.mlp_sgd_trigger_stopping",
+      "atom_key": "sciona.atoms.ml.sklearn.neural_network.mlp_optimizers.mlp_sgd_trigger_stopping",
+      "atom_id": "sciona.atoms.ml.sklearn.neural_network.mlp_optimizers.mlp_sgd_trigger_stopping",
+      "module_import_path": "sciona.atoms.ml.sklearn.neural_network.mlp_optimizers",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/neural_network/mlp_optimizers/atoms.py",
+      "module_family": "neural_network",
+      "domain_family": "ml.sklearn.neural_network",
+      "wrapper_symbol": "mlp_sgd_trigger_stopping",
+      "argument_names": [
+        "state"
+      ],
+      "argument_details": [
+        {
+          "name": "state",
+          "annotation": "'SgdOptimizerState'",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "'StoppingResult'",
+      "docstring_summary": "Apply sklearn's SGDOptimizer adaptive-schedule stopping decision without side-effect logging.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_optimizers/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_optimizers/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_optimizers/state_models.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_optimizers/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_optimizers/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_optimizers_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_optimizers_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_optimizers_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [
+        "Covers only the optimizer-local adaptive learning-rate step and stop decision, without verbose logging or outer no-improvement bookkeeping."
+      ],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass_with_limits",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 9,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 94,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 2,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_neural_network_mlp_optimizers.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.neural_network.mlp_optimizers.mlp_adam_initialize_state",
+      "atom_key": "sciona.atoms.ml.sklearn.neural_network.mlp_optimizers.mlp_adam_initialize_state",
+      "atom_id": "sciona.atoms.ml.sklearn.neural_network.mlp_optimizers.mlp_adam_initialize_state",
+      "module_import_path": "sciona.atoms.ml.sklearn.neural_network.mlp_optimizers",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/neural_network/mlp_optimizers/atoms.py",
+      "module_family": "neural_network",
+      "domain_family": "ml.sklearn.neural_network",
+      "wrapper_symbol": "mlp_adam_initialize_state",
+      "argument_names": [
+        "params",
+        "learning_rate_init",
+        "beta_1",
+        "beta_2",
+        "epsilon"
+      ],
+      "argument_details": [
+        {
+          "name": "params",
+          "annotation": "'TensorTuple'",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "learning_rate_init",
+          "annotation": "'float'",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "beta_1",
+          "annotation": "'float'",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "beta_2",
+          "annotation": "'float'",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "epsilon",
+          "annotation": "'float'",
+          "required": false,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "'AdamOptimizerState'",
+      "docstring_summary": "Initialize persistent state for sklearn's AdamOptimizer update kernel.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_optimizers/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_optimizers/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_optimizers/state_models.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_optimizers/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_optimizers/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_optimizers_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_optimizers_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_optimizers_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [
+        "Initializes only Adam moment state and does not mutate parameters or estimator-side training history."
+      ],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass_with_limits",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 9,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 94,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 1,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_neural_network_mlp_optimizers.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.neural_network.mlp_optimizers.mlp_adam_updates",
+      "atom_key": "sciona.atoms.ml.sklearn.neural_network.mlp_optimizers.mlp_adam_updates",
+      "atom_id": "sciona.atoms.ml.sklearn.neural_network.mlp_optimizers.mlp_adam_updates",
+      "module_import_path": "sciona.atoms.ml.sklearn.neural_network.mlp_optimizers",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/neural_network/mlp_optimizers/atoms.py",
+      "module_family": "neural_network",
+      "domain_family": "ml.sklearn.neural_network",
+      "wrapper_symbol": "mlp_adam_updates",
+      "argument_names": [
+        "grads",
+        "state"
+      ],
+      "argument_details": [
+        {
+          "name": "grads",
+          "annotation": "'TensorTuple'",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "state",
+          "annotation": "'AdamOptimizerState'",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "'AdamUpdateResult'",
+      "docstring_summary": "Compute one AdamOptimizer update step and the next optimizer state.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_optimizers/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_optimizers/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_optimizers/state_models.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_optimizers/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_optimizers/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_optimizers_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_optimizers_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_optimizers_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [
+        "Computes one Adam update tuple and next moment state only; parameter application and epoch orchestration remain out of scope."
+      ],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass_with_limits",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 10,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 93,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 1,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_neural_network_mlp_optimizers.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
     }
   ]
 }

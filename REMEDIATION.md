@@ -371,6 +371,13 @@ Potential remediation path:
   `mlp_forward_pass`, `mlp_layer_gradients`, and `mlp_backprop`. It still
   defers parameter initialization, label preprocessing, batching, early
   stopping, and SGD, Adam, or L-BFGS optimizer state.
+- Completed helper slice: `sklearn.neural_network.mlp_optimizers` now
+  publishes state-passing SGD and Adam optimizer helpers:
+  `mlp_sgd_initialize_state`, `mlp_sgd_updates`,
+  `mlp_sgd_iteration_end`, `mlp_sgd_trigger_stopping`,
+  `mlp_adam_initialize_state`, and `mlp_adam_updates`. It still defers
+  parameter mutation, minibatch orchestration, no-improvement tracking,
+  validation-based early stopping, and the outer MLP fit loop.
 - Decide whether SGD/Adam/L-BFGS optimizer state should be represented as
   separate atom families before publishing full MLP training surfaces.
 

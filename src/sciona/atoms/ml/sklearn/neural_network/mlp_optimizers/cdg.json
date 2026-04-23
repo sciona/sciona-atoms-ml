@@ -1,0 +1,134 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_neural_network_mlp_optimizers_root",
+      "name": "Sklearn Neural Network MLP Optimizer Atoms",
+      "description": "State-passing SGD and Adam optimizer helper atoms used around sklearn multilayer perceptron stochastic training loops.",
+      "status": "decomposed",
+      "children": [
+        "mlp_sgd_initialize_state",
+        "mlp_sgd_updates",
+        "mlp_sgd_iteration_end",
+        "mlp_sgd_trigger_stopping",
+        "mlp_adam_initialize_state",
+        "mlp_adam_updates"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "mlp_sgd_initialize_state",
+      "name": "mlp_sgd_initialize_state",
+      "description": "Initialize SGD optimizer state from supplied parameter tensors.",
+      "concept_type": "optimizer_helper",
+      "status": "atomic",
+      "type_signature": "(params: tuple[NDArray[np.float64], ...], learning_rate_init: float = 0.1, lr_schedule: LrScheduleName = 'constant', momentum: float = 0.9, nesterov: bool = True, power_t: float = 0.5) -> SgdOptimizerState",
+      "depth": 1,
+      "inputs": [
+        {"name": "params", "type_desc": "tuple[NDArray[np.float64], ...]", "required": true},
+        {"name": "learning_rate_init", "type_desc": "float", "required": false},
+        {"name": "lr_schedule", "type_desc": "LrScheduleName", "required": false},
+        {"name": "momentum", "type_desc": "float", "required": false},
+        {"name": "nesterov", "type_desc": "bool", "required": false},
+        {"name": "power_t", "type_desc": "float", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "SgdOptimizerState"}
+      ]
+    },
+    {
+      "node_id": "mlp_sgd_updates",
+      "name": "mlp_sgd_updates",
+      "description": "Compute one SGD optimizer update tuple and the next velocity state.",
+      "concept_type": "optimizer_helper",
+      "status": "atomic",
+      "type_signature": "(grads: tuple[NDArray[np.float64], ...], state: SgdOptimizerState) -> tuple[tuple[NDArray[np.float64], ...], SgdOptimizerState]",
+      "depth": 1,
+      "inputs": [
+        {"name": "grads", "type_desc": "tuple[NDArray[np.float64], ...]", "required": true},
+        {"name": "state", "type_desc": "SgdOptimizerState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[tuple[NDArray[np.float64], ...], SgdOptimizerState]"}
+      ]
+    },
+    {
+      "node_id": "mlp_sgd_iteration_end",
+      "name": "mlp_sgd_iteration_end",
+      "description": "Apply sklearn's iteration-end inverse-scaling learning-rate update to SGD optimizer state.",
+      "concept_type": "optimizer_helper",
+      "status": "atomic",
+      "type_signature": "(state: SgdOptimizerState, time_step: int) -> SgdOptimizerState",
+      "depth": 1,
+      "inputs": [
+        {"name": "state", "type_desc": "SgdOptimizerState", "required": true},
+        {"name": "time_step", "type_desc": "int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "SgdOptimizerState"}
+      ]
+    },
+    {
+      "node_id": "mlp_sgd_trigger_stopping",
+      "name": "mlp_sgd_trigger_stopping",
+      "description": "Apply sklearn's adaptive-schedule stopping decision to SGD optimizer state.",
+      "concept_type": "optimizer_helper",
+      "status": "atomic",
+      "type_signature": "(state: SgdOptimizerState) -> tuple[bool, SgdOptimizerState]",
+      "depth": 1,
+      "inputs": [
+        {"name": "state", "type_desc": "SgdOptimizerState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[bool, SgdOptimizerState]"}
+      ]
+    },
+    {
+      "node_id": "mlp_adam_initialize_state",
+      "name": "mlp_adam_initialize_state",
+      "description": "Initialize Adam optimizer state from supplied parameter tensors.",
+      "concept_type": "optimizer_helper",
+      "status": "atomic",
+      "type_signature": "(params: tuple[NDArray[np.float64], ...], learning_rate_init: float = 0.001, beta_1: float = 0.9, beta_2: float = 0.999, epsilon: float = 1e-8) -> AdamOptimizerState",
+      "depth": 1,
+      "inputs": [
+        {"name": "params", "type_desc": "tuple[NDArray[np.float64], ...]", "required": true},
+        {"name": "learning_rate_init", "type_desc": "float", "required": false},
+        {"name": "beta_1", "type_desc": "float", "required": false},
+        {"name": "beta_2", "type_desc": "float", "required": false},
+        {"name": "epsilon", "type_desc": "float", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "AdamOptimizerState"}
+      ]
+    },
+    {
+      "node_id": "mlp_adam_updates",
+      "name": "mlp_adam_updates",
+      "description": "Compute one Adam optimizer update tuple and the next first- and second-moment state.",
+      "concept_type": "optimizer_helper",
+      "status": "atomic",
+      "type_signature": "(grads: tuple[NDArray[np.float64], ...], state: AdamOptimizerState) -> tuple[tuple[NDArray[np.float64], ...], AdamOptimizerState]",
+      "depth": 1,
+      "inputs": [
+        {"name": "grads", "type_desc": "tuple[NDArray[np.float64], ...]", "required": true},
+        {"name": "state", "type_desc": "AdamOptimizerState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[tuple[NDArray[np.float64], ...], AdamOptimizerState]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "mlp_sgd_initialize_state", "target": "mlp_sgd_updates", "kind": "optimizer_state"},
+    {"source": "mlp_sgd_updates", "target": "mlp_sgd_iteration_end", "kind": "learning_rate_schedule"},
+    {"source": "mlp_sgd_iteration_end", "target": "mlp_sgd_trigger_stopping", "kind": "adaptive_schedule"},
+    {"source": "mlp_adam_initialize_state", "target": "mlp_adam_updates", "kind": "optimizer_state"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.neural_network._stochastic_optimizers",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 2 external optimizer boundaries"
+  }
+}
