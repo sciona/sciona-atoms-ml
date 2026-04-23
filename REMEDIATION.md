@@ -523,6 +523,11 @@ Potential remediation path:
 - Completed helper slice: `sklearn.manifold.tsne` now publishes exact-method
   helper atoms for dense joint-probability normalization, KL objective/gradient,
   and one deterministic momentum/gain update step.
+- Completed helper slice: `sklearn.manifold.tsne_initialization` now publishes
+  initialization and scheduling helpers for automatic learning-rate selection,
+  Barnes-Hut neighbor-count selection, random Gaussian initialization,
+  PCA-embedding rescaling, and Student-t degrees of freedom before the
+  deferred optimization loop.
 - Additional t-SNE remediation should cover remaining estimator orchestration
   such as binary perplexity search boundaries, initialization, full
   optimization scheduling, and native Barnes-Hut gradient handling.
