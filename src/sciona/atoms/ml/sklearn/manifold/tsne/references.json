@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.manifold.tsne.tsne_exact_joint_probabilities@sciona/atoms/ml/sklearn/manifold/tsne/atoms.py:135": {
+      "references": [
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the dense joint-probability symmetrization and normalization block in sklearn.manifold._t_sne._joint_probabilities in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "vandermaaten2008tsne",
+          "match_metadata": {
+            "match_type": "manual_algorithm_reference",
+            "confidence": "high",
+            "notes": "Original t-SNE paper defining the symmetric pairwise probability model used by the exact objective."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.manifold.tsne.tsne_exact_kl_divergence@sciona/atoms/ml/sklearn/manifold/tsne/atoms.py:146": {
+      "references": [
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from sklearn.manifold._t_sne._kl_divergence in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "vandermaaten2008tsne",
+          "match_metadata": {
+            "match_type": "manual_algorithm_reference",
+            "confidence": "high",
+            "notes": "Original t-SNE paper defining the KL objective and gradient for the exact dense method."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.manifold.tsne.tsne_gradient_descent_update@sciona/atoms/ml/sklearn/manifold/tsne/atoms.py:186": {
+      "references": [
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the adaptive-gain and momentum update block in sklearn.manifold._t_sne._gradient_descent in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "vandermaaten2008tsne",
+          "match_metadata": {
+            "match_type": "manual_algorithm_reference",
+            "confidence": "medium",
+            "notes": "Original t-SNE paper describing gradient-based optimization of the KL objective."
+          }
+        }
+      ]
+    }
+  }
+}
