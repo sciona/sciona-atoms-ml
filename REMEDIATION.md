@@ -673,6 +673,9 @@ Potential remediation path:
 - Completed helper slice: `sklearn.ensemble.bagging_sampling` publishes
   bootstrap and sampling-without-replacement feature/sample index draws for
   one bagging estimator.
+- Completed helper slice: `sklearn.ensemble.forest_sampling` publishes
+  validated bootstrap sample-count resolution plus sampled and unsampled index
+  draws for one forest tree before tree growth or OOB scoring.
 - Decide whether sklearn tree builders and histogram-gradient-boosting native
   internals should be represented through FFI/native atoms before publishing
   random forest, extra trees, isolation forest, and gradient boosting states.

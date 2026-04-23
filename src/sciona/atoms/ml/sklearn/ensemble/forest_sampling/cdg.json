@@ -1,0 +1,74 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_ensemble_forest_sampling_root",
+      "name": "Sklearn Ensemble Forest Sampling Atoms",
+      "description": "Deterministic bootstrap and out-of-bag helpers for sklearn forest estimators",
+      "status": "decomposed",
+      "children": [
+        "forest_resolve_bootstrap_sample_count",
+        "forest_generate_sample_indices",
+        "forest_generate_unsampled_indices"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "forest_resolve_bootstrap_sample_count",
+      "name": "forest_resolve_bootstrap_sample_count",
+      "description": "Resolve a validated max_samples setting to a concrete bootstrap draw count.",
+      "concept_type": "sampling_helper",
+      "status": "atomic",
+      "type_signature": "(n_samples: int, max_samples: int | float | None) -> int",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_samples", "type_desc": "int", "required": true},
+        {"name": "max_samples", "type_desc": "int | float | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "int"}
+      ]
+    },
+    {
+      "node_id": "forest_generate_sample_indices",
+      "name": "forest_generate_sample_indices",
+      "description": "Draw bootstrap sample indices for one sklearn forest tree.",
+      "concept_type": "sampling_helper",
+      "status": "atomic",
+      "type_signature": "(n_samples: int, n_samples_bootstrap: int, random_state: int | np.random.RandomState | None = None) -> NDArray[np.int64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_samples", "type_desc": "int", "required": true},
+        {"name": "n_samples_bootstrap", "type_desc": "int", "required": true},
+        {"name": "random_state", "type_desc": "int | np.random.RandomState | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.int64]"}
+      ]
+    },
+    {
+      "node_id": "forest_generate_unsampled_indices",
+      "name": "forest_generate_unsampled_indices",
+      "description": "Return the out-of-bag sample indices implied by one forest bootstrap draw.",
+      "concept_type": "sampling_helper",
+      "status": "atomic",
+      "type_signature": "(n_samples: int, n_samples_bootstrap: int, random_state: int | np.random.RandomState | None = None) -> NDArray[np.int64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_samples", "type_desc": "int", "required": true},
+        {"name": "n_samples_bootstrap", "type_desc": "int", "required": true},
+        {"name": "random_state", "type_desc": "int | np.random.RandomState | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.int64]"}
+      ]
+    }
+  ],
+  "edges": [],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.ensemble._forest",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 1 native and compiled core boundaries"
+  }
+}
