@@ -42,3 +42,16 @@ def witness_noise_injection_decorrelation(
 ) -> AbstractArray:
     """Noise-injected predictions have the same shape as input."""
     return AbstractArray(shape=predictions.shape, dtype="float64")
+
+
+def witness_flatness_penalty_gradient(
+    predictions: AbstractArray,
+    labels: AbstractArray,
+    protected_variable: AbstractArray,
+    n_bins: int = 10,
+    power: float = 2.0,
+    fl_coefficient: float = 3.0,
+    uniform_label: int = 0,
+) -> AbstractArray:
+    """Flatness penalty gradient has the same shape as predictions."""
+    return AbstractArray(shape=predictions.shape, dtype="float64")

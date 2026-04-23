@@ -9,7 +9,8 @@
         "compute_cvm_mass_decorrelation",
         "compute_ks_agreement",
         "roc_auc_truncated_weighted",
-        "noise_injection_decorrelation"
+        "noise_injection_decorrelation",
+        "flatness_penalty_gradient"
       ],
       "depth": 0
     },
@@ -79,6 +80,27 @@
         {"name": "predictions", "type_desc": "NDArray[np.float64]", "required": true},
         {"name": "noise_level", "type_desc": "float", "required": false},
         {"name": "random_state", "type_desc": "int | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "flatness_penalty_gradient",
+      "name": "flatness_penalty_gradient",
+      "description": "Compute negative gradient of flatness-penalized boosting loss combining AdaBoost classification loss with binned CDF-mismatch penalty for decorrelation. Suitable as a callable objective for boosting libraries.",
+      "concept_type": "loss_function",
+      "status": "atomic",
+      "type_signature": "(predictions: NDArray[np.float64], labels: NDArray[np.int64], protected_variable: NDArray[np.float64], n_bins: int, power: float, fl_coefficient: float, uniform_label: int) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "predictions", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "labels", "type_desc": "NDArray[np.int64]", "required": true},
+        {"name": "protected_variable", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "n_bins", "type_desc": "int", "required": false},
+        {"name": "power", "type_desc": "float", "required": false},
+        {"name": "fl_coefficient", "type_desc": "float", "required": false},
+        {"name": "uniform_label", "type_desc": "int", "required": false}
       ],
       "outputs": [
         {"name": "result", "type_desc": "NDArray[np.float64]"}

@@ -12,37 +12,32 @@
     "source_license": "BSD-2-Clause"
   },
   "bindings": [
-    {"stage_id": "detector_geometry_autodiscovery", "bound_artifact_fqdn": null, "binding_confidence": 0.3, "binding_source": "manual_analysis", "status": "gap", "action_class": "replace_stage",
-     "evidence_summary": {"gap_reason": "Uses sklearn KMeans + MeanShift for layer discovery, but the atoms for these are fit/predict pairs, not the autodiscovery workflow that extracts layer boundaries. PARTIAL_BIND: KMeans atoms exist but the composition into a geometry discovery pipeline does not."}},
-    {"stage_id": "coordinate_rescaling_for_knn", "bound_artifact_fqdn": null, "binding_confidence": 0.0, "binding_source": "manual_analysis", "status": "gap", "action_class": "precondition",
-     "evidence_summary": {"gap_reason": "MISSING_ATOM: Domain-specific coordinate transform that creates elliptical neighborhoods matching detector geometry. No existing preprocessing atom covers this physics-informed warping."}},
+    {"stage_id": "detector_geometry_autodiscovery", "bound_artifact_fqdn": null, "binding_confidence": 0.5, "binding_source": "manual_analysis", "status": "gap", "action_class": "branch_and_compare",
+     "evidence_summary": {"gap_reason": "Orchestration pattern: composition of sklearn KMeans + MeanShift atoms into a layer-boundary discovery pipeline. Individual atoms (kmeans_fit, mean_shift_fit) exist but the composition is an orchestration concern, not a single atom. Analogous to MAP_OVER."}},
+    {"stage_id": "coordinate_rescaling_for_knn", "bound_artifact_fqdn": "sciona.atoms.particle_tracking.detector_corrections.coordinate_rescaling_for_knn", "binding_confidence": 1.0, "binding_source": "manual_analysis", "status": "active", "action_class": "replace_stage"},
     {"stage_id": "per_layer_knn_search", "bound_artifact_fqdn": "sciona.atoms.ml.sklearn.neighbors.nearest_neighbors_fit", "binding_confidence": 0.85, "binding_source": "manual_analysis", "status": "active", "action_class": "replace_stage",
      "evidence_summary": {"binding_rationale": "Direct use of sklearn NearestNeighbors per layer. nearest_neighbors_fit + nearest_neighbors_kneighbors cover the operation. Confidence 0.85 because the per-layer iteration is an orchestration concern."}},
     {"stage_id": "circle_from_three_points", "bound_artifact_fqdn": "sciona.atoms.particle_tracking.helix_geometry.circle_from_three_points", "binding_confidence": 1.0, "binding_source": "manual_analysis", "status": "active", "action_class": "replace_stage"},
     {"stage_id": "helix_pitch_least_squares", "bound_artifact_fqdn": "sciona.atoms.particle_tracking.helix_geometry.helix_pitch_least_squares", "binding_confidence": 1.0, "binding_source": "manual_analysis", "status": "active", "action_class": "replace_stage"},
-    {"stage_id": "helix_cylinder_intersection", "bound_artifact_fqdn": null, "binding_confidence": 0.0, "binding_source": "manual_analysis", "status": "gap", "action_class": "replace_stage",
-     "evidence_summary": {"gap_reason": "MISSING_ATOM: Analytic helix-cylinder intersection with recursive miss-and-retry. In the analysis catalog but not yet ingested."}},
-    {"stage_id": "helix_cap_intersection", "bound_artifact_fqdn": null, "binding_confidence": 0.0, "binding_source": "manual_analysis", "status": "gap", "action_class": "replace_stage",
-     "evidence_summary": {"gap_reason": "MISSING_ATOM: Helix-cap intersection. In analysis catalog but not yet ingested."}},
-    {"stage_id": "perturbative_helix_correction", "bound_artifact_fqdn": null, "binding_confidence": 0.0, "binding_source": "manual_analysis", "status": "gap", "action_class": "replace_stage",
-     "evidence_summary": {"gap_reason": "MISSING_ATOM: Physics-informed learned displacement maps with q/p scaling. In analysis catalog but not yet ingested. Generalizable 'analytic + learned residual' pattern."}},
+    {"stage_id": "helix_cylinder_intersection", "bound_artifact_fqdn": "sciona.atoms.particle_tracking.track_matching.helix_cylinder_intersection", "binding_confidence": 1.0, "binding_source": "manual_analysis", "status": "active", "action_class": "replace_stage"},
+    {"stage_id": "helix_cap_intersection", "bound_artifact_fqdn": "sciona.atoms.particle_tracking.track_matching.helix_cap_intersection", "binding_confidence": 1.0, "binding_source": "manual_analysis", "status": "active", "action_class": "replace_stage"},
+    {"stage_id": "perturbative_helix_correction", "bound_artifact_fqdn": "sciona.atoms.particle_tracking.detector_corrections.perturbative_cap_correction", "binding_confidence": 0.9, "binding_source": "manual_analysis", "status": "active", "action_class": "replace_stage",
+     "evidence_summary": {"binding_rationale": "Cap and cylinder corrections split into two atoms (perturbative_cap_correction and perturbative_cylinder_correction). Both cover the CDG stage. Confidence 0.9 because the CDG stage combines both correction types."}},
     {"stage_id": "helix_nearest_point_distance", "bound_artifact_fqdn": "sciona.atoms.particle_tracking.helix_geometry.helix_nearest_point_distance", "binding_confidence": 1.0, "binding_source": "manual_analysis", "status": "active", "action_class": "replace_stage"},
-    {"stage_id": "bayesian_neighbor_evaluation", "bound_artifact_fqdn": null, "binding_confidence": 0.0, "binding_source": "manual_analysis", "status": "gap", "action_class": "gate_or_validate",
-     "evidence_summary": {"gap_reason": "MISSING_ATOM: Adaptive Bayesian signal-vs-background thresholding. In analysis catalog but not yet ingested. Generalizes to any variable-density point matching."}},
-    {"stage_id": "greedy_track_commit", "bound_artifact_fqdn": null, "binding_confidence": 0.0, "binding_source": "manual_analysis", "status": "gap", "action_class": "replace_stage",
-     "evidence_summary": {"gap_reason": "MISSING_ATOM: Greedy assignment with overlap resolution and cascade pollution prevention. Standard algorithmic pattern but domain-specific implementation."}}
+    {"stage_id": "bayesian_neighbor_evaluation", "bound_artifact_fqdn": "sciona.atoms.particle_tracking.track_matching.bayesian_neighbor_evaluation", "binding_confidence": 1.0, "binding_source": "manual_analysis", "status": "active", "action_class": "gate_or_validate"},
+    {"stage_id": "greedy_track_commit", "bound_artifact_fqdn": "sciona.atoms.particle_tracking.track_matching.greedy_track_commit", "binding_confidence": 1.0, "binding_source": "manual_analysis", "status": "active", "action_class": "replace_stage"}
   ],
   "binding_summary": {
     "total_stages": 11,
-    "bound_active": 4,
+    "bound_active": 10,
     "bound_approximate": 0,
-    "gaps": 7,
+    "gaps": 1,
     "atoms_used_by_repo": {
-      "sciona-atoms": 3,
+      "sciona-atoms-physics": 10,
       "sciona-atoms-ml": 1
     },
     "cross_repo_bindings": true,
-    "novel_atoms_needed": ["helix_cylinder_intersection", "helix_cap_intersection", "perturbative_helix_correction", "bayesian_neighbor_evaluation", "greedy_track_commit", "coordinate_rescaling_for_knn"],
+    "novel_atoms_needed": [],
     "partial_bindings": ["detector_geometry_autodiscovery"]
   },
   "architect_test_expectations": {

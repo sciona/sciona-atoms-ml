@@ -15,19 +15,11 @@
   "bindings": [
     {
       "stage_id": "calcium_lowpass_filter",
-      "bound_artifact_fqdn": null,
-      "binding_confidence": 0.0,
+      "bound_artifact_fqdn": "sciona.atoms.graph_inference.connectome.calcium_lowpass_filter",
+      "binding_confidence": 1.0,
       "binding_source": "manual_analysis",
-      "status": "gap",
-      "action_class": "replace_stage",
-      "evidence_summary": {
-        "search_attempted": true,
-        "concept_type_searched": "signal_filter",
-        "keywords_searched": ["lowpass", "moving_average", "convolution", "causal_filter"],
-        "candidates_found": [],
-        "gap_reason": "Novel atom: circular-shift moving average with multiple kernel variants specific to calcium imaging. No existing atom in sciona-atoms-ml covers this. Closest conceptual match would be scipy.signal.convolve1d but the circular-shift (np.roll) behavior and multi-kernel ensemble are domain-specific."
-      },
-      "alternatives": []
+      "status": "active",
+      "action_class": "replace_stage"
     },
     {
       "stage_id": "first_difference",
@@ -47,45 +39,24 @@
     },
     {
       "stage_id": "fluorescence_hard_threshold",
-      "bound_artifact_fqdn": null,
-      "binding_confidence": 0.15,
+      "bound_artifact_fqdn": "sciona.atoms.graph_inference.connectome.fluorescence_hard_threshold",
+      "binding_confidence": 1.0,
       "binding_source": "manual_analysis",
-      "status": "gap",
-      "action_class": "replace_stage",
-      "evidence_summary": {
-        "search_attempted": true,
-        "concept_type_searched": "signal_filter",
-        "keywords_searched": ["threshold", "hard_threshold", "clip", "relu", "variance_threshold"],
-        "candidates_found": ["sciona.atoms.ml.sklearn.variance_threshold.variance_threshold_fit"],
-        "gap_reason": "sklearn VarianceThreshold removes constant features (column-wise). This atom thresholds VALUES (element-wise) on the derivative signal. Conceptually different operation despite keyword overlap. True gap."
-      },
-      "alternatives": [
-        {
-          "fqdn": "sciona.atoms.ml.sklearn.variance_threshold.variance_threshold_fit",
-          "why_rejected": "VarianceThreshold operates on feature variance (column-wise), not on individual values. Wrong semantic."
-        }
-      ]
+      "status": "active",
+      "action_class": "replace_stage"
     },
     {
       "stage_id": "global_activity_sample_reweighting",
-      "bound_artifact_fqdn": null,
-      "binding_confidence": 0.0,
+      "bound_artifact_fqdn": "sciona.atoms.graph_inference.connectome.global_activity_sample_reweighting",
+      "binding_confidence": 1.0,
       "binding_source": "manual_analysis",
-      "status": "gap",
-      "action_class": "replace_stage",
-      "evidence_summary": {
-        "search_attempted": true,
-        "concept_type_searched": "signal_transform",
-        "keywords_searched": ["reweight", "sample_weight", "activity", "burst", "deconfound"],
-        "candidates_found": [],
-        "gap_reason": "Highly novel atom. The (x+1)^(1+1/S) nonlinear reweighting with regime-dependent exponents is original to this solution. No existing atom in any sciona repo covers this. This is the key winning technique."
-      },
-      "alternatives": []
+      "status": "active",
+      "action_class": "replace_stage"
     },
     {
       "stage_id": "pca_precision_matrix",
       "bound_artifact_fqdn": "sciona.atoms.ml.sklearn.decomposition.pca_fit",
-      "binding_confidence": 0.7,
+      "binding_confidence": 1.0,
       "binding_source": "manual_analysis",
       "status": "active",
       "action_class": "replace_stage",
@@ -109,24 +80,11 @@
     },
     {
       "stage_id": "score_matrix_normalization",
-      "bound_artifact_fqdn": null,
-      "binding_confidence": 0.2,
+      "bound_artifact_fqdn": "sciona.atoms.graph_inference.connectome.score_matrix_normalization",
+      "binding_confidence": 1.0,
       "binding_source": "manual_analysis",
-      "status": "gap",
-      "action_class": "replace_stage",
-      "evidence_summary": {
-        "search_attempted": true,
-        "concept_type_searched": "signal_transform",
-        "keywords_searched": ["normalize", "min_max", "scale", "minmax_scale"],
-        "candidates_found": ["sciona.atoms.ml.sklearn.preprocessing.min_max_scaler_fit"],
-        "gap_reason": "MinMaxScaler operates on features (columns). This normalization operates on a square matrix with diagonal handling. Different semantic despite similar math."
-      },
-      "alternatives": [
-        {
-          "fqdn": "sciona.atoms.ml.sklearn.preprocessing.min_max_scaler_fit",
-          "why_rejected": "MinMaxScaler is column-wise. This is a full-matrix normalization with diagonal zeroing."
-        }
-      ]
+      "status": "active",
+      "action_class": "replace_stage"
     },
     {
       "stage_id": "threshold_sweep_ensemble",
@@ -146,19 +104,11 @@
     },
     {
       "stage_id": "temporal_precedence_directivity",
-      "bound_artifact_fqdn": null,
-      "binding_confidence": 0.0,
+      "bound_artifact_fqdn": "sciona.atoms.graph_inference.connectome.temporal_precedence_directivity",
+      "binding_confidence": 1.0,
       "binding_source": "manual_analysis",
-      "status": "gap",
-      "action_class": "replace_stage",
-      "evidence_summary": {
-        "search_attempted": true,
-        "concept_type_searched": "analysis",
-        "keywords_searched": ["temporal", "precedence", "directivity", "causal", "lag", "granger"],
-        "candidates_found": [],
-        "gap_reason": "Novel atom specific to calcium imaging. Detects directed connections via a biophysics-tuned temporal lag signature [+0.2, +0.5]. No general causal lag atom exists."
-      },
-      "alternatives": []
+      "status": "active",
+      "action_class": "replace_stage"
     },
     {
       "stage_id": "weighted_score_combination",
@@ -179,19 +129,17 @@
   ],
   "binding_summary": {
     "total_stages": 9,
-    "bound_active": 1,
+    "bound_active": 6,
     "bound_approximate": 0,
-    "gaps": 8,
-    "sklearn_atoms_used": ["sciona.atoms.ml.sklearn.decomposition.pca_fit"],
-    "novel_atoms_needed": [
-      "calcium_lowpass_filter",
-      "fluorescence_hard_threshold",
-      "global_activity_sample_reweighting",
-      "temporal_precedence_directivity"
-    ],
+    "gaps": 3,
+    "atoms_used_by_repo": {
+      "sciona-atoms-bio": 5,
+      "sciona-atoms-ml": 1
+    },
+    "cross_repo_bindings": true,
+    "novel_atoms_needed": [],
     "trivial_ops_unbound": [
       "first_difference",
-      "score_matrix_normalization",
       "weighted_score_combination"
     ],
     "meta_strategies_unbound": [

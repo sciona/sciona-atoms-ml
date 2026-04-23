@@ -99,7 +99,7 @@
       ],
       "preconditions": ["Signal length > max(delays) * subsample."],
       "guarantees": ["Output is symmetric positive definite (with shrinkage regularization)."],
-      "matched_primitive": ""
+      "matched_primitive": "sciona.atoms.riemannian_bci.covariance_features.autocorrelation_covariance_matrix"
     },
     {
       "stage_id": "cross_frequency_coherence_matrix",
@@ -117,7 +117,7 @@
       ],
       "preconditions": ["Signal has sufficient samples for lowest frequency band."],
       "guarantees": ["Output matrices are SPD (with regularization)."],
-      "matched_primitive": ""
+      "matched_primitive": "sciona.atoms.riemannian_bci.covariance_features.cross_frequency_coherence_matrix"
     },
     {
       "stage_id": "riemannian_mean_spd",
@@ -134,7 +134,7 @@
       ],
       "preconditions": ["All input matrices are strictly SPD."],
       "guarantees": ["Output is SPD. Converges for well-conditioned inputs."],
-      "matched_primitive": ""
+      "matched_primitive": "sciona.atoms.riemannian_bci.covariance_features.riemannian_mean_spd"
     },
     {
       "stage_id": "tangent_space_projection",
@@ -151,7 +151,7 @@
       ],
       "preconditions": ["All covmats and ref are strictly SPD."],
       "guarantees": ["Euclidean distance in output approximates Riemannian distance on manifold near reference."],
-      "matched_primitive": ""
+      "matched_primitive": "sciona.atoms.riemannian_bci.covariance_features.tangent_space_projection"
     },
     {
       "stage_id": "segment_max_aggregation",
@@ -167,7 +167,7 @@
       ],
       "preconditions": ["At least one window prediction available."],
       "guarantees": ["Output is max of input predictions."],
-      "matched_primitive": ""
+      "matched_primitive": "sciona.atoms.riemannian_bci.signal_processing.segment_max_aggregation"
     },
     {
       "stage_id": "ranked_prediction_blend",
@@ -184,7 +184,7 @@
       ],
       "preconditions": ["All prediction arrays have same length."],
       "guarantees": ["Output values in [0, 1] due to rank normalization."],
-      "matched_primitive": ""
+      "matched_primitive": "sciona.atoms.riemannian_bci.signal_processing.ranked_prediction_blend"
     }
   ],
   "edges": [

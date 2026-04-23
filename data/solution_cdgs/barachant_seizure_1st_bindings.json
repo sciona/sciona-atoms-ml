@@ -29,109 +29,62 @@
     },
     {
       "stage_id": "autocorrelation_covariance_matrix",
-      "bound_artifact_fqdn": null,
-      "binding_confidence": 0.0,
+      "bound_artifact_fqdn": "sciona.atoms.riemannian_bci.covariance_features.autocorrelation_covariance_matrix",
+      "binding_confidence": 1.0,
       "binding_source": "manual_analysis",
-      "status": "gap",
-      "action_class": "replace_stage",
-      "evidence_summary": {
-        "search_attempted": true,
-        "concept_type_searched": "signal_transform",
-        "keywords_searched": ["autocorrelation", "covariance", "hankel", "time_delay", "spd"],
-        "candidates_found": [],
-        "gap_reason": "Novel temporal-to-SPD conversion using Hankel matrix from log-spaced delays. High-value atom unique to Barachant's seizure solution. No matching atom in any repo."
-      }
+      "status": "active",
+      "action_class": "replace_stage"
     },
     {
       "stage_id": "cross_frequency_coherence_matrix",
-      "bound_artifact_fqdn": null,
-      "binding_confidence": 0.0,
+      "bound_artifact_fqdn": "sciona.atoms.riemannian_bci.covariance_features.cross_frequency_coherence_matrix",
+      "binding_confidence": 1.0,
       "binding_source": "manual_analysis",
-      "status": "gap",
-      "action_class": "replace_stage",
-      "evidence_summary": {
-        "search_attempted": true,
-        "concept_type_searched": "signal_transform",
-        "keywords_searched": ["cross_frequency", "coherence", "transposed", "coupling"],
-        "candidates_found": [],
-        "gap_reason": "Transposed coherence matrix (freq-by-freq per channel instead of channel-by-channel per freq). Novel axis inversion capturing cross-frequency coupling. No matching atom."
-      }
+      "status": "active",
+      "action_class": "replace_stage"
     },
     {
       "stage_id": "riemannian_mean_spd",
-      "bound_artifact_fqdn": null,
-      "binding_confidence": 0.0,
+      "bound_artifact_fqdn": "sciona.atoms.riemannian_bci.covariance_features.riemannian_mean_spd",
+      "binding_confidence": 1.0,
       "binding_source": "manual_analysis",
-      "status": "gap",
-      "action_class": "replace_stage",
-      "evidence_summary": {
-        "search_attempted": true,
-        "concept_type_searched": "optimization",
-        "keywords_searched": ["riemannian", "mean", "frechet", "karcher", "spd", "manifold"],
-        "candidates_found": [],
-        "gap_reason": "Frechet mean on SPD manifold. Core Riemannian BCI primitive used in all 4 Barachant solutions. Available in pyRiemann (BSD) but not yet ingested as an atom."
-      }
+      "status": "active",
+      "action_class": "replace_stage"
     },
     {
       "stage_id": "tangent_space_projection",
-      "bound_artifact_fqdn": null,
-      "binding_confidence": 0.0,
+      "bound_artifact_fqdn": "sciona.atoms.riemannian_bci.covariance_features.tangent_space_projection",
+      "binding_confidence": 1.0,
       "binding_source": "manual_analysis",
-      "status": "gap",
-      "action_class": "replace_stage",
-      "evidence_summary": {
-        "search_attempted": true,
-        "concept_type_searched": "dimensionality_reduction",
-        "keywords_searched": ["tangent_space", "projection", "riemannian", "spd", "log_map"],
-        "candidates_found": [],
-        "gap_reason": "SPD manifold to Euclidean tangent space projection with sqrt(2) off-diagonal scaling. Core Riemannian BCI primitive. Available in pyRiemann (BSD) but not yet ingested."
-      }
+      "status": "active",
+      "action_class": "replace_stage"
     },
     {
       "stage_id": "segment_max_aggregation",
-      "bound_artifact_fqdn": null,
-      "binding_confidence": 0.0,
+      "bound_artifact_fqdn": "sciona.atoms.riemannian_bci.signal_processing.segment_max_aggregation",
+      "binding_confidence": 1.0,
       "binding_source": "manual_analysis",
-      "status": "gap",
-      "action_class": "replace_stage",
-      "evidence_summary": {
-        "search_attempted": true,
-        "concept_type_searched": "analysis",
-        "keywords_searched": ["max", "aggregation", "segment", "pooling", "window"],
-        "candidates_found": [],
-        "gap_reason": "Segment-level max aggregation of sub-window predictions. Simple but domain-informed: mean AUC=0.674 vs max AUC=0.805. Could be a generic pooling atom but the domain insight (non-stationary seizure precursors) is key."
-      }
+      "status": "active",
+      "action_class": "replace_stage"
     },
     {
       "stage_id": "ranked_prediction_blend",
-      "bound_artifact_fqdn": null,
-      "binding_confidence": 0.0,
+      "bound_artifact_fqdn": "sciona.atoms.riemannian_bci.signal_processing.ranked_prediction_blend",
+      "binding_confidence": 1.0,
       "binding_source": "manual_analysis",
-      "status": "gap",
-      "action_class": "replace_stage",
-      "evidence_summary": {
-        "search_attempted": true,
-        "concept_type_searched": "analysis",
-        "keywords_searched": ["rank", "blend", "ensemble", "rank_normalization"],
-        "candidates_found": [],
-        "gap_reason": "Rank-normalized prediction blending. Scale-invariant ensemble method using rankdata()/len(). Reusable across any multi-model ensemble. No matching atom."
-      }
+      "status": "active",
+      "action_class": "replace_stage"
     }
   ],
   "binding_summary": {
     "total_stages": 7,
-    "bound_active": 0,
+    "bound_active": 6,
     "bound_approximate": 0,
-    "gaps": 7,
-    "atoms_used_by_repo": {},
-    "novel_atoms_needed": [
-      "autocorrelation_covariance_matrix",
-      "cross_frequency_coherence_matrix",
-      "tangent_space_projection",
-      "riemannian_mean_spd",
-      "ranked_prediction_blend",
-      "segment_max_aggregation"
-    ],
+    "gaps": 1,
+    "atoms_used_by_repo": {
+      "sciona-atoms-signal": 6
+    },
+    "novel_atoms_needed": [],
     "meta_patterns_unbound": ["windower"]
   },
   "architect_test_expectations": {

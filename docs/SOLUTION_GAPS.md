@@ -10,12 +10,12 @@ the architect tooling can reconstruct atom bindings from conceptual nodes.
 |----------|--------|-------|---------|------|----------|----------------|
 | Connectomics 1st | 9 | 6 | 0 | 3 | **67%** | 5 connectome atoms ingested + pca_get_precision; remaining: np.diff, MAP_OVER, weighted_sum |
 | Cause-Effect 2nd | 17 | 16 | 0 | 1 | **100%*** | All 16 atoms category-searchable; asymmetric_feature_difference = MAP_OVER |
-| TrackML 5th | 11 | 4 | 0 | 7 | **36%** | helix + neighbors atoms get category bonus |
+| TrackML 5th | 11 | 10 | 0 | 1 | **91%** | 6 new track_matching + detector_corrections atoms; remaining: detector_geometry_autodiscovery |
 | DSB2017 1st | 10 | 1 | 0 | 9 | **10%** | 90% deep learning; only noisy-OR atom bound; MAP_OVER validates volume tiling |
-| Adversarial 1st | 7 | 0 | 0 | 7 | **0%** | All TF gradient manipulation; FIXED_POINT loop validates; 0 sklearn overlap |
-| Barachant Seizure 1st | 7 | 0 | 0 | 7 | **0%** | Riemannian geometry pipeline; 4 parallel branches; 0 atoms ingested |
-| Flavours Physics 1st | 6 | 0 | 0 | 6 | **0%** | Constrained/fair ML; NO LICENSE blocks ingestion; gate pattern (KS/CvM) |
-| **Totals (7 done)** | **67** | **27** | **0** | **40** | **40%** | |
+| Adversarial 1st | 7 | 4 | 0 | 3 | **57%** | 4 gradient_attacks atoms ingested; remaining: aux_logit, std_normalized, ensemble_label |
+| Barachant Seizure 1st | 7 | 6 | 0 | 1 | **86%** | 6 riemannian_bci atoms ingested; remaining: windower (low-novelty) |
+| Flavours Physics 1st | 6 | 5 | 0 | 1 | **83%** | 5 constrained_ml atoms incl. flatness_penalty_gradient (loss_function); remaining: feature_selection (external_knowledge) |
+| **Totals (7 done)** | **67** | **48** | **0** | **19** | **72%** | |
 
 \* Cause-Effect reaches 100% if asymmetric_feature_difference is counted as
 "resolved via MAP_OVER pattern" rather than a single-atom binding.
@@ -92,8 +92,8 @@ more solution CDGs are built.
 
 | Category | Count | Notes |
 |----------|-------|-------|
-| `MISSING_ATOM` | 35 | Dominant gap type: novel domain atoms not in any repo |
-| `PARTIAL_BIND` | 2 | detector_geometry_autodiscovery (TrackML), sklearn_gbc (Flavours) |
+| `MISSING_ATOM` | 15 | Reduced from 35 after Workers A-D ingestion |
+| `PARTIAL_BIND` | 1 | detector_geometry_autodiscovery (TrackML) |
 | `SEM_MISMATCH` | 1 | VarianceThreshold keyword collision |
 | `ORCH_GAP` | 2 | volume_split_combine (DSB2017) + threshold_sweep (Connectomics) → MAP_OVER |
 | `TRIVIAL` | 3 | np.diff, weighted_sum (Connectomics) |
@@ -146,21 +146,21 @@ more solution CDGs are built.
 
 ## 3. TrackML 5th Place (Physics-Geometric Track Reconstruction)
 
-**CDG:** `data/solution_cdgs/trackml_5th.json` | **Coverage:** 4/11 (36%)
+**CDG:** `data/solution_cdgs/trackml_5th.json` | **Coverage:** 10/11 (91%)
 
 | Stage | Binding | Confidence | Category | Post-fix |
 |-------|---------|------------|----------|----------|
 | detector_geometry_autodiscovery | gap | 0.3 | `PARTIAL_BIND` | unchanged |
-| coordinate_rescaling_for_knn | gap | 0.0 | `MISSING_ATOM` | unchanged |
+| coordinate_rescaling_for_knn | `...detector_corrections.coordinate_rescaling_for_knn` | 1.0 | **INGESTED** | Worker A |
 | per_layer_knn_search | `nearest_neighbors_fit` | 0.85 | bound | **+category bonus (searching)** |
 | circle_from_three_points | `...circle_from_three_points` | 1.0 | bound | **+category bonus (geometry)** |
 | helix_pitch_least_squares | `...helix_pitch_least_squares` | 1.0 | bound | **+category bonus (geometry)** |
-| helix_cylinder_intersection | gap | 0.0 | `MISSING_ATOM` | unchanged |
-| helix_cap_intersection | gap | 0.0 | `MISSING_ATOM` | unchanged |
-| perturbative_helix_correction | gap | 0.0 | `MISSING_ATOM` | unchanged |
+| helix_cylinder_intersection | `...track_matching.helix_cylinder_intersection` | 1.0 | **INGESTED** | Worker A |
+| helix_cap_intersection | `...track_matching.helix_cap_intersection` | 1.0 | **INGESTED** | Worker A |
+| perturbative_helix_correction | `...detector_corrections.perturbative_cap_correction` | 0.9 | **INGESTED** | Worker A (split into cap+cylinder) |
 | helix_nearest_point_distance | `...helix_nearest_point_distance` | 1.0 | bound | **+category bonus (geometry)** |
-| bayesian_neighbor_evaluation | gap | 0.0 | `MISSING_ATOM` | unchanged |
-| greedy_track_commit | gap | 0.0 | `MISSING_ATOM` | unchanged |
+| bayesian_neighbor_evaluation | `...track_matching.bayesian_neighbor_evaluation` | 1.0 | **INGESTED** | Worker A |
+| greedy_track_commit | `...track_matching.greedy_track_commit` | 1.0 | **INGESTED** | Worker A |
 
 ---
 
@@ -187,54 +187,54 @@ more solution CDGs are built.
 
 ## 5. Adversarial Attacks 1st Place (Non-Targeted + Targeted)
 
-**CDG:** `data/solution_cdgs/adversarial_attacks_1st.json` | **Coverage:** 0/7 (0%)
+**CDG:** `data/solution_cdgs/adversarial_attacks_1st.json` | **Coverage:** 4/7 (57%)
 
 | Stage | Binding | Status |
 |-------|---------|--------|
-| momentum_iterative_gradient_accumulation | gap | `MISSING_ATOM` — MI-FGSM core, paper headline contribution |
-| ensemble_logit_fusion_with_asymmetric_weights | gap | `MISSING_ATOM` — adversarially-trained models downweighted |
+| momentum_iterative_gradient_accumulation | `...gradient_attacks.momentum_gradient_accumulation` | **INGESTED** — Worker D |
+| ensemble_logit_fusion_with_asymmetric_weights | `...gradient_attacks.ensemble_logit_fusion` | **INGESTED** — Worker D |
 | auxiliary_logit_loss_fusion | gap | `MISSING_ATOM` — multi-head gradient for transferability |
 | std_normalized_momentum_gradient | gap | `MISSING_ATOM` — double std-normalization for targeted attacks |
-| rounded_clipped_perturbation_step | gap | `MISSING_ATOM` — multi-level quantized step vs binary sign |
-| adaptive_epsilon_attack_strategy | gap | `MISSING_ATOM` — models-vs-precision budget tradeoff |
+| rounded_clipped_perturbation_step | `...gradient_attacks.rounded_clipped_perturbation_step` | **INGESTED** — Worker D |
+| adaptive_epsilon_attack_strategy | `...gradient_attacks.adaptive_epsilon_strategy` | **INGESTED** — Worker D |
 | ensemble_prediction_label_inference | gap | `MISSING_ATOM` — consensus label from ensemble |
 
-**Key finding:** FIXED_POINT loop validates (iterative gradient accumulation). All atoms are TensorFlow gradient manipulation — zero sklearn overlap. The momentum accumulation and asymmetric ensemble weighting are broadly reusable beyond adversarial ML.
+**Key finding:** 4 framework-agnostic gradient math atoms ingested (numpy-only, no TF dependency). Remaining 3 gaps are TF-specific operations (multi-head loss fusion, double std-normalization, ensemble label inference).
 
 ---
 
 ## 6. Barachant Seizure Prediction 1st Place (Riemannian BCI)
 
-**CDG:** `data/solution_cdgs/barachant_seizure_1st.json` | **Coverage:** 0/7 (0%)
+**CDG:** `data/solution_cdgs/barachant_seizure_1st.json` | **Coverage:** 6/7 (86%)
 
 | Stage | Binding | Status |
 |-------|---------|--------|
-| autocorrelation_covariance_matrix | gap | `MISSING_ATOM` — Hankel matrix from time-delayed copies, BSD |
-| cross_frequency_coherence_matrix | gap | `MISSING_ATOM` — transposed axis for cross-frequency coupling, BSD |
-| tangent_space_projection | gap | `MISSING_ATOM` — SPD manifold → Euclidean with sqrt(2) scaling |
-| riemannian_mean_spd | gap | `MISSING_ATOM` — Frechet mean on SPD manifold, use pyRiemann (BSD) |
-| xgb_per_branch_classifier | gap | `MISSING_ATOM` — XGBoost per parallel branch |
-| segment_max_aggregation | gap | `MISSING_ATOM` — max-not-mean for non-stationary seizure precursors |
-| ranked_prediction_blend | gap | `MISSING_ATOM` — rank-normalize then average, BSD |
+| windower | gap | `MISSING_ATOM` — standard sliding window, low novelty |
+| autocorrelation_covariance_matrix | `...covariance_features.autocorrelation_covariance_matrix` | **INGESTED** — Worker B |
+| cross_frequency_coherence_matrix | `...covariance_features.cross_frequency_coherence_matrix` | **INGESTED** — Worker B |
+| tangent_space_projection | `...covariance_features.tangent_space_projection` | **INGESTED** — Worker B |
+| riemannian_mean_spd | `...covariance_features.riemannian_mean_spd` | **INGESTED** — Worker B |
+| segment_max_aggregation | `...signal_processing.segment_max_aggregation` | **INGESTED** — Worker B |
+| ranked_prediction_blend | `...signal_processing.ranked_prediction_blend` | **INGESTED** — Worker B |
 
-**Key finding:** 4 parallel branches with different feature representations all projecting through Riemannian tangent space. The autocorrelation covariance and cross-frequency coherence atoms are generalizable signal-to-SPD conversions. `segment_max_aggregation` is surprisingly important (mean=0.674 AUC vs max=0.805).
+**Key finding:** All 6 novel atoms ingested (numpy/scipy only, no pyRiemann). XGBoost classifier modeled as conceptual node (external_tool). Only windower remains as a low-novelty gap. Riemannian atoms are reusable across all 4 Barachant competition solutions.
 
 ---
 
 ## 7. Flavours of Physics 1st Place (Constrained/Fair ML)
 
-**CDG:** `data/solution_cdgs/flavours_physics_1st.json` | **Coverage:** 0/6 (0%)
+**CDG:** `data/solution_cdgs/flavours_physics_1st.json` | **Coverage:** 5/6 (83%)
 
 | Stage | Binding | Status |
 |-------|---------|--------|
-| compute_cvm_mass_decorrelation | gap | `MISSING_ATOM` — CvM stat measuring prediction-mass correlation |
-| compute_ks_agreement | gap | `MISSING_ATOM` — KS distance via ROC reuse for data/MC agreement |
-| roc_auc_truncated_weighted | gap | `MISSING_ATOM` — segmented ROC with per-segment weights |
-| flatness_constrained_gradient_boosting | gap | `MISSING_ATOM` — training-time decorrelation loss (hep_ml, Apache 2.0) |
-| noise_injection_decorrelation | gap | `MISSING_ATOM` — post-hoc noise mixing for constraint satisfaction |
-| sklearn_gradient_boosting_classifier | gap | `PARTIAL_BIND` — GBC exists in sklearn atoms but not for the constrained variant |
+| feature_selection_safe | gap | `EXTERNAL_KNOWLEDGE` — domain-specific physics feature selection, not generalizable |
+| compute_cvm_mass_decorrelation | `...decorrelation.compute_cvm_mass_decorrelation` | **INGESTED** — Worker C |
+| compute_ks_agreement | `...decorrelation.compute_ks_agreement` | **INGESTED** — Worker C |
+| roc_auc_truncated_weighted | `...decorrelation.roc_auc_truncated_weighted` | **INGESTED** — Worker C |
+| flatness_constrained_gradient_boosting | `...decorrelation.flatness_penalty_gradient` | **INGESTED** — loss_function atom, callable_injection to GBC |
+| noise_injection_decorrelation | `...decorrelation.noise_injection_decorrelation` | **INGESTED** — Worker C |
 
-**Key finding:** Gate pattern — CvM < 0.002 and KS < 0.09 are HARD constraints that must be satisfied BEFORE the AUC metric is evaluated. LICENSE BLOCKED for direct ingestion; core decorrelation algorithm available in hep_ml (Apache 2.0). The CvM and KS atoms are broadly applicable to fairness auditing in any domain.
+**Key finding:** 5 atoms ingested. The `flatness_penalty_gradient` atom is the first `loss_function` concept_type — a pure function that computes the negative gradient of the flatness-penalized boosting loss. It's passed to a gradient boosting trainer via `callable_injection` edge (new edge kind). `feature_selection_safe` is modeled as `external_knowledge` — domain-specific physics that can't be generalized.
 
 ---
 
@@ -247,9 +247,9 @@ more solution CDGs are built.
 | ~~P2~~ | ~~S-3: PCA state-query atoms~~ | **DONE** | 3 atoms + review bundle + manifest |
 | ~~P5~~ | ~~Batch concept_type reclassification~~ | **DONE** | 187 scripted + 22 manual = 210 |
 | ~~P6~~ | ~~PCA review bundle~~ | **DONE** | — |
-| P3 | MISSING_ATOM backlog | Partial | 5 Connectomics ingested; 35 remain across 7 solutions |
+| P3 | MISSING_ATOM backlog | **70% done** | 20 ingested (Workers A-D); 15 gaps remain (mostly DL architecture nodes) |
 | P4 | SEM_MISMATCH: VarianceThreshold keyword collision | Open | Retrieval quality fix needed |
-| **P7** | **DL atom coverage** | **New** | DSB2017 + Adversarial expose 0% coverage for PyTorch/TF architectures |
-| **P8** | **Riemannian geometry atoms** | **New** | Barachant exposes 0% coverage; pyRiemann (BSD) as source |
-| **P9** | **Constrained/fair ML atoms** | **New** | Flavours Physics; hep_ml (Apache 2.0) as clean-room source |
-| **P10** | **Remaining 122 custom concept_types** | **New** | Mostly fintech opaque stubs; needs manual review |
+| **P7** | **DL atom coverage** | **Partial** | 4 gradient_attacks atoms ingested; DSB2017 still 90% DL-gapped |
+| **P8** | **Riemannian geometry atoms** | **DONE** | 6 atoms in sciona-atoms-signal; Barachant 86% coverage |
+| **P9** | **Constrained/fair ML atoms** | **DONE** | 4 atoms in sciona-atoms-ml; Flavours 67% coverage |
+| **P10** | **Remaining 122 custom concept_types** | **Pending** | Mostly fintech opaque stubs; needs manual review |

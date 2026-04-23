@@ -20,103 +20,64 @@
       "status": "gap",
       "action_class": "replace_stage",
       "evidence_summary": {
-        "search_attempted": true,
-        "concept_type_searched": "data_assembly",
-        "keywords_searched": ["feature_selection", "safe", "mass_independent", "protected"],
-        "candidates_found": [],
-        "gap_reason": "Domain-specific feature selection based on physics knowledge of mass-independent variables. Not a reusable atom -- the 'safe' feature set is specific to this particle physics problem."
+        "gap_reason": "Domain-specific physics knowledge: which features are guaranteed mass-independent. Modeled as external_knowledge concept_type — not a reusable atom. The safe feature set is specific to this particle physics problem and cannot be generalized."
       }
     },
     {
       "stage_id": "flatness_constrained_gradient_boosting",
-      "bound_artifact_fqdn": null,
-      "binding_confidence": 0.0,
+      "bound_artifact_fqdn": "sciona.atoms.ml.constrained_ml.decorrelation.flatness_penalty_gradient",
+      "binding_confidence": 0.85,
       "binding_source": "manual_analysis",
-      "status": "gap",
+      "status": "active",
       "action_class": "replace_stage",
       "evidence_summary": {
-        "search_attempted": true,
-        "concept_type_searched": "optimization",
-        "keywords_searched": ["flatness", "constrained", "gradient_boosting", "decorrelation", "fairness"],
-        "candidates_found": [],
-        "gap_reason": "Training-time decorrelation via modified loss function (BinFlatnessLossFunction). Core algorithm lives in hep_ml (Apache 2.0). Generalizes to any fairness-aware ML scenario. High-value ingestion target but solution repo has no license -- must use hep_ml or reimplement from arXiv:1410.4140."
+        "binding_rationale": "The novel component (flatness penalty loss function) is now an atom. The boosting structure itself uses standard GBC/XGBoost. Bound via callable_injection: the loss atom is passed as a custom objective to the boosting trainer. Confidence 0.85 because the full stage is a composition (loss atom + boosting trainer), not a single atom.",
+        "edge_kind": "callable_injection"
       }
     },
     {
       "stage_id": "noise_injection_decorrelation",
-      "bound_artifact_fqdn": null,
-      "binding_confidence": 0.0,
+      "bound_artifact_fqdn": "sciona.atoms.ml.constrained_ml.decorrelation.noise_injection_decorrelation",
+      "binding_confidence": 1.0,
       "binding_source": "manual_analysis",
-      "status": "gap",
-      "action_class": "replace_stage",
-      "evidence_summary": {
-        "search_attempted": true,
-        "concept_type_searched": "randomized",
-        "keywords_searched": ["noise", "injection", "decorrelation", "mixing", "calibration"],
-        "candidates_found": [],
-        "gap_reason": "Post-hoc noise injection for constraint satisfaction. Simple (one line of code) but the insight that noise_level=0.40 optimally trades AUC for KS compliance is valuable. No matching atom."
-      }
+      "status": "active",
+      "action_class": "replace_stage"
     },
     {
       "stage_id": "compute_ks_agreement",
-      "bound_artifact_fqdn": null,
-      "binding_confidence": 0.0,
+      "bound_artifact_fqdn": "sciona.atoms.ml.constrained_ml.decorrelation.compute_ks_agreement",
+      "binding_confidence": 1.0,
       "binding_source": "manual_analysis",
-      "status": "gap",
-      "action_class": "replace_stage",
-      "evidence_summary": {
-        "search_attempted": true,
-        "concept_type_searched": "analysis",
-        "keywords_searched": ["ks", "agreement", "kolmogorov_smirnov", "domain_adaptation", "covariate_shift"],
-        "candidates_found": [],
-        "gap_reason": "KS agreement test between real and simulated data using ROC-curve machinery. Generalizes to domain adaptation / covariate shift detection. Solution repo has no license but algorithm is standard KS test with a clever implementation."
-      }
+      "status": "active",
+      "action_class": "replace_stage"
     },
     {
       "stage_id": "compute_cvm_mass_decorrelation",
-      "bound_artifact_fqdn": null,
-      "binding_confidence": 0.0,
+      "bound_artifact_fqdn": "sciona.atoms.ml.constrained_ml.decorrelation.compute_cvm_mass_decorrelation",
+      "binding_confidence": 1.0,
       "binding_source": "manual_analysis",
-      "status": "gap",
-      "action_class": "replace_stage",
-      "evidence_summary": {
-        "search_attempted": true,
-        "concept_type_searched": "analysis",
-        "keywords_searched": ["cvm", "cramer_von_mises", "decorrelation", "fairness", "independence"],
-        "candidates_found": [],
-        "gap_reason": "CvM statistic for prediction-protected variable independence. Rolling window over sorted mass with rank-based CDF comparison. Generalizes to any fairness auditing scenario. Must reimplement from standard CvM definition due to no license."
-      }
+      "status": "active",
+      "action_class": "replace_stage"
     },
     {
       "stage_id": "roc_auc_truncated_weighted",
-      "bound_artifact_fqdn": null,
-      "binding_confidence": 0.0,
+      "bound_artifact_fqdn": "sciona.atoms.ml.constrained_ml.decorrelation.roc_auc_truncated_weighted",
+      "binding_confidence": 1.0,
       "binding_source": "manual_analysis",
-      "status": "gap",
-      "action_class": "replace_stage",
-      "evidence_summary": {
-        "search_attempted": true,
-        "concept_type_searched": "analysis",
-        "keywords_searched": ["roc_auc", "truncated", "weighted", "partial_auc"],
-        "candidates_found": [],
-        "gap_reason": "Segment-weighted ROC AUC with emphasis on low-TPR region. Generalizes to any scenario where certain operating points matter more. No matching atom -- sklearn's partial AUC is related but different (single segment, not weighted segments)."
-      }
+      "status": "active",
+      "action_class": "replace_stage"
     }
   ],
   "binding_summary": {
     "total_stages": 6,
-    "bound_active": 0,
+    "bound_active": 5,
     "bound_approximate": 0,
-    "gaps": 6,
-    "atoms_used_by_repo": {},
-    "novel_atoms_needed": [
-      "compute_cvm_mass_decorrelation",
-      "compute_ks_agreement",
-      "roc_auc_truncated_weighted",
-      "flatness_constrained_gradient_boosting",
-      "noise_injection_decorrelation"
-    ],
-    "meta_patterns_unbound": ["feature_selection_safe"]
+    "gaps": 1,
+    "atoms_used_by_repo": {
+      "sciona-atoms-ml": 5
+    },
+    "novel_atoms_needed": [],
+    "external_knowledge_unbound": ["feature_selection_safe"]
   },
   "architect_test_expectations": {
     "description": "All 6 stages are gaps. This CDG tests the architect's handling of constraint gates (KS, CvM) that act as hard pass/fail filters before metric computation.",

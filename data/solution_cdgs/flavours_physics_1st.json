@@ -79,7 +79,7 @@
       "name": "Safe Feature Selection",
       "description": "Select features known to be physically independent of mass. Restricts model to 3 safe variables that cannot introduce mass correlation.",
       "dejargonized_description": "Pick only the features that are guaranteed not to leak information about the protected variable (mass), even though this limits the model's power.",
-      "concept_type": "data_assembly",
+      "concept_type": "external_knowledge",
       "inputs": [
         {"name": "data", "type_desc": "DataFrame", "constraints": "Full training data.", "required": true}
       ],
@@ -88,6 +88,10 @@
       ],
       "preconditions": ["Feature metadata available indicating mass-safe columns."],
       "guarantees": ["No mass-correlated features in output."],
+      "family_notes": [
+        "Domain-specific physics knowledge: which features are guaranteed mass-independent.",
+        "Not a reusable atom — the safe feature set is specific to this particle physics problem."
+      ],
       "matched_primitive": ""
     },
     {
@@ -108,7 +112,12 @@
       ],
       "preconditions": ["Protected variable column exists in features."],
       "guarantees": ["Predictions are approximately decorrelated from protected variable."],
-      "matched_primitive": ""
+      "family_notes": [
+        "Composition of a loss_function atom (flatness_penalty_gradient) injected as a callable into a gradient boosting trainer.",
+        "The novel piece is the loss function; the boosting structure is standard.",
+        "Uses callable_injection edge from loss atom to boosting trainer."
+      ],
+      "matched_primitive": "sciona.atoms.ml.constrained_ml.decorrelation.flatness_penalty_gradient"
     },
     {
       "stage_id": "noise_injection_decorrelation",

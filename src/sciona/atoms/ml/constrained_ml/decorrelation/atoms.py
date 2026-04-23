@@ -25,9 +25,12 @@ from numpy.typing import NDArray
 import icontract
 from sciona.ghost.registry import register_atom
 
+from scipy.stats import rankdata
+
 from .witnesses import (
     witness_compute_cvm_mass_decorrelation,
     witness_compute_ks_agreement,
+    witness_flatness_penalty_gradient,
     witness_noise_injection_decorrelation,
     witness_roc_auc_truncated_weighted,
 )
@@ -416,3 +419,114 @@ def noise_injection_decorrelation(
     rng = np.random.default_rng(random_state)
     noise = rng.uniform(0.0, 1.0, size=len(predictions))
     return noise_level * noise + (1.0 - noise_level) * predictions
+
+
+@register_atom(witness_flatness_penalty_gradient)
+@icontract.require(lambda predictions: predictions.ndim == 1, "predictions must be 1-D")
+@icontract.require(lambda labels: np.all((labels == 0) | (labels == 1)), "labels must be binary {0, 1}")
+@icontract.require(
+    lambda predictions, labels, protected_variable: (
+        len(predictions) == len(labels) == len(protected_variable)
+    ),
+    "all arrays must have the same length",
+)
+@icontract.require(lambda n_bins: n_bins >= 2, "need at least 2 bins")
+@icontract.require(lambda power: power >= 1.0, "power must be >= 1")
+@icontract.require(lambda fl_coefficient: fl_coefficient >= 0.0, "fl_coefficient must be non-negative")
+@icontract.ensure(lambda result, predictions: result.shape == predictions.shape, "output shape matches input")
+def flatness_penalty_gradient(
+    predictions: NDArray[np.float64],
+    labels: NDArray[np.int64],
+    protected_variable: NDArray[np.float64],
+    n_bins: int = 10,
+    power: float = 2.0,
+    fl_coefficient: float = 3.0,
+    uniform_label: int = 0,
+) -> NDArray[np.float64]:
+    """Compute the negative gradient of the flatness-penalized boosting loss.
+
+    Combines an AdaBoost-style exponential loss for classification quality
+    with a binned CDF-mismatch penalty that encourages predictions to be
+    statistically independent of a protected (nuisance) variable.
+
+    The flatness penalty compares the empirical CDF of predictions within
+    each bin of the protected variable against the global CDF. The gradient
+    pushes per-bin CDFs toward the global CDF, enforcing uniformity.
+
+    This is the core loss function used in flatness-constrained gradient
+    boosting (Rogozhnikov et al., arXiv:1410.4140). It can be passed as
+    a custom objective to boosting libraries that accept callable losses
+    (e.g., XGBoost ``obj`` parameter).
+
+    Args:
+        predictions: Current ensemble predictions, shape (n,).
+        labels: Binary class labels {0, 1}, shape (n,).
+        protected_variable: Nuisance variable to decorrelate from (e.g., mass), shape (n,).
+        n_bins: Number of quantile bins along the protected variable.
+        power: Exponent for the flatness penalty (2.0 = quadratic CDF mismatch).
+        fl_coefficient: Weight of the flatness penalty relative to the
+            classification loss (lambda in L = L_ada + lambda * L_flat).
+        uniform_label: Which class label's predictions must be flat with
+            respect to the protected variable (typically 0 = background).
+
+    Returns:
+        Negative gradient (pseudo-residuals), shape (n,). Suitable as the
+        residuals for the next boosting tree.
+
+    References:
+        Rogozhnikov et al. (2015), "New approaches for boosting to
+        uniformity", arXiv:1410.4140. Implementation concept from hep_ml
+        (Apache 2.0).
+    """
+    predictions = np.asarray(predictions, dtype=np.float64)
+    labels = np.asarray(labels, dtype=np.int64)
+    protected_variable = np.asarray(protected_variable, dtype=np.float64)
+    n = len(predictions)
+
+    # --- Classification gradient (AdaBoost exponential loss) ---
+    y_signed = 2 * labels - 1  # {0,1} -> {-1,+1}
+    margin = y_signed * predictions
+    ada_grad = y_signed * np.exp(np.clip(-margin, -1e5, 2.0))
+
+    # --- Flatness gradient (binned CDF mismatch) ---
+    flatness_grad = np.zeros(n, dtype=np.float64)
+
+    # Only constrain the specified label
+    constraint_mask = labels == uniform_label
+    if np.sum(constraint_mask) < 2 * n_bins:
+        # Not enough samples to bin — skip flatness term
+        return ada_grad
+
+    # Bin the protected variable using quantiles (constraint samples only)
+    constrained_preds = predictions[constraint_mask]
+    constrained_prot = protected_variable[constraint_mask]
+    n_c = len(constrained_preds)
+
+    bin_edges = np.percentile(constrained_prot, np.linspace(0, 100, n_bins + 1))
+    bin_edges[-1] += 1e-10  # ensure max value falls in last bin
+    bin_indices = np.digitize(constrained_prot, bin_edges) - 1
+    bin_indices = np.clip(bin_indices, 0, n_bins - 1)
+
+    # Global ranks (normalized to [0, 1])
+    global_rank = rankdata(constrained_preds, method="average") / n_c
+
+    # Per-bin flatness gradient
+    flat_grad_constrained = np.zeros(n_c, dtype=np.float64)
+    for b in range(n_bins):
+        mask_b = bin_indices == b
+        n_b = np.sum(mask_b)
+        if n_b < 2:
+            continue
+
+        # Ranks within this bin (normalized to [0, 1])
+        local_rank = rankdata(constrained_preds[mask_b], method="average") / n_b
+        global_pos = global_rank[mask_b]
+
+        diff = local_rank - global_pos
+        grad_mag = power * np.abs(diff) ** (power - 1)
+        flat_grad_constrained[mask_b] = np.sign(diff) * grad_mag
+
+    flatness_grad[constraint_mask] = flat_grad_constrained
+
+    # --- Combine ---
+    return ada_grad + fl_coefficient * flatness_grad

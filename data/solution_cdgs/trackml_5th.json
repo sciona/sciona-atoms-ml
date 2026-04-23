@@ -104,7 +104,7 @@
       "family_notes": [
         "Avoids custom distance functions by warping coordinates instead — enables use of standard sklearn NearestNeighbors."
       ],
-      "matched_primitive": ""
+      "matched_primitive": "sciona.atoms.particle_tracking.detector_corrections.coordinate_rescaling_for_knn"
     },
     {
       "stage_id": "per_layer_knn_search",
@@ -173,7 +173,7 @@
       "preconditions": ["Helix parameters from circle + pitch fit."],
       "guarantees": ["Analytic solution — no iterative root-finding. O(1) per query."],
       "family_notes": ["Pure analytic geometry. No iterative root-finding needed."],
-      "matched_primitive": ""
+      "matched_primitive": "sciona.atoms.particle_tracking.track_matching.helix_cylinder_intersection"
     },
     {
       "stage_id": "helix_cap_intersection",
@@ -190,7 +190,7 @@
       ],
       "preconditions": ["Helix parameters available."],
       "guarantees": ["Handles radial gaps via recursive retry."],
-      "matched_primitive": ""
+      "matched_primitive": "sciona.atoms.particle_tracking.track_matching.helix_cap_intersection"
     },
     {
       "stage_id": "perturbative_helix_correction",
@@ -212,7 +212,7 @@
         "Pattern: approximate analytic model + learned residual maps. Reusable in any domain with approximate physics models.",
         "Physics-informed scaling (q/p for caps, q/r for cylinders) is the key to transferability."
       ],
-      "matched_primitive": ""
+      "matched_primitive": "sciona.atoms.particle_tracking.detector_corrections.perturbative_cap_correction"
     },
     {
       "stage_id": "helix_nearest_point_distance",
@@ -249,7 +249,7 @@
       "preconditions": ["Background density estimated from training data."],
       "guarantees": ["Adaptive: dense regions → tight cuts, sparse → loose."],
       "family_notes": ["Generalizes to any variable-density point cloud matching problem."],
-      "matched_primitive": ""
+      "matched_primitive": "sciona.atoms.particle_tracking.track_matching.bayesian_neighbor_evaluation"
     },
     {
       "stage_id": "greedy_track_commit",
@@ -266,7 +266,7 @@
       ],
       "preconditions": ["Candidate tracks sorted by quality."],
       "guarantees": ["No hit assigned to more than one track."],
-      "matched_primitive": ""
+      "matched_primitive": "sciona.atoms.particle_tracking.track_matching.greedy_track_commit"
     }
   ],
   "edges": [

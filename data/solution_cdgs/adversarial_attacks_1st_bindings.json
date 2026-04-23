@@ -29,33 +29,20 @@
     },
     {
       "stage_id": "adaptive_epsilon_attack_strategy",
-      "bound_artifact_fqdn": null,
-      "binding_confidence": 0.0,
+      "bound_artifact_fqdn": "sciona.atoms.ml.gradient_attacks.adaptive_epsilon_strategy",
+      "binding_confidence": 1.0,
       "binding_source": "manual_analysis",
-      "status": "gap",
-      "action_class": "replace_stage",
-      "evidence_summary": {
-        "search_attempted": true,
-        "concept_type_searched": "conditional_routing",
-        "keywords_searched": ["adaptive", "epsilon", "attack", "strategy", "budget"],
-        "candidates_found": [],
-        "gap_reason": "Meta-strategy that trades off model count vs iteration count based on perturbation budget. Novel adversarial-specific resource allocation heuristic. No matching atom."
-      }
+      "status": "active",
+      "action_class": "replace_stage"
     },
     {
       "stage_id": "ensemble_logit_fusion_with_asymmetric_weights",
-      "bound_artifact_fqdn": null,
-      "binding_confidence": 0.0,
+      "bound_artifact_fqdn": "sciona.atoms.ml.gradient_attacks.ensemble_logit_fusion",
+      "binding_confidence": 0.9,
       "binding_source": "manual_analysis",
-      "status": "gap",
+      "status": "active",
       "action_class": "replace_stage",
-      "evidence_summary": {
-        "search_attempted": true,
-        "concept_type_searched": "optimization",
-        "keywords_searched": ["ensemble", "logit", "fusion", "asymmetric", "weighted_average"],
-        "candidates_found": [],
-        "gap_reason": "Weighted ensemble of model logits with deliberate downweighting of adversarially-trained models. Could be a generic weighted_average atom but the asymmetric weighting insight is domain-specific."
-      }
+      "evidence_summary": {"binding_rationale": "Atom implements weighted logit averaging. Asymmetric weighting is a parameter choice, not a separate atom. Confidence 0.9."}
     },
     {
       "stage_id": "auxiliary_logit_loss_fusion",
@@ -74,18 +61,11 @@
     },
     {
       "stage_id": "momentum_iterative_gradient_accumulation",
-      "bound_artifact_fqdn": null,
-      "binding_confidence": 0.0,
+      "bound_artifact_fqdn": "sciona.atoms.ml.gradient_attacks.momentum_gradient_accumulation",
+      "binding_confidence": 1.0,
       "binding_source": "manual_analysis",
-      "status": "gap",
-      "action_class": "replace_stage",
-      "evidence_summary": {
-        "search_attempted": true,
-        "concept_type_searched": "fixed_point",
-        "keywords_searched": ["momentum", "iterative", "fgsm", "gradient", "accumulation", "mi_fgsm"],
-        "candidates_found": [],
-        "gap_reason": "Core MI-FGSM contribution: L1-normalized gradient accumulation with full momentum (mu=1.0). The paper's headline technique. No matching atom -- this is the primary ingestion target."
-      }
+      "status": "active",
+      "action_class": "replace_stage"
     },
     {
       "stage_id": "std_normalized_momentum_gradient",
@@ -104,33 +84,24 @@
     },
     {
       "stage_id": "rounded_clipped_perturbation_step",
-      "bound_artifact_fqdn": null,
-      "binding_confidence": 0.0,
+      "bound_artifact_fqdn": "sciona.atoms.ml.gradient_attacks.rounded_clipped_perturbation_step",
+      "binding_confidence": 1.0,
       "binding_source": "manual_analysis",
-      "status": "gap",
-      "action_class": "replace_stage",
-      "evidence_summary": {
-        "search_attempted": true,
-        "concept_type_searched": "optimization",
-        "keywords_searched": ["rounded", "clipped", "perturbation", "quantized", "step"],
-        "candidates_found": [],
-        "gap_reason": "Multi-level quantized step function (round + clip to [-2,2]) as alternative to binary sign(). Novel gradient quantization approach. No matching atom."
-      }
+      "status": "active",
+      "action_class": "replace_stage"
     }
   ],
   "binding_summary": {
     "total_stages": 7,
-    "bound_active": 0,
+    "bound_active": 4,
     "bound_approximate": 0,
-    "gaps": 7,
-    "atoms_used_by_repo": {},
+    "gaps": 3,
+    "atoms_used_by_repo": {
+      "sciona-atoms-ml": 4
+    },
     "novel_atoms_needed": [
-      "momentum_iterative_gradient_accumulation",
-      "ensemble_logit_fusion_with_asymmetric_weights",
       "auxiliary_logit_loss_fusion",
       "std_normalized_momentum_gradient",
-      "rounded_clipped_perturbation_step",
-      "adaptive_epsilon_attack_strategy",
       "ensemble_prediction_label_inference"
     ],
     "meta_patterns_unbound": []
