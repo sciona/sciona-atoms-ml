@@ -1,0 +1,143 @@
+{
+  "schema_version": "1.0",
+  "solution_id": "solution.kaggle.adversarial_attacks_1st",
+  "solution_metadata": {
+    "competition": "NIPS 2017 Non-Targeted + Targeted Adversarial Attack",
+    "placement": "1st (both tracks)",
+    "team": "Yinpeng Dong",
+    "year": 2017,
+    "metric": "Attack success rate (misclassification rate)",
+    "problem_domain": "adversarial_ml",
+    "source_url": "https://github.com/dongyp13/Non-Targeted-Adversarial-Attacks",
+    "source_license": "Apache-2.0"
+  },
+  "bindings": [
+    {
+      "stage_id": "ensemble_prediction_label_inference",
+      "bound_artifact_fqdn": null,
+      "binding_confidence": 0.0,
+      "binding_source": "manual_analysis",
+      "status": "gap",
+      "action_class": "replace_stage",
+      "evidence_summary": {
+        "search_attempted": true,
+        "concept_type_searched": "data_assembly",
+        "keywords_searched": ["ensemble", "prediction", "label", "inference", "argmax", "consensus"],
+        "candidates_found": [],
+        "gap_reason": "Ensemble consensus label inference with freeze-after-first-iteration semantics. No matching atom exists. Simple argmax-of-sum but the freeze logic is competition-specific."
+      }
+    },
+    {
+      "stage_id": "adaptive_epsilon_attack_strategy",
+      "bound_artifact_fqdn": null,
+      "binding_confidence": 0.0,
+      "binding_source": "manual_analysis",
+      "status": "gap",
+      "action_class": "replace_stage",
+      "evidence_summary": {
+        "search_attempted": true,
+        "concept_type_searched": "conditional_routing",
+        "keywords_searched": ["adaptive", "epsilon", "attack", "strategy", "budget"],
+        "candidates_found": [],
+        "gap_reason": "Meta-strategy that trades off model count vs iteration count based on perturbation budget. Novel adversarial-specific resource allocation heuristic. No matching atom."
+      }
+    },
+    {
+      "stage_id": "ensemble_logit_fusion_with_asymmetric_weights",
+      "bound_artifact_fqdn": null,
+      "binding_confidence": 0.0,
+      "binding_source": "manual_analysis",
+      "status": "gap",
+      "action_class": "replace_stage",
+      "evidence_summary": {
+        "search_attempted": true,
+        "concept_type_searched": "optimization",
+        "keywords_searched": ["ensemble", "logit", "fusion", "asymmetric", "weighted_average"],
+        "candidates_found": [],
+        "gap_reason": "Weighted ensemble of model logits with deliberate downweighting of adversarially-trained models. Could be a generic weighted_average atom but the asymmetric weighting insight is domain-specific."
+      }
+    },
+    {
+      "stage_id": "auxiliary_logit_loss_fusion",
+      "bound_artifact_fqdn": null,
+      "binding_confidence": 0.0,
+      "binding_source": "manual_analysis",
+      "status": "gap",
+      "action_class": "replace_stage",
+      "evidence_summary": {
+        "search_attempted": true,
+        "concept_type_searched": "optimization",
+        "keywords_searched": ["auxiliary", "logit", "loss", "multi_head", "inception"],
+        "candidates_found": [],
+        "gap_reason": "Multi-head loss combining main and auxiliary classification heads with weight 0.4 on aux. Produces richer gradients at multiple network depths. No matching atom."
+      }
+    },
+    {
+      "stage_id": "momentum_iterative_gradient_accumulation",
+      "bound_artifact_fqdn": null,
+      "binding_confidence": 0.0,
+      "binding_source": "manual_analysis",
+      "status": "gap",
+      "action_class": "replace_stage",
+      "evidence_summary": {
+        "search_attempted": true,
+        "concept_type_searched": "fixed_point",
+        "keywords_searched": ["momentum", "iterative", "fgsm", "gradient", "accumulation", "mi_fgsm"],
+        "candidates_found": [],
+        "gap_reason": "Core MI-FGSM contribution: L1-normalized gradient accumulation with full momentum (mu=1.0). The paper's headline technique. No matching atom -- this is the primary ingestion target."
+      }
+    },
+    {
+      "stage_id": "std_normalized_momentum_gradient",
+      "bound_artifact_fqdn": null,
+      "binding_confidence": 0.0,
+      "binding_source": "manual_analysis",
+      "status": "gap",
+      "action_class": "replace_stage",
+      "evidence_summary": {
+        "search_attempted": true,
+        "concept_type_searched": "fixed_point",
+        "keywords_searched": ["std", "normalized", "momentum", "gradient", "targeted"],
+        "candidates_found": [],
+        "gap_reason": "Targeted-attack variant using double std-normalization instead of L1-mean. Preserves spatial structure better for targeted perturbations. No matching atom."
+      }
+    },
+    {
+      "stage_id": "rounded_clipped_perturbation_step",
+      "bound_artifact_fqdn": null,
+      "binding_confidence": 0.0,
+      "binding_source": "manual_analysis",
+      "status": "gap",
+      "action_class": "replace_stage",
+      "evidence_summary": {
+        "search_attempted": true,
+        "concept_type_searched": "optimization",
+        "keywords_searched": ["rounded", "clipped", "perturbation", "quantized", "step"],
+        "candidates_found": [],
+        "gap_reason": "Multi-level quantized step function (round + clip to [-2,2]) as alternative to binary sign(). Novel gradient quantization approach. No matching atom."
+      }
+    }
+  ],
+  "binding_summary": {
+    "total_stages": 7,
+    "bound_active": 0,
+    "bound_approximate": 0,
+    "gaps": 7,
+    "atoms_used_by_repo": {},
+    "novel_atoms_needed": [
+      "momentum_iterative_gradient_accumulation",
+      "ensemble_logit_fusion_with_asymmetric_weights",
+      "auxiliary_logit_loss_fusion",
+      "std_normalized_momentum_gradient",
+      "rounded_clipped_perturbation_step",
+      "adaptive_epsilon_attack_strategy",
+      "ensemble_prediction_label_inference"
+    ],
+    "meta_patterns_unbound": []
+  },
+  "architect_test_expectations": {
+    "description": "All 7 atoms are gaps -- none have been ingested. This CDG tests the architect's ability to identify and report missing atoms.",
+    "critical_finding": "This is a pure-gap CDG. The architect should recognize all stages as unbound and surface the fixed-point loop structure (momentum accumulation iterates until budget exhausted). The adaptive_epsilon_attack_strategy stage represents a conditional_routing pattern that the architect should flag as a branching point.",
+    "expected_retrieval_path": "No atoms should be found. All stages should be reported as gaps requiring ingestion."
+  }
+}

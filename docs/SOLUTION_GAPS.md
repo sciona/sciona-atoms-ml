@@ -12,7 +12,10 @@ the architect tooling can reconstruct atom bindings from conceptual nodes.
 | Cause-Effect 2nd | 17 | 16 | 0 | 1 | **100%*** | All 16 atoms category-searchable; asymmetric_feature_difference = MAP_OVER |
 | TrackML 5th | 11 | 4 | 0 | 7 | **36%** | helix + neighbors atoms get category bonus |
 | DSB2017 1st | 10 | 1 | 0 | 9 | **10%** | 90% deep learning; only noisy-OR atom bound; MAP_OVER validates volume tiling |
-| **Totals (4 done)** | **47** | **27** | **0** | **20** | **57%** | |
+| Adversarial 1st | 7 | 0 | 0 | 7 | **0%** | All TF gradient manipulation; FIXED_POINT loop validates; 0 sklearn overlap |
+| Barachant Seizure 1st | 7 | 0 | 0 | 7 | **0%** | Riemannian geometry pipeline; 4 parallel branches; 0 atoms ingested |
+| Flavours Physics 1st | 6 | 0 | 0 | 6 | **0%** | Constrained/fair ML; NO LICENSE blocks ingestion; gate pattern (KS/CvM) |
+| **Totals (7 done)** | **67** | **27** | **0** | **40** | **40%** | |
 
 \* Cause-Effect reaches 100% if asymmetric_feature_difference is counted as
 "resolved via MAP_OVER pattern" rather than a single-atom binding.
@@ -85,15 +88,15 @@ more solution CDGs are built.
 | **Orchestration gap** | `ORCH_GAP` | Higher-order pattern (loop, sweep, branch) not representable as a single atom. |
 | **Trivial unbound** | `TRIVIAL` | One-liner numpy/scipy call; doesn't justify a standalone atom but has no binding target. |
 
-### Recurring Gap Categories (post-fix)
+### Recurring Gap Categories (all 7 solutions)
 
-| Category | Count | Before fix | After fix | Notes |
-|----------|-------|-----------|-----------|-------|
-| `MISSING_ATOM` | 10 | 10 | 10 | Unchanged — requires individual atom ingestion |
-| `PARTIAL_BIND` | 2 | 2 | 1 | PCA precision fixed; detector_geometry_autodiscovery remains |
-| `SEM_MISMATCH` | 1 | 1 | 1 | VarianceThreshold keyword collision still exists |
-| `ORCH_GAP` | 2 | 2 | 0 | Both resolved via MAP_OVER skeleton |
-| `TRIVIAL` | 3 | 3 | 3 | Unchanged — not worth individual atoms |
+| Category | Count | Notes |
+|----------|-------|-------|
+| `MISSING_ATOM` | 35 | Dominant gap type: novel domain atoms not in any repo |
+| `PARTIAL_BIND` | 2 | detector_geometry_autodiscovery (TrackML), sklearn_gbc (Flavours) |
+| `SEM_MISMATCH` | 1 | VarianceThreshold keyword collision |
+| `ORCH_GAP` | 2 | volume_split_combine (DSB2017) + threshold_sweep (Connectomics) → MAP_OVER |
+| `TRIVIAL` | 3 | np.diff, weighted_sum (Connectomics) |
 
 ---
 
@@ -161,14 +164,92 @@ more solution CDGs are built.
 
 ---
 
+## 4. DSB2017 1st Place (Lung Cancer Detection from CT Scans)
+
+**CDG:** `data/solution_cdgs/dsb2017_1st.json` | **Coverage:** 1/10 (10%)
+
+| Stage | Binding | Status |
+|-------|---------|--------|
+| lung_mask_with_bone_removal | gap | `MISSING_ATOM` — CT-specific preprocessing |
+| volume_split_combine | gap | `ORCH_GAP` → MAP_OVER (overlapping 3D tiling) |
+| coordinate_aware_3d_unet | gap | `MISSING_ATOM` — PyTorch 3D U-Net, predates CoordConv |
+| anchor_label_mapping_with_iou_dilation | gap | `MISSING_ATOM` — 3D anchor assignment with ignore zone |
+| online_hard_negative_mining | gap | `MISSING_ATOM` — OHEM for 3D detection |
+| size_aware_nodule_oversampling | gap | `MISSING_ATOM` — counterintuitive size-based oversampling |
+| softmax_temperature_proposal_sampling | gap | `MISSING_ATOM` — generalizable stochastic sampling |
+| center_feature_extraction_3d | gap | `MISSING_ATOM` — center-only 3D feature pooling |
+| noisy_or_pooling | `case_probability_from_nodule_scores` | **BOUND** |
+| miss_penalty_loss | gap | `MISSING_ATOM` — asymmetric conditional loss |
+
+**Key finding:** 90% deep learning with PyTorch. The sklearn catalog has near-zero coverage for DL architectures. `softmax_temperature_proposal_sampling` is the most generalizable gap — applicable to any detection pipeline.
+
+---
+
+## 5. Adversarial Attacks 1st Place (Non-Targeted + Targeted)
+
+**CDG:** `data/solution_cdgs/adversarial_attacks_1st.json` | **Coverage:** 0/7 (0%)
+
+| Stage | Binding | Status |
+|-------|---------|--------|
+| momentum_iterative_gradient_accumulation | gap | `MISSING_ATOM` — MI-FGSM core, paper headline contribution |
+| ensemble_logit_fusion_with_asymmetric_weights | gap | `MISSING_ATOM` — adversarially-trained models downweighted |
+| auxiliary_logit_loss_fusion | gap | `MISSING_ATOM` — multi-head gradient for transferability |
+| std_normalized_momentum_gradient | gap | `MISSING_ATOM` — double std-normalization for targeted attacks |
+| rounded_clipped_perturbation_step | gap | `MISSING_ATOM` — multi-level quantized step vs binary sign |
+| adaptive_epsilon_attack_strategy | gap | `MISSING_ATOM` — models-vs-precision budget tradeoff |
+| ensemble_prediction_label_inference | gap | `MISSING_ATOM` — consensus label from ensemble |
+
+**Key finding:** FIXED_POINT loop validates (iterative gradient accumulation). All atoms are TensorFlow gradient manipulation — zero sklearn overlap. The momentum accumulation and asymmetric ensemble weighting are broadly reusable beyond adversarial ML.
+
+---
+
+## 6. Barachant Seizure Prediction 1st Place (Riemannian BCI)
+
+**CDG:** `data/solution_cdgs/barachant_seizure_1st.json` | **Coverage:** 0/7 (0%)
+
+| Stage | Binding | Status |
+|-------|---------|--------|
+| autocorrelation_covariance_matrix | gap | `MISSING_ATOM` — Hankel matrix from time-delayed copies, BSD |
+| cross_frequency_coherence_matrix | gap | `MISSING_ATOM` — transposed axis for cross-frequency coupling, BSD |
+| tangent_space_projection | gap | `MISSING_ATOM` — SPD manifold → Euclidean with sqrt(2) scaling |
+| riemannian_mean_spd | gap | `MISSING_ATOM` — Frechet mean on SPD manifold, use pyRiemann (BSD) |
+| xgb_per_branch_classifier | gap | `MISSING_ATOM` — XGBoost per parallel branch |
+| segment_max_aggregation | gap | `MISSING_ATOM` — max-not-mean for non-stationary seizure precursors |
+| ranked_prediction_blend | gap | `MISSING_ATOM` — rank-normalize then average, BSD |
+
+**Key finding:** 4 parallel branches with different feature representations all projecting through Riemannian tangent space. The autocorrelation covariance and cross-frequency coherence atoms are generalizable signal-to-SPD conversions. `segment_max_aggregation` is surprisingly important (mean=0.674 AUC vs max=0.805).
+
+---
+
+## 7. Flavours of Physics 1st Place (Constrained/Fair ML)
+
+**CDG:** `data/solution_cdgs/flavours_physics_1st.json` | **Coverage:** 0/6 (0%)
+
+| Stage | Binding | Status |
+|-------|---------|--------|
+| compute_cvm_mass_decorrelation | gap | `MISSING_ATOM` — CvM stat measuring prediction-mass correlation |
+| compute_ks_agreement | gap | `MISSING_ATOM` — KS distance via ROC reuse for data/MC agreement |
+| roc_auc_truncated_weighted | gap | `MISSING_ATOM` — segmented ROC with per-segment weights |
+| flatness_constrained_gradient_boosting | gap | `MISSING_ATOM` — training-time decorrelation loss (hep_ml, Apache 2.0) |
+| noise_injection_decorrelation | gap | `MISSING_ATOM` — post-hoc noise mixing for constraint satisfaction |
+| sklearn_gradient_boosting_classifier | gap | `PARTIAL_BIND` — GBC exists in sklearn atoms but not for the constrained variant |
+
+**Key finding:** Gate pattern — CvM < 0.002 and KS < 0.09 are HARD constraints that must be satisfied BEFORE the AUC metric is evaluated. LICENSE BLOCKED for direct ingestion; core decorrelation algorithm available in hep_ml (Apache 2.0). The CvM and KS atoms are broadly applicable to fairness auditing in any domain.
+
+---
+
 ## Engineering Priorities (updated)
 
 | Priority | Issue | Status | Remaining work |
 |----------|-------|--------|----------------|
-| ~~P0~~ | ~~S-1: concept_type='custom'~~ | **DONE (22 atoms)** | 310 atoms in other repos (deferred) |
-| ~~P1~~ | ~~S-2: No orchestration primitives~~ | **DONE** | — |
-| ~~P2~~ | ~~S-3: PCA state-query atoms~~ | **DONE (3 atoms)** | ~77 other estimators (deferred) |
-| P3 | MISSING_ATOM backlog | Open | 10 novel atoms across 3 solutions |
-| P4 | SEM_MISMATCH: VarianceThreshold keyword collision | Open | Needs retrieval quality improvement |
-| P5 | Remaining 310 custom concept_types | Open | Mechanical but large |
-| P6 | Review bundle + audit manifest for PCA atoms | Open | Blocked on concurrent agent |
+| ~~P0~~ | ~~S-1: concept_type='custom'~~ | **DONE** | 210 reclassified (332→122 remaining) |
+| ~~P1~~ | ~~S-2: No orchestration primitives~~ | **DONE** | MAP_OVER + FIXED_POINT skeletons |
+| ~~P2~~ | ~~S-3: PCA state-query atoms~~ | **DONE** | 3 atoms + review bundle + manifest |
+| ~~P5~~ | ~~Batch concept_type reclassification~~ | **DONE** | 187 scripted + 22 manual = 210 |
+| ~~P6~~ | ~~PCA review bundle~~ | **DONE** | — |
+| P3 | MISSING_ATOM backlog | Partial | 5 Connectomics ingested; 35 remain across 7 solutions |
+| P4 | SEM_MISMATCH: VarianceThreshold keyword collision | Open | Retrieval quality fix needed |
+| **P7** | **DL atom coverage** | **New** | DSB2017 + Adversarial expose 0% coverage for PyTorch/TF architectures |
+| **P8** | **Riemannian geometry atoms** | **New** | Barachant exposes 0% coverage; pyRiemann (BSD) as source |
+| **P9** | **Constrained/fair ML atoms** | **New** | Flavours Physics; hep_ml (Apache 2.0) as clean-room source |
+| **P10** | **Remaining 122 custom concept_types** | **New** | Mostly fintech opaque stubs; needs manual review |

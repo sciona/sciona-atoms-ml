@@ -1,0 +1,142 @@
+{
+  "schema_version": "1.0",
+  "solution_id": "solution.kaggle.barachant_seizure_1st",
+  "solution_metadata": {
+    "competition": "Melbourne University AES/MathWorks/NIH Seizure Prediction",
+    "placement": "1st",
+    "team": "Alexandre Barachant & Gilberto (team)",
+    "year": 2016,
+    "metric": "AUC",
+    "problem_domain": "brain_computer_interface",
+    "source_url": "https://github.com/alexandrebarachant/kaggle-seizure-prediction",
+    "source_license": "BSD-3-Clause"
+  },
+  "bindings": [
+    {
+      "stage_id": "windower",
+      "bound_artifact_fqdn": null,
+      "binding_confidence": 0.0,
+      "binding_source": "manual_analysis",
+      "status": "gap",
+      "action_class": "replace_stage",
+      "evidence_summary": {
+        "search_attempted": true,
+        "concept_type_searched": "data_extraction",
+        "keywords_searched": ["windower", "sliding_window", "segment", "epoch"],
+        "candidates_found": [],
+        "gap_reason": "Standard sliding window segmentation. Could use a generic windowing atom but none exists yet. Low novelty -- standard signal processing primitive."
+      }
+    },
+    {
+      "stage_id": "autocorrelation_covariance_matrix",
+      "bound_artifact_fqdn": null,
+      "binding_confidence": 0.0,
+      "binding_source": "manual_analysis",
+      "status": "gap",
+      "action_class": "replace_stage",
+      "evidence_summary": {
+        "search_attempted": true,
+        "concept_type_searched": "signal_transform",
+        "keywords_searched": ["autocorrelation", "covariance", "hankel", "time_delay", "spd"],
+        "candidates_found": [],
+        "gap_reason": "Novel temporal-to-SPD conversion using Hankel matrix from log-spaced delays. High-value atom unique to Barachant's seizure solution. No matching atom in any repo."
+      }
+    },
+    {
+      "stage_id": "cross_frequency_coherence_matrix",
+      "bound_artifact_fqdn": null,
+      "binding_confidence": 0.0,
+      "binding_source": "manual_analysis",
+      "status": "gap",
+      "action_class": "replace_stage",
+      "evidence_summary": {
+        "search_attempted": true,
+        "concept_type_searched": "signal_transform",
+        "keywords_searched": ["cross_frequency", "coherence", "transposed", "coupling"],
+        "candidates_found": [],
+        "gap_reason": "Transposed coherence matrix (freq-by-freq per channel instead of channel-by-channel per freq). Novel axis inversion capturing cross-frequency coupling. No matching atom."
+      }
+    },
+    {
+      "stage_id": "riemannian_mean_spd",
+      "bound_artifact_fqdn": null,
+      "binding_confidence": 0.0,
+      "binding_source": "manual_analysis",
+      "status": "gap",
+      "action_class": "replace_stage",
+      "evidence_summary": {
+        "search_attempted": true,
+        "concept_type_searched": "optimization",
+        "keywords_searched": ["riemannian", "mean", "frechet", "karcher", "spd", "manifold"],
+        "candidates_found": [],
+        "gap_reason": "Frechet mean on SPD manifold. Core Riemannian BCI primitive used in all 4 Barachant solutions. Available in pyRiemann (BSD) but not yet ingested as an atom."
+      }
+    },
+    {
+      "stage_id": "tangent_space_projection",
+      "bound_artifact_fqdn": null,
+      "binding_confidence": 0.0,
+      "binding_source": "manual_analysis",
+      "status": "gap",
+      "action_class": "replace_stage",
+      "evidence_summary": {
+        "search_attempted": true,
+        "concept_type_searched": "dimensionality_reduction",
+        "keywords_searched": ["tangent_space", "projection", "riemannian", "spd", "log_map"],
+        "candidates_found": [],
+        "gap_reason": "SPD manifold to Euclidean tangent space projection with sqrt(2) off-diagonal scaling. Core Riemannian BCI primitive. Available in pyRiemann (BSD) but not yet ingested."
+      }
+    },
+    {
+      "stage_id": "segment_max_aggregation",
+      "bound_artifact_fqdn": null,
+      "binding_confidence": 0.0,
+      "binding_source": "manual_analysis",
+      "status": "gap",
+      "action_class": "replace_stage",
+      "evidence_summary": {
+        "search_attempted": true,
+        "concept_type_searched": "analysis",
+        "keywords_searched": ["max", "aggregation", "segment", "pooling", "window"],
+        "candidates_found": [],
+        "gap_reason": "Segment-level max aggregation of sub-window predictions. Simple but domain-informed: mean AUC=0.674 vs max AUC=0.805. Could be a generic pooling atom but the domain insight (non-stationary seizure precursors) is key."
+      }
+    },
+    {
+      "stage_id": "ranked_prediction_blend",
+      "bound_artifact_fqdn": null,
+      "binding_confidence": 0.0,
+      "binding_source": "manual_analysis",
+      "status": "gap",
+      "action_class": "replace_stage",
+      "evidence_summary": {
+        "search_attempted": true,
+        "concept_type_searched": "analysis",
+        "keywords_searched": ["rank", "blend", "ensemble", "rank_normalization"],
+        "candidates_found": [],
+        "gap_reason": "Rank-normalized prediction blending. Scale-invariant ensemble method using rankdata()/len(). Reusable across any multi-model ensemble. No matching atom."
+      }
+    }
+  ],
+  "binding_summary": {
+    "total_stages": 7,
+    "bound_active": 0,
+    "bound_approximate": 0,
+    "gaps": 7,
+    "atoms_used_by_repo": {},
+    "novel_atoms_needed": [
+      "autocorrelation_covariance_matrix",
+      "cross_frequency_coherence_matrix",
+      "tangent_space_projection",
+      "riemannian_mean_spd",
+      "ranked_prediction_blend",
+      "segment_max_aggregation"
+    ],
+    "meta_patterns_unbound": ["windower"]
+  },
+  "architect_test_expectations": {
+    "description": "All 7 stages are gaps. The Riemannian atoms (mean, tangent space) are shared across all 4 Barachant solutions -- ingesting them would benefit multiple CDGs.",
+    "critical_finding": "This CDG has 4 parallel branches that merge at ranked_prediction_blend. The architect must recognize the parallel structure and not try to serialize the branches. The riemannian_mean_spd and tangent_space_projection stages appear on two of the four branches (autocorrelation and coherence).",
+    "expected_retrieval_path": "No atoms should be found. All stages should be reported as gaps. The windower stage is low-novelty and may be deprioritized for ingestion."
+  }
+}
