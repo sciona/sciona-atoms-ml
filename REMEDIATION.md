@@ -400,9 +400,18 @@ Deferred targets:
 
 Potential remediation path:
 
+- Completed helper slice: `sklearn.gaussian_process.regression` now publishes
+  state-passing dense regression linear-algebra atoms for kernel diagonal
+  regularization, Cholesky factorization, dual coefficient solves,
+  log-marginal likelihood, posterior mean, posterior cross solves, posterior
+  covariance, and posterior standard deviation. This covers
+  `GaussianProcessRegressor` deterministic matrix algebra after kernel matrices
+  are supplied.
 - Ingest standalone Gaussian-process linear algebra primitives first, such as
   kernel regularization, Cholesky solve, posterior mean/covariance, and
-  log-marginal-likelihood components.
+  log-marginal-likelihood components. The first regression slice is complete;
+  remaining work should target likelihood gradients, kernel-state transitions,
+  optimizer boundaries, and classifier Laplace posterior-mode helpers.
 - Decide how optimizer and Laplace posterior-mode loops should be represented
   before publishing full estimator state atoms.
 
@@ -416,10 +425,12 @@ Deferred target:
 
 Potential remediation path:
 
-- Ingest the exact-method helper atoms separately where the algorithm is
-  Python-level, including dense joint-probability normalization,
-  Kullback-Leibler objective/gradient, and the deterministic momentum/gain
-  update loop.
+- Completed helper slice: `sklearn.manifold.tsne` now publishes exact-method
+  helper atoms for dense joint-probability normalization, KL objective/gradient,
+  and one deterministic momentum/gain update step.
+- Additional t-SNE remediation should cover remaining estimator orchestration
+  such as binary perplexity search boundaries, initialization, full
+  optimization scheduling, and native Barnes-Hut gradient handling.
 - Treat Barnes-Hut t-SNE as a native/FFI-backed ingestion target around the
   compiled gradient kernel before publishing the default estimator surface.
 

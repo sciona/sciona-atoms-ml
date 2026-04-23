@@ -1,0 +1,170 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_gaussian_process_regression_root",
+      "name": "Sklearn Gaussian Process Regression Linear Algebra Atoms",
+      "description": "Estimator-independent Gaussian-process regression kernel regularization, Cholesky solve, likelihood, and posterior helpers",
+      "status": "decomposed",
+      "children": [
+        "gp_regularized_train_kernel",
+        "gp_train_cholesky",
+        "gp_dual_coefficients",
+        "gp_log_marginal_likelihood",
+        "gp_posterior_predictive_mean",
+        "gp_posterior_cross_solve",
+        "gp_posterior_predictive_covariance",
+        "gp_posterior_predictive_std"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "gp_regularized_train_kernel",
+      "name": "gp_regularized_train_kernel",
+      "description": "Add sklearn GaussianProcessRegressor alpha noise to the kernel diagonal.",
+      "concept_type": "kernel_regularization",
+      "status": "atomic",
+      "type_signature": "(K: NDArray[np.float64], alpha: float | NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "K", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "alpha", "type_desc": "float | NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "gp_train_cholesky",
+      "name": "gp_train_cholesky",
+      "description": "Compute the lower Cholesky factor used by Gaussian-process regression.",
+      "concept_type": "cholesky_factorization",
+      "status": "atomic",
+      "type_signature": "(K_regularized: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "K_regularized", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "gp_dual_coefficients",
+      "name": "gp_dual_coefficients",
+      "description": "Solve for the dual coefficients used by Gaussian-process predictions.",
+      "concept_type": "triangular_linear_solve",
+      "status": "atomic",
+      "type_signature": "(L: NDArray[np.float64], y_train: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "L", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "y_train", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "gp_log_marginal_likelihood",
+      "name": "gp_log_marginal_likelihood",
+      "description": "Compute sklearn's GaussianProcessRegressor log-marginal likelihood.",
+      "concept_type": "probabilistic_model_likelihood",
+      "status": "atomic",
+      "type_signature": "(y_train: NDArray[np.float64], dual_coefficients: NDArray[np.float64], L: NDArray[np.float64]) -> float",
+      "depth": 1,
+      "inputs": [
+        {"name": "y_train", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "dual_coefficients", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "L", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "float"}
+      ]
+    },
+    {
+      "node_id": "gp_posterior_predictive_mean",
+      "name": "gp_posterior_predictive_mean",
+      "description": "Compute the Gaussian-process posterior predictive mean.",
+      "concept_type": "posterior_prediction",
+      "status": "atomic",
+      "type_signature": "(K_trans: NDArray[np.float64], dual_coefficients: NDArray[np.float64], y_train_mean: float | NDArray[np.float64] = 0.0, y_train_std: float | NDArray[np.float64] = 1.0) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "K_trans", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "dual_coefficients", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "y_train_mean", "type_desc": "float | NDArray[np.float64]", "required": false},
+        {"name": "y_train_std", "type_desc": "float | NDArray[np.float64]", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "gp_posterior_cross_solve",
+      "name": "gp_posterior_cross_solve",
+      "description": "Solve the triangular posterior cross term V = L \\ K_trans.T.",
+      "concept_type": "triangular_linear_solve",
+      "status": "atomic",
+      "type_signature": "(L: NDArray[np.float64], K_trans: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "L", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "K_trans", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "gp_posterior_predictive_covariance",
+      "name": "gp_posterior_predictive_covariance",
+      "description": "Compute the Gaussian-process posterior predictive covariance.",
+      "concept_type": "posterior_uncertainty",
+      "status": "atomic",
+      "type_signature": "(K_test: NDArray[np.float64], V: NDArray[np.float64], y_train_std: float | NDArray[np.float64] = 1.0) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "K_test", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "V", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "y_train_std", "type_desc": "float | NDArray[np.float64]", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "gp_posterior_predictive_std",
+      "name": "gp_posterior_predictive_std",
+      "description": "Compute the Gaussian-process posterior predictive standard deviation.",
+      "concept_type": "posterior_uncertainty",
+      "status": "atomic",
+      "type_signature": "(kernel_diag: NDArray[np.float64], V: NDArray[np.float64], y_train_std: float | NDArray[np.float64] = 1.0) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "kernel_diag", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "V", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "y_train_std", "type_desc": "float | NDArray[np.float64]", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "gp_regularized_train_kernel", "target": "gp_train_cholesky", "kind": "regularized_kernel_input"},
+    {"source": "gp_train_cholesky", "target": "gp_dual_coefficients", "kind": "cholesky_factor_input"},
+    {"source": "gp_dual_coefficients", "target": "gp_log_marginal_likelihood", "kind": "dual_coefficient_input"},
+    {"source": "gp_train_cholesky", "target": "gp_log_marginal_likelihood", "kind": "log_determinant_input"},
+    {"source": "gp_dual_coefficients", "target": "gp_posterior_predictive_mean", "kind": "dual_coefficient_input"},
+    {"source": "gp_train_cholesky", "target": "gp_posterior_cross_solve", "kind": "cholesky_factor_input"},
+    {"source": "gp_posterior_cross_solve", "target": "gp_posterior_predictive_covariance", "kind": "posterior_solve_input"},
+    {"source": "gp_posterior_cross_solve", "target": "gp_posterior_predictive_std", "kind": "posterior_solve_input"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.gaussian_process._gpr",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 7 Gaussian-process state-passing linear algebra"
+  }
+}

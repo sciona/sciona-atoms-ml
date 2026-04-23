@@ -1,0 +1,165 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.gaussian_process.regression.gp_regularized_train_kernel@sciona/atoms/ml/sklearn/gaussian_process/regression/atoms.py:217": {
+      "references": [
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the GaussianProcessRegressor fit and log_marginal_likelihood diagonal alpha regularization in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "rasmussen2006gpml",
+          "match_metadata": {
+            "match_type": "manual_algorithm_reference",
+            "confidence": "high",
+            "notes": "Gaussian-process regression reference cited by scikit-learn for kernel regularization and posterior linear algebra."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.regression.gp_train_cholesky@sciona/atoms/ml/sklearn/gaussian_process/regression/atoms.py:227": {
+      "references": [
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from GaussianProcessRegressor fit and log_marginal_likelihood Cholesky factorization in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "rasmussen2006gpml",
+          "match_metadata": {
+            "match_type": "manual_algorithm_reference",
+            "confidence": "high",
+            "notes": "Gaussian-process regression Algorithm 2.1 uses Cholesky factorization of the regularized training kernel."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.regression.gp_dual_coefficients@sciona/atoms/ml/sklearn/gaussian_process/regression/atoms.py:235": {
+      "references": [
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from GaussianProcessRegressor dual coefficient solve in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "rasmussen2006gpml",
+          "match_metadata": {
+            "match_type": "manual_algorithm_reference",
+            "confidence": "high",
+            "notes": "Gaussian-process regression Algorithm 2.1 solves triangular systems for posterior dual coefficients."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.regression.gp_log_marginal_likelihood@sciona/atoms/ml/sklearn/gaussian_process/regression/atoms.py:243": {
+      "references": [
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from GaussianProcessRegressor.log_marginal_likelihood in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "rasmussen2006gpml",
+          "match_metadata": {
+            "match_type": "manual_algorithm_reference",
+            "confidence": "high",
+            "notes": "Gaussian-process regression Algorithm 2.1 defines the log-marginal likelihood from targets, dual coefficients, and the Cholesky factor."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.regression.gp_posterior_predictive_mean@sciona/atoms/ml/sklearn/gaussian_process/regression/atoms.py:263": {
+      "references": [
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from GaussianProcessRegressor.predict posterior mean computation in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "rasmussen2006gpml",
+          "match_metadata": {
+            "match_type": "manual_algorithm_reference",
+            "confidence": "high",
+            "notes": "Gaussian-process regression Algorithm 2.1 defines posterior mean from the cross-kernel and dual coefficients."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.regression.gp_posterior_cross_solve@sciona/atoms/ml/sklearn/gaussian_process/regression/atoms.py:280": {
+      "references": [
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from GaussianProcessRegressor.predict posterior triangular solve in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "rasmussen2006gpml",
+          "match_metadata": {
+            "match_type": "manual_algorithm_reference",
+            "confidence": "high",
+            "notes": "Gaussian-process regression Algorithm 2.1 uses the Cholesky factor to solve the posterior cross term."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.regression.gp_posterior_predictive_covariance@sciona/atoms/ml/sklearn/gaussian_process/regression/atoms.py:288": {
+      "references": [
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from GaussianProcessRegressor.predict posterior covariance computation in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "rasmussen2006gpml",
+          "match_metadata": {
+            "match_type": "manual_algorithm_reference",
+            "confidence": "high",
+            "notes": "Gaussian-process regression Algorithm 2.1 defines posterior covariance from the test kernel and cross solve."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.regression.gp_posterior_predictive_std@sciona/atoms/ml/sklearn/gaussian_process/regression/atoms.py:304": {
+      "references": [
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from GaussianProcessRegressor.predict posterior standard-deviation computation in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "rasmussen2006gpml",
+          "match_metadata": {
+            "match_type": "manual_algorithm_reference",
+            "confidence": "high",
+            "notes": "Gaussian-process regression posterior uncertainty follows the same Cholesky cross-solve covariance calculation."
+          }
+        }
+      ]
+    }
+  }
+}
