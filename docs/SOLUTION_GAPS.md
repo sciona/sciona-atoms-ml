@@ -11,7 +11,8 @@ the architect tooling can reconstruct atom bindings from conceptual nodes.
 | Connectomics 1st | 9 | 6 | 0 | 3 | **67%** | 5 connectome atoms ingested + pca_get_precision; remaining: np.diff, MAP_OVER, weighted_sum |
 | Cause-Effect 2nd | 17 | 16 | 0 | 1 | **100%*** | All 16 atoms category-searchable; asymmetric_feature_difference = MAP_OVER |
 | TrackML 5th | 11 | 4 | 0 | 7 | **36%** | helix + neighbors atoms get category bonus |
-| **Totals (3 done)** | **37** | **26** | **0** | **11** | **70%** | |
+| DSB2017 1st | 10 | 1 | 0 | 9 | **10%** | 90% deep learning; only noisy-OR atom bound; MAP_OVER validates volume tiling |
+| **Totals (4 done)** | **47** | **27** | **0** | **20** | **57%** | |
 
 \* Cause-Effect reaches 100% if asymmetric_feature_difference is counted as
 "resolved via MAP_OVER pattern" rather than a single-atom binding.

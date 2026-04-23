@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "solution_id": "solution.kaggle.dsb2017_1st",
+  "solution_metadata": {
+    "competition": "Data Science Bowl 2017",
+    "placement": "1st",
+    "team": "Fangzhou Liao et al.",
+    "year": 2017,
+    "metric": "LogLoss",
+    "problem_domain": "medical_imaging_3d",
+    "source_url": "https://github.com/lfz/DSB2017",
+    "source_license": "MIT",
+    "paper_doi": "10.48550/arXiv.1711.08324"
+  },
+  "bindings": [
+    {"stage_id": "lung_mask_with_bone_removal", "bound_artifact_fqdn": null, "binding_confidence": 0.0, "binding_source": "manual_analysis", "status": "gap", "action_class": "replace_stage",
+     "evidence_summary": {"gap_reason": "MISSING_ATOM: Domain-specific CT preprocessing with convex hulls, dilation, and bone identification by HU threshold."}},
+    {"stage_id": "volume_split_combine", "bound_artifact_fqdn": null, "binding_confidence": 0.0, "binding_source": "manual_analysis", "status": "gap", "action_class": "replace_stage",
+     "evidence_summary": {"gap_reason": "ORCH_GAP: MAP_OVER pattern — overlapping 3D tiling with margin stripping. The MAP_OVER skeleton covers the structural pattern; the tile/recombine logic is domain-specific."}},
+    {"stage_id": "coordinate_aware_3d_unet", "bound_artifact_fqdn": null, "binding_confidence": 0.0, "binding_source": "manual_analysis", "status": "gap", "action_class": "replace_stage",
+     "evidence_summary": {"gap_reason": "MISSING_ATOM: 3D U-Net with coordinate channel injection. PyTorch architecture, no sklearn equivalent. Predates CoordConv."}},
+    {"stage_id": "anchor_label_mapping_with_iou_dilation", "bound_artifact_fqdn": null, "binding_confidence": 0.0, "binding_source": "manual_analysis", "status": "gap", "action_class": "replace_stage",
+     "evidence_summary": {"gap_reason": "MISSING_ATOM: 3D anchor assignment with binary dilation ignore zone. Detection-specific, no sklearn equivalent."}},
+    {"stage_id": "online_hard_negative_mining", "bound_artifact_fqdn": null, "binding_confidence": 0.0, "binding_source": "manual_analysis", "status": "gap", "action_class": "replace_stage",
+     "evidence_summary": {"gap_reason": "MISSING_ATOM: OHEM for 3D detection. Training-time technique, no sklearn equivalent."}},
+    {"stage_id": "size_aware_nodule_oversampling", "bound_artifact_fqdn": null, "binding_confidence": 0.0, "binding_source": "manual_analysis", "status": "gap", "action_class": "replace_stage",
+     "evidence_summary": {"gap_reason": "MISSING_ATOM: Counterintuitive oversampling by nodule size. Simple logic but domain-specific."}},
+    {"stage_id": "softmax_temperature_proposal_sampling", "bound_artifact_fqdn": null, "binding_confidence": 0.0, "binding_source": "manual_analysis", "status": "gap", "action_class": "replace_stage",
+     "evidence_summary": {"gap_reason": "MISSING_ATOM: Stochastic proposal sampling with temperature. Generalizable but not in catalog."}},
+    {"stage_id": "center_feature_extraction_3d", "bound_artifact_fqdn": null, "binding_confidence": 0.0, "binding_source": "manual_analysis", "status": "gap", "action_class": "replace_stage",
+     "evidence_summary": {"gap_reason": "MISSING_ATOM: Center-only 3D feature extraction. Novel design choice (vs global pooling). PyTorch-specific."}},
+    {"stage_id": "noisy_or_pooling", "bound_artifact_fqdn": "sciona.atoms.medical_imaging_3d.aggregation.case_probability_from_nodule_scores", "binding_confidence": 1.0, "binding_source": "manual_analysis", "status": "active", "action_class": "replace_stage"},
+    {"stage_id": "miss_penalty_loss", "bound_artifact_fqdn": null, "binding_confidence": 0.0, "binding_source": "manual_analysis", "status": "gap", "action_class": "replace_stage",
+     "evidence_summary": {"gap_reason": "MISSING_ATOM: Asymmetric conditional loss that only fires on high-confidence misses (P<0.03). Novel loss function."}}
+  ],
+  "binding_summary": {
+    "total_stages": 10,
+    "bound_active": 1,
+    "bound_approximate": 0,
+    "gaps": 9,
+    "atoms_used_by_repo": {"sciona-atoms-bio": 1},
+    "novel_atoms_needed": 8,
+    "meta_patterns": ["volume_split_combine is MAP_OVER"]
+  },
+  "architect_test_expectations": {
+    "critical_findings": [
+      "This solution is 90% deep learning — the sklearn atom catalog has almost zero coverage for DL architectures.",
+      "volume_split_combine uses concept_type=map_over, validating the MAP_OVER skeleton fix.",
+      "The noisy_or_pooling atom is the only sklearn-style atom; everything else is PyTorch.",
+      "softmax_temperature_proposal_sampling is GENERALIZABLE and could be ingested as a domain-independent atom."
+    ]
+  }
+}
