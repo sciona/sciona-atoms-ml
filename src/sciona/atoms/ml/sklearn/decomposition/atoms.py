@@ -28,7 +28,10 @@ from .witnesses import (
     witness_incremental_pca_transform,
     witness_kernel_pca_fit,
     witness_kernel_pca_transform,
+    witness_pca_components,
+    witness_pca_explained_variance_ratio,
     witness_pca_fit,
+    witness_pca_get_precision,
     witness_truncated_svd_fit,
     witness_truncated_svd_inverse_transform,
     witness_truncated_svd_transform,
@@ -1268,3 +1271,84 @@ def factor_analysis_score(
 ) -> float:
     """Compute average sample log likelihood under fitted factor state."""
     return float(np.mean(factor_analysis_score_samples(X, state)))
+
+
+# ---------------------------------------------------------------------------
+# PCA state-query atoms
+# ---------------------------------------------------------------------------
+
+
+@register_atom(witness_pca_get_precision)
+@icontract.require(lambda state: _pca_state_valid(state), "state must be a fitted PCA state")
+@icontract.require(lambda state: state.noise_variance > 0.0, "noise_variance must be positive for precision matrix inversion")
+@icontract.ensure(lambda result: bool(np.all(np.isfinite(result))), "precision matrix must be finite")
+@icontract.ensure(lambda result: result.ndim == 2 and result.shape[0] == result.shape[1], "precision matrix must be square")
+def pca_get_precision(state: PCAState) -> NDArray[np.float64]:
+    """Compute the precision matrix (inverse covariance) from a fitted PCA state.
+
+    Uses the Woodbury matrix identity to invert the covariance implied by
+    the retained components and noise variance, matching sklearn's
+    PCA.get_precision(). The precision matrix encodes partial correlations
+    in the original feature space.
+
+    Args:
+        state: Fitted PCA state from pca_fit.
+
+    Returns:
+        Precision matrix of shape (n_features, n_features).
+    """
+    n_features = state.n_features_in
+    components = state.components
+    exp_var = state.explained_variance
+    noise_var = state.noise_variance
+
+    if state.whiten:
+        components = components * np.sqrt(exp_var)[:, np.newaxis]
+
+    exp_var_diff = np.where(exp_var > noise_var, exp_var - noise_var, 0.0)
+
+    precision = np.dot(components, components.T) / noise_var
+    precision.flat[:: len(precision) + 1] += 1.0 / exp_var_diff
+    precision = np.dot(components.T, np.dot(linalg.inv(precision), components))
+    precision /= -(noise_var**2)
+    precision.flat[:: n_features + 1] += 1.0 / noise_var
+
+    return np.asarray(precision, dtype=np.float64)
+
+
+@register_atom(witness_pca_components)
+@icontract.require(lambda state: _pca_state_valid(state), "state must be a fitted PCA state")
+@icontract.ensure(lambda result: bool(np.all(np.isfinite(result))), "components must be finite")
+@icontract.ensure(lambda result: result.ndim == 2, "components must be 2D")
+def pca_components(state: PCAState) -> NDArray[np.float64]:
+    """Extract principal component vectors from a fitted PCA state.
+
+    Returns the (n_components, n_features) matrix of principal axes in
+    feature space, ordered by explained variance descending.
+
+    Args:
+        state: Fitted PCA state from pca_fit.
+
+    Returns:
+        Components matrix of shape (n_components, n_features).
+    """
+    return np.asarray(state.components, dtype=np.float64)
+
+
+@register_atom(witness_pca_explained_variance_ratio)
+@icontract.require(lambda state: _pca_state_valid(state), "state must be a fitted PCA state")
+@icontract.ensure(lambda result: bool(np.all(np.isfinite(result))), "ratios must be finite")
+@icontract.ensure(lambda result: bool(np.all(result >= 0.0)), "ratios must be non-negative")
+def pca_explained_variance_ratio(state: PCAState) -> NDArray[np.float64]:
+    """Extract explained variance ratios from a fitted PCA state.
+
+    Returns the fraction of total variance explained by each retained
+    component, ordered by explained variance descending.
+
+    Args:
+        state: Fitted PCA state from pca_fit.
+
+    Returns:
+        Explained variance ratios of shape (n_components,), summing to <= 1.0.
+    """
+    return np.asarray(state.explained_variance_ratio, dtype=np.float64)

@@ -6,7 +6,7 @@ import numpy as np
 
 from sciona.ghost.abstract import AbstractArray
 
-from .state_models import FactorAnalysisState, FastICAState, IncrementalPCAState, KernelPCAState, TruncatedSVDState
+from .state_models import FactorAnalysisState, FastICAState, IncrementalPCAState, KernelPCAState, PCAState, TruncatedSVDState
 
 
 def witness_pca_fit(
@@ -39,6 +39,21 @@ def witness_pca_fit(
     else:
         raise ValueError("n_components must be None, an integer, or a float fraction")
     return AbstractArray(shape=(width, n_features), dtype="float64")
+
+
+def witness_pca_get_precision(state: PCAState) -> AbstractArray:
+    """Describe precision matrix (inverse covariance) from PCA state."""
+    return AbstractArray(shape=(state.n_features_in, state.n_features_in), dtype="float64")
+
+
+def witness_pca_components(state: PCAState) -> AbstractArray:
+    """Describe principal component vectors from PCA state."""
+    return AbstractArray(shape=(state.n_components, state.n_features_in), dtype="float64")
+
+
+def witness_pca_explained_variance_ratio(state: PCAState) -> AbstractArray:
+    """Describe explained variance ratios from PCA state."""
+    return AbstractArray(shape=(state.n_components,), dtype="float64")
 
 
 def witness_incremental_pca_partial_fit(

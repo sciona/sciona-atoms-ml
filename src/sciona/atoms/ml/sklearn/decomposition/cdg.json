@@ -7,6 +7,9 @@
       "status": "decomposed",
       "children": [
         "pca_fit",
+        "pca_get_precision",
+        "pca_components",
+        "pca_explained_variance_ratio",
         "incremental_pca_partial_fit",
         "incremental_pca_transform",
         "incremental_pca_inverse_transform",
@@ -44,6 +47,51 @@
       ],
       "outputs": [
         {"name": "result", "type_desc": "PCAState"}
+      ]
+    },
+    {
+      "node_id": "pca_get_precision",
+      "name": "pca_get_precision",
+      "description": "Compute the precision matrix (inverse covariance) from a fitted PCA state via the Woodbury matrix identity.",
+      "concept_type": "dimensionality_reduction",
+      "status": "atomic",
+      "type_signature": "(state: PCAState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "state", "type_desc": "PCAState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "pca_components",
+      "name": "pca_components",
+      "description": "Extract principal component vectors from a fitted PCA state.",
+      "concept_type": "dimensionality_reduction",
+      "status": "atomic",
+      "type_signature": "(state: PCAState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "state", "type_desc": "PCAState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "pca_explained_variance_ratio",
+      "name": "pca_explained_variance_ratio",
+      "description": "Extract explained variance ratios from a fitted PCA state.",
+      "concept_type": "dimensionality_reduction",
+      "status": "atomic",
+      "type_signature": "(state: PCAState) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "state", "type_desc": "PCAState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
       ]
     },
     {
