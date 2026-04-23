@@ -473,6 +473,12 @@ Deferred targets:
 
 Potential remediation path:
 
+- Completed helper slice: `sklearn.cluster.dbscan` now publishes limited
+  public-boundary DBSCAN fit and public-helper output atoms for dense finite
+  arrays with supported string metrics.
+- Nearest-neighbor search, sparse precomputed graph handling, callable metrics,
+  and compiled `_dbscan_inner.dbscan_inner` connected expansion remain
+  explicit native/FFI boundaries.
 - Keep `kmeans_plusplus` separate because its seeding logic can be considered
   for Python-level ingestion without claiming to ingest KMeans optimization.
 - Decide whether DBSCAN and KMeans families should be ingested through native

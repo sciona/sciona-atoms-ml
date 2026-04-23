@@ -1,0 +1,73 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_cluster_dbscan_root",
+      "name": "Sklearn DBSCAN Boundary Atoms",
+      "description": "Limited DBSCAN atoms around sklearn public fit and helper outputs",
+      "status": "decomposed",
+      "children": [
+        "dbscan_fit",
+        "dbscan_core_labels"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "dbscan_fit",
+      "name": "dbscan_fit",
+      "description": "Fit DBSCAN through sklearn's public boundary and return immutable labels, core indices, and components.",
+      "concept_type": "density_clustering_boundary",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], eps: float = 0.5, min_samples: int = 5, metric: str = \"minkowski\", metric_params: dict[str, float] | None = None, algorithm: str = \"auto\", leaf_size: int = 30, p: float | None = 2.0, sample_weight: NDArray[np.float64] | None = None, n_jobs: int | None = None) -> DBSCANState",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "eps", "type_desc": "float", "required": false},
+        {"name": "min_samples", "type_desc": "int", "required": false},
+        {"name": "metric", "type_desc": "str", "required": false},
+        {"name": "metric_params", "type_desc": "dict[str, float] | None", "required": false},
+        {"name": "algorithm", "type_desc": "str", "required": false},
+        {"name": "leaf_size", "type_desc": "int", "required": false},
+        {"name": "p", "type_desc": "float | None", "required": false},
+        {"name": "sample_weight", "type_desc": "NDArray[np.float64] | None", "required": false},
+        {"name": "n_jobs", "type_desc": "int | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "DBSCANState"}
+      ]
+    },
+    {
+      "node_id": "dbscan_core_labels",
+      "name": "dbscan_core_labels",
+      "description": "Return sklearn DBSCAN public-helper core sample indices and cluster labels.",
+      "concept_type": "density_clustering_boundary",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], eps: float = 0.5, min_samples: int = 5, metric: str = \"minkowski\", metric_params: dict[str, float] | None = None, algorithm: str = \"auto\", leaf_size: int = 30, p: float | None = 2.0, sample_weight: NDArray[np.float64] | None = None, n_jobs: int | None = None) -> tuple[NDArray[np.int_], NDArray[np.int_]]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "eps", "type_desc": "float", "required": false},
+        {"name": "min_samples", "type_desc": "int", "required": false},
+        {"name": "metric", "type_desc": "str", "required": false},
+        {"name": "metric_params", "type_desc": "dict[str, float] | None", "required": false},
+        {"name": "algorithm", "type_desc": "str", "required": false},
+        {"name": "leaf_size", "type_desc": "int", "required": false},
+        {"name": "p", "type_desc": "float | None", "required": false},
+        {"name": "sample_weight", "type_desc": "NDArray[np.float64] | None", "required": false},
+        {"name": "n_jobs", "type_desc": "int | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[NDArray[np.int_], NDArray[np.int_]]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "dbscan_fit", "target": "dbscan_core_labels", "kind": "public_helper_equivalence"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.cluster._dbscan",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 1 limited DBSCAN public boundary around compiled density expansion"
+  }
+}
