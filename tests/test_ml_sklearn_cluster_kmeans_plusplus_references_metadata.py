@@ -1,0 +1,42 @@
+from __future__ import annotations
+
+import json
+from importlib import import_module
+from pathlib import Path
+
+
+ROOT = Path(__file__).resolve().parents[1]
+REFERENCES_PATH = ROOT / "src" / "sciona" / "atoms" / "ml" / "sklearn" / "cluster" / "kmeans_plusplus" / "references.json"
+REGISTRY_PATH = ROOT / "data" / "references" / "registry.json"
+
+EXPECTED_FQDNS = {
+    "sciona.atoms.ml.sklearn.cluster.kmeans_plusplus.kmeans_plusplus_candidate_ids",
+    "sciona.atoms.ml.sklearn.cluster.kmeans_plusplus.kmeans_plusplus_candidate_potentials",
+    "sciona.atoms.ml.sklearn.cluster.kmeans_plusplus.kmeans_plusplus_default_local_trials",
+    "sciona.atoms.ml.sklearn.cluster.kmeans_plusplus.kmeans_plusplus_first_center_index",
+    "sciona.atoms.ml.sklearn.cluster.kmeans_plusplus.kmeans_plusplus_initialize_dense",
+}
+
+
+def test_kmeans_plusplus_references_json_has_expected_fqdns() -> None:
+    payload = json.loads(REFERENCES_PATH.read_text(encoding="utf-8"))
+    observed = {key.split("@", 1)[0] for key in payload["atoms"]}
+    assert observed == EXPECTED_FQDNS
+
+
+def test_kmeans_plusplus_ref_ids_exist_and_have_metadata() -> None:
+    payload = json.loads(REFERENCES_PATH.read_text(encoding="utf-8"))
+    registry = json.loads(REGISTRY_PATH.read_text(encoding="utf-8"))["references"]
+
+    for atom_key, atom_payload in payload["atoms"].items():
+        assert atom_key.split("@", 1)[0] in EXPECTED_FQDNS
+        refs = atom_payload["references"]
+        assert refs
+        for ref in refs:
+            assert ref["ref_id"] in registry
+            assert ref["match_metadata"]["confidence"] in {"high", "medium", "low"}
+            assert isinstance(ref["match_metadata"]["notes"], str) and ref["match_metadata"]["notes"]
+
+
+def test_kmeans_plusplus_atom_leaf_names_are_registered() -> None:
+    import_module("sciona.atoms.ml.sklearn.cluster.kmeans_plusplus.atoms")

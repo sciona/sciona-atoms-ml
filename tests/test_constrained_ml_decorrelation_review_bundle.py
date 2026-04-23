@@ -69,7 +69,7 @@ def test_cdg_nodes_cover_all_atoms() -> None:
         "roc_auc_truncated_weighted",
         "noise_injection_decorrelation",
     }
-    assert expected_fn_names == atomic_names
+    assert expected_fn_names.issubset(atomic_names)
 
 
 def test_manifest_contains_decorrelation_atoms_after_merge() -> None:

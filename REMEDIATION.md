@@ -571,6 +571,11 @@ Potential remediation path:
 - Completed helper slice: `sklearn.cluster.dbscan` now publishes limited
   public-boundary DBSCAN fit and public-helper output atoms for dense finite
   arrays with supported string metrics.
+- Completed helper slice: `sklearn.cluster.kmeans_plusplus` now publishes
+  dense k-means++ seeding helpers for default local-trial counts, first-center
+  weighted sampling, greedy candidate-id sampling, candidate-potential
+  evaluation, and full dense center initialization before the deferred KMeans
+  optimization loop.
 - Nearest-neighbor search, sparse precomputed graph handling, callable metrics,
   and compiled `_dbscan_inner.dbscan_inner` connected expansion remain
   explicit native/FFI boundaries.

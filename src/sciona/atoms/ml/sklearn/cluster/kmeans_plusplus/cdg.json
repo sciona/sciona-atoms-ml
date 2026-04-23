@@ -1,0 +1,120 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_cluster_kmeans_plusplus_root",
+      "name": "Sklearn Cluster KMeans Plus Plus Atoms",
+      "description": "Dense deterministic k-means++ seeding helpers extracted from sklearn's initialization path before any KMeans optimization loop.",
+      "status": "decomposed",
+      "children": [
+        "kmeans_plusplus_default_local_trials",
+        "kmeans_plusplus_first_center_index",
+        "kmeans_plusplus_candidate_ids",
+        "kmeans_plusplus_candidate_potentials",
+        "kmeans_plusplus_initialize_dense"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "kmeans_plusplus_default_local_trials",
+      "name": "kmeans_plusplus_default_local_trials",
+      "description": "Compute sklearn's default greedy local-trial count for k-means++ seeding.",
+      "concept_type": "cluster_helper",
+      "status": "atomic",
+      "type_signature": "(n_clusters: int) -> int",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_clusters", "type_desc": "int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "int"}
+      ]
+    },
+    {
+      "node_id": "kmeans_plusplus_first_center_index",
+      "name": "kmeans_plusplus_first_center_index",
+      "description": "Choose the first dense k-means++ center index by weighted sampling.",
+      "concept_type": "cluster_helper",
+      "status": "atomic",
+      "type_signature": "(sample_weight: NDArray[np.float64], random_state: int | None = None) -> int",
+      "depth": 1,
+      "inputs": [
+        {"name": "sample_weight", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "random_state", "type_desc": "int | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "int"}
+      ]
+    },
+    {
+      "node_id": "kmeans_plusplus_candidate_ids",
+      "name": "kmeans_plusplus_candidate_ids",
+      "description": "Sample candidate indices for one greedy k-means++ expansion step.",
+      "concept_type": "cluster_helper",
+      "status": "atomic",
+      "type_signature": "(closest_dist_sq: NDArray[np.float64], sample_weight: NDArray[np.float64], current_pot: float, n_local_trials: int, random_state: int | None = None) -> NDArray[np.int64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "closest_dist_sq", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "sample_weight", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "current_pot", "type_desc": "float", "required": true},
+        {"name": "n_local_trials", "type_desc": "int", "required": true},
+        {"name": "random_state", "type_desc": "int | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.int64]"}
+      ]
+    },
+    {
+      "node_id": "kmeans_plusplus_candidate_potentials",
+      "name": "kmeans_plusplus_candidate_potentials",
+      "description": "Update dense closest distances for candidate centers and compute each candidate's weighted potential.",
+      "concept_type": "cluster_helper",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], x_squared_norms: NDArray[np.float64], sample_weight: NDArray[np.float64], closest_dist_sq: NDArray[np.float64], candidate_ids: NDArray[np.int64]) -> CandidatePotentials",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "x_squared_norms", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "sample_weight", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "closest_dist_sq", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "candidate_ids", "type_desc": "NDArray[np.int64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "CandidatePotentials"}
+      ]
+    },
+    {
+      "node_id": "kmeans_plusplus_initialize_dense",
+      "name": "kmeans_plusplus_initialize_dense",
+      "description": "Initialize dense k-means++ centers and source indices with sklearn's greedy seeding rule.",
+      "concept_type": "cluster_helper",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], n_clusters: int, sample_weight: NDArray[np.float64] | None = None, x_squared_norms: NDArray[np.float64] | None = None, random_state: int | None = None, n_local_trials: int | None = None) -> KMeansPlusPlusInit",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "n_clusters", "type_desc": "int", "required": true},
+        {"name": "sample_weight", "type_desc": "NDArray[np.float64] | None", "required": false},
+        {"name": "x_squared_norms", "type_desc": "NDArray[np.float64] | None", "required": false},
+        {"name": "random_state", "type_desc": "int | None", "required": false},
+        {"name": "n_local_trials", "type_desc": "int | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "KMeansPlusPlusInit"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "kmeans_plusplus_default_local_trials", "target": "kmeans_plusplus_initialize_dense", "kind": "parameter_default"},
+    {"source": "kmeans_plusplus_first_center_index", "target": "kmeans_plusplus_initialize_dense", "kind": "first_center"},
+    {"source": "kmeans_plusplus_candidate_ids", "target": "kmeans_plusplus_initialize_dense", "kind": "candidate_sampling"},
+    {"source": "kmeans_plusplus_candidate_potentials", "target": "kmeans_plusplus_initialize_dense", "kind": "candidate_scoring"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.cluster._kmeans",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 2 dense seeding before deferred KMeans optimization"
+  }
+}

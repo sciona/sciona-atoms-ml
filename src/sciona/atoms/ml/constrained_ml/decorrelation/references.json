@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "atoms": {
-    "sciona.atoms.ml.constrained_ml.decorrelation.compute_cvm_mass_decorrelation@sciona/atoms/ml/constrained_ml/decorrelation/atoms.py:165": {
+    "sciona.atoms.ml.constrained_ml.decorrelation.compute_cvm_mass_decorrelation@sciona/atoms/ml/constrained_ml/decorrelation/atoms.py:168": {
       "references": [
         {
           "ref_id": "anderson1962cvm",
@@ -36,7 +36,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.constrained_ml.decorrelation.compute_ks_agreement@sciona/atoms/ml/constrained_ml/decorrelation/atoms.py:244": {
+    "sciona.atoms.ml.constrained_ml.decorrelation.compute_ks_agreement@sciona/atoms/ml/constrained_ml/decorrelation/atoms.py:247": {
       "references": [
         {
           "ref_id": "rogozhnikov2014hepml",
@@ -61,7 +61,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.constrained_ml.decorrelation.roc_auc_truncated_weighted@sciona/atoms/ml/constrained_ml/decorrelation/atoms.py:313": {
+    "sciona.atoms.ml.constrained_ml.decorrelation.roc_auc_truncated_weighted@sciona/atoms/ml/constrained_ml/decorrelation/atoms.py:316": {
       "references": [
         {
           "ref_id": "repo_flavours_physics",
@@ -76,7 +76,7 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.constrained_ml.decorrelation.noise_injection_decorrelation@sciona/atoms/ml/constrained_ml/decorrelation/atoms.py:390": {
+    "sciona.atoms.ml.constrained_ml.decorrelation.noise_injection_decorrelation@sciona/atoms/ml/constrained_ml/decorrelation/atoms.py:393": {
       "references": [
         {
           "ref_id": "rogozhnikov2014hepml",
@@ -86,6 +86,31 @@
             "matched_nodes": [],
             "confidence": "high",
             "notes": "Noise injection as a baseline decorrelation strategy, well-known in HEP-ML literature."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.constrained_ml.decorrelation.flatness_penalty_gradient@sciona/atoms/ml/constrained_ml/decorrelation/atoms.py:437": {
+      "references": [
+        {
+          "ref_id": "rogozhnikov2014hepml",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Core algorithm from hep_ml (Apache 2.0). BinFlatnessLossFunction reimplemented from arXiv:1410.4140."
+          }
+        },
+        {
+          "ref_id": "rogozhnikov2015flatness",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Paper describing the flatness-constrained boosting algorithm."
           }
         }
       ],
