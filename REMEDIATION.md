@@ -364,6 +364,13 @@ Potential remediation path:
 - Ingest deterministic neural-network primitives first: activation functions,
   forward pass from supplied weights, output-layer loss terms, and backprop
   gradients for fixed parameters.
+- Completed helper slice: `sklearn.neural_network.mlp_primitives` now
+  publishes dense activation, loss, forward-pass, per-layer gradient, and
+  canonical backprop helpers for supplied weights and encoded targets:
+  `mlp_activation`, `mlp_activation_derivative`, `mlp_loss`,
+  `mlp_forward_pass`, `mlp_layer_gradients`, and `mlp_backprop`. It still
+  defers parameter initialization, label preprocessing, batching, early
+  stopping, and SGD, Adam, or L-BFGS optimizer state.
 - Decide whether SGD/Adam/L-BFGS optimizer state should be represented as
   separate atom families before publishing full MLP training surfaces.
 

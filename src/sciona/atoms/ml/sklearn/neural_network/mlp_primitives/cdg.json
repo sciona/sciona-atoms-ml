@@ -1,0 +1,146 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_neural_network_mlp_primitives_root",
+      "name": "Sklearn Neural Network MLP Primitive Atoms",
+      "description": "Dense activation, loss, forward-pass, and canonical backpropagation helpers used around sklearn MLPClassifier and MLPRegressor training.",
+      "status": "decomposed",
+      "children": [
+        "mlp_activation",
+        "mlp_activation_derivative",
+        "mlp_loss",
+        "mlp_forward_pass",
+        "mlp_layer_gradients",
+        "mlp_backprop"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "mlp_activation",
+      "name": "mlp_activation",
+      "description": "Apply one sklearn MLP activation to a dense matrix.",
+      "concept_type": "neural_network_helper",
+      "status": "atomic",
+      "type_signature": "(values: NDArray[np.float64], activation: ActivationName) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "values", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "activation", "type_desc": "ActivationName", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "mlp_activation_derivative",
+      "name": "mlp_activation_derivative",
+      "description": "Apply one hidden-layer activation derivative to a dense backpropagated delta matrix.",
+      "concept_type": "neural_network_helper",
+      "status": "atomic",
+      "type_signature": "(activated_values: NDArray[np.float64], delta: NDArray[np.float64], activation: HiddenActivationName) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "activated_values", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "delta", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "activation", "type_desc": "HiddenActivationName", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "mlp_loss",
+      "name": "mlp_loss",
+      "description": "Compute the canonical sklearn MLP output-layer loss for supplied dense targets and predictions.",
+      "concept_type": "neural_network_helper",
+      "status": "atomic",
+      "type_signature": "(y_true: NDArray[np.float64], y_pred: NDArray[np.float64], loss_name: LossName, output_activation: ActivationName, sample_weight: NDArray[np.float64] | None = None) -> float",
+      "depth": 1,
+      "inputs": [
+        {"name": "y_true", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "y_pred", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "loss_name", "type_desc": "LossName", "required": true},
+        {"name": "output_activation", "type_desc": "ActivationName", "required": true},
+        {"name": "sample_weight", "type_desc": "NDArray[np.float64] | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "float"}
+      ]
+    },
+    {
+      "node_id": "mlp_forward_pass",
+      "name": "mlp_forward_pass",
+      "description": "Propagate dense samples through supplied weights and biases to produce one activation matrix per layer.",
+      "concept_type": "neural_network_helper",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], coefs: tuple[NDArray[np.float64], ...], intercepts: tuple[NDArray[np.float64], ...], hidden_activation: HiddenActivationName, output_activation: ActivationName) -> tuple[NDArray[np.float64], ...]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "coefs", "type_desc": "tuple[NDArray[np.float64], ...]", "required": true},
+        {"name": "intercepts", "type_desc": "tuple[NDArray[np.float64], ...]", "required": true},
+        {"name": "hidden_activation", "type_desc": "HiddenActivationName", "required": true},
+        {"name": "output_activation", "type_desc": "ActivationName", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[NDArray[np.float64], ...]"}
+      ]
+    },
+    {
+      "node_id": "mlp_layer_gradients",
+      "name": "mlp_layer_gradients",
+      "description": "Compute one dense coefficient-gradient matrix and intercept-gradient vector for a supplied layer delta.",
+      "concept_type": "neural_network_helper",
+      "status": "atomic",
+      "type_signature": "(layer_activation: NDArray[np.float64], delta: NDArray[np.float64], coefs: NDArray[np.float64], alpha: float = 0.0, sample_weight_sum: float | None = None) -> tuple[NDArray[np.float64], NDArray[np.float64]]",
+      "depth": 1,
+      "inputs": [
+        {"name": "layer_activation", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "delta", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "coefs", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "alpha", "type_desc": "float", "required": false},
+        {"name": "sample_weight_sum", "type_desc": "float | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[NDArray[np.float64], NDArray[np.float64]]"}
+      ]
+    },
+    {
+      "node_id": "mlp_backprop",
+      "name": "mlp_backprop",
+      "description": "Compute the dense canonical sklearn MLP loss and gradients for fixed weights, biases, and indicator targets.",
+      "concept_type": "neural_network_helper",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], coefs: tuple[NDArray[np.float64], ...], intercepts: tuple[NDArray[np.float64], ...], hidden_activation: HiddenActivationName, output_activation: ActivationName, loss_name: LossName, alpha: float = 0.0, sample_weight: NDArray[np.float64] | None = None) -> tuple[float, tuple[NDArray[np.float64], ...], tuple[NDArray[np.float64], ...]]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "coefs", "type_desc": "tuple[NDArray[np.float64], ...]", "required": true},
+        {"name": "intercepts", "type_desc": "tuple[NDArray[np.float64], ...]", "required": true},
+        {"name": "hidden_activation", "type_desc": "HiddenActivationName", "required": true},
+        {"name": "output_activation", "type_desc": "ActivationName", "required": true},
+        {"name": "loss_name", "type_desc": "LossName", "required": true},
+        {"name": "alpha", "type_desc": "float", "required": false},
+        {"name": "sample_weight", "type_desc": "NDArray[np.float64] | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[float, tuple[NDArray[np.float64], ...], tuple[NDArray[np.float64], ...]]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "mlp_activation", "target": "mlp_forward_pass", "kind": "forward_activation"},
+    {"source": "mlp_forward_pass", "target": "mlp_backprop", "kind": "forward_state"},
+    {"source": "mlp_loss", "target": "mlp_backprop", "kind": "loss_evaluation"},
+    {"source": "mlp_activation_derivative", "target": "mlp_backprop", "kind": "hidden_delta"},
+    {"source": "mlp_layer_gradients", "target": "mlp_backprop", "kind": "parameter_gradient"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.neural_network._base, sklearn.neural_network._multilayer_perceptron",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 2 external optimizer boundaries"
+  }
+}
