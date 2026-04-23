@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.covariance.robust.mcd_consistency_factor@sciona/atoms/ml/sklearn/covariance/robust/atoms.py:122": {
+      "references": [
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from sklearn.covariance._robust_covariance._consistency_factor in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pison2002mcd",
+          "match_metadata": {
+            "match_type": "manual_algorithm_reference",
+            "confidence": "high",
+            "notes": "Small-sample MCD consistency correction reference cited by scikit-learn."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.covariance.robust.mcd_correct_covariance@sciona/atoms/ml/sklearn/covariance/robust/atoms.py:131": {
+      "references": [
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from sklearn.covariance.MinCovDet.correct_covariance in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "croux1999mcd",
+          "match_metadata": {
+            "match_type": "manual_algorithm_reference",
+            "confidence": "high",
+            "notes": "MCD scatter correction reference cited by sklearn's robust covariance implementation."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.covariance.robust.mcd_reweight_support_mask@sciona/atoms/ml/sklearn/covariance/robust/atoms.py:149": {
+      "references": [
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from sklearn.covariance.MinCovDet.reweight_covariance support-mask rule in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "rousseeuw1999fastmcd",
+          "match_metadata": {
+            "match_type": "manual_algorithm_reference",
+            "confidence": "high",
+            "notes": "FastMCD and reweighting reference cited by sklearn's robust covariance implementation."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.covariance.robust.mcd_reweighted_location_covariance@sciona/atoms/ml/sklearn/covariance/robust/atoms.py:163": {
+      "references": [
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from sklearn.covariance.MinCovDet.reweight_covariance location and empirical covariance recomputation in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "rousseeuw1999fastmcd",
+          "match_metadata": {
+            "match_type": "manual_algorithm_reference",
+            "confidence": "high",
+            "notes": "FastMCD reweighting reference cited by sklearn."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.covariance.robust.mcd_squared_mahalanobis@sciona/atoms/ml/sklearn/covariance/robust/atoms.py:185": {
+      "references": [
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from sklearn.covariance.MinCovDet.mahalanobis distance computation in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "rousseeuw1999fastmcd",
+          "match_metadata": {
+            "match_type": "manual_algorithm_reference",
+            "confidence": "medium",
+            "notes": "Robust Mahalanobis distances are part of the MCD outlier-detection workflow described by the FastMCD reference."
+          }
+        }
+      ]
+    }
+  }
+}

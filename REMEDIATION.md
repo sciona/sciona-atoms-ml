@@ -539,9 +539,15 @@ Potential remediation path:
 - Ingest graphical lasso by decomposing `_graphical_lasso` and deciding whether
   native coordinate-descent/LARS solver boundaries should be represented by FFI
   atoms or limited solver-boundary atoms.
+- Completed helper slice: `sklearn.covariance.robust` now publishes
+  post-FastMCD deterministic helpers for MCD consistency scaling, corrected
+  covariance/distance updates, chi-square support reweighting, reweighted
+  location/covariance recomputation, and squared Mahalanobis scoring.
 - Ingest robust covariance by decomposing FastMCD helpers (`fast_mcd`,
   candidate selection, correction, reweighting, and Mahalanobis scoring) before
-  publishing `MinCovDet` or `EllipticEnvelope` fit states.
+  publishing `MinCovDet` or `EllipticEnvelope` fit states. Correction,
+  reweighting, and scoring are complete; raw FastMCD candidate selection and
+  estimator state publication remain deferred.
 
 ## `sklearn.decomposition` sparse coding and matrix factorization solvers
 
