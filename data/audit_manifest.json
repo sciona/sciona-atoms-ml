@@ -114298,6 +114298,451 @@
       "review_record_path": "data/review_bundles/ml_sklearn_neural_network_mlp_optimizers.review_bundle.json",
       "has_references": true,
       "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.neural_network.mlp_initialization.mlp_output_activation_name",
+      "atom_key": "sciona.atoms.ml.sklearn.neural_network.mlp_initialization.mlp_output_activation_name",
+      "atom_id": "sciona.atoms.ml.sklearn.neural_network.mlp_initialization.mlp_output_activation_name",
+      "module_import_path": "sciona.atoms.ml.sklearn.neural_network.mlp_initialization",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/neural_network/mlp_initialization/atoms.py",
+      "module_family": "neural_network",
+      "domain_family": "ml.sklearn.neural_network",
+      "wrapper_symbol": "mlp_output_activation_name",
+      "argument_names": [
+        "is_classifier",
+        "loss_name",
+        "label_binarizer_type"
+      ],
+      "argument_details": [
+        {
+          "name": "is_classifier",
+          "annotation": "'bool'",
+          "required": true,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "loss_name",
+          "annotation": "'LossName'",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "label_binarizer_type",
+          "annotation": "'LabelBinarizerType | None'",
+          "required": false,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "'OutputActivationName'",
+      "docstring_summary": "Choose the MLP output activation name that sklearn derives during initialization.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_initialization/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_initialization/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_initialization/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_initialization/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_initialization_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_initialization_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_initialization_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [
+        "Selects only the output activation branch and does not perform label preprocessing or parameter allocation."
+      ],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass_with_limits",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 8,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 95,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 5,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_neural_network_mlp_initialization.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.neural_network.mlp_initialization.mlp_glorot_init_bound",
+      "atom_key": "sciona.atoms.ml.sklearn.neural_network.mlp_initialization.mlp_glorot_init_bound",
+      "atom_id": "sciona.atoms.ml.sklearn.neural_network.mlp_initialization.mlp_glorot_init_bound",
+      "module_import_path": "sciona.atoms.ml.sklearn.neural_network.mlp_initialization",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/neural_network/mlp_initialization/atoms.py",
+      "module_family": "neural_network",
+      "domain_family": "ml.sklearn.neural_network",
+      "wrapper_symbol": "mlp_glorot_init_bound",
+      "argument_names": [
+        "fan_in",
+        "fan_out",
+        "activation"
+      ],
+      "argument_details": [
+        {
+          "name": "fan_in",
+          "annotation": "'int'",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "fan_out",
+          "annotation": "'int'",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "activation",
+          "annotation": "'HiddenActivationName'",
+          "required": true,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "'float'",
+      "docstring_summary": "Compute the layer initialization bound used by sklearn's MLP parameter initializer.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_initialization/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_initialization/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_initialization/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_initialization/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_initialization_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_initialization_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_initialization_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [
+        "Computes only the scalar initialization bound for one layer."
+      ],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass_with_limits",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 8,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 95,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 2,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_neural_network_mlp_initialization.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.neural_network.mlp_initialization.mlp_init_layer_parameters",
+      "atom_key": "sciona.atoms.ml.sklearn.neural_network.mlp_initialization.mlp_init_layer_parameters",
+      "atom_id": "sciona.atoms.ml.sklearn.neural_network.mlp_initialization.mlp_init_layer_parameters",
+      "module_import_path": "sciona.atoms.ml.sklearn.neural_network.mlp_initialization",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/neural_network/mlp_initialization/atoms.py",
+      "module_family": "neural_network",
+      "domain_family": "ml.sklearn.neural_network",
+      "wrapper_symbol": "mlp_init_layer_parameters",
+      "argument_names": [
+        "fan_in",
+        "fan_out",
+        "activation",
+        "random_state",
+        "dtype_name"
+      ],
+      "argument_details": [
+        {
+          "name": "fan_in",
+          "annotation": "'int'",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "fan_out",
+          "annotation": "'int'",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "activation",
+          "annotation": "'HiddenActivationName'",
+          "required": true,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "random_state",
+          "annotation": "'int | None'",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "dtype_name",
+          "annotation": "'DtypeName'",
+          "required": false,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "'LayerParameterInit'",
+      "docstring_summary": "Draw one coefficient matrix and intercept vector using sklearn's MLP initialization rule.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_initialization/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_initialization/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_initialization/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_initialization/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_initialization_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_initialization_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_initialization_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [
+        "Draws only one layer's tensors and does not build the full network or training history."
+      ],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass_with_limits",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 10,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 93,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 2,
+      "parity_case_count": 2,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_neural_network_mlp_initialization.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.neural_network.mlp_initialization.mlp_initialize_parameters",
+      "atom_key": "sciona.atoms.ml.sklearn.neural_network.mlp_initialization.mlp_initialize_parameters",
+      "atom_id": "sciona.atoms.ml.sklearn.neural_network.mlp_initialization.mlp_initialize_parameters",
+      "module_import_path": "sciona.atoms.ml.sklearn.neural_network.mlp_initialization",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/neural_network/mlp_initialization/atoms.py",
+      "module_family": "neural_network",
+      "domain_family": "ml.sklearn.neural_network",
+      "wrapper_symbol": "mlp_initialize_parameters",
+      "argument_names": [
+        "layer_units",
+        "activation",
+        "random_state",
+        "dtype_name"
+      ],
+      "argument_details": [
+        {
+          "name": "layer_units",
+          "annotation": "'tuple[int, ...]'",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "activation",
+          "annotation": "'HiddenActivationName'",
+          "required": true,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "random_state",
+          "annotation": "'int | None'",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "dtype_name",
+          "annotation": "'DtypeName'",
+          "required": false,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "'NetworkParameterInit'",
+      "docstring_summary": "Initialize all coefficient and intercept tensors for an MLP with supplied layer widths.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_initialization/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_initialization/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_initialization/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_initialization/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_initialization_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_initialization_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_initialization_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [
+        "Initializes only coefficients, intercepts, and their best-copy mirrors from supplied layer sizes; optimizer bookkeeping and outer estimator state remain deferred."
+      ],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass_with_limits",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 11,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 92,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 1,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_neural_network_mlp_initialization.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
     }
   ]
 }

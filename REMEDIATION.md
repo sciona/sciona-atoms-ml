@@ -378,6 +378,12 @@ Potential remediation path:
   `mlp_adam_initialize_state`, and `mlp_adam_updates`. It still defers
   parameter mutation, minibatch orchestration, no-improvement tracking,
   validation-based early stopping, and the outer MLP fit loop.
+- Completed helper slice: `sklearn.neural_network.mlp_initialization` now
+  publishes output-activation and parameter-initialization helpers:
+  `mlp_output_activation_name`, `mlp_glorot_init_bound`,
+  `mlp_init_layer_parameters`, and `mlp_initialize_parameters`. It still
+  defers label preprocessing, stochastic-training bookkeeping, batching,
+  early stopping, optimizer state, and the outer MLP fit loop.
 - Decide whether SGD/Adam/L-BFGS optimizer state should be represented as
   separate atom families before publishing full MLP training surfaces.
 

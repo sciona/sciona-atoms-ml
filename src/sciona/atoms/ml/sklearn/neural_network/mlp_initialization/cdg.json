@@ -1,0 +1,100 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_neural_network_mlp_initialization_root",
+      "name": "Sklearn Neural Network MLP Initialization Atoms",
+      "description": "Dense output-activation and Glorot-style parameter initialization helpers used around sklearn multilayer perceptron setup.",
+      "status": "decomposed",
+      "children": [
+        "mlp_output_activation_name",
+        "mlp_glorot_init_bound",
+        "mlp_init_layer_parameters",
+        "mlp_initialize_parameters"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "mlp_output_activation_name",
+      "name": "mlp_output_activation_name",
+      "description": "Choose the output activation name sklearn uses for classifier or regressor heads.",
+      "concept_type": "neural_network_helper",
+      "status": "atomic",
+      "type_signature": "(is_classifier: bool, loss_name: LossName = 'squared_error', label_binarizer_type: LabelBinarizerType | None = None) -> OutputActivationName",
+      "depth": 1,
+      "inputs": [
+        {"name": "is_classifier", "type_desc": "bool", "required": true},
+        {"name": "loss_name", "type_desc": "LossName", "required": false},
+        {"name": "label_binarizer_type", "type_desc": "LabelBinarizerType | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "OutputActivationName"}
+      ]
+    },
+    {
+      "node_id": "mlp_glorot_init_bound",
+      "name": "mlp_glorot_init_bound",
+      "description": "Compute the scalar initialization bound sklearn uses for one MLP layer.",
+      "concept_type": "neural_network_helper",
+      "status": "atomic",
+      "type_signature": "(fan_in: int, fan_out: int, activation: HiddenActivationName) -> float",
+      "depth": 1,
+      "inputs": [
+        {"name": "fan_in", "type_desc": "int", "required": true},
+        {"name": "fan_out", "type_desc": "int", "required": true},
+        {"name": "activation", "type_desc": "HiddenActivationName", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "float"}
+      ]
+    },
+    {
+      "node_id": "mlp_init_layer_parameters",
+      "name": "mlp_init_layer_parameters",
+      "description": "Draw one coefficient matrix and intercept vector for a single MLP layer.",
+      "concept_type": "neural_network_helper",
+      "status": "atomic",
+      "type_signature": "(fan_in: int, fan_out: int, activation: HiddenActivationName, random_state: int | None = None, dtype_name: DtypeName = 'float64') -> tuple[NDArray[np.floating], NDArray[np.floating]]",
+      "depth": 1,
+      "inputs": [
+        {"name": "fan_in", "type_desc": "int", "required": true},
+        {"name": "fan_out", "type_desc": "int", "required": true},
+        {"name": "activation", "type_desc": "HiddenActivationName", "required": true},
+        {"name": "random_state", "type_desc": "int | None", "required": false},
+        {"name": "dtype_name", "type_desc": "DtypeName", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[NDArray[np.floating], NDArray[np.floating]]"}
+      ]
+    },
+    {
+      "node_id": "mlp_initialize_parameters",
+      "name": "mlp_initialize_parameters",
+      "description": "Draw all coefficient and intercept tensors plus best-copy mirrors for a dense MLP topology.",
+      "concept_type": "neural_network_helper",
+      "status": "atomic",
+      "type_signature": "(layer_units: tuple[int, ...], activation: HiddenActivationName, random_state: int | None = None, dtype_name: DtypeName = 'float64') -> tuple[tuple[NDArray[np.floating], ...], tuple[NDArray[np.floating], ...], tuple[NDArray[np.floating], ...], tuple[NDArray[np.floating], ...]]",
+      "depth": 1,
+      "inputs": [
+        {"name": "layer_units", "type_desc": "tuple[int, ...]", "required": true},
+        {"name": "activation", "type_desc": "HiddenActivationName", "required": true},
+        {"name": "random_state", "type_desc": "int | None", "required": false},
+        {"name": "dtype_name", "type_desc": "DtypeName", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[tuple[NDArray[np.floating], ...], tuple[NDArray[np.floating], ...], tuple[NDArray[np.floating], ...], tuple[NDArray[np.floating], ...]]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "mlp_glorot_init_bound", "target": "mlp_init_layer_parameters", "kind": "bound"},
+    {"source": "mlp_glorot_init_bound", "target": "mlp_initialize_parameters", "kind": "bound"},
+    {"source": "mlp_init_layer_parameters", "target": "mlp_initialize_parameters", "kind": "layerwise_initialization"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.neural_network._multilayer_perceptron",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 2 external optimizer boundaries"
+  }
+}
