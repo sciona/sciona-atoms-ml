@@ -446,6 +446,12 @@ Deferred targets:
 
 Potential remediation path:
 
+- Completed helper slice: `sklearn.cluster.agglomerative` now publishes
+  hierarchy root lookup, descendant-leaf expansion, and `_hc_cut` label
+  extraction for already-built binary children arrays.
+- Tree construction, Ward distances, linkage builders, SciPy hierarchy calls,
+  compiled `_hierarchical` helpers, estimator state, and
+  `FeatureAgglomeration` transform behavior remain deferred.
 - Decide whether these targets should be represented as limited hierarchy-state
   wrapper atoms with explicit audit limitations.
 - Or ingest the compiled hierarchical helpers and SciPy linkage boundary

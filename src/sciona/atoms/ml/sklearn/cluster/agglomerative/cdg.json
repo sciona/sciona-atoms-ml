@@ -1,0 +1,77 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_cluster_agglomerative_root",
+      "name": "Sklearn Agglomerative Hierarchy Cut Atoms",
+      "description": "Estimator-independent helpers for reading and cutting already-built agglomerative children arrays",
+      "status": "decomposed",
+      "children": [
+        "agglomerative_root_node",
+        "agglomerative_descendent_leaves",
+        "agglomerative_hc_cut"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "agglomerative_root_node",
+      "name": "agglomerative_root_node",
+      "description": "Return the root node id for a sklearn binary agglomerative children array.",
+      "concept_type": "hierarchy_indexing",
+      "status": "atomic",
+      "type_signature": "(children: NDArray[np.int64], n_leaves: int) -> int",
+      "depth": 1,
+      "inputs": [
+        {"name": "children", "type_desc": "NDArray[np.int64]", "required": true},
+        {"name": "n_leaves", "type_desc": "int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "int"}
+      ]
+    },
+    {
+      "node_id": "agglomerative_descendent_leaves",
+      "name": "agglomerative_descendent_leaves",
+      "description": "Expand a hierarchy node to the leaf ids below it.",
+      "concept_type": "hierarchy_descendent_expansion",
+      "status": "atomic",
+      "type_signature": "(node: int, children: NDArray[np.int64], n_leaves: int) -> NDArray[np.int64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "node", "type_desc": "int", "required": true},
+        {"name": "children", "type_desc": "NDArray[np.int64]", "required": true},
+        {"name": "n_leaves", "type_desc": "int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.int64]"}
+      ]
+    },
+    {
+      "node_id": "agglomerative_hc_cut",
+      "name": "agglomerative_hc_cut",
+      "description": "Cut a sklearn agglomerative hierarchy into flat cluster labels.",
+      "concept_type": "hierarchy_label_extraction",
+      "status": "atomic",
+      "type_signature": "(n_clusters: int, children: NDArray[np.int64], n_leaves: int) -> NDArray[np.int64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_clusters", "type_desc": "int", "required": true},
+        {"name": "children", "type_desc": "NDArray[np.int64]", "required": true},
+        {"name": "n_leaves", "type_desc": "int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.int64]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "agglomerative_root_node", "target": "agglomerative_hc_cut", "kind": "initial_cut_node"},
+    {"source": "agglomerative_descendent_leaves", "target": "agglomerative_hc_cut", "kind": "label_assignment_support"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.cluster._agglomerative",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 6 already-built agglomerative hierarchy cut helpers"
+  }
+}
