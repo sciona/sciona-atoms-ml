@@ -12,6 +12,7 @@ from sciona.atoms.audit_review_bundles import (
 ROOT = Path(__file__).resolve().parents[1]
 BUNDLE_PATH = ROOT / "data" / "review_bundles" / "ml_gradient_attacks.review_bundle.json"
 CDG_PATH = ROOT / "src" / "sciona" / "atoms" / "ml" / "gradient_attacks" / "cdg.json"
+MANIFEST_PATH = ROOT / "data" / "audit_manifest.json"
 
 EXPECTED_ATOM_NAMES = {
     "sciona.atoms.ml.gradient_attacks.momentum_gradient_accumulation",
@@ -79,3 +80,20 @@ def test_cdg_atomic_nodes_have_publishable_io_specs() -> None:
             assert item["name"]
             assert item["type_desc"]
             assert isinstance(item["required"], bool)
+
+
+def test_manifest_contains_gradient_attack_atoms_after_merge() -> None:
+    manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
+    entries = {
+        atom["atom_name"]: atom
+        for atom in manifest.get("atoms", [])
+        if atom.get("atom_name") in EXPECTED_ATOM_NAMES
+    }
+    assert set(entries) == EXPECTED_ATOM_NAMES
+    for entry in entries.values():
+        assert entry["review_status"] == "approved"
+        assert entry["has_references"] is True
+        assert entry["references_status"] == "pass"
+        assert isinstance(entry["risk_score"], int)
+        assert isinstance(entry["acceptability_score"], int)
+        assert entry["acceptability_band"] in VALID_ACCEPTABILITY_BANDS

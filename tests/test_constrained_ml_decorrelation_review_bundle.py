@@ -12,6 +12,7 @@ from sciona.atoms.audit_review_bundles import (
 ROOT = Path(__file__).resolve().parents[1]
 BUNDLE_PATH = ROOT / "data" / "review_bundles" / "ml_constrained_ml_decorrelation.review_bundle.json"
 CDG_PATH = ROOT / "src" / "sciona" / "atoms" / "ml" / "constrained_ml" / "decorrelation" / "cdg.json"
+MANIFEST_PATH = ROOT / "data" / "audit_manifest.json"
 
 EXPECTED_ATOM_NAMES = {
     "sciona.atoms.ml.constrained_ml.decorrelation.compute_cvm_mass_decorrelation",
@@ -69,3 +70,20 @@ def test_cdg_nodes_cover_all_atoms() -> None:
         "noise_injection_decorrelation",
     }
     assert expected_fn_names == atomic_names
+
+
+def test_manifest_contains_decorrelation_atoms_after_merge() -> None:
+    manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
+    entries = {
+        atom["atom_name"]: atom
+        for atom in manifest.get("atoms", [])
+        if atom.get("atom_name") in EXPECTED_ATOM_NAMES
+    }
+    assert set(entries) == EXPECTED_ATOM_NAMES
+    for entry in entries.values():
+        assert entry["review_status"] == "approved"
+        assert entry["has_references"] is True
+        assert entry["references_status"] == "pass"
+        assert isinstance(entry["risk_score"], int)
+        assert isinstance(entry["acceptability_score"], int)
+        assert entry["acceptability_band"] in VALID_ACCEPTABILITY_BANDS

@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "metadata": {
-    "generated_at": "2026-04-23T19:15:58.387227+00:00",
+    "generated_at": "2026-04-23T19:40:39.149364+00:00",
     "generator": "scripts/apply_audit_review_bundles.py",
     "phase": "phase_1_review_bundle_merge"
   },
@@ -24301,6 +24301,443 @@
       "references_status": "pass"
     },
     {
+      "atom_name": "sciona.atoms.ml.constrained_ml.decorrelation.compute_cvm_mass_decorrelation",
+      "atom_key": "sciona.atoms.ml.constrained_ml.decorrelation.compute_cvm_mass_decorrelation",
+      "atom_id": "sciona.atoms.ml.constrained_ml.decorrelation.compute_cvm_mass_decorrelation",
+      "module_import_path": "sciona.atoms.ml.constrained_ml.decorrelation.atoms",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/constrained_ml/decorrelation/atoms.py",
+      "module_family": "decorrelation",
+      "domain_family": "ml.constrained_ml.decorrelation",
+      "wrapper_symbol": "compute_cvm_mass_decorrelation",
+      "argument_names": [
+        "predictions",
+        "protected_variable",
+        "n_neighbours",
+        "step"
+      ],
+      "argument_details": [
+        {
+          "name": "predictions",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "protected_variable",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "n_neighbours",
+          "annotation": "int",
+          "required": false,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "step",
+          "annotation": "int",
+          "required": false,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "float",
+      "docstring_summary": "Measure prediction-mass decorrelation via the Cramer-von Mises statistic.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/constrained_ml/decorrelation/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/constrained_ml/decorrelation/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/constrained_ml/decorrelation/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/constrained_ml/decorrelation/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_constrained_ml_decorrelation_review_bundle.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_constrained_ml_decorrelation_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_constrained_ml_decorrelation_behavior.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "acceptable_with_limits",
+      "risk_tier": "low",
+      "risk_score": 15,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 88,
+      "acceptability_band": "review_ready",
+      "parity_coverage_level": "positive_path",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 2,
+      "parity_case_count": 3,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_constrained_ml_decorrelation.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.constrained_ml.decorrelation.compute_ks_agreement",
+      "atom_key": "sciona.atoms.ml.constrained_ml.decorrelation.compute_ks_agreement",
+      "atom_id": "sciona.atoms.ml.constrained_ml.decorrelation.compute_ks_agreement",
+      "module_import_path": "sciona.atoms.ml.constrained_ml.decorrelation.atoms",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/constrained_ml/decorrelation/atoms.py",
+      "module_family": "decorrelation",
+      "domain_family": "ml.constrained_ml.decorrelation",
+      "wrapper_symbol": "compute_ks_agreement",
+      "argument_names": [
+        "data_predictions",
+        "mc_predictions",
+        "weights_data",
+        "weights_mc"
+      ],
+      "argument_details": [
+        {
+          "name": "data_predictions",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "mc_predictions",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "weights_data",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "weights_mc",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "float",
+      "docstring_summary": "Compute the Kolmogorov-Smirnov distance between two weighted prediction distributions.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/constrained_ml/decorrelation/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/constrained_ml/decorrelation/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/constrained_ml/decorrelation/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/constrained_ml/decorrelation/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_constrained_ml_decorrelation_review_bundle.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_constrained_ml_decorrelation_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_constrained_ml_decorrelation_behavior.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "acceptable_with_limits",
+      "risk_tier": "low",
+      "risk_score": 15,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 88,
+      "acceptability_band": "review_ready",
+      "parity_coverage_level": "positive_path",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 2,
+      "parity_case_count": 3,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_constrained_ml_decorrelation.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.constrained_ml.decorrelation.noise_injection_decorrelation",
+      "atom_key": "sciona.atoms.ml.constrained_ml.decorrelation.noise_injection_decorrelation",
+      "atom_id": "sciona.atoms.ml.constrained_ml.decorrelation.noise_injection_decorrelation",
+      "module_import_path": "sciona.atoms.ml.constrained_ml.decorrelation.atoms",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/constrained_ml/decorrelation/atoms.py",
+      "module_family": "decorrelation",
+      "domain_family": "ml.constrained_ml.decorrelation",
+      "wrapper_symbol": "noise_injection_decorrelation",
+      "argument_names": [
+        "predictions",
+        "noise_level",
+        "random_state"
+      ],
+      "argument_details": [
+        {
+          "name": "predictions",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "noise_level",
+          "annotation": "float",
+          "required": false,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "random_state",
+          "annotation": "int | None",
+          "required": false,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.float64]",
+      "docstring_summary": "Decorrelate predictions by mixing with uniform random noise.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/constrained_ml/decorrelation/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/constrained_ml/decorrelation/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/constrained_ml/decorrelation/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/constrained_ml/decorrelation/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_constrained_ml_decorrelation_review_bundle.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_constrained_ml_decorrelation_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_constrained_ml_decorrelation_behavior.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "acceptable_with_limits",
+      "risk_tier": "low",
+      "risk_score": 10,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 90,
+      "acceptability_band": "review_ready",
+      "parity_coverage_level": "positive_path",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 2,
+      "parity_case_count": 4,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_constrained_ml_decorrelation.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.constrained_ml.decorrelation.roc_auc_truncated_weighted",
+      "atom_key": "sciona.atoms.ml.constrained_ml.decorrelation.roc_auc_truncated_weighted",
+      "atom_id": "sciona.atoms.ml.constrained_ml.decorrelation.roc_auc_truncated_weighted",
+      "module_import_path": "sciona.atoms.ml.constrained_ml.decorrelation.atoms",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/constrained_ml/decorrelation/atoms.py",
+      "module_family": "decorrelation",
+      "domain_family": "ml.constrained_ml.decorrelation",
+      "wrapper_symbol": "roc_auc_truncated_weighted",
+      "argument_names": [
+        "labels",
+        "predictions",
+        "tpr_thresholds",
+        "weights"
+      ],
+      "argument_details": [
+        {
+          "name": "labels",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "predictions",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "tpr_thresholds",
+          "annotation": "tuple[float, ...]",
+          "required": false,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "weights",
+          "annotation": "tuple[float, ...]",
+          "required": false,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "float",
+      "docstring_summary": "Compute a weighted area under the ROC curve segmented by TPR thresholds.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/constrained_ml/decorrelation/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/constrained_ml/decorrelation/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/constrained_ml/decorrelation/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/constrained_ml/decorrelation/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_constrained_ml_decorrelation_review_bundle.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_constrained_ml_decorrelation_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_constrained_ml_decorrelation_behavior.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "acceptable_with_limits",
+      "risk_tier": "low",
+      "risk_score": 15,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 88,
+      "acceptability_band": "review_ready",
+      "parity_coverage_level": "positive_path",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 2,
+      "parity_case_count": 3,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_constrained_ml_decorrelation.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
       "atom_name": "sciona.atoms.ml.datadriven.discover_equations",
       "atom_key": "sciona.atoms.ml.datadriven.discover_equations",
       "atom_id": "sciona.atoms.ml.datadriven.discover_equations",
@@ -24406,6 +24843,401 @@
       "required_actions": [],
       "blocking_findings": [],
       "review_record_path": "data/review_bundles/ml_datadriven.review_bundle.json"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.gradient_attacks.adaptive_epsilon_strategy",
+      "atom_key": "sciona.atoms.ml.gradient_attacks.adaptive_epsilon_strategy",
+      "atom_id": "sciona.atoms.ml.gradient_attacks.adaptive_epsilon_strategy",
+      "module_import_path": "sciona.atoms.ml.gradient_attacks.atoms",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/gradient_attacks/atoms.py",
+      "module_family": "gradient_attacks",
+      "domain_family": "ml.gradient_attacks",
+      "wrapper_symbol": "adaptive_epsilon_strategy",
+      "argument_names": [
+        "max_epsilon",
+        "threshold"
+      ],
+      "argument_details": [
+        {
+          "name": "max_epsilon",
+          "annotation": "float",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "threshold",
+          "annotation": "float",
+          "required": false,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "dict[str, float]",
+      "docstring_summary": "Select attack configuration based on perturbation budget.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/gradient_attacks/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/gradient_attacks/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/gradient_attacks/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/gradient_attacks/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_gradient_attacks_review_bundle.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_gradient_attacks_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_gradient_attacks_behavior.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "acceptable_with_limits",
+      "risk_tier": "low",
+      "risk_score": 15,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 88,
+      "acceptability_band": "review_ready",
+      "parity_coverage_level": "positive_path",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 2,
+      "parity_case_count": 3,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_gradient_attacks.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.gradient_attacks.ensemble_logit_fusion",
+      "atom_key": "sciona.atoms.ml.gradient_attacks.ensemble_logit_fusion",
+      "atom_id": "sciona.atoms.ml.gradient_attacks.ensemble_logit_fusion",
+      "module_import_path": "sciona.atoms.ml.gradient_attacks.atoms",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/gradient_attacks/atoms.py",
+      "module_family": "gradient_attacks",
+      "domain_family": "ml.gradient_attacks",
+      "wrapper_symbol": "ensemble_logit_fusion",
+      "argument_names": [
+        "logits",
+        "weights"
+      ],
+      "argument_details": [
+        {
+          "name": "logits",
+          "annotation": "list[NDArray[np.float64]]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "weights",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.float64]",
+      "docstring_summary": "Weighted average of logit arrays from multiple models.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/gradient_attacks/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/gradient_attacks/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/gradient_attacks/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/gradient_attacks/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_gradient_attacks_review_bundle.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_gradient_attacks_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_gradient_attacks_behavior.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "acceptable_with_limits",
+      "risk_tier": "low",
+      "risk_score": 15,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 88,
+      "acceptability_band": "review_ready",
+      "parity_coverage_level": "positive_path",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 2,
+      "parity_case_count": 3,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_gradient_attacks.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.gradient_attacks.momentum_gradient_accumulation",
+      "atom_key": "sciona.atoms.ml.gradient_attacks.momentum_gradient_accumulation",
+      "atom_id": "sciona.atoms.ml.gradient_attacks.momentum_gradient_accumulation",
+      "module_import_path": "sciona.atoms.ml.gradient_attacks.atoms",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/gradient_attacks/atoms.py",
+      "module_family": "gradient_attacks",
+      "domain_family": "ml.gradient_attacks",
+      "wrapper_symbol": "momentum_gradient_accumulation",
+      "argument_names": [
+        "gradient",
+        "previous_accumulated",
+        "momentum"
+      ],
+      "argument_details": [
+        {
+          "name": "gradient",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "previous_accumulated",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "momentum",
+          "annotation": "float",
+          "required": false,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.float64]",
+      "docstring_summary": "Accumulate gradient with momentum using L1-normalized current gradient.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/gradient_attacks/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/gradient_attacks/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/gradient_attacks/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/gradient_attacks/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_gradient_attacks_review_bundle.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_gradient_attacks_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_gradient_attacks_behavior.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "acceptable_with_limits",
+      "risk_tier": "low",
+      "risk_score": 15,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 88,
+      "acceptability_band": "review_ready",
+      "parity_coverage_level": "positive_path",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 2,
+      "parity_case_count": 3,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_gradient_attacks.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.gradient_attacks.rounded_clipped_perturbation_step",
+      "atom_key": "sciona.atoms.ml.gradient_attacks.rounded_clipped_perturbation_step",
+      "atom_id": "sciona.atoms.ml.gradient_attacks.rounded_clipped_perturbation_step",
+      "module_import_path": "sciona.atoms.ml.gradient_attacks.atoms",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/gradient_attacks/atoms.py",
+      "module_family": "gradient_attacks",
+      "domain_family": "ml.gradient_attacks",
+      "wrapper_symbol": "rounded_clipped_perturbation_step",
+      "argument_names": [
+        "noise",
+        "clip_range"
+      ],
+      "argument_details": [
+        {
+          "name": "noise",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "clip_range",
+          "annotation": "int",
+          "required": false,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.float64]",
+      "docstring_summary": "Multi-level quantized perturbation step: round then clip.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/gradient_attacks/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/gradient_attacks/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/gradient_attacks/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/gradient_attacks/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_gradient_attacks_review_bundle.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_gradient_attacks_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_gradient_attacks_behavior.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "acceptable_with_limits",
+      "risk_tier": "low",
+      "risk_score": 15,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 88,
+      "acceptability_band": "review_ready",
+      "parity_coverage_level": "positive_path",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 2,
+      "parity_case_count": 3,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_gradient_attacks.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
     },
     {
       "atom_name": "sciona.atoms.ml.model_selection.diagnostics.check_lasso_sample_complexity",
