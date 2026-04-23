@@ -1,0 +1,81 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_cluster_hdbscan_root",
+      "name": "Sklearn HDBSCAN Boundary Atoms",
+      "description": "Limited HDBSCAN atoms around sklearn public fit and fit_predict outputs",
+      "status": "decomposed",
+      "children": [
+        "hdbscan_fit",
+        "hdbscan_fit_predict"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "hdbscan_fit",
+      "name": "hdbscan_fit",
+      "description": "Fit HDBSCAN through sklearn's public boundary and return immutable labels, probabilities, and linkage tree.",
+      "concept_type": "hierarchical_density_clustering_boundary",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], min_cluster_size: int = 5, min_samples: int | None = None, cluster_selection_epsilon: float = 0.0, max_cluster_size: int | None = None, metric: str = \"euclidean\", metric_params: dict[str, float] | None = None, alpha: float = 1.0, algorithm: str = \"auto\", leaf_size: int = 40, n_jobs: int | None = None, cluster_selection_method: str = \"eom\", allow_single_cluster: bool = False, copy: bool = True) -> HDBSCANState",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "min_cluster_size", "type_desc": "int", "required": false},
+        {"name": "min_samples", "type_desc": "int | None", "required": false},
+        {"name": "cluster_selection_epsilon", "type_desc": "float", "required": false},
+        {"name": "max_cluster_size", "type_desc": "int | None", "required": false},
+        {"name": "metric", "type_desc": "str", "required": false},
+        {"name": "metric_params", "type_desc": "dict[str, float] | None", "required": false},
+        {"name": "alpha", "type_desc": "float", "required": false},
+        {"name": "algorithm", "type_desc": "str", "required": false},
+        {"name": "leaf_size", "type_desc": "int", "required": false},
+        {"name": "n_jobs", "type_desc": "int | None", "required": false},
+        {"name": "cluster_selection_method", "type_desc": "str", "required": false},
+        {"name": "allow_single_cluster", "type_desc": "bool", "required": false},
+        {"name": "copy", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "HDBSCANState"}
+      ]
+    },
+    {
+      "node_id": "hdbscan_fit_predict",
+      "name": "hdbscan_fit_predict",
+      "description": "Return sklearn HDBSCAN fit_predict labels for dense finite inputs.",
+      "concept_type": "hierarchical_density_clustering_boundary",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], min_cluster_size: int = 5, min_samples: int | None = None, cluster_selection_epsilon: float = 0.0, max_cluster_size: int | None = None, metric: str = \"euclidean\", metric_params: dict[str, float] | None = None, alpha: float = 1.0, algorithm: str = \"auto\", leaf_size: int = 40, n_jobs: int | None = None, cluster_selection_method: str = \"eom\", allow_single_cluster: bool = False, copy: bool = True) -> NDArray[np.int_]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "min_cluster_size", "type_desc": "int", "required": false},
+        {"name": "min_samples", "type_desc": "int | None", "required": false},
+        {"name": "cluster_selection_epsilon", "type_desc": "float", "required": false},
+        {"name": "max_cluster_size", "type_desc": "int | None", "required": false},
+        {"name": "metric", "type_desc": "str", "required": false},
+        {"name": "metric_params", "type_desc": "dict[str, float] | None", "required": false},
+        {"name": "alpha", "type_desc": "float", "required": false},
+        {"name": "algorithm", "type_desc": "str", "required": false},
+        {"name": "leaf_size", "type_desc": "int", "required": false},
+        {"name": "n_jobs", "type_desc": "int | None", "required": false},
+        {"name": "cluster_selection_method", "type_desc": "str", "required": false},
+        {"name": "allow_single_cluster", "type_desc": "bool", "required": false},
+        {"name": "copy", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.int_]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "hdbscan_fit", "target": "hdbscan_fit_predict", "kind": "label_output_equivalence"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.cluster._hdbscan.hdbscan",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 1 limited HDBSCAN public boundary around native MST and hierarchy extraction"
+  }
+}
