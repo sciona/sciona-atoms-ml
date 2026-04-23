@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.gradient_attacks.momentum_gradient_accumulation@sciona/atoms/ml/gradient_attacks/atoms.py:47": {
+      "references": [
+        {
+          "ref_id": "dong2018mifgsm",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Direct implementation of MI-FGSM momentum accumulation from Equation 4 of the paper."
+          }
+        },
+        {
+          "ref_id": "repo_adversarial_nontarget",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Upstream source: attack_iter.py lines 185-186, L1-normalize and accumulate."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.gradient_attacks.ensemble_logit_fusion@sciona/atoms/ml/gradient_attacks/atoms.py:88": {
+      "references": [
+        {
+          "ref_id": "dong2018mifgsm",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Ensemble attack strategy using weighted logit averaging as described in the MI-FGSM competition approach."
+          }
+        },
+        {
+          "ref_id": "repo_adversarial_nontarget",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Upstream source: attack_iter.py lines 170-175, weighted logit sum with 0.25 weight for adversarially-trained models."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.gradient_attacks.rounded_clipped_perturbation_step@sciona/atoms/ml/gradient_attacks/atoms.py:123": {
+      "references": [
+        {
+          "ref_id": "dong2018mifgsm",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Extension of MI-FGSM with multi-level quantized steps instead of binary sign."
+          }
+        },
+        {
+          "ref_id": "repo_adversarial_target",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Upstream source: target_attack.py line 159, round-then-clip perturbation step."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.gradient_attacks.adaptive_epsilon_strategy@sciona/atoms/ml/gradient_attacks/atoms.py:160": {
+      "references": [
+        {
+          "ref_id": "dong2018mifgsm",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Budget-dependent attack loop configuration motivated by MI-FGSM competition insights."
+          }
+        },
+        {
+          "ref_id": "repo_adversarial_target",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Upstream source: target_attack.py lines 231-241, graph_large vs graph_small branching on max_epsilon >= 8."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}
