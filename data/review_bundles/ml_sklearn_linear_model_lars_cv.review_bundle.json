@@ -1,0 +1,278 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "sciona.atoms.review_bundle.ml.sklearn_linear_model_lars_cv.v1",
+  "provider_repo": "sciona-atoms-ml",
+  "family_batch": "ml_sklearn_linear_model_lars_cv",
+  "review_status": "reviewed",
+  "review_semantic_verdict": "pass_with_limits",
+  "review_developer_semantic_verdict": "pass_with_limits",
+  "trust_readiness": "reviewed_with_limits",
+  "authoritative_sources": [
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/sklearn/linear_model/lars_cv/atoms.py"
+    },
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/sklearn/linear_model/lars_cv/witnesses.py"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/sklearn/linear_model/lars_cv/references.json"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/sklearn/linear_model/lars_cv/cdg.json"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_sklearn_linear_model_lars_cv_behavior.py"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_sklearn_linear_model_lars_cv_references_metadata.py"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_sklearn_linear_model_lars_cv_review_bundle.py"
+    }
+  ],
+  "limitations": [
+    "This helper slice covers only cross-validation residual projection, shared-alpha grid construction, finite-row masking, and best-alpha selection after per-fold LARS or Lasso-LARS path outputs are supplied; fold path solving, CV split generation, joblib scheduling, and final full-data refit remain deferred."
+  ],
+  "blocking_findings": [],
+  "required_actions": [],
+  "review_record_path": "data/review_bundles/ml_sklearn_linear_model_lars_cv.review_bundle.json",
+  "rows": [
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.lars_cv.lars_cv_residual_path",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.lars_cv.lars_cv_residual_path",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/lars_cv/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/lars_cv/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/lars_cv/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/lars_cv/cdg.json",
+        "tests/test_ml_sklearn_linear_model_lars_cv_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_lars_cv.review_bundle.json",
+      "overall_verdict": "pass",
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass_with_limits",
+      "developer_semantics_status": "pass_with_limits",
+      "risk_tier": "low",
+      "risk_score": 10,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 92,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 1,
+      "review_limitations": [
+        "Consumes already-computed fold coefficient paths and training means rather than solving the LARS path itself."
+      ],
+      "review_required_actions": [],
+      "trust_blockers": [],
+      "has_references": true,
+      "references_status": "pass",
+      "limitations": [],
+      "blocking_findings": [],
+      "required_actions": []
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.lars_cv.lars_cv_alpha_grid",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.lars_cv.lars_cv_alpha_grid",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/lars_cv/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/lars_cv/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/lars_cv/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/lars_cv/cdg.json",
+        "tests/test_ml_sklearn_linear_model_lars_cv_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_lars_cv.review_bundle.json",
+      "overall_verdict": "pass",
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass_with_limits",
+      "developer_semantics_status": "pass_with_limits",
+      "risk_tier": "low",
+      "risk_score": 10,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 91,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 2,
+      "review_limitations": [
+        "Builds only the shared alpha grid and does not generate CV folds or compute path coefficients."
+      ],
+      "review_required_actions": [],
+      "trust_blockers": [],
+      "has_references": true,
+      "references_status": "pass",
+      "limitations": [],
+      "blocking_findings": [],
+      "required_actions": []
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.lars_cv.lars_cv_interpolated_fold_mse",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.lars_cv.lars_cv_interpolated_fold_mse",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/lars_cv/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/lars_cv/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/lars_cv/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/lars_cv/cdg.json",
+        "tests/test_ml_sklearn_linear_model_lars_cv_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_lars_cv.review_bundle.json",
+      "overall_verdict": "pass",
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass_with_limits",
+      "developer_semantics_status": "pass_with_limits",
+      "risk_tier": "low",
+      "risk_score": 10,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 93,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 2,
+      "review_limitations": [
+        "Interpolates and averages supplied fold residues only; it does not solve the fold path or run the surrounding estimator workflow."
+      ],
+      "review_required_actions": [],
+      "trust_blockers": [],
+      "has_references": true,
+      "references_status": "pass",
+      "limitations": [],
+      "blocking_findings": [],
+      "required_actions": []
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.lars_cv.lars_cv_finite_row_mask",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.lars_cv.lars_cv_finite_row_mask",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/lars_cv/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/lars_cv/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/lars_cv/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/lars_cv/cdg.json",
+        "tests/test_ml_sklearn_linear_model_lars_cv_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_lars_cv.review_bundle.json",
+      "overall_verdict": "pass",
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass_with_limits",
+      "developer_semantics_status": "pass_with_limits",
+      "risk_tier": "low",
+      "risk_score": 8,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 94,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 1,
+      "review_limitations": [
+        "Marks finite shared-alpha rows only; downstream filtering and refit orchestration remain outside this atom."
+      ],
+      "review_required_actions": [],
+      "trust_blockers": [],
+      "has_references": true,
+      "references_status": "pass",
+      "limitations": [],
+      "blocking_findings": [],
+      "required_actions": []
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.lars_cv.lars_cv_best_alpha",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.lars_cv.lars_cv_best_alpha",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/lars_cv/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/lars_cv/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/lars_cv/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/lars_cv/cdg.json",
+        "tests/test_ml_sklearn_linear_model_lars_cv_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_lars_cv.review_bundle.json",
+      "overall_verdict": "pass",
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass_with_limits",
+      "developer_semantics_status": "pass_with_limits",
+      "risk_tier": "low",
+      "risk_score": 10,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 93,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 2,
+      "review_limitations": [
+        "Chooses the best alpha from a finite shared MSE path only; it does not compute the final full-data estimator state."
+      ],
+      "review_required_actions": [],
+      "trust_blockers": [],
+      "has_references": true,
+      "references_status": "pass",
+      "limitations": [],
+      "blocking_findings": [],
+      "required_actions": []
+    }
+  ]
+}

@@ -219,6 +219,13 @@ Deferred targets:
 
 Potential remediation path:
 
+- Completed helper slice: `sklearn.linear_model.lars_cv` now publishes
+  cross-validation helper atoms for left-out residual-path projection, shared
+  alpha-grid construction, per-fold interpolated MSE evaluation, finite-row
+  masking, and best-alpha selection:
+  `lars_cv_residual_path`, `lars_cv_alpha_grid`,
+  `lars_cv_interpolated_fold_mse`, `lars_cv_finite_row_mask`, and
+  `lars_cv_best_alpha`.
 - Ingest base `lars_path`/`lars_path_gram` solver atoms first.
 - Then add explicit atoms for fold residual-path computation, shared-alpha
   interpolation, mean-MSE selection, and final refit, instead of publishing a
