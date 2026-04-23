@@ -17,6 +17,9 @@ MANIFEST_PATH = ROOT / "data" / "audit_manifest.json"
 EXPECTED_ATOM_NAMES = {
     "sciona.atoms.ml.sklearn.decomposition.nmf.nmf_beta_divergence",
     "sciona.atoms.ml.sklearn.decomposition.nmf.nmf_beta_loss_to_float",
+    "sciona.atoms.ml.sklearn.decomposition.nmf.nmf_check_init_matrix",
+    "sciona.atoms.ml.sklearn.decomposition.nmf.nmf_nndsvd_from_svd",
+    "sciona.atoms.ml.sklearn.decomposition.nmf.nmf_random_initialize",
     "sciona.atoms.ml.sklearn.decomposition.nmf.nmf_trace_dot",
 }
 
@@ -28,7 +31,7 @@ def _bundle() -> dict:
 def test_bundle_exists_and_has_nmf_atoms() -> None:
     assert BUNDLE_PATH.exists()
     bundle = _bundle()
-    assert len(bundle["rows"]) == 3
+    assert len(bundle["rows"]) == 6
     assert {row["atom_key"] for row in bundle["rows"]} == EXPECTED_ATOM_NAMES
 
 

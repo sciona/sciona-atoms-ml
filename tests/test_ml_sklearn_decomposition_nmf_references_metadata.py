@@ -14,6 +14,9 @@ REGISTRY_PATH = ROOT / "data" / "references" / "registry.json"
 EXPECTED_FQDNS = {
     "sciona.atoms.ml.sklearn.decomposition.nmf.nmf_beta_divergence",
     "sciona.atoms.ml.sklearn.decomposition.nmf.nmf_beta_loss_to_float",
+    "sciona.atoms.ml.sklearn.decomposition.nmf.nmf_check_init_matrix",
+    "sciona.atoms.ml.sklearn.decomposition.nmf.nmf_nndsvd_from_svd",
+    "sciona.atoms.ml.sklearn.decomposition.nmf.nmf_random_initialize",
     "sciona.atoms.ml.sklearn.decomposition.nmf.nmf_trace_dot",
 }
 

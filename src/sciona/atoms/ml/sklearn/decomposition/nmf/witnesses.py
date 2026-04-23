@@ -48,3 +48,64 @@ def witness_nmf_beta_divergence(
     if h_components != n_components:
         raise ValueError("W and H component counts must match")
     return 0.0
+
+
+def witness_nmf_random_initialize(
+    X: AbstractArray,
+    n_components: int,
+    *,
+    random_state: int | object | None = None,
+) -> tuple[AbstractArray, AbstractArray]:
+    """Describe random factor initialization for nonnegative matrix factorization."""
+    del random_state
+    n_samples, n_features = _check_matrix(X, "X")
+    if n_components < 1:
+        raise ValueError("n_components must be positive")
+    return (
+        AbstractArray(shape=(n_samples, n_components), dtype="float64", min_val=0.0),
+        AbstractArray(shape=(n_components, n_features), dtype="float64", min_val=0.0),
+    )
+
+
+def witness_nmf_nndsvd_from_svd(
+    U: AbstractArray,
+    S: AbstractArray,
+    V: AbstractArray,
+    init: str,
+    data_mean: float,
+    *,
+    eps: float = 1e-6,
+    random_state: int | object | None = None,
+) -> tuple[AbstractArray, AbstractArray]:
+    """Describe NNDSVD factor reconstruction from a supplied SVD triplet."""
+    del init, data_mean, eps, random_state
+    n_samples, n_components = _check_matrix(U, "U")
+    if len(S.shape) != 1:
+        raise ValueError("S must be one-dimensional")
+    if int(S.shape[0]) != n_components:
+        raise ValueError("S must match the component axis of U")
+    v_components, n_features = _check_matrix(V, "V")
+    if v_components != n_components:
+        raise ValueError("V must share the component axis with U")
+    return (
+        AbstractArray(shape=(n_samples, n_components), dtype="float64", min_val=0.0),
+        AbstractArray(shape=(n_components, n_features), dtype="float64", min_val=0.0),
+    )
+
+
+def witness_nmf_check_init_matrix(
+    A: AbstractArray,
+    shape: tuple[int | str, int | str],
+    whom: str,
+) -> AbstractArray:
+    """Describe the validated matrix returned for factorization initialization."""
+    del whom
+    n_rows, n_cols = _check_matrix(A, "A")
+    if len(shape) != 2:
+        raise ValueError("shape must have two entries")
+    expected_rows, expected_cols = shape
+    if expected_rows != "auto" and int(expected_rows) != n_rows:
+        raise ValueError("A rows must match the requested shape")
+    if expected_cols != "auto" and int(expected_cols) != n_cols:
+        raise ValueError("A columns must match the requested shape")
+    return AbstractArray(shape=(n_rows, n_cols), dtype="float64", min_val=0.0)

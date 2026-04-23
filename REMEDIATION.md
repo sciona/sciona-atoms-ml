@@ -611,6 +611,12 @@ Potential remediation path:
 - Ingest small explicit helper kernels separately where they are not solver
   shells, such as NMF `trace_dot`, beta-divergence, NNDSVD initialization, or
   dictionary-update normalization.
+- Completed helper slice: `sklearn.decomposition.nmf` now publishes
+  beta-loss normalization, trace-dot, beta-divergence, dense random
+  initialization, NNDSVD reconstruction from a supplied SVD triplet, and
+  initialization-matrix validation. It still stops short of default init-mode
+  dispatch, randomized SVD publication, multiplicative updates, coordinate
+  descent, minibatch scheduling, and estimator state.
 - Completed helper slice: `sklearn.decomposition.dictionary_update` publishes
   dense dictionary-learning sufficient statistics and active-atom update
   helpers with unit-norm projection.
