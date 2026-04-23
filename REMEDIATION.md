@@ -174,6 +174,33 @@ Deferred targets:
 
 Potential remediation path:
 
+- Completed helper slice: `sklearn.linear_model.glm` now publishes dense
+  objective helpers for supplied parameters and data:
+  `glm_linear_raw_prediction`, `glm_log_link_half_loss_gradient`, and
+  `glm_dense_loss_gradient` for Poisson, Gamma, and Tweedie log-link models.
+- Completed helper slice: `sklearn.linear_model.logistic` now publishes binary
+  logistic helpers for supplied raw scores, parameters, and dense design
+  matrices:
+  `binary_logistic_positive_probability`,
+  `binary_logistic_half_loss_gradient`, and
+  `binary_logistic_dense_loss_gradient`.
+- Completed helper slice: `sklearn.linear_model.huber` now publishes supplied
+  residual and objective helpers:
+  `huber_linear_residuals`, `huber_outlier_mask`, and
+  `huber_loss_gradient`.
+- Completed helper slice: `sklearn.linear_model.quantile` now publishes
+  quantile-regression LP setup helpers for supplied dense inputs:
+  `quantile_nonzero_weight_mask`, `quantile_dense_lp_problem`, and
+  `quantile_solution_to_params`.
+- Completed helper slice: `sklearn.linear_model.ransac` now publishes
+  estimator-independent consensus bookkeeping helpers:
+  `ransac_default_residual_threshold`, `ransac_loss_residuals`,
+  `ransac_inlier_mask`, `ransac_consensus_is_better`, and
+  `ransac_dynamic_max_trials`.
+- Completed helper slice: `sklearn.linear_model.sgd` now publishes SGD and
+  passive-aggressive helper atoms for learning-rate resolution,
+  passive-aggressive step-size/config selection, optional `l1_ratio`
+  normalization, and modified-Huber probability conversion.
 - Decompose reusable, deterministic helper atoms first, such as GLM link/loss
   validation, RANSAC consensus bookkeeping from supplied residuals, or
   prediction from already-fitted coefficients.
@@ -210,6 +237,11 @@ Deferred targets:
 
 Potential remediation path:
 
+- Completed helper slice: `sklearn.feature_selection.selectors` now publishes
+  estimator-independent selector bookkeeping atoms for importance transforms,
+  `SelectFromModel` threshold and support-mask resolution, one-step RFE
+  elimination, sequential candidate-mask generation, and best-feature
+  selection from supplied scores.
 - Ingest estimator-independent helper atoms first, such as threshold parsing,
   support-mask updates from supplied importance vectors, and candidate subset
   bookkeeping.
@@ -232,6 +264,10 @@ Deferred targets:
 
 Potential remediation path:
 
+- Completed helper slice: `sklearn.svm` now publishes `l1_min_c`, the
+  estimator-independent lower-bound helper used to determine the smallest
+  useful `C` value for L1-penalized linear classifiers from supplied training
+  data and labels.
 - Decide whether SVM estimators should be represented as limited
   estimator-state wrapper atoms with explicit audit limitations.
 - Or ingest the underlying libsvm/liblinear source through a dedicated native
@@ -250,6 +286,11 @@ Deferred targets:
 
 Potential remediation path:
 
+- Completed helper slice: `sklearn.multiclass` now publishes
+  estimator-independent one-vs-rest and output-code helpers:
+  `one_vs_rest_multiclass_labels`, `one_vs_rest_binary_indicator`,
+  `one_vs_one_decision_scores`, `one_vs_one_class_pairs`,
+  `output_code_book`, and `output_code_decode`.
 - Ingest estimator-independent helpers first, such as one-vs-one class-pair
   index generation, one-vs-rest score aggregation, output-code book creation,
   and code-distance decoding from supplied response matrices.
@@ -269,6 +310,11 @@ Deferred targets:
 
 Potential remediation path:
 
+- Completed helper slice: `sklearn.multioutput` now publishes
+  estimator-independent prediction/chain helpers:
+  `multioutput_prediction_matrix`, `multioutput_exact_match_score`,
+  `chain_order_indices`, `chain_training_features`, `chain_step_features`, and
+  `chain_restore_output_order`.
 - Ingest estimator-independent chain-order validation, feature augmentation
   from supplied previous predictions, independent-output stacking, and
   multioutput score aggregation.
@@ -289,6 +335,10 @@ Potential remediation path:
 
 - For `BallTree` and `KDTree`, ingest the Cython/native tree construction and
   query kernels through a native or FFI-backed decomposition with parity tests.
+- Completed helper slice: `sklearn.neighbors.nca` now publishes
+  estimator-independent NCA helpers for same-class masking, dense linear
+  transformation, neighbor-probability construction, and objective/gradient
+  evaluation from a supplied flattened transformation state.
 - For NCA, publish standalone atoms for the supervised loss/gradient and
   linear transform from supplied components before deciding how to represent
   L-BFGS-B optimization and PCA/LDA initialization.
@@ -339,6 +389,10 @@ Deferred target:
 
 Potential remediation path:
 
+- Completed helper slice: `sklearn.gaussian_process.kernels` now publishes
+  dense kernel and kernel-composition atoms for constant, white, dot-product,
+  RBF, rational-quadratic, Matern, and exp-sine-squared kernels, plus sum,
+  product, exponentiation, and compound-kernel stack helpers.
 - Ingest selected pairwise metrics and kernels directly from
   `sklearn.metrics.pairwise` as first-class atoms, then decide whether a
   limited adapter atom is useful.
@@ -353,6 +407,10 @@ Deferred target:
 
 Potential remediation path:
 
+- Completed helper slice: `sklearn.impute.iterative` now publishes
+  deterministic iterative-imputer helpers for feature update ordering,
+  normalized absolute-correlation matrices, neighbor-feature selection, limit
+  vector expansion, and convergence detection.
 - Decompose the deterministic helper boundaries first, including feature order,
   correlation-based neighbor selection, limit validation, and one-feature
   imputation.
@@ -384,6 +442,10 @@ Deferred targets:
 
 Potential remediation path:
 
+- Completed helper slice: `sklearn.inspection.permutation` now publishes
+  permutation-importance aggregation helpers for baseline-minus-permuted score
+  values, featurewise means, featurewise standard deviations, and the combined
+  summary tuple from supplied score arrays.
 - Ingest small helper atoms only where the boundary is explicit, such as
   permutation score aggregation from baseline and permuted score arrays.
 - Decide how estimator callback boundaries should be represented before
