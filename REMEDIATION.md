@@ -540,8 +540,16 @@ Deferred targets:
 
 Potential remediation path:
 
-- Ingest non-KMeans spectral label assignment helpers such as `cluster_qr` or
-  `discretize` as separate atoms if they become first-class targets.
+- Completed helper slice: `sklearn.cluster.spectral_labeling` publishes
+  non-KMeans label assignment atoms for `cluster_qr` and `discretize` from
+  precomputed spectral embeddings.
+- Completed helper slice: `sklearn.cluster.bicluster` publishes dense
+  spectral biclustering preprocessing atoms for scale, bistochastic, and
+  log-interaction normalization before the SVD and KMeans stages.
+- Sparse biclustering normalization branches, SVD/randomized-SVD projection,
+  piecewise-vector selection, projection-and-cluster helpers, KMeans and
+  MiniBatchKMeans label assignment, and full estimator state surfaces remain
+  deferred.
 - Decide how to represent eigensolver/SVD boundaries and KMeans assignment
   before publishing the full spectral clustering and biclustering estimators.
 
