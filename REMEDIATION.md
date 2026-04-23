@@ -570,6 +570,13 @@ Potential remediation path:
 - Ingest graphical lasso by decomposing `_graphical_lasso` and deciding whether
   native coordinate-descent/LARS solver boundaries should be represented by FFI
   atoms or limited solver-boundary atoms.
+- Completed helper slice: `sklearn.covariance.graphical_lasso` now publishes
+  supplied-state scoring atoms for the off-diagonal L1 penalty, Gaussian
+  covariance log-likelihood, graphical-lasso objective value, and dual-gap
+  convergence score.
+- Graphical-lasso coordinate-descent and LARS inner solvers, path fitting,
+  cross-validation orchestration, public estimator mutation, and alpha
+  selection remain deferred.
 - Completed helper slice: `sklearn.covariance.robust` now publishes
   post-FastMCD deterministic helpers for MCD consistency scaling, corrected
   covariance/distance updates, chi-square support reweighting, reweighted

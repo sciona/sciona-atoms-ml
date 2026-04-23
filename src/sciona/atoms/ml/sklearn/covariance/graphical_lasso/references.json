@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.covariance.graphical_lasso.graphical_lasso_offdiag_l1_penalty@sciona/atoms/ml/sklearn/covariance/graphical_lasso/atoms.py:56": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_source_parity",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from the off-diagonal L1 penalty terms in _objective and _dual_gap in sklearn.covariance._graph_lasso in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "friedman2008graphical_lasso",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_algorithm_reference",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Graphical lasso sparse inverse-covariance reference cited by sklearn's graphical_lasso documentation."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.covariance.graphical_lasso.graphical_lasso_log_likelihood@sciona/atoms/ml/sklearn/covariance/graphical_lasso/atoms.py:65": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_source_parity",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn.covariance._empirical_covariance.log_likelihood as used by graphical-lasso objective scoring in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_project_reference",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for covariance model scoring semantics."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.covariance.graphical_lasso.graphical_lasso_objective@sciona/atoms/ml/sklearn/covariance/graphical_lasso/atoms.py:83": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_source_parity",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from _objective in sklearn.covariance._graph_lasso in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "friedman2008graphical_lasso",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_algorithm_reference",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Sparse inverse-covariance objective reference cited by sklearn's graphical_lasso documentation."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.covariance.graphical_lasso.graphical_lasso_dual_gap@sciona/atoms/ml/sklearn/covariance/graphical_lasso/atoms.py:99": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_source_parity",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from _dual_gap in sklearn.covariance._graph_lasso in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "duchi2008sparsegaussians",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_algorithm_reference",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Dual-gap expression reference named in sklearn.covariance._graph_lasso._dual_gap."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

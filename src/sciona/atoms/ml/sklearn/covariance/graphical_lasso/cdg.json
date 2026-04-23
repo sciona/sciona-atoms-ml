@@ -1,0 +1,94 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_covariance_graphical_lasso_root",
+      "name": "Sklearn Graphical Lasso Scoring Atoms",
+      "description": "Objective, likelihood, penalty, and dual-gap formulas around supplied graphical-lasso covariance state",
+      "status": "decomposed",
+      "children": [
+        "graphical_lasso_offdiag_l1_penalty",
+        "graphical_lasso_log_likelihood",
+        "graphical_lasso_objective",
+        "graphical_lasso_dual_gap"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "graphical_lasso_offdiag_l1_penalty",
+      "name": "graphical_lasso_offdiag_l1_penalty",
+      "description": "Compute the graphical-lasso L1 penalty that excludes diagonal precision entries.",
+      "concept_type": "sparse_precision_scoring",
+      "status": "atomic",
+      "type_signature": "(precision: NDArray[np.float64]) -> float",
+      "depth": 1,
+      "inputs": [
+        {"name": "precision", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "float"}
+      ]
+    },
+    {
+      "node_id": "graphical_lasso_log_likelihood",
+      "name": "graphical_lasso_log_likelihood",
+      "description": "Compute sklearn's Gaussian covariance log-likelihood from empirical covariance and precision.",
+      "concept_type": "sparse_precision_scoring",
+      "status": "atomic",
+      "type_signature": "(emp_cov: NDArray[np.float64], precision: NDArray[np.float64]) -> float",
+      "depth": 1,
+      "inputs": [
+        {"name": "emp_cov", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "precision", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "float"}
+      ]
+    },
+    {
+      "node_id": "graphical_lasso_objective",
+      "name": "graphical_lasso_objective",
+      "description": "Evaluate sklearn's graphical-lasso objective at a supplied precision matrix.",
+      "concept_type": "sparse_precision_scoring",
+      "status": "atomic",
+      "type_signature": "(mle: NDArray[np.float64], precision: NDArray[np.float64], alpha: float) -> float",
+      "depth": 1,
+      "inputs": [
+        {"name": "mle", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "precision", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "alpha", "type_desc": "float", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "float"}
+      ]
+    },
+    {
+      "node_id": "graphical_lasso_dual_gap",
+      "name": "graphical_lasso_dual_gap",
+      "description": "Compute sklearn's graphical-lasso dual-gap convergence score.",
+      "concept_type": "sparse_precision_scoring",
+      "status": "atomic",
+      "type_signature": "(emp_cov: NDArray[np.float64], precision: NDArray[np.float64], alpha: float) -> float",
+      "depth": 1,
+      "inputs": [
+        {"name": "emp_cov", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "precision", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "alpha", "type_desc": "float", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "float"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "graphical_lasso_offdiag_l1_penalty", "target": "graphical_lasso_objective", "kind": "penalty_component"},
+    {"source": "graphical_lasso_log_likelihood", "target": "graphical_lasso_objective", "kind": "likelihood_component"},
+    {"source": "graphical_lasso_offdiag_l1_penalty", "target": "graphical_lasso_dual_gap", "kind": "penalty_component"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.covariance._graph_lasso",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 5 graphical-lasso scoring helpers before coordinate-descent and LARS solver boundaries"
+  }
+}
