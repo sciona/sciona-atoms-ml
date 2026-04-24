@@ -1,0 +1,109 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_gaussian_process_regression_preprocessing_root",
+      "name": "Sklearn Gaussian Process Regression Preprocessing Helper Atoms",
+      "description": "Deterministic fit-time validation and target preprocessing helpers used by GaussianProcessRegressor before optimization and linear algebra.",
+      "status": "decomposed",
+      "children": [
+        "gp_regression_target_count",
+        "gp_regression_validate_n_targets",
+        "gp_regression_target_statistics",
+        "gp_regression_normalize_targets",
+        "gp_regression_resolve_alpha"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "gp_regression_target_count",
+      "name": "gp_regression_target_count",
+      "description": "Count observed output targets from a regression target vector or matrix.",
+      "concept_type": "gaussian_process_helper",
+      "status": "atomic",
+      "type_signature": "(y: NDArray[np.float64]) -> int",
+      "depth": 1,
+      "inputs": [
+        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "int"}
+      ]
+    },
+    {
+      "node_id": "gp_regression_validate_n_targets",
+      "name": "gp_regression_validate_n_targets",
+      "description": "Validate an observed target count against a configured n_targets value.",
+      "concept_type": "gaussian_process_helper",
+      "status": "atomic",
+      "type_signature": "(observed_n_targets: int, n_targets: int | None = None) -> int",
+      "depth": 1,
+      "inputs": [
+        {"name": "observed_n_targets", "type_desc": "int", "required": true},
+        {"name": "n_targets", "type_desc": "int | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "int"}
+      ]
+    },
+    {
+      "node_id": "gp_regression_target_statistics",
+      "name": "gp_regression_target_statistics",
+      "description": "Compute target means and positive scales used by GaussianProcessRegressor fit.",
+      "concept_type": "gaussian_process_helper",
+      "status": "atomic",
+      "type_signature": "(y: NDArray[np.float64], normalize_y: bool = False) -> tuple[float | NDArray[np.float64], float | NDArray[np.float64]]",
+      "depth": 1,
+      "inputs": [
+        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "normalize_y", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[float | NDArray[np.float64], float | NDArray[np.float64]]"}
+      ]
+    },
+    {
+      "node_id": "gp_regression_normalize_targets",
+      "name": "gp_regression_normalize_targets",
+      "description": "Normalize regression targets with supplied GP fit mean and scale statistics.",
+      "concept_type": "gaussian_process_helper",
+      "status": "atomic",
+      "type_signature": "(y: NDArray[np.float64], y_train_mean: float | NDArray[np.float64], y_train_std: float | NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "y_train_mean", "type_desc": "float | NDArray[np.float64]", "required": true},
+        {"name": "y_train_std", "type_desc": "float | NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "gp_regression_resolve_alpha",
+      "name": "gp_regression_resolve_alpha",
+      "description": "Resolve scalar or vector alpha noise values to the form used by GaussianProcessRegressor.",
+      "concept_type": "gaussian_process_helper",
+      "status": "atomic",
+      "type_signature": "(alpha: float | NDArray[np.float64], n_samples: int) -> float | NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "alpha", "type_desc": "float | NDArray[np.float64]", "required": true},
+        {"name": "n_samples", "type_desc": "int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "float | NDArray[np.float64]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "gp_regression_target_count", "target": "gp_regression_validate_n_targets", "kind": "observed_target_count"},
+    {"source": "gp_regression_target_statistics", "target": "gp_regression_normalize_targets", "kind": "normalization_statistics"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.gaussian_process._gpr",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 7 probabilistic and mutable-kernel workflows"
+  }
+}

@@ -540,6 +540,11 @@ Potential remediation path:
   sampling helpers for single-output and multi-output Gaussian-process draws
   from supplied predictive means and covariance tensors, including sklearn's
   per-target stacking behavior.
+- Completed helper slice:
+  `sklearn.gaussian_process.regression_preprocessing` now publishes fit-time
+  helper atoms for observed target counting, configured target-count
+  validation, target mean and scale setup, target normalization, and alpha
+  shape resolution before the optimizer and linear-algebra stages.
 - Ingest standalone Gaussian-process linear algebra primitives first, such as
   kernel regularization, Cholesky solve, posterior mean/covariance, and
   log-marginal-likelihood components. The first regression slice is complete;
