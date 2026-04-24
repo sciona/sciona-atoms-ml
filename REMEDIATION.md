@@ -624,6 +624,12 @@ Potential remediation path:
   compute-full-tree resolution, effective tree `n_clusters` resolution,
   distance-output gating, distance-threshold cluster-count derivation, and
   supplied parent-head relabeling.
+- Completed helper slice:
+  `sklearn.cluster.agglomerative_fit_preflight` now publishes the explicit
+  `_fit` parameter guards for exactly-one-of `n_clusters` or
+  `distance_threshold`, distance-threshold/full-tree compatibility, and Ward's
+  literal-`"euclidean"` metric requirement before connectivity preparation and
+  tree-builder selection.
 - Tree construction, Ward distances, linkage builders, SciPy hierarchy calls,
   compiled `_hierarchical` helpers, estimator state, and
   `FeatureAgglomeration` transform behavior remain deferred.
