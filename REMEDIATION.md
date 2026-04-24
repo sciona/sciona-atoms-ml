@@ -918,6 +918,11 @@ Potential remediation path:
   class-aligned probability and log-probability averaging plus decision and
   regression prediction averaging over already-computed bagging estimator
   outputs.
+- Completed helper slice: `sklearn.ensemble.bagging_oob` publishes
+  out-of-bag classifier probability and vote accumulation, OOB decision
+  normalization, OOB argmax label selection, and regressor OOB prediction
+  averaging from supplied in-bag sample indices and already-computed
+  estimator outputs.
 - Completed helper slice: `sklearn.ensemble.forest_sampling` publishes
   validated bootstrap sample-count resolution plus sampled and unsampled index
   draws for one forest tree before tree growth or OOB scoring.
