@@ -491,6 +491,11 @@ Potential remediation path:
   `sklearn.inspection.partial_dependence_grid` now publishes dense numeric
   grid-parameter validation, per-feature axis construction, and Cartesian grid
   construction before the deferred estimator prediction paths.
+- Completed helper slice:
+  `sklearn.inspection.partial_dependence_postprocessing` now publishes dense
+  grid-value assignment plus brute-mode response averaging, response stacking,
+  and final regression or binary-classification reshape helpers around supplied
+  prediction arrays, while estimator prediction callbacks remain deferred.
 - Ingest small helper atoms only where the boundary is explicit, such as
   permutation score aggregation from baseline and permuted score arrays.
 - Decide how estimator callback boundaries should be represented before
