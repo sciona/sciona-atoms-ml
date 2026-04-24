@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.covariance.robust_fastmcd_1d.fast_mcd_support_count@sciona/atoms/ml/sklearn/covariance/robust_fastmcd_1d/atoms.py:127": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from fast_mcd support-size resolution in sklearn.covariance._robust_covariance for scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "rousseeuw1999fastmcd",
+          "match_metadata": {
+            "match_type": "manual_algorithm_reference",
+            "confidence": "medium",
+            "notes": "Support-size resolution is part of the FastMCD workflow before robust subset search."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.covariance.robust_fastmcd_1d.fast_mcd_1d_location@sciona/atoms/ml/sklearn/covariance/robust_fastmcd_1d/atoms.py:142": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the one-dimensional fast_mcd location shortcut in sklearn.covariance._robust_covariance for scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "rousseeuw1999fastmcd",
+          "match_metadata": {
+            "match_type": "manual_algorithm_reference",
+            "confidence": "medium",
+            "notes": "The one-dimensional FastMCD shortcut uses shortest-half style robust location selection before covariance and distance updates."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.covariance.robust_fastmcd_1d.fast_mcd_1d_support_mask@sciona/atoms/ml/sklearn/covariance/robust_fastmcd_1d/atoms.py:162": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the one-dimensional fast_mcd support selection by centered absolute distances in sklearn.covariance._robust_covariance for scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "rousseeuw1999fastmcd",
+          "match_metadata": {
+            "match_type": "manual_algorithm_reference",
+            "confidence": "medium",
+            "notes": "One-dimensional support selection keeps the closest samples to the robust location estimate."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.covariance.robust_fastmcd_1d.fast_mcd_1d_covariance@sciona/atoms/ml/sklearn/covariance/robust_fastmcd_1d/atoms.py:178": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the one-dimensional fast_mcd raw covariance computation in sklearn.covariance._robust_covariance for scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "rousseeuw1999fastmcd",
+          "match_metadata": {
+            "match_type": "manual_algorithm_reference",
+            "confidence": "medium",
+            "notes": "Raw covariance is computed from the selected one-dimensional FastMCD support."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.covariance.robust_fastmcd_1d.fast_mcd_1d_squared_distances@sciona/atoms/ml/sklearn/covariance/robust_fastmcd_1d/atoms.py:191": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the one-dimensional fast_mcd squared-distance computation in sklearn.covariance._robust_covariance for scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "rousseeuw1999fastmcd",
+          "match_metadata": {
+            "match_type": "manual_algorithm_reference",
+            "confidence": "medium",
+            "notes": "Squared distances are evaluated from the raw one-dimensional FastMCD location and covariance."
+          }
+        }
+      ]
+    }
+  }
+}

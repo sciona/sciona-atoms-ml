@@ -1,0 +1,114 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_covariance_robust_fastmcd_1d_root",
+      "name": "Sklearn Covariance Robust FastMCD 1D Helper Atoms",
+      "description": "Deterministic one-dimensional FastMCD support sizing, location, support-mask, covariance, and squared-distance helpers before the deferred multivariate subset-search loop.",
+      "status": "decomposed",
+      "children": [
+        "fast_mcd_support_count",
+        "fast_mcd_1d_location",
+        "fast_mcd_1d_support_mask",
+        "fast_mcd_1d_covariance",
+        "fast_mcd_1d_squared_distances"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "fast_mcd_support_count",
+      "name": "fast_mcd_support_count",
+      "description": "Resolve FastMCD support size from sample count, feature count, and optional support fraction.",
+      "concept_type": "covariance_helper",
+      "status": "atomic",
+      "type_signature": "(n_samples: int, n_features: int, support_fraction: float | None = None) -> int",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_samples", "type_desc": "int", "required": true},
+        {"name": "n_features", "type_desc": "int", "required": true},
+        {"name": "support_fraction", "type_desc": "float | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "int"}
+      ]
+    },
+    {
+      "node_id": "fast_mcd_1d_location",
+      "name": "fast_mcd_1d_location",
+      "description": "Compute the one-dimensional FastMCD raw location estimate from shortest-half or full-sample averaging.",
+      "concept_type": "covariance_helper",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], n_support: int) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "n_support", "type_desc": "int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "fast_mcd_1d_support_mask",
+      "name": "fast_mcd_1d_support_mask",
+      "description": "Select the one-dimensional FastMCD support from absolute centered distances.",
+      "concept_type": "covariance_helper",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], location: NDArray[np.float64], n_support: int) -> NDArray[np.bool_]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "location", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "n_support", "type_desc": "int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.bool_]"}
+      ]
+    },
+    {
+      "node_id": "fast_mcd_1d_covariance",
+      "name": "fast_mcd_1d_covariance",
+      "description": "Compute the one-dimensional FastMCD raw covariance from the selected support.",
+      "concept_type": "covariance_helper",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], support_mask: NDArray[np.bool_]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "support_mask", "type_desc": "NDArray[np.bool_]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "fast_mcd_1d_squared_distances",
+      "name": "fast_mcd_1d_squared_distances",
+      "description": "Compute one-dimensional FastMCD squared distances from raw location and covariance.",
+      "concept_type": "covariance_helper",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], location: NDArray[np.float64], covariance: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "location", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "covariance", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "fast_mcd_support_count", "target": "fast_mcd_1d_location", "kind": "support_size"},
+    {"source": "fast_mcd_1d_location", "target": "fast_mcd_1d_support_mask", "kind": "centered_support_selection"},
+    {"source": "fast_mcd_1d_support_mask", "target": "fast_mcd_1d_covariance", "kind": "selected_support"},
+    {"source": "fast_mcd_1d_covariance", "target": "fast_mcd_1d_squared_distances", "kind": "raw_covariance"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.covariance._robust_covariance",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 7 robust-covariance estimator shells over deferred FastMCD search"
+  }
+}

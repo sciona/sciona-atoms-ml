@@ -755,11 +755,17 @@ Potential remediation path:
   post-FastMCD deterministic helpers for MCD consistency scaling, corrected
   covariance/distance updates, chi-square support reweighting, reweighted
   location/covariance recomputation, and squared Mahalanobis scoring.
+- Completed helper slice:
+  `sklearn.covariance.robust_fastmcd_1d` now publishes one-dimensional
+  FastMCD helpers for support-size resolution, raw location, support-mask
+  selection, raw covariance, and squared distances from the deterministic
+  one-dimensional shortcut branch.
 - Ingest robust covariance by decomposing FastMCD helpers (`fast_mcd`,
   candidate selection, correction, reweighting, and Mahalanobis scoring) before
   publishing `MinCovDet` or `EllipticEnvelope` fit states. Correction,
-  reweighting, and scoring are complete; raw FastMCD candidate selection and
-  estimator state publication remain deferred.
+  reweighting, scoring, and the one-dimensional shortcut are complete; raw
+  multivariate FastMCD candidate selection and estimator state publication
+  remain deferred.
 
 ## `sklearn.decomposition` sparse coding and matrix factorization solvers
 
