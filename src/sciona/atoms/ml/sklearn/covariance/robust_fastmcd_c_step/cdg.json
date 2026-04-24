@@ -1,0 +1,100 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_covariance_robust_fastmcd_c_step_root",
+      "name": "Sklearn Covariance Robust FastMCD C Step Atoms",
+      "description": "Deterministic FastMCD c-step helpers for initial support selection, support-statistic updates, and the iterative c-step subset-search loop.",
+      "status": "decomposed",
+      "children": [
+        "fast_mcd_initial_random_support_indices",
+        "fast_mcd_support_indices_from_estimates",
+        "fast_mcd_support_statistics",
+        "fast_mcd_c_step"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "fast_mcd_initial_random_support_indices",
+      "name": "fast_mcd_initial_random_support_indices",
+      "description": "Draw sklearn's initial random FastMCD support indices.",
+      "concept_type": "robust_covariance_helper",
+      "status": "atomic",
+      "type_signature": "(n_samples: int, n_support: int, random_state: int | RandomState | None = None) -> NDArray[np.int64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_samples", "type_desc": "int", "required": true},
+        {"name": "n_support", "type_desc": "int", "required": true},
+        {"name": "random_state", "type_desc": "int | RandomState | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.int64]"}
+      ]
+    },
+    {
+      "node_id": "fast_mcd_support_indices_from_estimates",
+      "name": "fast_mcd_support_indices_from_estimates",
+      "description": "Choose FastMCD support indices from supplied location and covariance estimates.",
+      "concept_type": "robust_covariance_helper",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], location: NDArray[np.float64], covariance: NDArray[np.float64], n_support: int) -> NDArray[np.int64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "location", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "covariance", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "n_support", "type_desc": "int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.int64]"}
+      ]
+    },
+    {
+      "node_id": "fast_mcd_support_statistics",
+      "name": "fast_mcd_support_statistics",
+      "description": "Compute FastMCD location, covariance, and log-determinant from a support set.",
+      "concept_type": "robust_covariance_helper",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], support_indices: NDArray[np.int64]) -> tuple[NDArray[np.float64], NDArray[np.float64], float]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "support_indices", "type_desc": "NDArray[np.int64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[NDArray[np.float64], NDArray[np.float64], float]"}
+      ]
+    },
+    {
+      "node_id": "fast_mcd_c_step",
+      "name": "fast_mcd_c_step",
+      "description": "Run sklearn's deterministic FastMCD c-step loop from a random or supplied start.",
+      "concept_type": "robust_covariance_helper",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], n_support: int, random_state: int | RandomState | None = None, remaining_iterations: int = 30, initial_location: NDArray[np.float64] | None = None, initial_covariance: NDArray[np.float64] | None = None) -> tuple[NDArray[np.float64], NDArray[np.float64], float, NDArray[np.bool_], NDArray[np.float64]]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "n_support", "type_desc": "int", "required": true},
+        {"name": "random_state", "type_desc": "int | RandomState | None", "required": false},
+        {"name": "remaining_iterations", "type_desc": "int", "required": false},
+        {"name": "initial_location", "type_desc": "NDArray[np.float64] | None", "required": false},
+        {"name": "initial_covariance", "type_desc": "NDArray[np.float64] | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[NDArray[np.float64], NDArray[np.float64], float, NDArray[np.bool_], NDArray[np.float64]]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "fast_mcd_initial_random_support_indices", "target": "fast_mcd_c_step", "kind": "random_start"},
+    {"source": "fast_mcd_support_indices_from_estimates", "target": "fast_mcd_c_step", "kind": "estimate_start"},
+    {"source": "fast_mcd_support_statistics", "target": "fast_mcd_c_step", "kind": "support_update"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.covariance._robust_covariance",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 4 solver-backed statistical estimators"
+  }
+}

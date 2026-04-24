@@ -783,13 +783,18 @@ Potential remediation path:
   supplied estimates, determinant-based best-candidate ranking and gather,
   large-sample subset scheduling constants, and merged-result scattering back
   to full-length support and distance arrays.
+- Completed helper slice:
+  `sklearn.covariance.robust_fastmcd_c_step` now publishes the deterministic
+  FastMCD c-step subset-search loop plus random-start support initialization,
+  estimate-start support selection, and support-statistic updates.
 - Ingest robust covariance by decomposing FastMCD helpers (`fast_mcd`,
   candidate selection, correction, reweighting, and Mahalanobis scoring) before
   publishing `MinCovDet` or `EllipticEnvelope` fit states. Correction,
   reweighting, scoring, the one-dimensional shortcut, and deterministic
   multivariate trial-planning and scheduling helpers are complete; the `_c_step`
-  subset-search loop, random subset generation, full multivariate candidate
-  evaluation, and estimator state publication remain deferred.
+  subset-search loop and random subset generation are now complete, while full
+  multivariate candidate evaluation and estimator state publication remain
+  deferred.
 
 ## `sklearn.decomposition` sparse coding and matrix factorization solvers
 
