@@ -1,0 +1,92 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_feature_selection_selector_mixin_postfit_root",
+      "name": "Sklearn Feature Selection SelectorMixin Postfit Atoms",
+      "description": "Deterministic post-fit helpers for SelectorMixin support masks, dense transforms, dense inverse transforms, and feature-name masking.",
+      "status": "decomposed",
+      "children": [
+        "selector_support_indices",
+        "selector_transform_dense",
+        "selector_inverse_transform_dense",
+        "selector_feature_names_out"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "selector_support_indices",
+      "name": "selector_support_indices",
+      "description": "Convert a boolean support mask into selected feature indices.",
+      "concept_type": "selector_postfit",
+      "status": "atomic",
+      "type_signature": "(support_mask: NDArray[np.bool_]) -> NDArray[np.int64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "support_mask", "type_desc": "NDArray[np.bool_]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.int64]"}
+      ]
+    },
+    {
+      "node_id": "selector_transform_dense",
+      "name": "selector_transform_dense",
+      "description": "Reduce a dense feature matrix to the columns selected by a boolean support mask.",
+      "concept_type": "selector_postfit",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], support_mask: NDArray[np.bool_]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "support_mask", "type_desc": "NDArray[np.bool_]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "selector_inverse_transform_dense",
+      "name": "selector_inverse_transform_dense",
+      "description": "Reinsert zero-filled dropped columns into a dense selected-feature matrix.",
+      "concept_type": "selector_postfit",
+      "status": "atomic",
+      "type_signature": "(X_selected: NDArray[np.float64], support_mask: NDArray[np.bool_]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X_selected", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "support_mask", "type_desc": "NDArray[np.bool_]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "selector_feature_names_out",
+      "name": "selector_feature_names_out",
+      "description": "Mask input feature names using a boolean support vector.",
+      "concept_type": "selector_postfit",
+      "status": "atomic",
+      "type_signature": "(input_features: tuple[str, ...], support_mask: NDArray[np.bool_]) -> tuple[str, ...]",
+      "depth": 1,
+      "inputs": [
+        {"name": "input_features", "type_desc": "tuple[str, ...]", "required": true},
+        {"name": "support_mask", "type_desc": "NDArray[np.bool_]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[str, ...]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "selector_support_indices", "target": "selector_transform_dense", "kind": "shared_support_mask"},
+    {"source": "selector_transform_dense", "target": "selector_inverse_transform_dense", "kind": "inverse_pair"},
+    {"source": "selector_support_indices", "target": "selector_feature_names_out", "kind": "shared_support_mask"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.feature_selection._base",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 3 meta-estimator wrappers"
+  }
+}

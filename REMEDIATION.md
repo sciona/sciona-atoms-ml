@@ -253,6 +253,10 @@ Potential remediation path:
   publishes deterministic RFECV post-fold bookkeeping for reverse-order
   best-feature-count selection and `cv_results_` materialization from supplied
   fold score histories and a shared feature-count path.
+- Completed helper slice:
+  `sklearn.feature_selection.selector_mixin_postfit` now publishes support-mask
+  index extraction, dense feature filtering, dense inverse transform, and
+  feature-name masking from supplied selector support masks.
 - Ingest estimator-independent helper atoms first, such as threshold parsing,
   support-mask updates from supplied importance vectors, and candidate subset
   bookkeeping.
