@@ -535,6 +535,11 @@ Potential remediation path:
   log-marginal-likelihood gradient helpers for the shared
   alpha-alpha-transpose-minus-kernel-inverse inner tensor, per-parameter
   per-output kernel-gradient contractions, and final output-axis reduction.
+- Completed helper slice:
+  `sklearn.gaussian_process.regression_sampling` now publishes predictive
+  sampling helpers for single-output and multi-output Gaussian-process draws
+  from supplied predictive means and covariance tensors, including sklearn's
+  per-target stacking behavior.
 - Ingest standalone Gaussian-process linear algebra primitives first, such as
   kernel regularization, Cholesky solve, posterior mean/covariance, and
   log-marginal-likelihood components. The first regression slice is complete;

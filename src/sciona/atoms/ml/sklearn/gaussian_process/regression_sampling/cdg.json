@@ -1,0 +1,59 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_gaussian_process_regression_sampling_root",
+      "name": "Sklearn Gaussian Process Regression Sampling Helper Atoms",
+      "description": "Deterministic interface and output-shape helpers around GaussianProcessRegressor sample draws from supplied predictive means and covariances.",
+      "status": "decomposed",
+      "children": [
+        "gp_sample_y_single_output",
+        "gp_sample_y_multi_output"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "gp_sample_y_single_output",
+      "name": "gp_sample_y_single_output",
+      "description": "Draw single-output Gaussian-process samples from a supplied predictive mean vector and covariance matrix.",
+      "concept_type": "gaussian_process_helper",
+      "status": "atomic",
+      "type_signature": "(y_mean: NDArray[np.float64], y_cov: NDArray[np.float64], n_samples: int = 1, random_state: int | np.random.RandomState | None = 0) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "y_mean", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "y_cov", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "n_samples", "type_desc": "int", "required": false},
+        {"name": "random_state", "type_desc": "int | np.random.RandomState | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "gp_sample_y_multi_output",
+      "name": "gp_sample_y_multi_output",
+      "description": "Draw multi-output Gaussian-process samples from supplied per-target predictive means and covariances.",
+      "concept_type": "gaussian_process_helper",
+      "status": "atomic",
+      "type_signature": "(y_mean: NDArray[np.float64], y_cov: NDArray[np.float64], n_samples: int = 1, random_state: int | np.random.RandomState | None = 0) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "y_mean", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "y_cov", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "n_samples", "type_desc": "int", "required": false},
+        {"name": "random_state", "type_desc": "int | np.random.RandomState | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    }
+  ],
+  "edges": [],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.gaussian_process._gpr",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 7 probabilistic and mutable-kernel workflows"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.gaussian_process.regression_sampling.gp_sample_y_single_output@sciona/atoms/ml/sklearn/gaussian_process/regression_sampling/atoms.py:100": {
+      "references": [
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from GaussianProcessRegressor.sample_y single-output sampling in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "rasmussen2006gpml",
+          "match_metadata": {
+            "match_type": "manual_algorithm_reference",
+            "confidence": "high",
+            "notes": "Gaussian-process regression predictive sampling draws from the multivariate Gaussian defined by the predictive mean and covariance."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.regression_sampling.gp_sample_y_multi_output@sciona/atoms/ml/sklearn/gaussian_process/regression_sampling/atoms.py:122": {
+      "references": [
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from GaussianProcessRegressor.sample_y multi-output target loop and hstack behavior in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "rasmussen2006gpml",
+          "match_metadata": {
+            "match_type": "manual_algorithm_reference",
+            "confidence": "high",
+            "notes": "Each output target is sampled from its predictive Gaussian and then stacked along the target axis."
+          }
+        }
+      ]
+    }
+  }
+}
