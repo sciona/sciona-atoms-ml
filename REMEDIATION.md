@@ -914,6 +914,10 @@ Potential remediation path:
 - Completed helper slice: `sklearn.ensemble.bagging_sampling` publishes
   bootstrap and sampling-without-replacement feature/sample index draws for
   one bagging estimator.
+- Completed helper slice: `sklearn.ensemble.bagging_fit_bookkeeping`
+  publishes fit-shell helper atoms for integer `max_samples` and
+  `max_features` resolution, out-of-bag preflight guards, and warm-start
+  additional-estimator counting before the deferred estimator-build workers.
 - Completed helper slice: `sklearn.ensemble.bagging_aggregation` publishes
   class-aligned probability and log-probability averaging plus decision and
   regression prediction averaging over already-computed bagging estimator
