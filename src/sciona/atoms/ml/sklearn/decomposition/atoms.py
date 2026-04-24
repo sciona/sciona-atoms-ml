@@ -7,7 +7,7 @@ import numpy as np
 from numpy.typing import NDArray
 from scipy import linalg
 from sklearn.utils import check_array, check_random_state
-from sklearn.utils.extmath import _incremental_mean_and_var, _randomized_svd, fast_logdet, squared_norm, svd_flip
+from sklearn.utils.extmath import _incremental_mean_and_var, fast_logdet, randomized_svd, squared_norm, svd_flip
 from sklearn.utils.validation import _check_psd_eigenvalues
 
 from sciona.ghost.registry import register_atom
@@ -936,12 +936,15 @@ def truncated_svd_fit(
 ) -> TruncatedSVDState:
     """Fit dense randomized truncated SVD state without centering inputs."""
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True, ensure_min_samples=2, ensure_min_features=2)
-    u, singular_values, vt = _randomized_svd(
+    # sklearn's TruncatedSVD accepts the legacy "OR" token and passes it through
+    # to randomized_svd; map it to the public extmath spelling here.
+    extmath_power_iteration_normalizer = "QR" if power_iteration_normalizer == "OR" else power_iteration_normalizer
+    u, singular_values, vt = randomized_svd(
         checked_x,
         n_components,
         n_iter=n_iter,
         n_oversamples=n_oversamples,
-        power_iteration_normalizer=power_iteration_normalizer,
+        power_iteration_normalizer=extmath_power_iteration_normalizer,
         random_state=random_state,
         flip_sign=False,
     )

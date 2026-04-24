@@ -729,6 +729,12 @@ Potential remediation path:
   `sklearn.decomposition.sparse_encode_preprocessing` publishes sparse-encode
   regularization selection, Gram and covariance precompute helpers, and the
   threshold-only encoding branch.
+- Completed helper slice: `sklearn.decomposition.nmf_minibatch` now publishes
+  MiniBatchNMF scheduling and convergence helpers for batch-size clamping,
+  forgetting-rate exponent calculation, MM gamma selection, transform-iteration
+  defaulting, exponentially weighted cost updates, small-H-change stopping, and
+  no-improvement bookkeeping before the deferred multiplicative updates and fit
+  loop.
 - Sparse-code solving, LARS/Lasso/OMP/coordinate-descent branches, joblib
   parallel sparse encoding, dictionary-learning callbacks, mini-batch
   scheduling, sklearn's random unused-atom resampling branch, and non-threshold
