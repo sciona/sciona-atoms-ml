@@ -502,6 +502,11 @@ Potential remediation path:
   evaluation, and predictive probability stacking from supplied kernel blocks.
   Kernel optimization, the outer Newton loop, mutable kernel state, and
   multiclass one-vs-rest/one-vs-one orchestration remain deferred.
+- Completed helper slice:
+  `sklearn.gaussian_process.classification_posterior_mode` now publishes
+  binary Laplace posterior-mode helpers for warm-start latent initialization,
+  the log-marginal-likelihood improvement stopping rule, and the fixed-kernel
+  Newton loop returning the cached latent vector and final Newton temporaries.
 - Ingest standalone Gaussian-process linear algebra primitives first, such as
   kernel regularization, Cholesky solve, posterior mean/covariance, and
   log-marginal-likelihood components. The first regression slice is complete;

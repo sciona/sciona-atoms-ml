@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.gaussian_process.classification_posterior_mode.gp_classifier_posterior_mode_initial_latent@sciona/atoms/ml/sklearn/gaussian_process/classification_posterior_mode/atoms.py:131": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from _BinaryGaussianProcessClassifierLaplace._posterior_mode warm-start initialization in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "rasmussen2006gpml",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Binary Laplace GPC posterior mode initialization context from GPML Algorithm 3.1."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.classification_posterior_mode.gp_classifier_posterior_mode_converged@sciona/atoms/ml/sklearn/gaussian_process/classification_posterior_mode/atoms.py:149": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from _BinaryGaussianProcessClassifierLaplace._posterior_mode convergence check in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "rasmussen2006gpml",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Binary Laplace GPC posterior-mode improvement monitoring from GPML Algorithm 3.1."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.classification_posterior_mode.gp_classifier_posterior_mode@sciona/atoms/ml/sklearn/gaussian_process/classification_posterior_mode/atoms.py:167": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from _BinaryGaussianProcessClassifierLaplace._posterior_mode in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "rasmussen2006gpml",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Algorithm 3.1 posterior-mode Newton loop for binary Laplace Gaussian-process classification."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}
