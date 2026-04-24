@@ -715,6 +715,11 @@ Potential remediation path:
   coclustering indicator matrices, biclustering SVD-dimension resolution,
   row/column cluster-count resolution, and checkerboard indicator-grid
   construction from supplied labels.
+- Completed helper slice:
+  `sklearn.cluster.bicluster_piecewise_projection` now publishes supplied-state
+  helpers for piecewise vector reconstruction from KMeans outputs, residual
+  norm scoring against those piecewise approximations, best-vector selection,
+  and dense projection before the deferred KMeans assignment step.
 - Sparse biclustering normalization branches, SVD/randomized-SVD projection,
   piecewise-vector selection, projection-and-cluster helpers, KMeans and
   MiniBatchKMeans label assignment, and full estimator state surfaces remain
