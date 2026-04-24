@@ -939,6 +939,10 @@ Potential remediation path:
   normalization, OOB argmax label selection, and regressor OOB prediction
   averaging from supplied in-bag sample indices and already-computed
   estimator outputs.
+- Completed helper slice: `sklearn.ensemble.bagging_oob_scoring` publishes
+  deterministic helper atoms for the bagging OOB uncovered-sample warning
+  mask, classifier OOB accuracy from class totals, and regressor OOB `r2`
+  scoring from already-averaged OOB predictions.
 - Completed helper slice: `sklearn.ensemble.forest_sampling` publishes
   validated bootstrap sample-count resolution plus sampled and unsampled index
   draws for one forest tree before tree growth or OOB scoring.
