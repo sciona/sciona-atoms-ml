@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "metadata": {
-    "generated_at": "2026-04-24T14:43:35.608292+00:00",
+    "generated_at": "2026-04-24T14:55:22.678572+00:00",
     "generator": "scripts/apply_audit_review_bundles.py",
     "phase": "phase_1_review_bundle_merge"
   },
@@ -80138,6 +80138,512 @@
       "required_actions": [],
       "blocking_findings": [],
       "review_record_path": "data/review_bundles/ml_sklearn_neural_network_rbm.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.neural_network.mlp_classification_io.mlp_classifier_encode_targets",
+      "atom_key": "sciona.atoms.ml.sklearn.neural_network.mlp_classification_io.mlp_classifier_encode_targets",
+      "atom_id": "sciona.atoms.ml.sklearn.neural_network.mlp_classification_io.mlp_classifier_encode_targets",
+      "module_import_path": "sciona.atoms.ml.sklearn.neural_network.mlp_classification_io",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/neural_network/mlp_classification_io/atoms.py",
+      "module_family": "neural_network",
+      "domain_family": "ml.sklearn.neural_network",
+      "wrapper_symbol": "mlp_classifier_encode_targets",
+      "argument_names": [
+        "y",
+        "state"
+      ],
+      "argument_details": [
+        {
+          "name": "y",
+          "annotation": "LabelArray",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "state",
+          "annotation": "LabelBinarizerState",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.bool_]",
+      "docstring_summary": "Transform classifier targets to sklearn's boolean MLP training matrix.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_classification_io/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_classification_io/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_classification_io/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_classification_io/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_classification_io_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_classification_io_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_classification_io_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 9,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 93,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 1,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_neural_network_mlp_classification_io.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.neural_network.mlp_classification_io.mlp_classifier_fit_target_state",
+      "atom_key": "sciona.atoms.ml.sklearn.neural_network.mlp_classification_io.mlp_classifier_fit_target_state",
+      "atom_id": "sciona.atoms.ml.sklearn.neural_network.mlp_classification_io.mlp_classifier_fit_target_state",
+      "module_import_path": "sciona.atoms.ml.sklearn.neural_network.mlp_classification_io",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/neural_network/mlp_classification_io/atoms.py",
+      "module_family": "neural_network",
+      "domain_family": "ml.sklearn.neural_network",
+      "wrapper_symbol": "mlp_classifier_fit_target_state",
+      "argument_names": [
+        "y",
+        "existing_state",
+        "warm_start",
+        "incremental"
+      ],
+      "argument_details": [
+        {
+          "name": "y",
+          "annotation": "LabelArray",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "existing_state",
+          "annotation": "LabelBinarizerState | None",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "warm_start",
+          "annotation": "bool",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "incremental",
+          "annotation": "bool",
+          "required": false,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "LabelBinarizerState",
+      "docstring_summary": "Resolve the fitted label-binarizer state sklearn's MLPClassifier uses during fit.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_classification_io/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_classification_io/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_classification_io/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_classification_io/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_classification_io_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_classification_io_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_classification_io_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 10,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 92,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 3,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_neural_network_mlp_classification_io.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.neural_network.mlp_classification_io.mlp_classifier_labels_from_outputs",
+      "atom_key": "sciona.atoms.ml.sklearn.neural_network.mlp_classification_io.mlp_classifier_labels_from_outputs",
+      "atom_id": "sciona.atoms.ml.sklearn.neural_network.mlp_classification_io.mlp_classifier_labels_from_outputs",
+      "module_import_path": "sciona.atoms.ml.sklearn.neural_network.mlp_classification_io",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/neural_network/mlp_classification_io/atoms.py",
+      "module_family": "neural_network",
+      "domain_family": "ml.sklearn.neural_network",
+      "wrapper_symbol": "mlp_classifier_labels_from_outputs",
+      "argument_names": [
+        "outputs",
+        "state",
+        "n_outputs"
+      ],
+      "argument_details": [
+        {
+          "name": "outputs",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "state",
+          "annotation": "LabelBinarizerState",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "n_outputs",
+          "annotation": "int",
+          "required": true,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "DecodedLabels",
+      "docstring_summary": "Decode already-computed MLP classifier outputs back to predicted labels.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_classification_io/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_classification_io/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_classification_io/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_classification_io/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_classification_io_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_classification_io_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_classification_io_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 10,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 92,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 2,
+      "parity_case_count": 2,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_neural_network_mlp_classification_io.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.neural_network.mlp_classification_io.mlp_classifier_partial_fit_target_state",
+      "atom_key": "sciona.atoms.ml.sklearn.neural_network.mlp_classification_io.mlp_classifier_partial_fit_target_state",
+      "atom_id": "sciona.atoms.ml.sklearn.neural_network.mlp_classification_io.mlp_classifier_partial_fit_target_state",
+      "module_import_path": "sciona.atoms.ml.sklearn.neural_network.mlp_classification_io",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/neural_network/mlp_classification_io/atoms.py",
+      "module_family": "neural_network",
+      "domain_family": "ml.sklearn.neural_network",
+      "wrapper_symbol": "mlp_classifier_partial_fit_target_state",
+      "argument_names": [
+        "y",
+        "classes"
+      ],
+      "argument_details": [
+        {
+          "name": "y",
+          "annotation": "LabelArray",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "classes",
+          "annotation": "LabelArray",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "LabelBinarizerState",
+      "docstring_summary": "Build the first-call label-binarizer state sklearn's MLPClassifier.partial_fit uses.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_classification_io/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_classification_io/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_classification_io/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_classification_io/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_classification_io_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_classification_io_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_classification_io_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 10,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 92,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 2,
+      "parity_case_count": 2,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_neural_network_mlp_classification_io.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.neural_network.mlp_classification_io.mlp_classifier_probabilities_from_outputs",
+      "atom_key": "sciona.atoms.ml.sklearn.neural_network.mlp_classification_io.mlp_classifier_probabilities_from_outputs",
+      "atom_id": "sciona.atoms.ml.sklearn.neural_network.mlp_classification_io.mlp_classifier_probabilities_from_outputs",
+      "module_import_path": "sciona.atoms.ml.sklearn.neural_network.mlp_classification_io",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/neural_network/mlp_classification_io/atoms.py",
+      "module_family": "neural_network",
+      "domain_family": "ml.sklearn.neural_network",
+      "wrapper_symbol": "mlp_classifier_probabilities_from_outputs",
+      "argument_names": [
+        "outputs",
+        "n_outputs"
+      ],
+      "argument_details": [
+        {
+          "name": "outputs",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "n_outputs",
+          "annotation": "int",
+          "required": true,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.float64]",
+      "docstring_summary": "Format already-computed MLP classifier outputs as predict_proba returns them.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_classification_io/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_classification_io/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_classification_io/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_classification_io/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_classification_io_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_classification_io_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_classification_io_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 9,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 93,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 2,
+      "parity_case_count": 2,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_neural_network_mlp_classification_io.review_bundle.json",
       "has_references": true,
       "references_status": "pass"
     },

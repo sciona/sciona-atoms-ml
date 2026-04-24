@@ -1,0 +1,114 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_neural_network_mlp_classification_io_root",
+      "name": "Sklearn MLP Classification IO Helper Atoms",
+      "description": "Classifier-side MLP target-state resolution and output postprocessing helpers",
+      "status": "decomposed",
+      "children": [
+        "mlp_classifier_fit_target_state",
+        "mlp_classifier_partial_fit_target_state",
+        "mlp_classifier_encode_targets",
+        "mlp_classifier_labels_from_outputs",
+        "mlp_classifier_probabilities_from_outputs"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "mlp_classifier_fit_target_state",
+      "name": "mlp_classifier_fit_target_state",
+      "description": "Resolve the fitted label-binarizer state used during MLPClassifier fit input validation.",
+      "concept_type": "target_state_resolution",
+      "status": "atomic",
+      "type_signature": "(y: LabelArray, existing_state: LabelBinarizerState | None = None, warm_start: bool = False, incremental: bool = False) -> LabelBinarizerState",
+      "depth": 1,
+      "inputs": [
+        {"name": "y", "type_desc": "LabelArray", "required": true},
+        {"name": "existing_state", "type_desc": "LabelBinarizerState | None", "required": false},
+        {"name": "warm_start", "type_desc": "bool", "required": false},
+        {"name": "incremental", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "LabelBinarizerState"}
+      ]
+    },
+    {
+      "node_id": "mlp_classifier_partial_fit_target_state",
+      "name": "mlp_classifier_partial_fit_target_state",
+      "description": "Build the first-call label-binarizer state used by MLPClassifier.partial_fit.",
+      "concept_type": "target_state_resolution",
+      "status": "atomic",
+      "type_signature": "(y: LabelArray, classes: LabelArray) -> LabelBinarizerState",
+      "depth": 1,
+      "inputs": [
+        {"name": "y", "type_desc": "LabelArray", "required": true},
+        {"name": "classes", "type_desc": "LabelArray", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "LabelBinarizerState"}
+      ]
+    },
+    {
+      "node_id": "mlp_classifier_encode_targets",
+      "name": "mlp_classifier_encode_targets",
+      "description": "Transform classifier labels to sklearn's boolean training target matrix.",
+      "concept_type": "target_encoding",
+      "status": "atomic",
+      "type_signature": "(y: LabelArray, state: LabelBinarizerState) -> NDArray[np.bool_]",
+      "depth": 1,
+      "inputs": [
+        {"name": "y", "type_desc": "LabelArray", "required": true},
+        {"name": "state", "type_desc": "LabelBinarizerState", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.bool_]"}
+      ]
+    },
+    {
+      "node_id": "mlp_classifier_labels_from_outputs",
+      "name": "mlp_classifier_labels_from_outputs",
+      "description": "Decode already-computed classifier outputs back to predicted labels.",
+      "concept_type": "prediction_decoding",
+      "status": "atomic",
+      "type_signature": "(outputs: NDArray[np.float64], state: LabelBinarizerState, n_outputs: int) -> NDArray[np.object_] | csr_matrix",
+      "depth": 1,
+      "inputs": [
+        {"name": "outputs", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "state", "type_desc": "LabelBinarizerState", "required": true},
+        {"name": "n_outputs", "type_desc": "int", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.object_] | csr_matrix"}
+      ]
+    },
+    {
+      "node_id": "mlp_classifier_probabilities_from_outputs",
+      "name": "mlp_classifier_probabilities_from_outputs",
+      "description": "Format classifier outputs as sklearn's predict_proba return matrix.",
+      "concept_type": "probability_postprocessing",
+      "status": "atomic",
+      "type_signature": "(outputs: NDArray[np.float64], n_outputs: int) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "outputs", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "n_outputs", "type_desc": "int", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "mlp_classifier_fit_target_state", "target": "mlp_classifier_encode_targets", "kind": "fitted_target_state"},
+    {"source": "mlp_classifier_partial_fit_target_state", "target": "mlp_classifier_encode_targets", "kind": "partial_fit_target_state"},
+    {"source": "mlp_classifier_encode_targets", "target": "mlp_classifier_labels_from_outputs", "kind": "shared_label_space"},
+    {"source": "mlp_classifier_probabilities_from_outputs", "target": "mlp_classifier_labels_from_outputs", "kind": "output_postprocessing"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.neural_network._multilayer_perceptron",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 2 MLP classifier target and output helpers"
+  }
+}

@@ -384,6 +384,12 @@ Potential remediation path:
   `mlp_init_layer_parameters`, and `mlp_initialize_parameters`. It still
   defers label preprocessing, stochastic-training bookkeeping, batching,
   early stopping, optimizer state, and the outer MLP fit loop.
+- Completed helper slice:
+  `sklearn.neural_network.mlp_classification_io` now publishes classifier-side
+  target and output helpers for fit-time label-state resolution,
+  first-call partial-fit label-state initialization, boolean target encoding,
+  label decoding from output scores, and binary/multiclass probability
+  formatting.
 - Decide whether SGD/Adam/L-BFGS optimizer state should be represented as
   separate atom families before publishing full MLP training surfaces.
 
