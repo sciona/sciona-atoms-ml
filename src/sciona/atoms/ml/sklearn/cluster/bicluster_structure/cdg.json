@@ -1,0 +1,130 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_cluster_bicluster_structure_root",
+      "name": "Sklearn Spectral Bicluster Structure Atoms",
+      "description": "Deterministic structure and bookkeeping helpers for sklearn spectral co-clustering and spectral biclustering",
+      "status": "decomposed",
+      "children": [
+        "cocluster_singular_vector_count",
+        "cocluster_stacked_embedding",
+        "cocluster_split_labels",
+        "cocluster_indicator_matrix",
+        "bicluster_effective_svd_dims",
+        "bicluster_resolve_cluster_counts",
+        "bicluster_indicator_grid"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cocluster_singular_vector_count",
+      "name": "cocluster_singular_vector_count",
+      "description": "Compute the singular-vector count requested by spectral coclustering.",
+      "concept_type": "scheduling_parameter_normalization",
+      "status": "atomic",
+      "type_signature": "(n_clusters: int) -> int",
+      "depth": 1,
+      "inputs": [{"name": "n_clusters", "type_desc": "int", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "int"}]
+    },
+    {
+      "node_id": "cocluster_stacked_embedding",
+      "name": "cocluster_stacked_embedding",
+      "description": "Stack scaled left and right singular vectors for coclustering label assignment.",
+      "concept_type": "embedding_construction",
+      "status": "atomic",
+      "type_signature": "(row_diag: NDArray[np.float64], u: NDArray[np.float64], col_diag: NDArray[np.float64], v: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "row_diag", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "u", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "col_diag", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "v", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+    },
+    {
+      "node_id": "cocluster_split_labels",
+      "name": "cocluster_split_labels",
+      "description": "Split stacked coclustering labels into row and column partitions.",
+      "concept_type": "label_partitioning",
+      "status": "atomic",
+      "type_signature": "(labels: NDArray[np.int64], n_rows: int) -> tuple[NDArray[np.int64], NDArray[np.int64]]",
+      "depth": 1,
+      "inputs": [
+        {"name": "labels", "type_desc": "NDArray[np.int64]", "required": true},
+        {"name": "n_rows", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "tuple[NDArray[np.int64], NDArray[np.int64]]"}]
+    },
+    {
+      "node_id": "cocluster_indicator_matrix",
+      "name": "cocluster_indicator_matrix",
+      "description": "Build the boolean cluster-membership matrix for one coclustering partition.",
+      "concept_type": "indicator_construction",
+      "status": "atomic",
+      "type_signature": "(labels: NDArray[np.int64], n_clusters: int) -> NDArray[np.bool_]",
+      "depth": 1,
+      "inputs": [
+        {"name": "labels", "type_desc": "NDArray[np.int64]", "required": true},
+        {"name": "n_clusters", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.bool_]"}]
+    },
+    {
+      "node_id": "bicluster_effective_svd_dims",
+      "name": "bicluster_effective_svd_dims",
+      "description": "Resolve the requested and discarded singular-vector counts for spectral biclustering.",
+      "concept_type": "scheduling_parameter_normalization",
+      "status": "atomic",
+      "type_signature": "(method: str, n_components: int) -> tuple[int, int]",
+      "depth": 1,
+      "inputs": [
+        {"name": "method", "type_desc": "str", "required": true},
+        {"name": "n_components", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "tuple[int, int]"}]
+    },
+    {
+      "node_id": "bicluster_resolve_cluster_counts",
+      "name": "bicluster_resolve_cluster_counts",
+      "description": "Resolve row and column cluster counts from sklearn's biclustering parameter.",
+      "concept_type": "parameter_normalization",
+      "status": "atomic",
+      "type_signature": "(n_clusters: int | tuple[int, int]) -> tuple[int, int]",
+      "depth": 1,
+      "inputs": [{"name": "n_clusters", "type_desc": "int | tuple[int, int]", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "tuple[int, int]"}]
+    },
+    {
+      "node_id": "bicluster_indicator_grid",
+      "name": "bicluster_indicator_grid",
+      "description": "Build the repeated row and column indicator grids used by spectral biclustering.",
+      "concept_type": "indicator_construction",
+      "status": "atomic",
+      "type_signature": "(row_labels: NDArray[np.int64], column_labels: NDArray[np.int64], n_row_clusters: int, n_col_clusters: int) -> tuple[NDArray[np.bool_], NDArray[np.bool_]]",
+      "depth": 1,
+      "inputs": [
+        {"name": "row_labels", "type_desc": "NDArray[np.int64]", "required": true},
+        {"name": "column_labels", "type_desc": "NDArray[np.int64]", "required": true},
+        {"name": "n_row_clusters", "type_desc": "int", "required": true},
+        {"name": "n_col_clusters", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "tuple[NDArray[np.bool_], NDArray[np.bool_]]"}]
+    }
+  ],
+  "edges": [
+    {"source": "cocluster_singular_vector_count", "target": "cocluster_stacked_embedding", "kind": "embedding_rank_request"},
+    {"source": "cocluster_stacked_embedding", "target": "cocluster_split_labels", "kind": "stacked_kmeans_input"},
+    {"source": "cocluster_split_labels", "target": "cocluster_indicator_matrix", "kind": "partition_membership"},
+    {"source": "bicluster_effective_svd_dims", "target": "bicluster_resolve_cluster_counts", "kind": "fit_shape_context"},
+    {"source": "bicluster_resolve_cluster_counts", "target": "bicluster_indicator_grid", "kind": "checkerboard_dimensions"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.cluster._bicluster",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 5 spectral biclustering bookkeeping helpers after deferred SVD and KMeans boundaries"
+  }
+}

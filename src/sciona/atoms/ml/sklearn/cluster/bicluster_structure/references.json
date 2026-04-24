@@ -1,0 +1,180 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.cluster.bicluster_structure.cocluster_singular_vector_count@sciona/atoms/ml/sklearn/cluster/bicluster_structure/atoms.py:170": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_source_parity",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from SpectralCoclustering._fit in sklearn.cluster._bicluster in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "dhillon2001coclustering",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_algorithm_reference",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Spectral co-clustering reference cited by sklearn.cluster.SpectralCoclustering."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.cluster.bicluster_structure.cocluster_stacked_embedding@sciona/atoms/ml/sklearn/cluster/bicluster_structure/atoms.py:184": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_source_parity",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from SpectralCoclustering._fit in sklearn.cluster._bicluster in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "dhillon2001coclustering",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_algorithm_reference",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Spectral co-clustering embedding construction follows Dhillon's formulation."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.cluster.bicluster_structure.cocluster_split_labels@sciona/atoms/ml/sklearn/cluster/bicluster_structure/atoms.py:205": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_source_parity",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from SpectralCoclustering._fit label splitting in sklearn.cluster._bicluster in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_project_reference",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.cluster.bicluster_structure.cocluster_indicator_matrix@sciona/atoms/ml/sklearn/cluster/bicluster_structure/atoms.py:218": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_source_parity",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from SpectralCoclustering._fit indicator construction in sklearn.cluster._bicluster in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "dhillon2001coclustering",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_algorithm_reference",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Row and column partition indicators correspond to the spectral co-clustering bicluster outputs."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.cluster.bicluster_structure.bicluster_effective_svd_dims@sciona/atoms/ml/sklearn/cluster/bicluster_structure/atoms.py:231": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_source_parity",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from SpectralBiclustering._fit in sklearn.cluster._bicluster in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "kluger2003spectralbiclustering",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_algorithm_reference",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Spectral biclustering reference cited by sklearn.cluster.SpectralBiclustering."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.cluster.bicluster_structure.bicluster_resolve_cluster_counts@sciona/atoms/ml/sklearn/cluster/bicluster_structure/atoms.py:241": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_source_parity",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from SpectralBiclustering._fit cluster-count handling in sklearn.cluster._bicluster in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "kluger2003spectralbiclustering",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_algorithm_reference",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Checkerboard biclustering uses separate row and column cluster counts."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.cluster.bicluster_structure.bicluster_indicator_grid@sciona/atoms/ml/sklearn/cluster/bicluster_structure/atoms.py:261": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_source_parity",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from SpectralBiclustering._fit indicator-grid construction in sklearn.cluster._bicluster in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "kluger2003spectralbiclustering",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_algorithm_reference",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "The repeated row and column indicator grids encode the checkerboard bicluster structure."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

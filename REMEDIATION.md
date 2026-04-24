@@ -651,6 +651,12 @@ Potential remediation path:
 - Completed helper slice: `sklearn.cluster.bicluster` publishes dense
   spectral biclustering preprocessing atoms for scale, bistochastic, and
   log-interaction normalization before the SVD and KMeans stages.
+- Completed helper slice: `sklearn.cluster.bicluster_structure` publishes
+  deterministic coclustering and biclustering bookkeeping helpers for
+  coclustering singular-vector counts, stacked SVD embeddings, label splits,
+  coclustering indicator matrices, biclustering SVD-dimension resolution,
+  row/column cluster-count resolution, and checkerboard indicator-grid
+  construction from supplied labels.
 - Sparse biclustering normalization branches, SVD/randomized-SVD projection,
   piecewise-vector selection, projection-and-cluster helpers, KMeans and
   MiniBatchKMeans label assignment, and full estimator state surfaces remain
