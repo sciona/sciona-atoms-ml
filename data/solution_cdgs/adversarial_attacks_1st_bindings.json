@@ -14,18 +14,11 @@
   "bindings": [
     {
       "stage_id": "ensemble_prediction_label_inference",
-      "bound_artifact_fqdn": null,
-      "binding_confidence": 0.0,
+      "bound_artifact_fqdn": "sciona.atoms.dl.adversarial.ensemble_prediction_label_inference",
+      "binding_confidence": 1.0,
       "binding_source": "manual_analysis",
-      "status": "gap",
-      "action_class": "replace_stage",
-      "evidence_summary": {
-        "search_attempted": true,
-        "concept_type_searched": "data_assembly",
-        "keywords_searched": ["ensemble", "prediction", "label", "inference", "argmax", "consensus"],
-        "candidates_found": [],
-        "gap_reason": "Ensemble consensus label inference with freeze-after-first-iteration semantics. No matching atom exists. Simple argmax-of-sum but the freeze logic is competition-specific."
-      }
+      "status": "active",
+      "action_class": "replace_stage"
     },
     {
       "stage_id": "adaptive_epsilon_attack_strategy",
@@ -46,18 +39,12 @@
     },
     {
       "stage_id": "auxiliary_logit_loss_fusion",
-      "bound_artifact_fqdn": null,
-      "binding_confidence": 0.0,
+      "bound_artifact_fqdn": "sciona.atoms.dl.adversarial.auxiliary_logit_loss_fusion",
+      "binding_confidence": 1.0,
       "binding_source": "manual_analysis",
-      "status": "gap",
+      "status": "active",
       "action_class": "replace_stage",
-      "evidence_summary": {
-        "search_attempted": true,
-        "concept_type_searched": "optimization",
-        "keywords_searched": ["auxiliary", "logit", "loss", "multi_head", "inception"],
-        "candidates_found": [],
-        "gap_reason": "Multi-head loss combining main and auxiliary classification heads with weight 0.4 on aux. Produces richer gradients at multiple network depths. No matching atom."
-      }
+      "evidence_summary": {"binding_rationale": "loss_function atom with callable_injection edge. Torch port available for differentiable backprop.", "edge_kind": "callable_injection"}
     },
     {
       "stage_id": "momentum_iterative_gradient_accumulation",
@@ -69,18 +56,11 @@
     },
     {
       "stage_id": "std_normalized_momentum_gradient",
-      "bound_artifact_fqdn": null,
-      "binding_confidence": 0.0,
+      "bound_artifact_fqdn": "sciona.atoms.dl.adversarial.std_normalized_momentum_gradient",
+      "binding_confidence": 1.0,
       "binding_source": "manual_analysis",
-      "status": "gap",
-      "action_class": "replace_stage",
-      "evidence_summary": {
-        "search_attempted": true,
-        "concept_type_searched": "fixed_point",
-        "keywords_searched": ["std", "normalized", "momentum", "gradient", "targeted"],
-        "candidates_found": [],
-        "gap_reason": "Targeted-attack variant using double std-normalization instead of L1-mean. Preserves spatial structure better for targeted perturbations. No matching atom."
-      }
+      "status": "active",
+      "action_class": "replace_stage"
     },
     {
       "stage_id": "rounded_clipped_perturbation_step",
@@ -93,17 +73,15 @@
   ],
   "binding_summary": {
     "total_stages": 7,
-    "bound_active": 4,
+    "bound_active": 7,
     "bound_approximate": 0,
-    "gaps": 3,
+    "gaps": 0,
     "atoms_used_by_repo": {
-      "sciona-atoms-ml": 4
+      "sciona-atoms-ml": 4,
+      "sciona-atoms-dl": 3
     },
-    "novel_atoms_needed": [
-      "auxiliary_logit_loss_fusion",
-      "std_normalized_momentum_gradient",
-      "ensemble_prediction_label_inference"
-    ],
+    "cross_repo_bindings": true,
+    "novel_atoms_needed": [],
     "meta_patterns_unbound": []
   },
   "architect_test_expectations": {

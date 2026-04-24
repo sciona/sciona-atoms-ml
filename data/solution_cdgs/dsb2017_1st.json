@@ -65,7 +65,7 @@
       ],
       "preconditions": ["Raw CT volume available in Hounsfield units."],
       "guarantees": ["Output contains only lung tissue; bone and exterior removed."],
-      "matched_primitive": ""
+      "matched_primitive": "sciona.atoms.dl.detection.lung_mask_with_bone_removal"
     },
     {
       "stage_id": "volume_split_combine",
@@ -102,7 +102,7 @@
         "Predates CoordConv (Liu et al. 2018) by using position-aware channels at the decoder.",
         "Critical because nodule probability varies by anatomical location (e.g., upper lobes vs lower lobes)."
       ],
-      "matched_primitive": ""
+      "matched_primitive": "sciona.atoms.dl.detection.coordinate_aware_3d_unet"
     },
     {
       "stage_id": "anchor_label_mapping_with_iou_dilation",
@@ -119,7 +119,7 @@
       ],
       "preconditions": ["Anchor grid and ground truth boxes available."],
       "guarantees": ["Binary dilation creates ignore zone; near-miss anchors not penalized."],
-      "matched_primitive": ""
+      "matched_primitive": "sciona.atoms.dl.detection.anchor_label_mapping_with_iou_dilation"
     },
     {
       "stage_id": "online_hard_negative_mining",
@@ -135,7 +135,7 @@
       ],
       "preconditions": ["Detection logits available."],
       "guarantees": ["Only num_hard hardest negatives per sample retained."],
-      "matched_primitive": ""
+      "matched_primitive": "sciona.atoms.dl.training.online_hard_negative_mining"
     },
     {
       "stage_id": "size_aware_nodule_oversampling",
@@ -151,7 +151,7 @@
       ],
       "preconditions": ["Nodule labels with diameter available."],
       "guarantees": ["Large nodules oversampled proportionally."],
-      "matched_primitive": ""
+      "matched_primitive": "sciona.atoms.dl.training.size_aware_nodule_oversampling"
     },
     {
       "stage_id": "softmax_temperature_proposal_sampling",
@@ -168,7 +168,7 @@
       ],
       "preconditions": ["Detection confidences available."],
       "guarantees": ["Selected proposals are diverse; temperature controls exploration vs exploitation."],
-      "matched_primitive": ""
+      "matched_primitive": "sciona.atoms.dl.training.softmax_temperature_proposal_sampling"
     },
     {
       "stage_id": "center_feature_extraction_3d",
@@ -187,7 +187,7 @@
       "family_notes": [
         "An LLM would use global pooling. The center-only extraction is the non-obvious design choice."
       ],
-      "matched_primitive": ""
+      "matched_primitive": "sciona.atoms.dl.detection.center_feature_extraction_3d"
     },
     {
       "stage_id": "noisy_or_pooling",
@@ -225,7 +225,7 @@
       ],
       "preconditions": ["Predictions and labels available."],
       "guarantees": ["Only activates when P < 0.03 for known positive nodules."],
-      "matched_primitive": ""
+      "matched_primitive": "sciona.atoms.dl.loss.miss_penalty_loss"
     }
   ],
   "edges": [
