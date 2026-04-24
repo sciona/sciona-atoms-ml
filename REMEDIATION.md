@@ -922,6 +922,10 @@ Potential remediation path:
   publishes deterministic helper atoms for balanced job partitioning and
   warm-start per-estimator seed generation before the deferred bagging worker
   builds.
+- Completed helper slice: `sklearn.ensemble.bagging_index_reconstruction`
+  publishes deterministic helper atoms for reconstructing per-estimator
+  feature/sample draw pairs plus feature-only and sample-only index blocks
+  from stored bagging seed vectors and validated sampling parameters.
 - Completed helper slice: `sklearn.ensemble.bagging_aggregation` publishes
   class-aligned probability and log-probability averaging plus decision and
   regression prediction averaging over already-computed bagging estimator
