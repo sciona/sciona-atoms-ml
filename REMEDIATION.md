@@ -925,6 +925,12 @@ Potential remediation path:
   estimator-independent SAMME decision aggregation, decision-to-probability
   conversion, and AdaBoost.R2 weighted-median regression aggregation over
   already-computed estimator outputs.
+- Completed helper slice: `sklearn.ensemble.adaboost_weight_updates`
+  publishes deterministic training-stage helper atoms for classifier stage
+  error, SAMME estimator weights, nonterminal classifier sample-weight
+  updates, and AdaBoost.R2 loss-vector, beta, estimator-weight, and
+  nonterminal sample-weight update math from supplied predictions or error
+  vectors and sample weights.
 - Completed helper slice: `sklearn.ensemble.forest_aggregation` publishes
   mean class-probability aggregation, class selection from aggregated
   probabilities, and regression prediction averaging over already-computed
