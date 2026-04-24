@@ -487,6 +487,10 @@ Potential remediation path:
   permutation-importance aggregation helpers for baseline-minus-permuted score
   values, featurewise means, featurewise standard deviations, and the combined
   summary tuple from supplied score arrays.
+- Completed helper slice:
+  `sklearn.inspection.partial_dependence_grid` now publishes dense numeric
+  grid-parameter validation, per-feature axis construction, and Cartesian grid
+  construction before the deferred estimator prediction paths.
 - Ingest small helper atoms only where the boundary is explicit, such as
   permutation score aggregation from baseline and permuted score arrays.
 - Decide how estimator callback boundaries should be represented before

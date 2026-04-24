@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "metadata": {
-    "generated_at": "2026-04-24T15:30:26.178256+00:00",
+    "generated_at": "2026-04-24T15:38:32.004481+00:00",
     "generator": "scripts/apply_audit_review_bundles.py",
     "phase": "phase_1_review_bundle_merge"
   },
@@ -56488,6 +56488,325 @@
       "required_actions": [],
       "blocking_findings": [],
       "review_record_path": "data/review_bundles/ml_sklearn_impute_basic.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.inspection.partial_dependence_grid.partial_dependence_feature_axis",
+      "atom_key": "sciona.atoms.ml.sklearn.inspection.partial_dependence_grid.partial_dependence_feature_axis",
+      "atom_id": "sciona.atoms.ml.sklearn.inspection.partial_dependence_grid.partial_dependence_feature_axis",
+      "module_import_path": "sciona.atoms.ml.sklearn.inspection.partial_dependence_grid",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/inspection/partial_dependence_grid/atoms.py",
+      "module_family": "inspection",
+      "domain_family": "ml.sklearn.inspection",
+      "wrapper_symbol": "partial_dependence_feature_axis",
+      "argument_names": [
+        "feature_values",
+        "percentiles",
+        "is_categorical",
+        "grid_resolution"
+      ],
+      "argument_details": [
+        {
+          "name": "feature_values",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "percentiles",
+          "annotation": "tuple[float, float]",
+          "required": true,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "is_categorical",
+          "annotation": "bool",
+          "required": true,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "grid_resolution",
+          "annotation": "int",
+          "required": true,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.float64]",
+      "docstring_summary": "Build one feature axis for partial dependence from unique values or percentiles.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_grid/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_grid/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_grid/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_grid/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_inspection_partial_dependence_grid_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_inspection_partial_dependence_grid_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_inspection_partial_dependence_grid_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 9,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 93,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 4,
+      "parity_case_count": 10,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_inspection_partial_dependence_grid.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.inspection.partial_dependence_grid.partial_dependence_grid",
+      "atom_key": "sciona.atoms.ml.sklearn.inspection.partial_dependence_grid.partial_dependence_grid",
+      "atom_id": "sciona.atoms.ml.sklearn.inspection.partial_dependence_grid.partial_dependence_grid",
+      "module_import_path": "sciona.atoms.ml.sklearn.inspection.partial_dependence_grid",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/inspection/partial_dependence_grid/atoms.py",
+      "module_family": "inspection",
+      "domain_family": "ml.sklearn.inspection",
+      "wrapper_symbol": "partial_dependence_grid",
+      "argument_names": [
+        "X",
+        "percentiles",
+        "is_categorical",
+        "grid_resolution"
+      ],
+      "argument_details": [
+        {
+          "name": "X",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "percentiles",
+          "annotation": "tuple[float, float]",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "is_categorical",
+          "annotation": "tuple[bool, ...]",
+          "required": true,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "grid_resolution",
+          "annotation": "int",
+          "required": false,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "GridResult",
+      "docstring_summary": "Build the dense partial-dependence grid for supplied numeric feature columns.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_grid/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_grid/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_grid/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_grid/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_inspection_partial_dependence_grid_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_inspection_partial_dependence_grid_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_inspection_partial_dependence_grid_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 10,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "medium",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 92,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 4,
+      "parity_case_count": 10,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_inspection_partial_dependence_grid.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.inspection.partial_dependence_grid.partial_dependence_grid_parameters",
+      "atom_key": "sciona.atoms.ml.sklearn.inspection.partial_dependence_grid.partial_dependence_grid_parameters",
+      "atom_id": "sciona.atoms.ml.sklearn.inspection.partial_dependence_grid.partial_dependence_grid_parameters",
+      "module_import_path": "sciona.atoms.ml.sklearn.inspection.partial_dependence_grid",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/inspection/partial_dependence_grid/atoms.py",
+      "module_family": "inspection",
+      "domain_family": "ml.sklearn.inspection",
+      "wrapper_symbol": "partial_dependence_grid_parameters",
+      "argument_names": [
+        "percentiles",
+        "grid_resolution"
+      ],
+      "argument_details": [
+        {
+          "name": "percentiles",
+          "annotation": "tuple[float, float]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "grid_resolution",
+          "annotation": "int",
+          "required": true,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "tuple[float, float]",
+      "docstring_summary": "Validate the partial-dependence grid parameters sklearn checks upfront.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_grid/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_grid/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_grid/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_grid/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_inspection_partial_dependence_grid_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_inspection_partial_dependence_grid_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_inspection_partial_dependence_grid_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 7,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 95,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 4,
+      "parity_case_count": 10,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_inspection_partial_dependence_grid.review_bundle.json",
       "has_references": true,
       "references_status": "pass"
     },

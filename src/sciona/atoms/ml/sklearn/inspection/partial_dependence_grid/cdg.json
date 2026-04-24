@@ -1,0 +1,73 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_inspection_partial_dependence_grid_root",
+      "name": "Sklearn Partial Dependence Grid Helper Atoms",
+      "description": "Deterministic grid-construction helpers for partial dependence before estimator prediction.",
+      "status": "decomposed",
+      "children": [
+        "partial_dependence_grid_parameters",
+        "partial_dependence_feature_axis",
+        "partial_dependence_grid"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "partial_dependence_grid_parameters",
+      "name": "partial_dependence_grid_parameters",
+      "description": "Validate the partial-dependence percentiles and grid resolution.",
+      "concept_type": "parameter_validation",
+      "status": "atomic",
+      "type_signature": "(percentiles: tuple[float, float], grid_resolution: int) -> tuple[float, float]",
+      "depth": 1,
+      "inputs": [
+        {"name": "percentiles", "type_desc": "tuple[float, float]", "required": true},
+        {"name": "grid_resolution", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "tuple[float, float]"}]
+    },
+    {
+      "node_id": "partial_dependence_feature_axis",
+      "name": "partial_dependence_feature_axis",
+      "description": "Build one partial-dependence feature axis from unique values or percentiles.",
+      "concept_type": "grid_construction",
+      "status": "atomic",
+      "type_signature": "(feature_values: NDArray[np.float64], percentiles: tuple[float, float], is_categorical: bool, grid_resolution: int) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "feature_values", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "percentiles", "type_desc": "tuple[float, float]", "required": true},
+        {"name": "is_categorical", "type_desc": "bool", "required": true},
+        {"name": "grid_resolution", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+    },
+    {
+      "node_id": "partial_dependence_grid",
+      "name": "partial_dependence_grid",
+      "description": "Build the full Cartesian partial-dependence grid and its per-feature axes.",
+      "concept_type": "grid_construction",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], percentiles: tuple[float, float], is_categorical: tuple[bool, ...], grid_resolution: int) -> tuple[NDArray[np.float64], tuple[NDArray[np.float64], ...]]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "percentiles", "type_desc": "tuple[float, float]", "required": true},
+        {"name": "is_categorical", "type_desc": "tuple[bool, ...]", "required": true},
+        {"name": "grid_resolution", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "tuple[NDArray[np.float64], tuple[NDArray[np.float64], ...]]"}]
+    }
+  ],
+  "edges": [
+    {"source": "partial_dependence_grid_parameters", "target": "partial_dependence_feature_axis", "kind": "parameter_input"},
+    {"source": "partial_dependence_feature_axis", "target": "partial_dependence_grid", "kind": "axis_input"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.inspection._partial_dependence",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 3 estimator-callback orchestration helpers"
+  }
+}
