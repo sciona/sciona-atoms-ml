@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "metadata": {
-    "generated_at": "2026-04-24T15:14:23.903736+00:00",
+    "generated_at": "2026-04-24T15:23:47.367426+00:00",
     "generator": "scripts/apply_audit_review_bundles.py",
     "phase": "phase_1_review_bundle_merge"
   },
@@ -35529,6 +35529,956 @@
       "required_actions": [],
       "blocking_findings": [],
       "review_record_path": "data/review_bundles/ml_sklearn_cross_decomposition_plssvd.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_minibatch.dictionary_learning_minibatch_batch_size",
+      "atom_key": "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_minibatch.dictionary_learning_minibatch_batch_size",
+      "atom_id": "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_minibatch.dictionary_learning_minibatch_batch_size",
+      "module_import_path": "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_minibatch",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/atoms.py",
+      "module_family": "decomposition",
+      "domain_family": "ml.sklearn.decomposition",
+      "wrapper_symbol": "dictionary_learning_minibatch_batch_size",
+      "argument_names": [
+        "batch_size",
+        "n_samples"
+      ],
+      "argument_details": [
+        {
+          "name": "batch_size",
+          "annotation": "int",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "n_samples",
+          "annotation": "int",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "int",
+      "docstring_summary": "Clamp MiniBatchDictionaryLearning batch size to the available sample count.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_decomposition_dictionary_learning_minibatch_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_decomposition_dictionary_learning_minibatch_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_decomposition_dictionary_learning_minibatch_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 8,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 94,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 4,
+      "parity_case_count": 13,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_decomposition_dictionary_learning_minibatch.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_minibatch.dictionary_learning_minibatch_component_count",
+      "atom_key": "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_minibatch.dictionary_learning_minibatch_component_count",
+      "atom_id": "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_minibatch.dictionary_learning_minibatch_component_count",
+      "module_import_path": "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_minibatch",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/atoms.py",
+      "module_family": "decomposition",
+      "domain_family": "ml.sklearn.decomposition",
+      "wrapper_symbol": "dictionary_learning_minibatch_component_count",
+      "argument_names": [
+        "n_components",
+        "n_features"
+      ],
+      "argument_details": [
+        {
+          "name": "n_components",
+          "annotation": "int | None",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "n_features",
+          "annotation": "int",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "int",
+      "docstring_summary": "Resolve sklearn's component count for MiniBatchDictionaryLearning.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_decomposition_dictionary_learning_minibatch_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_decomposition_dictionary_learning_minibatch_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_decomposition_dictionary_learning_minibatch_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 8,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 94,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 4,
+      "parity_case_count": 13,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_decomposition_dictionary_learning_minibatch.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_minibatch.dictionary_learning_minibatch_dictionary_change_converged",
+      "atom_key": "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_minibatch.dictionary_learning_minibatch_dictionary_change_converged",
+      "atom_id": "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_minibatch.dictionary_learning_minibatch_dictionary_change_converged",
+      "module_import_path": "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_minibatch",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/atoms.py",
+      "module_family": "decomposition",
+      "domain_family": "ml.sklearn.decomposition",
+      "wrapper_symbol": "dictionary_learning_minibatch_dictionary_change_converged",
+      "argument_names": [
+        "new_dict",
+        "old_dict",
+        "n_components",
+        "tol"
+      ],
+      "argument_details": [
+        {
+          "name": "new_dict",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "old_dict",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "n_components",
+          "annotation": "int",
+          "required": true,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "tol",
+          "annotation": "float",
+          "required": true,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "bool",
+      "docstring_summary": "Check sklearn's small-dictionary-change stopping rule.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_decomposition_dictionary_learning_minibatch_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_decomposition_dictionary_learning_minibatch_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_decomposition_dictionary_learning_minibatch_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 9,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 93,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 4,
+      "parity_case_count": 13,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_decomposition_dictionary_learning_minibatch.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_minibatch.dictionary_learning_minibatch_ewa_cost",
+      "atom_key": "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_minibatch.dictionary_learning_minibatch_ewa_cost",
+      "atom_id": "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_minibatch.dictionary_learning_minibatch_ewa_cost",
+      "module_import_path": "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_minibatch",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/atoms.py",
+      "module_family": "decomposition",
+      "domain_family": "ml.sklearn.decomposition",
+      "wrapper_symbol": "dictionary_learning_minibatch_ewa_cost",
+      "argument_names": [
+        "previous_ewa_cost",
+        "batch_cost",
+        "batch_size",
+        "n_samples"
+      ],
+      "argument_details": [
+        {
+          "name": "previous_ewa_cost",
+          "annotation": "float | None",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "batch_cost",
+          "annotation": "float",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "batch_size",
+          "annotation": "int",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "n_samples",
+          "annotation": "int",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "float",
+      "docstring_summary": "Update sklearn's exponentially weighted average minibatch cost.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_decomposition_dictionary_learning_minibatch_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_decomposition_dictionary_learning_minibatch_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_decomposition_dictionary_learning_minibatch_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 9,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 93,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 4,
+      "parity_case_count": 13,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_decomposition_dictionary_learning_minibatch.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_minibatch.dictionary_learning_minibatch_fit_algorithm",
+      "atom_key": "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_minibatch.dictionary_learning_minibatch_fit_algorithm",
+      "atom_id": "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_minibatch.dictionary_learning_minibatch_fit_algorithm",
+      "module_import_path": "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_minibatch",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/atoms.py",
+      "module_family": "decomposition",
+      "domain_family": "ml.sklearn.decomposition",
+      "wrapper_symbol": "dictionary_learning_minibatch_fit_algorithm",
+      "argument_names": [
+        "fit_algorithm",
+        "positive_code"
+      ],
+      "argument_details": [
+        {
+          "name": "fit_algorithm",
+          "annotation": "str",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "positive_code",
+          "annotation": "bool",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "str",
+      "docstring_summary": "Resolve sklearn's sparse-coding algorithm label for MiniBatchDictionaryLearning.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_decomposition_dictionary_learning_minibatch_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_decomposition_dictionary_learning_minibatch_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_decomposition_dictionary_learning_minibatch_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 9,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 93,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 4,
+      "parity_case_count": 13,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_decomposition_dictionary_learning_minibatch.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_minibatch.dictionary_learning_minibatch_improvement_state",
+      "atom_key": "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_minibatch.dictionary_learning_minibatch_improvement_state",
+      "atom_id": "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_minibatch.dictionary_learning_minibatch_improvement_state",
+      "module_import_path": "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_minibatch",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/atoms.py",
+      "module_family": "decomposition",
+      "domain_family": "ml.sklearn.decomposition",
+      "wrapper_symbol": "dictionary_learning_minibatch_improvement_state",
+      "argument_names": [
+        "ewa_cost",
+        "ewa_cost_min",
+        "no_improvement",
+        "max_no_improvement"
+      ],
+      "argument_details": [
+        {
+          "name": "ewa_cost",
+          "annotation": "float",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "ewa_cost_min",
+          "annotation": "float | None",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "no_improvement",
+          "annotation": "int",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "max_no_improvement",
+          "annotation": "int | None",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "tuple[float, int, bool]",
+      "docstring_summary": "Update sklearn's minibatch no-improvement counters and stopping flag.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_decomposition_dictionary_learning_minibatch_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_decomposition_dictionary_learning_minibatch_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_decomposition_dictionary_learning_minibatch_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 9,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 93,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 4,
+      "parity_case_count": 13,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_decomposition_dictionary_learning_minibatch.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_minibatch.dictionary_learning_minibatch_inner_stats",
+      "atom_key": "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_minibatch.dictionary_learning_minibatch_inner_stats",
+      "atom_id": "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_minibatch.dictionary_learning_minibatch_inner_stats",
+      "module_import_path": "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_minibatch",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/atoms.py",
+      "module_family": "decomposition",
+      "domain_family": "ml.sklearn.decomposition",
+      "wrapper_symbol": "dictionary_learning_minibatch_inner_stats",
+      "argument_names": [
+        "A",
+        "B",
+        "X_batch",
+        "code",
+        "batch_size",
+        "step"
+      ],
+      "argument_details": [
+        {
+          "name": "A",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "B",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "X_batch",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "code",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "batch_size",
+          "annotation": "int",
+          "required": true,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "step",
+          "annotation": "int",
+          "required": true,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "StatsPair",
+      "docstring_summary": "Update sklearn's minibatch dictionary-learning sufficient statistics.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_decomposition_dictionary_learning_minibatch_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_decomposition_dictionary_learning_minibatch_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_decomposition_dictionary_learning_minibatch_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 11,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "medium",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 91,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 4,
+      "parity_case_count": 13,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_decomposition_dictionary_learning_minibatch.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_minibatch.dictionary_learning_minibatch_monitoring_started",
+      "atom_key": "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_minibatch.dictionary_learning_minibatch_monitoring_started",
+      "atom_id": "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_minibatch.dictionary_learning_minibatch_monitoring_started",
+      "module_import_path": "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_minibatch",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/atoms.py",
+      "module_family": "decomposition",
+      "domain_family": "ml.sklearn.decomposition",
+      "wrapper_symbol": "dictionary_learning_minibatch_monitoring_started",
+      "argument_names": [
+        "step",
+        "n_samples",
+        "batch_size"
+      ],
+      "argument_details": [
+        {
+          "name": "step",
+          "annotation": "int",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "n_samples",
+          "annotation": "int",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "batch_size",
+          "annotation": "int",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "bool",
+      "docstring_summary": "Check whether sklearn starts convergence monitoring at this zero-based step.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_decomposition_dictionary_learning_minibatch_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_decomposition_dictionary_learning_minibatch_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_decomposition_dictionary_learning_minibatch_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 8,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 94,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 4,
+      "parity_case_count": 13,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_decomposition_dictionary_learning_minibatch.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_minibatch.dictionary_learning_minibatch_stats_decay",
+      "atom_key": "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_minibatch.dictionary_learning_minibatch_stats_decay",
+      "atom_id": "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_minibatch.dictionary_learning_minibatch_stats_decay",
+      "module_import_path": "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_minibatch",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/atoms.py",
+      "module_family": "decomposition",
+      "domain_family": "ml.sklearn.decomposition",
+      "wrapper_symbol": "dictionary_learning_minibatch_stats_decay",
+      "argument_names": [
+        "batch_size",
+        "step"
+      ],
+      "argument_details": [
+        {
+          "name": "batch_size",
+          "annotation": "int",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "step",
+          "annotation": "int",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "float",
+      "docstring_summary": "Compute sklearn's decay factor for one minibatch sufficient-stat update.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_decomposition_dictionary_learning_minibatch_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_decomposition_dictionary_learning_minibatch_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_decomposition_dictionary_learning_minibatch_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 9,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 93,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 4,
+      "parity_case_count": 13,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_decomposition_dictionary_learning_minibatch.review_bundle.json",
       "has_references": true,
       "references_status": "pass"
     },

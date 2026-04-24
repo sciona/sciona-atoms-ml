@@ -764,6 +764,11 @@ Potential remediation path:
   defaulting, exponentially weighted cost updates, small-H-change stopping, and
   no-improvement bookkeeping before the deferred multiplicative updates and fit
   loop.
+- Completed helper slice:
+  `sklearn.decomposition.dictionary_learning_minibatch` now publishes
+  MiniBatchDictionaryLearning parameter resolution, sufficient-stat decay and
+  update helpers, warmup gating, exponentially weighted cost tracking, and
+  dictionary-change and no-improvement convergence bookkeeping.
 - Sparse-code solving, LARS/Lasso/OMP/coordinate-descent branches, joblib
   parallel sparse encoding, dictionary-learning callbacks, mini-batch
   scheduling, sklearn's random unused-atom resampling branch, and non-threshold
