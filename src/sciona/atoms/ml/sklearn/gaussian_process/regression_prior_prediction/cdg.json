@@ -1,0 +1,109 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_gaussian_process_regression_prior_prediction_root",
+      "name": "Sklearn Gaussian Process Regression Prior Prediction Helper Atoms",
+      "description": "Deterministic unfitted-prior prediction helpers around target-count defaulting and output shape formatting from supplied Gaussian-process kernel outputs.",
+      "status": "decomposed",
+      "children": [
+        "gp_regression_prior_target_count",
+        "gp_regression_prior_mean",
+        "gp_regression_prior_covariance",
+        "gp_regression_prior_variance",
+        "gp_regression_prior_std"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "gp_regression_prior_target_count",
+      "name": "gp_regression_prior_target_count",
+      "description": "Resolve the unfitted prior target count from a configured n_targets value or sklearn's default of one output.",
+      "concept_type": "gaussian_process_helper",
+      "status": "atomic",
+      "type_signature": "(n_targets: int | None = None) -> int",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_targets", "type_desc": "int | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "int"}
+      ]
+    },
+    {
+      "node_id": "gp_regression_prior_mean",
+      "name": "gp_regression_prior_mean",
+      "description": "Construct the zero prior mean array with sklearn's single-target squeeze rule.",
+      "concept_type": "gaussian_process_helper",
+      "status": "atomic",
+      "type_signature": "(n_samples: int, n_targets: int = 1) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_samples", "type_desc": "int", "required": true},
+        {"name": "n_targets", "type_desc": "int", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "gp_regression_prior_covariance",
+      "name": "gp_regression_prior_covariance",
+      "description": "Format the supplied kernel covariance for one or multiple prior targets.",
+      "concept_type": "gaussian_process_helper",
+      "status": "atomic",
+      "type_signature": "(kernel_covariance: NDArray[np.float64], n_targets: int = 1) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "kernel_covariance", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "n_targets", "type_desc": "int", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "gp_regression_prior_variance",
+      "name": "gp_regression_prior_variance",
+      "description": "Format the supplied kernel diagonal for one or multiple prior targets.",
+      "concept_type": "gaussian_process_helper",
+      "status": "atomic",
+      "type_signature": "(kernel_variance: NDArray[np.float64], n_targets: int = 1) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "kernel_variance", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "n_targets", "type_desc": "int", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "gp_regression_prior_std",
+      "name": "gp_regression_prior_std",
+      "description": "Take the elementwise square root of a prior variance array to produce prior standard deviations.",
+      "concept_type": "gaussian_process_helper",
+      "status": "atomic",
+      "type_signature": "(prior_variance: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "prior_variance", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "gp_regression_prior_target_count", "target": "gp_regression_prior_mean", "kind": "resolved_target_count"},
+    {"source": "gp_regression_prior_target_count", "target": "gp_regression_prior_covariance", "kind": "resolved_target_count"},
+    {"source": "gp_regression_prior_target_count", "target": "gp_regression_prior_variance", "kind": "resolved_target_count"},
+    {"source": "gp_regression_prior_variance", "target": "gp_regression_prior_std", "kind": "variance_to_std"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.gaussian_process._gpr",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 7 probabilistic and mutable-kernel workflows"
+  }
+}

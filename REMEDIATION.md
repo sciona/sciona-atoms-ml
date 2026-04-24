@@ -550,12 +550,17 @@ Potential remediation path:
   optimizer-side helper atoms for restart-bounds validation, restart-theta
   sampling from supplied finite bounds, and best-optimum selection from
   accumulated negative log-marginal-likelihood objective values.
+- Completed helper slice:
+  `sklearn.gaussian_process.regression_prior_prediction` now publishes
+  unfitted-prior helper atoms for target-count defaulting, zero-mean output
+  shaping, covariance and variance formatting from supplied kernel outputs,
+  and standard-deviation conversion.
 - Ingest standalone Gaussian-process linear algebra primitives first, such as
   kernel regularization, Cholesky solve, posterior mean/covariance, and
   log-marginal-likelihood components. The first regression slice is complete;
-  remaining work should target prior-prediction helpers, kernel-state
-  transitions, full optimizer execution, and classifier multiclass or
-  estimator-state boundaries.
+  remaining work should target kernel-state transitions, full optimizer
+  execution, validate-data and default-kernel handling, and classifier
+  multiclass or estimator-state boundaries.
 - Decide how optimizer and Laplace posterior-mode loops should be represented
   before publishing full estimator state atoms.
 
