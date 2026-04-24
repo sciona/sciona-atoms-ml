@@ -1,0 +1,101 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.manifold.tsne_schedule.tsne_gradient_descent_buffers@sciona/atoms/ml/sklearn/manifold/tsne_schedule/atoms.py:115": {
+      "references": [
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the parameter, update, and gain buffer initialization block in sklearn.manifold._t_sne._gradient_descent in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "vandermaaten2008tsne",
+          "match_metadata": {
+            "match_type": "manual_algorithm_reference",
+            "confidence": "medium",
+            "notes": "Original t-SNE paper providing the optimization context for the parameter-vector update loop."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.manifold.tsne_schedule.tsne_gradient_descent_compute_error@sciona/atoms/ml/sklearn/manifold/tsne_schedule/atoms.py:127": {
+      "references": [
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the compute_error scheduling branch in sklearn.manifold._t_sne._gradient_descent in scikit-learn 1.8.0."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.manifold.tsne_schedule.tsne_gradient_descent_convergence@sciona/atoms/ml/sklearn/manifold/tsne_schedule/atoms.py:148": {
+      "references": [
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the best-error tracking, no-progress stopping rule, and gradient-norm stopping rule in sklearn.manifold._t_sne._gradient_descent in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "vandermaaten2008tsne",
+          "match_metadata": {
+            "match_type": "manual_algorithm_reference",
+            "confidence": "medium",
+            "notes": "Original t-SNE paper providing the optimization context for convergence monitoring."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.manifold.tsne_schedule.tsne_early_exaggeration_scale@sciona/atoms/ml/sklearn/manifold/tsne_schedule/atoms.py:180": {
+      "references": [
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the early-exaggeration scaling step in sklearn.manifold._t_sne.TSNE._tsne in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "vandermaaten2008tsne",
+          "match_metadata": {
+            "match_type": "manual_algorithm_reference",
+            "confidence": "medium",
+            "notes": "Original t-SNE paper describing the pairwise-probability objective that sklearn temporarily exaggerates during the first optimization stage."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.manifold.tsne_schedule.tsne_early_exaggeration_unscale@sciona/atoms/ml/sklearn/manifold/tsne_schedule/atoms.py:196": {
+      "references": [
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the early-exaggeration removal step in sklearn.manifold._t_sne.TSNE._tsne in scikit-learn 1.8.0."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.manifold.tsne_schedule.tsne_stage_two_required@sciona/atoms/ml/sklearn/manifold/tsne_schedule/atoms.py:214": {
+      "references": [
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the stage-two continuation predicate in sklearn.manifold._t_sne.TSNE._tsne in scikit-learn 1.8.0."
+          }
+        }
+      ]
+    }
+  }
+}

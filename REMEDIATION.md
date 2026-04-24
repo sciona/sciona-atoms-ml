@@ -533,9 +533,13 @@ Potential remediation path:
   Barnes-Hut neighbor-count selection, random Gaussian initialization,
   PCA-embedding rescaling, and Student-t degrees of freedom before the
   deferred optimization loop.
+- Completed helper slice: `sklearn.manifold.tsne_schedule` now publishes
+  deterministic optimization bookkeeping helpers for gradient-descent buffer
+  initialization, scalar-error scheduling, convergence checks, dense/CSR early
+  exaggeration scaling and unscaling, and the stage-two continuation predicate.
 - Additional t-SNE remediation should cover remaining estimator orchestration
-  such as binary perplexity search boundaries, initialization, full
-  optimization scheduling, and native Barnes-Hut gradient handling.
+  such as binary perplexity search boundaries, full optimization-loop
+  execution, and native Barnes-Hut gradient handling.
 - Treat Barnes-Hut t-SNE as a native/FFI-backed ingestion target around the
   compiled gradient kernel before publishing the default estimator surface.
 
