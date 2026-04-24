@@ -1,0 +1,130 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.impute.iterative_initial_bookkeeping.iterative_empty_feature_mask@sciona/atoms/ml/sklearn/impute/iterative_initial_bookkeeping/atoms.py:77": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from the in_fit empty-feature detection in IterativeImputer._initial_imputation in sklearn.impute._iterative in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "vanbuuren2011mice",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "MICE iterative imputation reference cited by sklearn IterativeImputer."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.impute.iterative_initial_bookkeeping.iterative_filter_nonempty_matrix@sciona/atoms/ml/sklearn/impute/iterative_initial_bookkeeping/atoms.py:86": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from the nonempty-column slicing in IterativeImputer._initial_imputation in sklearn.impute._iterative in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.impute.iterative_initial_bookkeeping.iterative_filter_nonempty_missing_mask@sciona/atoms/ml/sklearn/impute/iterative_initial_bookkeeping/atoms.py:100": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from the missing-mask slicing in IterativeImputer._initial_imputation in sklearn.impute._iterative in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.impute.iterative_initial_bookkeeping.iterative_clear_empty_feature_missing_mask@sciona/atoms/ml/sklearn/impute/iterative_initial_bookkeeping/atoms.py:114": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from the keep_empty_features missing-mask rewrite in IterativeImputer._initial_imputation in sklearn.impute._iterative in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "vanbuuren2011mice",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Representative iterative-imputation workflow reference for bookkeeping around kept empty features."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.impute.iterative_initial_bookkeeping.iterative_restore_empty_feature_imputations@sciona/atoms/ml/sklearn/impute/iterative_initial_bookkeeping/atoms.py:130": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from the keep_empty_features Xt column overwrite in IterativeImputer._initial_imputation in sklearn.impute._iterative in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "vanbuuren2011mice",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Representative iterative-imputation workflow reference for retaining empty-feature imputations."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

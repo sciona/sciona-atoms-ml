@@ -448,6 +448,10 @@ Potential remediation path:
   publishes deterministic one-feature postprocessing for supplied posterior
   means and standard deviations, clipped deterministic predictions, dense
   feature assignment, and ndarray observed-value restoration.
+- Completed helper slice: `sklearn.impute.iterative_initial_bookkeeping` now
+  publishes deterministic empty-feature bookkeeping for fit-time all-missing
+  detection, dense nonempty-column filtering, keep-empty mask clearing, and
+  empty-column restoration from supplied filled values.
 - Decompose the deterministic helper boundaries first, including feature order,
   correlation-based neighbor selection, limit validation, one-feature
   prediction postprocessing, and any remaining initial-imputation bookkeeping.

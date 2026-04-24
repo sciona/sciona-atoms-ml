@@ -1,0 +1,111 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_impute_iterative_initial_bookkeeping_root",
+      "name": "Sklearn IterativeImputer Initial Bookkeeping Helper Atoms",
+      "description": "Deterministic empty-feature and initial-shape bookkeeping around IterativeImputer initial imputation.",
+      "status": "decomposed",
+      "children": [
+        "iterative_empty_feature_mask",
+        "iterative_filter_nonempty_matrix",
+        "iterative_filter_nonempty_missing_mask",
+        "iterative_clear_empty_feature_missing_mask",
+        "iterative_restore_empty_feature_imputations"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "iterative_empty_feature_mask",
+      "name": "iterative_empty_feature_mask",
+      "description": "Detect features that are entirely missing in the fit-time mask.",
+      "concept_type": "feature_mask_summary",
+      "status": "atomic",
+      "type_signature": "(mask_missing_values: NDArray[np.bool_]) -> NDArray[np.bool_]",
+      "depth": 1,
+      "inputs": [
+        {"name": "mask_missing_values", "type_desc": "NDArray[np.bool_]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.bool_]"}
+      ]
+    },
+    {
+      "node_id": "iterative_filter_nonempty_matrix",
+      "name": "iterative_filter_nonempty_matrix",
+      "description": "Drop empty-feature columns from a dense matrix.",
+      "concept_type": "column_filtering",
+      "status": "atomic",
+      "type_signature": "(values: NDArray[np.float64], is_empty_feature: NDArray[np.bool_]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "values", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "is_empty_feature", "type_desc": "NDArray[np.bool_]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "iterative_filter_nonempty_missing_mask",
+      "name": "iterative_filter_nonempty_missing_mask",
+      "description": "Drop empty-feature columns from a missing-value mask.",
+      "concept_type": "column_filtering",
+      "status": "atomic",
+      "type_signature": "(mask_missing_values: NDArray[np.bool_], is_empty_feature: NDArray[np.bool_]) -> NDArray[np.bool_]",
+      "depth": 1,
+      "inputs": [
+        {"name": "mask_missing_values", "type_desc": "NDArray[np.bool_]", "required": true},
+        {"name": "is_empty_feature", "type_desc": "NDArray[np.bool_]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.bool_]"}
+      ]
+    },
+    {
+      "node_id": "iterative_clear_empty_feature_missing_mask",
+      "name": "iterative_clear_empty_feature_missing_mask",
+      "description": "Clear missing flags for empty features kept in the working matrix.",
+      "concept_type": "mask_rewrite",
+      "status": "atomic",
+      "type_signature": "(mask_missing_values: NDArray[np.bool_], is_empty_feature: NDArray[np.bool_]) -> NDArray[np.bool_]",
+      "depth": 1,
+      "inputs": [
+        {"name": "mask_missing_values", "type_desc": "NDArray[np.bool_]", "required": true},
+        {"name": "is_empty_feature", "type_desc": "NDArray[np.bool_]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.bool_]"}
+      ]
+    },
+    {
+      "node_id": "iterative_restore_empty_feature_imputations",
+      "name": "iterative_restore_empty_feature_imputations",
+      "description": "Copy imputed values into the empty-feature columns of the original matrix.",
+      "concept_type": "matrix_restore",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], X_filled: NDArray[np.float64], is_empty_feature: NDArray[np.bool_]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "X_filled", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "is_empty_feature", "type_desc": "NDArray[np.bool_]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "iterative_empty_feature_mask", "target": "iterative_filter_nonempty_matrix", "kind": "feature_mask"},
+    {"source": "iterative_empty_feature_mask", "target": "iterative_filter_nonempty_missing_mask", "kind": "feature_mask"},
+    {"source": "iterative_empty_feature_mask", "target": "iterative_clear_empty_feature_missing_mask", "kind": "feature_mask"},
+    {"source": "iterative_empty_feature_mask", "target": "iterative_restore_empty_feature_imputations", "kind": "feature_mask"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.impute._iterative",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 3 estimator-callback orchestration helpers"
+  }
+}
