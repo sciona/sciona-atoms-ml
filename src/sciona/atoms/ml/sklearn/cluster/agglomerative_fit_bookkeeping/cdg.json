@@ -1,0 +1,113 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_cluster_agglomerative_fit_bookkeeping_root",
+      "name": "Sklearn Cluster Agglomerative Fit Bookkeeping Atoms",
+      "description": "Deterministic agglomerative-clustering shell bookkeeping around compute_full_tree resolution, tree-builder arguments, distance outputs, cluster counts, and supplied parent-head relabeling.",
+      "status": "decomposed",
+      "children": [
+        "agglomerative_resolve_compute_full_tree",
+        "agglomerative_resolve_tree_n_clusters",
+        "agglomerative_return_distance_required",
+        "agglomerative_cluster_count_from_distances",
+        "agglomerative_labels_from_heads"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "agglomerative_resolve_compute_full_tree",
+      "name": "agglomerative_resolve_compute_full_tree",
+      "description": "Resolve sklearn's effective compute_full_tree flag before agglomerative tree construction.",
+      "concept_type": "clustering_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(compute_full_tree: str | bool, has_connectivity: bool, n_clusters: int, n_samples: int, distance_threshold: float | None = None) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "compute_full_tree", "type_desc": "str | bool", "required": true},
+        {"name": "has_connectivity", "type_desc": "bool", "required": true},
+        {"name": "n_clusters", "type_desc": "int", "required": true},
+        {"name": "n_samples", "type_desc": "int", "required": true},
+        {"name": "distance_threshold", "type_desc": "float | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "agglomerative_resolve_tree_n_clusters",
+      "name": "agglomerative_resolve_tree_n_clusters",
+      "description": "Resolve the n_clusters argument passed to the agglomerative tree builder.",
+      "concept_type": "clustering_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(n_clusters: int, compute_full_tree: bool) -> int | None",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_clusters", "type_desc": "int", "required": true},
+        {"name": "compute_full_tree", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "int | None"}
+      ]
+    },
+    {
+      "node_id": "agglomerative_return_distance_required",
+      "name": "agglomerative_return_distance_required",
+      "description": "Decide whether agglomerative tree construction must return merge distances.",
+      "concept_type": "clustering_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(distance_threshold: float | None = None, compute_distances: bool = False) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "distance_threshold", "type_desc": "float | None", "required": false},
+        {"name": "compute_distances", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "agglomerative_cluster_count_from_distances",
+      "name": "agglomerative_cluster_count_from_distances",
+      "description": "Derive agglomerative n_clusters_ from merge distances and a distance threshold.",
+      "concept_type": "clustering_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(distances: NDArray[np.float64], distance_threshold: float) -> int",
+      "depth": 1,
+      "inputs": [
+        {"name": "distances", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "distance_threshold", "type_desc": "float", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "int"}
+      ]
+    },
+    {
+      "node_id": "agglomerative_labels_from_heads",
+      "name": "agglomerative_labels_from_heads",
+      "description": "Relabel supplied agglomerative parent-head ids on the sample prefix into compact cluster labels.",
+      "concept_type": "clustering_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(heads: NDArray[np.int64], n_samples: int) -> NDArray[np.int64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "heads", "type_desc": "NDArray[np.int64]", "required": true},
+        {"name": "n_samples", "type_desc": "int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.int64]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "agglomerative_resolve_compute_full_tree", "target": "agglomerative_resolve_tree_n_clusters", "kind": "resolved_flag"},
+    {"source": "agglomerative_return_distance_required", "target": "agglomerative_cluster_count_from_distances", "kind": "distance_output_gate"},
+    {"source": "agglomerative_resolve_tree_n_clusters", "target": "agglomerative_labels_from_heads", "kind": "early_stop_path"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.cluster._agglomerative",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 6 clustering and spectral pipelines"
+  }
+}

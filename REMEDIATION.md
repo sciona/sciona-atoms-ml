@@ -619,6 +619,11 @@ Potential remediation path:
   publishes deterministic connectivity preprocessing for symmetry,
   dense-or-sparse normalization to LIL, connected-component counting,
   disconnected-graph completion, and nearest cross-component bridge insertion.
+- Completed helper slice:
+  `sklearn.cluster.agglomerative_fit_bookkeeping` now publishes
+  compute-full-tree resolution, effective tree `n_clusters` resolution,
+  distance-output gating, distance-threshold cluster-count derivation, and
+  supplied parent-head relabeling.
 - Tree construction, Ward distances, linkage builders, SciPy hierarchy calls,
   compiled `_hierarchical` helpers, estimator state, and
   `FeatureAgglomeration` transform behavior remain deferred.

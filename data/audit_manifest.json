@@ -126928,6 +126928,512 @@
       "review_record_path": "data/review_bundles/ml_sklearn_feature_selection_selector_mixin_postfit.review_bundle.json",
       "has_references": true,
       "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.cluster.agglomerative_fit_bookkeeping.agglomerative_resolve_compute_full_tree",
+      "atom_key": "sciona.atoms.ml.sklearn.cluster.agglomerative_fit_bookkeeping.agglomerative_resolve_compute_full_tree",
+      "atom_id": "sciona.atoms.ml.sklearn.cluster.agglomerative_fit_bookkeeping.agglomerative_resolve_compute_full_tree",
+      "module_import_path": "sciona.atoms.ml.sklearn.cluster.agglomerative_fit_bookkeeping",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/cluster/agglomerative_fit_bookkeeping/atoms.py",
+      "module_family": "cluster",
+      "domain_family": "ml.sklearn.cluster",
+      "wrapper_symbol": "agglomerative_resolve_compute_full_tree",
+      "argument_names": [
+        "compute_full_tree",
+        "has_connectivity",
+        "n_clusters",
+        "n_samples",
+        "distance_threshold"
+      ],
+      "argument_details": [
+        {
+          "name": "compute_full_tree",
+          "annotation": "str | bool",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "has_connectivity",
+          "annotation": "bool",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "n_clusters",
+          "annotation": "int",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "n_samples",
+          "annotation": "int",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "distance_threshold",
+          "annotation": "float | None",
+          "required": false,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "bool",
+      "docstring_summary": "Resolve sklearn's effective compute_full_tree flag before tree construction.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/agglomerative_fit_bookkeeping/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/agglomerative_fit_bookkeeping/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/agglomerative_fit_bookkeeping/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/agglomerative_fit_bookkeeping/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_cluster_agglomerative_fit_bookkeeping_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_cluster_agglomerative_fit_bookkeeping_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_cluster_agglomerative_fit_bookkeeping_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 8,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 95,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 2,
+      "parity_case_count": 5,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_cluster_agglomerative_fit_bookkeeping.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.cluster.agglomerative_fit_bookkeeping.agglomerative_resolve_tree_n_clusters",
+      "atom_key": "sciona.atoms.ml.sklearn.cluster.agglomerative_fit_bookkeeping.agglomerative_resolve_tree_n_clusters",
+      "atom_id": "sciona.atoms.ml.sklearn.cluster.agglomerative_fit_bookkeeping.agglomerative_resolve_tree_n_clusters",
+      "module_import_path": "sciona.atoms.ml.sklearn.cluster.agglomerative_fit_bookkeeping",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/cluster/agglomerative_fit_bookkeeping/atoms.py",
+      "module_family": "cluster",
+      "domain_family": "ml.sklearn.cluster",
+      "wrapper_symbol": "agglomerative_resolve_tree_n_clusters",
+      "argument_names": [
+        "n_clusters",
+        "compute_full_tree"
+      ],
+      "argument_details": [
+        {
+          "name": "n_clusters",
+          "annotation": "int",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "compute_full_tree",
+          "annotation": "bool",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "int | None",
+      "docstring_summary": "Resolve the n_clusters argument passed to sklearn's tree builder.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/agglomerative_fit_bookkeeping/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/agglomerative_fit_bookkeeping/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/agglomerative_fit_bookkeeping/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/agglomerative_fit_bookkeeping/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_cluster_agglomerative_fit_bookkeeping_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_cluster_agglomerative_fit_bookkeeping_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_cluster_agglomerative_fit_bookkeeping_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 8,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 95,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 2,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_cluster_agglomerative_fit_bookkeeping.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.cluster.agglomerative_fit_bookkeeping.agglomerative_return_distance_required",
+      "atom_key": "sciona.atoms.ml.sklearn.cluster.agglomerative_fit_bookkeeping.agglomerative_return_distance_required",
+      "atom_id": "sciona.atoms.ml.sklearn.cluster.agglomerative_fit_bookkeeping.agglomerative_return_distance_required",
+      "module_import_path": "sciona.atoms.ml.sklearn.cluster.agglomerative_fit_bookkeeping",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/cluster/agglomerative_fit_bookkeeping/atoms.py",
+      "module_family": "cluster",
+      "domain_family": "ml.sklearn.cluster",
+      "wrapper_symbol": "agglomerative_return_distance_required",
+      "argument_names": [
+        "distance_threshold",
+        "compute_distances"
+      ],
+      "argument_details": [
+        {
+          "name": "distance_threshold",
+          "annotation": "float | None",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "compute_distances",
+          "annotation": "bool",
+          "required": false,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "bool",
+      "docstring_summary": "Decide whether agglomerative tree construction must also return merge distances.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/agglomerative_fit_bookkeeping/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/agglomerative_fit_bookkeeping/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/agglomerative_fit_bookkeeping/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/agglomerative_fit_bookkeeping/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_cluster_agglomerative_fit_bookkeeping_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_cluster_agglomerative_fit_bookkeeping_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_cluster_agglomerative_fit_bookkeeping_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 8,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 95,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 3,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_cluster_agglomerative_fit_bookkeeping.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.cluster.agglomerative_fit_bookkeeping.agglomerative_cluster_count_from_distances",
+      "atom_key": "sciona.atoms.ml.sklearn.cluster.agglomerative_fit_bookkeeping.agglomerative_cluster_count_from_distances",
+      "atom_id": "sciona.atoms.ml.sklearn.cluster.agglomerative_fit_bookkeeping.agglomerative_cluster_count_from_distances",
+      "module_import_path": "sciona.atoms.ml.sklearn.cluster.agglomerative_fit_bookkeeping",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/cluster/agglomerative_fit_bookkeeping/atoms.py",
+      "module_family": "cluster",
+      "domain_family": "ml.sklearn.cluster",
+      "wrapper_symbol": "agglomerative_cluster_count_from_distances",
+      "argument_names": [
+        "distances",
+        "distance_threshold"
+      ],
+      "argument_details": [
+        {
+          "name": "distances",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "distance_threshold",
+          "annotation": "float",
+          "required": true,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "int",
+      "docstring_summary": "Derive sklearn's n_clusters_ from merge distances and a distance threshold.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/agglomerative_fit_bookkeeping/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/agglomerative_fit_bookkeeping/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/agglomerative_fit_bookkeeping/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/agglomerative_fit_bookkeeping/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_cluster_agglomerative_fit_bookkeeping_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_cluster_agglomerative_fit_bookkeeping_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_cluster_agglomerative_fit_bookkeeping_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 9,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 94,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 2,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_cluster_agglomerative_fit_bookkeeping.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.cluster.agglomerative_fit_bookkeeping.agglomerative_labels_from_heads",
+      "atom_key": "sciona.atoms.ml.sklearn.cluster.agglomerative_fit_bookkeeping.agglomerative_labels_from_heads",
+      "atom_id": "sciona.atoms.ml.sklearn.cluster.agglomerative_fit_bookkeeping.agglomerative_labels_from_heads",
+      "module_import_path": "sciona.atoms.ml.sklearn.cluster.agglomerative_fit_bookkeeping",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/cluster/agglomerative_fit_bookkeeping/atoms.py",
+      "module_family": "cluster",
+      "domain_family": "ml.sklearn.cluster",
+      "wrapper_symbol": "agglomerative_labels_from_heads",
+      "argument_names": [
+        "heads",
+        "n_samples"
+      ],
+      "argument_details": [
+        {
+          "name": "heads",
+          "annotation": "NDArray[np.int64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "n_samples",
+          "annotation": "int",
+          "required": true,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.int64]",
+      "docstring_summary": "Relabel agglomerative parent-head ids on the sample prefix into compact cluster labels.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/agglomerative_fit_bookkeeping/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/agglomerative_fit_bookkeeping/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/agglomerative_fit_bookkeeping/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/cluster/agglomerative_fit_bookkeeping/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_cluster_agglomerative_fit_bookkeeping_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_cluster_agglomerative_fit_bookkeeping_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_cluster_agglomerative_fit_bookkeeping_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 10,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "medium"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 92,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 2,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_cluster_agglomerative_fit_bookkeeping.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
     }
   ]
 }
