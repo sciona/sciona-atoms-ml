@@ -444,9 +444,13 @@ Potential remediation path:
   deterministic iterative-imputer helpers for feature update ordering,
   normalized absolute-correlation matrices, neighbor-feature selection, limit
   vector expansion, and convergence detection.
+- Completed helper slice: `sklearn.impute.iterative_postprocessing` now
+  publishes deterministic one-feature postprocessing for supplied posterior
+  means and standard deviations, clipped deterministic predictions, dense
+  feature assignment, and ndarray observed-value restoration.
 - Decompose the deterministic helper boundaries first, including feature order,
-  correlation-based neighbor selection, limit validation, and one-feature
-  imputation.
+  correlation-based neighbor selection, limit validation, one-feature
+  prediction postprocessing, and any remaining initial-imputation bookkeeping.
 - Decide how fitted per-feature estimators should be represented before
   publishing the full fit/transform state surface.
 

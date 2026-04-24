@@ -1,0 +1,100 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_impute_iterative_postprocessing_root",
+      "name": "Sklearn IterativeImputer Postprocessing Helper Atoms",
+      "description": "Deterministic postprocessing helpers around one-feature iterative imputation updates.",
+      "status": "decomposed",
+      "children": [
+        "iterative_posterior_imputed_values",
+        "iterative_clipped_imputed_values",
+        "iterative_assign_feature_values",
+        "iterative_restore_observed_values"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "iterative_posterior_imputed_values",
+      "name": "iterative_posterior_imputed_values",
+      "description": "Convert posterior means and standard deviations into bounded one-feature imputations.",
+      "concept_type": "posterior_sampling",
+      "status": "atomic",
+      "type_signature": "(mus: NDArray[np.float64], sigmas: NDArray[np.float64], min_value: float, max_value: float, random_state: int = 0) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "mus", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "sigmas", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "min_value", "type_desc": "float", "required": true},
+        {"name": "max_value", "type_desc": "float", "required": true},
+        {"name": "random_state", "type_desc": "int", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "iterative_clipped_imputed_values",
+      "name": "iterative_clipped_imputed_values",
+      "description": "Clip one-feature predictions to IterativeImputer bounds.",
+      "concept_type": "prediction_postprocessing",
+      "status": "atomic",
+      "type_signature": "(predictions: NDArray[np.float64], min_value: float, max_value: float) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "predictions", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "min_value", "type_desc": "float", "required": true},
+        {"name": "max_value", "type_desc": "float", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "iterative_assign_feature_values",
+      "name": "iterative_assign_feature_values",
+      "description": "Assign one feature's imputed values into a dense filled matrix.",
+      "concept_type": "matrix_update",
+      "status": "atomic",
+      "type_signature": "(X_filled: NDArray[np.float64], imputed_values: NDArray[np.float64], missing_row_mask: NDArray[np.bool_], feat_idx: int) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X_filled", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "imputed_values", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "missing_row_mask", "type_desc": "NDArray[np.bool_]", "required": true},
+        {"name": "feat_idx", "type_desc": "int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "iterative_restore_observed_values",
+      "name": "iterative_restore_observed_values",
+      "description": "Restore observed entries from the original dense matrix after iterative updates.",
+      "concept_type": "matrix_restore",
+      "status": "atomic",
+      "type_signature": "(X_target: NDArray[np.float64], X_source: NDArray[np.float64], observed_mask: NDArray[np.bool_]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X_target", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "X_source", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "observed_mask", "type_desc": "NDArray[np.bool_]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "iterative_posterior_imputed_values", "target": "iterative_assign_feature_values", "kind": "imputed_values"},
+    {"source": "iterative_clipped_imputed_values", "target": "iterative_assign_feature_values", "kind": "imputed_values"},
+    {"source": "iterative_assign_feature_values", "target": "iterative_restore_observed_values", "kind": "filled_matrix"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.impute._iterative",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 3 estimator-callback orchestration helpers"
+  }
+}

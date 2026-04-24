@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "metadata": {
-    "generated_at": "2026-04-24T14:55:22.678572+00:00",
+    "generated_at": "2026-04-24T15:06:48.468921+00:00",
     "generator": "scripts/apply_audit_review_bundles.py",
     "phase": "phase_1_review_bundle_merge"
   },
@@ -53283,6 +53283,443 @@
       "required_actions": [],
       "blocking_findings": [],
       "review_record_path": "data/review_bundles/ml_sklearn_impute_iterative.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.impute.iterative_postprocessing.iterative_assign_feature_values",
+      "atom_key": "sciona.atoms.ml.sklearn.impute.iterative_postprocessing.iterative_assign_feature_values",
+      "atom_id": "sciona.atoms.ml.sklearn.impute.iterative_postprocessing.iterative_assign_feature_values",
+      "module_import_path": "sciona.atoms.ml.sklearn.impute.iterative_postprocessing",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/impute/iterative_postprocessing/atoms.py",
+      "module_family": "impute",
+      "domain_family": "ml.sklearn.impute",
+      "wrapper_symbol": "iterative_assign_feature_values",
+      "argument_names": [
+        "X_filled",
+        "imputed_values",
+        "missing_row_mask",
+        "feat_idx"
+      ],
+      "argument_details": [
+        {
+          "name": "X_filled",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "imputed_values",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "missing_row_mask",
+          "annotation": "NDArray[np.bool_]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "feat_idx",
+          "annotation": "int",
+          "required": true,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.float64]",
+      "docstring_summary": "Assign one feature's imputed values into a dense filled matrix.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/impute/iterative_postprocessing/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/impute/iterative_postprocessing/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/impute/iterative_postprocessing/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/impute/iterative_postprocessing/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_impute_iterative_postprocessing_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_impute_iterative_postprocessing_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_impute_iterative_postprocessing_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 9,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 93,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 4,
+      "parity_case_count": 10,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_impute_iterative_postprocessing.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.impute.iterative_postprocessing.iterative_clipped_imputed_values",
+      "atom_key": "sciona.atoms.ml.sklearn.impute.iterative_postprocessing.iterative_clipped_imputed_values",
+      "atom_id": "sciona.atoms.ml.sklearn.impute.iterative_postprocessing.iterative_clipped_imputed_values",
+      "module_import_path": "sciona.atoms.ml.sklearn.impute.iterative_postprocessing",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/impute/iterative_postprocessing/atoms.py",
+      "module_family": "impute",
+      "domain_family": "ml.sklearn.impute",
+      "wrapper_symbol": "iterative_clipped_imputed_values",
+      "argument_names": [
+        "predictions",
+        "min_value",
+        "max_value"
+      ],
+      "argument_details": [
+        {
+          "name": "predictions",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "min_value",
+          "annotation": "float",
+          "required": true,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "max_value",
+          "annotation": "float",
+          "required": true,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.float64]",
+      "docstring_summary": "Clip deterministic one-feature predictions to IterativeImputer bounds.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/impute/iterative_postprocessing/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/impute/iterative_postprocessing/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/impute/iterative_postprocessing/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/impute/iterative_postprocessing/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_impute_iterative_postprocessing_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_impute_iterative_postprocessing_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_impute_iterative_postprocessing_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 8,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 94,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 4,
+      "parity_case_count": 10,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_impute_iterative_postprocessing.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.impute.iterative_postprocessing.iterative_posterior_imputed_values",
+      "atom_key": "sciona.atoms.ml.sklearn.impute.iterative_postprocessing.iterative_posterior_imputed_values",
+      "atom_id": "sciona.atoms.ml.sklearn.impute.iterative_postprocessing.iterative_posterior_imputed_values",
+      "module_import_path": "sciona.atoms.ml.sklearn.impute.iterative_postprocessing",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/impute/iterative_postprocessing/atoms.py",
+      "module_family": "impute",
+      "domain_family": "ml.sklearn.impute",
+      "wrapper_symbol": "iterative_posterior_imputed_values",
+      "argument_names": [
+        "mus",
+        "sigmas",
+        "min_value",
+        "max_value",
+        "random_state"
+      ],
+      "argument_details": [
+        {
+          "name": "mus",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "sigmas",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "min_value",
+          "annotation": "float",
+          "required": true,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "max_value",
+          "annotation": "float",
+          "required": true,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "random_state",
+          "annotation": "int",
+          "required": false,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.float64]",
+      "docstring_summary": "Postprocess posterior mean and std vectors into bounded imputations.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/impute/iterative_postprocessing/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/impute/iterative_postprocessing/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/impute/iterative_postprocessing/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/impute/iterative_postprocessing/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_impute_iterative_postprocessing_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_impute_iterative_postprocessing_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_impute_iterative_postprocessing_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 12,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "medium",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 90,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 4,
+      "parity_case_count": 10,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_impute_iterative_postprocessing.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.impute.iterative_postprocessing.iterative_restore_observed_values",
+      "atom_key": "sciona.atoms.ml.sklearn.impute.iterative_postprocessing.iterative_restore_observed_values",
+      "atom_id": "sciona.atoms.ml.sklearn.impute.iterative_postprocessing.iterative_restore_observed_values",
+      "module_import_path": "sciona.atoms.ml.sklearn.impute.iterative_postprocessing",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/impute/iterative_postprocessing/atoms.py",
+      "module_family": "impute",
+      "domain_family": "ml.sklearn.impute",
+      "wrapper_symbol": "iterative_restore_observed_values",
+      "argument_names": [
+        "X_target",
+        "X_source",
+        "observed_mask"
+      ],
+      "argument_details": [
+        {
+          "name": "X_target",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "X_source",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "observed_mask",
+          "annotation": "NDArray[np.bool_]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.float64]",
+      "docstring_summary": "Restore observed entries from the original dense matrix.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/impute/iterative_postprocessing/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/impute/iterative_postprocessing/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/impute/iterative_postprocessing/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/impute/iterative_postprocessing/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_impute_iterative_postprocessing_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_impute_iterative_postprocessing_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_impute_iterative_postprocessing_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 10,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "medium"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 92,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 4,
+      "parity_case_count": 10,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_impute_iterative_postprocessing.review_bundle.json",
       "has_references": true,
       "references_status": "pass"
     },

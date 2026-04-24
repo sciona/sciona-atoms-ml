@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.impute.iterative_postprocessing.iterative_posterior_imputed_values@sciona/atoms/ml/sklearn/impute/iterative_postprocessing/atoms.py:97": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from the sample_posterior branch of IterativeImputer._impute_one_feature in sklearn.impute._iterative in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "vanbuuren2011mice",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "MICE iterative imputation reference cited by sklearn IterativeImputer."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.impute.iterative_postprocessing.iterative_clipped_imputed_values@sciona/atoms/ml/sklearn/impute/iterative_postprocessing/atoms.py:137": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from the deterministic predict-and-clip branch of IterativeImputer._impute_one_feature in sklearn.impute._iterative in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.impute.iterative_postprocessing.iterative_assign_feature_values@sciona/atoms/ml/sklearn/impute/iterative_postprocessing/atoms.py:153": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from the _safe_assign update in IterativeImputer._impute_one_feature in sklearn.impute._iterative in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "vanbuuren2011mice",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Representative iterative-imputation workflow reference for one-feature updates."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.impute.iterative_postprocessing.iterative_restore_observed_values@sciona/atoms/ml/sklearn/impute/iterative_postprocessing/atoms.py:172": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from _assign_where usage at the end of IterativeImputer.fit_transform and transform in sklearn.impute._iterative in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}
