@@ -102,7 +102,7 @@ more solution CDGs are built.
 
 ## 1. Connectomics 1st Place (Graph Inference from Calcium Fluorescence)
 
-**CDG:** `data/solution_cdgs/connectomics_1st.json` | **Coverage:** 6/9 (67%)
+**CDG:** `../sciona-atoms/data/solution_cdgs/connectomics_1st.json` | **Coverage:** 6/9 (67%)
 
 | Stage | Binding | Confidence | Status |
 |-------|---------|------------|--------|
@@ -120,7 +120,7 @@ more solution CDGs are built.
 
 ## 2. Cause-Effect 2nd Place (Causal Direction from Bivariate Data)
 
-**CDG:** `data/solution_cdgs/cause_effect_2nd.json` | **Coverage:** 16/17 → 17/17 (100%)
+**CDG:** `../sciona-atoms/data/solution_cdgs/cause_effect_2nd.json` | **Coverage:** 16/17 → 17/17 (100%)
 
 | Stage | Binding | Confidence | Category | Post-fix |
 |-------|---------|------------|----------|----------|
@@ -146,7 +146,7 @@ more solution CDGs are built.
 
 ## 3. TrackML 5th Place (Physics-Geometric Track Reconstruction)
 
-**CDG:** `data/solution_cdgs/trackml_5th.json` | **Coverage:** 10/11 (91%)
+**CDG:** `../sciona-atoms/data/solution_cdgs/trackml_5th.json` | **Coverage:** 10/11 (91%)
 
 | Stage | Binding | Confidence | Category | Post-fix |
 |-------|---------|------------|----------|----------|
@@ -166,7 +166,7 @@ more solution CDGs are built.
 
 ## 4. DSB2017 1st Place (Lung Cancer Detection from CT Scans)
 
-**CDG:** `data/solution_cdgs/dsb2017_1st.json` | **Coverage:** 9/10 (90%)
+**CDG:** `../sciona-atoms/data/solution_cdgs/dsb2017_1st.json` | **Coverage:** 9/10 (90%)
 
 | Stage | Binding | Status |
 |-------|---------|--------|
@@ -187,7 +187,7 @@ more solution CDGs are built.
 
 ## 5. Adversarial Attacks 1st Place (Non-Targeted + Targeted)
 
-**CDG:** `data/solution_cdgs/adversarial_attacks_1st.json` | **Coverage:** 7/7 (100%)
+**CDG:** `../sciona-atoms/data/solution_cdgs/adversarial_attacks_1st.json` | **Coverage:** 7/7 (100%)
 
 | Stage | Binding | Status |
 |-------|---------|--------|
@@ -205,7 +205,7 @@ more solution CDGs are built.
 
 ## 6. Barachant Seizure Prediction 1st Place (Riemannian BCI)
 
-**CDG:** `data/solution_cdgs/barachant_seizure_1st.json` | **Coverage:** 6/7 (86%)
+**CDG:** `../sciona-atoms/data/solution_cdgs/barachant_seizure_1st.json` | **Coverage:** 6/7 (86%)
 
 | Stage | Binding | Status |
 |-------|---------|--------|
@@ -223,7 +223,7 @@ more solution CDGs are built.
 
 ## 7. Flavours of Physics 1st Place (Constrained/Fair ML)
 
-**CDG:** `data/solution_cdgs/flavours_physics_1st.json` | **Coverage:** 5/6 (83%)
+**CDG:** `../sciona-atoms/data/solution_cdgs/flavours_physics_1st.json` | **Coverage:** 5/6 (83%)
 
 | Stage | Binding | Status |
 |-------|---------|--------|
