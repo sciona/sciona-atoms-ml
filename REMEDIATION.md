@@ -769,6 +769,11 @@ Potential remediation path:
   MiniBatchDictionaryLearning parameter resolution, sufficient-stat decay and
   update helpers, warmup gating, exponentially weighted cost tracking, and
   dictionary-change and no-improvement convergence bookkeeping.
+- Completed helper slice:
+  `sklearn.decomposition.dictionary_learning_loop` now publishes dense SVD
+  initialization, factor resize helpers, objective evaluation, cost-delta
+  stopping, and callback cadence bookkeeping for the plain dictionary-learning
+  loop.
 - Sparse-code solving, LARS/Lasso/OMP/coordinate-descent branches, joblib
   parallel sparse encoding, dictionary-learning callbacks, mini-batch
   scheduling, sklearn's random unused-atom resampling branch, and non-threshold
