@@ -13,7 +13,13 @@
     "adversarial_attack_ensemble",
     "targeted_adversarial_attack",
     "non_targeted_adversarial_attack",
-    "transferable_adversarial_examples"
+    "transferable_adversarial_examples",
+    "l_infinity_perturbation",
+    "gradient_consensus",
+    "model_ensemble_attack",
+    "black_box_transfer",
+    "iterative_gradient_attack",
+    "auxiliary_logit_loss"
   ],
   "inputs": [
     {
@@ -43,6 +49,32 @@
       "required": true
     }
   ],
+  "applicability": {
+    "use_when": [
+      "Generating adversarial examples that must transfer to unknown/black-box models (not just fool the source model)",
+      "L-infinity perturbation budget is the constraint (pixel-level maximum change, not L2 norm)",
+      "Multiple source models are available for ensemble gradient computation",
+      "Both targeted and non-targeted attacks are needed with a shared framework"
+    ],
+    "do_not_use_when": [
+      "White-box attack where the target model is fully accessible (C&W or PGD with model-specific tuning is stronger)",
+      "Perturbation budget is measured in L2 or L1 norm rather than L-infinity (sign-based steps are suboptimal for L2)",
+      "Only a single source model is available (momentum still helps but ensemble diversity is the main transferability driver)",
+      "The target domain is non-image (text, audio) where gradient-based pixel perturbation does not apply directly"
+    ],
+    "key_insight": "Full momentum (mu=1.0) with L1-normalized gradients produces perturbations that transfer to unseen models because the accumulated gradient direction approximates the consensus gradient across model families. The L1 normalization prevents any single iteration's gradient magnitude from dominating, and full momentum ensures every iteration contributes equally to the final direction.",
+    "critical_stages": ["momentum_iterative_gradient_accumulation", "ensemble_logit_fusion_with_asymmetric_weights"],
+    "swappable_stages": {
+      "auxiliary_logit_loss_fusion": "Standard cross-entropy loss works without auxiliary heads. The auxiliary loss adds ~2% transfer rate improvement on Inception models.",
+      "adaptive_epsilon_attack_strategy": "Fixed configuration (5 models, 20 iterations) works for most budgets. The adaptive strategy optimizes for edge cases.",
+      "rounded_clipped_perturbation_step": "Standard sign-based stepping (FGSM-style) works for non-targeted attacks. The rounded multi-level step is mainly beneficial for targeted attacks."
+    },
+    "failure_modes": [
+      "Adversarially-trained target models: momentum helps but transfer rates drop significantly against robust models",
+      "Very tight perturbation budgets (epsilon < 4): too few effective iterations for momentum to accumulate a useful consensus direction",
+      "Source and target model families are architecturally very different (e.g., CNN source vs. vision transformer target): gradient consensus may not transfer across architectural paradigms"
+    ]
+  },
   "planning_constraints": [
     {
       "category": "stage",

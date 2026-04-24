@@ -12,7 +12,13 @@
     "fpn_unet_ensemble",
     "efficientnet_backbone",
     "conditional_inference",
-    "area_thresholding"
+    "area_thresholding",
+    "highly_imbalanced",
+    "mostly_negative_images",
+    "multi_class_segmentation",
+    "industrial_defect_detection",
+    "high_resolution_images",
+    "manufacturing"
   ],
   "inputs": [
     {
@@ -30,6 +36,32 @@
       "required": true
     }
   ],
+  "applicability": {
+    "use_when": [
+      "Semantic segmentation where the majority of images (>70%) contain no target objects — high negative rate",
+      "Multi-class pixel-level defect detection on high-resolution industrial images requiring tiling",
+      "False positive reduction is as important as recall — downstream decisions (e.g., production line stops) have high cost",
+      "Defect regions are small relative to total image area, making area-based postprocessing effective"
+    ],
+    "do_not_use_when": [
+      "Most images contain the target object — the classifier gate provides no filtering benefit and adds latency",
+      "Single defect class with abundant positive examples — direct segmentation without gating is simpler and equally effective",
+      "Defects span large image regions (>30% of pixels) — area thresholding is inapplicable and the gating classifier adds no value",
+      "Real-time video stream processing — the two-stage classifier + segmentation pipeline doubles inference latency vs. a single model"
+    ],
+    "key_insight": "The classifier gate exploits a base-rate asymmetry: when most images are defect-free, segmentation models produce false positives on surface textures and noise that are hard to suppress with pixel-level thresholds alone. By routing known-negative images to an empty mask, the pipeline converts a pixel-level precision problem into a much easier image-level binary classification problem. The area thresholding then handles the residual false positives on positive images, which are predominantly small isolated clusters that real defects never produce.",
+    "critical_stages": ["classifier_filtering", "multistage_inference", "postprocessing"],
+    "swappable_stages": {
+      "segmentation_models": "Any encoder-decoder architecture (DeepLabV3+, HRNet, SegFormer) works. FPN and U-Net are chosen for complementary multi-scale handling, but the key is using multiple architectures for ensemble diversity.",
+      "tile_preprocessing": "Any tiling or sliding-window strategy works. Tile size is a memory-performance tradeoff. Overlap-tile with blending at seams is preferred for inference.",
+      "classifier_filtering": "Any image-level classifier (EfficientNet, ResNet, ViT) works. The key is high recall — a few false positives passing through to segmentation are acceptable."
+    },
+    "failure_modes": [
+      "Classifier recall drop: if the classifier misses defective images (false negatives), those defects are irrecoverably lost — the segmentation model never sees them",
+      "Tile boundary artifacts: defects spanning tile boundaries may be split into two sub-threshold fragments, both removed by area thresholding",
+      "Class-specific threshold sensitivity: optimal area and probability thresholds differ significantly across defect types — using a single global threshold degrades performance on minority defect classes"
+    ]
+  },
   "planning_constraints": [
     {
       "category": "stage",
@@ -288,7 +320,9 @@
     "dejargonized_summary": "Detect steel defects by first filtering out clean images with a classifier, then running detailed segmentation only on likely-defective images, and removing tiny noisy predictions.",
     "provenance_notes": [
       "Source: Kaggle Severstal Steel Defect Detection competition, 1st place solution (2019)",
-      "Discussion: https://www.kaggle.com/competitions/severstal-steel-defect-detection/discussion"
+      "Discussion: https://www.kaggle.com/competitions/severstal-steel-defect-detection/discussion",
+      "Source: https://www.kaggle.com/c/severstal-steel-defect-detection/discussion/114331",
+      "Code: https://github.com/simonmeister/kaggle-severstal"
     ],
     "uncertainty_notes": [
       "Classifier recall threshold trades off between computation savings and missed defects.",

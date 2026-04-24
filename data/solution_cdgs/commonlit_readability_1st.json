@@ -13,8 +13,43 @@
     "domain_adaptation",
     "transformer_finetuning",
     "stochastic_weight_averaging",
-    "svr_calibration"
+    "svr_calibration",
+    "small_dataset_nlp",
+    "mlm_pretraining",
+    "attention_pooling",
+    "roberta",
+    "deberta",
+    "ridge_regression",
+    "embedding_extraction",
+    "flat_minima",
+    "dynamic_padding"
   ],
+  "applicability": {
+    "use_when": [
+      "NLP regression task with a small labeled dataset (<5000 samples) where fine-tuned transformers are prone to overfitting and miscalibration",
+      "A large unlabeled in-domain corpus is available for continued MLM pre-training to adapt transformer representations before fine-tuning",
+      "Prediction target is a continuous score where calibration matters (RMSE metric) and raw transformer outputs tend to be poorly calibrated",
+      "Multiple transformer architectures (RoBERTa, DeBERTa) are available for ensembling to reduce variance"
+    ],
+    "do_not_use_when": [
+      "Large labeled dataset (>50k samples): domain adaptation and SVR calibration provide diminishing returns when the fine-tuning set is large enough to learn good representations directly",
+      "Classification task with discrete labels: the SVR calibration head is designed for continuous regression and adds unnecessary complexity for classification",
+      "No in-domain unlabeled text is available: domain adaptation without relevant text may degrade representations compared to the original pre-trained model",
+      "Real-time inference at very low latency is required: SWA model extraction + SVR head adds overhead compared to a single fine-tuned transformer"
+    ],
+    "key_insight": "The SVR calibration head on top of transformer embeddings corrects for the known miscalibration of fine-tuned transformers on small regression datasets — the transformer learns good representations but its linear head overfits to the small label set. SWA stabilizes the embedding space so the SVR sees consistent features across folds, preventing the calibration head from fitting to noise in any single checkpoint's representation.",
+    "critical_stages": ["domain_adaptation", "stochastic_weight_averaging", "svr_calibration_head"],
+    "swappable_stages": {
+      "attention_pooling": "Mean pooling, CLS token, or weighted-layer pooling can replace attention pooling. Attention pooling is preferred for regression because it learns task-specific token importance.",
+      "regression_head": "The linear regression head is a training-time component; at inference the SVR calibration head replaces it. Any differentiable head works during training.",
+      "tokenization": "Any HuggingFace-compatible tokenizer works. Dynamic padding is an efficiency optimization, not architecturally critical."
+    },
+    "failure_modes": [
+      "Domain adaptation corpus is too dissimilar to target text: continued MLM degrades the pre-trained representations rather than adapting them",
+      "SWA averaging window is too wide: averaging checkpoints from very different training phases produces a blurred model worse than any individual checkpoint",
+      "Very short texts (<20 tokens): attention pooling degenerates when there are too few tokens to learn meaningful importance weights over"
+    ]
+  },
   "inputs": [
     {
       "name": "text_passages",
@@ -322,7 +357,9 @@
     "rationale": "1st place CommonLit Readability Prize solution. Domain-adapted transformers with attention pooling, SWA for stability, and SVR calibration heads.",
     "dejargonized_summary": "Predict text readability by adapting language models to similar literature, using attention-based pooling, stabilizing with weight averaging, and calibrating with simple regression models.",
     "provenance_notes": [
-      "Source: Kaggle CommonLit Readability Prize 1st place solution (2021)"
+      "Source: Kaggle CommonLit Readability Prize 1st place solution (2021)",
+      "Source: https://www.kaggle.com/c/commonlitreadabilityprize/discussion/260744",
+      "Code: https://github.com/AmedeoBova/CommonLit-Readability"
     ],
     "uncertainty_notes": [
       "Domain adaptation corpus selection significantly affects final performance; the specific corpus used may not be publicly available.",
@@ -331,8 +368,8 @@
     "references": [
       {
         "title": "CommonLit Readability Prize 1st Place Solution",
-        "citation": "Kaggle competition solution writeup",
-        "url": "https://www.kaggle.com/competitions/commonlitreadabilityprize/discussion",
+        "citation": "Kaggle CommonLit Readability Prize, 1st place solution writeup (2021)",
+        "url": "https://www.kaggle.com/c/commonlitreadabilityprize/discussion/260744",
         "note": "1st place solution discussion."
       }
     ],

@@ -13,8 +13,43 @@
     "pedestrian_dead_reckoning",
     "kalman_filter",
     "sensor_fusion",
-    "trajectory_optimization"
+    "trajectory_optimization",
+    "imu_integration",
+    "rssi_signal_strength",
+    "snap_to_grid",
+    "floor_plan_constraint",
+    "complementary_sensors",
+    "absolute_relative_fusion",
+    "step_detection",
+    "trajectory_smoothing",
+    "lightgbm_regression",
+    "cost_minimization"
   ],
+  "applicability": {
+    "use_when": [
+      "Two or more sensor modalities provide complementary positioning signals: one absolute but noisy (e.g., Wi-Fi RSSI, BLE beacons, GPS) and one relative but drifting (e.g., IMU/PDR, odometry, visual odometry)",
+      "Known environment geometry (floor plans, road networks, building layouts) is available for post-hoc trajectory correction",
+      "Positioning must be continuous over a trajectory, not just point estimates — the temporal structure of movement constrains predictions between observation points",
+      "Wi-Fi infrastructure is dense enough to provide meaningful fingerprinting signal (multiple visible APs per scan)"
+    ],
+    "do_not_use_when": [
+      "Only one sensor modality is available — sensor fusion requires at least two complementary sources. A single-modality model is simpler and equally effective",
+      "Environment geometry is unknown or frequently changing (e.g., open outdoor spaces, reconfigurable exhibition halls) — snap-to-grid becomes harmful rather than helpful",
+      "IMU data is unavailable or too noisy to extract step counts (e.g., device in a bag with random orientation) — PDR produces garbage displacements that corrupt the fused trajectory"
+    ],
+    "key_insight": "The Kalman filter fuses absolute (Wi-Fi, noisy but unbiased) with relative (IMU/PDR, precise but drifting) positioning — this is the classic complementary sensor fusion pattern. Wi-Fi provides coarse global corrections that prevent PDR drift from accumulating, while PDR provides smooth local trajectory structure between sparse Wi-Fi observations. Neither source alone achieves the accuracy of the fusion.",
+    "critical_stages": ["wifi_position_model", "pedestrian_dead_reckoning", "kalman_sensor_fusion"],
+    "swappable_stages": {
+      "wifi_feature_extraction": "Any method to convert raw RSSI scans into feature vectors works (sparse matrix, KNN fingerprint lookup, learned embeddings). The downstream model just needs a fixed-size representation per timestamp.",
+      "wifi_position_model": "Any regression model (GBM, MLP, KNN) can predict positions from Wi-Fi fingerprints. LightGBM handles the extreme sparsity well, but the pipeline value is in the fusion, not the specific Wi-Fi model.",
+      "snap_to_grid": "Can be replaced by any geometric constraint enforcement (e.g., graph-based shortest-path snapping, soft constraint via penalty term in cost function). The key idea is incorporating known environment structure."
+    },
+    "failure_modes": [
+      "Sparse Wi-Fi coverage: if only 1-2 APs are visible per scan, Wi-Fi fingerprinting degenerates to coarse room-level localization, and the Kalman filter trusts these noisy estimates too much",
+      "Stationary periods: PDR produces zero displacement when the user is not walking, but Wi-Fi noise continues to perturb the fused estimate. The Kalman filter needs explicit stationary detection to avoid position jitter",
+      "Multi-floor transitions: elevator/staircase movement violates the 2D PDR model and can cause the Kalman filter to diverge until the Wi-Fi signal re-anchors on the correct floor"
+    ]
+  },
   "inputs": [
     {
       "name": "wifi_signals",
@@ -336,7 +371,9 @@
     "rationale": "1st place Kaggle Indoor Location & Navigation 2021. Sensor fusion pipeline combining Wi-Fi fingerprinting (LightGBM + 1D CNN) with IMU-based pedestrian dead reckoning via Kalman filtering, with geometric snap-to-grid post-processing.",
     "dejargonized_summary": "Predict indoor location by combining Wi-Fi signal patterns with motion sensor data, blending them with a statistical filter, and snapping results onto known hallway paths.",
     "provenance_notes": [
-      "Source: Kaggle Indoor Location & Navigation competition, 1st place solution writeup (2021)"
+      "Source: Kaggle Indoor Location & Navigation competition, 1st place solution writeup (2021)",
+      "Source: https://www.kaggle.com/c/indoor-location-navigation/discussion/240423",
+      "Code: https://github.com/X-A-N-I-A/Indoor-Location-Navigation-1st-Place"
     ],
     "uncertainty_notes": [
       "Kalman filter noise parameters (process noise, measurement noise) are tuned to this competition's sensor characteristics.",
@@ -355,6 +392,12 @@
         "citation": "Kalman (1960). A New Approach to Linear Filtering and Prediction Problems.",
         "url": "https://doi.org/10.1115/1.3662552",
         "note": "Sequential state estimation for sensor fusion."
+      },
+      {
+        "title": "Indoor Location & Navigation 1st Place Solution",
+        "citation": "Kaggle Indoor Location & Navigation, 1st place solution writeup (2021)",
+        "url": "https://www.kaggle.com/c/indoor-location-navigation/discussion/240423",
+        "note": "1st place solution discussion."
       }
     ],
     "maintainers": ["sciona-atoms-ml"]

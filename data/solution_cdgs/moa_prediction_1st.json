@@ -12,8 +12,42 @@
     "drug_mechanism_prediction",
     "tabular_deep_learning",
     "pseudo_labeling",
-    "stacking_ensemble"
+    "stacking_ensemble",
+    "pca_umap_enrichment",
+    "label_smoothing",
+    "high_dimensional_tabular",
+    "semi_supervised",
+    "variance_thresholding",
+    "feature_importance_selection",
+    "logistic_regression_stacker",
+    "multi_architecture_diversity"
   ],
+  "applicability": {
+    "use_when": [
+      "High-dimensional tabular data (>100 features) with many correlated columns where dimensionality reduction can extract latent structure",
+      "Multi-label binary targets where label correlations exist and can be exploited by shared representations",
+      "Unlabeled or test data is available for semi-supervised pseudo-labeling to expand effective training size",
+      "Multiple diverse model architectures are feasible and stacking can capture complementary learned patterns"
+    ],
+    "do_not_use_when": [
+      "Low-dimensional tabular data (<20 features): PCA/UMAP enrichment adds noise rather than signal on small feature spaces",
+      "Labels are mutually exclusive (single-label classification): the multi-label BCE + label smoothing setup is unnecessary overhead",
+      "Training data is very small (<500 rows): pseudo-labeling feedback loop amplifies errors and UMAP produces unstable embeddings",
+      "Interpretability is required: the PCA/UMAP features and stacked ensemble are opaque to domain experts"
+    ],
+    "key_insight": "The combination of PCA+UMAP dimensionality reduction with pseudo-labeling creates a feedback loop — reduced features help the pseudo-labeler produce cleaner soft labels, and pseudo-labels help the feature selector identify signal vs. noise columns. Label smoothing prevents the BCE loss from driving predictions to extreme 0/1 values, which is critical when most labels are negative and the model would otherwise become overconfident on the majority class.",
+    "critical_stages": ["dimensionality_reduction", "pseudo_label_feature_selection", "label_smoothing"],
+    "swappable_stages": {
+      "deep_tabular_models": "Any supervised model (GBM, MLP, TabNet, 1D-CNN) works as a base learner. Architectural diversity matters more than any specific architecture.",
+      "stacking": "Any meta-learner (Ridge, logistic regression, LightGBM) works as the stacker. Logistic regression is preferred for its regularization and simplicity.",
+      "variance_thresholding": "Any feature screening method (mutual information, correlation filter) can replace variance thresholding as the initial noise reduction step."
+    },
+    "failure_modes": [
+      "Label sparsity too extreme (>99.9% zeros): pseudo-labels are dominated by negatives and the feedback loop reinforces false negatives",
+      "Features are already low-dimensional and decorrelated: PCA/UMAP enrichment adds redundant columns that increase overfitting risk",
+      "Test distribution differs significantly from train: pseudo-labeling propagates distribution shift errors into the training loop"
+    ]
+  },
   "inputs": [
     {
       "name": "gene_expression",
@@ -309,7 +343,9 @@
     "rationale": "1st place MoA Prediction solution. Multi-label tabular classification using PCA/UMAP feature enrichment, diverse deep tabular architectures, label smoothing, and logistic regression stacking.",
     "dejargonized_summary": "Predict drug mechanisms by enriching gene and cell features with compressed representations, training multiple neural networks, and combining their predictions through a second-layer model.",
     "provenance_notes": [
-      "Source: Kaggle Mechanisms of Action Prediction 1st place solution (2020)"
+      "Source: Kaggle Mechanisms of Action Prediction 1st place solution (2020)",
+      "Source: https://www.kaggle.com/c/lish-moa/discussion/202256",
+      "Code: https://github.com/chankhavu/moa-1st-place"
     ],
     "uncertainty_notes": [
       "Pseudo-labeling on test data introduces potential distribution shift bias.",
@@ -318,8 +354,8 @@
     "references": [
       {
         "title": "MoA Prediction 1st Place Solution",
-        "citation": "Kaggle competition solution writeup",
-        "url": "https://www.kaggle.com/competitions/lish-moa/discussion",
+        "citation": "Kaggle Mechanisms of Action Prediction, 1st place solution writeup (2020)",
+        "url": "https://www.kaggle.com/c/lish-moa/discussion/202256",
         "note": "1st place solution discussion."
       }
     ],

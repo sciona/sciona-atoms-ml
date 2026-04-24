@@ -12,7 +12,14 @@
     "ct_scan_feature_extraction",
     "quantile_regression",
     "multimodal_tabular_image",
-    "fvc_prediction"
+    "fvc_prediction",
+    "efficientnet_feature_backbone",
+    "confidence_interval_prediction",
+    "laplace_log_likelihood",
+    "temporal_delta_features",
+    "survival_curve_regression",
+    "uncertainty_aware_prediction",
+    "medical_imaging_3d_to_tabular"
   ],
   "inputs": [
     {
@@ -42,6 +49,33 @@
       "required": true
     }
   ],
+  "applicability": {
+    "use_when": [
+      "Regression task where the metric explicitly rewards calibrated uncertainty estimates (e.g., modified Laplace log-likelihood, CRPS)",
+      "Multimodal data combining 3D medical images with structured tabular/temporal features",
+      "Small patient cohort (<500 patients) where end-to-end image model training would overfit but pretrained feature extraction is viable",
+      "Prediction targets are temporal trajectories (value at future timepoints) requiring both point estimates and confidence intervals"
+    ],
+    "do_not_use_when": [
+      "Large labeled imaging dataset (>10K samples) where end-to-end fine-tuning of the image backbone would outperform frozen feature extraction",
+      "Metric only evaluates point predictions (MAE, RMSE) without uncertainty — quantile regression overhead adds no value",
+      "Images are not informative for the prediction target — adding image features to a tabular model dilutes signal",
+      "Prediction horizon is fixed (single timepoint) with no temporal structure — temporal delta features become meaningless"
+    ],
+    "key_insight": "Quantile regression naturally produces calibrated confidence intervals that directly optimize the competition's modified Laplace log-likelihood metric. The spread between the 20th and 80th percentile predictions becomes the confidence estimate, meaning the model learns both where and how uncertain its predictions are. This is superior to predicting mean + variance separately because the quantile loss enforces ordering and avoids the distributional assumptions of Gaussian confidence.",
+    "critical_stages": ["quantile_regression_training", "confidence_interval_postprocessing"],
+    "swappable_stages": {
+      "image_feature_extraction": "Any pretrained image backbone works (ResNet, DenseNet, EfficientNet variants). The key is extracting a fixed-length feature vector from variable-size 3D volumes.",
+      "tabular_feature_engineering": "Feature engineering is domain-specific. The temporal delta structure (weeks from baseline) is the critical feature; other metadata features are supplementary.",
+      "feature_concatenation": "Simple concatenation can be replaced with attention-based fusion or gating mechanisms if the dataset is large enough to train them."
+    },
+    "failure_modes": [
+      "Quantile crossing (q20 > q50 or q50 > q80): without explicit monotonicity constraints, predicted quantiles can violate ordering, producing invalid confidence intervals",
+      "Very small datasets (<100 patients): MLP overfits even with pretrained image features, and quantile estimates become unstable",
+      "Homogeneous CT scans (e.g., all early-stage disease): EfficientNet features may not capture subtle progression differences, collapsing to near-identical vectors",
+      "Non-linear temporal trajectories: the linear temporal delta assumption fails for patients with rapid acceleration or stabilization of disease"
+    ]
+  },
   "planning_constraints": [
     {
       "category": "stage",
@@ -270,7 +304,9 @@
     "rationale": "1st place Kaggle OSIC Pulmonary Fibrosis solution. Multimodal regression combining CT image features with clinical tabular data via quantile regression for uncertainty-aware FVC prediction.",
     "dejargonized_summary": "Predict lung function decline with uncertainty by combining CT scan image analysis with clinical data in a neural network that outputs confidence intervals.",
     "provenance_notes": [
-      "Source: Kaggle OSIC Pulmonary Fibrosis Progression competition (2020), 1st place solution"
+      "Source: Kaggle OSIC Pulmonary Fibrosis Progression competition (2020), 1st place solution",
+      "Source: https://www.kaggle.com/c/osic-pulmonary-fibrosis-progression/discussion/188544",
+      "Code: https://github.com/AmedeoBova/OSIC-Pulmonary-Fibrosis-Progression"
     ],
     "uncertainty_notes": [
       "EfficientNet-B5 features may not capture all relevant CT scan pathology.",

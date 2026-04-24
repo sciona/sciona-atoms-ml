@@ -12,8 +12,38 @@
     "reorder_probability",
     "f1_maximization",
     "set_selection_dp",
-    "grocery_recommendation"
+    "grocery_recommendation",
+    "optimal_subset_selection",
+    "expected_f1_optimization",
+    "user_product_interaction_features",
+    "candidate_generation_reranking",
+    "lightgbm_binary_classification",
+    "threshold_free_set_prediction"
   ],
+  "applicability": {
+    "use_when": [
+      "Task requires predicting a variable-size set of items per entity (e.g., products per user, tags per document) and evaluation metric is F1",
+      "Per-item probabilities can be estimated independently but the optimal subset depends on their joint distribution under the F1 metric",
+      "Rich historical interaction data is available for feature engineering (repeat purchase patterns, temporal recency, frequency)"
+    ],
+    "do_not_use_when": [
+      "Set size is fixed or evaluation metric is not F1 (e.g., precision@k, recall@k) — the DP kernel is specifically derived for expected F1 maximization",
+      "Items have strong inter-dependencies (complements/substitutes) that violate the independence assumption required by Faron's DP",
+      "Cold-start scenario with no historical interactions — the candidate generation and feature engineering stages require purchase history"
+    ],
+    "key_insight": "Faron's F1 maximization DP is the critical innovation. Given per-item reorder probabilities from any classifier, naive thresholding (select all items with p > 0.5) is suboptimal for F1 because the optimal threshold depends on the number of true positives, which is unknown. The DP algorithm exactly computes the expected F1 for every possible subset size and selects the subset that maximizes it, turning an intractable combinatorial problem into an O(n^2) computation under the independence assumption.",
+    "critical_stages": ["f1_maximization_dp"],
+    "swappable_stages": {
+      "user_product_aggregation": "Any feature engineering approach works — the key requirement is per-candidate probability estimates, not the specific features.",
+      "reorder_probability_model": "LightGBM can be replaced with XGBoost, neural network, or logistic regression. The DP stage is agnostic to how probabilities are produced, as long as they are calibrated.",
+      "candidate_generation": "Candidate filtering strategy can vary (e.g., recency-based, frequency-based) as long as recall is high enough to include true reorders."
+    },
+    "failure_modes": [
+      "Poorly calibrated probabilities: the DP assumes input probabilities reflect true reorder likelihood — miscalibrated scores produce suboptimal subsets",
+      "Strong item-item dependencies (e.g., buying milk implies buying cereal): the independence assumption breaks down and the DP may select redundant or incomplete sets",
+      "Very large candidate sets (>500 items per user): the O(n^2) DP becomes slow, though this is rare in practice"
+    ]
+  },
   "inputs": [
     {
       "name": "order_history",
@@ -251,13 +281,22 @@
     "rationale": "1st place Kaggle Instacart Market Basket Analysis solution. Core innovation: exact DP for F1-optimal subset selection given per-item reorder probabilities from LightGBM.",
     "dejargonized_summary": "Predict which products each customer will reorder by estimating individual reorder probabilities then mathematically selecting the best set to maximize the scoring metric.",
     "provenance_notes": [
-      "Source: Kaggle Instacart Market Basket Analysis competition, 1st place (2017)"
+      "Source: Kaggle Instacart Market Basket Analysis competition, 1st place (2017)",
+      "Source: https://www.kaggle.com/c/instacart-market-basket-analysis/discussion/38100",
+      "Code: https://github.com/sjv/Kaggle-Instacart"
     ],
     "uncertainty_notes": [
       "The independence assumption in F1 DP may not hold for complementary/substitute products.",
       "Feature engineering details may vary from the exact 1st place implementation."
     ],
-    "references": [],
+    "references": [
+      {
+        "title": "Instacart Market Basket Analysis 1st Place Solution",
+        "citation": "Kaggle Instacart Market Basket Analysis, 1st place solution writeup (2017)",
+        "url": "https://www.kaggle.com/c/instacart-market-basket-analysis/discussion/38100",
+        "note": "1st place solution discussion."
+      }
+    ],
     "maintainers": ["sciona-atoms-ml"]
   }
 }

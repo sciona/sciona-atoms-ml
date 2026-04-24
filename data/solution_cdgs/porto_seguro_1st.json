@@ -12,7 +12,12 @@
     "tabular_deep_learning",
     "swap_noise_dae",
     "gbm_nn_ensemble",
-    "rank_averaging"
+    "rank_averaging",
+    "highly_imbalanced",
+    "high_cardinality_categorical",
+    "sentinel_missing_values",
+    "binary_classification",
+    "insurance"
   ],
   "inputs": [
     {
@@ -36,6 +41,31 @@
       "required": true
     }
   ],
+  "applicability": {
+    "use_when": [
+      "Tabular data with >50 features and high class imbalance (>10:1)",
+      "Missing values encoded as sentinel values (-1, 999, etc.) rather than truly absent",
+      "No strong domain-specific feature engineering available — raw features need nonlinear interaction discovery",
+      "Heterogeneous feature types (mix of categorical and continuous) where manual interaction terms are intractable"
+    ],
+    "do_not_use_when": [
+      "Data has <10 features (DAE hidden layer adds no value on small feature spaces — manual interactions suffice)",
+      "Target is multi-class with >10 classes (rank-averaging is less effective; stacking or per-class calibration is preferred)",
+      "Real-time inference required (DAE feature extraction adds a forward-pass latency that may exceed SLA)",
+      "Dataset has <1000 rows (DAE overfits and produces noisy, unreliable features)"
+    ],
+    "key_insight": "The DAE learns a smooth manifold of the feature space. Its hidden activations capture non-linear feature interactions that tree models cannot discover from raw features alone. The swap-noise corruption forces the DAE to learn robust, denoised representations rather than memorizing individual rows, because swap noise preserves marginal distributions while destroying pairwise correlations.",
+    "critical_stages": ["denoising_autoencoder_features"],
+    "swappable_stages": {
+      "model_training": "Any supervised model (GBM, NN, linear) works here. The value is in the DAE features, not the downstream model.",
+      "rank_average_ensemble": "Any ensembling strategy (stacking, blending, simple average) works. Rank-averaging is just robust to different prediction scales across heterogeneous model types."
+    },
+    "failure_modes": [
+      "Very small datasets (<1000 rows): DAE overfits and produces noisy features that hurt downstream models",
+      "Highly correlated features: DAE hidden layer collapses to first few PCA components, adding no information beyond what PCA would provide",
+      "Time-series data with temporal ordering: DAE ignores sequential structure, producing inferior features vs. lag-based or recurrent approaches"
+    ]
+  },
   "planning_constraints": [
     {
       "category": "stage",
@@ -288,7 +318,9 @@
     "dejargonized_summary": "Predict insurance claims by learning hidden patterns from noisy data reconstruction, adding those as extra features, and combining predictions from multiple model types.",
     "provenance_notes": [
       "Source: Kaggle Porto Seguro Safe Driver Prediction competition, 1st place solution (2017)",
-      "Discussion: https://www.kaggle.com/competitions/porto-seguro-safe-driver-prediction/discussion"
+      "Discussion: https://www.kaggle.com/competitions/porto-seguro-safe-driver-prediction/discussion",
+      "Source: https://www.kaggle.com/c/porto-seguro-safe-driver-prediction/discussion/44629",
+      "Code: https://github.com/mjahrer/porto-seguro"
     ],
     "uncertainty_notes": [
       "The optimal DAE hidden dimension and swap noise rate are hyperparameters tuned per dataset.",

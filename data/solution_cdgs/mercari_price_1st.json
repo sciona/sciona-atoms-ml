@@ -12,7 +12,16 @@
     "factorization_machine",
     "text_price_regression",
     "ftrl_optimization",
-    "cnn_text_regression"
+    "cnn_text_regression",
+    "countvectorizer_tfidf",
+    "one_hot_sparse_encoding",
+    "pairwise_feature_interactions",
+    "online_learning",
+    "log_price_regression",
+    "ridge_regression",
+    "high_cardinality_categorical",
+    "hierarchical_category",
+    "wordbatch_fm_ftrl"
   ],
   "inputs": [
     {
@@ -54,6 +63,34 @@
       "required": true
     }
   ],
+  "applicability": {
+    "use_when": [
+      "Regression task with mixed text and high-cardinality categorical features where the feature space is naturally ultra-sparse",
+      "Dataset is large (>1M samples) and requires memory-efficient sparse representations rather than dense matrices",
+      "Pairwise feature interactions (e.g., brand x category) are predictive but the full interaction matrix is too large to materialize",
+      "Inference time budget is tight (kernel competitions) — FM_FTRL and Ridge on sparse matrices are extremely fast compared to deep learning"
+    ],
+    "do_not_use_when": [
+      "Text requires deep semantic understanding (sentiment, entailment) rather than lexical pattern matching — bag-of-words features miss meaning",
+      "Feature space is naturally dense with few categorical variables — FM provides no advantage over standard GBM on dense features",
+      "Dataset is small (<10K samples) — FTRL online learning and factorization machines need large data to learn stable interaction patterns",
+      "Target depends on sequential word order in text (e.g., negation, conditionals) — CountVectorizer/TF-IDF discards word order entirely"
+    ],
+    "key_insight": "FM_FTRL learns pairwise feature interactions implicitly from an ultra-sparse combined text+categorical matrix without ever materializing the dense interaction space. This is critical because the interaction between brand and category (e.g., 'Nike' x 'Shoes' vs 'Nike' x 'T-Shirts') is highly predictive of price, but explicit interaction features would create an intractably large matrix. The FTRL online optimizer handles this sparsity natively, converging in a single pass over the data.",
+    "critical_stages": ["online_fm_model", "sparse_concatenation"],
+    "swappable_stages": {
+      "neural_text_model": "Any text model (LSTM, GRU, transformer) can replace the 1D CNN. The CNN captures local n-gram patterns efficiently but is not the primary model.",
+      "text_vectorization": "CountVectorizer/TF-IDF can be replaced with hashing vectorizer for even lower memory, or BPE tokenization for subword coverage. The key is sparse output.",
+      "weighted_ensemble": "Simple averaging, stacking, or blending all work. The weighted average is a pragmatic choice given kernel time constraints.",
+      "categorical_encoding": "One-hot can be replaced with feature hashing for extreme cardinality. The critical requirement is sparse binary output for FM compatibility."
+    },
+    "failure_modes": [
+      "Low-cardinality categorical features: FM interaction terms add little value when there are few unique categories, and a simple GBM would suffice",
+      "Short text fields with small vocabulary: sparse text matrices become extremely sparse with few non-zero entries, giving FM insufficient signal for interaction learning",
+      "Non-linear target relationships: FM captures only pairwise interactions — higher-order interactions require deeper models or explicit polynomial features",
+      "Distribution shift in text vocabulary: CountVectorizer vocabulary is fixed at training time, so novel words in test data are ignored entirely"
+    ]
+  },
   "planning_constraints": [
     {
       "category": "stage",
@@ -371,7 +408,9 @@
     "rationale": "1st place Kaggle Mercari Price Suggestion solution. Sparse feature regression combining FM_FTRL on text/categorical sparse matrices with a 1D CNN neural text model and Ridge Regression in a weighted ensemble.",
     "dejargonized_summary": "Predict product prices by combining a factorization machine that captures feature interactions on sparse text/category data with a neural network that reads text sequences.",
     "provenance_notes": [
-      "Source: Kaggle Mercari Price Suggestion Challenge (2018), 1st place solution"
+      "Source: Kaggle Mercari Price Suggestion Challenge (2018), 1st place solution",
+      "Source: https://www.kaggle.com/c/mercari-price-suggestion-challenge/discussion/50256",
+      "Code: https://github.com/pjankiewicz/mercari-solution"
     ],
     "uncertainty_notes": [
       "FM factorization rank affects model capacity and training time.",

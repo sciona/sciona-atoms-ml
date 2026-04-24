@@ -12,7 +12,12 @@
     "bidirectional_rnn",
     "dual_pooling",
     "multi_label_text_classification",
-    "stacking_ensemble"
+    "stacking_ensemble",
+    "highly_imbalanced",
+    "multi_label",
+    "noisy_user_generated_text",
+    "short_text",
+    "content_moderation"
   ],
   "inputs": [
     {
@@ -36,6 +41,32 @@
       "required": true
     }
   ],
+  "applicability": {
+    "use_when": [
+      "Multi-label text classification with severe per-label class imbalance (some labels <5% prevalence)",
+      "Noisy, user-generated short text (comments, reviews, social media) where spelling and grammar vary widely",
+      "Moderate dataset size (10K-500K samples) where augmentation provides meaningful gains but pre-trained LLMs are not yet dominant",
+      "Multiple correlated labels where a stacking meta-model can learn inter-label dependencies"
+    ],
+    "do_not_use_when": [
+      "Long-form documents (>512 tokens) where RNN sequential processing becomes a bottleneck — transformer-based approaches are more effective",
+      "Single-label classification with balanced classes — back-translation augmentation adds complexity without proportional gain",
+      "Languages without high-quality machine translation models available for back-translation",
+      "Production systems requiring sub-10ms latency — the multi-seed NN ensemble with LightGBM stacking is inference-heavy"
+    ],
+    "key_insight": "Back-translation generates semantically equivalent but lexically diverse paraphrases, which acts as a form of invariance training: the model learns to classify based on meaning rather than surface-level word patterns. This is especially powerful for imbalanced multi-label problems because it selectively upsamples minority labels without duplicating exact examples, avoiding the overfitting trap of naive oversampling.",
+    "critical_stages": ["back_translation_augmentation", "bidirectional_rnn_features", "dual_pooling"],
+    "swappable_stages": {
+      "tokenization_and_embedding": "Any pre-trained word embedding (Word2Vec, ELMo) or subword tokenizer (BPE) works. FastText's subword handling is particularly valuable for noisy text with OOV words.",
+      "meta_model_ensemble": "Any meta-learner (logistic regression, simple averaging, learned weighted average) works. LightGBM is preferred because it can learn nonlinear combinations across seeds and architectures.",
+      "classification_head": "Standard dense + sigmoid head. Could also use attention-based pooling before the head."
+    },
+    "failure_modes": [
+      "Back-translation with low-quality MT models introduces label noise — translated text may lose or alter the toxic signal (e.g., sarcasm or slang lost in translation)",
+      "Very small datasets (<5K samples): multi-seed RNN ensemble overfits even with augmentation, and the meta-model has insufficient OOF signal to learn from",
+      "Adversarial or obfuscated text (leet-speak, Unicode tricks): character-level patterns that back-translation cannot generate and word embeddings cannot represent"
+    ]
+  },
   "planning_constraints": [
     {
       "category": "stage",
@@ -325,7 +356,9 @@
     "dejargonized_summary": "Classify toxic comments by creating extra training data through round-trip translation, processing text with bidirectional neural networks, and combining many model predictions with a gradient boosting meta-learner.",
     "provenance_notes": [
       "Source: Kaggle Toxic Comment Classification Challenge, 1st place solution (2018)",
-      "Discussion: https://www.kaggle.com/competitions/jigsaw-toxic-comment-classification-challenge/discussion"
+      "Discussion: https://www.kaggle.com/competitions/jigsaw-toxic-comment-classification-challenge/discussion",
+      "Source: https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/discussion/52557",
+      "Code: https://github.com/neptune-ml/kaggle-toxic-starter"
     ],
     "uncertainty_notes": [
       "Back-translation quality depends on the translation models available at the time.",

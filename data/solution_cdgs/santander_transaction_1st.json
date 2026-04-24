@@ -12,8 +12,38 @@
     "count_encoding",
     "synthetic_data_detection",
     "frequency_feature",
-    "adversarial_test_set"
+    "adversarial_test_set",
+    "test_set_data_leakage",
+    "fake_row_detection",
+    "value_frequency_encoding",
+    "anonymized_features",
+    "shuffle_augmentation",
+    "lightgbm_heavy_regularization"
   ],
+  "applicability": {
+    "use_when": [
+      "Tabular binary classification with many anonymized numeric features where domain-specific feature engineering is impossible",
+      "Test set may contain synthetic or padded rows that corrupt frequency-based statistics if not removed",
+      "Features have discrete or semi-discrete value distributions where frequency counts carry discriminative signal"
+    ],
+    "do_not_use_when": [
+      "Features are continuous with no repeated values — count encoding produces all-ones and carries no signal",
+      "Test set is known to be clean (no synthetic padding) — the fake data identification stage adds unnecessary complexity",
+      "Feature space is small (<10 features) — count encoding on few columns provides insufficient signal and shuffle augmentation is less effective"
+    ],
+    "key_insight": "The real insight is detecting and removing synthetic padding rows from the test set. The competition organizers injected fake rows with unique values to prevent leakage-based solutions, but this injection itself leaks information: real rows share values with the training set while fake rows have values appearing exactly once. Removing fake rows before computing frequency counts ensures the count features reflect the true data distribution, and these clean counts become the dominant signal for the downstream classifier.",
+    "critical_stages": ["fake_data_identification", "real_data_filtering"],
+    "swappable_stages": {
+      "lightgbm_training": "Any gradient boosting framework (XGBoost, CatBoost) or even a neural network works here. The winning signal comes from the feature engineering, not the model architecture.",
+      "shuffle_augmentation": "Optional stage — provides marginal gains. Can be replaced with other augmentation strategies or omitted entirely.",
+      "count_encoding": "Count encoding is the primary feature transform, but target encoding or frequency-ratio encoding are viable alternatives once synthetic rows are removed."
+    },
+    "failure_modes": [
+      "No synthetic rows in the test set: the fake data identification stage finds nothing and the pipeline reduces to vanilla count encoding with no special advantage",
+      "Synthetic detection heuristic is wrong: misidentifying real rows as fake corrupts the count statistics and degrades performance",
+      "Features are truly continuous (no value repetition): count encoding maps everything to 1 and the model has no signal beyond raw values"
+    ]
+  },
   "inputs": [
     {
       "name": "features",
@@ -331,13 +361,21 @@
     "rationale": "1st place Kaggle Santander Customer Transaction Prediction solution. Core innovation: detecting and removing synthetic test-set padding rows to enable accurate count-based feature engineering.",
     "dejargonized_summary": "Predict bank transactions by discovering that the test set contains fake rows, removing them to get accurate value frequency statistics, and using those frequencies as features for gradient boosting.",
     "provenance_notes": [
-      "Source: Kaggle Santander Customer Transaction Prediction competition, 1st place (2019)"
+      "Source: Kaggle Santander Customer Transaction Prediction competition, 1st place (2019)",
+      "Source: https://www.kaggle.com/c/santander-customer-transaction-prediction/discussion/89003"
     ],
     "uncertainty_notes": [
       "The synthetic data detection heuristic is specific to this competition's test-set construction.",
       "Shuffle augmentation effectiveness depends on the independence assumption across features."
     ],
-    "references": [],
+    "references": [
+      {
+        "title": "Santander Customer Transaction Prediction 1st Place Solution",
+        "citation": "Kaggle Santander Customer Transaction Prediction, 1st place solution writeup (2019)",
+        "url": "https://www.kaggle.com/c/santander-customer-transaction-prediction/discussion/89003",
+        "note": "1st place solution discussion."
+      }
+    ],
     "maintainers": ["sciona-atoms-ml"]
   }
 }

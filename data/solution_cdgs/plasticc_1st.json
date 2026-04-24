@@ -12,7 +12,15 @@
     "astronomical_transient_classification",
     "irregular_time_series_features",
     "gp_interpolated_features",
-    "multi_passband_classification"
+    "multi_passband_classification",
+    "tsfresh_feature_extraction",
+    "cesium_features",
+    "redshift_flux_correction",
+    "platt_calibration",
+    "minority_class_augmentation",
+    "irregularly_sampled",
+    "multi_channel_time_series",
+    "lightgbm_mlp_ensemble"
   ],
   "inputs": [
     {
@@ -36,6 +44,33 @@
       "required": true
     }
   ],
+  "applicability": {
+    "use_when": [
+      "Irregularly-sampled multi-channel time series where observations are sparse and unevenly spaced across channels",
+      "Classification task where domain-specific feature engineering (tsfresh, cesium) is well-established for the signal type",
+      "Severe class imbalance (>100:1 for rare classes) requiring explicit augmentation and calibrated probability outputs",
+      "Metric is log-loss or another proper scoring rule that rewards well-calibrated probabilities over hard classifications"
+    ],
+    "do_not_use_when": [
+      "Time series are regularly sampled with fixed intervals — GP interpolation adds cost without benefit when data is already on a uniform grid",
+      "Number of classes is small (<5) with balanced classes — minority augmentation and Platt calibration add unnecessary complexity",
+      "Sequence length is very long (>10K points per object) — GP fitting is O(n^3) per object and becomes prohibitive",
+      "Real-time streaming classification needed — GP fitting and tsfresh extraction are batch-oriented and computationally expensive"
+    ],
+    "key_insight": "GP interpolation converts irregularly-sampled light curves into a uniform feature space where tabular models work, while preserving uncertainty information that raw interpolation discards. The GP kernel hyperparameters (length-scale, amplitude, noise variance) themselves become discriminative features that encode the timescale and smoothness of variability -- information that summary statistics alone cannot capture.",
+    "critical_stages": ["gaussian_process_interpolation", "flux_correction"],
+    "swappable_stages": {
+      "model_training": "Any supervised classifier works here (XGBoost, CatBoost, deep MLP). LightGBM and MLP ensemble provides diversity but the value is in the feature engineering, not the model.",
+      "time_series_feature_extraction": "tsfresh can be replaced with catch22, ROCKET, or manual feature engineering. The key is producing a fixed-length feature vector per object.",
+      "platt_calibration": "Any probability calibration method (isotonic regression, temperature scaling) works. Platt scaling is simple and effective for log-loss optimization."
+    },
+    "failure_modes": [
+      "Objects with very few observations (<5 data points): GP fits are underdetermined and produce unreliable hyperparameters",
+      "Uniformly sampled data: GP interpolation degenerates to simple smoothing, and kernel hyperparameters carry little discriminative information",
+      "High-dimensional feature space from tsfresh (>1000 features) without selection: LightGBM handles this well but MLP may overfit",
+      "Extreme class imbalance beyond augmentation capacity: rarest classes may still have too few examples for stable GP fitting and feature extraction"
+    ]
+  },
   "planning_constraints": [
     {
       "category": "stage",
@@ -334,7 +369,9 @@
     "rationale": "1st place Kaggle PLAsTiCC solution. Multi-class astronomical classification from irregular light curves via GP interpolation, tsfresh feature extraction, and calibrated LightGBM/MLP ensemble.",
     "dejargonized_summary": "Classify astronomical objects from their brightness time series by extracting features, fitting smooth curves, and training an ensemble of models with calibrated probability outputs.",
     "provenance_notes": [
-      "Source: Kaggle PLAsTiCC Astronomical Classification competition (2018), 1st place solution"
+      "Source: Kaggle PLAsTiCC Astronomical Classification competition (2018), 1st place solution",
+      "Source: https://www.kaggle.com/c/PLAsTiCC-2018/discussion/75033",
+      "Code: https://github.com/kyle-n-brown/PLAsTiCC-1st-place"
     ],
     "uncertainty_notes": [
       "GP kernel choice affects interpolation quality for different object types.",

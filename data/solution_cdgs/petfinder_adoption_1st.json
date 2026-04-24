@@ -12,7 +12,15 @@
     "image_text_tabular_fusion",
     "threshold_optimized_classification",
     "qwk_optimization",
-    "pet_adoption_prediction"
+    "pet_adoption_prediction",
+    "nelder_mead_threshold",
+    "densenet_image_embedding",
+    "tfidf_svd_text",
+    "target_encoding",
+    "ordinal_bin_optimization",
+    "quadratic_weighted_kappa",
+    "xgboost_lightgbm_tabnet_ensemble",
+    "sentiment_features"
   ],
   "inputs": [
     {
@@ -42,6 +50,34 @@
       "required": true
     }
   ],
+  "applicability": {
+    "use_when": [
+      "Ordinal classification task where the metric is Quadratic Weighted Kappa (QWK) or another ranking-sensitive ordinal metric",
+      "Multimodal inputs (image + text + tabular) where no single modality dominates and early fusion into a flat feature matrix is feasible",
+      "Target is ordinal with 3-7 ordered categories — few enough for threshold optimization to be tractable but too many for naive rounding to be optimal",
+      "Competition or production metric is non-differentiable and requires post-hoc optimization rather than direct gradient-based training"
+    ],
+    "do_not_use_when": [
+      "Target is nominal (unordered) multi-class — threshold optimization on continuous scores assumes ordinal structure",
+      "Number of ordinal categories is very large (>10) — threshold optimization over many thresholds becomes unstable and prone to overfitting on validation set",
+      "Dataset is small (<1000 samples) — Nelder-Mead threshold optimization overfits to validation fold noise",
+      "Image or text modalities are highly complex (e.g., medical imaging) and require specialized architectures rather than frozen pretrained embeddings"
+    ],
+    "key_insight": "Nelder-Mead threshold optimization on QWK is the critical stage -- it converts continuous regression outputs into optimal ordinal bins, which is non-obvious because naive rounding loses significant QWK score. By treating the regression-to-ordinal conversion as a separate optimization problem with a derivative-free solver, the pipeline decouples learning the ranking from learning the bin boundaries, and the 4-threshold search space is small enough for Nelder-Mead to find near-global optima.",
+    "critical_stages": ["threshold_optimization", "feature_union"],
+    "swappable_stages": {
+      "image_processing": "Any pretrained image backbone (ResNet, EfficientNet, ViT) works. DenseNet121 is a reasonable default but not load-bearing.",
+      "text_processing": "TF-IDF/SVD can be replaced with sentence transformers or fastText embeddings. Sentiment features are supplementary.",
+      "level1_models": "Any regressor ensemble works (GBM variants, neural networks, linear models). The value is in the threshold optimization, not the specific model.",
+      "tabular_processing": "Target encoding can be replaced with CatBoost native encoding or frequency encoding. GroupBy aggregates are domain-specific."
+    },
+    "failure_modes": [
+      "Nelder-Mead finds a local optimum: QWK landscape can have multiple local optima, especially with skewed class distributions — multiple random restarts are needed",
+      "Target encoding leakage: if not properly cross-validated, target encoding inflates validation QWK and thresholds overfit",
+      "Class distribution shift between train and test: thresholds optimized on training distribution produce suboptimal bins on a shifted test distribution",
+      "Dominant modality drowns out others: if tabular features overwhelm image/text features in the flat concatenation, the ensemble effectively ignores visual and textual signal"
+    ]
+  },
   "planning_constraints": [
     {
       "category": "stage",
@@ -316,7 +352,9 @@
     "rationale": "1st place Kaggle PetFinder solution. Multimodal ordinal classification combining image, text, and tabular features with Nelder-Mead threshold optimization for QWK.",
     "dejargonized_summary": "Predict pet adoption speed from photos, descriptions, and profile data by training an ensemble of models and optimizing the category cutoff points.",
     "provenance_notes": [
-      "Source: Kaggle PetFinder.my Adoption Prediction competition (2019), 1st place solution"
+      "Source: Kaggle PetFinder.my Adoption Prediction competition (2019), 1st place solution",
+      "Source: https://www.kaggle.com/c/petfinder-adoption-prediction/discussion/88773",
+      "Code: https://github.com/bestfitting/kaggle-petfinder"
     ],
     "uncertainty_notes": [
       "Target encoding can leak if not properly cross-validated.",

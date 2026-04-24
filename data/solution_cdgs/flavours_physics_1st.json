@@ -14,7 +14,13 @@
     "mass_independent_classifier",
     "flatness_boosting",
     "cvm_decorrelation",
-    "ks_agreement_test"
+    "ks_agreement_test",
+    "protected_variable",
+    "training_time_penalty",
+    "hard_constraint_gate",
+    "statistical_independence",
+    "tabular_with_fairness",
+    "simulation_agreement"
   ],
   "inputs": [
     {
@@ -44,6 +50,32 @@
       "required": true
     }
   ],
+  "applicability": {
+    "use_when": [
+      "Classification where predictions must be statistically independent of a protected/sensitive variable (fairness, physics mass independence)",
+      "Hard constraint gates (not soft regularization) must be satisfied before model quality is evaluated",
+      "Multiple decorrelation strategies should be explored in parallel because the accuracy-fairness tradeoff is problem-specific",
+      "Tabular data where gradient boosting is the natural model family and decorrelation must be integrated into the training loop"
+    ],
+    "do_not_use_when": [
+      "The protected variable is high-dimensional or categorical with many levels (flatness binning becomes impractical)",
+      "Soft fairness regularization is acceptable — the flatness penalty is overkill if approximate decorrelation suffices",
+      "The model is a neural network — flatness boosting is specific to gradient boosting; for NNs, use adversarial decorrelation or gradient reversal",
+      "No agreement/simulation data is available for the KS test — the constraint gate cannot be evaluated"
+    ],
+    "key_insight": "The flatness penalty gradient pushes per-bin CDFs toward the global CDF, enforcing statistical independence between predictions and the protected variable during training. This is a training-time penalty (not post-hoc), so the model learns representations that are intrinsically decorrelated from the protected variable rather than having correlation removed after the fact.",
+    "critical_stages": ["flatness_constrained_gradient_boosting", "compute_cvm_mass_decorrelation", "compute_ks_agreement"],
+    "swappable_stages": {
+      "feature_selection_safe": "Domain-specific — any method for identifying protected-variable-independent features works. Not needed if flatness constraint is used.",
+      "noise_injection_decorrelation": "Any post-hoc decorrelation (calibration, histogram matching) can replace noise injection. Noise injection is the simplest fallback.",
+      "roc_auc_truncated_weighted": "Standard AUC or any classification metric works. The truncated weighting is competition-specific."
+    },
+    "failure_modes": [
+      "Protected variable with very few unique values (e.g., binary): flatness binning has too few bins for meaningful CDF comparison",
+      "Very strong correlation between features and protected variable: flatness penalty must be extremely strong, collapsing model capacity",
+      "Constraint thresholds (KS < 0.09, CvM < 0.002) are too tight for the data size: even a truly decorrelated model may fail the statistical test due to finite-sample noise"
+    ]
+  },
   "planning_constraints": [
     {
       "category": "stage",

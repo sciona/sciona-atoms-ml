@@ -13,8 +13,40 @@
     "sparse_dense_fusion",
     "superpoint_superglue",
     "loftr_matching",
-    "ransac_geometry"
+    "ransac_geometry",
+    "magsac_plus_plus",
+    "epipolar_geometry",
+    "keypoint_detection",
+    "detector_free_matching",
+    "multi_method_matching",
+    "extreme_aspect_ratio",
+    "textureless_regions",
+    "outdoor_reconstruction"
   ],
+  "applicability": {
+    "use_when": [
+      "Image pairs contain a mix of textured and textureless regions, so no single matcher type can achieve full coverage",
+      "Camera geometry recovery (fundamental/essential matrix) is the target, not just correspondence finding",
+      "Images may have extreme aspect ratios or resolution variation that require dynamic resizing before feature extraction",
+      "High outlier rates are expected in matches, requiring a robust estimator like MAGSAC++ rather than vanilla RANSAC"
+    ],
+    "do_not_use_when": [
+      "All scenes are richly textured (e.g., document matching) — sparse matching alone (SuperPoint+SuperGlue) suffices and LoFTR adds cost without benefit",
+      "Real-time matching is required — running two neural matchers in parallel doubles inference time",
+      "Only 2D homography is needed (planar scenes) — the full fundamental matrix pipeline is over-engineered for planar-only geometry"
+    ],
+    "key_insight": "Using BOTH sparse (SuperPoint/SuperGlue) and dense (LoFTR) matchers in parallel, then concatenating their correspondences before MAGSAC++, covers both textured and textureless regions. Neither matcher alone achieves full coverage: sparse methods miss low-texture areas, dense methods produce noisier matches in high-texture areas. The combined pool gives MAGSAC++ a richer inlier set to work with.",
+    "critical_stages": ["superpoint_extraction", "loftr_extraction", "match_concatenation", "fundamental_matrix_estimation"],
+    "swappable_stages": {
+      "dynamic_resizing": "Any aspect-ratio-aware resizing strategy works. The key requirement is that both matchers receive consistently sized inputs.",
+      "superglue_matching": "Could be replaced by nearest-neighbor descriptor matching with ratio test (Lowe's), at the cost of some match quality."
+    },
+    "failure_modes": [
+      "Scenes with no visual overlap between images: both matchers produce only outliers, and MAGSAC++ returns a degenerate fundamental matrix",
+      "Purely planar scenes: fundamental matrix is undefined (infinite epipoles), and the pipeline should use homography estimation instead",
+      "Very small images (<256px): both SuperPoint and LoFTR produce too few features for reliable geometry estimation"
+    ]
+  },
   "inputs": [
     {
       "name": "image_pairs",
@@ -345,7 +377,8 @@
     "rationale": "1st place Kaggle Image Matching Challenge 2022. Multi-method feature matching pipeline combining SuperPoint+SuperGlue sparse matching with LoFTR dense matching, fused through MAGSAC++ robust estimation.",
     "dejargonized_summary": "Find matching points between two photos using multiple neural-network detectors, combine all the matches, then use a robust algorithm to throw out wrong matches and compute the geometric relationship between the two camera views.",
     "provenance_notes": [
-      "Source: Kaggle Image Matching Challenge 2022, 1st place solution writeup"
+      "Source: Kaggle Image Matching Challenge 2022, 1st place solution writeup",
+      "Source: https://www.kaggle.com/c/image-matching-challenge-2022/discussion/328502"
     ],
     "uncertainty_notes": [
       "Specific resize thresholds for extreme aspect ratios depend on the competition data distribution.",
@@ -375,6 +408,12 @@
         "citation": "Barath et al. (2020). MAGSAC++, a Fast, Reliable and Accurate Robust Estimator.",
         "url": "https://arxiv.org/abs/1912.05909",
         "note": "Modern RANSAC variant for robust estimation."
+      },
+      {
+        "title": "Image Matching Challenge 2022 1st Place Solution",
+        "citation": "Kaggle Image Matching Challenge 2022, 1st place solution writeup (2022)",
+        "url": "https://www.kaggle.com/c/image-matching-challenge-2022/discussion/328502",
+        "note": "1st place solution discussion."
       }
     ],
     "maintainers": ["sciona-atoms-ml"]

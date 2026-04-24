@@ -12,8 +12,38 @@
     "bias_mitigation",
     "transformer_ensemble",
     "demographic_fairness",
-    "multisample_dropout"
+    "multisample_dropout",
+    "identity_weighted_loss",
+    "annotation_bias_correction",
+    "bert_xlnet_roberta",
+    "fairness_aware_training",
+    "demographic_weighted_bce",
+    "content_moderation"
   ],
+  "applicability": {
+    "use_when": [
+      "Text classification task where evaluation explicitly penalizes bias against demographic subgroups (fairness-aware metric)",
+      "Training labels contain annotation bias — annotators systematically rate identity-mentioning text as more toxic regardless of actual toxicity",
+      "Multiple pre-trained transformer architectures are available and diversity in tokenization/pre-training improves ensemble robustness"
+    ],
+    "do_not_use_when": [
+      "No demographic identity annotations are available in the training data — the weighted BCE requires identity columns to compute per-sample weights",
+      "Evaluation metric is standard accuracy/AUC with no fairness component — the demographic weighting sacrifices overall accuracy for subgroup equity",
+      "Dataset is too small for fine-tuning multiple large transformers (<10k samples) — each model needs sufficient data to learn meaningful representations"
+    ],
+    "key_insight": "Demographic-weighted BCE explicitly prevents the model from learning that certain identity terms correlate with toxicity labels due to annotation bias. Without this correction, the model learns a spurious shortcut: 'comment mentions a demographic group' -> 'probably toxic,' because annotators disproportionately labeled identity-mentioning comments as toxic. The weighted loss upweights identity-mentioning samples during training, forcing the model to find the actual toxic signal rather than relying on the identity-toxicity correlation baked into the labels.",
+    "critical_stages": ["demographic_weighted_bce", "multisample_dropout"],
+    "swappable_stages": {
+      "text_cleaning": "Any text normalization pipeline works. The key requirement is consistent input across all tokenizers.",
+      "model_ensembling": "Weighted averaging can be replaced with stacking, blending, or learned combination. The value is in model diversity, not the specific ensembling method.",
+      "sequence_bucketing": "Optional efficiency optimization. Can be replaced with standard padding or dynamic batching."
+    },
+    "failure_modes": [
+      "Identity columns are noisy or incomplete: the weighting scheme amplifies errors on mislabeled identity samples, hurting rather than helping fairness",
+      "Annotation bias pattern differs from training data: if the test-set bias structure is different from training, the learned weights may not transfer",
+      "Over-weighting identity samples causes the model to under-perform on non-identity samples, reducing overall AUC while improving subgroup metrics"
+    ]
+  },
   "inputs": [
     {
       "name": "comment_text",
@@ -346,14 +376,23 @@
     "rationale": "1st place Kaggle Jigsaw Unintended Bias in Toxicity Classification solution. Core innovations: demographic-weighted BCE loss for fairness optimization and multisample dropout for stable predictions across a BERT/XLNet/RoBERTa ensemble.",
     "dejargonized_summary": "Detect toxic comments fairly across demographic groups by training multiple language models with extra penalties for mistakes on identity-mentioning comments, then averaging their predictions.",
     "provenance_notes": [
-      "Source: Kaggle Jigsaw Unintended Bias in Toxicity Classification competition, 1st place (2019)"
+      "Source: Kaggle Jigsaw Unintended Bias in Toxicity Classification competition, 1st place (2019)",
+      "Source: https://www.kaggle.com/c/jigsaw-unintended-bias-in-toxicity-classification/discussion/100661",
+      "Code: https://github.com/bamps53/kaggle-jigsaw-2019"
     ],
     "uncertainty_notes": [
       "Exact ensemble weights depend on validation set tuning.",
       "The number of multisample dropout masks (typically 5) is a hyperparameter.",
       "Demographic weighting strategy is tailored to the competition metric."
     ],
-    "references": [],
+    "references": [
+      {
+        "title": "Jigsaw Unintended Bias in Toxicity Classification 1st Place Solution",
+        "citation": "Kaggle Jigsaw Unintended Bias in Toxicity Classification, 1st place solution writeup (2019)",
+        "url": "https://www.kaggle.com/c/jigsaw-unintended-bias-in-toxicity-classification/discussion/100661",
+        "note": "1st place solution discussion."
+      }
+    ],
     "maintainers": ["sciona-atoms-ml"]
   }
 }

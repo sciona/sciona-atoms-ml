@@ -13,8 +13,43 @@
     "medical_imaging",
     "multimodal_image_tabular",
     "pseudo_labeling",
-    "rank_average_ensemble"
+    "rank_average_ensemble",
+    "extreme_class_imbalance",
+    "focal_loss",
+    "domain_specific_augmentation",
+    "metadata_fusion",
+    "external_data_pseudo_labels",
+    "cutmix",
+    "hair_artifact_augmentation",
+    "efficientnet",
+    "se_resnext"
   ],
+  "applicability": {
+    "use_when": [
+      "Medical image classification with extreme class imbalance (<5% positive rate) where domain-specific augmentations can simulate real-world artifacts",
+      "Patient metadata (age, sex, anatomical site) provides strong clinical priors that complement visual features",
+      "Historical or external unlabeled datasets from the same domain are available for pseudo-labeling to expand the small labeled training set",
+      "Multiple backbone architectures and resolutions are feasible and rank-average ensembling can reduce variance"
+    ],
+    "do_not_use_when": [
+      "No domain-specific augmentation knowledge exists: generic augmentations may not bridge the domain gap, and the microscope-artifact augmentations are specific to dermoscopy",
+      "Metadata is unavailable or unreliable: the metadata concatenation path adds no value and the meta head may overfit on noise",
+      "External datasets have significant distribution shift from the target data: pseudo-labeling propagates systematic errors",
+      "Single-model inference is required for regulatory or latency reasons: the 15+ model rank-average ensemble is impractical"
+    ],
+    "key_insight": "Domain-specific augmentations (microscope borders, hair overlay, CutMix) are the primary regularizer for extreme class imbalance — they force the model to learn lesion-intrinsic features rather than memorizing imaging artifacts. Metadata concatenation at the penultimate layer provides clinical priors (e.g., melanoma is more common at certain ages and anatomical sites) that pure image models cannot learn from pixels alone. Pseudo-labeling on historical competition data expands the effective positive sample count, which is the binding constraint at <2% prevalence.",
+    "critical_stages": ["microscope_augmentation", "metadata_concatenation", "pseudo_labeling"],
+    "swappable_stages": {
+      "image_backbone_training": "Any ImageNet-pretrained CNN (EfficientNet, SE-ResNeXt, ConvNeXt, ViT) works. Diversity of backbones matters more than the specific choice.",
+      "meta_head": "Any classifier (MLP, logistic regression) on the fused features works. The value is in the fusion, not the head architecture.",
+      "rank_average_ensemble": "Any ensembling strategy (simple average, stacking, Bayesian model combination) can replace rank averaging. Rank averaging is preferred for robustness to different prediction scales."
+    },
+    "failure_modes": [
+      "Domain-specific augmentations do not match the target imaging modality: e.g., hair overlay and microscope borders are meaningless for non-dermoscopic images",
+      "Pseudo-labeled external data overwhelms the real labels: if the external dataset is much larger, the model may overfit to pseudo-label noise",
+      "Metadata leaks demographic bias into predictions: the model may learn age/sex correlations that do not generalize to different populations"
+    ]
+  },
   "inputs": [
     {
       "name": "dermoscopic_images",
@@ -304,7 +339,9 @@
     "rationale": "1st place SIIM-ISIC Melanoma Classification solution. Multi-modal approach combining CNN image backbones with patient metadata, domain-specific augmentations, pseudo-labeling, and rank-average ensembling.",
     "dejargonized_summary": "Detect skin cancer by training image networks with realistic dermoscopic distortions, combining image features with patient info, adding pseudo-labeled historical data, and averaging rankings across many models.",
     "provenance_notes": [
-      "Source: Kaggle SIIM-ISIC Melanoma Classification 1st place solution (2020)"
+      "Source: Kaggle SIIM-ISIC Melanoma Classification 1st place solution (2020)",
+      "Source: https://www.kaggle.com/c/siim-isic-melanoma-classification/discussion/175412",
+      "Code: https://github.com/haqishen/SIIM-ISIC-Melanoma-Classification-1st-Place"
     ],
     "uncertainty_notes": [
       "Pseudo-labeling on historical competition data assumes similar data distribution across years.",
@@ -313,8 +350,8 @@
     "references": [
       {
         "title": "SIIM-ISIC Melanoma Classification 1st Place Solution",
-        "citation": "Kaggle competition solution writeup",
-        "url": "https://www.kaggle.com/competitions/siim-isic-melanoma-classification/discussion",
+        "citation": "Kaggle SIIM-ISIC Melanoma Classification, 1st place solution writeup (2020)",
+        "url": "https://www.kaggle.com/c/siim-isic-melanoma-classification/discussion/175412",
         "note": "1st place solution discussion."
       }
     ],

@@ -12,7 +12,13 @@
     "multi_instance_learning",
     "noisy_or_aggregation",
     "3d_medical_detection",
-    "lung_cancer_screening"
+    "lung_cancer_screening",
+    "learned_baseline_leak",
+    "coordinate_aware_convolution",
+    "volumetric_tiling",
+    "hard_negative_mining",
+    "proposal_sampling",
+    "patient_level_aggregation"
   ],
   "inputs": [
     {
@@ -30,6 +36,32 @@
       "required": true
     }
   ],
+  "applicability": {
+    "use_when": [
+      "Patient-level classification from 3D medical volumes where the signal comes from localized lesions (nodules, tumors, masses)",
+      "The volume is too large for direct end-to-end classification — a detect-then-classify decomposition is needed",
+      "The detector may miss relevant findings, and missed detections must be accounted for in aggregation (not just max/mean)",
+      "Multiple instances (nodules) per patient with independent cancer probabilities that should be combined"
+    ],
+    "do_not_use_when": [
+      "The pathology is diffuse rather than focal (e.g., interstitial lung disease) — there are no localized objects to detect",
+      "The volume is small enough for direct 3D classification without tiling (<64^3 voxels)",
+      "Ground-truth bounding boxes are unavailable for training the detector stage",
+      "Real-time inference is required — the detect-then-classify pipeline with tiling is slow (~minutes per scan)"
+    ],
+    "key_insight": "Noisy-OR with a learned baseline (initialized at sigmoid(-30) ~ 0) correctly models the case where ZERO detected nodules are cancerous but cancer exists in an undetected region. The baseline acts as a learned 'leak' probability that the detector missed something, starting near zero so the model initially relies on detected nodules and learns to increase the leak only if the detector systematically misses cancerous cases.",
+    "critical_stages": ["noisy_or_pooling", "coordinate_aware_3d_unet", "center_feature_extraction_3d"],
+    "swappable_stages": {
+      "lung_mask_with_bone_removal": "Any lung segmentation method (U-Net, threshold-based, atlas registration) works. The key requirement is removing bone from the pleural boundary.",
+      "softmax_temperature_proposal_sampling": "Greedy top-k or NMS-filtered selection can replace stochastic proposal sampling at the cost of reduced diversity during training.",
+      "miss_penalty_loss": "Standard binary cross-entropy works but misses the safety net for known-positive nodules receiving very low scores."
+    },
+    "failure_modes": [
+      "Datasets where most cancers are detected by the detector: the learned baseline stays near zero and provides no benefit over simple max pooling",
+      "Very small nodules (<3mm) that the 3D U-Net cannot resolve at 1mm isotropic spacing: detector recall drops and the baseline leak cannot compensate for systematic detector blindness",
+      "Multi-cancer patients where cancer probabilities are NOT independent: noisy-OR assumes independence, which breaks for correlated multi-focal disease"
+    ]
+  },
   "planning_constraints": [
     {
       "category": "stage",

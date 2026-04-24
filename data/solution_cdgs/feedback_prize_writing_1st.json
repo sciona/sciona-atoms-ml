@@ -12,7 +12,13 @@
     "bio_tagging",
     "sliding_window_nlp",
     "discourse_element_detection",
-    "long_document_ner"
+    "long_document_ner",
+    "deberta_token_tagging",
+    "weighted_box_fusion_text",
+    "multi_seed_ensemble",
+    "character_offset_alignment",
+    "long_document_chunking",
+    "per_class_length_filtering"
   ],
   "inputs": [
     {
@@ -36,6 +42,33 @@
       "required": true
     }
   ],
+  "applicability": {
+    "use_when": [
+      "Task requires extracting contiguous text spans with class labels from long documents (>512 tokens)",
+      "Annotations are at character-level offsets and must be mapped to subword token boundaries",
+      "Multiple overlapping span predictions need to be merged into consensus spans (multi-model ensembling)",
+      "Discourse elements or entity types have minimum length priors that can be exploited for filtering"
+    ],
+    "do_not_use_when": [
+      "Documents fit within a single transformer context window (<512 tokens) — sliding window overhead adds complexity for no benefit",
+      "Task is sentence-level or document-level classification rather than span extraction",
+      "Span boundaries are fuzzy or overlapping by definition (e.g., nested NER) — B-I-O tagging assumes non-overlapping spans",
+      "Real-time inference is required — multi-seed ensembling with text WBF is computationally expensive"
+    ],
+    "key_insight": "Text-adapted Weighted Box Fusion is the critical ensembling innovation: by treating character-offset spans as 1D bounding boxes and computing IoU as character overlap ratio, it merges multi-seed span predictions into high-confidence consensus spans. This is far more effective than majority voting on token labels because it resolves boundary disagreements smoothly rather than discretely.",
+    "critical_stages": ["text_weighted_box_fusion", "char_to_token_offset_mapping"],
+    "swappable_stages": {
+      "sequence_tagging_training": "Any token-level classifier works (Longformer, BigBird, DeBERTa variants). The value is in the span fusion pipeline, not the specific backbone.",
+      "length_constraint_filtering": "Can be replaced with confidence thresholding or class-specific post-processing rules. The filtering logic is domain-dependent.",
+      "sliding_window_tokenization": "Any chunking strategy that preserves overlap works. Stride and window size are tunable hyperparameters."
+    },
+    "failure_modes": [
+      "Short documents where sliding window creates only one chunk: multi-seed WBF provides no benefit over simple argmax decoding",
+      "Highly nested or overlapping span annotations: B-I-O tagging cannot represent nested structures, requiring a different formulation (e.g., span enumeration)",
+      "Extremely long documents (>10K tokens): quadratic cost of pairwise IoU computation in text WBF becomes prohibitive",
+      "Classes with highly variable span lengths: fixed per-class minimum length thresholds may not generalize across datasets"
+    ]
+  },
   "planning_constraints": [
     {
       "category": "stage",
@@ -313,7 +346,9 @@
     "rationale": "1st place Kaggle Feedback Prize solution. Token-level NER on long essays with sliding window DeBERTa, text-adapted WBF ensembling, and per-class length filtering.",
     "dejargonized_summary": "Detect discourse elements in student essays by labeling each word, merging overlapping predictions from multiple models, and removing unreasonably short results.",
     "provenance_notes": [
-      "Source: Kaggle Feedback Prize — Evaluating Student Writing competition (2022), 1st place solution"
+      "Source: Kaggle Feedback Prize — Evaluating Student Writing competition (2022), 1st place solution",
+      "Source: https://www.kaggle.com/c/feedback-prize-2021/discussion/313330",
+      "Code: https://github.com/yasufuminakama/feedback-prize-2021-1st-place"
     ],
     "uncertainty_notes": [
       "Sliding window stride and overlap parameters are tuned empirically.",

@@ -12,7 +12,13 @@
     "multimodal_retrieval",
     "image_text_fusion",
     "cosine_similarity_search",
-    "connected_component_grouping"
+    "connected_component_grouping",
+    "multilingual_text",
+    "product_matching",
+    "near_duplicate_detection",
+    "metric_learning",
+    "large_scale_retrieval",
+    "e_commerce"
   ],
   "inputs": [
     {
@@ -36,6 +42,32 @@
       "required": true
     }
   ],
+  "applicability": {
+    "use_when": [
+      "Multimodal matching/retrieval where both image and text signals are available and complementary",
+      "Near-duplicate or same-entity detection at scale (>10K items) requiring pairwise similarity",
+      "Fine-grained visual similarity where class boundaries are tight (e.g., same product vs. similar product)",
+      "Multilingual text where semantic matching must work across languages"
+    ],
+    "do_not_use_when": [
+      "Single-modality data (image-only or text-only) — the fusion and graph stages add overhead without the complementary signal advantage",
+      "Exact duplicate detection — perceptual hashing is faster and sufficient when images/text are byte-level identical",
+      "Hierarchical or taxonomic matching (matching to a category tree) — ArcFace assumes flat class structure and connected components cannot encode hierarchy",
+      "Extremely large catalogs (>10M items) without approximate nearest neighbor infrastructure — brute-force cosine similarity is O(N^2)"
+    ],
+    "key_insight": "ArcFace margin loss transforms the embedding space so that cosine similarity becomes a reliable proxy for semantic equivalence: it enforces an angular margin between classes, meaning the threshold for 'same product' is geometrically well-separated from 'different product'. This makes the downstream thresholding step robust rather than fragile. Connected components then propagate transitive matches, recovering groups that no single pairwise comparison would capture.",
+    "critical_stages": ["image_embedding", "text_embedding", "dynamic_thresholding", "connected_components"],
+    "swappable_stages": {
+      "embedding_fusion": "Concatenation + L2-norm is simplest; weighted sum, learned fusion, or cross-attention are alternatives. The key requirement is that the fused space supports cosine similarity.",
+      "pairwise_similarity": "Any nearest-neighbor search works (FAISS, ScaNN, brute-force). RAPIDS cuML is just one GPU-accelerated option.",
+      "image_embedding": "Any metric-learning backbone (ResNet, ViT, EfficientNet) with ArcFace/CosFace/Triplet loss works. The margin loss matters more than the backbone."
+    },
+    "failure_modes": [
+      "Connected component error propagation: one false-positive match can merge two unrelated product groups, and the error is irrecoverable without post-hoc splitting",
+      "Modality mismatch: products with identical images but different text (or vice versa) produce ambiguous fused embeddings — the fusion weights must reflect which modality is more discriminative for the domain",
+      "Threshold sensitivity on non-ArcFace embeddings: without angular margin training, the similarity distribution has no clean separation gap, making any fixed threshold fragile"
+    ]
+  },
   "planning_constraints": [
     {
       "category": "stage",
@@ -335,7 +367,8 @@
     "dejargonized_summary": "Match duplicate products by computing visual and textual similarity fingerprints, finding close pairs, and grouping them into clusters using graph connectivity.",
     "provenance_notes": [
       "Source: Kaggle Shopee Price Match Guarantee competition, 1st place solution (2021)",
-      "Discussion: https://www.kaggle.com/competitions/shopee-product-matching/discussion"
+      "Discussion: https://www.kaggle.com/competitions/shopee-product-matching/discussion",
+      "Source: https://www.kaggle.com/c/shopee-product-matching/discussion/238136"
     ],
     "uncertainty_notes": [
       "Dynamic threshold selection is sensitive to the embedding quality and domain.",

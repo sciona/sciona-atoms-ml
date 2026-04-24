@@ -13,7 +13,13 @@
     "tangent_space_eeg",
     "autocorrelation_covariance",
     "cross_frequency_coherence",
-    "spd_manifold_classification"
+    "spd_manifold_classification",
+    "covariance_matrix_features",
+    "non_stationary_events",
+    "multi_channel_neural_signal",
+    "frechet_mean",
+    "log_spaced_delays",
+    "max_aggregation"
   ],
   "inputs": [
     {
@@ -37,6 +43,32 @@
       "required": true
     }
   ],
+  "applicability": {
+    "use_when": [
+      "Multi-channel neural/physiological signals where spatial covariance structure carries discriminative information",
+      "The signal of interest is non-stationary and appears in only a subset of time windows (requiring max, not mean, aggregation)",
+      "Covariance matrices are the natural representation (EEG, MEG, EMG, fMRI connectivity) and must be classified in their native geometry",
+      "Standard Euclidean feature extraction (PSD, band power) is insufficient and cross-channel/cross-frequency coupling matters"
+    ],
+    "do_not_use_when": [
+      "Single-channel signals where covariance matrices are scalar (Riemannian tools add no value)",
+      "Very high channel count (>100 channels) making covariance matrices ill-conditioned even with shrinkage",
+      "The discriminative signal is in temporal waveform morphology rather than spatial/spectral covariance structure",
+      "Real-time, sample-by-sample classification is needed (Riemannian mean computation is too slow for streaming)"
+    ],
+    "key_insight": "Tangent space projection with sqrt(2) off-diagonal scaling IS the kernel trick for SPD manifolds — it preserves Riemannian distances as Euclidean distances, enabling any flat-space classifier (XGBoost, SVM, logistic regression) to work in curved matrix space without modification.",
+    "critical_stages": ["tangent_space_projection", "riemannian_mean_spd", "segment_max_aggregation"],
+    "swappable_stages": {
+      "autocorrelation_covariance_matrix": "Standard spatial covariance (channels x channels) can replace autocorrelation covariance when temporal structure is less important than spatial structure.",
+      "cross_frequency_coherence_matrix": "Any SPD-valued feature (wavelet covariance, multivariate AR model covariance) can replace coherence matrices.",
+      "ranked_prediction_blend": "Any ensemble strategy (stacking, simple average, voting) works. Rank normalization is robust but not essential."
+    },
+    "failure_modes": [
+      "Stationary signals where seizure/event signatures are spread uniformly across all windows: max aggregation degrades to near-mean and loses no advantage",
+      "Very short windows (<1 second at typical EEG rates): covariance matrices are rank-deficient and tangent space projection amplifies noise",
+      "Label noise or ambiguous pre-ictal boundaries: max aggregation is sensitive to single noisy window predictions"
+    ]
+  },
   "planning_constraints": [
     {
       "category": "stage",

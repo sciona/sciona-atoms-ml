@@ -12,8 +12,37 @@
     "graph_sequence_fusion",
     "bidirectional_rnn_gcn",
     "mrna_stability",
-    "structured_prediction_rna"
+    "structured_prediction_rna",
+    "per_position_regression",
+    "dual_branch_architecture",
+    "secondary_structure_adjacency",
+    "sequence_structure_fusion",
+    "bio_sequence_modeling"
   ],
+  "applicability": {
+    "use_when": [
+      "Per-position prediction on biological sequences where both linear order and structural (base-pairing or contact) topology carry information",
+      "Secondary structure or contact maps are available or can be predicted, providing a meaningful graph for GCN message passing",
+      "Output is a dense per-residue regression or classification (not a single sequence-level label)"
+    ],
+    "do_not_use_when": [
+      "No structural information is available and cannot be predicted — the GCN branch adds complexity with no signal",
+      "Sequence length exceeds ~1000 positions — bidirectional RNN becomes a bottleneck and transformer-based approaches scale better",
+      "Task requires only a single global prediction per sequence (sequence-level classification) — pooling over fused features wastes the per-position design"
+    ],
+    "key_insight": "RNA degradation is governed by both sequential context (neighboring nucleotides) and structural context (physically paired bases that may be distant in sequence). A single-modality model captures only one view. The dual-branch fusion forces complementary learning: the RNN captures sequential motifs while the GCN propagates information along base-pair edges, and their concatenation at every position gives the output head both views simultaneously.",
+    "critical_stages": ["secondary_structure_parsing", "feature_fusion"],
+    "swappable_stages": {
+      "sequence_to_sequence_model": "Any sequence encoder works here — transformer encoder, 1D CNN, or Mamba. The key requirement is per-position hidden states.",
+      "graph_neural_network": "GCN can be replaced with GAT, GIN, or message-passing NN. The value is in using the adjacency structure, not the specific graph architecture.",
+      "output_head": "Linear head can be replaced with a small MLP or even a CRF if label dependencies matter."
+    },
+    "failure_modes": [
+      "Inaccurate secondary structure predictions: garbage adjacency matrices cause the GCN branch to inject noise rather than signal",
+      "Very short sequences (<30 nt): insufficient context for the RNN and too few graph edges for meaningful GCN aggregation",
+      "Sequences with no stable secondary structure (e.g., disordered regions): the GCN branch contributes nothing and the fusion becomes a bottleneck"
+    ]
+  },
   "inputs": [
     {
       "name": "rna_sequence",
@@ -344,13 +373,22 @@
     "rationale": "1st place Kaggle Stanford COVID Vaccine solution. Dual-branch architecture fusing bidirectional RNN (sequential) and GCN (structural) for per-nucleotide mRNA degradation prediction.",
     "dejargonized_summary": "Predict how fast each part of an RNA molecule degrades by combining a model that reads the sequence linearly with one that understands the physical pairing structure.",
     "provenance_notes": [
-      "Source: Kaggle Stanford COVID Vaccine competition, 1st place (2020)"
+      "Source: Kaggle Stanford COVID Vaccine competition, 1st place (2020)",
+      "Source: https://www.kaggle.com/c/stanford-covid-vaccine/discussion/189620",
+      "Code: https://github.com/gregwchase/stanford-covid-vaccine"
     ],
     "uncertainty_notes": [
       "Exact GRU vs LSTM choice and hidden dimensions depend on final hyperparameter sweep.",
       "Secondary structure quality depends on ViennaRNA/Arnie accuracy for the given sequences."
     ],
-    "references": [],
+    "references": [
+      {
+        "title": "Stanford COVID Vaccine 1st Place Solution",
+        "citation": "Kaggle Stanford COVID Vaccine, 1st place solution writeup (2020)",
+        "url": "https://www.kaggle.com/c/stanford-covid-vaccine/discussion/189620",
+        "note": "1st place solution discussion."
+      }
+    ],
     "maintainers": ["sciona-atoms-ml"]
   }
 }

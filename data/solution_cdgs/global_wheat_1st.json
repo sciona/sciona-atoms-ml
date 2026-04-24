@@ -13,7 +13,12 @@
     "weighted_box_fusion",
     "two_stage_detector",
     "one_stage_detector",
-    "self_training"
+    "self_training",
+    "domain_shift",
+    "dense_small_objects",
+    "semi_supervised",
+    "agricultural",
+    "multi_detector_ensemble"
   ],
   "inputs": [
     {
@@ -31,6 +36,32 @@
       "required": true
     }
   ],
+  "applicability": {
+    "use_when": [
+      "Dense object detection with significant domain shift between training and test distributions (different geographies, lighting, sensors)",
+      "Single-class or few-class detection of small, visually homogeneous objects where localization precision matters more than classification",
+      "Unlabeled test data is available at training time, enabling semi-supervised pseudo-labeling",
+      "Moderate dataset size (1K-10K images) where heavy augmentation and self-training provide meaningful generalization gains"
+    ],
+    "do_not_use_when": [
+      "Multi-class detection with >20 classes — pseudo-label confidence filtering becomes unreliable when per-class priors vary widely",
+      "No domain shift between train and test — pseudo-labeling adds complexity without the domain adaptation benefit",
+      "Strict inference latency constraints — running two detectors plus WBF is 2-3x slower than a single model",
+      "Very large labeled datasets (>100K images) where augmentation and pseudo-labeling provide diminishing returns"
+    ],
+    "key_insight": "The pipeline's power comes from the synergy between architectural diversity and pseudo-label domain adaptation. Two architecturally different detectors (two-stage Faster R-CNN vs. one-stage YOLO) make complementary errors: Faster R-CNN has higher recall on occluded objects while YOLO is better at dense small objects. Pseudo-labeling bridges the train-test domain gap by letting the models adapt to test-time field conditions, and WBF exploits the complementary error profiles by averaging box coordinates weighted by confidence rather than simply suppressing duplicates.",
+    "critical_stages": ["pseudo_labeling", "pseudo_label_retraining", "weighted_box_fusion"],
+    "swappable_stages": {
+      "heavy_detector": "Any two-stage detector (Cascade R-CNN, Deformable DETR) works. The key is architectural diversity from the light detector.",
+      "light_detector": "Any one-stage detector (EfficientDet, RetinaNet, YOLOv7/v8) works. Must have different error characteristics from the heavy detector.",
+      "mosaic_augmentation": "Any heavy spatial augmentation (MixUp, CutOut, GridMask) works. Mosaic is preferred for dense detection because it naturally creates multi-scale object arrangements."
+    },
+    "failure_modes": [
+      "Pseudo-label error amplification: if initial models have low precision, confident false positives become training labels and compound across the self-training loop",
+      "WBF threshold miscalibration: too-low IoU threshold merges distinct nearby objects into one box (critical for dense detection); too-high threshold fails to merge overlapping predictions",
+      "Domain shift too extreme: pseudo-labels from a domain the model has never seen can be systematically wrong (e.g., completely different crop type or imaging modality)"
+    ]
+  },
   "planning_constraints": [
     {
       "category": "stage",
@@ -363,7 +394,9 @@
     "dejargonized_summary": "Detect wheat heads by training two detection models with heavy augmentation, auto-labeling test images, retraining on combined data, and merging predictions from both models.",
     "provenance_notes": [
       "Source: Kaggle Global Wheat Detection competition, 1st place solution (2020)",
-      "Discussion: https://www.kaggle.com/competitions/global-wheat-detection/discussion"
+      "Discussion: https://www.kaggle.com/competitions/global-wheat-detection/discussion",
+      "Source: https://www.kaggle.com/c/global-wheat-detection/discussion/172418",
+      "Code: https://github.com/alvarobartt/global-wheat-detection"
     ],
     "uncertainty_notes": [
       "Pseudo-labeling effectiveness depends on initial model quality; poor initial models propagate errors.",

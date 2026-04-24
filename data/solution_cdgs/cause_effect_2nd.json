@@ -12,7 +12,13 @@
     "cause_effect_pairs",
     "bivariate_causal_inference",
     "additive_noise_model",
-    "independence_of_cause_and_mechanism"
+    "independence_of_cause_and_mechanism",
+    "igci",
+    "hsic_kernel_test",
+    "antisymmetric_features",
+    "mixed_continuous_discrete",
+    "deterministic_causal_systems",
+    "small_sample_bivariate"
   ],
   "inputs": [
     {
@@ -30,6 +36,32 @@
       "required": true
     }
   ],
+  "applicability": {
+    "use_when": [
+      "Determining causal direction from bivariate observational data (two variables, no interventions)",
+      "Data pairs may be continuous, discrete, or mixed-type and the method must handle all three",
+      "The underlying causal mechanism is approximately deterministic (Y = f(X) + small noise)",
+      "Both independence detection and direction inference are needed (some pairs may be independent)"
+    ],
+    "do_not_use_when": [
+      "Multivariate causal discovery with >2 variables (this pipeline is strictly bivariate)",
+      "Confounders are likely present (IGCI assumes no hidden common cause)",
+      "The causal relationship is purely stochastic with no functional form (e.g., Y is noise given X)",
+      "Sample size is very small (<50 observations) — conditional noise statistics become unreliable"
+    ],
+    "key_insight": "IGCI (information-geometric causal inference) exploits the independence of cause mechanism from cause distribution — a theoretical asymmetry that holds for deterministic causal systems. The cause's distribution and the mechanism mapping cause to effect are independently chosen by nature, creating a detectable statistical signature.",
+    "critical_stages": ["igci_asymmetry_score", "asymmetric_feature_difference", "two_stage_independence_direction"],
+    "swappable_stages": {
+      "polyfit_residual_error": "Any regression method (GP, kernel ridge, spline) can replace polynomial fits for residual-based asymmetry detection.",
+      "weighted_ensemble_combination": "Any ensemble strategy (stacking, simple average) works. The specific weights are competition-tuned.",
+      "left_right_decomposed_prediction": "Alternative estimator architectures (single multi-class, ordinal regression) can replace the left-right decomposition."
+    },
+    "failure_modes": [
+      "Symmetric causal mechanisms where f and f^{-1} have identical complexity: IGCI score is near zero and direction is unresolvable",
+      "Heavy confounding: all asymmetric features measure spurious associations rather than causal direction",
+      "Highly nonlinear relationships with few samples: polynomial residual features underfit while conditional statistics have high variance"
+    ]
+  },
   "planning_constraints": [
     {
       "category": "stage",

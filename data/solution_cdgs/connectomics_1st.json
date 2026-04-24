@@ -12,7 +12,13 @@
     "calcium_imaging_graph",
     "partial_correlation_network",
     "precision_matrix_graph",
-    "multivariate_time_series_graph_inference"
+    "multivariate_time_series_graph_inference",
+    "global_burst_confound",
+    "threshold_ensembling",
+    "unsupervised_graph_discovery",
+    "dense_time_series",
+    "correlated_noise_suppression",
+    "hyperparameter_free"
   ],
   "inputs": [
     {
@@ -30,6 +36,32 @@
       "required": true
     }
   ],
+  "applicability": {
+    "use_when": [
+      "Inferring pairwise graph structure from multivariate time series where nodes fire/activate simultaneously",
+      "Global confounding events (bursts, market shocks, weather fronts) create spurious pairwise correlations that must be suppressed",
+      "No labeled edges available — fully unsupervised graph inference from temporal co-activation patterns",
+      "Threshold hyperparameter is unknown and cross-validation is impractical (no ground-truth edges for tuning)"
+    ],
+    "do_not_use_when": [
+      "Graph structure must be inferred from static snapshots rather than time series (no temporal co-activation signal)",
+      "Edges have known directionality that must be recovered with high accuracy (this pipeline is 99.7% symmetric)",
+      "Node count exceeds ~1000 (precision matrix estimation via PCA becomes memory-bound and rank-deficient)",
+      "Time series are very short (T < 5*N) — insufficient samples for stable covariance estimation"
+    ],
+    "key_insight": "Burst deconfounding via nonlinear reweighting (x+1)^(1+1/S) suppresses global activity artifacts before precision matrix estimation. Dense threshold ensembling integrates out the threshold hyperparameter, equivalent to Bayesian model averaging under a uniform prior.",
+    "critical_stages": ["global_activity_sample_reweighting", "threshold_sweep_ensemble"],
+    "swappable_stages": {
+      "calcium_lowpass_filter": "Any causal smoothing filter (Savitzky-Golay, exponential moving average) works. The specific kernel shapes are not critical.",
+      "pca_precision_matrix": "Graphical Lasso or Ledoit-Wolf shrinkage can replace PCA-based rank reduction for regularized precision matrix estimation.",
+      "temporal_precedence_directivity": "Any asymmetric temporal lag measure works as a directional tiebreaker. The 0.3% weight means this stage has minimal impact."
+    },
+    "failure_modes": [
+      "Non-stationary time series where correlation structure changes over time: the single precision matrix averages over regimes",
+      "Networks with hub nodes that participate in many bursts: reweighting may suppress genuine hub connections along with confounds",
+      "Very sparse firing (most timesteps are zero for most neurons): covariance estimation is noisy even with threshold ensembling"
+    ]
+  },
   "planning_constraints": [
     {
       "category": "stage",

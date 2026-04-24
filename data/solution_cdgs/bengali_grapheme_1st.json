@@ -13,8 +13,42 @@
     "grapheme_classification",
     "cutmix_mixup",
     "hard_example_mining",
-    "multi_head_network"
+    "multi_head_network",
+    "se_resnext",
+    "squeeze_excitation",
+    "weighted_loss",
+    "gridmask_augmentation",
+    "soft_voting",
+    "structured_label",
+    "compositional_classification",
+    "high_cardinality_classification",
+    "ohem"
   ],
+  "applicability": {
+    "use_when": [
+      "Classification target has a compositional structure that can be decomposed into multiple sub-tasks sharing visual features (e.g., grapheme = root + vowel + consonant)",
+      "Sub-tasks have very different cardinalities (e.g., 168 vs 11 vs 7 classes), requiring weighted loss to balance gradient contributions",
+      "Training data contains many easy examples and a long tail of hard/rare cases where OHEM can focus model capacity",
+      "Evaluation metric weights sub-tasks differently, so loss weighting must align with metric structure"
+    ],
+    "do_not_use_when": [
+      "Classification target is atomic (single label, no compositional structure) — multi-head architecture adds unnecessary complexity over a single head",
+      "All classes are roughly equally difficult — OHEM provides no benefit when the loss distribution is uniform across samples",
+      "Sub-tasks are semantically independent (e.g., unrelated attributes) — a shared backbone may learn features that compromise across tasks rather than excelling at any one"
+    ],
+    "key_insight": "The multi-head architecture with weighted loss aligns the training objective with the compositional structure of the label space. By sharing a backbone across sub-tasks, the model learns features that capture the common visual structure of the grapheme, while the per-head loss weighting (2:1:1) ensures the hardest sub-task (168-class root) receives proportionally more gradient signal. OHEM further sharpens this by dropping easy samples that contribute little to learning.",
+    "critical_stages": ["multihead_backbone", "weighted_multitask_loss", "ohem_training"],
+    "swappable_stages": {
+      "heavy_augmentation": "Any strong augmentation strategy (CutOut, RandAugment, AugMax) works. CutMix/MixUp require label mixing logic, but the pipeline does not depend on the specific augmentation choice.",
+      "multihead_backbone": "Any CNN backbone with channel attention (SE-ResNet, ECA-Net, CBAM-ResNet) works. The multi-head design is the load-bearing pattern, not the specific backbone.",
+      "soft_voting_ensemble": "Any ensembling method (simple average, stacking, rank averaging) works at inference time. Soft voting is simple and effective when models are trained with different seeds."
+    },
+    "failure_modes": [
+      "Sub-tasks with conflicting feature requirements: if the optimal features for one head hurt another head, the shared backbone learns a compromise that underperforms separate models",
+      "Incorrect loss weighting: over-weighting a sub-task causes the backbone to specialize for it at the expense of others, reducing overall metric",
+      "OHEM with too-aggressive top-k ratio: discarding too many samples per batch causes training instability and can miss learning signal from medium-difficulty examples"
+    ]
+  },
   "inputs": [
     {
       "name": "grapheme_images",
@@ -398,7 +432,8 @@
     "rationale": "1st place Kaggle Bengali.AI Handwritten Grapheme Classification 2020. Multi-task architecture with SE-ResNeXt-50, weighted loss, heavy augmentation (CutMix/MixUp/GridMask), OHEM, and soft voting ensemble.",
     "dejargonized_summary": "Classify handwritten Bengali characters by breaking them into three components, training a shared neural network with three output heads, focusing on hard examples, and averaging predictions from multiple models.",
     "provenance_notes": [
-      "Source: Kaggle Bengali.AI Handwritten Grapheme Classification, 1st place solution writeup (2020)"
+      "Source: Kaggle Bengali.AI Handwritten Grapheme Classification, 1st place solution writeup (2020)",
+      "Source: https://www.kaggle.com/c/bengaliai-cv19/discussion/135984"
     ],
     "uncertainty_notes": [
       "The exact OHEM top-k ratio is not specified in the solution writeup.",
@@ -429,6 +464,12 @@
         "citation": "Chen et al. (2020). GridMask Data Augmentation.",
         "url": "https://arxiv.org/abs/2001.04086",
         "note": "Grid-based masking augmentation."
+      },
+      {
+        "title": "Bengali.AI Handwritten Grapheme Classification 1st Place Solution",
+        "citation": "Kaggle Bengali.AI Handwritten Grapheme Classification, 1st place solution writeup (2020)",
+        "url": "https://www.kaggle.com/c/bengaliai-cv19/discussion/135984",
+        "note": "1st place solution discussion."
       }
     ],
     "maintainers": ["sciona-atoms-ml"]

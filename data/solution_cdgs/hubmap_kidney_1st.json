@@ -13,8 +13,41 @@
     "glomeruli_detection",
     "tile_based_inference",
     "stain_normalization",
-    "deeplabv3_plus"
+    "deeplabv3_plus",
+    "lovasz_loss",
+    "iou_optimization",
+    "gigapixel_inference",
+    "overlapping_tiles",
+    "macenko_normalization",
+    "resnest_backbone",
+    "dihedral_tta",
+    "medical_imaging",
+    "binary_segmentation"
   ],
+  "applicability": {
+    "use_when": [
+      "Input images are gigapixel-scale (>10,000x10,000 pixels) and cannot fit in GPU memory whole, requiring tile-based processing",
+      "Histopathology or microscopy images with variable staining intensity across slides/scanners, requiring color normalization for generalization",
+      "Binary or few-class segmentation where IoU is the evaluation metric and a surrogate IoU loss (Lovasz) can directly optimize it",
+      "Target structures (e.g., glomeruli) are small relative to the full image but large enough to be captured within a single tile"
+    ],
+    "do_not_use_when": [
+      "Target structures span many tiles (e.g., organ-level segmentation) — tile-based inference loses the global context needed to segment large structures",
+      "Images are standard resolution (<4096x4096) — tiling adds unnecessary complexity and overlap overhead when the image fits in memory",
+      "Staining protocol is consistent across all samples (e.g., single-scanner studies) — Macenko normalization adds preprocessing cost without generalization benefit"
+    ],
+    "key_insight": "The three-part combination of Macenko stain normalization, Lovasz-BCE loss, and overlapping-tile stitching addresses the three core challenges of gigapixel histopathology: cross-scanner color variation, metric-loss mismatch for IoU evaluation, and memory-constrained inference on images too large to process whole. Each component is individually well-known, but their specific combination is what makes this pipeline robust for gigapixel medical segmentation.",
+    "critical_stages": ["tiling", "stain_normalization", "lovasz_bce_loss", "gigapixel_stitching"],
+    "swappable_stages": {
+      "segmentation_architecture": "Any encoder-decoder segmentation architecture (U-Net, FPN, HRNet) works here. DeepLabV3+ was chosen for its ASPP multi-scale context, but the pipeline value lies in tiling + stain norm + Lovasz loss, not the specific architecture.",
+      "tta_on_tiles": "TTA can be reduced to 4x (rotations only) or removed entirely for faster inference at some accuracy cost. Histopathology images have no preferred orientation, so dihedral TTA is well-justified."
+    },
+    "failure_modes": [
+      "Structures larger than the tile size: the model cannot see enough context to segment structures spanning multiple tiles, leading to fragmented predictions",
+      "Non-H&E stained tissue: Macenko normalization assumes hematoxylin-eosin staining and will produce artifacts on immunohistochemistry or special stains",
+      "Very sparse targets (e.g., rare cells): the extreme class imbalance within tiles causes most tiles to be all-background, wasting compute and biasing the model toward predicting background"
+    ]
+  },
   "inputs": [
     {
       "name": "wsi_images",
@@ -331,7 +364,9 @@
     "rationale": "1st place Kaggle HuBMAP Hacking the Kidney 2021. Gigapixel segmentation pipeline with Macenko stain normalization, DeepLabV3+/ResNeSt-50, Lovasz-BCE loss, and tile-based inference with stitching.",
     "dejargonized_summary": "Segment kidney structures from enormous microscope images by cutting them into overlapping tiles, normalizing staining colors, training a segmentation network with a metric-aware loss, and stitching predictions back together.",
     "provenance_notes": [
-      "Source: Kaggle HuBMAP Hacking the Kidney competition, 1st place solution writeup (2021)"
+      "Source: Kaggle HuBMAP Hacking the Kidney competition, 1st place solution writeup (2021)",
+      "Source: https://www.kaggle.com/c/hubmap-kidney-segmentation/discussion/238198",
+      "Code: https://github.com/tomizawa-kin/hubmap-kidney-segmentation-1st-place"
     ],
     "uncertainty_notes": [
       "Tile size (1024x1024) and overlap ratio are tuned to this dataset's resolution and glomeruli size.",
@@ -362,6 +397,12 @@
         "citation": "Macenko et al. (2009). A Method for Normalizing Histology Slides for Quantitative Analysis.",
         "url": "https://doi.org/10.1109/ISBI.2009.5193250",
         "note": "Stain normalization method."
+      },
+      {
+        "title": "HuBMAP Hacking the Kidney 1st Place Solution",
+        "citation": "Kaggle HuBMAP Hacking the Kidney, 1st place solution writeup (2021)",
+        "url": "https://www.kaggle.com/c/hubmap-kidney-segmentation/discussion/238198",
+        "note": "1st place solution discussion."
       }
     ],
     "maintainers": ["sciona-atoms-ml"]

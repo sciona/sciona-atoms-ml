@@ -12,8 +12,40 @@
     "chest_xray_detection",
     "retinanet_maskrcnn_ensemble",
     "medical_object_detection",
-    "dicom_processing"
+    "dicom_processing",
+    "dual_detector_ensemble",
+    "iou_box_voting",
+    "focal_loss",
+    "single_stage_two_stage_fusion",
+    "nms_box_ensemble",
+    "medical_imaging_2d",
+    "conservative_augmentation"
   ],
+  "applicability": {
+    "use_when": [
+      "2D medical image detection where targets are diffuse opacities with poorly defined boundaries, benefiting from detector diversity",
+      "Single-class or few-class detection task where two complementary architectures (single-stage + two-stage) can be trained with available compute",
+      "DICOM inputs requiring careful windowing and conservative augmentation to preserve diagnostic content"
+    ],
+    "do_not_use_when": [
+      "Multi-class detection with >10 categories — the IoU-based box ensemble becomes ambiguous when merging boxes of different classes across models",
+      "Real-time inference required — running two full detectors plus NMS plus box ensemble exceeds latency budgets for clinical deployment",
+      "3D volumetric data (CT/MRI) — this pipeline is designed for 2D projections and does not handle slice-level consistency or 3D bounding boxes"
+    ],
+    "key_insight": "Single-stage detectors (RetinaNet) and two-stage detectors (Mask R-CNN) make systematically different errors: RetinaNet is faster but produces more false positives on ambiguous regions, while Mask R-CNN is more precise but may miss subtle findings. The IoU-based box ensemble exploits this complementarity — detections agreed upon by both models receive boosted confidence, while single-model detections are penalized, effectively using inter-model agreement as a proxy for detection reliability.",
+    "critical_stages": ["retinanet_detector", "mask_rcnn_detector", "box_ensemble"],
+    "swappable_stages": {
+      "retinanet_detector": "Any single-stage detector (YOLO, SSD, FCOS) can substitute. The key requirement is a complementary error profile to the two-stage detector.",
+      "mask_rcnn_detector": "Any two-stage detector (Faster R-CNN, Cascade R-CNN) works. The mask head is unused for detection-only tasks.",
+      "xray_augmentation": "Augmentation strategy can vary, but must remain conservative for medical imaging — aggressive augmentations create unrealistic artifacts that degrade performance.",
+      "dicom_extraction": "Any DICOM-to-image pipeline works. The critical detail is correct windowing (window center/width) for the target anatomy."
+    },
+    "failure_modes": [
+      "Both detectors make the same systematic error (e.g., both miss small opacities): the ensemble cannot recover from shared failure modes",
+      "Aggressive augmentation: medical images have specific physical properties and over-augmentation creates unrealistic training samples that hurt generalization",
+      "Incorrect DICOM windowing: wrong window/level settings destroy diagnostic contrast, causing both detectors to fail on the same images"
+    ]
+  },
   "inputs": [
     {
       "name": "dicom_images",
@@ -332,14 +364,23 @@
     "rationale": "1st place Kaggle RSNA Pneumonia Detection Challenge solution. Dual-detector ensemble (RetinaNet + Mask R-CNN) with IoU-based box voting for robust pneumonia localization in chest X-rays.",
     "dejargonized_summary": "Detect pneumonia in chest X-rays by running two complementary detection models and merging their bounding box predictions based on spatial overlap agreement.",
     "provenance_notes": [
-      "Source: Kaggle RSNA Pneumonia Detection Challenge, 1st place (2018)"
+      "Source: Kaggle RSNA Pneumonia Detection Challenge, 1st place (2018)",
+      "Source: https://www.kaggle.com/c/rsna-pneumonia-detection-challenge/discussion/70421",
+      "Code: https://github.com/ianpan870622/RSNA-Pneumonia-Detection-Challenge"
     ],
     "uncertainty_notes": [
       "DICOM windowing parameters affect image contrast and may need tuning for different scanner manufacturers.",
       "IoU threshold for cross-model box matching is a tuned hyperparameter.",
       "Augmentation parameters are conservative for medical imaging but exact values are implementation-specific."
     ],
-    "references": [],
+    "references": [
+      {
+        "title": "RSNA Pneumonia Detection Challenge 1st Place Solution",
+        "citation": "Kaggle RSNA Pneumonia Detection Challenge, 1st place solution writeup (2018)",
+        "url": "https://www.kaggle.com/c/rsna-pneumonia-detection-challenge/discussion/70421",
+        "note": "1st place solution discussion."
+      }
+    ],
     "maintainers": ["sciona-atoms-ml"]
   }
 }

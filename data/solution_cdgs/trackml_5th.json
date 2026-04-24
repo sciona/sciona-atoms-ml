@@ -12,7 +12,14 @@
     "helix_fitting",
     "track_reconstruction",
     "hit_matching",
-    "physics_geometric_tracking"
+    "physics_geometric_tracking",
+    "kepler_equation",
+    "analytic_intersection",
+    "layered_detector_geometry",
+    "high_hit_density",
+    "magnetic_field_trajectories",
+    "perturbative_correction",
+    "greedy_assignment"
   ],
   "inputs": [
     {
@@ -36,6 +43,32 @@
       "required": true
     }
   ],
+  "applicability": {
+    "use_when": [
+      "Reconstructing trajectories from 3D point hits in a layered detector geometry with known magnetic field",
+      "Trajectories follow approximately helical paths (charged particles in uniform B-field, orbits under gravity, etc.)",
+      "Hit density is high enough that nearest-neighbor matching alone is ambiguous — physics-based prediction is needed",
+      "Real-time or near-real-time processing is required (analytic intersections are O(1) per query, no iterative solvers)"
+    ],
+    "do_not_use_when": [
+      "Trajectories are not approximately helical (e.g., neutral particles, complex force fields with no analytic trajectory model)",
+      "Detector geometry is unstructured (no layered cylinders/caps) — the intersection prediction stages assume known surfaces",
+      "Very low hit density where simple nearest-neighbor suffices without physics-based prediction",
+      "Track multiplicity is extremely high (>10k simultaneous tracks) — greedy commit becomes suboptimal vs. global optimization"
+    ],
+    "key_insight": "The Kepler-equation reduction for helix-point distance connects particle physics tracking to orbital mechanics, enabling O(1) nearest-point queries instead of iterative root-finding. Three hits uniquely determine a helix, and analytic cylinder/cap intersections predict next-layer hits without numerical integration.",
+    "critical_stages": ["circle_from_three_points", "helix_pitch_least_squares", "helix_cylinder_intersection", "helix_nearest_point_distance"],
+    "swappable_stages": {
+      "perturbative_helix_correction": "Any learned residual correction (neural net, polynomial, spline) that maps predicted-to-actual displacement works. The physics-informed q/p scaling is valuable but not required.",
+      "bayesian_neighbor_evaluation": "Any adaptive thresholding (density-based, fixed-radius with local scaling) can replace the Bayesian signal-vs-background model.",
+      "greedy_track_commit": "Global optimization (Hungarian, ILP) can replace greedy commit for higher accuracy at the cost of runtime."
+    },
+    "failure_modes": [
+      "Strong B-field inhomogeneity: perfect-helix assumption breaks down and perturbative corrections become large and unreliable",
+      "Very low momentum particles with large energy loss per layer: helix parameters change significantly between layers",
+      "Detector with large gaps between layers: helix extrapolation error accumulates and predicted intersections miss real hits"
+    ]
+  },
   "planning_constraints": [
     {
       "category": "stage",

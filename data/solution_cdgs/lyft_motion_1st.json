@@ -12,8 +12,41 @@
     "autonomous_driving",
     "bev_rasterization",
     "multimodal_trajectory",
-    "ego_vehicle_forecasting"
+    "ego_vehicle_forecasting",
+    "heterogeneous_input_fusion",
+    "multi_mode_output",
+    "nll_loss",
+    "winner_take_all_loss",
+    "channel_stacking",
+    "vector_to_raster",
+    "imagenet_transfer"
   ],
+  "applicability": {
+    "use_when": [
+      "Inputs are heterogeneous (vector maps, agent state histories, ego pose) and need to be fused into a uniform representation for a standard backbone",
+      "The prediction target is inherently multi-modal — multiple distinct future outcomes are plausible (e.g., turn left vs. turn right vs. go straight)",
+      "Pre-trained ImageNet backbones are available and the team wants to leverage transfer learning without designing a custom encoder",
+      "Spatial context (road geometry, lane topology, relative agent positions) is critical to the prediction"
+    ],
+    "do_not_use_when": [
+      "Fine-grained vector map topology matters (rasterization loses connectivity and lane-level semantics that graph-based approaches preserve)",
+      "The number of agents is highly variable and their interactions are the primary signal (attention-based or graph-based encoders handle variable-size sets more naturally)",
+      "Real-time inference at >30 Hz is required (rasterizing per-agent BEV images is expensive at scale)",
+      "Single-mode prediction suffices (the multi-modal NLL loss adds complexity that is wasted when there is only one plausible future)"
+    ],
+    "key_insight": "BEV rasterization converts heterogeneous inputs (vector maps, agent histories, ego pose) into a uniform image tensor where standard CNNs work out of the box. The multi-modal NLL loss handles the inherent multi-modality of future trajectories — the car could turn left OR right — by only penalizing the closest mode, preventing the mode-averaging problem that plagues single-output regression.",
+    "critical_stages": ["bev_rasterization", "multimodal_nll_loss"],
+    "swappable_stages": {
+      "cnn_backbone": "Any ImageNet-pretrained CNN (EfficientNet, ResNet, ConvNeXt) works. The value is in the rasterization and loss, not the specific backbone.",
+      "temporal_stacking": "Temporal encoding can alternatively use recurrent layers, temporal convolutions, or positional embeddings rather than channel stacking.",
+      "trajectory_ensembling": "Any ensembling strategy (NMS over modes, weighted average, trajectory clustering) can replace simple averaging."
+    },
+    "failure_modes": [
+      "Sparse scenes with few agents: the rasterized image is mostly empty, wasting CNN capacity on blank pixels",
+      "Very long prediction horizons (>10s): BEV rasterization captures a fixed spatial window; distant future states may fall outside the rasterized region",
+      "High-speed scenarios where small angular errors compound: the 3-mode output may not cover the true trajectory if modes are too spread out or too clustered"
+    ]
+  },
   "inputs": [
     {
       "name": "hd_map_vectors",
@@ -366,7 +399,9 @@
     "dejargonized_summary": "Predict where cars will drive by converting road maps and vehicle histories into overhead images, running them through image-recognition networks that output three possible paths with confidence scores.",
     "provenance_notes": [
       "Source: Kaggle Lyft Motion Prediction 1st place solution (2020)",
-      "Uses L5Kit for BEV rasterization"
+      "Uses L5Kit for BEV rasterization",
+      "Source: https://www.kaggle.com/c/lyft-motion-prediction-autonomous-vehicles/discussion/199022",
+      "Code: https://github.com/lyft/l5kit"
     ],
     "uncertainty_notes": [
       "The number of predicted modes (3) is fixed by competition rules; more modes may improve real-world performance.",
@@ -375,8 +410,8 @@
     "references": [
       {
         "title": "Lyft Motion Prediction 1st Place Solution",
-        "citation": "Kaggle competition solution writeup",
-        "url": "https://www.kaggle.com/competitions/lyft-motion-prediction-autonomous-vehicles/discussion",
+        "citation": "Kaggle Lyft Motion Prediction for Autonomous Vehicles, 1st place solution writeup (2020)",
+        "url": "https://www.kaggle.com/c/lyft-motion-prediction-autonomous-vehicles/discussion/199022",
         "note": "1st place solution discussion."
       }
     ],
