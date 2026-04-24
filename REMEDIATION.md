@@ -918,6 +918,10 @@ Potential remediation path:
   publishes fit-shell helper atoms for integer `max_samples` and
   `max_features` resolution, out-of-bag preflight guards, and warm-start
   additional-estimator counting before the deferred estimator-build workers.
+- Completed helper slice: `sklearn.ensemble.bagging_fit_scheduling`
+  publishes deterministic helper atoms for balanced job partitioning and
+  warm-start per-estimator seed generation before the deferred bagging worker
+  builds.
 - Completed helper slice: `sklearn.ensemble.bagging_aggregation` publishes
   class-aligned probability and log-probability averaging plus decision and
   regression prediction averaging over already-computed bagging estimator

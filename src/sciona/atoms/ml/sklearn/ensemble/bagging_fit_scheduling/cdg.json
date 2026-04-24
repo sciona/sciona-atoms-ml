@@ -1,0 +1,58 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_ensemble_bagging_fit_scheduling_root",
+      "name": "Sklearn Ensemble Bagging Fit-Scheduling Atoms",
+      "description": "Deterministic bagging fit helpers for parallel job partitioning and per-estimator seed generation before the deferred worker builds.",
+      "status": "decomposed",
+      "children": [
+        "bagging_partition_estimators",
+        "bagging_fit_seeds"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "bagging_partition_estimators",
+      "name": "bagging_partition_estimators",
+      "description": "Partition a positive bagging estimator count across the effective parallel jobs using sklearn's balanced scheduling rule.",
+      "concept_type": "ensemble_fit_scheduling",
+      "status": "atomic",
+      "type_signature": "(n_estimators: int, n_jobs: int | None) -> tuple[int, NDArray[np.int64], NDArray[np.int64]]",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_estimators", "type_desc": "int", "required": true},
+        {"name": "n_jobs", "type_desc": "int | None", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[int, NDArray[np.int64], NDArray[np.int64]]"}
+      ]
+    },
+    {
+      "node_id": "bagging_fit_seeds",
+      "name": "bagging_fit_seeds",
+      "description": "Advance sklearn bagging's warm-start random state by the existing estimator count and return one integer seed per newly requested estimator.",
+      "concept_type": "ensemble_fit_scheduling",
+      "status": "atomic",
+      "type_signature": "(n_more_estimators: int, previous_estimators: int, random_state: int | np.random.RandomState | None = None) -> NDArray[np.int64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_more_estimators", "type_desc": "int", "required": true},
+        {"name": "previous_estimators", "type_desc": "int", "required": true},
+        {"name": "random_state", "type_desc": "int | np.random.RandomState | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.int64]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "bagging_partition_estimators", "target": "bagging_fit_seeds", "kind": "fit_worker_dispatch_inputs"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.ensemble._bagging",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 3 meta-estimator wrappers"
+  }
+}
