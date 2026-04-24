@@ -1,0 +1,56 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_cluster_agglomerative_fit_setup_root",
+      "name": "Sklearn Cluster Agglomerative Fit Setup Atoms",
+      "description": "Deterministic agglomerative fit setup helpers for tree-builder lookup and optional connectivity preparation before tree-construction bookkeeping.",
+      "status": "decomposed",
+      "children": [
+        "agglomerative_fit_select_tree_builder",
+        "agglomerative_fit_prepare_connectivity"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "agglomerative_fit_select_tree_builder",
+      "name": "agglomerative_fit_select_tree_builder",
+      "description": "Select the sklearn agglomerative tree-builder callable for a given linkage string.",
+      "concept_type": "clustering_dispatch",
+      "status": "atomic",
+      "type_signature": "(linkage: str) -> Callable[..., object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "linkage", "type_desc": "str", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "Callable[..., object]"}
+      ]
+    },
+    {
+      "node_id": "agglomerative_fit_prepare_connectivity",
+      "name": "agglomerative_fit_prepare_connectivity",
+      "description": "Resolve optional agglomerative connectivity input by calling a connectivity function when provided and normalizing the result through check_array.",
+      "concept_type": "clustering_preprocessing",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]], connectivity: MatrixLike | Callable[[MatrixLike], MatrixLike] | None) -> NDArray[np.float64] | scipy.sparse.spmatrix | None",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]]", "required": true},
+        {"name": "connectivity", "type_desc": "MatrixLike | Callable[[MatrixLike], MatrixLike] | None", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | None"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "agglomerative_fit_select_tree_builder", "target": "agglomerative_fit_prepare_connectivity", "kind": "shared_fit_shell_setup"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.cluster._agglomerative",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 6 clustering and spectral pipelines"
+  }
+}

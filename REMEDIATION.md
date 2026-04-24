@@ -630,6 +630,12 @@ Potential remediation path:
   `distance_threshold`, distance-threshold/full-tree compatibility, and Ward's
   literal-`"euclidean"` metric requirement before connectivity preparation and
   tree-builder selection.
+- Completed helper slice:
+  `sklearn.cluster.agglomerative_fit_setup` now publishes tree-builder lookup
+  from linkage plus optional connectivity callable execution and
+  `check_array(..., accept_sparse=["csr", "coo", "lil"])` normalization
+  before the later compute-full-tree bookkeeping and deferred tree
+  construction.
 - Tree construction, Ward distances, linkage builders, SciPy hierarchy calls,
   compiled `_hierarchical` helpers, estimator state, and
   `FeatureAgglomeration` transform behavior remain deferred.
