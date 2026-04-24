@@ -1,0 +1,92 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_ensemble_bagging_aggregation_root",
+      "name": "Sklearn Ensemble Bagging Aggregation Atoms",
+      "description": "Deterministic bagging reducers over already-computed classifier probabilities, log-probabilities, decision-function outputs, and regressor predictions.",
+      "status": "decomposed",
+      "children": [
+        "bagging_classifier_average_probabilities",
+        "bagging_classifier_average_log_probabilities",
+        "bagging_classifier_average_decision_function",
+        "bagging_regressor_average_predictions"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "bagging_classifier_average_probabilities",
+      "name": "bagging_classifier_average_probabilities",
+      "description": "Average bagging classifier probability outputs with class alignment onto a shared class axis.",
+      "concept_type": "ensemble_probability_aggregation",
+      "status": "atomic",
+      "type_signature": "(probability_blocks: tuple[NDArray[np.float64], ...], class_index_blocks: tuple[NDArray[np.int64], ...], n_classes: int) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "probability_blocks", "type_desc": "tuple[NDArray[np.float64], ...]", "required": true},
+        {"name": "class_index_blocks", "type_desc": "tuple[NDArray[np.int64], ...]", "required": true},
+        {"name": "n_classes", "type_desc": "int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "bagging_classifier_average_log_probabilities",
+      "name": "bagging_classifier_average_log_probabilities",
+      "description": "Average bagging classifier log-probability outputs with class alignment onto a shared class axis.",
+      "concept_type": "ensemble_log_probability_aggregation",
+      "status": "atomic",
+      "type_signature": "(log_probability_blocks: tuple[NDArray[np.float64], ...], class_index_blocks: tuple[NDArray[np.int64], ...], n_classes: int) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "log_probability_blocks", "type_desc": "tuple[NDArray[np.float64], ...]", "required": true},
+        {"name": "class_index_blocks", "type_desc": "tuple[NDArray[np.int64], ...]", "required": true},
+        {"name": "n_classes", "type_desc": "int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "bagging_classifier_average_decision_function",
+      "name": "bagging_classifier_average_decision_function",
+      "description": "Average bagging classifier decision-function outputs with a shared shape.",
+      "concept_type": "ensemble_decision_aggregation",
+      "status": "atomic",
+      "type_signature": "(decision_blocks: tuple[NDArray[np.float64], ...]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "decision_blocks", "type_desc": "tuple[NDArray[np.float64], ...]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "bagging_regressor_average_predictions",
+      "name": "bagging_regressor_average_predictions",
+      "description": "Average bagging regressor predictions with a shared output shape.",
+      "concept_type": "ensemble_regression_aggregation",
+      "status": "atomic",
+      "type_signature": "(prediction_blocks: tuple[NDArray[np.float64], ...]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "prediction_blocks", "type_desc": "tuple[NDArray[np.float64], ...]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "bagging_classifier_average_probabilities", "target": "bagging_classifier_average_log_probabilities", "kind": "shared_class_alignment"},
+    {"source": "bagging_classifier_average_decision_function", "target": "bagging_regressor_average_predictions", "kind": "shared_mean_reduction"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.ensemble._bagging",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 3 meta-estimator wrappers"
+  }
+}

@@ -884,6 +884,10 @@ Potential remediation path:
 - Completed helper slice: `sklearn.ensemble.bagging_sampling` publishes
   bootstrap and sampling-without-replacement feature/sample index draws for
   one bagging estimator.
+- Completed helper slice: `sklearn.ensemble.bagging_aggregation` publishes
+  class-aligned probability and log-probability averaging plus decision and
+  regression prediction averaging over already-computed bagging estimator
+  outputs.
 - Completed helper slice: `sklearn.ensemble.forest_sampling` publishes
   validated bootstrap sample-count resolution plus sampled and unsampled index
   draws for one forest tree before tree growth or OOB scoring.
