@@ -17,10 +17,10 @@
       "bound_artifact_fqdn": null,
       "binding_confidence": 0.0,
       "binding_source": "manual_analysis",
-      "status": "gap",
-      "action_class": "replace_stage",
+      "status": "active",
+      "action_class": "external_knowledge",
       "evidence_summary": {
-        "gap_reason": "Domain-specific physics knowledge: which features are guaranteed mass-independent. Modeled as external_knowledge concept_type — not a reusable atom. The safe feature set is specific to this particle physics problem and cannot be generalized."
+        "resolved_reason": "Domain-specific physics knowledge: which features are guaranteed mass-independent. Modeled as external_knowledge concept_type. Not a gap — the knowledge is problem-specific and cannot be generalized into an atom."
       }
     },
     {
@@ -70,9 +70,9 @@
   ],
   "binding_summary": {
     "total_stages": 6,
-    "bound_active": 5,
+    "bound_active": 6,
     "bound_approximate": 0,
-    "gaps": 1,
+    "gaps": 0,
     "atoms_used_by_repo": {
       "sciona-atoms-ml": 5
     },

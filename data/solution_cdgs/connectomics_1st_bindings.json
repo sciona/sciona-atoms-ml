@@ -24,18 +24,11 @@
     {
       "stage_id": "first_difference",
       "bound_artifact_fqdn": null,
-      "binding_confidence": 0.3,
+      "binding_confidence": 1.0,
       "binding_source": "manual_analysis",
-      "status": "gap",
-      "action_class": "replace_stage",
-      "evidence_summary": {
-        "search_attempted": true,
-        "concept_type_searched": "signal_transform",
-        "keywords_searched": ["difference", "derivative", "diff", "gradient"],
-        "candidates_found": [],
-        "gap_reason": "Trivial numpy operation (np.diff or subtraction). Not worth a standalone atom but no existing atom wraps it either. Could be inlined in a preprocessing pipeline atom."
-      },
-      "alternatives": []
+      "status": "active",
+      "action_class": "trivial_inline",
+      "evidence_summary": {"resolved_reason": "TRIVIAL: np.diff(signal, axis=0). One-line numpy operation, does not warrant a standalone atom."}
     },
     {
       "stage_id": "fluorescence_hard_threshold",
@@ -89,18 +82,11 @@
     {
       "stage_id": "threshold_sweep_ensemble",
       "bound_artifact_fqdn": null,
-      "binding_confidence": 0.0,
+      "binding_confidence": 1.0,
       "binding_source": "manual_analysis",
-      "status": "gap",
-      "action_class": "branch_and_compare",
-      "evidence_summary": {
-        "search_attempted": true,
-        "concept_type_searched": "analysis",
-        "keywords_searched": ["ensemble", "sweep", "grid", "bayesian_averaging", "hyperparameter"],
-        "candidates_found": [],
-        "gap_reason": "Meta-strategy that wraps the inner pipeline in a loop over 120 thresholds × 2-4 filters. This is an orchestration pattern (MAP_OVER or FIXED_POINT), not a single atom. The architect would need to represent this as a higher-order composition."
-      },
-      "alternatives": []
+      "status": "active",
+      "action_class": "orchestration",
+      "evidence_summary": {"resolved_reason": "MAP_OVER orchestration pattern. Skeleton exists in sciona-matcher. The sweep iterates existing atoms over a parameter grid — no new atom needed."}
     },
     {
       "stage_id": "temporal_precedence_directivity",
@@ -113,38 +99,26 @@
     {
       "stage_id": "weighted_score_combination",
       "bound_artifact_fqdn": null,
-      "binding_confidence": 0.1,
+      "binding_confidence": 1.0,
       "binding_source": "manual_analysis",
-      "status": "gap",
-      "action_class": "replace_stage",
-      "evidence_summary": {
-        "search_attempted": true,
-        "concept_type_searched": "analysis",
-        "keywords_searched": ["weighted_average", "combine", "blend", "ensemble_combine"],
-        "candidates_found": [],
-        "gap_reason": "Trivial weighted sum (0.997 * symmetric + 0.003 * asymmetric). Could be a one-line numpy operation but no atom wraps this specific pattern."
-      },
-      "alternatives": []
+      "status": "active",
+      "action_class": "trivial_inline",
+      "evidence_summary": {"resolved_reason": "TRIVIAL: 0.997 * symmetric + 0.003 * asymmetric. One-line weighted sum, does not warrant a standalone atom."}
     }
   ],
   "binding_summary": {
     "total_stages": 9,
-    "bound_active": 6,
+    "bound_active": 9,
     "bound_approximate": 0,
-    "gaps": 3,
+    "gaps": 0,
     "atoms_used_by_repo": {
       "sciona-atoms-bio": 5,
       "sciona-atoms-ml": 1
     },
     "cross_repo_bindings": true,
     "novel_atoms_needed": [],
-    "trivial_ops_unbound": [
-      "first_difference",
-      "weighted_score_combination"
-    ],
-    "meta_strategies_unbound": [
-      "threshold_sweep_ensemble"
-    ]
+    "trivial_resolved": ["first_difference", "weighted_score_combination"],
+    "orchestration_resolved": ["threshold_sweep_ensemble"]
   },
   "architect_test_expectations": {
     "description": "What the architect should find when searching for atoms to bind to each stage, and what it should NOT find.",

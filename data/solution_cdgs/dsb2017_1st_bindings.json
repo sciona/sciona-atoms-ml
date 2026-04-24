@@ -14,8 +14,8 @@
   },
   "bindings": [
     {"stage_id": "lung_mask_with_bone_removal", "bound_artifact_fqdn": "sciona.atoms.dl.detection.lung_mask_with_bone_removal", "binding_confidence": 1.0, "binding_source": "manual_analysis", "status": "active", "action_class": "replace_stage"},
-    {"stage_id": "volume_split_combine", "bound_artifact_fqdn": null, "binding_confidence": 0.0, "binding_source": "manual_analysis", "status": "gap", "action_class": "replace_stage",
-     "evidence_summary": {"gap_reason": "ORCH_GAP: MAP_OVER pattern — overlapping 3D tiling with margin stripping. Resolved by MAP_OVER skeleton; the tile/recombine logic is orchestration."}},
+    {"stage_id": "volume_split_combine", "bound_artifact_fqdn": null, "binding_confidence": 1.0, "binding_source": "manual_analysis", "status": "active", "action_class": "orchestration",
+     "evidence_summary": {"resolved_reason": "MAP_OVER orchestration: overlapping 3D tiling with margin stripping. Skeleton exists in sciona-matcher (map_window_size, map_hop_size). No new atom needed."}},
     {"stage_id": "coordinate_aware_3d_unet", "bound_artifact_fqdn": "sciona.atoms.dl.detection.coordinate_aware_3d_unet", "binding_confidence": 0.8, "binding_source": "manual_analysis", "status": "active", "action_class": "replace_stage",
      "evidence_summary": {"binding_rationale": "Opaque conceptual node (is_opaque=true). Documents architecture spec but has no runnable atom code. Confidence 0.8 because it captures the architecture but not the weights."}},
     {"stage_id": "anchor_label_mapping_with_iou_dilation", "bound_artifact_fqdn": "sciona.atoms.dl.detection.anchor_label_mapping_with_iou_dilation", "binding_confidence": 1.0, "binding_source": "manual_analysis", "status": "active", "action_class": "replace_stage"},
@@ -29,9 +29,9 @@
   ],
   "binding_summary": {
     "total_stages": 10,
-    "bound_active": 9,
+    "bound_active": 10,
     "bound_approximate": 0,
-    "gaps": 1,
+    "gaps": 0,
     "atoms_used_by_repo": {
       "sciona-atoms-dl": 7,
       "sciona-atoms-bio": 1

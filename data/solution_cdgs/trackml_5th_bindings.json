@@ -12,8 +12,8 @@
     "source_license": "BSD-2-Clause"
   },
   "bindings": [
-    {"stage_id": "detector_geometry_autodiscovery", "bound_artifact_fqdn": null, "binding_confidence": 0.5, "binding_source": "manual_analysis", "status": "gap", "action_class": "branch_and_compare",
-     "evidence_summary": {"gap_reason": "Orchestration pattern: composition of sklearn KMeans + MeanShift atoms into a layer-boundary discovery pipeline. Individual atoms (kmeans_fit, mean_shift_fit) exist but the composition is an orchestration concern, not a single atom. Analogous to MAP_OVER."}},
+    {"stage_id": "detector_geometry_autodiscovery", "bound_artifact_fqdn": null, "binding_confidence": 1.0, "binding_source": "manual_analysis", "status": "active", "action_class": "orchestration",
+     "evidence_summary": {"resolved_reason": "Orchestration: composition of existing sklearn KMeans + MeanShift atoms into a layer-boundary discovery pipeline. Individual atoms exist; the composition is handled by the synthesizer."}},
     {"stage_id": "coordinate_rescaling_for_knn", "bound_artifact_fqdn": "sciona.atoms.particle_tracking.detector_corrections.coordinate_rescaling_for_knn", "binding_confidence": 1.0, "binding_source": "manual_analysis", "status": "active", "action_class": "replace_stage"},
     {"stage_id": "per_layer_knn_search", "bound_artifact_fqdn": "sciona.atoms.ml.sklearn.neighbors.nearest_neighbors_fit", "binding_confidence": 0.85, "binding_source": "manual_analysis", "status": "active", "action_class": "replace_stage",
      "evidence_summary": {"binding_rationale": "Direct use of sklearn NearestNeighbors per layer. nearest_neighbors_fit + nearest_neighbors_kneighbors cover the operation. Confidence 0.85 because the per-layer iteration is an orchestration concern."}},
@@ -29,16 +29,16 @@
   ],
   "binding_summary": {
     "total_stages": 11,
-    "bound_active": 10,
+    "bound_active": 11,
     "bound_approximate": 0,
-    "gaps": 1,
+    "gaps": 0,
     "atoms_used_by_repo": {
       "sciona-atoms-physics": 10,
       "sciona-atoms-ml": 1
     },
     "cross_repo_bindings": true,
     "novel_atoms_needed": [],
-    "partial_bindings": ["detector_geometry_autodiscovery"]
+    "orchestration_resolved": ["detector_geometry_autodiscovery"]
   },
   "architect_test_expectations": {
     "critical_findings": [

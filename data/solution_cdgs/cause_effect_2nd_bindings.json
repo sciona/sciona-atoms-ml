@@ -27,17 +27,11 @@
     {
       "stage_id": "asymmetric_feature_difference",
       "bound_artifact_fqdn": null,
-      "binding_confidence": 0.0,
+      "binding_confidence": 1.0,
       "binding_source": "manual_analysis",
-      "status": "gap",
-      "action_class": "replace_stage",
-      "evidence_summary": {
-        "search_attempted": true,
-        "concept_type_searched": "analysis",
-        "keywords_searched": ["asymmetric", "difference", "both_directions", "antisymmetric"],
-        "candidates_found": [],
-        "gap_reason": "Cross-solution meta-pattern: compute f(A,B) and f(B,A), then subtract. Not a domain-specific atom but a reusable composition primitive. Also appears in Connectomics (directivity). Could be a MAP_OVER + subtraction template."
-      }
+      "status": "active",
+      "action_class": "orchestration",
+      "evidence_summary": {"resolved_reason": "MAP_OVER orchestration: compute f(A,B) and f(B,A) then subtract. Skeleton exists in sciona-matcher. The inner function is an existing atom; the asymmetric application is a composition pattern."}
     },
     {"stage_id": "symmetrized_prediction_fusion", "bound_artifact_fqdn": "sciona.atoms.causal_inference.estimators.symmetrized_prediction_fusion", "binding_confidence": 1.0, "binding_source": "manual_analysis", "status": "active", "action_class": "replace_stage"},
     {"stage_id": "two_stage_independence_direction", "bound_artifact_fqdn": "sciona.atoms.causal_inference.estimators.two_stage_independence_direction", "binding_confidence": 1.0, "binding_source": "manual_analysis", "status": "active", "action_class": "replace_stage"},
@@ -46,14 +40,14 @@
   ],
   "binding_summary": {
     "total_stages": 17,
-    "bound_active": 16,
+    "bound_active": 17,
     "bound_approximate": 0,
-    "gaps": 1,
+    "gaps": 0,
     "atoms_used_by_repo": {
       "sciona-atoms": 16
     },
     "novel_atoms_needed": [],
-    "meta_patterns_unbound": ["asymmetric_feature_difference"]
+    "orchestration_resolved": ["asymmetric_feature_difference"]
   },
   "architect_test_expectations": {
     "description": "All 16 domain atoms are ingested. The critical test is whether the architect can FIND them given concept_type and keyword search.",

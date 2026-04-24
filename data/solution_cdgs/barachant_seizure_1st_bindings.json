@@ -15,17 +15,11 @@
     {
       "stage_id": "windower",
       "bound_artifact_fqdn": null,
-      "binding_confidence": 0.0,
+      "binding_confidence": 1.0,
       "binding_source": "manual_analysis",
-      "status": "gap",
-      "action_class": "replace_stage",
-      "evidence_summary": {
-        "search_attempted": true,
-        "concept_type_searched": "data_extraction",
-        "keywords_searched": ["windower", "sliding_window", "segment", "epoch"],
-        "candidates_found": [],
-        "gap_reason": "Standard sliding window segmentation. Could use a generic windowing atom but none exists yet. Low novelty -- standard signal processing primitive."
-      }
+      "status": "active",
+      "action_class": "orchestration",
+      "evidence_summary": {"resolved_reason": "MAP_OVER orchestration: sliding window segmentation with map_window_size and map_hop_size. Skeleton exists in sciona-matcher. Standard signal processing primitive covered by the windowing combinator."}
     },
     {
       "stage_id": "autocorrelation_covariance_matrix",
@@ -78,9 +72,9 @@
   ],
   "binding_summary": {
     "total_stages": 7,
-    "bound_active": 6,
+    "bound_active": 7,
     "bound_approximate": 0,
-    "gaps": 1,
+    "gaps": 0,
     "atoms_used_by_repo": {
       "sciona-atoms-signal": 6
     },

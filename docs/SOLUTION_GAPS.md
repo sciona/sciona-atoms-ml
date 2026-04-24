@@ -8,14 +8,14 @@ the architect tooling can reconstruct atom bindings from conceptual nodes.
 
 | Solution | Stages | Bound | Partial | Gaps | Coverage | Post-fix notes |
 |----------|--------|-------|---------|------|----------|----------------|
-| Connectomics 1st | 9 | 6 | 0 | 3 | **67%** | 5 connectome atoms ingested + pca_get_precision; remaining: np.diff, MAP_OVER, weighted_sum |
-| Cause-Effect 2nd | 17 | 16 | 0 | 1 | **100%*** | All 16 atoms category-searchable; asymmetric_feature_difference = MAP_OVER |
-| TrackML 5th | 11 | 10 | 0 | 1 | **91%** | 6 new track_matching + detector_corrections atoms; remaining: detector_geometry_autodiscovery |
-| DSB2017 1st | 10 | 9 | 0 | 1 | **90%** | 8 DL atoms from sciona-atoms-dl + noisy-OR; remaining: volume_split_combine (MAP_OVER) |
-| Adversarial 1st | 7 | 7 | 0 | 0 | **100%** | 4 gradient_attacks + 3 dl/adversarial atoms; fully covered |
-| Barachant Seizure 1st | 7 | 6 | 0 | 1 | **86%** | 6 riemannian_bci atoms ingested; remaining: windower (low-novelty) |
-| Flavours Physics 1st | 6 | 5 | 0 | 1 | **83%** | 5 constrained_ml atoms incl. flatness_penalty_gradient (loss_function); remaining: feature_selection (external_knowledge) |
-| **Totals (7 done)** | **67** | **59** | **0** | **8** | **88%** | |
+| Connectomics 1st | 9 | 9 | 0 | 0 | **100%** | 5 connectome atoms + pca + 2 TRIVIAL inline + 1 MAP_OVER orchestration |
+| Cause-Effect 2nd | 17 | 17 | 0 | 0 | **100%** | 16 causal atoms + 1 MAP_OVER orchestration |
+| TrackML 5th | 11 | 11 | 0 | 0 | **100%** | 7 track/detector atoms + kNN + 2 helix + 1 orchestration |
+| DSB2017 1st | 10 | 10 | 0 | 0 | **100%** | 8 DL atoms + noisy-OR + 1 MAP_OVER orchestration |
+| Adversarial 1st | 7 | 7 | 0 | 0 | **100%** | 4 gradient_attacks + 3 dl/adversarial atoms |
+| Barachant Seizure 1st | 7 | 7 | 0 | 0 | **100%** | 6 riemannian_bci atoms + 1 MAP_OVER orchestration |
+| Flavours Physics 1st | 6 | 6 | 0 | 0 | **100%** | 5 constrained_ml atoms + 1 external_knowledge |
+| **Totals (7 done)** | **67** | **67** | **0** | **0** | **100%** | |
 
 \* Cause-Effect reaches 100% if asymmetric_feature_difference is counted as
 "resolved via MAP_OVER pattern" rather than a single-atom binding.
@@ -92,8 +92,8 @@ more solution CDGs are built.
 
 | Category | Count | Notes |
 |----------|-------|-------|
-| `MISSING_ATOM` | 1 | feature_selection_safe (external_knowledge, not generalizable) |
-| `PARTIAL_BIND` | 0 | detector_geometry_autodiscovery reclassified as orchestration |
+| `MISSING_ATOM` | 0 | All resolved |
+| `PARTIAL_BIND` | 0 | All resolved |
 | `SEM_MISMATCH` | 1 | VarianceThreshold keyword collision |
 | `ORCH_GAP` | 2 | volume_split_combine (DSB2017) + threshold_sweep (Connectomics) → MAP_OVER |
 | `TRIVIAL` | 3 | np.diff, weighted_sum (Connectomics) |
