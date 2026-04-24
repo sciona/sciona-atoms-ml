@@ -545,11 +545,17 @@ Potential remediation path:
   helper atoms for observed target counting, configured target-count
   validation, target mean and scale setup, target normalization, and alpha
   shape resolution before the optimizer and linear-algebra stages.
+- Completed helper slice:
+  `sklearn.gaussian_process.regression_optimizer_bookkeeping` now publishes
+  optimizer-side helper atoms for restart-bounds validation, restart-theta
+  sampling from supplied finite bounds, and best-optimum selection from
+  accumulated negative log-marginal-likelihood objective values.
 - Ingest standalone Gaussian-process linear algebra primitives first, such as
   kernel regularization, Cholesky solve, posterior mean/covariance, and
   log-marginal-likelihood components. The first regression slice is complete;
-  remaining work should target likelihood gradients, kernel-state transitions,
-  optimizer boundaries, and classifier Laplace posterior-mode helpers.
+  remaining work should target prior-prediction helpers, kernel-state
+  transitions, full optimizer execution, and classifier multiclass or
+  estimator-state boundaries.
 - Decide how optimizer and Laplace posterior-mode loops should be represented
   before publishing full estimator state atoms.
 

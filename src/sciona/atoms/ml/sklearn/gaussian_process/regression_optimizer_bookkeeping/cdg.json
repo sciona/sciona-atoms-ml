@@ -1,0 +1,75 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_gaussian_process_regression_optimizer_bookkeeping_root",
+      "name": "Sklearn Gaussian Process Regression Optimizer Bookkeeping Helper Atoms",
+      "description": "Deterministic optimizer-restart validation, initialization, and best-result selection helpers used around GaussianProcessRegressor hyperparameter optimization.",
+      "status": "decomposed",
+      "children": [
+        "gp_regression_restart_bounds",
+        "gp_regression_restart_thetas",
+        "gp_regression_select_best_optimum"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "gp_regression_restart_bounds",
+      "name": "gp_regression_restart_bounds",
+      "description": "Validate whether optimizer restart bounds are finite when multiple GPR restarts are requested.",
+      "concept_type": "gaussian_process_helper",
+      "status": "atomic",
+      "type_signature": "(bounds: NDArray[np.float64], n_restarts_optimizer: int = 0) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "bounds", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "n_restarts_optimizer", "type_desc": "int", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "gp_regression_restart_thetas",
+      "name": "gp_regression_restart_thetas",
+      "description": "Draw restart theta initializations from supplied finite GPR optimizer bounds.",
+      "concept_type": "gaussian_process_helper",
+      "status": "atomic",
+      "type_signature": "(bounds: NDArray[np.float64], n_restarts_optimizer: int, random_state: int | np.random.RandomState | None = 0) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "bounds", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "n_restarts_optimizer", "type_desc": "int", "required": true},
+        {"name": "random_state", "type_desc": "int | np.random.RandomState | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "gp_regression_select_best_optimum",
+      "name": "gp_regression_select_best_optimum",
+      "description": "Select the optimizer theta with the minimum negative log-marginal-likelihood objective value.",
+      "concept_type": "gaussian_process_helper",
+      "status": "atomic",
+      "type_signature": "(candidate_thetas: NDArray[np.float64], objective_values: NDArray[np.float64]) -> tuple[NDArray[np.float64], float]",
+      "depth": 1,
+      "inputs": [
+        {"name": "candidate_thetas", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "objective_values", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[NDArray[np.float64], float]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "gp_regression_restart_bounds", "target": "gp_regression_restart_thetas", "kind": "finite_restart_bounds"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.gaussian_process._gpr",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 7 probabilistic and mutable-kernel workflows"
+  }
+}
