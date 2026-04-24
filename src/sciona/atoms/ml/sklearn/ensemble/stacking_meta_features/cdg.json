@@ -1,0 +1,82 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_ensemble_stacking_meta_features_root",
+      "name": "Sklearn Ensemble Stacking Meta-Feature Atoms",
+      "description": "Deterministic stacking helpers for normalizing base-estimator prediction outputs into meta-features and naming the resulting transform columns.",
+      "status": "decomposed",
+      "children": [
+        "stacking_meta_feature_matrix",
+        "stacking_meta_feature_widths",
+        "stacking_feature_names_out"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "stacking_meta_feature_matrix",
+      "name": "stacking_meta_feature_matrix",
+      "description": "Concatenate sklearn-style normalized stacking prediction outputs, optionally with passthrough features, into one meta-feature matrix.",
+      "concept_type": "ensemble_meta_feature_construction",
+      "status": "atomic",
+      "type_signature": "(predictions: tuple[PredictionEntry, ...], stack_method_names: tuple[str, ...], is_binary_classification: bool, X: NDArray[np.float64] | scipy.sparse.spmatrix | None = None, passthrough: bool = False) -> NDArray[np.float64] | scipy.sparse.spmatrix",
+      "depth": 1,
+      "inputs": [
+        {"name": "predictions", "type_desc": "tuple[PredictionEntry, ...]", "required": true},
+        {"name": "stack_method_names", "type_desc": "tuple[str, ...]", "required": true},
+        {"name": "is_binary_classification", "type_desc": "bool", "required": true},
+        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | None", "required": false},
+        {"name": "passthrough", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"}
+      ]
+    },
+    {
+      "node_id": "stacking_meta_feature_widths",
+      "name": "stacking_meta_feature_widths",
+      "description": "Return the sklearn-style per-block output widths after stacking prediction normalization.",
+      "concept_type": "ensemble_meta_feature_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(predictions: tuple[PredictionEntry, ...], stack_method_names: tuple[str, ...], is_binary_classification: bool) -> NDArray[np.int64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "predictions", "type_desc": "tuple[PredictionEntry, ...]", "required": true},
+        {"name": "stack_method_names", "type_desc": "tuple[str, ...]", "required": true},
+        {"name": "is_binary_classification", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.int64]"}
+      ]
+    },
+    {
+      "node_id": "stacking_feature_names_out",
+      "name": "stacking_feature_names_out",
+      "description": "Build sklearn-style stacking transform feature names from estimator names, output widths, and optional passthrough feature names.",
+      "concept_type": "ensemble_feature_name_materialization",
+      "status": "atomic",
+      "type_signature": "(class_name: str, estimator_names: tuple[str, ...], feature_widths: NDArray[np.int64], input_features: Sequence[str] | NDArray[np.object_] | None = None, passthrough: bool = False) -> NDArray[np.object_]",
+      "depth": 1,
+      "inputs": [
+        {"name": "class_name", "type_desc": "str", "required": true},
+        {"name": "estimator_names", "type_desc": "tuple[str, ...]", "required": true},
+        {"name": "feature_widths", "type_desc": "NDArray[np.int64]", "required": true},
+        {"name": "input_features", "type_desc": "Sequence[str] | NDArray[np.object_] | None", "required": false},
+        {"name": "passthrough", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.object_]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "stacking_meta_feature_matrix", "target": "stacking_meta_feature_widths", "kind": "shared_prediction_normalization"},
+    {"source": "stacking_meta_feature_widths", "target": "stacking_feature_names_out", "kind": "widths_drive_name_expansion"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.ensemble._stacking",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 3 meta-estimator wrappers"
+  }
+}

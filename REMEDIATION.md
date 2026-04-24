@@ -920,6 +920,11 @@ Potential remediation path:
 - Completed helper slice: `sklearn.ensemble.gradient_boosting` publishes
   deterministic helper math for numerically safe line-search division and
   Huber delta selection from residual magnitudes and sample weights.
+- Completed helper slice: `sklearn.ensemble.stacking_meta_features` publishes
+  deterministic stacking helper atoms for sklearn-style prediction-output
+  normalization into meta-feature matrices, per-block output-width
+  bookkeeping, and transform feature-name materialization from supplied
+  estimator names and optional passthrough feature names.
 - Decide whether sklearn tree builders and histogram-gradient-boosting native
   internals should be represented through FFI/native atoms before publishing
   random forest, extra trees, isolation forest, and gradient boosting states.
