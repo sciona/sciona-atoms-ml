@@ -249,6 +249,10 @@ Potential remediation path:
   `SelectFromModel` threshold and support-mask resolution, one-step RFE
   elimination, sequential candidate-mask generation, and best-feature
   selection from supplied scores.
+- Completed helper slice: `sklearn.feature_selection.rfecv_aggregation` now
+  publishes deterministic RFECV post-fold bookkeeping for reverse-order
+  best-feature-count selection and `cv_results_` materialization from supplied
+  fold score histories and a shared feature-count path.
 - Ingest estimator-independent helper atoms first, such as threshold parsing,
   support-mask updates from supplied importance vectors, and candidate subset
   bookkeeping.
@@ -607,6 +611,10 @@ Potential remediation path:
 - Completed helper slice: `sklearn.cluster.agglomerative` now publishes
   hierarchy root lookup, descendant-leaf expansion, and `_hc_cut` label
   extraction for already-built binary children arrays.
+- Completed helper slice: `sklearn.cluster.agglomerative_connectivity` now
+  publishes deterministic connectivity preprocessing for symmetry,
+  dense-or-sparse normalization to LIL, connected-component counting,
+  disconnected-graph completion, and nearest cross-component bridge insertion.
 - Tree construction, Ward distances, linkage builders, SciPy hierarchy calls,
   compiled `_hierarchical` helpers, estimator state, and
   `FeatureAgglomeration` transform behavior remain deferred.
