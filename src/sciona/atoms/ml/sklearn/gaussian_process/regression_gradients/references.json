@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.gaussian_process.regression_gradients.gp_log_marginal_gradient_inner_term@sciona/atoms/ml/sklearn/gaussian_process/regression_gradients/atoms.py:115": {
+      "references": [
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from GaussianProcessRegressor.log_marginal_likelihood inner_term construction in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "rasmussen2006gpml",
+          "match_metadata": {
+            "match_type": "manual_algorithm_reference",
+            "confidence": "high",
+            "notes": "Gaussian-process regression log-marginal-likelihood gradients use the alpha-alpha-transpose minus kernel-inverse inner term from GPML Eq. 5.9."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.regression_gradients.gp_log_marginal_gradient_dims@sciona/atoms/ml/sklearn/gaussian_process/regression_gradients/atoms.py:132": {
+      "references": [
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from GaussianProcessRegressor.log_marginal_likelihood einsum contraction for per-parameter per-output gradient terms in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "rasmussen2006gpml",
+          "match_metadata": {
+            "match_type": "manual_algorithm_reference",
+            "confidence": "high",
+            "notes": "GPML Eq. 5.9 contracts the shared inner term against kernel hyperparameter derivatives."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.regression_gradients.gp_log_marginal_gradient@sciona/atoms/ml/sklearn/gaussian_process/regression_gradients/atoms.py:150": {
+      "references": [
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the final sum across outputs in GaussianProcessRegressor.log_marginal_likelihood in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "rasmussen2006gpml",
+          "match_metadata": {
+            "match_type": "manual_algorithm_reference",
+            "confidence": "high",
+            "notes": "Multi-output GP implementations sum per-output log-marginal-likelihood gradient contributions after the shared contraction."
+          }
+        }
+      ]
+    }
+  }
+}
