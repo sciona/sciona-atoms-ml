@@ -760,12 +760,19 @@ Potential remediation path:
   FastMCD helpers for support-size resolution, raw location, support-mask
   selection, raw covariance, and squared distances from the deterministic
   one-dimensional shortcut branch.
+- Completed helper slice:
+  `sklearn.covariance.robust_fastmcd_selection` now publishes multivariate
+  FastMCD helper atoms for trial-plan resolution from random starts versus
+  supplied estimates, determinant-based best-candidate ranking and gather,
+  large-sample subset scheduling constants, and merged-result scattering back
+  to full-length support and distance arrays.
 - Ingest robust covariance by decomposing FastMCD helpers (`fast_mcd`,
   candidate selection, correction, reweighting, and Mahalanobis scoring) before
   publishing `MinCovDet` or `EllipticEnvelope` fit states. Correction,
-  reweighting, scoring, and the one-dimensional shortcut are complete; raw
-  multivariate FastMCD candidate selection and estimator state publication
-  remain deferred.
+  reweighting, scoring, the one-dimensional shortcut, and deterministic
+  multivariate trial-planning and scheduling helpers are complete; the `_c_step`
+  subset-search loop, random subset generation, full multivariate candidate
+  evaluation, and estimator state publication remain deferred.
 
 ## `sklearn.decomposition` sparse coding and matrix factorization solvers
 

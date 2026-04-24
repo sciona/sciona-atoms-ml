@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.covariance.robust_fastmcd_selection.fast_mcd_trial_plan@sciona/atoms/ml/sklearn/covariance/robust_fastmcd_selection/atoms.py:179": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from select_candidates trial-mode resolution in sklearn.covariance._robust_covariance for scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "rousseeuw1999fastmcd",
+          "match_metadata": {
+            "match_type": "manual_algorithm_reference",
+            "confidence": "medium",
+            "notes": "FastMCD candidate selection begins either from random supports or from supplied initial estimates."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.covariance.robust_fastmcd_selection.fast_mcd_best_candidate_indices@sciona/atoms/ml/sklearn/covariance/robust_fastmcd_selection/atoms.py:201": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from determinant ranking in select_candidates inside sklearn.covariance._robust_covariance for scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "rousseeuw1999fastmcd",
+          "match_metadata": {
+            "match_type": "manual_algorithm_reference",
+            "confidence": "medium",
+            "notes": "FastMCD candidate supports are ranked by covariance determinant before the best supports are retained."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.covariance.robust_fastmcd_selection.fast_mcd_gather_best_candidates@sciona/atoms/ml/sklearn/covariance/robust_fastmcd_selection/atoms.py:224": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the best-candidate gather step in select_candidates inside sklearn.covariance._robust_covariance for scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "rousseeuw1999fastmcd",
+          "match_metadata": {
+            "match_type": "manual_algorithm_reference",
+            "confidence": "medium",
+            "notes": "After determinant ranking, FastMCD carries forward the selected locations, covariances, supports, and distances."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.covariance.robust_fastmcd_selection.fast_mcd_large_sample_schedule@sciona/atoms/ml/sklearn/covariance/robust_fastmcd_selection/atoms.py:247": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from large-sample branch scheduling constants in fast_mcd inside sklearn.covariance._robust_covariance for scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "rousseeuw1999fastmcd",
+          "match_metadata": {
+            "match_type": "manual_algorithm_reference",
+            "confidence": "medium",
+            "notes": "The FastMCD paper describes subset construction and pooled-candidate refinement before the final full-data selection step."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.covariance.robust_fastmcd_selection.fast_mcd_place_merged_results@sciona/atoms/ml/sklearn/covariance/robust_fastmcd_selection/atoms.py:284": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the n_samples < 1500 merged-result placement branch in fast_mcd inside sklearn.covariance._robust_covariance for scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "rousseeuw1999fastmcd",
+          "match_metadata": {
+            "match_type": "manual_algorithm_reference",
+            "confidence": "medium",
+            "notes": "Merged FastMCD subset results are projected back into the full observation index space before correction and reweighting."
+          }
+        }
+      ]
+    }
+  }
+}
