@@ -262,6 +262,10 @@ Potential remediation path:
   publishes the sparse `SelectorMixin.inverse_transform` reconstruction helper
   that expands a selected sparse matrix back to CSC layout with zero-filled
   dropped columns from a supplied support mask.
+- Completed helper slice:
+  `sklearn.feature_selection.selector_mixin_sparse_transform` now publishes the
+  CSR `SelectorMixin._transform` helper for selected-column sparse indexing plus
+  sklearn's empty dense fallback when no features are selected.
 - Ingest estimator-independent helper atoms first, such as threshold parsing,
   support-mask updates from supplied importance vectors, and candidate subset
   bookkeeping.

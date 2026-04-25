@@ -1,0 +1,40 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_feature_selection_selector_mixin_sparse_transform_root",
+      "name": "sklearn.feature_selection.selector_mixin_sparse_transform",
+      "kind": "module",
+      "status": "composite",
+      "description": "Deterministic sparse post-fit feature selection for SelectorMixin after the support mask is already supplied.",
+      "children": [
+        "selector_transform_sparse"
+      ]
+    },
+    {
+      "node_id": "selector_transform_sparse",
+      "name": "selector_transform_sparse",
+      "kind": "function",
+      "status": "atomic",
+      "concept_type": "feature_selection_postfit",
+      "description": "Reduce a CSR matrix to selected columns, or return sklearn's empty dense fallback when no features are selected.",
+      "type_signature": "(X: scipy.sparse.csr_matrix, support_mask: NDArray[np.bool_]) -> scipy.sparse.csr_matrix | NDArray[np.float64]",
+      "inputs": [
+        {"name": "X", "type_desc": "scipy.sparse.csr_matrix", "required": true},
+        {"name": "support_mask", "type_desc": "NDArray[np.bool_]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "scipy.sparse.csr_matrix | NDArray[np.float64]"}
+      ]
+    }
+  ],
+  "edges": [],
+  "metadata": {
+    "source_module": "sklearn.feature_selection._base",
+    "source_symbols": [
+      "SelectorMixin._transform"
+    ],
+    "notes": [
+      "This family only covers the CSR post-fit transform branch after support-mask selection is already fixed."
+    ]
+  }
+}
