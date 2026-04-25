@@ -412,6 +412,12 @@ Potential remediation path:
   for hidden-layer normalization, first-pass detection, the `partial_fit`
   early-stopping guard, and stochastic batch-size warning and clipping
   resolution before optimizer mutation or validation-score callbacks.
+- Completed helper slice:
+  `sklearn.neural_network.mlp_monitoring` now publishes stochastic-monitor
+  defaults plus scalar best-loss, best-validation-score, and no-improvement
+  bookkeeping from supplied loss or validation score values, while score
+  callbacks, best-weight copies, and optimizer-trigger stopping remain
+  deferred.
 - Decide whether SGD/Adam/L-BFGS optimizer state should be represented as
   separate atom families before publishing full MLP training surfaces.
 
