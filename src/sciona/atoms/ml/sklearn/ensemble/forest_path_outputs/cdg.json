@@ -1,0 +1,75 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_ensemble_forest_path_outputs_root",
+      "name": "sklearn.ensemble.forest_path_outputs",
+      "kind": "module",
+      "status": "composite",
+      "description": "Deterministic output formatting for sklearn forest apply and decision_path after per-tree callbacks are already resolved.",
+      "children": [
+        "forest_apply_leaf_matrix",
+        "forest_decision_path_node_ptr",
+        "forest_decision_path_csr"
+      ]
+    },
+    {
+      "node_id": "forest_apply_leaf_matrix",
+      "name": "forest_apply_leaf_matrix",
+      "kind": "function",
+      "status": "atomic",
+      "concept_type": "ensemble_path_output",
+      "description": "Transpose one leaf-index vector per estimator into sklearn's sample-major forest apply matrix.",
+      "type_signature": "(leaf_vectors: tuple[NDArray[np.integer], ...]) -> NDArray[np.int64]",
+      "inputs": [
+        {"name": "leaf_vectors", "type_desc": "tuple[NDArray[np.integer], ...]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.int64]"}
+      ]
+    },
+    {
+      "node_id": "forest_decision_path_node_ptr",
+      "name": "forest_decision_path_node_ptr",
+      "kind": "function",
+      "status": "atomic",
+      "concept_type": "ensemble_path_output",
+      "description": "Compute cumulative estimator-column offsets from supplied per-tree decision-path indicator widths.",
+      "type_signature": "(indicators: tuple[scipy.sparse.spmatrix, ...]) -> NDArray[np.int64]",
+      "inputs": [
+        {"name": "indicators", "type_desc": "tuple[scipy.sparse.spmatrix, ...]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.int64]"}
+      ]
+    },
+    {
+      "node_id": "forest_decision_path_csr",
+      "name": "forest_decision_path_csr",
+      "kind": "function",
+      "status": "atomic",
+      "concept_type": "ensemble_path_output",
+      "description": "Horizontally stack supplied per-tree decision-path indicators and return CSR output.",
+      "type_signature": "(indicators: tuple[scipy.sparse.spmatrix, ...]) -> scipy.sparse.csr_matrix",
+      "inputs": [
+        {"name": "indicators", "type_desc": "tuple[scipy.sparse.spmatrix, ...]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "scipy.sparse.csr_matrix"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "forest_decision_path_node_ptr", "target": "forest_decision_path_csr", "kind": "shared_indicator_block_partition"}
+  ],
+  "metadata": {
+    "source_module": "sklearn.ensemble._forest",
+    "source_symbols": [
+      "BaseForest.apply",
+      "BaseForest.decision_path"
+    ],
+    "notes": [
+      "Per-tree apply and decision_path callbacks remain deferred.",
+      "This family only covers the deterministic reduction and formatting of already-computed tree outputs."
+    ]
+  }
+}

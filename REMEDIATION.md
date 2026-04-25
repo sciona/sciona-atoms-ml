@@ -987,6 +987,12 @@ Potential remediation path:
   `BaseForest._validate_X_predict`: missing-value validation mode selection
   and the CSR sparse-index dtype guard before deferred `validate_data`
   execution and fitted-estimator checks.
+- Completed helper slice: `sklearn.ensemble.forest_path_outputs`
+  publishes deterministic helper atoms for the final `BaseForest.apply` and
+  `BaseForest.decision_path` output formatting: transposing per-tree leaf
+  vectors, building cumulative node-pointer offsets, and horizontally stacking
+  supplied sparse indicator blocks into CSR output after deferred tree
+  callbacks.
 - Completed helper slice: `sklearn.ensemble.adaboost` publishes
   estimator-independent SAMME decision aggregation, decision-to-probability
   conversion, and AdaBoost.R2 weighted-median regression aggregation over
