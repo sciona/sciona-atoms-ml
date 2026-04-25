@@ -966,6 +966,12 @@ Potential remediation path:
   tensor into sklearn's public classifier decision-function or regressor
   prediction shapes, plus final classifier accuracy and regressor `r2`
   scoring from those already-postprocessed arrays.
+- Completed helper slice: `sklearn.ensemble.forest_classifier_targets`
+  publishes deterministic helper atoms for per-output ForestClassifier class
+  extraction and encoded targets, class_weight string-preset validation,
+  warm-start warning gating, and expanded per-sample class-weight resolution
+  from original targets before deferred warning side effects and tree
+  fitting.
 - Completed helper slice: `sklearn.ensemble.adaboost` publishes
   estimator-independent SAMME decision aggregation, decision-to-probability
   conversion, and AdaBoost.R2 weighted-median regression aggregation over

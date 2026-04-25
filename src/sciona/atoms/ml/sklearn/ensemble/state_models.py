@@ -14,3 +14,11 @@ class BaggingClassifierTargetState:
 
     classes: NDArray[np.object_]
     n_classes: int
+
+
+@dataclass(frozen=True)
+class ForestClassifierTargetState:
+    """Learned per-output class ordering and class counts for ForestClassifier."""
+
+    classes: tuple[NDArray[np.object_], ...]
+    n_classes: tuple[int, ...]

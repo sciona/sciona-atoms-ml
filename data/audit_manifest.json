@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "metadata": {
-    "generated_at": "2026-04-25T01:52:36.285094+00:00",
+    "generated_at": "2026-04-25T02:07:02.010616+00:00",
     "generator": "scripts/apply_audit_review_bundles.py",
     "phase": "phase_1_review_bundle_merge"
   },
@@ -50196,6 +50196,283 @@
       "required_actions": [],
       "blocking_findings": [],
       "review_record_path": "data/review_bundles/ml_sklearn_ensemble_forest_aggregation.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.ensemble.forest_classifier_targets.forest_classifier_class_weight_warning_required",
+      "atom_key": "sciona.atoms.ml.sklearn.ensemble.forest_classifier_targets.forest_classifier_class_weight_warning_required",
+      "atom_id": "sciona.atoms.ml.sklearn.ensemble.forest_classifier_targets.forest_classifier_class_weight_warning_required",
+      "module_import_path": "sciona.atoms.ml.sklearn.ensemble.forest_classifier_targets",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/ensemble/forest_classifier_targets/atoms.py",
+      "module_family": "ensemble",
+      "domain_family": "ml.sklearn.ensemble",
+      "wrapper_symbol": "forest_classifier_class_weight_warning_required",
+      "argument_names": [
+        "class_weight",
+        "warm_start"
+      ],
+      "argument_details": [
+        {
+          "name": "class_weight",
+          "annotation": "str | None",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "warm_start",
+          "annotation": "bool",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "bool",
+      "docstring_summary": "Return whether sklearn would issue the warm-start class-weight warning.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        "src/sciona/atoms/ml/sklearn/ensemble/forest_classifier_targets/references.json",
+        "src/sciona/atoms/ml/sklearn/ensemble/forest_classifier_targets/cdg.json"
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 10,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 94,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 2,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_ensemble_forest_classifier_targets.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.ensemble.forest_classifier_targets.forest_classifier_expanded_class_weight",
+      "atom_key": "sciona.atoms.ml.sklearn.ensemble.forest_classifier_targets.forest_classifier_expanded_class_weight",
+      "atom_id": "sciona.atoms.ml.sklearn.ensemble.forest_classifier_targets.forest_classifier_expanded_class_weight",
+      "module_import_path": "sciona.atoms.ml.sklearn.ensemble.forest_classifier_targets",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/ensemble/forest_classifier_targets/atoms.py",
+      "module_family": "ensemble",
+      "domain_family": "ml.sklearn.ensemble",
+      "wrapper_symbol": "forest_classifier_expanded_class_weight",
+      "argument_names": [
+        "y_original",
+        "class_weight",
+        "bootstrap"
+      ],
+      "argument_details": [
+        {
+          "name": "y_original",
+          "annotation": "NDArray[np.object_] | NDArray[np.int64] | NDArray[np.float64] | NDArray[np.bool_]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "class_weight",
+          "annotation": "str | Mapping[object, float] | Sequence[Mapping[object, float]] | None",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "bootstrap",
+          "annotation": "bool",
+          "required": true,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.float64] | None",
+      "docstring_summary": "Resolve forest classifier expanded sample weights from original targets.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        "src/sciona/atoms/ml/sklearn/ensemble/forest_classifier_targets/references.json",
+        "src/sciona/atoms/ml/sklearn/ensemble/forest_classifier_targets/cdg.json"
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 10,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 94,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 3,
+      "parity_case_count": 3,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_ensemble_forest_classifier_targets.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.ensemble.forest_classifier_targets.forest_classifier_fit_targets",
+      "atom_key": "sciona.atoms.ml.sklearn.ensemble.forest_classifier_targets.forest_classifier_fit_targets",
+      "atom_id": "sciona.atoms.ml.sklearn.ensemble.forest_classifier_targets.forest_classifier_fit_targets",
+      "module_import_path": "sciona.atoms.ml.sklearn.ensemble.forest_classifier_targets",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/ensemble/forest_classifier_targets/atoms.py",
+      "module_family": "ensemble",
+      "domain_family": "ml.sklearn.ensemble",
+      "wrapper_symbol": "forest_classifier_fit_targets",
+      "argument_names": [
+        "y"
+      ],
+      "argument_details": [
+        {
+          "name": "y",
+          "annotation": "NDArray[np.object_] | NDArray[np.int64] | NDArray[np.float64] | NDArray[np.bool_]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "FitTargetsResult",
+      "docstring_summary": "Resolve forest classifier classes, class counts, and encoded targets.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        "src/sciona/atoms/ml/sklearn/ensemble/forest_classifier_targets/references.json",
+        "src/sciona/atoms/ml/sklearn/ensemble/forest_classifier_targets/cdg.json"
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 10,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 94,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 2,
+      "parity_case_count": 2,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_ensemble_forest_classifier_targets.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.ensemble.forest_classifier_targets.forest_classifier_validate_class_weight_preset",
+      "atom_key": "sciona.atoms.ml.sklearn.ensemble.forest_classifier_targets.forest_classifier_validate_class_weight_preset",
+      "atom_id": "sciona.atoms.ml.sklearn.ensemble.forest_classifier_targets.forest_classifier_validate_class_weight_preset",
+      "module_import_path": "sciona.atoms.ml.sklearn.ensemble.forest_classifier_targets",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/ensemble/forest_classifier_targets/atoms.py",
+      "module_family": "ensemble",
+      "domain_family": "ml.sklearn.ensemble",
+      "wrapper_symbol": "forest_classifier_validate_class_weight_preset",
+      "argument_names": [
+        "class_weight"
+      ],
+      "argument_details": [
+        {
+          "name": "class_weight",
+          "annotation": "str | None",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "str | None",
+      "docstring_summary": "Validate sklearn's forest classifier string presets for class_weight.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        "src/sciona/atoms/ml/sklearn/ensemble/forest_classifier_targets/references.json",
+        "src/sciona/atoms/ml/sklearn/ensemble/forest_classifier_targets/cdg.json"
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 10,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 94,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 2,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_ensemble_forest_classifier_targets.review_bundle.json",
       "has_references": true,
       "references_status": "pass"
     },

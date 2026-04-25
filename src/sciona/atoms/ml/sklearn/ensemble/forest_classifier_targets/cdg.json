@@ -1,0 +1,92 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_ensemble_forest_classifier_targets_root",
+      "name": "Sklearn Ensemble Forest Classifier-Targets Atoms",
+      "description": "Deterministic helpers for ForestClassifier target encoding, class-weight preset handling, warm-start warning gating, and expanded sample-weight resolution before deferred tree fitting.",
+      "status": "decomposed",
+      "children": [
+        "forest_classifier_fit_targets",
+        "forest_classifier_validate_class_weight_preset",
+        "forest_classifier_class_weight_warning_required",
+        "forest_classifier_expanded_class_weight"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "forest_classifier_fit_targets",
+      "name": "forest_classifier_fit_targets",
+      "description": "Resolve per-output class ordering, per-output class counts, and encoded integer targets for ForestClassifier from an already-shaped target matrix.",
+      "concept_type": "classifier_target_state",
+      "status": "atomic",
+      "type_signature": "(y: NDArray[object | int | float | bool]) -> tuple[ForestClassifierTargetState, NDArray[np.int64]]",
+      "depth": 1,
+      "inputs": [
+        {"name": "y", "type_desc": "NDArray[object | int | float | bool]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[ForestClassifierTargetState, NDArray[np.int64]]"}
+      ]
+    },
+    {
+      "node_id": "forest_classifier_validate_class_weight_preset",
+      "name": "forest_classifier_validate_class_weight_preset",
+      "description": "Validate ForestClassifier's string presets for class_weight and reject unsupported preset names.",
+      "concept_type": "class_weight_preset",
+      "status": "atomic",
+      "type_signature": "(class_weight: str | None) -> str | None",
+      "depth": 1,
+      "inputs": [
+        {"name": "class_weight", "type_desc": "str | None", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "str | None"}
+      ]
+    },
+    {
+      "node_id": "forest_classifier_class_weight_warning_required",
+      "name": "forest_classifier_class_weight_warning_required",
+      "description": "Return whether sklearn's warm-start advisory warning would be required for the chosen ForestClassifier class_weight preset.",
+      "concept_type": "class_weight_warning_gate",
+      "status": "atomic",
+      "type_signature": "(class_weight: str | None, warm_start: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "class_weight", "type_desc": "str | None", "required": true},
+        {"name": "warm_start", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "forest_classifier_expanded_class_weight",
+      "name": "forest_classifier_expanded_class_weight",
+      "description": "Resolve the expanded per-sample class-weight vector for ForestClassifier from original targets, class_weight, and bootstrap mode.",
+      "concept_type": "expanded_class_weight",
+      "status": "atomic",
+      "type_signature": "(y_original: NDArray[object | int | float | bool], class_weight: str | Mapping | Sequence[Mapping] | None, bootstrap: bool) -> NDArray[np.float64] | None",
+      "depth": 1,
+      "inputs": [
+        {"name": "y_original", "type_desc": "NDArray[object | int | float | bool]", "required": true},
+        {"name": "class_weight", "type_desc": "str | Mapping | Sequence[Mapping] | None", "required": true},
+        {"name": "bootstrap", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64] | None"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "forest_classifier_validate_class_weight_preset", "target": "forest_classifier_class_weight_warning_required", "kind": "validated_preset_into_warning_gate"},
+    {"source": "forest_classifier_validate_class_weight_preset", "target": "forest_classifier_expanded_class_weight", "kind": "validated_preset_into_weight_resolution"},
+    {"source": "forest_classifier_fit_targets", "target": "forest_classifier_expanded_class_weight", "kind": "original_targets_into_weight_resolution"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.ensemble._forest",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 3 meta-estimator wrappers"
+  }
+}
