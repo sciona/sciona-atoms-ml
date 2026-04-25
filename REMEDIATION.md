@@ -418,6 +418,13 @@ Potential remediation path:
   bookkeeping from supplied loss or validation score values, while score
   callbacks, best-weight copies, and optimizer-trigger stopping remain
   deferred.
+- Completed helper slice:
+  `sklearn.neural_network.mlp_stochastic_epoch` now publishes deterministic
+  epoch-level bookkeeping after minibatch updates: epoch-loss resolution,
+  sample-counter advancement, stopping-message formatting, no-improvement
+  counter reset after supplied trigger outcomes, incremental-break and
+  max-iteration-warning predicates, and the final early-stopping restoration
+  predicate.
 - Decide whether SGD/Adam/L-BFGS optimizer state should be represented as
   separate atom families before publishing full MLP training surfaces.
 

@@ -1,0 +1,132 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_neural_network_mlp_stochastic_epoch_root",
+      "name": "Sklearn MLP Stochastic Epoch Helper Atoms",
+      "description": "Deterministic epoch-level bookkeeping around stochastic MLP training after minibatch updates.",
+      "status": "decomposed",
+      "children": [
+        "mlp_epoch_loss",
+        "mlp_time_step",
+        "mlp_stochastic_stop_message",
+        "mlp_stochastic_no_improvement_count_after_trigger",
+        "mlp_stochastic_incremental_break_required",
+        "mlp_stochastic_max_iter_warning_required",
+        "mlp_restore_best_parameters_required"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "mlp_epoch_loss",
+      "name": "mlp_epoch_loss",
+      "description": "Compute the stochastic-epoch loss from accumulated minibatch loss and training-sample count.",
+      "concept_type": "fit_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(accumulated_loss: float, n_training_samples: int) -> float",
+      "depth": 1,
+      "inputs": [
+        {"name": "accumulated_loss", "type_desc": "float", "required": true},
+        {"name": "n_training_samples", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "float"}]
+    },
+    {
+      "node_id": "mlp_time_step",
+      "name": "mlp_time_step",
+      "description": "Advance the stochastic sample counter after one epoch.",
+      "concept_type": "fit_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(current_time_step: int, n_training_samples: int) -> int",
+      "depth": 1,
+      "inputs": [
+        {"name": "current_time_step", "type_desc": "int", "required": true},
+        {"name": "n_training_samples", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "int"}]
+    },
+    {
+      "node_id": "mlp_stochastic_stop_message",
+      "name": "mlp_stochastic_stop_message",
+      "description": "Format sklearn's stochastic stopping message once the no-improvement threshold is exceeded.",
+      "concept_type": "fit_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(early_stopping: bool, tol: float, n_iter_no_change: int) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "early_stopping", "type_desc": "bool", "required": true},
+        {"name": "tol", "type_desc": "float", "required": true},
+        {"name": "n_iter_no_change", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "str"}]
+    },
+    {
+      "node_id": "mlp_stochastic_no_improvement_count_after_trigger",
+      "name": "mlp_stochastic_no_improvement_count_after_trigger",
+      "description": "Resolve whether sklearn resets the no-improvement counter after optimizer trigger_stopping returns.",
+      "concept_type": "fit_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(is_stopping: bool, no_improvement_count: int) -> int",
+      "depth": 1,
+      "inputs": [
+        {"name": "is_stopping", "type_desc": "bool", "required": true},
+        {"name": "no_improvement_count", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "int"}]
+    },
+    {
+      "node_id": "mlp_stochastic_incremental_break_required",
+      "name": "mlp_stochastic_incremental_break_required",
+      "description": "Return whether partial_fit exits the epoch loop after one stochastic epoch.",
+      "concept_type": "fit_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(incremental: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "incremental", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    },
+    {
+      "node_id": "mlp_stochastic_max_iter_warning_required",
+      "name": "mlp_stochastic_max_iter_warning_required",
+      "description": "Return whether sklearn emits the stochastic max-iteration convergence warning.",
+      "concept_type": "fit_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(n_iter: int, max_iter: int, incremental: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_iter", "type_desc": "int", "required": true},
+        {"name": "max_iter", "type_desc": "int", "required": true},
+        {"name": "incremental", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    },
+    {
+      "node_id": "mlp_restore_best_parameters_required",
+      "name": "mlp_restore_best_parameters_required",
+      "description": "Return whether cached best parameters are restored after stochastic training.",
+      "concept_type": "fit_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(early_stopping: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "early_stopping", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    }
+  ],
+  "edges": [
+    {"source": "mlp_epoch_loss", "target": "mlp_stochastic_stop_message", "kind": "epoch_state"},
+    {"source": "mlp_time_step", "target": "mlp_stochastic_stop_message", "kind": "epoch_state"},
+    {"source": "mlp_stochastic_stop_message", "target": "mlp_stochastic_no_improvement_count_after_trigger", "kind": "trigger_context"},
+    {"source": "mlp_stochastic_incremental_break_required", "target": "mlp_stochastic_max_iter_warning_required", "kind": "loop_control"},
+    {"source": "mlp_restore_best_parameters_required", "target": "mlp_stochastic_incremental_break_required", "kind": "training_mode"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.neural_network._multilayer_perceptron",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 3 estimator-callback orchestration helpers"
+  }
+}
