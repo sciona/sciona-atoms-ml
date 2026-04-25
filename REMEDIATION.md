@@ -407,6 +407,11 @@ Potential remediation path:
   first-call partial-fit label-state initialization, boolean target encoding,
   label decoding from output scores, and binary/multiclass probability
   formatting.
+- Completed helper slice:
+  `sklearn.neural_network.mlp_fit_bookkeeping` now publishes fit-shell helpers
+  for hidden-layer normalization, first-pass detection, the `partial_fit`
+  early-stopping guard, and stochastic batch-size warning and clipping
+  resolution before optimizer mutation or validation-score callbacks.
 - Decide whether SGD/Adam/L-BFGS optimizer state should be represented as
   separate atom families before publishing full MLP training surfaces.
 
