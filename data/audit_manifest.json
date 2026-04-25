@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "metadata": {
-    "generated_at": "2026-04-25T21:36:16.837059+00:00",
+    "generated_at": "2026-04-25T22:12:33.924643+00:00",
     "generator": "scripts/apply_audit_review_bundles.py",
     "phase": "phase_1_review_bundle_merge"
   },
@@ -96915,6 +96915,380 @@
       "required_actions": [],
       "blocking_findings": [],
       "review_record_path": "data/review_bundles/ml_sklearn_neural_network_mlp_initialization.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.neural_network.mlp_lbfgs_bookkeeping.mlp_lbfgs_coef_indptr",
+      "atom_key": "sciona.atoms.ml.sklearn.neural_network.mlp_lbfgs_bookkeeping.mlp_lbfgs_coef_indptr",
+      "atom_id": "sciona.atoms.ml.sklearn.neural_network.mlp_lbfgs_bookkeeping.mlp_lbfgs_coef_indptr",
+      "module_import_path": "sciona.atoms.ml.sklearn.neural_network.mlp_lbfgs_bookkeeping",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/neural_network/mlp_lbfgs_bookkeeping/atoms.py",
+      "module_family": "neural_network",
+      "domain_family": "ml.sklearn.neural_network",
+      "wrapper_symbol": "mlp_lbfgs_coef_indptr",
+      "argument_names": [
+        "layer_units"
+      ],
+      "argument_details": [
+        {
+          "name": "layer_units",
+          "annotation": "tuple[int, ...]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "tuple[CoefSlice, ...]",
+      "docstring_summary": "Build sklearn's coefficient slice table for MLP LBFGS packing.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_lbfgs_bookkeeping/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_lbfgs_bookkeeping/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_lbfgs_bookkeeping/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_lbfgs_bookkeeping/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_lbfgs_bookkeeping_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_lbfgs_bookkeeping_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_lbfgs_bookkeeping_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 8,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 94,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 1,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_neural_network_mlp_lbfgs_bookkeeping.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.neural_network.mlp_lbfgs_bookkeeping.mlp_lbfgs_intercept_indptr",
+      "atom_key": "sciona.atoms.ml.sklearn.neural_network.mlp_lbfgs_bookkeeping.mlp_lbfgs_intercept_indptr",
+      "atom_id": "sciona.atoms.ml.sklearn.neural_network.mlp_lbfgs_bookkeeping.mlp_lbfgs_intercept_indptr",
+      "module_import_path": "sciona.atoms.ml.sklearn.neural_network.mlp_lbfgs_bookkeeping",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/neural_network/mlp_lbfgs_bookkeeping/atoms.py",
+      "module_family": "neural_network",
+      "domain_family": "ml.sklearn.neural_network",
+      "wrapper_symbol": "mlp_lbfgs_intercept_indptr",
+      "argument_names": [
+        "layer_units",
+        "coef_indptr"
+      ],
+      "argument_details": [
+        {
+          "name": "layer_units",
+          "annotation": "tuple[int, ...]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "coef_indptr",
+          "annotation": "tuple[CoefSlice, ...]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "tuple[InterceptSlice, ...]",
+      "docstring_summary": "Build sklearn's intercept slice table for MLP LBFGS packing.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_lbfgs_bookkeeping/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_lbfgs_bookkeeping/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_lbfgs_bookkeeping/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_lbfgs_bookkeeping/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_lbfgs_bookkeeping_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_lbfgs_bookkeeping_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_lbfgs_bookkeeping_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 8,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 94,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 1,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_neural_network_mlp_lbfgs_bookkeeping.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.neural_network.mlp_lbfgs_bookkeeping.mlp_lbfgs_iprint",
+      "atom_key": "sciona.atoms.ml.sklearn.neural_network.mlp_lbfgs_bookkeeping.mlp_lbfgs_iprint",
+      "atom_id": "sciona.atoms.ml.sklearn.neural_network.mlp_lbfgs_bookkeeping.mlp_lbfgs_iprint",
+      "module_import_path": "sciona.atoms.ml.sklearn.neural_network.mlp_lbfgs_bookkeeping",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/neural_network/mlp_lbfgs_bookkeeping/atoms.py",
+      "module_family": "neural_network",
+      "domain_family": "ml.sklearn.neural_network",
+      "wrapper_symbol": "mlp_lbfgs_iprint",
+      "argument_names": [
+        "verbose"
+      ],
+      "argument_details": [
+        {
+          "name": "verbose",
+          "annotation": "bool | int",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "int",
+      "docstring_summary": "Resolve sklearn's LBFGS iprint option from the MLP verbose flag.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_lbfgs_bookkeeping/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_lbfgs_bookkeeping/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_lbfgs_bookkeeping/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_lbfgs_bookkeeping/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_lbfgs_bookkeeping_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_lbfgs_bookkeeping_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_lbfgs_bookkeeping_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 8,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 94,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 4,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_neural_network_mlp_lbfgs_bookkeeping.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.neural_network.mlp_lbfgs_bookkeeping.mlp_lbfgs_pack_parameters",
+      "atom_key": "sciona.atoms.ml.sklearn.neural_network.mlp_lbfgs_bookkeeping.mlp_lbfgs_pack_parameters",
+      "atom_id": "sciona.atoms.ml.sklearn.neural_network.mlp_lbfgs_bookkeeping.mlp_lbfgs_pack_parameters",
+      "module_import_path": "sciona.atoms.ml.sklearn.neural_network.mlp_lbfgs_bookkeeping",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/neural_network/mlp_lbfgs_bookkeeping/atoms.py",
+      "module_family": "neural_network",
+      "domain_family": "ml.sklearn.neural_network",
+      "wrapper_symbol": "mlp_lbfgs_pack_parameters",
+      "argument_names": [
+        "coefs",
+        "intercepts"
+      ],
+      "argument_details": [
+        {
+          "name": "coefs",
+          "annotation": "tuple[NDArray[np.float64], ...]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "intercepts",
+          "annotation": "tuple[NDArray[np.float64], ...]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.float64]",
+      "docstring_summary": "Pack MLP coefficients and intercepts into sklearn's flat LBFGS parameter vector.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_lbfgs_bookkeeping/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_lbfgs_bookkeeping/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_lbfgs_bookkeeping/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_lbfgs_bookkeeping/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_lbfgs_bookkeeping_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_lbfgs_bookkeeping_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_neural_network_mlp_lbfgs_bookkeeping_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 9,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 93,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 1,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_neural_network_mlp_lbfgs_bookkeeping.review_bundle.json",
       "has_references": true,
       "references_status": "pass"
     },

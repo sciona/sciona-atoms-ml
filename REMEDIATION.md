@@ -425,6 +425,11 @@ Potential remediation path:
   counter reset after supplied trigger outcomes, incremental-break and
   max-iteration-warning predicates, and the final early-stopping restoration
   predicate.
+- Completed helper slice:
+  `sklearn.neural_network.mlp_lbfgs_bookkeeping` now publishes deterministic
+  LBFGS setup helpers for coefficient and intercept slice layout, flat
+  parameter packing, and verbose-to-`iprint` option resolution before the
+  deferred SciPy optimizer call.
 - Decide whether SGD/Adam/L-BFGS optimizer state should be represented as
   separate atom families before publishing full MLP training surfaces.
 

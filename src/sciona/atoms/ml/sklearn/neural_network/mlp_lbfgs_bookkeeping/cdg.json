@@ -1,0 +1,144 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_neural_network_mlp_lbfgs_bookkeeping_root",
+      "name": "Sklearn MLP LBFGS Bookkeeping Helper Atoms",
+      "description": "Deterministic helpers for MLP LBFGS parameter-slice layout, parameter packing, and verbose-to-iprint option resolution before the SciPy optimizer call.",
+      "status": "decomposed",
+      "children": [
+        "mlp_lbfgs_coef_indptr",
+        "mlp_lbfgs_intercept_indptr",
+        "mlp_lbfgs_pack_parameters",
+        "mlp_lbfgs_iprint"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "mlp_lbfgs_coef_indptr",
+      "name": "mlp_lbfgs_coef_indptr",
+      "description": "Build the coefficient slice table used to pack MLP layer weights for LBFGS.",
+      "concept_type": "fit_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(layer_units: tuple[int, ...]) -> tuple[tuple[int, int, tuple[int, int]], ...]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "layer_units",
+          "type_desc": "tuple[int, ...]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "tuple[tuple[int, int, tuple[int, int]], ...]"
+        }
+      ]
+    },
+    {
+      "node_id": "mlp_lbfgs_intercept_indptr",
+      "name": "mlp_lbfgs_intercept_indptr",
+      "description": "Build the intercept slice table that follows the LBFGS-packed MLP weight slices.",
+      "concept_type": "fit_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(layer_units: tuple[int, ...], coef_indptr: tuple[tuple[int, int, tuple[int, int]], ...]) -> tuple[tuple[int, int], ...]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "layer_units",
+          "type_desc": "tuple[int, ...]",
+          "required": true
+        },
+        {
+          "name": "coef_indptr",
+          "type_desc": "tuple[tuple[int, int, tuple[int, int]], ...]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "tuple[tuple[int, int], ...]"
+        }
+      ]
+    },
+    {
+      "node_id": "mlp_lbfgs_pack_parameters",
+      "name": "mlp_lbfgs_pack_parameters",
+      "description": "Flatten coefficient and intercept parameter blocks into sklearn's LBFGS parameter vector order.",
+      "concept_type": "data_transformation",
+      "status": "atomic",
+      "type_signature": "(coefs: tuple[ndarray, ...], intercepts: tuple[ndarray, ...]) -> ndarray",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "coefs",
+          "type_desc": "tuple[ndarray, ...]",
+          "required": true
+        },
+        {
+          "name": "intercepts",
+          "type_desc": "tuple[ndarray, ...]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "ndarray"
+        }
+      ]
+    },
+    {
+      "node_id": "mlp_lbfgs_iprint",
+      "name": "mlp_lbfgs_iprint",
+      "description": "Resolve sklearn's LBFGS iprint flag from the MLP verbose setting.",
+      "concept_type": "fit_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(verbose: bool | int) -> int",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "verbose",
+          "type_desc": "bool | int",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "mlp_lbfgs_coef_indptr",
+      "target": "mlp_lbfgs_intercept_indptr",
+      "kind": "layout_context"
+    },
+    {
+      "source": "mlp_lbfgs_coef_indptr",
+      "target": "mlp_lbfgs_pack_parameters",
+      "kind": "packing_context"
+    },
+    {
+      "source": "mlp_lbfgs_intercept_indptr",
+      "target": "mlp_lbfgs_pack_parameters",
+      "kind": "packing_context"
+    },
+    {
+      "source": "mlp_lbfgs_iprint",
+      "target": "mlp_lbfgs_pack_parameters",
+      "kind": "optimizer_setup_context"
+    }
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.neural_network._multilayer_perceptron",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 3 estimator-callback orchestration helpers"
+  }
+}
