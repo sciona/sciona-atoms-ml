@@ -1,0 +1,73 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_ensemble_forest_classifier_outputs_root",
+      "name": "Sklearn Ensemble Forest Classifier-Outputs Atoms",
+      "description": "Deterministic helpers for forest classifier output postprocessing after probability aggregation: single-output log probabilities, multioutput log-probability blocks, and multioutput label decoding.",
+      "status": "decomposed",
+      "children": [
+        "forest_classifier_log_probability_matrix",
+        "forest_classifier_log_probability_blocks",
+        "forest_classifier_multioutput_labels"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "forest_classifier_log_probability_matrix",
+      "name": "forest_classifier_log_probability_matrix",
+      "description": "Convert an already-aggregated single-output forest probability matrix to log probabilities.",
+      "concept_type": "classifier_log_probability",
+      "status": "atomic",
+      "type_signature": "(probabilities: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "probabilities", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "forest_classifier_log_probability_blocks",
+      "name": "forest_classifier_log_probability_blocks",
+      "description": "Convert an already-aggregated multioutput forest probability sequence to per-output log-probability matrices.",
+      "concept_type": "classifier_log_probability",
+      "status": "atomic",
+      "type_signature": "(probability_blocks: tuple[NDArray[np.float64], ...]) -> tuple[NDArray[np.float64], ...]",
+      "depth": 1,
+      "inputs": [
+        {"name": "probability_blocks", "type_desc": "tuple[NDArray[np.float64], ...]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[NDArray[np.float64], ...]"}
+      ]
+    },
+    {
+      "node_id": "forest_classifier_multioutput_labels",
+      "name": "forest_classifier_multioutput_labels",
+      "description": "Decode one predicted label per sample and output from already-aggregated multioutput forest probability matrices and per-output class vectors.",
+      "concept_type": "classifier_label_decoding",
+      "status": "atomic",
+      "type_signature": "(probability_blocks: tuple[NDArray[np.float64], ...], classes_blocks: tuple[NDArray[np.object_], ...]) -> NDArray[np.object_]",
+      "depth": 1,
+      "inputs": [
+        {"name": "probability_blocks", "type_desc": "tuple[NDArray[np.float64], ...]", "required": true},
+        {"name": "classes_blocks", "type_desc": "tuple[NDArray[np.object_], ...]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.object_]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "forest_classifier_log_probability_matrix", "target": "forest_classifier_log_probability_blocks", "kind": "single_output_log_rule_reused_for_multioutput"},
+    {"source": "forest_classifier_log_probability_blocks", "target": "forest_classifier_multioutput_labels", "kind": "shared_multioutput_probability_shape"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.ensemble._forest",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 3 meta-estimator wrappers"
+  }
+}

@@ -977,6 +977,11 @@ Potential remediation path:
   contribute impurity feature importances, sklearn's zero-vector fallback
   when none contribute, mean aggregation across contributing tree importance
   vectors, and final normalization of the averaged importances.
+- Completed helper slice: `sklearn.ensemble.forest_classifier_outputs`
+  publishes deterministic helper atoms for single-output forest
+  log-probability conversion, multioutput forest per-output log-probability
+  conversion, and multioutput label decoding from already-aggregated
+  probability matrices and class vectors.
 - Completed helper slice: `sklearn.ensemble.adaboost` publishes
   estimator-independent SAMME decision aggregation, decision-to-probability
   conversion, and AdaBoost.R2 weighted-median regression aggregation over
