@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "metadata": {
-    "generated_at": "2026-04-25T01:27:35.758109+00:00",
+    "generated_at": "2026-04-25T01:34:31.960939+00:00",
     "generator": "scripts/apply_audit_review_bundles.py",
     "phase": "phase_1_review_bundle_merge"
   },
@@ -50735,6 +50735,439 @@
       "required_actions": [],
       "blocking_findings": [],
       "review_record_path": "data/review_bundles/ml_sklearn_ensemble_forest_index_reconstruction.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.ensemble.forest_oob_predictions.forest_classifier_oob_prediction_block",
+      "atom_key": "sciona.atoms.ml.sklearn.ensemble.forest_oob_predictions.forest_classifier_oob_prediction_block",
+      "atom_id": "sciona.atoms.ml.sklearn.ensemble.forest_oob_predictions.forest_classifier_oob_prediction_block",
+      "module_import_path": "sciona.atoms.ml.sklearn.ensemble.forest_oob_predictions",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/ensemble/forest_oob_predictions/atoms.py",
+      "module_family": "ensemble",
+      "domain_family": "ml.sklearn.ensemble",
+      "wrapper_symbol": "forest_classifier_oob_prediction_block",
+      "argument_names": [
+        "prediction"
+      ],
+      "argument_details": [
+        {
+          "name": "prediction",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "PredictionBlock",
+      "docstring_summary": "Format one tree's classifier OOB predictions the way sklearn stores them during accumulation.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        "src/sciona/atoms/ml/sklearn/ensemble/forest_oob_predictions/references.json",
+        "src/sciona/atoms/ml/sklearn/ensemble/forest_oob_predictions/cdg.json"
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 10,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 94,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 2,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_ensemble_forest_oob_predictions.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.ensemble.forest_oob_predictions.forest_oob_average_predictions",
+      "atom_key": "sciona.atoms.ml.sklearn.ensemble.forest_oob_predictions.forest_oob_average_predictions",
+      "atom_id": "sciona.atoms.ml.sklearn.ensemble.forest_oob_predictions.forest_oob_average_predictions",
+      "module_import_path": "sciona.atoms.ml.sklearn.ensemble.forest_oob_predictions",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/ensemble/forest_oob_predictions/atoms.py",
+      "module_family": "ensemble",
+      "domain_family": "ml.sklearn.ensemble",
+      "wrapper_symbol": "forest_oob_average_predictions",
+      "argument_names": [
+        "prediction_totals",
+        "prediction_counts"
+      ],
+      "argument_details": [
+        {
+          "name": "prediction_totals",
+          "annotation": "PredictionBlock",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "prediction_counts",
+          "annotation": "NDArray[np.int64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "PredictionBlock",
+      "docstring_summary": "Average forest OOB prediction totals with sklearn's zero-count safeguard.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        "src/sciona/atoms/ml/sklearn/ensemble/forest_oob_predictions/references.json",
+        "src/sciona/atoms/ml/sklearn/ensemble/forest_oob_predictions/cdg.json"
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 10,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 94,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 2,
+      "parity_case_count": 2,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_ensemble_forest_oob_predictions.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.ensemble.forest_oob_predictions.forest_oob_prediction_counts",
+      "atom_key": "sciona.atoms.ml.sklearn.ensemble.forest_oob_predictions.forest_oob_prediction_counts",
+      "atom_id": "sciona.atoms.ml.sklearn.ensemble.forest_oob_predictions.forest_oob_prediction_counts",
+      "module_import_path": "sciona.atoms.ml.sklearn.ensemble.forest_oob_predictions",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/ensemble/forest_oob_predictions/atoms.py",
+      "module_family": "ensemble",
+      "domain_family": "ml.sklearn.ensemble",
+      "wrapper_symbol": "forest_oob_prediction_counts",
+      "argument_names": [
+        "unsampled_index_blocks",
+        "n_samples",
+        "n_outputs"
+      ],
+      "argument_details": [
+        {
+          "name": "unsampled_index_blocks",
+          "annotation": "IndexTuple",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "n_samples",
+          "annotation": "int",
+          "required": true,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "n_outputs",
+          "annotation": "int",
+          "required": true,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.int64]",
+      "docstring_summary": "Count how many forest OOB predictions contribute to each sample and output.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        "src/sciona/atoms/ml/sklearn/ensemble/forest_oob_predictions/references.json",
+        "src/sciona/atoms/ml/sklearn/ensemble/forest_oob_predictions/cdg.json"
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 10,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 94,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 2,
+      "parity_case_count": 2,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_ensemble_forest_oob_predictions.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.ensemble.forest_oob_predictions.forest_oob_prediction_totals",
+      "atom_key": "sciona.atoms.ml.sklearn.ensemble.forest_oob_predictions.forest_oob_prediction_totals",
+      "atom_id": "sciona.atoms.ml.sklearn.ensemble.forest_oob_predictions.forest_oob_prediction_totals",
+      "module_import_path": "sciona.atoms.ml.sklearn.ensemble.forest_oob_predictions",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/ensemble/forest_oob_predictions/atoms.py",
+      "module_family": "ensemble",
+      "domain_family": "ml.sklearn.ensemble",
+      "wrapper_symbol": "forest_oob_prediction_totals",
+      "argument_names": [
+        "prediction_blocks",
+        "unsampled_index_blocks",
+        "n_samples",
+        "prediction_width",
+        "n_outputs"
+      ],
+      "argument_details": [
+        {
+          "name": "prediction_blocks",
+          "annotation": "PredictionBlockTuple",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "unsampled_index_blocks",
+          "annotation": "IndexTuple",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "n_samples",
+          "annotation": "int",
+          "required": true,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "prediction_width",
+          "annotation": "int",
+          "required": true,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "n_outputs",
+          "annotation": "int",
+          "required": true,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "PredictionBlock",
+      "docstring_summary": "Accumulate forest OOB prediction blocks into sklearn's sample-by-width-by-output tensor.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        "src/sciona/atoms/ml/sklearn/ensemble/forest_oob_predictions/references.json",
+        "src/sciona/atoms/ml/sklearn/ensemble/forest_oob_predictions/cdg.json"
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 10,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 94,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 2,
+      "parity_case_count": 2,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_ensemble_forest_oob_predictions.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.ensemble.forest_oob_predictions.forest_oob_uncovered_mask",
+      "atom_key": "sciona.atoms.ml.sklearn.ensemble.forest_oob_predictions.forest_oob_uncovered_mask",
+      "atom_id": "sciona.atoms.ml.sklearn.ensemble.forest_oob_predictions.forest_oob_uncovered_mask",
+      "module_import_path": "sciona.atoms.ml.sklearn.ensemble.forest_oob_predictions",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/ensemble/forest_oob_predictions/atoms.py",
+      "module_family": "ensemble",
+      "domain_family": "ml.sklearn.ensemble",
+      "wrapper_symbol": "forest_oob_uncovered_mask",
+      "argument_names": [
+        "prediction_counts"
+      ],
+      "argument_details": [
+        {
+          "name": "prediction_counts",
+          "annotation": "NDArray[np.int64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.bool_]",
+      "docstring_summary": "Mark samples that receive no forest OOB predictions.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        "src/sciona/atoms/ml/sklearn/ensemble/forest_oob_predictions/references.json",
+        "src/sciona/atoms/ml/sklearn/ensemble/forest_oob_predictions/cdg.json"
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 10,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 94,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 2,
+      "parity_case_count": 2,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_ensemble_forest_oob_predictions.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.ensemble.forest_oob_predictions.forest_regressor_oob_prediction_block",
+      "atom_key": "sciona.atoms.ml.sklearn.ensemble.forest_oob_predictions.forest_regressor_oob_prediction_block",
+      "atom_id": "sciona.atoms.ml.sklearn.ensemble.forest_oob_predictions.forest_regressor_oob_prediction_block",
+      "module_import_path": "sciona.atoms.ml.sklearn.ensemble.forest_oob_predictions",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/ensemble/forest_oob_predictions/atoms.py",
+      "module_family": "ensemble",
+      "domain_family": "ml.sklearn.ensemble",
+      "wrapper_symbol": "forest_regressor_oob_prediction_block",
+      "argument_names": [
+        "prediction"
+      ],
+      "argument_details": [
+        {
+          "name": "prediction",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "PredictionBlock",
+      "docstring_summary": "Format one tree's regressor OOB predictions the way sklearn stores them during accumulation.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        "src/sciona/atoms/ml/sklearn/ensemble/forest_oob_predictions/references.json",
+        "src/sciona/atoms/ml/sklearn/ensemble/forest_oob_predictions/cdg.json"
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 10,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 94,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 2,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_ensemble_forest_oob_predictions.review_bundle.json",
       "has_references": true,
       "references_status": "pass"
     },

@@ -955,6 +955,12 @@ Potential remediation path:
   publishes deterministic helper atoms for reconstructing one forest tree's
   in-bag sample indices and the full `estimators_samples_` property from
   stored per-tree seeds and validated bootstrap bookkeeping.
+- Completed helper slice: `sklearn.ensemble.forest_oob_predictions`
+  publishes deterministic helper atoms for formatting per-tree classifier and
+  regressor OOB prediction blocks, accumulating OOB prediction totals and
+  counts from supplied unsampled index blocks, detecting uncovered samples,
+  and averaging the OOB prediction tensor with sklearn's zero-count
+  safeguard.
 - Completed helper slice: `sklearn.ensemble.adaboost` publishes
   estimator-independent SAMME decision aggregation, decision-to-probability
   conversion, and AdaBoost.R2 weighted-median regression aggregation over

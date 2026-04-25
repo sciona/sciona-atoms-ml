@@ -1,0 +1,130 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_ensemble_forest_oob_predictions_root",
+      "name": "Sklearn Ensemble Forest OOB-Prediction Atoms",
+      "description": "Deterministic helpers for formatting, accumulating, counting, masking, and averaging sklearn forest out-of-bag prediction tensors from supplied per-tree outputs and unsampled index blocks.",
+      "status": "decomposed",
+      "children": [
+        "forest_classifier_oob_prediction_block",
+        "forest_regressor_oob_prediction_block",
+        "forest_oob_prediction_totals",
+        "forest_oob_prediction_counts",
+        "forest_oob_uncovered_mask",
+        "forest_oob_average_predictions"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "forest_classifier_oob_prediction_block",
+      "name": "forest_classifier_oob_prediction_block",
+      "description": "Format one forest classifier tree's OOB probability output into sklearn's sample-by-class-by-output tensor layout.",
+      "concept_type": "forest_oob_prediction",
+      "status": "atomic",
+      "type_signature": "(prediction: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "prediction", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "forest_regressor_oob_prediction_block",
+      "name": "forest_regressor_oob_prediction_block",
+      "description": "Format one forest regressor tree's OOB prediction output into sklearn's sample-by-width-by-output tensor layout.",
+      "concept_type": "forest_oob_prediction",
+      "status": "atomic",
+      "type_signature": "(prediction: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "prediction", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "forest_oob_prediction_totals",
+      "name": "forest_oob_prediction_totals",
+      "description": "Accumulate forest OOB prediction tensors into sklearn's sample-by-width-by-output totals tensor from supplied unsampled index blocks.",
+      "concept_type": "forest_oob_prediction",
+      "status": "atomic",
+      "type_signature": "(prediction_blocks: tuple[NDArray[np.float64], ...], unsampled_index_blocks: tuple[NDArray[np.int64], ...], n_samples: int, prediction_width: int, n_outputs: int) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "prediction_blocks", "type_desc": "tuple[NDArray[np.float64], ...]", "required": true},
+        {"name": "unsampled_index_blocks", "type_desc": "tuple[NDArray[np.int64], ...]", "required": true},
+        {"name": "n_samples", "type_desc": "int", "required": true},
+        {"name": "prediction_width", "type_desc": "int", "required": true},
+        {"name": "n_outputs", "type_desc": "int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "forest_oob_prediction_counts",
+      "name": "forest_oob_prediction_counts",
+      "description": "Count how many forest OOB predictions contribute to each sample and output from supplied unsampled index blocks.",
+      "concept_type": "forest_oob_prediction",
+      "status": "atomic",
+      "type_signature": "(unsampled_index_blocks: tuple[NDArray[np.int64], ...], n_samples: int, n_outputs: int) -> NDArray[np.int64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "unsampled_index_blocks", "type_desc": "tuple[NDArray[np.int64], ...]", "required": true},
+        {"name": "n_samples", "type_desc": "int", "required": true},
+        {"name": "n_outputs", "type_desc": "int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.int64]"}
+      ]
+    },
+    {
+      "node_id": "forest_oob_uncovered_mask",
+      "name": "forest_oob_uncovered_mask",
+      "description": "Return which samples receive no forest OOB predictions from the per-sample OOB count matrix.",
+      "concept_type": "forest_oob_prediction",
+      "status": "atomic",
+      "type_signature": "(prediction_counts: NDArray[np.int64]) -> NDArray[np.bool_]",
+      "depth": 1,
+      "inputs": [
+        {"name": "prediction_counts", "type_desc": "NDArray[np.int64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.bool_]"}
+      ]
+    },
+    {
+      "node_id": "forest_oob_average_predictions",
+      "name": "forest_oob_average_predictions",
+      "description": "Average forest OOB prediction totals with sklearn's zero-count safeguard from the aligned per-sample OOB count matrix.",
+      "concept_type": "forest_oob_prediction",
+      "status": "atomic",
+      "type_signature": "(prediction_totals: NDArray[np.float64], prediction_counts: NDArray[np.int64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "prediction_totals", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "prediction_counts", "type_desc": "NDArray[np.int64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "forest_classifier_oob_prediction_block", "target": "forest_oob_prediction_totals", "kind": "classifier_block_to_totals"},
+    {"source": "forest_regressor_oob_prediction_block", "target": "forest_oob_prediction_totals", "kind": "regressor_block_to_totals"},
+    {"source": "forest_oob_prediction_counts", "target": "forest_oob_uncovered_mask", "kind": "zero_coverage_mask_from_counts"},
+    {"source": "forest_oob_prediction_totals", "target": "forest_oob_average_predictions", "kind": "totals_into_average"},
+    {"source": "forest_oob_prediction_counts", "target": "forest_oob_average_predictions", "kind": "counts_into_average"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.ensemble._forest",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 3 meta-estimator wrappers"
+  }
+}
