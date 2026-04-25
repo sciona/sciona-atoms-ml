@@ -1,0 +1,102 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_inspection_partial_dependence_preflight_root",
+      "name": "Sklearn Partial Dependence Preflight Helper Atoms",
+      "description": "Deterministic partial-dependence preflight guards and method resolution before estimator prediction callbacks.",
+      "status": "decomposed",
+      "children": [
+        "partial_dependence_require_response_method_auto_for_regressor",
+        "partial_dependence_resolve_kind_method",
+        "partial_dependence_require_no_sample_weight_for_recursion",
+        "partial_dependence_resolve_auto_method",
+        "partial_dependence_require_recursion_support"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "partial_dependence_require_response_method_auto_for_regressor",
+      "name": "partial_dependence_require_response_method_auto_for_regressor",
+      "description": "Validate that regressors only use response_method='auto' in partial dependence.",
+      "concept_type": "parameter_validation",
+      "status": "atomic",
+      "type_signature": "(task_kind: str, response_method: str) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "task_kind", "type_desc": "str", "required": true},
+        {"name": "response_method", "type_desc": "str", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "str"}]
+    },
+    {
+      "node_id": "partial_dependence_resolve_kind_method",
+      "name": "partial_dependence_resolve_kind_method",
+      "description": "Apply sklearn's kind-versus-method rule before any auto-method resolution.",
+      "concept_type": "method_selection",
+      "status": "atomic",
+      "type_signature": "(kind: str, method: str) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "kind", "type_desc": "str", "required": true},
+        {"name": "method", "type_desc": "str", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "str"}]
+    },
+    {
+      "node_id": "partial_dependence_require_no_sample_weight_for_recursion",
+      "name": "partial_dependence_require_no_sample_weight_for_recursion",
+      "description": "Validate that recursion mode is not combined with sample weights.",
+      "concept_type": "parameter_validation",
+      "status": "atomic",
+      "type_signature": "(method: str, sample_weight_provided: bool) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "method", "type_desc": "str", "required": true},
+        {"name": "sample_weight_provided", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "str"}]
+    },
+    {
+      "node_id": "partial_dependence_resolve_auto_method",
+      "name": "partial_dependence_resolve_auto_method",
+      "description": "Resolve method='auto' from supplied recursion-support and sample-weight flags.",
+      "concept_type": "method_selection",
+      "status": "atomic",
+      "type_signature": "(method: str, sample_weight_provided: bool, supports_recursion: bool) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "method", "type_desc": "str", "required": true},
+        {"name": "sample_weight_provided", "type_desc": "bool", "required": true},
+        {"name": "supports_recursion", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "str"}]
+    },
+    {
+      "node_id": "partial_dependence_require_recursion_support",
+      "name": "partial_dependence_require_recursion_support",
+      "description": "Validate that explicit recursion mode is only used for recursion-supported estimator families.",
+      "concept_type": "capability_check",
+      "status": "atomic",
+      "type_signature": "(method: str, supports_recursion: bool) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "method", "type_desc": "str", "required": true},
+        {"name": "supports_recursion", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "str"}]
+    }
+  ],
+  "edges": [
+    {"source": "partial_dependence_require_response_method_auto_for_regressor", "target": "partial_dependence_resolve_kind_method", "kind": "preflight_sequence"},
+    {"source": "partial_dependence_resolve_kind_method", "target": "partial_dependence_require_no_sample_weight_for_recursion", "kind": "method_input"},
+    {"source": "partial_dependence_require_no_sample_weight_for_recursion", "target": "partial_dependence_resolve_auto_method", "kind": "method_input"},
+    {"source": "partial_dependence_resolve_auto_method", "target": "partial_dependence_require_recursion_support", "kind": "method_input"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.inspection._partial_dependence",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 3 estimator-callback orchestration helpers"
+  }
+}

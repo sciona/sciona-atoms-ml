@@ -513,6 +513,11 @@ Potential remediation path:
   grid-value assignment plus brute-mode response averaging, response stacking,
   and final regression or binary-classification reshape helpers around supplied
   prediction arrays, while estimator prediction callbacks remain deferred.
+- Completed helper slice:
+  `sklearn.inspection.partial_dependence_preflight` now publishes the explicit
+  regressor response-method guard, kind-versus-method resolution, recursion
+  sample-weight restriction, auto-method resolution from supplied recursion
+  support, and the final recursion-support guard before estimator callbacks.
 - Ingest small helper atoms only where the boundary is explicit, such as
   permutation score aggregation from baseline and permuted score arrays.
 - Decide how estimator callback boundaries should be represented before
