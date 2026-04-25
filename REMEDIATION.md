@@ -1015,6 +1015,11 @@ Potential remediation path:
   normalization into meta-feature matrices, per-block output-width
   bookkeeping, and transform feature-name materialization from supplied
   estimator names and optional passthrough feature names.
+- Completed helper slice: `sklearn.ensemble.stacking_classifier_outputs`
+  publishes classifier-side postprocessing helpers for single-output encoded
+  label decoding, multilabel encoded-column decoding, and the multilabel
+  probability-block conversion used after deferred final-estimator prediction
+  callbacks.
 - Decide whether sklearn tree builders and histogram-gradient-boosting native
   internals should be represented through FFI/native atoms before publishing
   random forest, extra trees, isolation forest, and gradient boosting states.
