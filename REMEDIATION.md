@@ -961,6 +961,11 @@ Potential remediation path:
   counts from supplied unsampled index blocks, detecting uncovered samples,
   and averaging the OOB prediction tensor with sklearn's zero-count
   safeguard.
+- Completed helper slice: `sklearn.ensemble.forest_oob_postprocessing`
+  publishes deterministic helper atoms for converting the averaged forest OOB
+  tensor into sklearn's public classifier decision-function or regressor
+  prediction shapes, plus final classifier accuracy and regressor `r2`
+  scoring from those already-postprocessed arrays.
 - Completed helper slice: `sklearn.ensemble.adaboost` publishes
   estimator-independent SAMME decision aggregation, decision-to-probability
   conversion, and AdaBoost.R2 weighted-median regression aggregation over

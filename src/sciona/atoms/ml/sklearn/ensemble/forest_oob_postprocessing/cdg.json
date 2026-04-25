@@ -1,0 +1,90 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_ensemble_forest_oob_postprocessing_root",
+      "name": "Sklearn Ensemble Forest OOB-Postprocessing Atoms",
+      "description": "Deterministic helpers for sklearn forest out-of-bag public-shape conversion and final scalar scoring from already-averaged OOB tensors.",
+      "status": "decomposed",
+      "children": [
+        "forest_classifier_oob_decision_function",
+        "forest_classifier_oob_accuracy",
+        "forest_regressor_oob_prediction",
+        "forest_regressor_oob_r2"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "forest_classifier_oob_decision_function",
+      "name": "forest_classifier_oob_decision_function",
+      "description": "Convert the averaged forest classifier OOB tensor into sklearn's public decision-function shape by dropping the singleton output axis when present.",
+      "concept_type": "classifier_oob_postprocessing",
+      "status": "atomic",
+      "type_signature": "(averaged_predictions: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "averaged_predictions", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "forest_classifier_oob_accuracy",
+      "name": "forest_classifier_oob_accuracy",
+      "description": "Compute ForestClassifier's OOB accuracy from encoded targets and the already-postprocessed public decision function.",
+      "concept_type": "classifier_oob_accuracy",
+      "status": "atomic",
+      "type_signature": "(y_true: NDArray[np.int64], decision_function: NDArray[np.float64]) -> float",
+      "depth": 1,
+      "inputs": [
+        {"name": "y_true", "type_desc": "NDArray[np.int64]", "required": true},
+        {"name": "decision_function", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "float"}
+      ]
+    },
+    {
+      "node_id": "forest_regressor_oob_prediction",
+      "name": "forest_regressor_oob_prediction",
+      "description": "Convert the averaged forest regressor OOB tensor into sklearn's public prediction shape by dropping the width axis and any singleton output axis.",
+      "concept_type": "regressor_oob_postprocessing",
+      "status": "atomic",
+      "type_signature": "(averaged_predictions: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "averaged_predictions", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "forest_regressor_oob_r2",
+      "name": "forest_regressor_oob_r2",
+      "description": "Compute ForestRegressor's OOB r2 from aligned targets and the already-postprocessed public OOB prediction array.",
+      "concept_type": "regressor_oob_r2",
+      "status": "atomic",
+      "type_signature": "(y_true: NDArray[np.float64], prediction: NDArray[np.float64]) -> float",
+      "depth": 1,
+      "inputs": [
+        {"name": "y_true", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "prediction", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "float"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "forest_classifier_oob_decision_function", "target": "forest_classifier_oob_accuracy", "kind": "decision_function_into_accuracy"},
+    {"source": "forest_regressor_oob_prediction", "target": "forest_regressor_oob_r2", "kind": "prediction_into_r2"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.ensemble._forest",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 3 meta-estimator wrappers"
+  }
+}
