@@ -1,0 +1,56 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_ensemble_forest_predict_preflight_root",
+      "name": "Sklearn Ensemble Forest Predict-Preflight Atoms",
+      "description": "Deterministic helpers for the pure-Python preflight inside BaseForest._validate_X_predict: missing-value validation mode selection and the CSR sparse-index dtype guard.",
+      "status": "decomposed",
+      "children": [
+        "forest_predict_ensure_all_finite_mode",
+        "forest_predict_require_sparse_int32_indices"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "forest_predict_ensure_all_finite_mode",
+      "name": "forest_predict_ensure_all_finite_mode",
+      "description": "Choose sklearn's ensure_all_finite validation mode for forest prediction based on whether the fitted tree supports missing values.",
+      "concept_type": "prediction_validation_policy",
+      "status": "atomic",
+      "type_signature": "(supports_missing_values: bool) -> str | bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "supports_missing_values", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "str | bool"}
+      ]
+    },
+    {
+      "node_id": "forest_predict_require_sparse_int32_indices",
+      "name": "forest_predict_require_sparse_int32_indices",
+      "description": "Enforce sklearn's rejection of CSR sparse matrices whose indices or indptr arrays are not stored with np.intc dtype before forest prediction.",
+      "concept_type": "prediction_sparse_guard",
+      "status": "atomic",
+      "type_signature": "(indices: NDArray[np.integer], indptr: NDArray[np.integer]) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "indices", "type_desc": "NDArray[np.integer]", "required": true},
+        {"name": "indptr", "type_desc": "NDArray[np.integer]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "forest_predict_ensure_all_finite_mode", "target": "forest_predict_require_sparse_int32_indices", "kind": "shared_predict_preflight"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.ensemble._forest",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 3 meta-estimator wrappers"
+  }
+}

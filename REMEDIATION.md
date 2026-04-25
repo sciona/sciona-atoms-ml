@@ -982,6 +982,11 @@ Potential remediation path:
   log-probability conversion, multioutput forest per-output log-probability
   conversion, and multioutput label decoding from already-aggregated
   probability matrices and class vectors.
+- Completed helper slice: `sklearn.ensemble.forest_predict_preflight`
+  publishes deterministic helper atoms for the pure-Python preflight inside
+  `BaseForest._validate_X_predict`: missing-value validation mode selection
+  and the CSR sparse-index dtype guard before deferred `validate_data`
+  execution and fitted-estimator checks.
 - Completed helper slice: `sklearn.ensemble.adaboost` publishes
   estimator-independent SAMME decision aggregation, decision-to-probability
   conversion, and AdaBoost.R2 weighted-median regression aggregation over
