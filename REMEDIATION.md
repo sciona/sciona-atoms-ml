@@ -972,6 +972,11 @@ Potential remediation path:
   warm-start warning gating, and expanded per-sample class-weight resolution
   from original targets before deferred warning side effects and tree
   fitting.
+- Completed helper slice: `sklearn.ensemble.forest_feature_importances`
+  publishes deterministic helper atoms for deciding which forest trees
+  contribute impurity feature importances, sklearn's zero-vector fallback
+  when none contribute, mean aggregation across contributing tree importance
+  vectors, and final normalization of the averaged importances.
 - Completed helper slice: `sklearn.ensemble.adaboost` publishes
   estimator-independent SAMME decision aggregation, decision-to-probability
   conversion, and AdaBoost.R2 weighted-median regression aggregation over

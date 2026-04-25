@@ -1,0 +1,89 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_ensemble_forest_feature_importances_root",
+      "name": "Sklearn Ensemble Forest Feature-Importance Atoms",
+      "description": "Deterministic helpers for deciding which trees contribute impurity feature importances, averaging those vectors, normalizing the result, and handling sklearn's zero-vector fallback.",
+      "status": "decomposed",
+      "children": [
+        "forest_importance_contributor_mask",
+        "forest_zero_feature_importances",
+        "forest_average_feature_importances",
+        "forest_normalized_feature_importances"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "forest_importance_contributor_mask",
+      "name": "forest_importance_contributor_mask",
+      "description": "Return the Boolean mask of forest trees whose node counts exceed one and therefore contribute feature importances.",
+      "concept_type": "feature_importance_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(node_counts: NDArray[np.int64]) -> NDArray[np.bool_]",
+      "depth": 1,
+      "inputs": [
+        {"name": "node_counts", "type_desc": "NDArray[np.int64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.bool_]"}
+      ]
+    },
+    {
+      "node_id": "forest_zero_feature_importances",
+      "name": "forest_zero_feature_importances",
+      "description": "Return sklearn's all-zero feature-importance vector when every forest tree is a single-node root.",
+      "concept_type": "feature_importance_fallback",
+      "status": "atomic",
+      "type_signature": "(n_features: int) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_features", "type_desc": "int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "forest_average_feature_importances",
+      "name": "forest_average_feature_importances",
+      "description": "Average the feature-importance vectors from the forest trees that contribute.",
+      "concept_type": "feature_importance_aggregation",
+      "status": "atomic",
+      "type_signature": "(feature_importance_blocks: tuple[NDArray[np.float64], ...]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "feature_importance_blocks", "type_desc": "tuple[NDArray[np.float64], ...]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "forest_normalized_feature_importances",
+      "name": "forest_normalized_feature_importances",
+      "description": "Normalize the averaged forest feature-importance vector so it sums to one.",
+      "concept_type": "feature_importance_normalization",
+      "status": "atomic",
+      "type_signature": "(average_feature_importances: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "average_feature_importances", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "forest_importance_contributor_mask", "target": "forest_average_feature_importances", "kind": "contributing_trees_selected_before_averaging"},
+    {"source": "forest_average_feature_importances", "target": "forest_normalized_feature_importances", "kind": "mean_importances_into_normalization"},
+    {"source": "forest_importance_contributor_mask", "target": "forest_zero_feature_importances", "kind": "no_contributors_into_zero_fallback"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.ensemble._forest",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 3 meta-estimator wrappers"
+  }
+}
