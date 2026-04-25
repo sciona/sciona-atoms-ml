@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "metadata": {
-    "generated_at": "2026-04-25T22:12:33.924643+00:00",
+    "generated_at": "2026-04-25T23:53:24.016959+00:00",
     "generator": "scripts/apply_audit_review_bundles.py",
     "phase": "phase_1_review_bundle_merge"
   },
@@ -60589,6 +60589,415 @@
       "required_actions": [],
       "blocking_findings": [],
       "review_record_path": "data/review_bundles/ml_sklearn_gaussian_process_classification_posterior_mode.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.gaussian_process.kernel_hyperparameters.gp_kernel_bound_warning_records",
+      "atom_key": "sciona.atoms.ml.sklearn.gaussian_process.kernel_hyperparameters.gp_kernel_bound_warning_records",
+      "atom_id": "sciona.atoms.ml.sklearn.gaussian_process.kernel_hyperparameters.gp_kernel_bound_warning_records",
+      "module_import_path": "sciona.atoms.ml.sklearn.gaussian_process.kernel_hyperparameters",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/gaussian_process/kernel_hyperparameters/atoms.py",
+      "module_family": "gaussian_process",
+      "domain_family": "ml.sklearn.gaussian_process",
+      "wrapper_symbol": "gp_kernel_bound_warning_records",
+      "argument_names": [
+        "theta",
+        "bounds_blocks",
+        "fixed",
+        "names"
+      ],
+      "argument_details": [
+        {
+          "name": "theta",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "bounds_blocks",
+          "annotation": "tuple[BoundsBlock, ...]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "fixed",
+          "annotation": "tuple[bool, ...]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "names",
+          "annotation": "tuple[str, ...]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "tuple[WarningRecord, ...]",
+      "docstring_summary": "Return the warning contexts sklearn emits when fitted kernel theta is close to its bounds.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/kernel_hyperparameters/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/kernel_hyperparameters/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/kernel_hyperparameters/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/kernel_hyperparameters/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_gaussian_process_kernel_hyperparameters_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_gaussian_process_kernel_hyperparameters_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_gaussian_process_kernel_hyperparameters_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 10,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 92,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 1,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_gaussian_process_kernel_hyperparameters.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.gaussian_process.kernel_hyperparameters.gp_kernel_bounds",
+      "atom_key": "sciona.atoms.ml.sklearn.gaussian_process.kernel_hyperparameters.gp_kernel_bounds",
+      "atom_id": "sciona.atoms.ml.sklearn.gaussian_process.kernel_hyperparameters.gp_kernel_bounds",
+      "module_import_path": "sciona.atoms.ml.sklearn.gaussian_process.kernel_hyperparameters",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/gaussian_process/kernel_hyperparameters/atoms.py",
+      "module_family": "gaussian_process",
+      "domain_family": "ml.sklearn.gaussian_process",
+      "wrapper_symbol": "gp_kernel_bounds",
+      "argument_names": [
+        "bounds_blocks",
+        "fixed"
+      ],
+      "argument_details": [
+        {
+          "name": "bounds_blocks",
+          "annotation": "tuple[BoundsBlock, ...]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "fixed",
+          "annotation": "tuple[bool, ...]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.float64]",
+      "docstring_summary": "Flatten non-fixed kernel hyperparameter bounds into sklearn's log-bounds matrix.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/kernel_hyperparameters/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/kernel_hyperparameters/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/kernel_hyperparameters/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/kernel_hyperparameters/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_gaussian_process_kernel_hyperparameters_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_gaussian_process_kernel_hyperparameters_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_gaussian_process_kernel_hyperparameters_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 9,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 93,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 1,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_gaussian_process_kernel_hyperparameters.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.gaussian_process.kernel_hyperparameters.gp_kernel_theta",
+      "atom_key": "sciona.atoms.ml.sklearn.gaussian_process.kernel_hyperparameters.gp_kernel_theta",
+      "atom_id": "sciona.atoms.ml.sklearn.gaussian_process.kernel_hyperparameters.gp_kernel_theta",
+      "module_import_path": "sciona.atoms.ml.sklearn.gaussian_process.kernel_hyperparameters",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/gaussian_process/kernel_hyperparameters/atoms.py",
+      "module_family": "gaussian_process",
+      "domain_family": "ml.sklearn.gaussian_process",
+      "wrapper_symbol": "gp_kernel_theta",
+      "argument_names": [
+        "value_blocks",
+        "fixed"
+      ],
+      "argument_details": [
+        {
+          "name": "value_blocks",
+          "annotation": "tuple[ValueBlock, ...]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "fixed",
+          "annotation": "tuple[bool, ...]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.float64]",
+      "docstring_summary": "Flatten non-fixed kernel hyperparameters into sklearn's log-theta vector.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/kernel_hyperparameters/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/kernel_hyperparameters/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/kernel_hyperparameters/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/kernel_hyperparameters/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_gaussian_process_kernel_hyperparameters_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_gaussian_process_kernel_hyperparameters_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_gaussian_process_kernel_hyperparameters_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 9,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 93,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 2,
+      "parity_case_count": 2,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_gaussian_process_kernel_hyperparameters.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.gaussian_process.kernel_hyperparameters.gp_kernel_values_from_theta",
+      "atom_key": "sciona.atoms.ml.sklearn.gaussian_process.kernel_hyperparameters.gp_kernel_values_from_theta",
+      "atom_id": "sciona.atoms.ml.sklearn.gaussian_process.kernel_hyperparameters.gp_kernel_values_from_theta",
+      "module_import_path": "sciona.atoms.ml.sklearn.gaussian_process.kernel_hyperparameters",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/gaussian_process/kernel_hyperparameters/atoms.py",
+      "module_family": "gaussian_process",
+      "domain_family": "ml.sklearn.gaussian_process",
+      "wrapper_symbol": "gp_kernel_values_from_theta",
+      "argument_names": [
+        "theta",
+        "value_blocks",
+        "fixed"
+      ],
+      "argument_details": [
+        {
+          "name": "theta",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "value_blocks",
+          "annotation": "tuple[ValueBlock, ...]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "fixed",
+          "annotation": "tuple[bool, ...]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "tuple[ValueBlock, ...]",
+      "docstring_summary": "Reconstruct per-hyperparameter value blocks from sklearn's log-theta vector.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/kernel_hyperparameters/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/kernel_hyperparameters/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/kernel_hyperparameters/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/gaussian_process/kernel_hyperparameters/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_gaussian_process_kernel_hyperparameters_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_gaussian_process_kernel_hyperparameters_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_gaussian_process_kernel_hyperparameters_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 10,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 92,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 2,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_gaussian_process_kernel_hyperparameters.review_bundle.json",
       "has_references": true,
       "references_status": "pass"
     },

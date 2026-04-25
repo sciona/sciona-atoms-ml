@@ -466,6 +466,12 @@ Potential remediation path:
   dense kernel and kernel-composition atoms for constant, white, dot-product,
   RBF, rational-quadratic, Matern, and exp-sine-squared kernels, plus sum,
   product, exponentiation, and compound-kernel stack helpers.
+- Completed helper slice:
+  `sklearn.gaussian_process.kernel_hyperparameters` now publishes
+  hyperparameter-bookkeeping helpers for flattening supplied non-fixed kernel
+  value blocks into `theta`, reconstructing value blocks from `theta`,
+  flattening non-fixed bounds, and generating bound-warning records when a
+  fitted `theta` is close to lower or upper bounds.
 - Ingest selected pairwise metrics and kernels directly from
   `sklearn.metrics.pairwise` as first-class atoms, then decide whether a
   limited adapter atom is useful.

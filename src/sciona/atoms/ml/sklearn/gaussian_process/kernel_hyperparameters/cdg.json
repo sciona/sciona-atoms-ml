@@ -1,0 +1,96 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_gaussian_process_kernel_hyperparameters_root",
+      "name": "Sklearn Gaussian Process Kernel Hyperparameter Helpers",
+      "description": "Deterministic helpers for flattening kernel hyperparameter blocks into theta and bounds arrays, reconstructing value blocks from theta, and generating bound-warning records.",
+      "status": "decomposed",
+      "children": [
+        "gp_kernel_theta",
+        "gp_kernel_values_from_theta",
+        "gp_kernel_bounds",
+        "gp_kernel_bound_warning_records"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "gp_kernel_theta",
+      "name": "gp_kernel_theta",
+      "description": "Flatten non-fixed kernel hyperparameter blocks into sklearn's log-theta vector.",
+      "concept_type": "parameter_transformation",
+      "status": "atomic",
+      "type_signature": "(value_blocks: tuple[ndarray, ...], fixed: tuple[bool, ...]) -> ndarray",
+      "depth": 1,
+      "inputs": [
+        {"name": "value_blocks", "type_desc": "tuple[ndarray, ...]", "required": true},
+        {"name": "fixed", "type_desc": "tuple[bool, ...]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "ndarray"}
+      ]
+    },
+    {
+      "node_id": "gp_kernel_values_from_theta",
+      "name": "gp_kernel_values_from_theta",
+      "description": "Reconstruct per-hyperparameter value blocks from sklearn's log-theta vector while leaving fixed blocks unchanged.",
+      "concept_type": "parameter_transformation",
+      "status": "atomic",
+      "type_signature": "(theta: ndarray, value_blocks: tuple[ndarray, ...], fixed: tuple[bool, ...]) -> tuple[ndarray, ...]",
+      "depth": 1,
+      "inputs": [
+        {"name": "theta", "type_desc": "ndarray", "required": true},
+        {"name": "value_blocks", "type_desc": "tuple[ndarray, ...]", "required": true},
+        {"name": "fixed", "type_desc": "tuple[bool, ...]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[ndarray, ...]"}
+      ]
+    },
+    {
+      "node_id": "gp_kernel_bounds",
+      "name": "gp_kernel_bounds",
+      "description": "Flatten non-fixed kernel hyperparameter bounds into sklearn's log-bounds matrix.",
+      "concept_type": "parameter_transformation",
+      "status": "atomic",
+      "type_signature": "(bounds_blocks: tuple[ndarray, ...], fixed: tuple[bool, ...]) -> ndarray",
+      "depth": 1,
+      "inputs": [
+        {"name": "bounds_blocks", "type_desc": "tuple[ndarray, ...]", "required": true},
+        {"name": "fixed", "type_desc": "tuple[bool, ...]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "ndarray"}
+      ]
+    },
+    {
+      "node_id": "gp_kernel_bound_warning_records",
+      "name": "gp_kernel_bound_warning_records",
+      "description": "Generate sklearn's convergence-warning contexts for theta values that are close to lower or upper hyperparameter bounds.",
+      "concept_type": "fit_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(theta: ndarray, bounds_blocks: tuple[ndarray, ...], fixed: tuple[bool, ...], names: tuple[str, ...]) -> tuple[tuple[str, int, str, float], ...]",
+      "depth": 1,
+      "inputs": [
+        {"name": "theta", "type_desc": "ndarray", "required": true},
+        {"name": "bounds_blocks", "type_desc": "tuple[ndarray, ...]", "required": true},
+        {"name": "fixed", "type_desc": "tuple[bool, ...]", "required": true},
+        {"name": "names", "type_desc": "tuple[str, ...]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[tuple[str, int, str, float], ...]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "gp_kernel_theta", "target": "gp_kernel_values_from_theta", "kind": "inverse_parameterization"},
+    {"source": "gp_kernel_bounds", "target": "gp_kernel_bound_warning_records", "kind": "bound_context"},
+    {"source": "gp_kernel_theta", "target": "gp_kernel_bound_warning_records", "kind": "fitted_parameter_context"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.gaussian_process.kernels",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 7 probabilistic and mutable-kernel workflows"
+  }
+}
