@@ -1,0 +1,65 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_ensemble_forest_index_reconstruction_root",
+      "name": "Sklearn Ensemble Forest Index-Reconstruction Atoms",
+      "description": "Deterministic helpers for reconstructing sklearn forest in-bag sample-index vectors from stored per-tree seeds and validated bootstrap bookkeeping.",
+      "status": "decomposed",
+      "children": [
+        "forest_estimator_sample_indices",
+        "forest_estimators_sample_indices"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "forest_estimator_sample_indices",
+      "name": "forest_estimator_sample_indices",
+      "description": "Reconstruct one sklearn forest tree's in-bag sample indices from bootstrap mode, validated sample counts, and the tree's stored seed.",
+      "concept_type": "forest_index_reconstruction",
+      "status": "atomic",
+      "type_signature": "(bootstrap: bool, n_samples: int, n_samples_bootstrap: int | None, random_state: int) -> NDArray[np.int64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "bootstrap", "type_desc": "bool", "required": true},
+        {"name": "n_samples", "type_desc": "int", "required": true},
+        {"name": "n_samples_bootstrap", "type_desc": "int | None", "required": true},
+        {"name": "random_state", "type_desc": "int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.int64]"}
+      ]
+    },
+    {
+      "node_id": "forest_estimators_sample_indices",
+      "name": "forest_estimators_sample_indices",
+      "description": "Reconstruct sklearn forest's full estimators_samples_ list from stored per-tree seeds and validated bootstrap bookkeeping.",
+      "concept_type": "forest_index_reconstruction",
+      "status": "atomic",
+      "type_signature": "(random_states: tuple[int, ...], bootstrap: bool, n_samples: int, n_samples_bootstrap: int | None) -> tuple[NDArray[np.int64], ...]",
+      "depth": 1,
+      "inputs": [
+        {"name": "random_states", "type_desc": "tuple[int, ...]", "required": true},
+        {"name": "bootstrap", "type_desc": "bool", "required": true},
+        {"name": "n_samples", "type_desc": "int", "required": true},
+        {"name": "n_samples_bootstrap", "type_desc": "int | None", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[NDArray[np.int64], ...]"}
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "forest_estimator_sample_indices",
+      "target": "forest_estimators_sample_indices",
+      "kind": "single_tree_indices_to_full_property_reconstruction"
+    }
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.ensemble._forest",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 3 meta-estimator wrappers"
+  }
+}

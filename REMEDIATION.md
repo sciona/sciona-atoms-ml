@@ -951,6 +951,10 @@ Potential remediation path:
   bookkeeping, OOB bootstrap and target-type preflight checks, warm-start
   additional-estimator counting, and the Boolean gate for recomputing OOB
   attributes before deferred tree growth and OOB prediction callbacks.
+- Completed helper slice: `sklearn.ensemble.forest_index_reconstruction`
+  publishes deterministic helper atoms for reconstructing one forest tree's
+  in-bag sample indices and the full `estimators_samples_` property from
+  stored per-tree seeds and validated bootstrap bookkeeping.
 - Completed helper slice: `sklearn.ensemble.adaboost` publishes
   estimator-independent SAMME decision aggregation, decision-to-probability
   conversion, and AdaBoost.R2 weighted-median regression aggregation over
