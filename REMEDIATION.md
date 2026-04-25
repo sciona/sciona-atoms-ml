@@ -257,6 +257,11 @@ Potential remediation path:
   `sklearn.feature_selection.selector_mixin_postfit` now publishes support-mask
   index extraction, dense feature filtering, dense inverse transform, and
   feature-name masking from supplied selector support masks.
+- Completed helper slice:
+  `sklearn.feature_selection.selector_mixin_sparse_inverse_transform` now
+  publishes the sparse `SelectorMixin.inverse_transform` reconstruction helper
+  that expands a selected sparse matrix back to CSC layout with zero-filled
+  dropped columns from a supplied support mask.
 - Ingest estimator-independent helper atoms first, such as threshold parsing,
   support-mask updates from supplied importance vectors, and candidate subset
   bookkeeping.

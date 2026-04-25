@@ -1,0 +1,40 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_feature_selection_selector_mixin_sparse_inverse_transform_root",
+      "name": "sklearn.feature_selection.selector_mixin_sparse_inverse_transform",
+      "kind": "module",
+      "status": "composite",
+      "description": "Deterministic sparse inverse-transform reconstruction for sklearn SelectorMixin after the support mask and sparse selected matrix are already supplied.",
+      "children": [
+        "selector_inverse_transform_csc"
+      ]
+    },
+    {
+      "node_id": "selector_inverse_transform_csc",
+      "name": "selector_inverse_transform_csc",
+      "kind": "function",
+      "status": "atomic",
+      "concept_type": "feature_selection_postfit",
+      "description": "Reinsert zero-filled dropped columns into a sparse selected-feature matrix and return sklearn's CSC inverse-transform result.",
+      "type_signature": "(X_selected: scipy.sparse.spmatrix, support_mask: NDArray[np.bool_]) -> scipy.sparse.csc_matrix",
+      "inputs": [
+        {"name": "X_selected", "type_desc": "scipy.sparse.spmatrix", "required": true},
+        {"name": "support_mask", "type_desc": "NDArray[np.bool_]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "scipy.sparse.csc_matrix"}
+      ]
+    }
+  ],
+  "edges": [],
+  "metadata": {
+    "source_module": "sklearn.feature_selection._base",
+    "source_symbols": [
+      "SelectorMixin.inverse_transform"
+    ],
+    "notes": [
+      "This family only covers the sparse inverse-transform branch after support-mask selection is already fixed."
+    ]
+  }
+}
