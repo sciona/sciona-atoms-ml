@@ -946,6 +946,11 @@ Potential remediation path:
 - Completed helper slice: `sklearn.ensemble.forest_sampling` publishes
   validated bootstrap sample-count resolution plus sampled and unsampled index
   draws for one forest tree before tree growth or OOB scoring.
+- Completed helper slice: `sklearn.ensemble.forest_fit_bookkeeping`
+  publishes deterministic helper atoms for fit-time bootstrap draw-count
+  bookkeeping, OOB bootstrap and target-type preflight checks, warm-start
+  additional-estimator counting, and the Boolean gate for recomputing OOB
+  attributes before deferred tree growth and OOB prediction callbacks.
 - Completed helper slice: `sklearn.ensemble.adaboost` publishes
   estimator-independent SAMME decision aggregation, decision-to-probability
   conversion, and AdaBoost.R2 weighted-median regression aggregation over

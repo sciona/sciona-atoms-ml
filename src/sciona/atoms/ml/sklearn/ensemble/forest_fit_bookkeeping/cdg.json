@@ -1,0 +1,113 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_ensemble_forest_fit_bookkeeping_root",
+      "name": "Sklearn Ensemble Forest Fit-Bookkeeping Atoms",
+      "description": "Deterministic fit-shell helpers for sklearn forest bootstrap bookkeeping, out-of-bag preflight checks, warm-start estimator counts, and OOB recomputation gating before native tree growth.",
+      "status": "decomposed",
+      "children": [
+        "forest_fit_bootstrap_sample_count",
+        "forest_fit_require_bootstrap_for_oob",
+        "forest_fit_additional_estimator_count",
+        "forest_fit_oob_update_required",
+        "forest_fit_require_supported_oob_target_type"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "forest_fit_bootstrap_sample_count",
+      "name": "forest_fit_bootstrap_sample_count",
+      "description": "Resolve sklearn forest fit's bootstrap draw count from bootstrap mode, training sample count, and max_samples, or return no draw count when bootstrapping is off.",
+      "concept_type": "forest_fit_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(bootstrap: bool, n_samples: int, max_samples: int | float | None) -> int | None",
+      "depth": 1,
+      "inputs": [
+        {"name": "bootstrap", "type_desc": "bool", "required": true},
+        {"name": "n_samples", "type_desc": "int", "required": true},
+        {"name": "max_samples", "type_desc": "int | float | None", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "int | None"}
+      ]
+    },
+    {
+      "node_id": "forest_fit_require_bootstrap_for_oob",
+      "name": "forest_fit_require_bootstrap_for_oob",
+      "description": "Require sklearn forest's preflight rule that out-of-bag estimation needs bootstrap sampling.",
+      "concept_type": "forest_fit_preflight",
+      "status": "atomic",
+      "type_signature": "(bootstrap: bool, oob_score: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "bootstrap", "type_desc": "bool", "required": true},
+        {"name": "oob_score", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "forest_fit_additional_estimator_count",
+      "name": "forest_fit_additional_estimator_count",
+      "description": "Compute how many new trees sklearn forest fit should add under the current warm-start state.",
+      "concept_type": "forest_fit_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(n_estimators: int, existing_estimators: int) -> int",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_estimators", "type_desc": "int", "required": true},
+        {"name": "existing_estimators", "type_desc": "int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "int"}
+      ]
+    },
+    {
+      "node_id": "forest_fit_oob_update_required",
+      "name": "forest_fit_oob_update_required",
+      "description": "Return whether sklearn forest fit should recompute OOB attributes after warm-start growth bookkeeping.",
+      "concept_type": "forest_fit_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(oob_score: bool, n_more_estimators: int, has_oob_score_attr: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "oob_score", "type_desc": "bool", "required": true},
+        {"name": "n_more_estimators", "type_desc": "int", "required": true},
+        {"name": "has_oob_score_attr", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "forest_fit_require_supported_oob_target_type",
+      "name": "forest_fit_require_supported_oob_target_type",
+      "description": "Require sklearn forest's target-type preflight rule for out-of-bag estimation.",
+      "concept_type": "forest_fit_preflight",
+      "status": "atomic",
+      "type_signature": "(target_type: str, is_classifier: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "target_type", "type_desc": "str", "required": true},
+        {"name": "is_classifier", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "forest_fit_bootstrap_sample_count", "target": "forest_fit_require_bootstrap_for_oob", "kind": "bootstrap_then_oob_preflight"},
+    {"source": "forest_fit_require_bootstrap_for_oob", "target": "forest_fit_additional_estimator_count", "kind": "fit_preflight_then_warm_start_bookkeeping"},
+    {"source": "forest_fit_additional_estimator_count", "target": "forest_fit_oob_update_required", "kind": "warm_start_count_then_oob_refresh_gate"},
+    {"source": "forest_fit_require_bootstrap_for_oob", "target": "forest_fit_require_supported_oob_target_type", "kind": "oob_preflight_then_target_type_preflight"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.ensemble._forest",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 3 meta-estimator wrappers"
+  }
+}
