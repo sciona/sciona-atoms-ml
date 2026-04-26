@@ -1,0 +1,99 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_multioutput_chain_augmentation_root",
+      "name": "Sklearn Multioutput Chain-Augmentation Atoms",
+      "description": "Deterministic chain augmentation helpers for sparse and dense feature buffers around the deferred estimator-fit, estimator-predict, and cross-validation callback boundaries.",
+      "status": "decomposed",
+      "children": [
+        "chain_dense_cv_feature_buffer",
+        "chain_sparse_cv_feature_buffer",
+        "chain_sparse_training_features",
+        "chain_sparse_step_features",
+        "chain_cv_feature_column"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "chain_dense_cv_feature_buffer",
+      "name": "chain_dense_cv_feature_buffer",
+      "description": "Append one dense zero placeholder column per output to a dense feature matrix for chain fitting when cross-validated previous predictions will be filled later.",
+      "concept_type": "multioutput_chain_augmentation",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], n_outputs: int) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "n_outputs", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+    },
+    {
+      "node_id": "chain_sparse_cv_feature_buffer",
+      "name": "chain_sparse_cv_feature_buffer",
+      "description": "Append one sparse zero placeholder column per output to a sparse feature matrix for chain fitting when cross-validated previous predictions will be filled later.",
+      "concept_type": "multioutput_chain_augmentation",
+      "status": "atomic",
+      "type_signature": "(X: scipy.sparse.spmatrix | scipy.sparse.sparray, n_outputs: int) -> scipy.sparse.spmatrix | scipy.sparse.sparray",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "scipy.sparse.spmatrix | scipy.sparse.sparray", "required": true},
+        {"name": "n_outputs", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "scipy.sparse.spmatrix | scipy.sparse.sparray"}]
+    },
+    {
+      "node_id": "chain_sparse_training_features",
+      "name": "chain_sparse_training_features",
+      "description": "Append ordered target columns to a sparse feature matrix for chain fitting with cv=None.",
+      "concept_type": "multioutput_chain_augmentation",
+      "status": "atomic",
+      "type_signature": "(X: scipy.sparse.spmatrix | scipy.sparse.sparray, Y_ordered: NDArray[np.float64]) -> scipy.sparse.spmatrix | scipy.sparse.sparray",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "scipy.sparse.spmatrix | scipy.sparse.sparray", "required": true},
+        {"name": "Y_ordered", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "scipy.sparse.spmatrix | scipy.sparse.sparray"}]
+    },
+    {
+      "node_id": "chain_sparse_step_features",
+      "name": "chain_sparse_step_features",
+      "description": "Append previous chain prediction columns to a sparse feature matrix during prediction-time chain traversal.",
+      "concept_type": "multioutput_chain_augmentation",
+      "status": "atomic",
+      "type_signature": "(X: scipy.sparse.spmatrix | scipy.sparse.sparray, previous_predictions: NDArray[np.float64]) -> scipy.sparse.spmatrix | scipy.sparse.sparray",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "scipy.sparse.spmatrix | scipy.sparse.sparray", "required": true},
+        {"name": "previous_predictions", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "scipy.sparse.spmatrix | scipy.sparse.sparray"}]
+    },
+    {
+      "node_id": "chain_cv_feature_column",
+      "name": "chain_cv_feature_column",
+      "description": "Extract the 1D chain augmentation feature column from a 1D cross-validated response vector or a two-class probability matrix.",
+      "concept_type": "multioutput_chain_augmentation",
+      "status": "atomic",
+      "type_signature": "(cv_result: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "cv_result", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+    }
+  ],
+  "edges": [
+    {"source": "chain_dense_cv_feature_buffer", "target": "chain_cv_feature_column", "kind": "cv_placeholder_fill"},
+    {"source": "chain_sparse_cv_feature_buffer", "target": "chain_cv_feature_column", "kind": "cv_placeholder_fill"},
+    {"source": "chain_sparse_training_features", "target": "chain_sparse_step_features", "kind": "sparse_chain_augmentation"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.multioutput",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 3 meta-estimator wrappers"
+  }
+}

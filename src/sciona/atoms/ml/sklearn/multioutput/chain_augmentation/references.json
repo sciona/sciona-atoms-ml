@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.multioutput.chain_augmentation.chain_dense_cv_feature_buffer@sciona/atoms/ml/sklearn/multioutput/chain_augmentation/atoms.py:86": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from sklearn.multioutput._BaseChain.fit dense X_aug placeholder construction for cv != None."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.multioutput.chain_augmentation.chain_sparse_cv_feature_buffer@sciona/atoms/ml/sklearn/multioutput/chain_augmentation/atoms.py:104": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from sklearn.multioutput._BaseChain.fit sparse X_aug placeholder construction for cv != None, including sparse-array dok conversion before hstack."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.multioutput.chain_augmentation.chain_sparse_training_features@sciona/atoms/ml/sklearn/multioutput/chain_augmentation/atoms.py:124": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from sklearn.multioutput._BaseChain.fit sparse cv=None augmentation with ordered target columns."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.multioutput.chain_augmentation.chain_sparse_step_features@sciona/atoms/ml/sklearn/multioutput/chain_augmentation/atoms.py:147": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from sklearn.multioutput._BaseChain._get_predictions sparse feature augmentation with previous chain predictions."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.multioutput.chain_augmentation.chain_cv_feature_column@sciona/atoms/ml/sklearn/multioutput/chain_augmentation/atoms.py:168": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from sklearn.multioutput._BaseChain.fit cross_val_predict postprocessing that keeps the positive-class probability column when cv outputs are 2D."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

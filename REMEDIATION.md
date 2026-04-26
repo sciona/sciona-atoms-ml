@@ -339,6 +339,12 @@ Potential remediation path:
   `multioutput_prediction_matrix`, `multioutput_exact_match_score`,
   `chain_order_indices`, `chain_training_features`, `chain_step_features`, and
   `chain_restore_output_order`.
+- Completed helper slice:
+  `sklearn.multioutput.chain_augmentation` now publishes deterministic chain
+  buffer and sparse-augmentation helpers for dense CV placeholder buffers,
+  sparse CV placeholder buffers, sparse cv=None target augmentation, sparse
+  prediction-step augmentation, and the `cross_val_predict` column extraction
+  that keeps probability column 1 for classifier-chain CV features.
 - Ingest estimator-independent chain-order validation, feature augmentation
   from supplied previous predictions, independent-output stacking, and
   multioutput score aggregation.
