@@ -1,0 +1,123 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_metrics_pairwise_kernels_root",
+      "name": "Sklearn Pairwise Kernel Helper Atoms",
+      "description": "Deterministic dense pairwise-kernel helpers for the upstream sklearn.metrics.pairwise functions that PairwiseKernel delegates to.",
+      "status": "decomposed",
+      "children": [
+        "pairwise_default_gamma",
+        "pairwise_linear_kernel",
+        "pairwise_polynomial_kernel",
+        "pairwise_laplacian_kernel",
+        "pairwise_sigmoid_kernel",
+        "pairwise_cosine_similarity"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "pairwise_default_gamma",
+      "name": "pairwise_default_gamma",
+      "description": "Resolve sklearn's default gamma fallback of 1 / n_features when gamma is omitted.",
+      "concept_type": "parameter_transformation",
+      "status": "atomic",
+      "type_signature": "(n_features: int, gamma: float | None = None) -> float",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_features", "type_desc": "int", "required": true},
+        {"name": "gamma", "type_desc": "float | None", "required": false}
+      ],
+      "outputs": [{"name": "result", "type_desc": "float"}]
+    },
+    {
+      "node_id": "pairwise_linear_kernel",
+      "name": "pairwise_linear_kernel",
+      "description": "Compute the dense linear kernel X @ Y.T.",
+      "concept_type": "matrix_kernel",
+      "status": "atomic",
+      "type_signature": "(X: ndarray, Y: ndarray | None = None) -> ndarray",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "ndarray", "required": true},
+        {"name": "Y", "type_desc": "ndarray | None", "required": false}
+      ],
+      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+    },
+    {
+      "node_id": "pairwise_polynomial_kernel",
+      "name": "pairwise_polynomial_kernel",
+      "description": "Compute the dense polynomial kernel (gamma * <X, Y> + coef0) ** degree.",
+      "concept_type": "matrix_kernel",
+      "status": "atomic",
+      "type_signature": "(X: ndarray, Y: ndarray | None = None, degree: float = 3.0, gamma: float | None = None, coef0: float = 1.0) -> ndarray",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "ndarray", "required": true},
+        {"name": "Y", "type_desc": "ndarray | None", "required": false},
+        {"name": "degree", "type_desc": "float", "required": false},
+        {"name": "gamma", "type_desc": "float | None", "required": false},
+        {"name": "coef0", "type_desc": "float", "required": false}
+      ],
+      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+    },
+    {
+      "node_id": "pairwise_laplacian_kernel",
+      "name": "pairwise_laplacian_kernel",
+      "description": "Compute the dense Laplacian kernel exp(-gamma * ||x - y||_1).",
+      "concept_type": "matrix_kernel",
+      "status": "atomic",
+      "type_signature": "(X: ndarray, Y: ndarray | None = None, gamma: float | None = None) -> ndarray",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "ndarray", "required": true},
+        {"name": "Y", "type_desc": "ndarray | None", "required": false},
+        {"name": "gamma", "type_desc": "float | None", "required": false}
+      ],
+      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+    },
+    {
+      "node_id": "pairwise_sigmoid_kernel",
+      "name": "pairwise_sigmoid_kernel",
+      "description": "Compute the dense sigmoid kernel tanh(gamma * <X, Y> + coef0).",
+      "concept_type": "matrix_kernel",
+      "status": "atomic",
+      "type_signature": "(X: ndarray, Y: ndarray | None = None, gamma: float | None = None, coef0: float = 1.0) -> ndarray",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "ndarray", "required": true},
+        {"name": "Y", "type_desc": "ndarray | None", "required": false},
+        {"name": "gamma", "type_desc": "float | None", "required": false},
+        {"name": "coef0", "type_desc": "float", "required": false}
+      ],
+      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+    },
+    {
+      "node_id": "pairwise_cosine_similarity",
+      "name": "pairwise_cosine_similarity",
+      "description": "Compute dense cosine similarity with sklearn's zero-row behavior.",
+      "concept_type": "matrix_kernel",
+      "status": "atomic",
+      "type_signature": "(X: ndarray, Y: ndarray | None = None) -> ndarray",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "ndarray", "required": true},
+        {"name": "Y", "type_desc": "ndarray | None", "required": false}
+      ],
+      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+    }
+  ],
+  "edges": [
+    {"source": "pairwise_default_gamma", "target": "pairwise_polynomial_kernel", "kind": "parameter_context"},
+    {"source": "pairwise_default_gamma", "target": "pairwise_laplacian_kernel", "kind": "parameter_context"},
+    {"source": "pairwise_default_gamma", "target": "pairwise_sigmoid_kernel", "kind": "parameter_context"},
+    {"source": "pairwise_linear_kernel", "target": "pairwise_polynomial_kernel", "kind": "gram_context"},
+    {"source": "pairwise_linear_kernel", "target": "pairwise_sigmoid_kernel", "kind": "gram_context"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.metrics.pairwise",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 8 thin wrappers and aliases"
+  }
+}

@@ -466,6 +466,10 @@ Potential remediation path:
   dense kernel and kernel-composition atoms for constant, white, dot-product,
   RBF, rational-quadratic, Matern, and exp-sine-squared kernels, plus sum,
   product, exponentiation, and compound-kernel stack helpers.
+- Completed helper slice: `sklearn.metrics.pairwise_kernels` now publishes
+  dense upstream pairwise-kernel helpers for default-gamma resolution plus
+  linear, polynomial, laplacian, sigmoid, and cosine kernels, which are the
+  actual math surfaces a deferred `PairwiseKernel` wrapper would delegate to.
 - Completed helper slice:
   `sklearn.gaussian_process.kernel_hyperparameters` now publishes
   hyperparameter-bookkeeping helpers for flattening supplied non-fixed kernel
