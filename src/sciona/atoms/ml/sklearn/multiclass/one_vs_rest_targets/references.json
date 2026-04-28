@@ -1,14 +1,14 @@
 {
   "schema_version": "1.1",
   "atoms": {
-    "sciona.atoms.ml.sklearn.multioutput.chain_augmentation.chain_dense_cv_feature_buffer@sciona/atoms/ml/sklearn/multioutput/chain_augmentation/atoms.py:94": {
+    "sciona.atoms.ml.sklearn.multiclass.one_vs_rest_targets.one_vs_rest_fit_classes@sciona/atoms/ml/sklearn/multiclass/one_vs_rest_targets/atoms.py:67": {
       "references": [
         {
           "ref_id": "repo_sklearn",
           "match_metadata": {
             "match_type": "manual",
             "confidence": "high",
-            "notes": "Adapted from sklearn.multioutput._BaseChain.fit dense X_aug placeholder construction for cv != None."
+            "notes": "Adapted from the LabelBinarizer fit path in sklearn.multiclass.OneVsRestClassifier.fit for scikit-learn 1.8.0."
           }
         },
         {
@@ -22,14 +22,14 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.multioutput.chain_augmentation.chain_sparse_cv_feature_buffer@sciona/atoms/ml/sklearn/multioutput/chain_augmentation/atoms.py:113": {
+    "sciona.atoms.ml.sklearn.multiclass.one_vs_rest_targets.one_vs_rest_fit_target_indicator_csc@sciona/atoms/ml/sklearn/multiclass/one_vs_rest_targets/atoms.py:77": {
       "references": [
         {
           "ref_id": "repo_sklearn",
           "match_metadata": {
             "match_type": "manual",
             "confidence": "high",
-            "notes": "Adapted from sklearn.multioutput._BaseChain.fit sparse X_aug placeholder construction for cv != None, including sparse-array dok conversion before hstack."
+            "notes": "Adapted from sklearn.multiclass.OneVsRestClassifier.fit target binarization and CSC conversion for scikit-learn 1.8.0."
           }
         },
         {
@@ -43,14 +43,14 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.multioutput.chain_augmentation.chain_sparse_training_features@sciona/atoms/ml/sklearn/multioutput/chain_augmentation/atoms.py:138": {
+    "sciona.atoms.ml.sklearn.multiclass.one_vs_rest_targets.one_vs_rest_partial_fit_unknown_classes@sciona/atoms/ml/sklearn/multiclass/one_vs_rest_targets/atoms.py:87": {
       "references": [
         {
           "ref_id": "repo_sklearn",
           "match_metadata": {
             "match_type": "manual",
             "confidence": "high",
-            "notes": "Adapted from sklearn.multioutput._BaseChain.fit sparse cv=None augmentation with ordered target columns."
+            "notes": "Adapted from the unknown-class set-difference guard in sklearn.multiclass.OneVsRestClassifier.partial_fit for scikit-learn 1.8.0."
           }
         },
         {
@@ -64,14 +64,14 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.multioutput.chain_augmentation.chain_sparse_step_features@sciona/atoms/ml/sklearn/multioutput/chain_augmentation/atoms.py:159": {
+    "sciona.atoms.ml.sklearn.multiclass.one_vs_rest_targets.one_vs_rest_partial_fit_target_indicator_csc@sciona/atoms/ml/sklearn/multiclass/one_vs_rest_targets/atoms.py:102": {
       "references": [
         {
           "ref_id": "repo_sklearn",
           "match_metadata": {
             "match_type": "manual",
             "confidence": "high",
-            "notes": "Adapted from sklearn.multioutput._BaseChain._get_predictions sparse feature augmentation with previous chain predictions."
+            "notes": "Adapted from sklearn.multiclass.OneVsRestClassifier.partial_fit LabelBinarizer transform and CSC conversion for scikit-learn 1.8.0."
           }
         },
         {
@@ -85,14 +85,14 @@
       ],
       "auto_attribution_runs": []
     },
-    "sciona.atoms.ml.sklearn.multioutput.chain_augmentation.chain_cv_feature_column@sciona/atoms/ml/sklearn/multioutput/chain_augmentation/atoms.py:175": {
+    "sciona.atoms.ml.sklearn.multiclass.one_vs_rest_targets.one_vs_rest_target_columns_dense@sciona/atoms/ml/sklearn/multiclass/one_vs_rest_targets/atoms.py:115": {
       "references": [
         {
           "ref_id": "repo_sklearn",
           "match_metadata": {
             "match_type": "manual",
             "confidence": "high",
-            "notes": "Adapted from sklearn.multioutput._BaseChain.fit cross_val_predict postprocessing that keeps the positive-class probability column when cv outputs are 2D."
+            "notes": "Adapted from the per-column target materialization generator used by sklearn.multiclass.OneVsRestClassifier.fit and partial_fit in scikit-learn 1.8.0."
           }
         },
         {

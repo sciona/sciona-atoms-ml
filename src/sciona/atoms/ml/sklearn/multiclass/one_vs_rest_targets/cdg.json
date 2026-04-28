@@ -1,0 +1,91 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_multiclass_one_vs_rest_targets_root",
+      "name": "Sklearn Multiclass One-Vs-Rest Target Atoms",
+      "description": "Deterministic one-vs-rest target encoding helpers around sklearn's sparse LabelBinarizer fit and partial-fit paths before the deferred estimator training callbacks.",
+      "status": "decomposed",
+      "children": [
+        "one_vs_rest_fit_classes",
+        "one_vs_rest_fit_target_indicator_csc",
+        "one_vs_rest_partial_fit_unknown_classes",
+        "one_vs_rest_partial_fit_target_indicator_csc",
+        "one_vs_rest_target_columns_dense"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "one_vs_rest_fit_classes",
+      "name": "one_vs_rest_fit_classes",
+      "description": "Fit sklearn's sparse LabelBinarizer on one-vs-rest targets and return the discovered class vector.",
+      "concept_type": "multiclass_target_encoding",
+      "status": "atomic",
+      "type_signature": "(y: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [{"name": "y", "type_desc": "NDArray[np.float64]", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+    },
+    {
+      "node_id": "one_vs_rest_fit_target_indicator_csc",
+      "name": "one_vs_rest_fit_target_indicator_csc",
+      "description": "Fit sklearn's sparse LabelBinarizer on one-vs-rest targets and return the CSC target indicator matrix.",
+      "concept_type": "multiclass_target_encoding",
+      "status": "atomic",
+      "type_signature": "(y: NDArray[np.float64]) -> scipy.sparse.csc_matrix",
+      "depth": 1,
+      "inputs": [{"name": "y", "type_desc": "NDArray[np.float64]", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "scipy.sparse.csc_matrix"}]
+    },
+    {
+      "node_id": "one_vs_rest_partial_fit_unknown_classes",
+      "name": "one_vs_rest_partial_fit_unknown_classes",
+      "description": "Return the sorted unique labels present in a partial-fit target batch but absent from the known class vector.",
+      "concept_type": "multiclass_target_encoding",
+      "status": "atomic",
+      "type_signature": "(y: NDArray[np.float64], classes: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "classes", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+    },
+    {
+      "node_id": "one_vs_rest_partial_fit_target_indicator_csc",
+      "name": "one_vs_rest_partial_fit_target_indicator_csc",
+      "description": "Fit sklearn's sparse LabelBinarizer on the known class vector and transform a partial-fit target batch to CSC indicator form.",
+      "concept_type": "multiclass_target_encoding",
+      "status": "atomic",
+      "type_signature": "(y: NDArray[np.float64], classes: NDArray[np.float64]) -> scipy.sparse.csc_matrix",
+      "depth": 1,
+      "inputs": [
+        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "classes", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "scipy.sparse.csc_matrix"}]
+    },
+    {
+      "node_id": "one_vs_rest_target_columns_dense",
+      "name": "one_vs_rest_target_columns_dense",
+      "description": "Materialize sklearn's per-column one-vs-rest target arrays as an output-by-sample dense matrix from a CSC indicator matrix.",
+      "concept_type": "multiclass_target_encoding",
+      "status": "atomic",
+      "type_signature": "(indicator: scipy.sparse.csc_matrix) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [{"name": "indicator", "type_desc": "scipy.sparse.csc_matrix", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+    }
+  ],
+  "edges": [
+    {"source": "one_vs_rest_fit_classes", "target": "one_vs_rest_partial_fit_unknown_classes", "kind": "known_class_vector"},
+    {"source": "one_vs_rest_fit_target_indicator_csc", "target": "one_vs_rest_target_columns_dense", "kind": "indicator_to_worker_columns"},
+    {"source": "one_vs_rest_partial_fit_target_indicator_csc", "target": "one_vs_rest_target_columns_dense", "kind": "indicator_to_worker_columns"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.multiclass",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 3 meta-estimator wrappers"
+  }
+}

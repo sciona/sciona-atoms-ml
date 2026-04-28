@@ -321,6 +321,12 @@ Potential remediation path:
   multilabel CSC indicator construction, positive-probability matrix shaping,
   one-estimator binary probability expansion, multiclass probability
   normalization, and decision-output shape resolution.
+- Completed helper slice:
+  `sklearn.multiclass.one_vs_rest_targets` now publishes deterministic
+  one-vs-rest target encoding helpers for class discovery, fit-time CSC target
+  indicators, partial-fit unknown-class detection, partial-fit CSC target
+  indicators from a known class vector, and dense output-by-sample target
+  column materialization from the CSC indicator matrix.
 - Ingest estimator-independent helpers first, such as one-vs-one class-pair
   index generation, one-vs-rest score aggregation, output-code book creation,
   and code-distance decoding from supplied response matrices.
