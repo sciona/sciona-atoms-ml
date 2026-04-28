@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "metadata": {
-    "generated_at": "2026-04-28T22:07:58.830552+00:00",
+    "generated_at": "2026-04-28T22:19:56.231543+00:00",
     "generator": "scripts/apply_audit_review_bundles.py",
     "phase": "phase_1_review_bundle_merge"
   },
@@ -90013,6 +90013,477 @@
       "required_actions": [],
       "blocking_findings": [],
       "review_record_path": "data/review_bundles/ml_sklearn_multioutput.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.multioutput.chain_prediction_bookkeeping.chain_prediction_feature_buffer",
+      "atom_key": "sciona.atoms.ml.sklearn.multioutput.chain_prediction_bookkeeping.chain_prediction_feature_buffer",
+      "atom_id": "sciona.atoms.ml.sklearn.multioutput.chain_prediction_bookkeeping.chain_prediction_feature_buffer",
+      "module_import_path": "sciona.atoms.ml.sklearn.multioutput.chain_prediction_bookkeeping",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/multioutput/chain_prediction_bookkeeping/atoms.py",
+      "module_family": "multioutput",
+      "domain_family": "ml.sklearn.multioutput",
+      "wrapper_symbol": "chain_prediction_feature_buffer",
+      "argument_names": [
+        "n_samples",
+        "n_outputs"
+      ],
+      "argument_details": [
+        {
+          "name": "n_samples",
+          "annotation": "int",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "n_outputs",
+          "annotation": "int",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.float64]",
+      "docstring_summary": "Allocate sklearn's zero-initialized feature-prediction chain buffer.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/multioutput/chain_prediction_bookkeeping/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/multioutput/chain_prediction_bookkeeping/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/multioutput/chain_prediction_bookkeeping/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/multioutput/chain_prediction_bookkeeping/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_multioutput_chain_prediction_bookkeeping_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_multioutput_chain_prediction_bookkeeping_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_multioutput_chain_prediction_bookkeeping_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 8,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 95,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 1,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_multioutput_chain_prediction_bookkeeping.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.multioutput.chain_prediction_bookkeeping.chain_prediction_method_name",
+      "atom_key": "sciona.atoms.ml.sklearn.multioutput.chain_prediction_bookkeeping.chain_prediction_method_name",
+      "atom_id": "sciona.atoms.ml.sklearn.multioutput.chain_prediction_bookkeeping.chain_prediction_method_name",
+      "module_import_path": "sciona.atoms.ml.sklearn.multioutput.chain_prediction_bookkeeping",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/multioutput/chain_prediction_bookkeeping/atoms.py",
+      "module_family": "multioutput",
+      "domain_family": "ml.sklearn.multioutput",
+      "wrapper_symbol": "chain_prediction_method_name",
+      "argument_names": [
+        "chain_method_name"
+      ],
+      "argument_details": [
+        {
+          "name": "chain_method_name",
+          "annotation": "str | None",
+          "required": false,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "str",
+      "docstring_summary": "Resolve sklearn's prediction-time chain method fallback.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/multioutput/chain_prediction_bookkeeping/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/multioutput/chain_prediction_bookkeeping/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/multioutput/chain_prediction_bookkeeping/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/multioutput/chain_prediction_bookkeeping/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_multioutput_chain_prediction_bookkeeping_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_multioutput_chain_prediction_bookkeeping_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_multioutput_chain_prediction_bookkeeping_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 8,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 95,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 2,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_multioutput_chain_prediction_bookkeeping.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.multioutput.chain_prediction_bookkeeping.chain_prediction_output_buffer",
+      "atom_key": "sciona.atoms.ml.sklearn.multioutput.chain_prediction_bookkeeping.chain_prediction_output_buffer",
+      "atom_id": "sciona.atoms.ml.sklearn.multioutput.chain_prediction_bookkeeping.chain_prediction_output_buffer",
+      "module_import_path": "sciona.atoms.ml.sklearn.multioutput.chain_prediction_bookkeeping",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/multioutput/chain_prediction_bookkeeping/atoms.py",
+      "module_family": "multioutput",
+      "domain_family": "ml.sklearn.multioutput",
+      "wrapper_symbol": "chain_prediction_output_buffer",
+      "argument_names": [
+        "n_samples",
+        "n_outputs"
+      ],
+      "argument_details": [
+        {
+          "name": "n_samples",
+          "annotation": "int",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "n_outputs",
+          "annotation": "int",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.float64]",
+      "docstring_summary": "Allocate sklearn's zero-initialized output-prediction chain buffer.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/multioutput/chain_prediction_bookkeeping/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/multioutput/chain_prediction_bookkeeping/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/multioutput/chain_prediction_bookkeeping/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/multioutput/chain_prediction_bookkeeping/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_multioutput_chain_prediction_bookkeeping_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_multioutput_chain_prediction_bookkeeping_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_multioutput_chain_prediction_bookkeeping_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 8,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 95,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 1,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_multioutput_chain_prediction_bookkeeping.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.multioutput.chain_prediction_bookkeeping.chain_prediction_previous_predictions",
+      "atom_key": "sciona.atoms.ml.sklearn.multioutput.chain_prediction_bookkeeping.chain_prediction_previous_predictions",
+      "atom_id": "sciona.atoms.ml.sklearn.multioutput.chain_prediction_bookkeeping.chain_prediction_previous_predictions",
+      "module_import_path": "sciona.atoms.ml.sklearn.multioutput.chain_prediction_bookkeeping",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/multioutput/chain_prediction_bookkeeping/atoms.py",
+      "module_family": "multioutput",
+      "domain_family": "ml.sklearn.multioutput",
+      "wrapper_symbol": "chain_prediction_previous_predictions",
+      "argument_names": [
+        "feature_chain",
+        "chain_idx"
+      ],
+      "argument_details": [
+        {
+          "name": "feature_chain",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "chain_idx",
+          "annotation": "int",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.float64]",
+      "docstring_summary": "Slice sklearn's previously filled chain-prediction columns for one step.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/multioutput/chain_prediction_bookkeeping/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/multioutput/chain_prediction_bookkeeping/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/multioutput/chain_prediction_bookkeeping/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/multioutput/chain_prediction_bookkeeping/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_multioutput_chain_prediction_bookkeeping_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_multioutput_chain_prediction_bookkeeping_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_multioutput_chain_prediction_bookkeeping_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 9,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 94,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 2,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_multioutput_chain_prediction_bookkeeping.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.multioutput.chain_prediction_bookkeeping.chain_sparse_hstack_base",
+      "atom_key": "sciona.atoms.ml.sklearn.multioutput.chain_prediction_bookkeeping.chain_sparse_hstack_base",
+      "atom_id": "sciona.atoms.ml.sklearn.multioutput.chain_prediction_bookkeeping.chain_sparse_hstack_base",
+      "module_import_path": "sciona.atoms.ml.sklearn.multioutput.chain_prediction_bookkeeping",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/multioutput/chain_prediction_bookkeeping/atoms.py",
+      "module_family": "multioutput",
+      "domain_family": "ml.sklearn.multioutput",
+      "wrapper_symbol": "chain_sparse_hstack_base",
+      "argument_names": [
+        "X"
+      ],
+      "argument_details": [
+        {
+          "name": "X",
+          "annotation": "sp.spmatrix | sp.sparray",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "sp.spmatrix | sp.sparray",
+      "docstring_summary": "Normalize sklearn's sparse DOK array input before prediction-time hstack.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/multioutput/chain_prediction_bookkeeping/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/multioutput/chain_prediction_bookkeeping/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/multioutput/chain_prediction_bookkeeping/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/multioutput/chain_prediction_bookkeeping/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_multioutput_chain_prediction_bookkeeping_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_multioutput_chain_prediction_bookkeeping_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_multioutput_chain_prediction_bookkeeping_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 10,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 93,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 3,
+      "parity_case_count": 3,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_multioutput_chain_prediction_bookkeeping.review_bundle.json",
       "has_references": true,
       "references_status": "pass"
     },

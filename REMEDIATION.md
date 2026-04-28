@@ -376,6 +376,11 @@ Potential remediation path:
   sparse CV placeholder buffers, sparse cv=None target augmentation, sparse
   prediction-step augmentation, and the `cross_val_predict` column extraction
   that keeps probability column 1 for classifier-chain CV features.
+- Completed helper slice:
+  `sklearn.multioutput.chain_prediction_bookkeeping` now publishes
+  deterministic prediction-shell helpers for chain method-name fallback,
+  zero-initialized output and feature buffers, previous-prediction prefix
+  slicing, and sparse DOK-array normalization before prediction-time hstack.
 - Ingest estimator-independent chain-order validation, feature augmentation
   from supplied previous predictions, independent-output stacking, and
   multioutput score aggregation.

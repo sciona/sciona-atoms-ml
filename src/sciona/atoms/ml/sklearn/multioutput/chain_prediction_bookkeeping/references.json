@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.multioutput.chain_prediction_bookkeeping.chain_prediction_method_name@sciona/atoms/ml/sklearn/multioutput/chain_prediction_bookkeeping/atoms.py:85": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from sklearn.multioutput._BaseChain._get_predictions prediction-time chain_method fallback via getattr(..., 'predict')."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.multioutput.chain_prediction_bookkeeping.chain_prediction_output_buffer@sciona/atoms/ml/sklearn/multioutput/chain_prediction_bookkeeping/atoms.py:99": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from sklearn.multioutput._BaseChain._get_predictions zero-initialized Y_output_chain allocation."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.multioutput.chain_prediction_bookkeeping.chain_prediction_feature_buffer@sciona/atoms/ml/sklearn/multioutput/chain_prediction_bookkeeping/atoms.py:111": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from sklearn.multioutput._BaseChain._get_predictions zero-initialized Y_feature_chain allocation."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.multioutput.chain_prediction_bookkeeping.chain_prediction_previous_predictions@sciona/atoms/ml/sklearn/multioutput/chain_prediction_bookkeeping/atoms.py:125": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from sklearn.multioutput._BaseChain._get_predictions prefix extraction of Y_feature_chain[:, :chain_idx] before feature augmentation."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.multioutput.chain_prediction_bookkeeping.chain_sparse_hstack_base@sciona/atoms/ml/sklearn/multioutput/chain_prediction_bookkeeping/atoms.py:139": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from sklearn.multioutput._BaseChain._get_predictions sparse-array dok conversion to coo_array before hstack."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

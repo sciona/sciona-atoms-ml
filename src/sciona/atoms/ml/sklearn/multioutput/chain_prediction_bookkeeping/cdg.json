@@ -1,0 +1,98 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_multioutput_chain_prediction_bookkeeping_root",
+      "name": "Sklearn Multioutput Chain-Prediction Bookkeeping Atoms",
+      "description": "Deterministic prediction-shell bookkeeping helpers for classifier and regressor chains before the deferred estimator response callback boundary.",
+      "status": "decomposed",
+      "children": [
+        "chain_prediction_method_name",
+        "chain_prediction_output_buffer",
+        "chain_prediction_feature_buffer",
+        "chain_prediction_previous_predictions",
+        "chain_sparse_hstack_base"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "chain_prediction_method_name",
+      "name": "chain_prediction_method_name",
+      "description": "Resolve the prediction-time chain response method name, defaulting to predict when no chain-specific method is configured.",
+      "concept_type": "multioutput_chain_prediction_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(chain_method_name: str | None = None) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "chain_method_name", "type_desc": "str | None", "required": false}
+      ],
+      "outputs": [{"name": "result", "type_desc": "str"}]
+    },
+    {
+      "node_id": "chain_prediction_output_buffer",
+      "name": "chain_prediction_output_buffer",
+      "description": "Allocate the zero-initialized sample-by-output buffer that stores the chain's public prediction outputs before output-order restoration.",
+      "concept_type": "multioutput_chain_prediction_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(n_samples: int, n_outputs: int) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_samples", "type_desc": "int", "required": true},
+        {"name": "n_outputs", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+    },
+    {
+      "node_id": "chain_prediction_feature_buffer",
+      "name": "chain_prediction_feature_buffer",
+      "description": "Allocate the zero-initialized sample-by-output buffer that stores previous chain responses used to augment later prediction steps.",
+      "concept_type": "multioutput_chain_prediction_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(n_samples: int, n_outputs: int) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_samples", "type_desc": "int", "required": true},
+        {"name": "n_outputs", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+    },
+    {
+      "node_id": "chain_prediction_previous_predictions",
+      "name": "chain_prediction_previous_predictions",
+      "description": "Extract the already-filled prefix of the chain feature-response buffer for the current prediction step.",
+      "concept_type": "multioutput_chain_prediction_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(feature_chain: NDArray[np.float64], chain_idx: int) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "feature_chain", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "chain_idx", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+    },
+    {
+      "node_id": "chain_sparse_hstack_base",
+      "name": "chain_sparse_hstack_base",
+      "description": "Normalize a sparse prediction input before hstack by converting sparse DOK arrays to COO while leaving other sparse inputs unchanged.",
+      "concept_type": "multioutput_chain_prediction_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(X: scipy.sparse.spmatrix | scipy.sparse.sparray) -> scipy.sparse.spmatrix | scipy.sparse.sparray",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "scipy.sparse.spmatrix | scipy.sparse.sparray", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "scipy.sparse.spmatrix | scipy.sparse.sparray"}]
+    }
+  ],
+  "edges": [
+    {"source": "chain_prediction_method_name", "target": "chain_prediction_output_buffer", "kind": "prediction_loop_setup"},
+    {"source": "chain_prediction_feature_buffer", "target": "chain_prediction_previous_predictions", "kind": "prefix_slice"},
+    {"source": "chain_sparse_hstack_base", "target": "chain_prediction_previous_predictions", "kind": "sparse_prediction_setup"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.multioutput",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 3 meta-estimator wrappers"
+  }
+}
