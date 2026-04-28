@@ -315,6 +315,12 @@ Potential remediation path:
   `one_vs_rest_multiclass_labels`, `one_vs_rest_binary_indicator`,
   `one_vs_one_decision_scores`, `one_vs_one_class_pairs`,
   `output_code_book`, and `output_code_decode`.
+- Completed helper slice:
+  `sklearn.multiclass.one_vs_rest_postprocessing` now publishes deterministic
+  one-vs-rest postprocessing helpers for binary threshold resolution,
+  multilabel CSC indicator construction, positive-probability matrix shaping,
+  one-estimator binary probability expansion, multiclass probability
+  normalization, and decision-output shape resolution.
 - Ingest estimator-independent helpers first, such as one-vs-one class-pair
   index generation, one-vs-rest score aggregation, output-code book creation,
   and code-distance decoding from supplied response matrices.

@@ -1,0 +1,111 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_multiclass_one_vs_rest_postprocessing_root",
+      "name": "Sklearn Multiclass One-Vs-Rest Postprocessing Atoms",
+      "description": "Deterministic one-vs-rest postprocessing helpers above the deferred estimator predict, decision_function, and predict_proba callback boundary.",
+      "status": "decomposed",
+      "children": [
+        "one_vs_rest_binary_predict_threshold",
+        "one_vs_rest_multilabel_indicator_csc",
+        "one_vs_rest_positive_probability_matrix",
+        "one_vs_rest_binary_probability_matrix",
+        "one_vs_rest_normalized_probability_matrix",
+        "one_vs_rest_decision_output"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "one_vs_rest_binary_predict_threshold",
+      "name": "one_vs_rest_binary_predict_threshold",
+      "description": "Resolve sklearn's binary one-vs-rest predict threshold from whether the underlying estimator contributes decision scores or probabilities.",
+      "concept_type": "multiclass_postprocessing",
+      "status": "atomic",
+      "type_signature": "(*, estimator_has_decision_function: bool, estimator_is_classifier: bool = True) -> float",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator_has_decision_function", "type_desc": "bool", "required": true},
+        {"name": "estimator_is_classifier", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [{"name": "result", "type_desc": "float"}]
+    },
+    {
+      "node_id": "one_vs_rest_multilabel_indicator_csc",
+      "name": "one_vs_rest_multilabel_indicator_csc",
+      "description": "Build the CSC indicator matrix used by sklearn's multilabel one-vs-rest predict branch from already-computed per-class response scores and a scalar threshold.",
+      "concept_type": "multiclass_postprocessing",
+      "status": "atomic",
+      "type_signature": "(responses: NDArray[np.float64], *, threshold: float = 0.0) -> scipy.sparse.csc_matrix",
+      "depth": 1,
+      "inputs": [
+        {"name": "responses", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "threshold", "type_desc": "float", "required": false}
+      ],
+      "outputs": [{"name": "result", "type_desc": "scipy.sparse.csc_matrix"}]
+    },
+    {
+      "node_id": "one_vs_rest_positive_probability_matrix",
+      "name": "one_vs_rest_positive_probability_matrix",
+      "description": "Transpose per-estimator positive-class probabilities into sklearn's sample-by-class one-vs-rest probability matrix.",
+      "concept_type": "multiclass_postprocessing",
+      "status": "atomic",
+      "type_signature": "(positive_class_probabilities: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "positive_class_probabilities", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+    },
+    {
+      "node_id": "one_vs_rest_binary_probability_matrix",
+      "name": "one_vs_rest_binary_probability_matrix",
+      "description": "Expand a single positive-class probability column into the two-class probability matrix sklearn returns when one one-vs-rest estimator is present.",
+      "concept_type": "multiclass_postprocessing",
+      "status": "atomic",
+      "type_signature": "(probabilities: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "probabilities", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+    },
+    {
+      "node_id": "one_vs_rest_normalized_probability_matrix",
+      "name": "one_vs_rest_normalized_probability_matrix",
+      "description": "Normalize one-vs-rest class probabilities row-wise for single-label multiclass output.",
+      "concept_type": "multiclass_postprocessing",
+      "status": "atomic",
+      "type_signature": "(probabilities: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "probabilities", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+    },
+    {
+      "node_id": "one_vs_rest_decision_output",
+      "name": "one_vs_rest_decision_output",
+      "description": "Shape one-vs-rest decision outputs as a vector for one estimator or a sample-by-class matrix otherwise.",
+      "concept_type": "multiclass_postprocessing",
+      "status": "atomic",
+      "type_signature": "(decision_outputs: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "decision_outputs", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+    }
+  ],
+  "edges": [
+    {"source": "one_vs_rest_binary_predict_threshold", "target": "one_vs_rest_multilabel_indicator_csc", "kind": "threshold_to_indicator"},
+    {"source": "one_vs_rest_positive_probability_matrix", "target": "one_vs_rest_binary_probability_matrix", "kind": "single_estimator_binary_expansion"},
+    {"source": "one_vs_rest_positive_probability_matrix", "target": "one_vs_rest_normalized_probability_matrix", "kind": "multiclass_probability_normalization"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.multiclass",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 3 meta-estimator wrappers"
+  }
+}
