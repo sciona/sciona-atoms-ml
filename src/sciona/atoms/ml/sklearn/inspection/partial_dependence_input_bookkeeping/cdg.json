@@ -1,0 +1,108 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_inspection_partial_dependence_input_bookkeeping_root",
+      "name": "sklearn inspection partial dependence input bookkeeping",
+      "kind": "root",
+      "status": "composite",
+      "children": [
+        "partial_dependence_feature_name_index",
+        "partial_dependence_nonnegative_int_features",
+        "partial_dependence_default_categorical_mask",
+        "partial_dependence_boolean_categorical_mask",
+        "partial_dependence_index_categorical_mask",
+        "partial_dependence_name_categorical_mask"
+      ]
+    },
+    {
+      "node_id": "partial_dependence_feature_name_index",
+      "name": "partial_dependence_feature_name_index",
+      "kind": "atom",
+      "status": "atomic",
+      "inputs": [
+        {"name": "feature_name", "type_desc": "str", "required": true},
+        {"name": "feature_names", "type_desc": "tuple[str, ...]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "int"}
+      ]
+    },
+    {
+      "node_id": "partial_dependence_nonnegative_int_features",
+      "name": "partial_dependence_nonnegative_int_features",
+      "kind": "atom",
+      "status": "atomic",
+      "inputs": [
+        {"name": "features", "type_desc": "NDArray[np.int64]", "required": true},
+        {"name": "n_features", "type_desc": "int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.int64]"}
+      ]
+    },
+    {
+      "node_id": "partial_dependence_default_categorical_mask",
+      "name": "partial_dependence_default_categorical_mask",
+      "kind": "atom",
+      "status": "atomic",
+      "inputs": [
+        {"name": "n_selected_features", "type_desc": "int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[bool, ...]"}
+      ]
+    },
+    {
+      "node_id": "partial_dependence_boolean_categorical_mask",
+      "name": "partial_dependence_boolean_categorical_mask",
+      "kind": "atom",
+      "status": "atomic",
+      "inputs": [
+        {"name": "categorical_features", "type_desc": "NDArray[np.bool_]", "required": true},
+        {"name": "features_indices", "type_desc": "NDArray[np.int64]", "required": true},
+        {"name": "n_features", "type_desc": "int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[bool, ...]"}
+      ]
+    },
+    {
+      "node_id": "partial_dependence_index_categorical_mask",
+      "name": "partial_dependence_index_categorical_mask",
+      "kind": "atom",
+      "status": "atomic",
+      "inputs": [
+        {"name": "categorical_indices", "type_desc": "NDArray[np.int64]", "required": true},
+        {"name": "features_indices", "type_desc": "NDArray[np.int64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[bool, ...]"}
+      ]
+    },
+    {
+      "node_id": "partial_dependence_name_categorical_mask",
+      "name": "partial_dependence_name_categorical_mask",
+      "kind": "atom",
+      "status": "atomic",
+      "inputs": [
+        {"name": "categorical_names", "type_desc": "tuple[str, ...]", "required": true},
+        {"name": "features_indices", "type_desc": "NDArray[np.int64]", "required": true},
+        {"name": "feature_names", "type_desc": "tuple[str, ...]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[bool, ...]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "partial_dependence_feature_name_index", "target": "partial_dependence_name_categorical_mask", "kind": "feature_name_resolution"},
+    {"source": "partial_dependence_nonnegative_int_features", "target": "partial_dependence_boolean_categorical_mask", "kind": "selected_feature_indices"},
+    {"source": "partial_dependence_nonnegative_int_features", "target": "partial_dependence_index_categorical_mask", "kind": "selected_feature_indices"}
+  ],
+  "metadata": {
+    "family": "sklearn.inspection.partial_dependence_input_bookkeeping",
+    "source_module": "sklearn.inspection._partial_dependence",
+    "source_symbol": "partial_dependence",
+    "source_type": "function"
+  }
+}

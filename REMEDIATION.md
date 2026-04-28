@@ -579,6 +579,11 @@ Potential remediation path:
   grid-parameter validation, per-feature axis construction, and Cartesian grid
   construction before the deferred estimator prediction paths.
 - Completed helper slice:
+  `sklearn.inspection.partial_dependence_input_bookkeeping` now publishes
+  deterministic feature-name lookup, nonnegative integer-feature validation,
+  and categorical-membership masks from default, boolean, integer, or string
+  feature specifications before grid generation or estimator prediction.
+- Completed helper slice:
   `sklearn.inspection.partial_dependence_postprocessing` now publishes dense
   grid-value assignment plus brute-mode response averaging, response stacking,
   and final regression or binary-classification reshape helpers around supplied

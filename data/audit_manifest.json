@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "metadata": {
-    "generated_at": "2026-04-28T22:00:21.403401+00:00",
+    "generated_at": "2026-04-28T22:07:58.830552+00:00",
     "generator": "scripts/apply_audit_review_bundles.py",
     "phase": "phase_1_review_bundle_merge"
   },
@@ -69916,6 +69916,595 @@
       "required_actions": [],
       "blocking_findings": [],
       "review_record_path": "data/review_bundles/ml_sklearn_inspection_partial_dependence_grid.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.inspection.partial_dependence_input_bookkeeping.partial_dependence_boolean_categorical_mask",
+      "atom_key": "sciona.atoms.ml.sklearn.inspection.partial_dependence_input_bookkeeping.partial_dependence_boolean_categorical_mask",
+      "atom_id": "sciona.atoms.ml.sklearn.inspection.partial_dependence_input_bookkeeping.partial_dependence_boolean_categorical_mask",
+      "module_import_path": "sciona.atoms.ml.sklearn.inspection.partial_dependence_input_bookkeeping",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/inspection/partial_dependence_input_bookkeeping/atoms.py",
+      "module_family": "inspection",
+      "domain_family": "ml.sklearn.inspection",
+      "wrapper_symbol": "partial_dependence_boolean_categorical_mask",
+      "argument_names": [
+        "categorical_features",
+        "features_indices",
+        "n_features"
+      ],
+      "argument_details": [
+        {
+          "name": "categorical_features",
+          "annotation": "NDArray[np.bool_]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "features_indices",
+          "annotation": "NDArray[np.int64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "n_features",
+          "annotation": "int",
+          "required": true,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "tuple[bool, ...]",
+      "docstring_summary": "Map sklearn's global boolean categorical mask onto the selected feature indices.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_input_bookkeeping/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_input_bookkeeping/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_input_bookkeeping/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_input_bookkeeping/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_inspection_partial_dependence_input_bookkeeping_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_inspection_partial_dependence_input_bookkeeping_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_inspection_partial_dependence_input_bookkeeping_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 8,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 95,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 1,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_inspection_partial_dependence_input_bookkeeping.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.inspection.partial_dependence_input_bookkeeping.partial_dependence_default_categorical_mask",
+      "atom_key": "sciona.atoms.ml.sklearn.inspection.partial_dependence_input_bookkeeping.partial_dependence_default_categorical_mask",
+      "atom_id": "sciona.atoms.ml.sklearn.inspection.partial_dependence_input_bookkeeping.partial_dependence_default_categorical_mask",
+      "module_import_path": "sciona.atoms.ml.sklearn.inspection.partial_dependence_input_bookkeeping",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/inspection/partial_dependence_input_bookkeeping/atoms.py",
+      "module_family": "inspection",
+      "domain_family": "ml.sklearn.inspection",
+      "wrapper_symbol": "partial_dependence_default_categorical_mask",
+      "argument_names": [
+        "n_selected_features"
+      ],
+      "argument_details": [
+        {
+          "name": "n_selected_features",
+          "annotation": "int",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "tuple[bool, ...]",
+      "docstring_summary": "Return sklearn's default all-false categorical mask for selected features.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_input_bookkeeping/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_input_bookkeeping/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_input_bookkeeping/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_input_bookkeeping/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_inspection_partial_dependence_input_bookkeeping_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_inspection_partial_dependence_input_bookkeeping_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_inspection_partial_dependence_input_bookkeeping_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 7,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 96,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 1,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_inspection_partial_dependence_input_bookkeeping.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.inspection.partial_dependence_input_bookkeeping.partial_dependence_feature_name_index",
+      "atom_key": "sciona.atoms.ml.sklearn.inspection.partial_dependence_input_bookkeeping.partial_dependence_feature_name_index",
+      "atom_id": "sciona.atoms.ml.sklearn.inspection.partial_dependence_input_bookkeeping.partial_dependence_feature_name_index",
+      "module_import_path": "sciona.atoms.ml.sklearn.inspection.partial_dependence_input_bookkeeping",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/inspection/partial_dependence_input_bookkeeping/atoms.py",
+      "module_family": "inspection",
+      "domain_family": "ml.sklearn.inspection",
+      "wrapper_symbol": "partial_dependence_feature_name_index",
+      "argument_names": [
+        "feature_name",
+        "feature_names"
+      ],
+      "argument_details": [
+        {
+          "name": "feature_name",
+          "annotation": "str",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "feature_names",
+          "annotation": "tuple[str, ...]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "int",
+      "docstring_summary": "Resolve sklearn's feature-name lookup used by partial_dependence.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_input_bookkeeping/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_input_bookkeeping/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_input_bookkeeping/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_input_bookkeeping/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_inspection_partial_dependence_input_bookkeeping_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_inspection_partial_dependence_input_bookkeeping_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_inspection_partial_dependence_input_bookkeeping_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 8,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 95,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 1,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_inspection_partial_dependence_input_bookkeeping.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.inspection.partial_dependence_input_bookkeeping.partial_dependence_index_categorical_mask",
+      "atom_key": "sciona.atoms.ml.sklearn.inspection.partial_dependence_input_bookkeeping.partial_dependence_index_categorical_mask",
+      "atom_id": "sciona.atoms.ml.sklearn.inspection.partial_dependence_input_bookkeeping.partial_dependence_index_categorical_mask",
+      "module_import_path": "sciona.atoms.ml.sklearn.inspection.partial_dependence_input_bookkeeping",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/inspection/partial_dependence_input_bookkeeping/atoms.py",
+      "module_family": "inspection",
+      "domain_family": "ml.sklearn.inspection",
+      "wrapper_symbol": "partial_dependence_index_categorical_mask",
+      "argument_names": [
+        "categorical_indices",
+        "features_indices"
+      ],
+      "argument_details": [
+        {
+          "name": "categorical_indices",
+          "annotation": "NDArray[np.int64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "features_indices",
+          "annotation": "NDArray[np.int64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "tuple[bool, ...]",
+      "docstring_summary": "Resolve sklearn's categorical-membership mask from categorical feature indices.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_input_bookkeeping/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_input_bookkeeping/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_input_bookkeeping/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_input_bookkeeping/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_inspection_partial_dependence_input_bookkeeping_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_inspection_partial_dependence_input_bookkeeping_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_inspection_partial_dependence_input_bookkeeping_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 8,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 95,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 1,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_inspection_partial_dependence_input_bookkeeping.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.inspection.partial_dependence_input_bookkeeping.partial_dependence_name_categorical_mask",
+      "atom_key": "sciona.atoms.ml.sklearn.inspection.partial_dependence_input_bookkeeping.partial_dependence_name_categorical_mask",
+      "atom_id": "sciona.atoms.ml.sklearn.inspection.partial_dependence_input_bookkeeping.partial_dependence_name_categorical_mask",
+      "module_import_path": "sciona.atoms.ml.sklearn.inspection.partial_dependence_input_bookkeeping",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/inspection/partial_dependence_input_bookkeeping/atoms.py",
+      "module_family": "inspection",
+      "domain_family": "ml.sklearn.inspection",
+      "wrapper_symbol": "partial_dependence_name_categorical_mask",
+      "argument_names": [
+        "categorical_names",
+        "features_indices",
+        "feature_names"
+      ],
+      "argument_details": [
+        {
+          "name": "categorical_names",
+          "annotation": "tuple[str, ...]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "features_indices",
+          "annotation": "NDArray[np.int64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "feature_names",
+          "annotation": "tuple[str, ...]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "tuple[bool, ...]",
+      "docstring_summary": "Resolve sklearn's categorical-membership mask from categorical feature names.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_input_bookkeeping/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_input_bookkeeping/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_input_bookkeeping/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_input_bookkeeping/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_inspection_partial_dependence_input_bookkeeping_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_inspection_partial_dependence_input_bookkeeping_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_inspection_partial_dependence_input_bookkeeping_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 9,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 94,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 1,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_inspection_partial_dependence_input_bookkeeping.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.inspection.partial_dependence_input_bookkeeping.partial_dependence_nonnegative_int_features",
+      "atom_key": "sciona.atoms.ml.sklearn.inspection.partial_dependence_input_bookkeeping.partial_dependence_nonnegative_int_features",
+      "atom_id": "sciona.atoms.ml.sklearn.inspection.partial_dependence_input_bookkeeping.partial_dependence_nonnegative_int_features",
+      "module_import_path": "sciona.atoms.ml.sklearn.inspection.partial_dependence_input_bookkeeping",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/inspection/partial_dependence_input_bookkeeping/atoms.py",
+      "module_family": "inspection",
+      "domain_family": "ml.sklearn.inspection",
+      "wrapper_symbol": "partial_dependence_nonnegative_int_features",
+      "argument_names": [
+        "features",
+        "n_features"
+      ],
+      "argument_details": [
+        {
+          "name": "features",
+          "annotation": "NDArray[np.int64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "n_features",
+          "annotation": "int",
+          "required": true,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.int64]",
+      "docstring_summary": "Validate sklearn's nonnegative integer feature requirement before column lookup.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_input_bookkeeping/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_input_bookkeeping/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_input_bookkeeping/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_input_bookkeeping/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_inspection_partial_dependence_input_bookkeeping_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_inspection_partial_dependence_input_bookkeeping_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_inspection_partial_dependence_input_bookkeeping_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 8,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 95,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 1,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_inspection_partial_dependence_input_bookkeeping.review_bundle.json",
       "has_references": true,
       "references_status": "pass"
     },
