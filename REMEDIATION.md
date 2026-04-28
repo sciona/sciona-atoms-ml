@@ -603,6 +603,11 @@ Potential remediation path:
   regressor response-method guard, kind-versus-method resolution, recursion
   sample-weight restriction, auto-method resolution from supplied recursion
   support, and the final recursion-support guard before estimator callbacks.
+- Completed helper slice:
+  `sklearn.inspection.partial_dependence_task_guards` now publishes the
+  estimator task-kind guard, multiclass-multioutput rejection, recursion-mode
+  response_method normalization from `auto` to `decision_function`, and the
+  final recursion response-method guard before estimator callbacks.
 - Ingest small helper atoms only where the boundary is explicit, such as
   permutation score aggregation from baseline and permuted score arrays.
 - Decide how estimator callback boundaries should be represented before

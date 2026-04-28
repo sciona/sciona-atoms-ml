@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "metadata": {
-    "generated_at": "2026-04-28T22:26:36.602857+00:00",
+    "generated_at": "2026-04-28T22:31:39.510557+00:00",
     "generator": "scripts/apply_audit_review_bundles.py",
     "phase": "phase_1_review_bundle_merge"
   },
@@ -71489,6 +71489,373 @@
       "required_actions": [],
       "blocking_findings": [],
       "review_record_path": "data/review_bundles/ml_sklearn_inspection_partial_dependence_preflight.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.inspection.partial_dependence_task_guards.partial_dependence_require_classifier_or_regressor",
+      "atom_key": "sciona.atoms.ml.sklearn.inspection.partial_dependence_task_guards.partial_dependence_require_classifier_or_regressor",
+      "atom_id": "sciona.atoms.ml.sklearn.inspection.partial_dependence_task_guards.partial_dependence_require_classifier_or_regressor",
+      "module_import_path": "sciona.atoms.ml.sklearn.inspection.partial_dependence_task_guards",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/inspection/partial_dependence_task_guards/atoms.py",
+      "module_family": "inspection",
+      "domain_family": "ml.sklearn.inspection",
+      "wrapper_symbol": "partial_dependence_require_classifier_or_regressor",
+      "argument_names": [
+        "task_kind"
+      ],
+      "argument_details": [
+        {
+          "name": "task_kind",
+          "annotation": "str",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "str",
+      "docstring_summary": "Reject unsupported estimator task kinds before partial-dependence execution.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_task_guards/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_task_guards/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_task_guards/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_task_guards/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_inspection_partial_dependence_task_guards_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_inspection_partial_dependence_task_guards_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_inspection_partial_dependence_task_guards_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 8,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 95,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 3,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_inspection_partial_dependence_task_guards.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.inspection.partial_dependence_task_guards.partial_dependence_require_decision_function_for_recursion",
+      "atom_key": "sciona.atoms.ml.sklearn.inspection.partial_dependence_task_guards.partial_dependence_require_decision_function_for_recursion",
+      "atom_id": "sciona.atoms.ml.sklearn.inspection.partial_dependence_task_guards.partial_dependence_require_decision_function_for_recursion",
+      "module_import_path": "sciona.atoms.ml.sklearn.inspection.partial_dependence_task_guards",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/inspection/partial_dependence_task_guards/atoms.py",
+      "module_family": "inspection",
+      "domain_family": "ml.sklearn.inspection",
+      "wrapper_symbol": "partial_dependence_require_decision_function_for_recursion",
+      "argument_names": [
+        "response_method"
+      ],
+      "argument_details": [
+        {
+          "name": "response_method",
+          "annotation": "str",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "str",
+      "docstring_summary": "Require sklearn's decision_function-only response method for recursion mode.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_task_guards/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_task_guards/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_task_guards/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_task_guards/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_inspection_partial_dependence_task_guards_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_inspection_partial_dependence_task_guards_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_inspection_partial_dependence_task_guards_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 8,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 95,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 2,
+      "parity_case_count": 3,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_inspection_partial_dependence_task_guards.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.inspection.partial_dependence_task_guards.partial_dependence_require_not_multiclass_multioutput",
+      "atom_key": "sciona.atoms.ml.sklearn.inspection.partial_dependence_task_guards.partial_dependence_require_not_multiclass_multioutput",
+      "atom_id": "sciona.atoms.ml.sklearn.inspection.partial_dependence_task_guards.partial_dependence_require_not_multiclass_multioutput",
+      "module_import_path": "sciona.atoms.ml.sklearn.inspection.partial_dependence_task_guards",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/inspection/partial_dependence_task_guards/atoms.py",
+      "module_family": "inspection",
+      "domain_family": "ml.sklearn.inspection",
+      "wrapper_symbol": "partial_dependence_require_not_multiclass_multioutput",
+      "argument_names": [
+        "is_classifier_task",
+        "classes_are_multioutput"
+      ],
+      "argument_details": [
+        {
+          "name": "is_classifier_task",
+          "annotation": "bool",
+          "required": true,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "classes_are_multioutput",
+          "annotation": "bool",
+          "required": true,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "bool",
+      "docstring_summary": "Reject sklearn's unsupported multiclass-multioutput classifier configuration.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_task_guards/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_task_guards/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_task_guards/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_task_guards/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_inspection_partial_dependence_task_guards_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_inspection_partial_dependence_task_guards_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_inspection_partial_dependence_task_guards_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 8,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 95,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 2,
+      "parity_case_count": 3,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_inspection_partial_dependence_task_guards.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.inspection.partial_dependence_task_guards.partial_dependence_resolve_recursion_response_method",
+      "atom_key": "sciona.atoms.ml.sklearn.inspection.partial_dependence_task_guards.partial_dependence_resolve_recursion_response_method",
+      "atom_id": "sciona.atoms.ml.sklearn.inspection.partial_dependence_task_guards.partial_dependence_resolve_recursion_response_method",
+      "module_import_path": "sciona.atoms.ml.sklearn.inspection.partial_dependence_task_guards",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/inspection/partial_dependence_task_guards/atoms.py",
+      "module_family": "inspection",
+      "domain_family": "ml.sklearn.inspection",
+      "wrapper_symbol": "partial_dependence_resolve_recursion_response_method",
+      "argument_names": [
+        "response_method"
+      ],
+      "argument_details": [
+        {
+          "name": "response_method",
+          "annotation": "str",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "str",
+      "docstring_summary": "Apply sklearn's recursion-specific response_method='auto' normalization.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_task_guards/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_task_guards/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_task_guards/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/inspection/partial_dependence_task_guards/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_inspection_partial_dependence_task_guards_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_inspection_partial_dependence_task_guards_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_inspection_partial_dependence_task_guards_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 8,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 95,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 3,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_inspection_partial_dependence_task_guards.review_bundle.json",
       "has_references": true,
       "references_status": "pass"
     },

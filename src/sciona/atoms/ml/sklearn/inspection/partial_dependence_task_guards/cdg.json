@@ -1,0 +1,81 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_inspection_partial_dependence_task_guards_root",
+      "name": "Sklearn Inspection Partial-Dependence Task-Guard Atoms",
+      "description": "Deterministic estimator-kind and recursion-response guards that run before partial_dependence reaches estimator callback execution.",
+      "status": "decomposed",
+      "children": [
+        "partial_dependence_require_classifier_or_regressor",
+        "partial_dependence_require_not_multiclass_multioutput",
+        "partial_dependence_resolve_recursion_response_method",
+        "partial_dependence_require_decision_function_for_recursion"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "partial_dependence_require_classifier_or_regressor",
+      "name": "partial_dependence_require_classifier_or_regressor",
+      "description": "Require the fitted estimator task kind to be either classifier or regressor before partial dependence proceeds.",
+      "concept_type": "inspection_task_guard",
+      "status": "atomic",
+      "type_signature": "(task_kind: str) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "task_kind", "type_desc": "str", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "str"}]
+    },
+    {
+      "node_id": "partial_dependence_require_not_multiclass_multioutput",
+      "name": "partial_dependence_require_not_multiclass_multioutput",
+      "description": "Reject the unsupported multiclass-multioutput classifier configuration before partial dependence feature processing begins.",
+      "concept_type": "inspection_task_guard",
+      "status": "atomic",
+      "type_signature": "(*, is_classifier_task: bool, classes_are_multioutput: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "is_classifier_task", "type_desc": "bool", "required": true},
+        {"name": "classes_are_multioutput", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    },
+    {
+      "node_id": "partial_dependence_resolve_recursion_response_method",
+      "name": "partial_dependence_resolve_recursion_response_method",
+      "description": "Normalize response_method to decision_function when recursion mode is already selected and the caller left response_method as auto.",
+      "concept_type": "inspection_recursion_response_guard",
+      "status": "atomic",
+      "type_signature": "(response_method: str) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "response_method", "type_desc": "str", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "str"}]
+    },
+    {
+      "node_id": "partial_dependence_require_decision_function_for_recursion",
+      "name": "partial_dependence_require_decision_function_for_recursion",
+      "description": "Require decision_function as the effective response method when partial dependence recursion mode is used.",
+      "concept_type": "inspection_recursion_response_guard",
+      "status": "atomic",
+      "type_signature": "(response_method: str) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "response_method", "type_desc": "str", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "str"}]
+    }
+  ],
+  "edges": [
+    {"source": "partial_dependence_require_classifier_or_regressor", "target": "partial_dependence_require_not_multiclass_multioutput", "kind": "task_validation"},
+    {"source": "partial_dependence_resolve_recursion_response_method", "target": "partial_dependence_require_decision_function_for_recursion", "kind": "recursion_response_validation"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.inspection._partial_dependence",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 3 meta-estimator wrappers"
+  }
+}
