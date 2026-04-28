@@ -273,6 +273,13 @@ Potential remediation path:
   early-stop enablement, main-loop iteration count, tol-based break
   predicates, and backward-direction support finalization before scorer
   callbacks or estimator fitting.
+- Completed helper slice:
+  `sklearn.feature_selection.select_from_model_bookkeeping` now publishes
+  deterministic SelectFromModel bookkeeping helpers for validated integer
+  `max_features`, prefit fitted-estimator validity, transform-time callable
+  `max_features` readiness, and stable descending top-k candidate-index
+  selection before threshold masking or estimator-specific importance
+  extraction.
 - Ingest estimator-independent helper atoms first, such as threshold parsing,
   support-mask updates from supplied importance vectors, and candidate subset
   bookkeeping.
