@@ -327,6 +327,11 @@ Potential remediation path:
   indicators, partial-fit unknown-class detection, partial-fit CSC target
   indicators from a known class vector, and dense output-by-sample target
   column materialization from the CSC indicator matrix.
+- Completed helper slice:
+  `sklearn.multiclass.output_code_matrices` now publishes deterministic
+  output-code helper matrices for fit-time class discovery, sample-by-estimator
+  integer code-matrix assembly from a supplied code book, and predict-time
+  estimator-response transpose formatting before nearest-code decoding.
 - Ingest estimator-independent helpers first, such as one-vs-one class-pair
   index generation, one-vs-rest score aggregation, output-code book creation,
   and code-distance decoding from supplied response matrices.
