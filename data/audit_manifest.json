@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "metadata": {
-    "generated_at": "2026-04-28T21:46:36.325971+00:00",
+    "generated_at": "2026-04-28T21:54:02.071693+00:00",
     "generator": "scripts/apply_audit_review_bundles.py",
     "phase": "phase_1_review_bundle_merge"
   },
@@ -59455,6 +59455,616 @@
       "required_actions": [],
       "blocking_findings": [],
       "review_record_path": "data/review_bundles/ml_sklearn_feature_selection_selectors.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.feature_selection.sequential_fit_bookkeeping.sequential_auto_select_enabled",
+      "atom_key": "sciona.atoms.ml.sklearn.feature_selection.sequential_fit_bookkeeping.sequential_auto_select_enabled",
+      "atom_id": "sciona.atoms.ml.sklearn.feature_selection.sequential_fit_bookkeeping.sequential_auto_select_enabled",
+      "module_import_path": "sciona.atoms.ml.sklearn.feature_selection.sequential_fit_bookkeeping",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/feature_selection/sequential_fit_bookkeeping/atoms.py",
+      "module_family": "feature_selection",
+      "domain_family": "ml.sklearn.feature_selection",
+      "wrapper_symbol": "sequential_auto_select_enabled",
+      "argument_names": [
+        "n_features_to_select",
+        "tol"
+      ],
+      "argument_details": [
+        {
+          "name": "n_features_to_select",
+          "annotation": "SequentialFeatureCountSpec",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "tol",
+          "annotation": "float | None",
+          "required": false,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "bool",
+      "docstring_summary": "Return whether sklearn will use tolerance-based early stopping in the main loop.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/sequential_fit_bookkeeping/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/sequential_fit_bookkeeping/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/sequential_fit_bookkeeping/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/sequential_fit_bookkeeping/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_feature_selection_sequential_fit_bookkeeping_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_feature_selection_sequential_fit_bookkeeping_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_feature_selection_sequential_fit_bookkeeping_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 7,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 96,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 3,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_feature_selection_sequential_fit_bookkeeping.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.feature_selection.sequential_fit_bookkeeping.sequential_direction_tol_valid",
+      "atom_key": "sciona.atoms.ml.sklearn.feature_selection.sequential_fit_bookkeeping.sequential_direction_tol_valid",
+      "atom_id": "sciona.atoms.ml.sklearn.feature_selection.sequential_fit_bookkeeping.sequential_direction_tol_valid",
+      "module_import_path": "sciona.atoms.ml.sklearn.feature_selection.sequential_fit_bookkeeping",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/feature_selection/sequential_fit_bookkeeping/atoms.py",
+      "module_family": "feature_selection",
+      "domain_family": "ml.sklearn.feature_selection",
+      "wrapper_symbol": "sequential_direction_tol_valid",
+      "argument_names": [
+        "direction",
+        "tol"
+      ],
+      "argument_details": [
+        {
+          "name": "direction",
+          "annotation": "str",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "tol",
+          "annotation": "float | None",
+          "required": false,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "bool",
+      "docstring_summary": "Return whether sklearn's direction-specific tolerance guard allows fit to proceed.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/sequential_fit_bookkeeping/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/sequential_fit_bookkeeping/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/sequential_fit_bookkeeping/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/sequential_fit_bookkeeping/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_feature_selection_sequential_fit_bookkeeping_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_feature_selection_sequential_fit_bookkeeping_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_feature_selection_sequential_fit_bookkeeping_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 8,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 95,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 4,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_feature_selection_sequential_fit_bookkeeping.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.feature_selection.sequential_fit_bookkeeping.sequential_finalize_support",
+      "atom_key": "sciona.atoms.ml.sklearn.feature_selection.sequential_fit_bookkeeping.sequential_finalize_support",
+      "atom_id": "sciona.atoms.ml.sklearn.feature_selection.sequential_fit_bookkeeping.sequential_finalize_support",
+      "module_import_path": "sciona.atoms.ml.sklearn.feature_selection.sequential_fit_bookkeeping",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/feature_selection/sequential_fit_bookkeeping/atoms.py",
+      "module_family": "feature_selection",
+      "domain_family": "ml.sklearn.feature_selection",
+      "wrapper_symbol": "sequential_finalize_support",
+      "argument_names": [
+        "current_mask",
+        "direction"
+      ],
+      "argument_details": [
+        {
+          "name": "current_mask",
+          "annotation": "NDArray[np.bool_]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "direction",
+          "annotation": "str",
+          "required": false,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.bool_]",
+      "docstring_summary": "Finalize sklearn's selected-feature mask after the main sequential loop.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/sequential_fit_bookkeeping/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/sequential_fit_bookkeeping/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/sequential_fit_bookkeeping/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/sequential_fit_bookkeeping/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_feature_selection_sequential_fit_bookkeeping_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_feature_selection_sequential_fit_bookkeeping_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_feature_selection_sequential_fit_bookkeeping_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 8,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 95,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 2,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_feature_selection_sequential_fit_bookkeeping.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.feature_selection.sequential_fit_bookkeeping.sequential_iteration_count",
+      "atom_key": "sciona.atoms.ml.sklearn.feature_selection.sequential_fit_bookkeeping.sequential_iteration_count",
+      "atom_id": "sciona.atoms.ml.sklearn.feature_selection.sequential_fit_bookkeeping.sequential_iteration_count",
+      "module_import_path": "sciona.atoms.ml.sklearn.feature_selection.sequential_fit_bookkeeping",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/feature_selection/sequential_fit_bookkeeping/atoms.py",
+      "module_family": "feature_selection",
+      "domain_family": "ml.sklearn.feature_selection",
+      "wrapper_symbol": "sequential_iteration_count",
+      "argument_names": [
+        "n_features",
+        "n_features_to_select_resolved",
+        "n_features_to_select",
+        "direction"
+      ],
+      "argument_details": [
+        {
+          "name": "n_features",
+          "annotation": "int",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "n_features_to_select_resolved",
+          "annotation": "int",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "n_features_to_select",
+          "annotation": "SequentialFeatureCountSpec",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "direction",
+          "annotation": "str",
+          "required": false,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "int",
+      "docstring_summary": "Compute sklearn's main-loop iteration count for sequential feature selection.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/sequential_fit_bookkeeping/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/sequential_fit_bookkeeping/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/sequential_fit_bookkeeping/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/sequential_fit_bookkeeping/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_feature_selection_sequential_fit_bookkeeping_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_feature_selection_sequential_fit_bookkeeping_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_feature_selection_sequential_fit_bookkeeping_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 8,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 95,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 3,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_feature_selection_sequential_fit_bookkeeping.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.feature_selection.sequential_fit_bookkeeping.sequential_resolve_n_features_to_select",
+      "atom_key": "sciona.atoms.ml.sklearn.feature_selection.sequential_fit_bookkeeping.sequential_resolve_n_features_to_select",
+      "atom_id": "sciona.atoms.ml.sklearn.feature_selection.sequential_fit_bookkeeping.sequential_resolve_n_features_to_select",
+      "module_import_path": "sciona.atoms.ml.sklearn.feature_selection.sequential_fit_bookkeeping",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/feature_selection/sequential_fit_bookkeeping/atoms.py",
+      "module_family": "feature_selection",
+      "domain_family": "ml.sklearn.feature_selection",
+      "wrapper_symbol": "sequential_resolve_n_features_to_select",
+      "argument_names": [
+        "n_features",
+        "n_features_to_select",
+        "tol"
+      ],
+      "argument_details": [
+        {
+          "name": "n_features",
+          "annotation": "int",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "n_features_to_select",
+          "annotation": "SequentialFeatureCountSpec",
+          "required": false,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "tol",
+          "annotation": "float | None",
+          "required": false,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "int",
+      "docstring_summary": "Resolve sklearn's fitted `n_features_to_select_` value before the main loop.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/sequential_fit_bookkeeping/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/sequential_fit_bookkeeping/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/sequential_fit_bookkeeping/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/sequential_fit_bookkeeping/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_feature_selection_sequential_fit_bookkeeping_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_feature_selection_sequential_fit_bookkeeping_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_feature_selection_sequential_fit_bookkeeping_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 9,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 94,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 4,
+      "parity_case_count": 4,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_feature_selection_sequential_fit_bookkeeping.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.feature_selection.sequential_fit_bookkeeping.sequential_tolerance_break",
+      "atom_key": "sciona.atoms.ml.sklearn.feature_selection.sequential_fit_bookkeeping.sequential_tolerance_break",
+      "atom_id": "sciona.atoms.ml.sklearn.feature_selection.sequential_fit_bookkeeping.sequential_tolerance_break",
+      "module_import_path": "sciona.atoms.ml.sklearn.feature_selection.sequential_fit_bookkeeping",
+      "module_path": "/Users/conrad/personal/sciona-atoms-ml/src/sciona/atoms/ml/sklearn/feature_selection/sequential_fit_bookkeeping/atoms.py",
+      "module_family": "feature_selection",
+      "domain_family": "ml.sklearn.feature_selection",
+      "wrapper_symbol": "sequential_tolerance_break",
+      "argument_names": [
+        "old_score",
+        "new_score",
+        "tol"
+      ],
+      "argument_details": [
+        {
+          "name": "old_score",
+          "annotation": "float",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "new_score",
+          "annotation": "float",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "tol",
+          "annotation": "float",
+          "required": true,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "bool",
+      "docstring_summary": "Return whether sklearn's auto-selection loop would stop at the current score improvement.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/sequential_fit_bookkeeping/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/sequential_fit_bookkeeping/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/sequential_fit_bookkeeping/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/sequential_fit_bookkeeping/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_feature_selection_sequential_fit_bookkeeping_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_feature_selection_sequential_fit_bookkeeping_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_feature_selection_sequential_fit_bookkeeping_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 7,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 96,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 3,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_feature_selection_sequential_fit_bookkeeping.review_bundle.json",
       "has_references": true,
       "references_status": "pass"
     },

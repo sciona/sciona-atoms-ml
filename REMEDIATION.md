@@ -266,6 +266,13 @@ Potential remediation path:
   `sklearn.feature_selection.selector_mixin_sparse_transform` now publishes the
   CSR `SelectorMixin._transform` helper for selected-column sparse indexing plus
   sklearn's empty dense fallback when no features are selected.
+- Completed helper slice:
+  `sklearn.feature_selection.sequential_fit_bookkeeping` now publishes
+  deterministic SequentialFeatureSelector fit-shell helpers for resolved
+  feature-count defaults, direction-specific tolerance validity, auto-select
+  early-stop enablement, main-loop iteration count, tol-based break
+  predicates, and backward-direction support finalization before scorer
+  callbacks or estimator fitting.
 - Ingest estimator-independent helper atoms first, such as threshold parsing,
   support-mask updates from supplied importance vectors, and candidate subset
   bookkeeping.

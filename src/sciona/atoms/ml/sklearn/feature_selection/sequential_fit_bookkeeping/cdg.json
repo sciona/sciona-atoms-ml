@@ -1,0 +1,112 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_feature_selection_sequential_fit_bookkeeping_root",
+      "name": "sklearn feature selection sequential fit bookkeeping",
+      "kind": "root",
+      "status": "composite",
+      "children": [
+        "sequential_resolve_n_features_to_select",
+        "sequential_direction_tol_valid",
+        "sequential_auto_select_enabled",
+        "sequential_iteration_count",
+        "sequential_tolerance_break",
+        "sequential_finalize_support"
+      ]
+    },
+    {
+      "node_id": "sequential_resolve_n_features_to_select",
+      "name": "sequential_resolve_n_features_to_select",
+      "kind": "atom",
+      "status": "atomic",
+      "inputs": [
+        {"name": "n_features", "type_desc": "int", "required": true},
+        {"name": "n_features_to_select", "type_desc": "str | int | float", "required": false},
+        {"name": "tol", "type_desc": "float | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "int"}
+      ]
+    },
+    {
+      "node_id": "sequential_direction_tol_valid",
+      "name": "sequential_direction_tol_valid",
+      "kind": "atom",
+      "status": "atomic",
+      "inputs": [
+        {"name": "direction", "type_desc": "str", "required": false},
+        {"name": "tol", "type_desc": "float | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "sequential_auto_select_enabled",
+      "name": "sequential_auto_select_enabled",
+      "kind": "atom",
+      "status": "atomic",
+      "inputs": [
+        {"name": "n_features_to_select", "type_desc": "str | int | float", "required": false},
+        {"name": "tol", "type_desc": "float | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "sequential_iteration_count",
+      "name": "sequential_iteration_count",
+      "kind": "atom",
+      "status": "atomic",
+      "inputs": [
+        {"name": "n_features", "type_desc": "int", "required": true},
+        {"name": "n_features_to_select_resolved", "type_desc": "int", "required": true},
+        {"name": "n_features_to_select", "type_desc": "str | int | float", "required": false},
+        {"name": "direction", "type_desc": "str", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "int"}
+      ]
+    },
+    {
+      "node_id": "sequential_tolerance_break",
+      "name": "sequential_tolerance_break",
+      "kind": "atom",
+      "status": "atomic",
+      "inputs": [
+        {"name": "old_score", "type_desc": "float", "required": true},
+        {"name": "new_score", "type_desc": "float", "required": true},
+        {"name": "tol", "type_desc": "float", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "sequential_finalize_support",
+      "name": "sequential_finalize_support",
+      "kind": "atom",
+      "status": "atomic",
+      "inputs": [
+        {"name": "current_mask", "type_desc": "NDArray[np.bool_]", "required": true},
+        {"name": "direction", "type_desc": "str", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.bool_]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "sequential_resolve_n_features_to_select", "target": "sequential_iteration_count", "kind": "resolved_feature_count"},
+    {"source": "sequential_auto_select_enabled", "target": "sequential_tolerance_break", "kind": "auto_selection_gate"},
+    {"source": "sequential_direction_tol_valid", "target": "sequential_tolerance_break", "kind": "tol_guard"},
+    {"source": "sequential_iteration_count", "target": "sequential_finalize_support", "kind": "loop_completion"}
+  ],
+  "metadata": {
+    "family": "sklearn.feature_selection.sequential_fit_bookkeeping",
+    "source_module": "sklearn.feature_selection._sequential",
+    "source_symbol": "SequentialFeatureSelector.fit",
+    "source_type": "method"
+  }
+}
