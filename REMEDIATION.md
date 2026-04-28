@@ -381,6 +381,11 @@ Potential remediation path:
   deterministic prediction-shell helpers for chain method-name fallback,
   zero-initialized output and feature buffers, previous-prediction prefix
   slicing, and sparse DOK-array normalization before prediction-time hstack.
+- Completed helper slice:
+  `sklearn.multioutput.classifier_output_bookkeeping` now publishes
+  classifier-side output bookkeeping for the base-estimator predict-method
+  guard, 2D score-target validation, fitted-output-count validation, and
+  canonicalization of already-computed per-output probability blocks.
 - Ingest estimator-independent chain-order validation, feature augmentation
   from supplied previous predictions, independent-output stacking, and
   multioutput score aggregation.

@@ -1,0 +1,81 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_multioutput_classifier_output_bookkeeping_root",
+      "name": "Sklearn Multioutput Classifier Output-Bookkeeping Atoms",
+      "description": "Deterministic classifier-side output and score bookkeeping around deferred multioutput estimator prediction callbacks.",
+      "status": "decomposed",
+      "children": [
+        "multioutput_predict_require_base_predict_method",
+        "multioutput_classifier_score_require_2d_targets",
+        "multioutput_classifier_score_require_matching_output_count",
+        "multioutput_classifier_probability_blocks"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "multioutput_predict_require_base_predict_method",
+      "name": "multioutput_predict_require_base_predict_method",
+      "description": "Enforce the base-estimator predict-method requirement before multioutput predict is allowed to stack per-output predictions.",
+      "concept_type": "multioutput_predict_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(estimator_has_predict: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator_has_predict", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    },
+    {
+      "node_id": "multioutput_classifier_score_require_2d_targets",
+      "name": "multioutput_classifier_score_require_2d_targets",
+      "description": "Require a nonempty 2D target matrix before multioutput classifier score can compare predicted and true output columns.",
+      "concept_type": "multioutput_score_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(y: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+    },
+    {
+      "node_id": "multioutput_classifier_score_require_matching_output_count",
+      "name": "multioutput_classifier_score_require_matching_output_count",
+      "description": "Require the number of true-target columns to match the fitted output count before multioutput classifier score proceeds.",
+      "concept_type": "multioutput_score_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(y: NDArray[np.float64], n_outputs: int) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "n_outputs", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+    },
+    {
+      "node_id": "multioutput_classifier_probability_blocks",
+      "name": "multioutput_classifier_probability_blocks",
+      "description": "Canonicalize already-computed per-output class-probability matrices for multioutput classifier predict_proba output.",
+      "concept_type": "multioutput_probability_outputs",
+      "status": "atomic",
+      "type_signature": "(probability_blocks: tuple[NDArray[np.float64], ...]) -> tuple[NDArray[np.float64], ...]",
+      "depth": 1,
+      "inputs": [
+        {"name": "probability_blocks", "type_desc": "tuple[NDArray[np.float64], ...]", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "tuple[NDArray[np.float64], ...]"}]
+    }
+  ],
+  "edges": [
+    {"source": "multioutput_predict_require_base_predict_method", "target": "multioutput_classifier_probability_blocks", "kind": "predict_shell"},
+    {"source": "multioutput_classifier_score_require_2d_targets", "target": "multioutput_classifier_score_require_matching_output_count", "kind": "score_validation"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.multioutput",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 3 meta-estimator wrappers"
+  }
+}

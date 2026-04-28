@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.multioutput.classifier_output_bookkeeping.multioutput_predict_require_base_predict_method@sciona/atoms/ml/sklearn/multioutput/classifier_output_bookkeeping/atoms.py:82": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from sklearn.multioutput._MultiOutputEstimator.predict base-estimator predict-method guard."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.multioutput.classifier_output_bookkeeping.multioutput_classifier_score_require_2d_targets@sciona/atoms/ml/sklearn/multioutput/classifier_output_bookkeeping/atoms.py:92": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from sklearn.multioutput.MultiOutputClassifier.score 2D target guard."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.multioutput.classifier_output_bookkeeping.multioutput_classifier_score_require_matching_output_count@sciona/atoms/ml/sklearn/multioutput/classifier_output_bookkeeping/atoms.py:106": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from sklearn.multioutput.MultiOutputClassifier.score fitted-output-count validation."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.multioutput.classifier_output_bookkeeping.multioutput_classifier_probability_blocks@sciona/atoms/ml/sklearn/multioutput/classifier_output_bookkeeping/atoms.py:130": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from sklearn.multioutput.MultiOutputClassifier.predict_proba list materialization from per-estimator probability matrices."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}
