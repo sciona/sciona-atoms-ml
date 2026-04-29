@@ -414,6 +414,11 @@ Potential remediation path:
   classifier-side output bookkeeping for the base-estimator predict-method
   guard, 2D score-target validation, fitted-output-count validation, and
   canonicalization of already-computed per-output probability blocks.
+- Completed helper slice:
+  `sklearn.multioutput.chain_fit_cv_updates` now publishes deterministic
+  fit-time CV update helpers for the nonterminal-step predicate, augmented
+  feature-column index resolution, and dense or sparse assignment of supplied
+  cross-validated feature columns into the chain's augmented design matrix.
 - Ingest estimator-independent chain-order validation, feature augmentation
   from supplied previous predictions, independent-output stacking, and
   multioutput score aggregation.
