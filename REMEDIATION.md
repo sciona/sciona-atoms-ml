@@ -351,6 +351,11 @@ Potential remediation path:
   OneVsOneClassifier predict-output shell for binary threshold-based label
   selection from a supplied decision vector and multiclass argmax label
   selection from a supplied decision-score matrix.
+- Completed helper slice:
+  `sklearn.multiclass.one_vs_rest_prediction_outputs` now publishes the
+  multiclass OneVsRestClassifier predict-output shell for running-max state
+  initialization, one estimator-step updates with sklearn's later-equal-score
+  wins tie rule, and final class-label lookup from winning class indices.
 - Ingest estimator-independent helpers first, such as one-vs-one class-pair
   index generation, one-vs-rest score aggregation, output-code book creation,
   and code-distance decoding from supplied response matrices.
