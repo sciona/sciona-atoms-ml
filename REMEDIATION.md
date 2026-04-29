@@ -374,6 +374,11 @@ Potential remediation path:
   first-call estimator-count resolution, unknown-class detection, one pair's
   sample mask and selected indices, and filtered 0/1 target encoding before
   estimator callbacks or parameter subsetting.
+- Completed helper slice:
+  `sklearn.multiclass.one_vs_one_fit_bookkeeping` now publishes deterministic
+  OneVsOneClassifier fit-shell helpers for sorted unique class extraction, the
+  single-class fit guard, and pairwise index exposure from already-produced
+  worker index blocks when the pairwise input tag is enabled.
 - Ingest estimator-independent helpers first, such as one-vs-one class-pair
   index generation, one-vs-rest score aggregation, output-code book creation,
   and code-distance decoding from supplied response matrices.

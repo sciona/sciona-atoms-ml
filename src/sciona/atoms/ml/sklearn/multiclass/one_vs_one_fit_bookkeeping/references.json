@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.multiclass.one_vs_one_fit_bookkeeping.one_vs_one_fit_classes@sciona/atoms/ml/sklearn/multiclass/one_vs_one_fit_bookkeeping/atoms.py:73": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the `self.classes_ = np.unique(y)` step in sklearn.multiclass.OneVsOneClassifier.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.multiclass.one_vs_one_fit_bookkeeping.one_vs_one_fit_require_multiple_classes@sciona/atoms/ml/sklearn/multiclass/one_vs_one_fit_bookkeeping/atoms.py:81": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the single-class fit guard in sklearn.multiclass.OneVsOneClassifier.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.multiclass.one_vs_one_fit_bookkeeping.one_vs_one_fit_pairwise_indices@sciona/atoms/ml/sklearn/multiclass/one_vs_one_fit_bookkeeping/atoms.py:96": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the `pairwise = self.__sklearn_tags__().input_tags.pairwise` and `self.pairwise_indices_ = estimators_indices[1] if pairwise else None` bookkeeping in sklearn.multiclass.OneVsOneClassifier.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}
