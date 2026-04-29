@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "nodes": [
+    {
+      "node_id": "ml_tokenizer_root",
+      "name": "ml_tokenizer",
+      "description": "Tokenizer primitives backed by explicit local tokenizer artifacts.",
+      "concept_type": "data_assembly",
+      "children": ["tokenize"]
+    },
+    {
+      "node_id": "tokenize",
+      "name": "tokenize",
+      "description": "Tokenize text with a local Hugging Face fast tokenizer JSON artifact.",
+      "concept_type": "data_preprocessing",
+      "type_signature": "(text: str, tokenizer_path: Path) -> dict[str, list[int]]",
+      "inputs": [
+        {"name": "text", "type_desc": "str", "required": true},
+        {"name": "tokenizer_path", "type_desc": "Path", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "dict[str, list[int]]"}
+      ],
+      "state_ports": [
+        {
+          "port_name": "tokenizer_json",
+          "type_desc": "Hugging Face fast tokenizer single-file JSON artifact",
+          "accepted_formats": ["json"],
+          "required": true,
+          "path_semantics": "file"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "ml_tokenizer_root", "target": "tokenize"}
+  ],
+  "metadata": {
+    "source_document": "research/04_text_nlp_encoding.md",
+    "source_package": "tokenizers"
+  }
+}
