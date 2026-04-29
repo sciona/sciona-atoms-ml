@@ -1041,6 +1041,12 @@ Potential remediation path:
   initialization, factor resize helpers, objective evaluation, cost-delta
   stopping, and callback cadence bookkeeping for the plain dictionary-learning
   loop.
+- Completed helper slice:
+  `sklearn.decomposition.sparse_coder_transform_shell` now publishes the
+  deterministic SparseCoder and `_BaseSparseCoding` transform shell for
+  transform-alpha fallback resolution, split-sign expansion of already-computed
+  sparse codes, and dictionary-derived `n_components_` and `n_features_in_`
+  properties, while sparse-code solver dispatch remains deferred.
 - Sparse-code solving, LARS/Lasso/OMP/coordinate-descent branches, joblib
   parallel sparse encoding, dictionary-learning callbacks, mini-batch
   scheduling, sklearn's random unused-atom resampling branch, and non-threshold

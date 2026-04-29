@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0",
+  "module": "sciona.atoms.ml.sklearn.decomposition.sparse_coder_transform_shell",
+  "description": "Deterministic sklearn SparseCoder and BaseSparseCoding transform-shell helpers around the deferred sparse_encode solver.",
+  "nodes": [
+    {
+      "node_id": "sparse_coding_transform_alpha",
+      "name": "sparse_coding_transform_alpha",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Resolve transform alpha from an explicit transform setting or a fitted alpha fallback before sparse_encode dispatch.",
+      "concept_type": "sparse_coding_transform_shell",
+      "type_signature": "(transform_alpha: float | None, *, fit_alpha: float | None = None) -> float | None",
+      "inputs": [
+        {"name": "transform_alpha", "type_desc": "float | None", "required": true},
+        {"name": "fit_alpha", "type_desc": "float | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "float | None"}
+      ]
+    },
+    {
+      "node_id": "sparse_coding_split_sign",
+      "name": "sparse_coding_split_sign",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Expand a sparse-code matrix into concatenated positive and negative blocks for split_sign=True.",
+      "concept_type": "sparse_coding_transform_shell",
+      "type_signature": "(code: NDArray[np.float64]) -> NDArray[np.float64]",
+      "inputs": [
+        {"name": "code", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "sparse_coder_n_components",
+      "name": "sparse_coder_n_components",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Expose SparseCoder's n_components_ property from the dictionary row count.",
+      "concept_type": "sparse_coder_property",
+      "type_signature": "(dictionary: NDArray[np.float64]) -> int",
+      "inputs": [
+        {"name": "dictionary", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "int"}
+      ]
+    },
+    {
+      "node_id": "sparse_coder_n_features_in",
+      "name": "sparse_coder_n_features_in",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Expose SparseCoder's n_features_in_ property from the dictionary feature count.",
+      "concept_type": "sparse_coder_property",
+      "type_signature": "(dictionary: NDArray[np.float64]) -> int",
+      "inputs": [
+        {"name": "dictionary", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "int"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "sparse_coding_transform_alpha", "target": "sparse_coding_split_sign", "kind": "transform_shell_context"},
+    {"source": "sparse_coder_n_components", "target": "sparse_coding_split_sign", "kind": "dictionary_shape_context"},
+    {"source": "sparse_coder_n_features_in", "target": "sparse_coding_transform_alpha", "kind": "dictionary_feature_context"}
+  ]
+}
