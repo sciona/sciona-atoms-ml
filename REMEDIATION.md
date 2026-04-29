@@ -368,6 +368,12 @@ Potential remediation path:
   multiclass OneVsRestClassifier predict-output shell for running-max state
   initialization, one estimator-step updates with sklearn's later-equal-score
   wins tie rule, and final class-label lookup from winning class indices.
+- Completed helper slice:
+  `sklearn.multiclass.one_vs_one_partial_fit_preprocessing` now publishes the
+  deterministic OneVsOneClassifier partial-fit preprocessing layer for
+  first-call estimator-count resolution, unknown-class detection, one pair's
+  sample mask and selected indices, and filtered 0/1 target encoding before
+  estimator callbacks or parameter subsetting.
 - Ingest estimator-independent helpers first, such as one-vs-one class-pair
   index generation, one-vs-rest score aggregation, output-code book creation,
   and code-distance decoding from supplied response matrices.

@@ -143882,6 +143882,491 @@
       "review_record_path": "data/review_bundles/ml_sklearn_feature_selection_rfe_state_bookkeeping.review_bundle.json",
       "has_references": true,
       "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.multiclass.one_vs_one_partial_fit_preprocessing.one_vs_one_partial_fit_estimator_count",
+      "atom_key": "sciona.atoms.ml.sklearn.multiclass.one_vs_one_partial_fit_preprocessing.one_vs_one_partial_fit_estimator_count",
+      "atom_id": "sciona.atoms.ml.sklearn.multiclass.one_vs_one_partial_fit_preprocessing.one_vs_one_partial_fit_estimator_count",
+      "module_import_path": "sciona.atoms.ml.sklearn.multiclass.one_vs_one_partial_fit_preprocessing",
+      "module_path": "/opt/anaconda3/envs/hpyexec/lib/python3.10/site-packages/icontract/_checkers.py",
+      "module_family": "multiclass",
+      "domain_family": "ml.sklearn.multiclass",
+      "wrapper_symbol": "one_vs_one_partial_fit_estimator_count",
+      "argument_names": [
+        "classes"
+      ],
+      "argument_details": [
+        {
+          "name": "classes",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "int",
+      "docstring_summary": "Count sklearn's one-vs-one binary estimators for a supplied class vector.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/multiclass/one_vs_one_partial_fit_preprocessing/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/multiclass/one_vs_one_partial_fit_preprocessing/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/multiclass/one_vs_one_partial_fit_preprocessing/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/multiclass/one_vs_one_partial_fit_preprocessing/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_multiclass_one_vs_one_partial_fit_preprocessing_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_multiclass_one_vs_one_partial_fit_preprocessing_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_multiclass_one_vs_one_partial_fit_preprocessing_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 8,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 95,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 1,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_multiclass_one_vs_one_partial_fit_preprocessing.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.multiclass.one_vs_one_partial_fit_preprocessing.one_vs_one_partial_fit_unknown_classes",
+      "atom_key": "sciona.atoms.ml.sklearn.multiclass.one_vs_one_partial_fit_preprocessing.one_vs_one_partial_fit_unknown_classes",
+      "atom_id": "sciona.atoms.ml.sklearn.multiclass.one_vs_one_partial_fit_preprocessing.one_vs_one_partial_fit_unknown_classes",
+      "module_import_path": "sciona.atoms.ml.sklearn.multiclass.one_vs_one_partial_fit_preprocessing",
+      "module_path": "/opt/anaconda3/envs/hpyexec/lib/python3.10/site-packages/icontract/_checkers.py",
+      "module_family": "multiclass",
+      "domain_family": "ml.sklearn.multiclass",
+      "wrapper_symbol": "one_vs_one_partial_fit_unknown_classes",
+      "argument_names": [
+        "y",
+        "classes"
+      ],
+      "argument_details": [
+        {
+          "name": "y",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "classes",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.float64]",
+      "docstring_summary": "Return sorted unique partial-fit labels absent from the known one-vs-one class vector.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/multiclass/one_vs_one_partial_fit_preprocessing/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/multiclass/one_vs_one_partial_fit_preprocessing/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/multiclass/one_vs_one_partial_fit_preprocessing/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/multiclass/one_vs_one_partial_fit_preprocessing/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_multiclass_one_vs_one_partial_fit_preprocessing_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_multiclass_one_vs_one_partial_fit_preprocessing_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_multiclass_one_vs_one_partial_fit_preprocessing_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 8,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 95,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 1,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_multiclass_one_vs_one_partial_fit_preprocessing.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.multiclass.one_vs_one_partial_fit_preprocessing.one_vs_one_partial_fit_pair_mask",
+      "atom_key": "sciona.atoms.ml.sklearn.multiclass.one_vs_one_partial_fit_preprocessing.one_vs_one_partial_fit_pair_mask",
+      "atom_id": "sciona.atoms.ml.sklearn.multiclass.one_vs_one_partial_fit_preprocessing.one_vs_one_partial_fit_pair_mask",
+      "module_import_path": "sciona.atoms.ml.sklearn.multiclass.one_vs_one_partial_fit_preprocessing",
+      "module_path": "/opt/anaconda3/envs/hpyexec/lib/python3.10/site-packages/icontract/_checkers.py",
+      "module_family": "multiclass",
+      "domain_family": "ml.sklearn.multiclass",
+      "wrapper_symbol": "one_vs_one_partial_fit_pair_mask",
+      "argument_names": [
+        "y",
+        "class_i",
+        "class_j"
+      ],
+      "argument_details": [
+        {
+          "name": "y",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "class_i",
+          "annotation": "float",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "class_j",
+          "annotation": "float",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.bool_]",
+      "docstring_summary": "Select the samples that belong to one one-vs-one class pair.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/multiclass/one_vs_one_partial_fit_preprocessing/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/multiclass/one_vs_one_partial_fit_preprocessing/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/multiclass/one_vs_one_partial_fit_preprocessing/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/multiclass/one_vs_one_partial_fit_preprocessing/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_multiclass_one_vs_one_partial_fit_preprocessing_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_multiclass_one_vs_one_partial_fit_preprocessing_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_multiclass_one_vs_one_partial_fit_preprocessing_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 8,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 95,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 2,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_multiclass_one_vs_one_partial_fit_preprocessing.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.multiclass.one_vs_one_partial_fit_preprocessing.one_vs_one_partial_fit_subset_indices",
+      "atom_key": "sciona.atoms.ml.sklearn.multiclass.one_vs_one_partial_fit_preprocessing.one_vs_one_partial_fit_subset_indices",
+      "atom_id": "sciona.atoms.ml.sklearn.multiclass.one_vs_one_partial_fit_preprocessing.one_vs_one_partial_fit_subset_indices",
+      "module_import_path": "sciona.atoms.ml.sklearn.multiclass.one_vs_one_partial_fit_preprocessing",
+      "module_path": "/opt/anaconda3/envs/hpyexec/lib/python3.10/site-packages/icontract/_checkers.py",
+      "module_family": "multiclass",
+      "domain_family": "ml.sklearn.multiclass",
+      "wrapper_symbol": "one_vs_one_partial_fit_subset_indices",
+      "argument_names": [
+        "pair_mask"
+      ],
+      "argument_details": [
+        {
+          "name": "pair_mask",
+          "annotation": "NDArray[np.bool_]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.int64]",
+      "docstring_summary": "Return the selected sample indices for one one-vs-one partial-fit pair.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/multiclass/one_vs_one_partial_fit_preprocessing/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/multiclass/one_vs_one_partial_fit_preprocessing/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/multiclass/one_vs_one_partial_fit_preprocessing/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/multiclass/one_vs_one_partial_fit_preprocessing/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_multiclass_one_vs_one_partial_fit_preprocessing_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_multiclass_one_vs_one_partial_fit_preprocessing_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_multiclass_one_vs_one_partial_fit_preprocessing_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 8,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 95,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 2,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_multiclass_one_vs_one_partial_fit_preprocessing.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.multiclass.one_vs_one_partial_fit_preprocessing.one_vs_one_partial_fit_binary_targets",
+      "atom_key": "sciona.atoms.ml.sklearn.multiclass.one_vs_one_partial_fit_preprocessing.one_vs_one_partial_fit_binary_targets",
+      "atom_id": "sciona.atoms.ml.sklearn.multiclass.one_vs_one_partial_fit_preprocessing.one_vs_one_partial_fit_binary_targets",
+      "module_import_path": "sciona.atoms.ml.sklearn.multiclass.one_vs_one_partial_fit_preprocessing",
+      "module_path": "/opt/anaconda3/envs/hpyexec/lib/python3.10/site-packages/icontract/_checkers.py",
+      "module_family": "multiclass",
+      "domain_family": "ml.sklearn.multiclass",
+      "wrapper_symbol": "one_vs_one_partial_fit_binary_targets",
+      "argument_names": [
+        "y",
+        "class_i",
+        "class_j"
+      ],
+      "argument_details": [
+        {
+          "name": "y",
+          "annotation": "NDArray[np.float64]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "class_i",
+          "annotation": "float",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "class_j",
+          "annotation": "float",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.int64]",
+      "docstring_summary": "Encode one one-vs-one partial-fit class pair as 0/1 targets after pair filtering.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/multiclass/one_vs_one_partial_fit_preprocessing/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/multiclass/one_vs_one_partial_fit_preprocessing/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/multiclass/one_vs_one_partial_fit_preprocessing/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/multiclass/one_vs_one_partial_fit_preprocessing/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_multiclass_one_vs_one_partial_fit_preprocessing_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_multiclass_one_vs_one_partial_fit_preprocessing_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_multiclass_one_vs_one_partial_fit_preprocessing_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 9,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 94,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 2,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_multiclass_one_vs_one_partial_fit_preprocessing.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
     }
   ]
 }
