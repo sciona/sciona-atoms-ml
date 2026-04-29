@@ -636,6 +636,11 @@ Deferred target:
 
 Potential remediation path:
 
+- Completed helper slice:
+  `sklearn.feature_extraction.feature_hasher_shell` now publishes the
+  deterministic Python shell around the deferred native hashing kernel for
+  dict, pair, and string input normalization plus post-hash sample-count
+  checks and CSR matrix assembly with duplicate summation.
 - Ingest the hashing transform through a native or FFI-backed decomposition, or
   reimplement the exact signed Murmurhash3 feature-index logic with provenance
   and parity tests for dict, pair, and string input modes.

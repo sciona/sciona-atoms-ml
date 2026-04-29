@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.0",
+  "module": "sciona.atoms.ml.sklearn.feature_extraction.feature_hasher_shell",
+  "description": "Deterministic sklearn FeatureHasher input-normalization and CSR postprocessing helpers around the deferred native Murmurhash transform.",
+  "nodes": [
+    {
+      "node_id": "feature_hasher_dict_items",
+      "name": "feature_hasher_dict_items",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Convert dict-mode FeatureHasher samples into per-sample string and numeric item tuples.",
+      "concept_type": "feature_hasher_input_shell",
+      "type_signature": "(raw_samples: tuple[dict[str, object], ...]) -> tuple[tuple[tuple[str, float], ...], ...]",
+      "inputs": [
+        {"name": "raw_samples", "type_desc": "tuple[dict[str, object], ...]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[tuple[tuple[str, float], ...], ...]"}
+      ]
+    },
+    {
+      "node_id": "feature_hasher_pair_items",
+      "name": "feature_hasher_pair_items",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Normalize pair-mode FeatureHasher samples to float-valued per-sample item tuples.",
+      "concept_type": "feature_hasher_input_shell",
+      "type_signature": "(raw_samples: tuple[tuple[tuple[str, float], ...], ...]) -> tuple[tuple[tuple[str, float], ...], ...]",
+      "inputs": [
+        {"name": "raw_samples", "type_desc": "tuple[tuple[tuple[str, float], ...], ...]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[tuple[tuple[str, float], ...], ...]"}
+      ]
+    },
+    {
+      "node_id": "feature_hasher_string_items",
+      "name": "feature_hasher_string_items",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Convert string-mode FeatureHasher samples into unit-weight per-token item tuples.",
+      "concept_type": "feature_hasher_input_shell",
+      "type_signature": "(raw_samples: tuple[tuple[str, ...] | str, ...]) -> tuple[tuple[tuple[str, float], ...], ...]",
+      "inputs": [
+        {"name": "raw_samples", "type_desc": "tuple[tuple[str, ...] | str, ...]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[tuple[tuple[str, float], ...], ...]"}
+      ]
+    },
+    {
+      "node_id": "feature_hasher_sample_count",
+      "name": "feature_hasher_sample_count",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Compute the sample count encoded by the hashed CSR indptr vector.",
+      "concept_type": "feature_hasher_posthash_shell",
+      "type_signature": "(indptr: NDArray[np.int64]) -> int",
+      "inputs": [
+        {"name": "indptr", "type_desc": "NDArray[np.int64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "int"}
+      ]
+    },
+    {
+      "node_id": "feature_hasher_require_nonempty_samples",
+      "name": "feature_hasher_require_nonempty_samples",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Raise the sklearn empty-sequence error when the hashed sample count is zero.",
+      "concept_type": "feature_hasher_posthash_shell",
+      "type_signature": "(n_samples: int) -> int",
+      "inputs": [
+        {"name": "n_samples", "type_desc": "int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "int"}
+      ]
+    },
+    {
+      "node_id": "feature_hasher_csr_matrix",
+      "name": "feature_hasher_csr_matrix",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Build the duplicate-summed CSR output matrix from hashed payload arrays and an output feature count.",
+      "concept_type": "feature_hasher_posthash_shell",
+      "type_signature": "(indices: NDArray[np.int64], indptr: NDArray[np.int64], values: NDArray[np.float64], *, n_features: int, dtype_name: str = 'float64') -> csr_matrix",
+      "inputs": [
+        {"name": "indices", "type_desc": "NDArray[np.int64]", "required": true},
+        {"name": "indptr", "type_desc": "NDArray[np.int64]", "required": true},
+        {"name": "values", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "n_features", "type_desc": "int", "required": true},
+        {"name": "dtype_name", "type_desc": "str", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "csr_matrix"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "feature_hasher_dict_items", "target": "feature_hasher_csr_matrix", "kind": "prehash_context"},
+    {"source": "feature_hasher_pair_items", "target": "feature_hasher_csr_matrix", "kind": "prehash_context"},
+    {"source": "feature_hasher_string_items", "target": "feature_hasher_csr_matrix", "kind": "prehash_context"},
+    {"source": "feature_hasher_sample_count", "target": "feature_hasher_require_nonempty_samples", "kind": "sample_count_check"},
+    {"source": "feature_hasher_require_nonempty_samples", "target": "feature_hasher_csr_matrix", "kind": "shape_guard"}
+  ]
+}
