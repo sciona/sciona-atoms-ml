@@ -281,6 +281,11 @@ Potential remediation path:
   selection before threshold masking or estimator-specific importance
   extraction.
 - Completed helper slice:
+  `sklearn.feature_selection.select_from_model_postfit_attributes` now
+  publishes deterministic SelectFromModel partial-fit first-call detection and
+  fitted `n_features_in_` and `feature_names_in_` pass-through helpers from an
+  already-fitted wrapped estimator.
+- Completed helper slice:
   `sklearn.feature_selection.rfe_fit_bookkeeping` now publishes deterministic
   RFE fit-shell bookkeeping for resolved target feature counts, the oversize
   warning predicate, resolved elimination step size, active-feature indexing

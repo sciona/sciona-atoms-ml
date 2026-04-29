@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0",
+  "module": "sciona.atoms.ml.sklearn.feature_selection.select_from_model_postfit_attributes",
+  "family": "sklearn.feature_selection.select_from_model_postfit_attributes",
+  "root": "sklearn_feature_selection_select_from_model_postfit_attributes_root",
+  "nodes": [
+    {
+      "node_id": "select_from_model_partial_fit_first_call",
+      "name": "select_from_model_partial_fit_first_call",
+      "status": "atomic",
+      "concept_type": "fit_bookkeeping",
+      "description": "Resolve whether SelectFromModel.partial_fit is on its first call.",
+      "inputs": [
+        {"name": "estimator_is_initialized", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "select_from_model_postfit_n_features_in",
+      "name": "select_from_model_postfit_n_features_in",
+      "status": "atomic",
+      "concept_type": "attribute_pass_through",
+      "description": "Copy the wrapped estimator's fitted n_features_in_ value.",
+      "inputs": [
+        {"name": "n_features_in", "type_desc": "int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "int"}
+      ]
+    },
+    {
+      "node_id": "select_from_model_postfit_feature_names_in",
+      "name": "select_from_model_postfit_feature_names_in",
+      "status": "atomic",
+      "concept_type": "attribute_pass_through",
+      "description": "Copy the wrapped estimator's fitted feature_names_in_ tuple.",
+      "inputs": [
+        {"name": "feature_names_in", "type_desc": "tuple[str, ...]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[str, ...]"}
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "select_from_model_partial_fit_first_call",
+      "target": "select_from_model_postfit_n_features_in",
+      "kind": "first_fit_transition"
+    },
+    {
+      "source": "select_from_model_partial_fit_first_call",
+      "target": "select_from_model_postfit_feature_names_in",
+      "kind": "first_fit_transition"
+    }
+  ]
+}
