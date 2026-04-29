@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0",
+  "module": "sciona.atoms.ml.sklearn.multioutput.response_method_bookkeeping",
+  "description": "Deterministic sklearn multioutput response-method bookkeeping helpers.",
+  "nodes": [
+    {
+      "node_id": "response_method_candidates",
+      "name": "response_method_candidates",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Normalize sklearn response_method or chain_method input into an ordered tuple of candidate method names.",
+      "concept_type": "response_method_bookkeeping",
+      "type_signature": "(response_method: str | tuple[str, ...]) -> tuple[str, ...]",
+      "inputs": [
+        {"name": "response_method", "type_desc": "str | tuple[str, ...]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[str, ...]"}
+      ]
+    },
+    {
+      "node_id": "response_method_name",
+      "name": "response_method_name",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Select sklearn's first implemented response method from an ordered candidate tuple and a supplied implemented-method set.",
+      "concept_type": "response_method_bookkeeping",
+      "type_signature": "(method_candidates: tuple[str, ...], implemented_methods: tuple[str, ...], *, estimator_name: str) -> str",
+      "inputs": [
+        {"name": "method_candidates", "type_desc": "tuple[str, ...]", "required": true},
+        {"name": "implemented_methods", "type_desc": "tuple[str, ...]", "required": true},
+        {"name": "estimator_name", "type_desc": "str", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "str"}
+      ]
+    },
+    {
+      "node_id": "chain_fit_chain_method_name",
+      "name": "chain_fit_chain_method_name",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Resolve the chain_method name sklearn stores for ClassifierChain during fit from an ordered method specification and supplied implemented methods.",
+      "concept_type": "response_method_bookkeeping",
+      "type_signature": "(chain_method: str | tuple[str, ...], implemented_methods: tuple[str, ...], *, estimator_name: str) -> str",
+      "inputs": [
+        {"name": "chain_method", "type_desc": "str | tuple[str, ...]", "required": true},
+        {"name": "implemented_methods", "type_desc": "tuple[str, ...]", "required": true},
+        {"name": "estimator_name", "type_desc": "str", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "str"}
+      ]
+    },
+    {
+      "node_id": "multioutput_predict_proba_available_from_estimators",
+      "name": "multioutput_predict_proba_available_from_estimators",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Require all fitted sub-estimators to expose predict_proba before MultiOutputClassifier predict_proba proceeds.",
+      "concept_type": "response_method_bookkeeping",
+      "type_signature": "(fitted_predict_proba_flags: tuple[bool, ...]) -> bool",
+      "inputs": [
+        {"name": "fitted_predict_proba_flags", "type_desc": "tuple[bool, ...]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "multioutput_predict_proba_available_from_base_estimator",
+      "name": "multioutput_predict_proba_available_from_base_estimator",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Require the unfitted base estimator to expose predict_proba before MultiOutputClassifier exposes predict_proba.",
+      "concept_type": "response_method_bookkeeping",
+      "type_signature": "(base_estimator_has_predict_proba: bool) -> bool",
+      "inputs": [
+        {"name": "base_estimator_has_predict_proba", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "response_method_candidates", "target": "response_method_name", "kind": "candidate_resolution"},
+    {"source": "response_method_candidates", "target": "chain_fit_chain_method_name", "kind": "candidate_resolution"}
+  ]
+}

@@ -436,6 +436,11 @@ Potential remediation path:
   fitted `n_features_in_` and `feature_names_in_` pass-through from the first
   trained estimator, and per-estimator `classes_` collection for fitted
   MultiOutputClassifier-style wrappers.
+- Completed helper slice:
+  `sklearn.multioutput.response_method_bookkeeping` now publishes
+  deterministic response-method normalization and first-available selection
+  for chain fit plus the fitted and unfitted `predict_proba` availability
+  guards used by MultiOutputClassifier before estimator callbacks run.
 - Ingest estimator-independent chain-order validation, feature augmentation
   from supplied previous predictions, independent-output stacking, and
   multioutput score aggregation.
