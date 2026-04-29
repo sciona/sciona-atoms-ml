@@ -558,6 +558,13 @@ Potential remediation path:
   training-side guards for `partial_fit` stochastic-solver eligibility and the
   post-solver finite-weights check, while minibatch orchestration, parameter
   mutation, and the outer optimizer loops remain deferred.
+- Completed helper slice:
+  `sklearn.neural_network.mlp_stochastic_batching` now publishes the
+  deterministic `_fit_stochastic` batching shell for early-stopping stratify
+  selection, per-epoch sample-index construction, minibatch-count resolution,
+  shuffled-versus-contiguous batch-index selection, and minibatch-size-weighted
+  accumulated-loss updates before the deferred backprop, optimizer mutation,
+  and validation split execution.
 - Decide whether SGD/Adam/L-BFGS optimizer state should be represented as
   separate atom families before publishing full MLP training surfaces.
 

@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "module": "sciona.atoms.ml.sklearn.neural_network.mlp_stochastic_batching",
+  "description": "Deterministic sklearn MLP stochastic-fit batching helpers around early-stopping stratify selection and minibatch indexing.",
+  "nodes": [
+    {
+      "node_id": "mlp_stochastic_stratify_targets",
+      "name": "mlp_stochastic_stratify_targets",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Resolve the train_test_split stratify argument used by sklearn's early-stopping branch in _fit_stochastic.",
+      "concept_type": "mlp_stochastic_batching",
+      "type_signature": "(y: NDArray[np.float64] | NDArray[np.bool_], *, is_classifier: bool, n_outputs: int) -> NDArray[np.float64] | NDArray[np.bool_] | None",
+      "inputs": [
+        {"name": "y", "type_desc": "NDArray[np.float64] | NDArray[np.bool_]", "required": true},
+        {"name": "is_classifier", "type_desc": "bool", "required": true},
+        {"name": "n_outputs", "type_desc": "int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64] | NDArray[np.bool_] | None"}
+      ]
+    },
+    {
+      "node_id": "mlp_stochastic_sample_indices",
+      "name": "mlp_stochastic_sample_indices",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Create the zero-based sample index vector used by sklearn before optional epoch shuffling.",
+      "concept_type": "mlp_stochastic_batching",
+      "type_signature": "(n_samples: int) -> NDArray[np.int64]",
+      "inputs": [
+        {"name": "n_samples", "type_desc": "int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.int64]"}
+      ]
+    },
+    {
+      "node_id": "mlp_stochastic_batches_per_epoch",
+      "name": "mlp_stochastic_batches_per_epoch",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Compute the number of minibatches sklearn processes in one stochastic epoch.",
+      "concept_type": "mlp_stochastic_batching",
+      "type_signature": "(n_samples: int, batch_size: int) -> int",
+      "inputs": [
+        {"name": "n_samples", "type_desc": "int", "required": true},
+        {"name": "batch_size", "type_desc": "int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "int"}
+      ]
+    },
+    {
+      "node_id": "mlp_stochastic_batch_indices",
+      "name": "mlp_stochastic_batch_indices",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Select the sample indices for one minibatch from either shuffled sample order or contiguous order.",
+      "concept_type": "mlp_stochastic_batching",
+      "type_signature": "(sample_indices: NDArray[np.int64], *, batch_start: int, batch_stop: int, shuffle: bool) -> NDArray[np.int64]",
+      "inputs": [
+        {"name": "sample_indices", "type_desc": "NDArray[np.int64]", "required": true},
+        {"name": "batch_start", "type_desc": "int", "required": true},
+        {"name": "batch_stop", "type_desc": "int", "required": true},
+        {"name": "shuffle", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.int64]"}
+      ]
+    },
+    {
+      "node_id": "mlp_stochastic_accumulated_loss",
+      "name": "mlp_stochastic_accumulated_loss",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Accumulate sklearn's minibatch loss weighted by minibatch sample count before epoch averaging.",
+      "concept_type": "mlp_stochastic_batching",
+      "type_signature": "(accumulated_loss: float, batch_loss: float, *, batch_start: int, batch_stop: int) -> float",
+      "inputs": [
+        {"name": "accumulated_loss", "type_desc": "float", "required": true},
+        {"name": "batch_loss", "type_desc": "float", "required": true},
+        {"name": "batch_start", "type_desc": "int", "required": true},
+        {"name": "batch_stop", "type_desc": "int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "float"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "mlp_stochastic_sample_indices", "target": "mlp_stochastic_batch_indices", "kind": "epoch_state"},
+    {"source": "mlp_stochastic_batch_indices", "target": "mlp_stochastic_accumulated_loss", "kind": "minibatch_context"},
+    {"source": "mlp_stochastic_batches_per_epoch", "target": "mlp_stochastic_batch_indices", "kind": "scheduling_context"}
+  ]
+}
