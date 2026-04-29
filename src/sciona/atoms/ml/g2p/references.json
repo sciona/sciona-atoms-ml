@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.g2p.g2p_convert@sciona/atoms/ml/g2p/atoms.py:37": {
+      "references": [
+        {
+          "ref_id": "sciona_research04_text_nlp",
+          "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": ["g2p_convert"], "confidence": "high", "notes": "Research report identified grapheme-to-phoneme as a stateful NLP atom requiring asset-backed architecture."}
+        },
+        {
+          "ref_id": "g2p_en_2_1_0",
+          "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": ["g2p_convert"], "confidence": "high", "notes": "Vendored inference path from g2p-en 2.1.0 (Apache 2.0, kyubyong park). GRU seq2seq model for OOV prediction."}
+        },
+        {
+          "ref_id": "cmudict",
+          "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": ["g2p_convert"], "confidence": "high", "notes": "CMU Pronouncing Dictionary (BSD license) used for known-word lookup."}
+        },
+        {
+          "ref_id": "keithito_tacotron_numbers",
+          "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": ["g2p_convert"], "confidence": "high", "notes": "Number normalization borrowed from keithito/tacotron text/numbers.py (MIT license)."}
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

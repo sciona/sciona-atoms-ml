@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "nodes": [
+    {
+      "node_id": "ml_g2p_root",
+      "name": "ml_g2p",
+      "description": "Grapheme-to-phoneme conversion using CMUDict, POS-tagged homograph disambiguation, and GRU seq2seq OOV prediction.",
+      "concept_type": "data_assembly",
+      "children": ["g2p_convert"]
+    },
+    {
+      "node_id": "g2p_convert",
+      "name": "g2p_convert",
+      "description": "Convert English text to ARPAbet phonemes using dictionary lookup, homograph disambiguation, and neural OOV prediction.",
+      "concept_type": "model_inference",
+      "type_signature": "(text: str, cmudict_path: Path, tagger_dir: Path, checkpoint_path: Path, homographs_path: Path) -> list[str]",
+      "inputs": [
+        {"name": "text", "type_desc": "str", "required": true},
+        {"name": "cmudict_path", "type_desc": "Path", "required": true},
+        {"name": "tagger_dir", "type_desc": "Path", "required": true},
+        {"name": "checkpoint_path", "type_desc": "Path", "required": true},
+        {"name": "homographs_path", "type_desc": "Path", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "list[str]"}
+      ],
+      "state_ports": [
+        {"port_name": "cmudict", "type_desc": "CMU pronunciation dictionary", "accepted_formats": ["txt"], "required": true},
+        {"port_name": "pos_tagger", "type_desc": "NLTK averaged perceptron tagger (JSON)", "accepted_formats": ["json"], "required": true},
+        {"port_name": "oov_model", "type_desc": "GRU seq2seq checkpoint", "accepted_formats": ["npz"], "required": true},
+        {"port_name": "homographs", "type_desc": "Homograph disambiguation table", "accepted_formats": ["txt"], "required": true}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "ml_g2p_root", "target": "g2p_convert"}
+  ],
+  "metadata": {
+    "source_document": "research/04_text_nlp_encoding.md",
+    "source_package": "g2p-en==2.1.0"
+  }
+}
