@@ -1057,6 +1057,12 @@ Potential remediation path:
   transform-alpha fallback resolution, split-sign expansion of already-computed
   sparse codes, and dictionary-derived `n_components_` and `n_features_in_`
   properties, while sparse-code solver dispatch remains deferred.
+- Completed helper slice:
+  `sklearn.decomposition.sparse_coder_inverse_shell` now publishes the
+  deterministic SparseCoder fit and inverse-transform shell for fit-time
+  dictionary/X feature-count validation, expected code-width resolution,
+  split-sign code merging, and dictionary-space reconstruction from supplied
+  codes, while sparse-code solver dispatch remains deferred.
 - Sparse-code solving, LARS/Lasso/OMP/coordinate-descent branches, joblib
   parallel sparse encoding, dictionary-learning callbacks, mini-batch
   scheduling, sklearn's random unused-atom resampling branch, and non-threshold
