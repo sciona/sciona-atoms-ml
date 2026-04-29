@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.multiclass.output_code_fit_bookkeeping.output_code_fit_require_nonempty_classes@sciona/atoms/ml/sklearn/multiclass/output_code_fit_bookkeeping/atoms.py:51": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the `n_classes == 0` fit guard in sklearn.multiclass.OutputCodeClassifier.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.multiclass.output_code_fit_bookkeeping.output_code_fit_estimator_count@sciona/atoms/ml/sklearn/multiclass/output_code_fit_bookkeeping/atoms.py:65": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from `n_estimators = int(n_classes * self.code_size)` in sklearn.multiclass.OutputCodeClassifier.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.multiclass.output_code_fit_bookkeeping.output_code_fit_n_features_in@sciona/atoms/ml/sklearn/multiclass/output_code_fit_bookkeeping/atoms.py:76": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the fitted `self.n_features_in_ = self.estimators_[0].n_features_in_` pass-through in sklearn.multiclass.OutputCodeClassifier.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.multiclass.output_code_fit_bookkeeping.output_code_fit_feature_names_in@sciona/atoms/ml/sklearn/multiclass/output_code_fit_bookkeeping/atoms.py:84": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the fitted `self.feature_names_in_ = self.estimators_[0].feature_names_in_` pass-through in sklearn.multiclass.OutputCodeClassifier.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

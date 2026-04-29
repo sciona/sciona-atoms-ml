@@ -379,6 +379,12 @@ Potential remediation path:
   OneVsOneClassifier fit-shell helpers for sorted unique class extraction, the
   single-class fit guard, and pairwise index exposure from already-produced
   worker index blocks when the pairwise input tag is enabled.
+- Completed helper slice:
+  `sklearn.multiclass.output_code_fit_bookkeeping` now publishes
+  deterministic OutputCodeClassifier fit-shell helpers for the empty-class
+  guard, binary-estimator count resolution from `code_size`, and fitted
+  `n_features_in_` / `feature_names_in_` pass-through from the first trained
+  estimator.
 - Ingest estimator-independent helpers first, such as one-vs-one class-pair
   index generation, one-vs-rest score aggregation, output-code book creation,
   and code-distance decoding from supplied response matrices.
