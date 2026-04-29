@@ -419,6 +419,11 @@ Potential remediation path:
   fit-time CV update helpers for the nonterminal-step predicate, augmented
   feature-column index resolution, and dense or sparse assignment of supplied
   cross-validated feature columns into the chain's augmented design matrix.
+- Completed helper slice:
+  `sklearn.multioutput.chain_fit_step_data` now publishes deterministic
+  per-step chain-fit helpers for target-column selection in fitted order,
+  feature-prefix width resolution, and dense or sparse slicing of the
+  augmented design matrix before the deferred estimator-fit call.
 - Ingest estimator-independent chain-order validation, feature augmentation
   from supplied previous predictions, independent-output stacking, and
   multioutput score aggregation.

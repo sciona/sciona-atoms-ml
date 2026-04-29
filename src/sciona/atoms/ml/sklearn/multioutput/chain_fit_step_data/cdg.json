@@ -1,0 +1,65 @@
+{
+  "family": "sciona.atoms.ml.sklearn.multioutput.chain_fit_step_data",
+  "description": "Deterministic per-step target and augmented-feature selection helpers from sklearn multioutput chain fitting before the deferred estimator.fit boundary.",
+  "nodes": [
+    {
+      "node_id": "chain_fit_step_feature_limit",
+      "name": "chain_fit_step_feature_limit",
+      "description": "Resolve the feature-prefix width used for one chain fit step.",
+      "concept_type": "index_resolution",
+      "status": "atomic",
+      "type_signature": "(n_base_features: int, chain_idx: int) -> int",
+      "inputs": [
+        {"name": "n_base_features", "type_desc": "int", "required": true},
+        {"name": "chain_idx", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "int"}]
+    },
+    {
+      "node_id": "chain_fit_target_column",
+      "name": "chain_fit_target_column",
+      "description": "Select one ordered target column for a chain fit step.",
+      "concept_type": "target_selection",
+      "status": "atomic",
+      "type_signature": "(Y: NDArray[np.float64], order: NDArray[np.int64], chain_idx: int) -> NDArray[np.float64]",
+      "inputs": [
+        {"name": "Y", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "order", "type_desc": "NDArray[np.int64]", "required": true},
+        {"name": "chain_idx", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+    },
+    {
+      "node_id": "chain_fit_dense_step_features",
+      "name": "chain_fit_dense_step_features",
+      "description": "Slice a dense augmented chain design matrix to the prefix used for one fit step.",
+      "concept_type": "matrix_slice",
+      "status": "atomic",
+      "type_signature": "(X_aug: NDArray[np.float64], feature_limit: int) -> NDArray[np.float64]",
+      "inputs": [
+        {"name": "X_aug", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "feature_limit", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+    },
+    {
+      "node_id": "chain_fit_sparse_step_features",
+      "name": "chain_fit_sparse_step_features",
+      "description": "Slice a sparse augmented chain design matrix to the prefix used for one fit step.",
+      "concept_type": "matrix_slice",
+      "status": "atomic",
+      "type_signature": "(X_aug: scipy.sparse.spmatrix | scipy.sparse.sparray, feature_limit: int) -> scipy.sparse.spmatrix | scipy.sparse.sparray",
+      "inputs": [
+        {"name": "X_aug", "type_desc": "scipy.sparse.spmatrix | scipy.sparse.sparray", "required": true},
+        {"name": "feature_limit", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "scipy.sparse.spmatrix | scipy.sparse.sparray"}]
+    }
+  ],
+  "edges": [
+    {"source": "chain_fit_step_feature_limit", "target": "chain_fit_dense_step_features", "kind": "feature_limit"},
+    {"source": "chain_fit_step_feature_limit", "target": "chain_fit_sparse_step_features", "kind": "feature_limit"},
+    {"source": "chain_fit_target_column", "target": "chain_fit_dense_step_features", "kind": "same_fit_step"},
+    {"source": "chain_fit_target_column", "target": "chain_fit_sparse_step_features", "kind": "same_fit_step"}
+  ]
+}

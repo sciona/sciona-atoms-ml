@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.multioutput.chain_fit_step_data.chain_fit_step_feature_limit@sciona/atoms/ml/sklearn/multioutput/chain_fit_step_data/atoms.py:83": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the `X.shape[1] + chain_idx` feature-prefix width used in sklearn.multioutput._BaseChain.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.multioutput.chain_fit_step_data.chain_fit_target_column@sciona/atoms/ml/sklearn/multioutput/chain_fit_step_data/atoms.py:93": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the `y = Y[:, self.order_[chain_idx]]` target-column selection in sklearn.multioutput._BaseChain.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.multioutput.chain_fit_step_data.chain_fit_dense_step_features@sciona/atoms/ml/sklearn/multioutput/chain_fit_step_data/atoms.py:107": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the dense `X_aug[:, : (X.shape[1] + chain_idx)]` fit-time prefix slice in sklearn.multioutput._BaseChain.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.multioutput.chain_fit_step_data.chain_fit_sparse_step_features@sciona/atoms/ml/sklearn/multioutput/chain_fit_step_data/atoms.py:119": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the sparse `X_aug[:, : (X.shape[1] + chain_idx)]` fit-time prefix slice in sklearn.multioutput._BaseChain.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}
