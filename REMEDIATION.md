@@ -553,6 +553,11 @@ Potential remediation path:
   target and output helpers for single-column target flattening in
   `_validate_input`, one-output prediction flattening in `_predict`, and the
   NaN/Inf short-circuit around `MLPRegressor`'s R2 score helper.
+- Completed helper slice:
+  `sklearn.neural_network.mlp_training_guards` now publishes the narrow
+  training-side guards for `partial_fit` stochastic-solver eligibility and the
+  post-solver finite-weights check, while minibatch orchestration, parameter
+  mutation, and the outer optimizer loops remain deferred.
 - Decide whether SGD/Adam/L-BFGS optimizer state should be represented as
   separate atom families before publishing full MLP training surfaces.
 

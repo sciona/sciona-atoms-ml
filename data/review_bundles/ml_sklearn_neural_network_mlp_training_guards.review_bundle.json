@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "sciona.atoms.review_bundle.ml.sklearn_neural_network_mlp_training_guards.v1",
+  "provider_repo": "sciona-atoms-ml",
+  "family_batch": "ml_sklearn_neural_network_mlp_training_guards",
+  "review_status": "reviewed",
+  "review_semantic_verdict": "pass_with_limits",
+  "review_developer_semantic_verdict": "pass_with_limits",
+  "trust_readiness": "reviewed_with_limits",
+  "artifacts": [
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_training_guards/atoms.py"},
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_training_guards/witnesses.py"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_training_guards/references.json"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/sklearn/neural_network/mlp_training_guards/cdg.json"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_neural_network_mlp_training_guards_behavior.py"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_neural_network_mlp_training_guards_references_metadata.py"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_neural_network_mlp_training_guards_review_bundle.py"}
+  ],
+  "review_record_path": "data/review_bundles/ml_sklearn_neural_network_mlp_training_guards.review_bundle.json",
+  "rows": [
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.neural_network.mlp_training_guards.mlp_partial_fit_require_stochastic_solver",
+      "atom_name": "sciona.atoms.ml.sklearn.neural_network.mlp_training_guards.mlp_partial_fit_require_stochastic_solver",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "risk_score": 19,
+      "acceptability_score": 95,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "has_references": true,
+      "references_status": "pass",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/neural_network/mlp_training_guards/atoms.py",
+        "src/sciona/atoms/ml/sklearn/neural_network/mlp_training_guards/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/neural_network/mlp_training_guards/references.json",
+        "src/sciona/atoms/ml/sklearn/neural_network/mlp_training_guards/cdg.json",
+        "tests/test_ml_sklearn_neural_network_mlp_training_guards_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_neural_network_mlp_training_guards.review_bundle.json"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.neural_network.mlp_training_guards.mlp_fit_require_finite_weights",
+      "atom_name": "sciona.atoms.ml.sklearn.neural_network.mlp_training_guards.mlp_fit_require_finite_weights",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "risk_score": 23,
+      "acceptability_score": 93,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "has_references": true,
+      "references_status": "pass",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/neural_network/mlp_training_guards/atoms.py",
+        "src/sciona/atoms/ml/sklearn/neural_network/mlp_training_guards/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/neural_network/mlp_training_guards/references.json",
+        "src/sciona/atoms/ml/sklearn/neural_network/mlp_training_guards/cdg.json",
+        "tests/test_ml_sklearn_neural_network_mlp_training_guards_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_neural_network_mlp_training_guards.review_bundle.json"
+    }
+  ]
+}
