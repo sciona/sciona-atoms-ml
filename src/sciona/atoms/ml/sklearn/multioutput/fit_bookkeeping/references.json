@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.multioutput.fit_bookkeeping.multioutput_fit_require_base_fit_method@sciona/atoms/ml/sklearn/multioutput/fit_bookkeeping/atoms.py:56": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the base-estimator fit-method guard in sklearn.multioutput._MultiOutputEstimator.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.multioutput.fit_bookkeeping.multioutput_fit_require_2d_targets@sciona/atoms/ml/sklearn/multioutput/fit_bookkeeping/atoms.py:66": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the `y.ndim == 1` target-shape guard in sklearn.multioutput._MultiOutputEstimator.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.multioutput.fit_bookkeeping.multioutput_fit_output_count@sciona/atoms/ml/sklearn/multioutput/fit_bookkeeping/atoms.py:79": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the per-output fit loop bound `range(y.shape[1])` in sklearn.multioutput._MultiOutputEstimator.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.multioutput.fit_bookkeeping.multioutput_fit_target_column@sciona/atoms/ml/sklearn/multioutput/fit_bookkeeping/atoms.py:88": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the `y[:, i]` target-column selection in sklearn.multioutput._MultiOutputEstimator.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.multioutput.fit_bookkeeping.multioutput_fit_require_sample_weight_support@sciona/atoms/ml/sklearn/multioutput/fit_bookkeeping/atoms.py:101": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the sample-weight support guard in sklearn.multioutput._MultiOutputEstimator.fit when metadata routing is not enabled."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

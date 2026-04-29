@@ -424,6 +424,12 @@ Potential remediation path:
   per-step chain-fit helpers for target-column selection in fitted order,
   feature-prefix width resolution, and dense or sparse slicing of the
   augmented design matrix before the deferred estimator-fit call.
+- Completed helper slice:
+  `sklearn.multioutput.fit_bookkeeping` now publishes deterministic
+  MultiOutputClassifier and MultiOutputRegressor fit-shell helpers for the
+  base-estimator fit-method guard, 2D target requirement, output-count
+  resolution, per-output target-column selection, and the non-routing
+  sample-weight support guard before the deferred estimator-fit loop.
 - Ingest estimator-independent chain-order validation, feature augmentation
   from supplied previous predictions, independent-output stacking, and
   multioutput score aggregation.
