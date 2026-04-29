@@ -1,0 +1,113 @@
+{
+  "schema_version": "1.0",
+  "module": "sciona.atoms.ml.sklearn.decomposition.lda_shell",
+  "family": "sklearn.decomposition.lda_shell",
+  "root": "sklearn_decomposition_lda_shell_root",
+  "nodes": [
+    {
+      "node_id": "lda_doc_topic_prior",
+      "name": "lda_doc_topic_prior",
+      "status": "atomic",
+      "concept_type": "parameter_resolution",
+      "description": "Resolve sklearn's fitted doc_topic_prior_ scalar from n_components and optional user input.",
+      "inputs": [
+        {"name": "n_components", "type_desc": "int", "required": true},
+        {"name": "doc_topic_prior", "type_desc": "float | None", "required": false}
+      ],
+      "outputs": [{"name": "result", "type_desc": "float"}]
+    },
+    {
+      "node_id": "lda_topic_word_prior",
+      "name": "lda_topic_word_prior",
+      "status": "atomic",
+      "concept_type": "parameter_resolution",
+      "description": "Resolve sklearn's fitted topic_word_prior_ scalar from n_components and optional user input.",
+      "inputs": [
+        {"name": "n_components", "type_desc": "int", "required": true},
+        {"name": "topic_word_prior", "type_desc": "float | None", "required": false}
+      ],
+      "outputs": [{"name": "result", "type_desc": "float"}]
+    },
+    {
+      "node_id": "lda_component_values",
+      "name": "lda_component_values",
+      "status": "atomic",
+      "concept_type": "random_initialization",
+      "description": "Sample sklearn's positive gamma components_ matrix before compiled Dirichlet expectation.",
+      "inputs": [
+        {"name": "n_components", "type_desc": "int", "required": true},
+        {"name": "n_features", "type_desc": "int", "required": true},
+        {"name": "random_state", "type_desc": "int", "required": true},
+        {"name": "dtype_name", "type_desc": "str", "required": false}
+      ],
+      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+    },
+    {
+      "node_id": "lda_normalize_document_topics",
+      "name": "lda_normalize_document_topics",
+      "status": "atomic",
+      "concept_type": "normalization",
+      "description": "Normalize sklearn's unnormalized document-topic distribution row-wise.",
+      "inputs": [
+        {"name": "doc_topic_distr", "type_desc": "ndarray", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+    },
+    {
+      "node_id": "lda_perplexity_require_matching_samples",
+      "name": "lda_perplexity_require_matching_samples",
+      "status": "atomic",
+      "concept_type": "shape_validation",
+      "description": "Apply sklearn's perplexity sample-count check for a supplied document-topic matrix.",
+      "inputs": [
+        {"name": "doc_topic_distr", "type_desc": "ndarray", "required": true},
+        {"name": "n_samples", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+    },
+    {
+      "node_id": "lda_perplexity_require_matching_topics",
+      "name": "lda_perplexity_require_matching_topics",
+      "status": "atomic",
+      "concept_type": "shape_validation",
+      "description": "Apply sklearn's perplexity topic-count check for a supplied document-topic matrix.",
+      "inputs": [
+        {"name": "doc_topic_distr", "type_desc": "ndarray", "required": true},
+        {"name": "n_components", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+    },
+    {
+      "node_id": "lda_perplexity_word_count",
+      "name": "lda_perplexity_word_count",
+      "status": "atomic",
+      "concept_type": "scaling",
+      "description": "Compute sklearn's effective word count for perplexity with optional subsampling correction.",
+      "inputs": [
+        {"name": "total_term_count", "type_desc": "float", "required": true},
+        {"name": "current_samples", "type_desc": "int", "required": true},
+        {"name": "total_samples", "type_desc": "float", "required": true},
+        {"name": "sub_sampling", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [{"name": "result", "type_desc": "float"}]
+    },
+    {
+      "node_id": "lda_perplexity_from_bound",
+      "name": "lda_perplexity_from_bound",
+      "status": "atomic",
+      "concept_type": "scoring",
+      "description": "Convert sklearn's variational bound and effective word count to perplexity.",
+      "inputs": [
+        {"name": "bound", "type_desc": "float", "required": true},
+        {"name": "word_count", "type_desc": "float", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "float"}]
+    }
+  ],
+  "edges": [
+    {"source": "lda_doc_topic_prior", "target": "lda_component_values", "kind": "initialization_context"},
+    {"source": "lda_topic_word_prior", "target": "lda_component_values", "kind": "initialization_context"},
+    {"source": "lda_perplexity_require_matching_samples", "target": "lda_perplexity_require_matching_topics", "kind": "sequential_validation"},
+    {"source": "lda_perplexity_word_count", "target": "lda_perplexity_from_bound", "kind": "denominator"}
+  ]
+}

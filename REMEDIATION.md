@@ -1103,6 +1103,13 @@ Potential remediation path:
   dictionary/X feature-count validation, expected code-width resolution,
   split-sign code merging, and dictionary-space reconstruction from supplied
   codes, while sparse-code solver dispatch remains deferred.
+- Completed helper slice:
+  `sklearn.decomposition.lda_shell` now publishes deterministic
+  LatentDirichletAllocation helper atoms for default prior resolution, random
+  gamma initialization of `components_`, transform-time row normalization of
+  supplied document-topic distributions, and the pure-Python perplexity shell
+  for precomputed topic-matrix shape checks, effective word-count scaling, and
+  final perplexity conversion from a supplied variational bound.
 - Sparse-code solving, LARS/Lasso/OMP/coordinate-descent branches, joblib
   parallel sparse encoding, dictionary-learning callbacks, mini-batch
   scheduling, sklearn's random unused-atom resampling branch, and non-threshold
