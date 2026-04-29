@@ -12,7 +12,7 @@ import pytest
 CMUDICT_ZIP = Path("/tmp/sciona-g2p-minimal-zipeng-data/corpora/cmudict.zip")
 TAGGER_DIR = Path("/tmp/sciona-g2p-nltk-run2-data/taggers/averaged_perceptron_tagger_eng")
 CHECKPOINT = Path("/tmp/sciona-g2p-wheel-unpacked/g2p_en/checkpoint20.npz")
-HOMOGRAPHS = Path("/tmp/sciona-g2p-wheel-unpacked/g2p_en/homographs.en")
+HOMOGRAPHS = Path("/tmp/sciona-g2p-wheel-unpacked/g2p_en/homographs.txt")
 
 ASSETS_AVAILABLE = all(p.exists() for p in [CMUDICT_ZIP, TAGGER_DIR, CHECKPOINT, HOMOGRAPHS])
 

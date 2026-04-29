@@ -25,10 +25,52 @@
         {"name": "result", "type_desc": "list[str]"}
       ],
       "state_ports": [
-        {"port_name": "cmudict", "type_desc": "CMU pronunciation dictionary", "accepted_formats": ["txt"], "required": true},
-        {"port_name": "pos_tagger", "type_desc": "NLTK averaged perceptron tagger (JSON)", "accepted_formats": ["json"], "required": true},
-        {"port_name": "oov_model", "type_desc": "GRU seq2seq checkpoint", "accepted_formats": ["npz"], "required": true},
-        {"port_name": "homographs", "type_desc": "Homograph disambiguation table", "accepted_formats": ["txt"], "required": true}
+        {
+          "port_name": "cmudict",
+          "type_desc": "CMU pronunciation dictionary text file",
+          "accepted_formats": ["txt"],
+          "required": true
+        },
+        {
+          "port_name": "pos_tagger",
+          "type_desc": "NLTK averaged perceptron English POS tagger multi-file JSON artifact",
+          "accepted_formats": ["json"],
+          "required": true,
+          "multi_file": true,
+          "path_semantics": "directory",
+          "files": [
+            {
+              "name": "averaged_perceptron_tagger_eng.classes.json",
+              "format": "json",
+              "required": true,
+              "description": "POS tag class labels"
+            },
+            {
+              "name": "averaged_perceptron_tagger_eng.tagdict.json",
+              "format": "json",
+              "required": true,
+              "description": "Unambiguous word-to-tag dictionary"
+            },
+            {
+              "name": "averaged_perceptron_tagger_eng.weights.json",
+              "format": "json",
+              "required": true,
+              "description": "Averaged perceptron feature weights"
+            }
+          ]
+        },
+        {
+          "port_name": "oov_model",
+          "type_desc": "GRU seq2seq checkpoint",
+          "accepted_formats": ["npz"],
+          "required": true
+        },
+        {
+          "port_name": "homographs",
+          "type_desc": "Homograph disambiguation table",
+          "accepted_formats": ["txt"],
+          "required": true
+        }
       ]
     }
   ],

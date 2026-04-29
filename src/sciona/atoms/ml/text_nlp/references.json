@@ -1,0 +1,123 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.text_nlp.clean_text@sciona/atoms/ml/text_nlp/atoms.py:100": {
+      "references": [
+        {
+          "ref_id": "sciona_research04_text_nlp",
+          "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": ["clean_text"], "confidence": "high", "notes": "Research report identified deterministic text cleaning and Norvig-style spelling correction as a pure NLP atom."}
+        },
+        {
+          "ref_id": "norvig2007spell",
+          "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": ["clean_text"], "confidence": "high", "notes": "Reference for edit-candidate spelling correction with explicit vocabulary frequencies."}
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.text_nlp.levenshtein@sciona/atoms/ml/text_nlp/atoms.py:124": {
+      "references": [
+        {
+          "ref_id": "sciona_research04_text_nlp",
+          "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": ["levenshtein"], "confidence": "high", "notes": "Research report selected Levenshtein edit distance as a classical string-similarity primitive."}
+        },
+        {
+          "ref_id": "repo_rapidfuzz",
+          "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": ["levenshtein"], "confidence": "medium", "notes": "Used as a permissively licensed reference point for string distance behavior; this atom keeps a pure Python implementation to avoid adding a dependency."}
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.text_nlp.jaro_winkler@sciona/atoms/ml/text_nlp/atoms.py:174": {
+      "references": [
+        {
+          "ref_id": "sciona_research04_text_nlp",
+          "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": ["jaro_winkler"], "confidence": "high", "notes": "Research report selected Jaro-Winkler similarity for entity and name matching."}
+        },
+        {
+          "ref_id": "repo_rapidfuzz",
+          "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": ["jaro_winkler"], "confidence": "medium", "notes": "Used as a permissively licensed behavior reference; this atom implements the metric directly in Python."}
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.text_nlp.bio_decode@sciona/atoms/ml/text_nlp/atoms.py:219": {
+      "references": [
+        {
+          "ref_id": "sciona_research04_text_nlp",
+          "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": ["bio_decode"], "confidence": "high", "notes": "Research report identified BIO/BILOU tag decoding as a deterministic post-processing atom."}
+        },
+        {
+          "ref_id": "repo_seqeval",
+          "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": ["bio_decode"], "confidence": "medium", "notes": "Permissively licensed reference for sequence-label boundary behavior; this implementation uses a compact local state machine."}
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.text_nlp.char_to_token_offsets@sciona/atoms/ml/text_nlp/atoms.py:289": {
+      "references": [
+        {
+          "ref_id": "sciona_research04_text_nlp",
+          "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": ["char_to_token_offsets"], "confidence": "high", "notes": "Research report identified binary-search alignment over tokenizer offset mappings."}
+        },
+        {
+          "ref_id": "repo_huggingface_tokenizers",
+          "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": ["char_to_token_offsets"], "confidence": "medium", "notes": "Tokenizer offset mappings are the expected input contract for this alignment atom."}
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.text_nlp.beam_search@sciona/atoms/ml/text_nlp/atoms.py:348": {
+      "references": [
+        {
+          "ref_id": "sciona_research04_text_nlp",
+          "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": ["beam_search"], "confidence": "high", "notes": "Research report described framework-independent beam search over explicit log-probability callables."}
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.text_nlp.feature_hash@sciona/atoms/ml/text_nlp/atoms.py:395": {
+      "references": [
+        {
+          "ref_id": "sciona_research04_text_nlp",
+          "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": ["feature_hash"], "confidence": "high", "notes": "Research report identified sparse per-document feature hashing as a text atom."}
+        },
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": ["feature_hash"], "confidence": "high", "notes": "Uses the existing sklearn-compatible MurmurHash3 token atom in this provider repo."}
+        },
+        {
+          "ref_id": "weinberger2009featurehashing",
+          "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": ["feature_hash"], "confidence": "high", "notes": "Feature hashing paper describing bounded-dimensional hashed feature maps."}
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.text_nlp.word_ngrams@sciona/atoms/ml/text_nlp/atoms.py:409": {
+      "references": [
+        {
+          "ref_id": "sciona_research04_text_nlp",
+          "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": ["word_ngrams"], "confidence": "high", "notes": "Research report identified token n-gram generation as a pure Python feature atom."}
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.text_nlp.char_ngrams@sciona/atoms/ml/text_nlp/atoms.py:419": {
+      "references": [
+        {
+          "ref_id": "sciona_research04_text_nlp",
+          "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": ["char_ngrams"], "confidence": "high", "notes": "Research report identified character n-gram generation as a pure Python feature atom."}
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.text_nlp.filter_spans_by_length@sciona/atoms/ml/text_nlp/atoms.py:444": {
+      "references": [
+        {
+          "ref_id": "sciona_research04_text_nlp",
+          "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": ["filter_spans_by_length"], "confidence": "high", "notes": "Research report identified class-specific span length thresholding as a post-processing atom."}
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

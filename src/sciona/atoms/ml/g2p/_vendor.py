@@ -131,7 +131,7 @@ def normalize_numbers(text: str) -> str:
 def load_homographs(
     path: Path,
 ) -> dict[str, tuple[list[str], list[str], str]]:
-    """Load homographs.en into ``{word: (pron1, pron2, pos1)}``.
+    """Load homographs.txt into ``{word: (pron1, pron2, pos1)}``.
 
     File format (lines starting with ``#`` are comments)::
 
