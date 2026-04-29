@@ -970,6 +970,12 @@ Potential remediation path:
 - Graphical-lasso coordinate-descent and LARS inner solvers, path fitting,
   cross-validation orchestration, public estimator mutation, and alpha
   selection remain deferred.
+- Completed helper slice:
+  `sklearn.covariance.graphical_lasso_cv_bookkeeping` now publishes the
+  pure-Python `GraphicalLassoCV.fit` shell around the deferred path solver:
+  initial alpha-grid construction, mean-score clipping, best-index
+  tie-breaking, refinement-bound selection, refined interior alpha grids, and
+  `cv_results_` materialization from supplied alpha-by-fold score matrices.
 - Completed helper slice: `sklearn.covariance.robust` now publishes
   post-FastMCD deterministic helpers for MCD consistency scaling, corrected
   covariance/distance updates, chi-square support reweighting, reweighted

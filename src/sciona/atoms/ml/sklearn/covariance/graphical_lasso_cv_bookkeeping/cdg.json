@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.0",
+  "module": "sciona.atoms.ml.sklearn.covariance.graphical_lasso_cv_bookkeeping",
+  "description": "Deterministic GraphicalLassoCV alpha-grid, score-selection, and cv_results helpers outside the deferred sparse-precision solver and CV path execution.",
+  "nodes": [
+    {
+      "node_id": "graphical_lasso_cv_alpha_grid",
+      "name": "graphical_lasso_cv_alpha_grid",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Build the initial descending logarithmic alpha grid from an empirical covariance matrix.",
+      "concept_type": "graphical_lasso_cv_bookkeeping",
+      "type_signature": "(emp_cov: NDArray[np.float64], *, n_alphas: int, alpha_min_ratio: float = 1e-2) -> NDArray[np.float64]",
+      "inputs": [
+        {"name": "emp_cov", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "n_alphas", "type_desc": "int", "required": true},
+        {"name": "alpha_min_ratio", "type_desc": "float", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "graphical_lasso_cv_mean_test_scores",
+      "name": "graphical_lasso_cv_mean_test_scores",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Compute per-alpha mean cross-validation scores with GraphicalLassoCV's overflow-to-NaN clipping.",
+      "concept_type": "graphical_lasso_cv_bookkeeping",
+      "type_signature": "(grid_scores: NDArray[np.float64], *, score_overflow_threshold: float = 0.1 / np.finfo(np.float64).eps) -> NDArray[np.float64]",
+      "inputs": [
+        {"name": "grid_scores", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "score_overflow_threshold", "type_desc": "float", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "graphical_lasso_cv_best_index",
+      "name": "graphical_lasso_cv_best_index",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Select the best alpha index with GraphicalLassoCV's later-equal-score tie rule.",
+      "concept_type": "graphical_lasso_cv_bookkeeping",
+      "type_signature": "(mean_test_scores: NDArray[np.float64]) -> int",
+      "inputs": [
+        {"name": "mean_test_scores", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "int"}
+      ]
+    },
+    {
+      "node_id": "graphical_lasso_cv_refinement_bounds",
+      "name": "graphical_lasso_cv_refinement_bounds",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Choose the next alpha interval to refine from descending alphas and scored path means.",
+      "concept_type": "graphical_lasso_cv_bookkeeping",
+      "type_signature": "(alphas: NDArray[np.float64], mean_test_scores: NDArray[np.float64]) -> tuple[float, float]",
+      "inputs": [
+        {"name": "alphas", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "mean_test_scores", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[float, float]"}
+      ]
+    },
+    {
+      "node_id": "graphical_lasso_cv_refined_alpha_grid",
+      "name": "graphical_lasso_cv_refined_alpha_grid",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Build the interior refined alpha grid between two selected alpha bounds.",
+      "concept_type": "graphical_lasso_cv_bookkeeping",
+      "type_signature": "(alpha_upper: float, alpha_lower: float, *, n_alphas: int) -> NDArray[np.float64]",
+      "inputs": [
+        {"name": "alpha_upper", "type_desc": "float", "required": true},
+        {"name": "alpha_lower", "type_desc": "float", "required": true},
+        {"name": "n_alphas", "type_desc": "int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "graphical_lasso_cv_results",
+      "name": "graphical_lasso_cv_results",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Materialize GraphicalLassoCV's cv_results_ dictionary from alphas and alpha-by-fold scores.",
+      "concept_type": "graphical_lasso_cv_bookkeeping",
+      "type_signature": "(alphas: NDArray[np.float64], grid_scores: NDArray[np.float64]) -> dict[str, NDArray[np.float64]]",
+      "inputs": [
+        {"name": "alphas", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "grid_scores", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "dict[str, NDArray[np.float64]]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "graphical_lasso_cv_alpha_grid", "target": "graphical_lasso_cv_refinement_bounds", "kind": "alpha_path"},
+    {"source": "graphical_lasso_cv_mean_test_scores", "target": "graphical_lasso_cv_best_index", "kind": "score_vector"},
+    {"source": "graphical_lasso_cv_mean_test_scores", "target": "graphical_lasso_cv_refinement_bounds", "kind": "score_vector"},
+    {"source": "graphical_lasso_cv_refinement_bounds", "target": "graphical_lasso_cv_refined_alpha_grid", "kind": "alpha_interval"},
+    {"source": "graphical_lasso_cv_alpha_grid", "target": "graphical_lasso_cv_results", "kind": "alpha_path"}
+  ]
+}
