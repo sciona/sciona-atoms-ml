@@ -385,6 +385,11 @@ Potential remediation path:
   guard, binary-estimator count resolution from `code_size`, and fitted
   `n_features_in_` / `feature_names_in_` pass-through from the first trained
   estimator.
+- Completed helper slice:
+  `sklearn.multiclass.one_vs_rest_postfit_attributes` now publishes the
+  remaining deterministic OneVsRestClassifier post-fit attribute shell for
+  fitted `classes_`, `n_features_in_`, and `feature_names_in_` copies from the
+  fitted label binarizer and first trained estimator.
 - Ingest estimator-independent helpers first, such as one-vs-one class-pair
   index generation, one-vs-rest score aggregation, output-code book creation,
   and code-distance decoding from supplied response matrices.
