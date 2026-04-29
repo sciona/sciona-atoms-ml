@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0",
+  "family": "sciona.atoms.ml.sklearn.feature_selection.rfe_state_bookkeeping",
+  "source_symbol": "RFE._fit",
+  "source_file": "sklearn/feature_selection/_rfe.py",
+  "nodes": [
+    {
+      "node_id": "rfe_initial_support_mask",
+      "name": "rfe_initial_support_mask",
+      "description": "Initialize sklearn's all-active support mask for the RFE fit loop.",
+      "concept_type": "state_initialization",
+      "status": "atomic",
+      "type_signature": "(n_features: int) -> NDArray[np.bool_]",
+      "inputs": [{"name": "n_features", "type_desc": "int", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.bool_]"}]
+    },
+    {
+      "node_id": "rfe_initial_ranking",
+      "name": "rfe_initial_ranking",
+      "description": "Initialize sklearn's all-ones ranking vector for the RFE fit loop.",
+      "concept_type": "state_initialization",
+      "status": "atomic",
+      "type_signature": "(n_features: int) -> NDArray[np.int64]",
+      "inputs": [{"name": "n_features", "type_desc": "int", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.int64]"}]
+    },
+    {
+      "node_id": "rfe_initial_step_history",
+      "name": "rfe_initial_step_history",
+      "description": "Initialize sklearn's optional RFE step history as empty arrays.",
+      "concept_type": "state_initialization",
+      "status": "atomic",
+      "type_signature": "() -> tuple[NDArray[np.int64], NDArray[np.float64]]",
+      "inputs": [],
+      "outputs": [{"name": "result", "type_desc": "tuple[NDArray[np.int64], NDArray[np.float64]]"}]
+    },
+    {
+      "node_id": "rfe_elimination_threshold",
+      "name": "rfe_elimination_threshold",
+      "description": "Resolve sklearn's bounded feature-elimination count for one RFE iteration.",
+      "concept_type": "parameter_resolution",
+      "status": "atomic",
+      "type_signature": "(active_feature_count: int, n_features_to_select: int, step: int) -> int",
+      "inputs": [
+        {"name": "active_feature_count", "type_desc": "int", "required": true},
+        {"name": "n_features_to_select", "type_desc": "int", "required": true},
+        {"name": "step", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "int"}]
+    },
+    {
+      "node_id": "rfe_final_feature_count",
+      "name": "rfe_final_feature_count",
+      "description": "Count sklearn's final selected features from the terminal RFE support mask.",
+      "concept_type": "state_summary",
+      "status": "atomic",
+      "type_signature": "(support_mask: NDArray[np.bool_]) -> int",
+      "inputs": [{"name": "support_mask", "type_desc": "NDArray[np.bool_]", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "int"}]
+    }
+  ],
+  "edges": [
+    {"source": "rfe_initial_support_mask", "target": "rfe_elimination_threshold", "kind": "active_feature_count"},
+    {"source": "rfe_initial_support_mask", "target": "rfe_final_feature_count", "kind": "support_mask"},
+    {"source": "rfe_initial_step_history", "target": "rfe_final_feature_count", "kind": "fit_loop_bookkeeping_context"}
+  ]
+}

@@ -143427,6 +143427,461 @@
       "review_record_path": "data/review_bundles/ml_sklearn_feature_selection_rfe_fit_bookkeeping.review_bundle.json",
       "has_references": true,
       "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.feature_selection.rfe_state_bookkeeping.rfe_initial_support_mask",
+      "atom_key": "sciona.atoms.ml.sklearn.feature_selection.rfe_state_bookkeeping.rfe_initial_support_mask",
+      "atom_id": "sciona.atoms.ml.sklearn.feature_selection.rfe_state_bookkeeping.rfe_initial_support_mask",
+      "module_import_path": "sciona.atoms.ml.sklearn.feature_selection.rfe_state_bookkeeping",
+      "module_path": "/opt/anaconda3/envs/hpyexec/lib/python3.10/site-packages/icontract/_checkers.py",
+      "module_family": "feature_selection",
+      "domain_family": "ml.sklearn.feature_selection",
+      "wrapper_symbol": "rfe_initial_support_mask",
+      "argument_names": [
+        "n_features"
+      ],
+      "argument_details": [
+        {
+          "name": "n_features",
+          "annotation": "int",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.bool_]",
+      "docstring_summary": "Initialize sklearn's all-active support mask for the RFE fit loop.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/rfe_state_bookkeeping/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/rfe_state_bookkeeping/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/rfe_state_bookkeeping/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/rfe_state_bookkeeping/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_feature_selection_rfe_state_bookkeeping_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_feature_selection_rfe_state_bookkeeping_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_feature_selection_rfe_state_bookkeeping_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 8,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 95,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 1,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_feature_selection_rfe_state_bookkeeping.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.feature_selection.rfe_state_bookkeeping.rfe_initial_ranking",
+      "atom_key": "sciona.atoms.ml.sklearn.feature_selection.rfe_state_bookkeeping.rfe_initial_ranking",
+      "atom_id": "sciona.atoms.ml.sklearn.feature_selection.rfe_state_bookkeeping.rfe_initial_ranking",
+      "module_import_path": "sciona.atoms.ml.sklearn.feature_selection.rfe_state_bookkeeping",
+      "module_path": "/opt/anaconda3/envs/hpyexec/lib/python3.10/site-packages/icontract/_checkers.py",
+      "module_family": "feature_selection",
+      "domain_family": "ml.sklearn.feature_selection",
+      "wrapper_symbol": "rfe_initial_ranking",
+      "argument_names": [
+        "n_features"
+      ],
+      "argument_details": [
+        {
+          "name": "n_features",
+          "annotation": "int",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "NDArray[np.int64]",
+      "docstring_summary": "Initialize sklearn's all-ones ranking vector for the RFE fit loop.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/rfe_state_bookkeeping/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/rfe_state_bookkeeping/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/rfe_state_bookkeeping/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/rfe_state_bookkeeping/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_feature_selection_rfe_state_bookkeeping_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_feature_selection_rfe_state_bookkeeping_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_feature_selection_rfe_state_bookkeeping_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 8,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 95,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 1,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_feature_selection_rfe_state_bookkeeping.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.feature_selection.rfe_state_bookkeeping.rfe_initial_step_history",
+      "atom_key": "sciona.atoms.ml.sklearn.feature_selection.rfe_state_bookkeeping.rfe_initial_step_history",
+      "atom_id": "sciona.atoms.ml.sklearn.feature_selection.rfe_state_bookkeeping.rfe_initial_step_history",
+      "module_import_path": "sciona.atoms.ml.sklearn.feature_selection.rfe_state_bookkeeping",
+      "module_path": "/opt/anaconda3/envs/hpyexec/lib/python3.10/site-packages/icontract/_checkers.py",
+      "module_family": "feature_selection",
+      "domain_family": "ml.sklearn.feature_selection",
+      "wrapper_symbol": "rfe_initial_step_history",
+      "argument_names": [],
+      "argument_details": [],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "tuple[NDArray[np.int64], NDArray[np.float64]]",
+      "docstring_summary": "Initialize sklearn's optional RFE step history as empty arrays.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/rfe_state_bookkeeping/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/rfe_state_bookkeeping/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/rfe_state_bookkeeping/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/rfe_state_bookkeeping/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_feature_selection_rfe_state_bookkeeping_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_feature_selection_rfe_state_bookkeeping_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_feature_selection_rfe_state_bookkeeping_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 8,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 95,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 1,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_feature_selection_rfe_state_bookkeeping.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.feature_selection.rfe_state_bookkeeping.rfe_elimination_threshold",
+      "atom_key": "sciona.atoms.ml.sklearn.feature_selection.rfe_state_bookkeeping.rfe_elimination_threshold",
+      "atom_id": "sciona.atoms.ml.sklearn.feature_selection.rfe_state_bookkeeping.rfe_elimination_threshold",
+      "module_import_path": "sciona.atoms.ml.sklearn.feature_selection.rfe_state_bookkeeping",
+      "module_path": "/opt/anaconda3/envs/hpyexec/lib/python3.10/site-packages/icontract/_checkers.py",
+      "module_family": "feature_selection",
+      "domain_family": "ml.sklearn.feature_selection",
+      "wrapper_symbol": "rfe_elimination_threshold",
+      "argument_names": [
+        "active_feature_count",
+        "n_features_to_select",
+        "step"
+      ],
+      "argument_details": [
+        {
+          "name": "active_feature_count",
+          "annotation": "int",
+          "required": true,
+          "kind": "positional_or_keyword"
+        },
+        {
+          "name": "n_features_to_select",
+          "annotation": "int",
+          "required": true,
+          "kind": "keyword_only"
+        },
+        {
+          "name": "step",
+          "annotation": "int",
+          "required": true,
+          "kind": "keyword_only"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "int",
+      "docstring_summary": "Resolve sklearn's bounded feature-elimination count for one RFE iteration.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/rfe_state_bookkeeping/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/rfe_state_bookkeeping/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/rfe_state_bookkeeping/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/rfe_state_bookkeeping/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_feature_selection_rfe_state_bookkeeping_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_feature_selection_rfe_state_bookkeeping_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_feature_selection_rfe_state_bookkeeping_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 8,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 95,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 2,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_feature_selection_rfe_state_bookkeeping.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.feature_selection.rfe_state_bookkeeping.rfe_final_feature_count",
+      "atom_key": "sciona.atoms.ml.sklearn.feature_selection.rfe_state_bookkeeping.rfe_final_feature_count",
+      "atom_id": "sciona.atoms.ml.sklearn.feature_selection.rfe_state_bookkeeping.rfe_final_feature_count",
+      "module_import_path": "sciona.atoms.ml.sklearn.feature_selection.rfe_state_bookkeeping",
+      "module_path": "/opt/anaconda3/envs/hpyexec/lib/python3.10/site-packages/icontract/_checkers.py",
+      "module_family": "feature_selection",
+      "domain_family": "ml.sklearn.feature_selection",
+      "wrapper_symbol": "rfe_final_feature_count",
+      "argument_names": [
+        "support_mask"
+      ],
+      "argument_details": [
+        {
+          "name": "support_mask",
+          "annotation": "NDArray[np.bool_]",
+          "required": true,
+          "kind": "positional_or_keyword"
+        }
+      ],
+      "uses_varargs": false,
+      "uses_kwargs": false,
+      "return_annotation": "int",
+      "docstring_summary": "Count sklearn's final selected features from the terminal RFE support mask.",
+      "has_docstring": true,
+      "authoritative_sources": [
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/rfe_state_bookkeeping/atoms.py"
+        },
+        {
+          "kind": "local_wrapper",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/rfe_state_bookkeeping/witnesses.py"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/rfe_state_bookkeeping/references.json"
+        },
+        {
+          "kind": "local_metadata",
+          "path": "src/sciona/atoms/ml/sklearn/feature_selection/rfe_state_bookkeeping/cdg.json"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_feature_selection_rfe_state_bookkeeping_behavior.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_feature_selection_rfe_state_bookkeeping_references_metadata.py"
+        },
+        {
+          "kind": "local_test",
+          "path": "tests/test_ml_sklearn_feature_selection_rfe_state_bookkeeping_review_bundle.py"
+        }
+      ],
+      "source_kind": "hand_written",
+      "review_status": "approved",
+      "review_priority": "review_now",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_verdict": "pass_with_limits",
+      "trust_readiness": "reviewed_with_limits",
+      "review_required_actions": [],
+      "review_limitations": [],
+      "trust_blockers": [],
+      "structural_status": "pass",
+      "semantic_status": "pass",
+      "runtime_status": "pass",
+      "developer_semantics_status": "pass",
+      "overall_verdict": "unknown",
+      "risk_tier": "low",
+      "risk_score": 8,
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
+      "risk_reasons": [],
+      "acceptability_score": 95,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "parity_test_status": "pass",
+      "parity_fixture_count": 1,
+      "parity_case_count": 1,
+      "required_actions": [],
+      "blocking_findings": [],
+      "review_record_path": "data/review_bundles/ml_sklearn_feature_selection_rfe_state_bookkeeping.review_bundle.json",
+      "has_references": true,
+      "references_status": "pass"
     }
   ]
 }

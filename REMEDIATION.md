@@ -286,6 +286,12 @@ Potential remediation path:
   warning predicate, resolved elimination step size, active-feature indexing
   from the support mask, and step-history append bookkeeping before estimator
   fitting or importance extraction.
+- Completed helper slice:
+  `sklearn.feature_selection.rfe_state_bookkeeping` now publishes
+  deterministic RFE fit-state initialization and summary helpers for the
+  all-active support mask, all-ones ranking vector, empty step-history
+  buffers, bounded per-iteration elimination count, and final selected-feature
+  counting from a terminal support mask.
 - Ingest estimator-independent helper atoms first, such as threshold parsing,
   support-mask updates from supplied importance vectors, and candidate subset
   bookkeeping.
