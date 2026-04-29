@@ -395,6 +395,12 @@ Potential remediation path:
   remaining deterministic OneVsRestClassifier post-fit attribute shell for
   fitted `classes_`, `n_features_in_`, and `feature_names_in_` copies from the
   fitted label binarizer and first trained estimator.
+- Completed helper slice:
+  `sklearn.multiclass.one_vs_rest_fit_bookkeeping` now publishes the
+  remaining deterministic OneVsRestClassifier fit-shell bookkeeping for the
+  per-class binary label pair passed to each `_fit_binary` task, fitted class
+  count and multilabel summaries, and partial-fit first-call detection before
+  label binarization or estimator callbacks.
 - Ingest estimator-independent helpers first, such as one-vs-one class-pair
   index generation, one-vs-rest score aggregation, output-code book creation,
   and code-distance decoding from supplied response matrices.

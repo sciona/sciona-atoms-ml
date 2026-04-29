@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "module": "sciona.atoms.ml.sklearn.multiclass.one_vs_rest_fit_bookkeeping",
+  "family": "sklearn.multiclass.one_vs_rest_fit_bookkeeping",
+  "root": "sklearn_multiclass_one_vs_rest_fit_bookkeeping_root",
+  "nodes": [
+    {
+      "node_id": "one_vs_rest_binary_fit_labels",
+      "name": "one_vs_rest_binary_fit_labels",
+      "status": "atomic",
+      "concept_type": "label_formatting",
+      "description": "Build sklearn's two-label classes vector for one binary one-vs-rest fit task.",
+      "inputs": [{"name": "class_label", "type_desc": "object", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+    },
+    {
+      "node_id": "one_vs_rest_class_count",
+      "name": "one_vs_rest_class_count",
+      "status": "atomic",
+      "concept_type": "shape_summary",
+      "description": "Return the fitted one-vs-rest class count from a class-label tuple.",
+      "inputs": [{"name": "classes", "type_desc": "tuple", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "int"}]
+    },
+    {
+      "node_id": "one_vs_rest_multilabel_flag",
+      "name": "one_vs_rest_multilabel_flag",
+      "status": "atomic",
+      "concept_type": "state_check",
+      "description": "Resolve whether a fitted one-vs-rest label binarizer type is multilabel.",
+      "inputs": [{"name": "y_type", "type_desc": "str", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    },
+    {
+      "node_id": "one_vs_rest_partial_fit_first_call",
+      "name": "one_vs_rest_partial_fit_first_call",
+      "status": "atomic",
+      "concept_type": "state_check",
+      "description": "Determine whether one-vs-rest partial_fit is entering before estimators_ exists.",
+      "inputs": [{"name": "has_estimators", "type_desc": "bool", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    }
+  ],
+  "edges": [
+    {"source": "one_vs_rest_class_count", "target": "one_vs_rest_binary_fit_labels", "kind": "per_class_iteration"},
+    {"source": "one_vs_rest_partial_fit_first_call", "target": "one_vs_rest_class_count", "kind": "initialization_context"},
+    {"source": "one_vs_rest_multilabel_flag", "target": "one_vs_rest_class_count", "kind": "postfit_summary"}
+  ]
+}
