@@ -1110,6 +1110,14 @@ Potential remediation path:
   supplied document-topic distributions, and the pure-Python perplexity shell
   for precomputed topic-matrix shape checks, effective word-count scaling, and
   final perplexity conversion from a supplied variational bound.
+- Completed helper slice:
+  `sklearn.decomposition.lda_fit_bookkeeping` now publishes deterministic
+  LatentDirichletAllocation fit and partial-fit shell helpers for online-vs-
+  batch dispatch, evaluate-every cadence, perplexity-improvement stopping,
+  contiguous minibatch bounds, first-call state detection, partial-fit
+  feature-count validation, and dtype-name resolution before nonnegative input
+  validation. The compiled variational E-step and M-step internals remain
+  deferred.
 - Sparse-code solving, LARS/Lasso/OMP/coordinate-descent branches, joblib
   parallel sparse encoding, dictionary-learning callbacks, mini-batch
   scheduling, sklearn's random unused-atom resampling branch, and non-threshold

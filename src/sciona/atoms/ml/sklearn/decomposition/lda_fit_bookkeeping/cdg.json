@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.0",
+  "module": "sciona.atoms.ml.sklearn.decomposition.lda_fit_bookkeeping",
+  "family": "sklearn.decomposition.lda_fit_bookkeeping",
+  "root": "sklearn_decomposition_lda_fit_bookkeeping_root",
+  "nodes": [
+    {
+      "node_id": "lda_fit_use_online_batches",
+      "name": "lda_fit_use_online_batches",
+      "status": "atomic",
+      "concept_type": "dispatch",
+      "description": "Resolve whether LatentDirichletAllocation.fit should iterate over minibatches from the configured learning method.",
+      "inputs": [{"name": "learning_method", "type_desc": "str", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    },
+    {
+      "node_id": "lda_fit_evaluate_iteration_due",
+      "name": "lda_fit_evaluate_iteration_due",
+      "status": "atomic",
+      "concept_type": "schedule",
+      "description": "Check whether a zero-based LDA fit iteration should trigger the evaluate_every perplexity branch.",
+      "inputs": [
+        {"name": "iteration_index", "type_desc": "int", "required": true},
+        {"name": "evaluate_every", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    },
+    {
+      "node_id": "lda_fit_converged",
+      "name": "lda_fit_converged",
+      "status": "atomic",
+      "concept_type": "stopping_rule",
+      "description": "Apply sklearn's perplexity-improvement stopping predicate from the previous and current bounds plus perp_tol.",
+      "inputs": [
+        {"name": "last_bound", "type_desc": "float | None", "required": false},
+        {"name": "bound", "type_desc": "float", "required": true},
+        {"name": "perp_tol", "type_desc": "float", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    },
+    {
+      "node_id": "lda_batch_bounds",
+      "name": "lda_batch_bounds",
+      "status": "atomic",
+      "concept_type": "batching",
+      "description": "Construct contiguous minibatch start-stop bounds for LDA fit or partial_fit loops.",
+      "inputs": [
+        {"name": "n_samples", "type_desc": "int", "required": true},
+        {"name": "batch_size", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+    },
+    {
+      "node_id": "lda_partial_fit_first_call",
+      "name": "lda_partial_fit_first_call",
+      "status": "atomic",
+      "concept_type": "state_check",
+      "description": "Determine whether LDA partial_fit is entering before components_ has been initialized.",
+      "inputs": [{"name": "has_components", "type_desc": "bool", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    },
+    {
+      "node_id": "lda_partial_fit_require_matching_feature_count",
+      "name": "lda_partial_fit_require_matching_feature_count",
+      "status": "atomic",
+      "concept_type": "shape_validation",
+      "description": "Apply sklearn's partial_fit feature-count compatibility check against the trained component width.",
+      "inputs": [
+        {"name": "n_features", "type_desc": "int", "required": true},
+        {"name": "trained_feature_count", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "int"}]
+    },
+    {
+      "node_id": "lda_check_nonnegative_dtype_names",
+      "name": "lda_check_nonnegative_dtype_names",
+      "status": "atomic",
+      "concept_type": "dtype_resolution",
+      "description": "Resolve the dtype-name vector LDA passes into input validation before its nonnegative check.",
+      "inputs": [
+        {"name": "reset_n_features", "type_desc": "bool", "required": true},
+        {"name": "components_dtype_name", "type_desc": "str", "required": false}
+      ],
+      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+    }
+  ],
+  "edges": [
+    {"source": "lda_fit_use_online_batches", "target": "lda_batch_bounds", "kind": "dispatch"},
+    {"source": "lda_fit_evaluate_iteration_due", "target": "lda_fit_converged", "kind": "evaluation_gate"},
+    {"source": "lda_partial_fit_first_call", "target": "lda_check_nonnegative_dtype_names", "kind": "dtype_context"},
+    {"source": "lda_partial_fit_first_call", "target": "lda_partial_fit_require_matching_feature_count", "kind": "shape_context"}
+  ]
+}
