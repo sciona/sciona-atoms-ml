@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0",
+  "module": "sciona.atoms.ml.sklearn.neural_network.mlp_early_stopping_state",
+  "description": "Deterministic sklearn MLP early-stopping helpers for validation-target decoding, score-history updates, cached best-parameter updates, and final restore.",
+  "nodes": [
+    {
+      "node_id": "mlp_stochastic_validation_targets",
+      "name": "mlp_stochastic_validation_targets",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Decode early-stopping validation targets for classifiers and passthrough regression targets unchanged.",
+      "concept_type": "mlp_early_stopping_state",
+      "type_signature": "(y_val: NDArray[np.float64] | NDArray[np.bool_], *, is_classifier: bool, label_binarizer_state: LabelBinarizerState | None = None) -> NDArray[np.object_] | NDArray[np.float64] | scipy.sparse.csr_matrix",
+      "inputs": [
+        {"name": "y_val", "type_desc": "NDArray[np.float64] | NDArray[np.bool_]", "required": true},
+        {"name": "is_classifier", "type_desc": "bool", "required": true},
+        {"name": "label_binarizer_state", "type_desc": "LabelBinarizerState | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.object_] | NDArray[np.float64] | scipy.sparse.csr_matrix"}
+      ]
+    },
+    {
+      "node_id": "mlp_validation_scores_append",
+      "name": "mlp_validation_scores_append",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Append one validation score to sklearn's early-stopping validation-score history.",
+      "concept_type": "mlp_early_stopping_state",
+      "type_signature": "(validation_scores: tuple[float, ...], val_score: float) -> tuple[float, ...]",
+      "inputs": [
+        {"name": "validation_scores", "type_desc": "tuple[float, ...]", "required": true},
+        {"name": "val_score", "type_desc": "float", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[float, ...]"}
+      ]
+    },
+    {
+      "node_id": "mlp_monitor_best_state",
+      "name": "mlp_monitor_best_state",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Update the cached best validation score and cached best parameter copies when validation performance improves.",
+      "concept_type": "mlp_early_stopping_state",
+      "type_signature": "(last_valid_score: float, best_validation_score: float, best_coefs: Sequence[NDArray[np.float64]], best_intercepts: Sequence[NDArray[np.float64]], coefs: Sequence[NDArray[np.float64]], intercepts: Sequence[NDArray[np.float64]]) -> tuple[float, tuple[NDArray[np.float64], ...], tuple[NDArray[np.float64], ...]]",
+      "inputs": [
+        {"name": "last_valid_score", "type_desc": "float", "required": true},
+        {"name": "best_validation_score", "type_desc": "float", "required": true},
+        {"name": "best_coefs", "type_desc": "Sequence[NDArray[np.float64]]", "required": true},
+        {"name": "best_intercepts", "type_desc": "Sequence[NDArray[np.float64]]", "required": true},
+        {"name": "coefs", "type_desc": "Sequence[NDArray[np.float64]]", "required": true},
+        {"name": "intercepts", "type_desc": "Sequence[NDArray[np.float64]]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[float, tuple[NDArray[np.float64], ...], tuple[NDArray[np.float64], ...]]"}
+      ]
+    },
+    {
+      "node_id": "mlp_restore_best_parameters",
+      "name": "mlp_restore_best_parameters",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Materialize the cached best coefficient and intercept tuples for sklearn's final early-stopping restore step.",
+      "concept_type": "mlp_early_stopping_state",
+      "type_signature": "(best_coefs: Sequence[NDArray[np.float64]], best_intercepts: Sequence[NDArray[np.float64]]) -> tuple[tuple[NDArray[np.float64], ...], tuple[NDArray[np.float64], ...]]",
+      "inputs": [
+        {"name": "best_coefs", "type_desc": "Sequence[NDArray[np.float64]]", "required": true},
+        {"name": "best_intercepts", "type_desc": "Sequence[NDArray[np.float64]]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[tuple[NDArray[np.float64], ...], tuple[NDArray[np.float64], ...]]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "mlp_stochastic_validation_targets", "target": "mlp_validation_scores_append", "kind": "validation_context"},
+    {"source": "mlp_validation_scores_append", "target": "mlp_monitor_best_state", "kind": "latest_validation_score"},
+    {"source": "mlp_monitor_best_state", "target": "mlp_restore_best_parameters", "kind": "cached_best_parameters"}
+  ]
+}

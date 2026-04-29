@@ -565,6 +565,12 @@ Potential remediation path:
   shuffled-versus-contiguous batch-index selection, and minibatch-size-weighted
   accumulated-loss updates before the deferred backprop, optimizer mutation,
   and validation split execution.
+- Completed helper slice:
+  `sklearn.neural_network.mlp_early_stopping_state` now publishes the
+  deterministic early-stopping state shell for classifier validation-target
+  decoding, validation-score history appends, cached best-score and
+  best-parameter updates, and final best-parameter restore after the deferred
+  score callback and optimizer loop.
 - Decide whether SGD/Adam/L-BFGS optimizer state should be represented as
   separate atom families before publishing full MLP training surfaces.
 
