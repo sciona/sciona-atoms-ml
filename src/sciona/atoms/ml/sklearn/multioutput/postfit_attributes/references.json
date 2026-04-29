@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.multioutput.postfit_attributes.multioutput_partial_fit_n_features_in_update_required@sciona/atoms/ml/sklearn/multioutput/postfit_attributes/atoms.py:72": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the `first_time and hasattr(..., \"n_features_in_\")` guard in sklearn.multioutput._MultiOutputEstimator.partial_fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.multioutput.postfit_attributes.multioutput_partial_fit_feature_names_in_update_required@sciona/atoms/ml/sklearn/multioutput/postfit_attributes/atoms.py:85": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the `first_time and hasattr(..., \"feature_names_in_\")` guard in sklearn.multioutput._MultiOutputEstimator.partial_fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.multioutput.postfit_attributes.multioutput_fit_n_features_in@sciona/atoms/ml/sklearn/multioutput/postfit_attributes/atoms.py:97": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the fitted `self.n_features_in_ = self.estimators_[0].n_features_in_` pass-through in sklearn.multioutput._MultiOutputEstimator.fit and OutputCodeClassifier.fit-style wrappers."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.multioutput.postfit_attributes.multioutput_fit_feature_names_in@sciona/atoms/ml/sklearn/multioutput/postfit_attributes/atoms.py:105": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the fitted `self.feature_names_in_ = self.estimators_[0].feature_names_in_` pass-through in sklearn.multioutput._MultiOutputEstimator.fit and partial_fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.multioutput.postfit_attributes.multioutput_classifier_classes@sciona/atoms/ml/sklearn/multioutput/postfit_attributes/atoms.py:113": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the `self.classes_ = [estimator.classes_ for estimator in self.estimators_]` post-fit class-vector collection in sklearn.multioutput.MultiOutputClassifier.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

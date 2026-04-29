@@ -430,6 +430,12 @@ Potential remediation path:
   base-estimator fit-method guard, 2D target requirement, output-count
   resolution, per-output target-column selection, and the non-routing
   sample-weight support guard before the deferred estimator-fit loop.
+- Completed helper slice:
+  `sklearn.multioutput.postfit_attributes` now publishes deterministic
+  post-fit attribute helpers for first-call partial-fit attribute gates,
+  fitted `n_features_in_` and `feature_names_in_` pass-through from the first
+  trained estimator, and per-estimator `classes_` collection for fitted
+  MultiOutputClassifier-style wrappers.
 - Ingest estimator-independent chain-order validation, feature augmentation
   from supplied previous predictions, independent-output stacking, and
   multioutput score aggregation.
