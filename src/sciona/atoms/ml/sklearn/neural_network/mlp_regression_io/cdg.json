@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0",
+  "module": "sciona.atoms.ml.sklearn.neural_network.mlp_regression_io",
+  "description": "Deterministic sklearn MLPRegressor target, prediction, and score-output helpers around the deferred optimization loop.",
+  "nodes": [
+    {
+      "node_id": "mlp_regressor_targets",
+      "name": "mlp_regressor_targets",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Flatten a single target column the way MLPRegressor._validate_input does while preserving multioutput targets.",
+      "concept_type": "mlp_regression_io",
+      "type_signature": "(y: NDArray[np.float64]) -> NDArray[np.float64]",
+      "inputs": [
+        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "mlp_regressor_predictions",
+      "name": "mlp_regressor_predictions",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Flatten one-output MLPRegressor predictions while preserving multioutput prediction matrices.",
+      "concept_type": "mlp_regression_io",
+      "type_signature": "(y_pred: NDArray[np.float64]) -> NDArray[np.float64]",
+      "inputs": [
+        {"name": "y_pred", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "mlp_regressor_r2_score",
+      "name": "mlp_regressor_r2_score",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Compute MLPRegressor's R2 score helper with the NaN/Inf prediction short-circuit before scoring.",
+      "concept_type": "mlp_regression_io",
+      "type_signature": "(y_true: NDArray[np.float64], y_pred: NDArray[np.float64], *, sample_weight: NDArray[np.float64] | None = None) -> float",
+      "inputs": [
+        {"name": "y_true", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "y_pred", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "sample_weight", "type_desc": "NDArray[np.float64] | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "float"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "mlp_regressor_targets", "target": "mlp_regressor_r2_score", "kind": "target_shape_context"},
+    {"source": "mlp_regressor_predictions", "target": "mlp_regressor_r2_score", "kind": "prediction_shape_context"}
+  ]
+}

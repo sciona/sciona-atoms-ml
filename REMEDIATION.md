@@ -548,6 +548,11 @@ Potential remediation path:
   LBFGS setup helpers for coefficient and intercept slice layout, flat
   parameter packing, and verbose-to-`iprint` option resolution before the
   deferred SciPy optimizer call.
+- Completed helper slice:
+  `sklearn.neural_network.mlp_regression_io` now publishes regressor-side
+  target and output helpers for single-column target flattening in
+  `_validate_input`, one-output prediction flattening in `_predict`, and the
+  NaN/Inf short-circuit around `MLPRegressor`'s R2 score helper.
 - Decide whether SGD/Adam/L-BFGS optimizer state should be represented as
   separate atom families before publishing full MLP training surfaces.
 
