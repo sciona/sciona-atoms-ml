@@ -973,6 +973,12 @@ Potential remediation path:
   `sklearn.covariance.robust_fastmcd_candidates` now publishes multivariate
   FastMCD candidate-pool generation from repeated c-step runs over random
   starts or supplied estimate stacks.
+- Completed helper slice:
+  `sklearn.covariance.elliptic_envelope_postprocessing` now publishes the
+  deterministic EllipticEnvelope shell after robust distances are available:
+  contamination-percentile offset fitting from supplied negative training
+  distances, score-sample sign flipping from supplied Mahalanobis distances,
+  decision-function offset shifting, and final {-1, 1} label thresholding.
 - Ingest robust covariance by decomposing FastMCD helpers (`fast_mcd`,
   candidate selection, correction, reweighting, and Mahalanobis scoring) before
   publishing `MinCovDet` or `EllipticEnvelope` fit states. Correction,
