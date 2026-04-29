@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "sciona.atoms.review_bundle.ml.sklearn_covariance_mincovdet_fit_bookkeeping.v1",
+  "provider_repo": "sciona-atoms-ml",
+  "family_batch": "ml_sklearn_covariance_mincovdet_fit_bookkeeping",
+  "review_status": "reviewed",
+  "review_semantic_verdict": "pass_with_limits",
+  "review_developer_semantic_verdict": "pass_with_limits",
+  "trust_readiness": "reviewed_with_limits",
+  "artifacts": [
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/sklearn/covariance/mincovdet_fit_bookkeeping/atoms.py"},
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/sklearn/covariance/mincovdet_fit_bookkeeping/witnesses.py"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/sklearn/covariance/mincovdet_fit_bookkeeping/references.json"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/sklearn/covariance/mincovdet_fit_bookkeeping/cdg.json"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_covariance_mincovdet_fit_bookkeeping_behavior.py"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_covariance_mincovdet_fit_bookkeeping_references_metadata.py"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_covariance_mincovdet_fit_bookkeeping_review_bundle.py"}
+  ],
+  "review_record_path": "data/review_bundles/ml_sklearn_covariance_mincovdet_fit_bookkeeping.review_bundle.json",
+  "rows": [
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.covariance.mincovdet_fit_bookkeeping.mincovdet_full_rank_warning_required",
+      "atom_name": "sciona.atoms.ml.sklearn.covariance.mincovdet_fit_bookkeeping.mincovdet_full_rank_warning_required",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "risk_score": 21,
+      "acceptability_score": 94,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "has_references": true,
+      "references_status": "pass",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/covariance/mincovdet_fit_bookkeeping/atoms.py",
+        "src/sciona/atoms/ml/sklearn/covariance/mincovdet_fit_bookkeeping/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/covariance/mincovdet_fit_bookkeeping/references.json",
+        "src/sciona/atoms/ml/sklearn/covariance/mincovdet_fit_bookkeeping/cdg.json",
+        "tests/test_ml_sklearn_covariance_mincovdet_fit_bookkeeping_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_covariance_mincovdet_fit_bookkeeping.review_bundle.json"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.covariance.mincovdet_fit_bookkeeping.mincovdet_assume_centered_raw_location",
+      "atom_name": "sciona.atoms.ml.sklearn.covariance.mincovdet_fit_bookkeeping.mincovdet_assume_centered_raw_location",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "risk_score": 18,
+      "acceptability_score": 95,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "has_references": true,
+      "references_status": "pass",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/covariance/mincovdet_fit_bookkeeping/atoms.py",
+        "src/sciona/atoms/ml/sklearn/covariance/mincovdet_fit_bookkeeping/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/covariance/mincovdet_fit_bookkeeping/references.json",
+        "src/sciona/atoms/ml/sklearn/covariance/mincovdet_fit_bookkeeping/cdg.json",
+        "tests/test_ml_sklearn_covariance_mincovdet_fit_bookkeeping_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_covariance_mincovdet_fit_bookkeeping.review_bundle.json"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.covariance.mincovdet_fit_bookkeeping.mincovdet_assume_centered_raw_covariance",
+      "atom_name": "sciona.atoms.ml.sklearn.covariance.mincovdet_fit_bookkeeping.mincovdet_assume_centered_raw_covariance",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "risk_score": 24,
+      "acceptability_score": 93,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "has_references": true,
+      "references_status": "pass",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/covariance/mincovdet_fit_bookkeeping/atoms.py",
+        "src/sciona/atoms/ml/sklearn/covariance/mincovdet_fit_bookkeeping/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/covariance/mincovdet_fit_bookkeeping/references.json",
+        "src/sciona/atoms/ml/sklearn/covariance/mincovdet_fit_bookkeeping/cdg.json",
+        "tests/test_ml_sklearn_covariance_mincovdet_fit_bookkeeping_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_covariance_mincovdet_fit_bookkeeping.review_bundle.json"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.covariance.mincovdet_fit_bookkeeping.mincovdet_assume_centered_raw_distances",
+      "atom_name": "sciona.atoms.ml.sklearn.covariance.mincovdet_fit_bookkeeping.mincovdet_assume_centered_raw_distances",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "risk_score": 24,
+      "acceptability_score": 93,
+      "acceptability_band": "acceptable_with_limits_candidate",
+      "parity_coverage_level": "parity_or_usage_equivalent",
+      "has_references": true,
+      "references_status": "pass",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/covariance/mincovdet_fit_bookkeeping/atoms.py",
+        "src/sciona/atoms/ml/sklearn/covariance/mincovdet_fit_bookkeeping/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/covariance/mincovdet_fit_bookkeeping/references.json",
+        "src/sciona/atoms/ml/sklearn/covariance/mincovdet_fit_bookkeeping/cdg.json",
+        "tests/test_ml_sklearn_covariance_mincovdet_fit_bookkeeping_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_covariance_mincovdet_fit_bookkeeping.review_bundle.json"
+    }
+  ]
+}

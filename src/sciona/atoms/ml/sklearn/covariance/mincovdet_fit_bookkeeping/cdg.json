@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0",
+  "module": "sciona.atoms.ml.sklearn.covariance.mincovdet_fit_bookkeeping",
+  "description": "Deterministic MinCovDet fit-shell helpers between FastMCD raw estimates and the later correction and reweighting stages.",
+  "nodes": [
+    {
+      "node_id": "mincovdet_full_rank_warning_required",
+      "name": "mincovdet_full_rank_warning_required",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Return whether MinCovDet.fit would emit the covariance-not-full-rank warning for the supplied training matrix.",
+      "concept_type": "mincovdet_fit_bookkeeping",
+      "type_signature": "(X: NDArray[np.float64], *, tol: float = 1e-8) -> bool",
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "tol", "type_desc": "float", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "mincovdet_assume_centered_raw_location",
+      "name": "mincovdet_assume_centered_raw_location",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Build MinCovDet's zero raw-location vector for assume-centered fitting.",
+      "concept_type": "mincovdet_fit_bookkeeping",
+      "type_signature": "(n_features: int) -> NDArray[np.float64]",
+      "inputs": [
+        {"name": "n_features", "type_desc": "int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "mincovdet_assume_centered_raw_covariance",
+      "name": "mincovdet_assume_centered_raw_covariance",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Recompute MinCovDet's raw covariance from the supported observations when assume_centered is enabled.",
+      "concept_type": "mincovdet_fit_bookkeeping",
+      "type_signature": "(X: NDArray[np.float64], raw_support: NDArray[np.bool_]) -> NDArray[np.float64]",
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "raw_support", "type_desc": "NDArray[np.bool_]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "mincovdet_assume_centered_raw_distances",
+      "name": "mincovdet_assume_centered_raw_distances",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Compute MinCovDet's assume-centered raw squared distances from X and the recomputed raw covariance.",
+      "concept_type": "mincovdet_fit_bookkeeping",
+      "type_signature": "(X: NDArray[np.float64], raw_covariance: NDArray[np.float64]) -> NDArray[np.float64]",
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "raw_covariance", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "mincovdet_assume_centered_raw_location", "target": "mincovdet_assume_centered_raw_distances", "kind": "zero_center_context"},
+    {"source": "mincovdet_assume_centered_raw_covariance", "target": "mincovdet_assume_centered_raw_distances", "kind": "precision_input"}
+  ]
+}

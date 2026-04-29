@@ -999,6 +999,12 @@ Potential remediation path:
   contamination-percentile offset fitting from supplied negative training
   distances, score-sample sign flipping from supplied Mahalanobis distances,
   decision-function offset shifting, and final {-1, 1} label thresholding.
+- Completed helper slice:
+  `sklearn.covariance.mincovdet_fit_bookkeeping` now publishes the remaining
+  deterministic `MinCovDet.fit` shell between FastMCD raw estimates and the
+  later correction/reweighting stages: the covariance-rank warning predicate
+  plus the `assume_centered=True` raw-location, raw-covariance, and raw-distance
+  recomputation helpers.
 - Ingest robust covariance by decomposing FastMCD helpers (`fast_mcd`,
   candidate selection, correction, reweighting, and Mahalanobis scoring) before
   publishing `MinCovDet` or `EllipticEnvelope` fit states. Correction,
