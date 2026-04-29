@@ -280,6 +280,12 @@ Potential remediation path:
   `max_features` readiness, and stable descending top-k candidate-index
   selection before threshold masking or estimator-specific importance
   extraction.
+- Completed helper slice:
+  `sklearn.feature_selection.rfe_fit_bookkeeping` now publishes deterministic
+  RFE fit-shell bookkeeping for resolved target feature counts, the oversize
+  warning predicate, resolved elimination step size, active-feature indexing
+  from the support mask, and step-history append bookkeeping before estimator
+  fitting or importance extraction.
 - Ingest estimator-independent helper atoms first, such as threshold parsing,
   support-mask updates from supplied importance vectors, and candidate subset
   bookkeeping.
