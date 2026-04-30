@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "module": "sciona.atoms.ml.sklearn.decomposition.sparse_encode_validation",
+  "family": "sklearn.decomposition.sparse_encode_validation",
+  "root": "sklearn_decomposition_sparse_encode_validation_root",
+  "nodes": [
+    {
+      "node_id": "sparse_encode_require_matching_features",
+      "name": "sparse_encode_require_matching_features",
+      "status": "atomic",
+      "concept_type": "shape_validation",
+      "description": "Apply sparse_encode's feature-count compatibility guard before any sparse-code solver dispatch.",
+      "inputs": [
+        {"name": "x_feature_count", "type_desc": "int", "required": true},
+        {"name": "dictionary_feature_count", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "int"}]
+    },
+    {
+      "node_id": "sparse_encode_require_positive_compatible_algorithm",
+      "name": "sparse_encode_require_positive_compatible_algorithm",
+      "status": "atomic",
+      "concept_type": "algorithm_validation",
+      "description": "Reject sparse_encode algorithm labels whose coding backend does not support positive=True.",
+      "inputs": [
+        {"name": "algorithm", "type_desc": "str", "required": true},
+        {"name": "positive", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "str"}]
+    }
+  ],
+  "edges": [
+    {"source": "sparse_encode_require_matching_features", "target": "sparse_encode_require_positive_compatible_algorithm", "kind": "pre_solver_validation"}
+  ]
+}

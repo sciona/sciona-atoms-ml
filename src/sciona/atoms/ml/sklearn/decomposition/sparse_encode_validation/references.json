@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.decomposition.sparse_encode_validation.sparse_encode_require_matching_features@sciona/atoms/ml/sklearn/decomposition/sparse_encode_validation/atoms.py:35": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the feature-count compatibility check in sklearn.decomposition._dict_learning.sparse_encode."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.decomposition.sparse_encode_validation.sparse_encode_require_positive_compatible_algorithm@sciona/atoms/ml/sklearn/decomposition/sparse_encode_validation/atoms.py:53": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from sklearn.decomposition._dict_learning._check_positive_coding, which sparse_encode applies before solver dispatch."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

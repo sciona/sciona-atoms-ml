@@ -1,0 +1,31 @@
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+
+BUNDLE_PATH = Path("data/review_bundles/ml_sklearn_decomposition_sparse_encode_validation.review_bundle.json")
+
+EXPECTED_ATOMS = {
+    "sciona.atoms.ml.sklearn.decomposition.sparse_encode_validation.sparse_encode_require_matching_features",
+    "sciona.atoms.ml.sklearn.decomposition.sparse_encode_validation.sparse_encode_require_positive_compatible_algorithm",
+}
+
+
+def test_sparse_encode_validation_review_bundle_rows_cover_atoms() -> None:
+    payload = json.loads(BUNDLE_PATH.read_text())
+    row_atoms = {row["atom_key"] for row in payload["rows"]}
+    assert row_atoms == EXPECTED_ATOMS
+
+
+def test_sparse_encode_validation_review_bundle_source_paths_are_family_local() -> None:
+    payload = json.loads(BUNDLE_PATH.read_text())
+    for row in payload["rows"]:
+        for source_path in row["source_paths"]:
+            assert source_path.startswith("src/sciona/atoms/ml/sklearn/decomposition/sparse_encode_validation/") or source_path == "tests/test_ml_sklearn_decomposition_sparse_encode_validation_behavior.py"
+
+
+def test_sparse_encode_validation_review_bundle_is_reviewed() -> None:
+    payload = json.loads(BUNDLE_PATH.read_text())
+    assert payload["review_status"] == "reviewed"
+    assert payload["review_semantic_verdict"] == "pass_with_limits"

@@ -1150,6 +1150,11 @@ Potential remediation path:
   split-sign code merging, and dictionary-space reconstruction from supplied
   codes, while sparse-code solver dispatch remains deferred.
 - Completed helper slice:
+  `sklearn.decomposition.sparse_encode_validation` now publishes the pure-
+  Python sparse_encode validation shell for feature-count compatibility and
+  positive-coding algorithm support before the deferred sparse-code solver
+  branches.
+- Completed helper slice:
   `sklearn.decomposition.lda_shell` now publishes deterministic
   LatentDirichletAllocation helper atoms for default prior resolution, random
   gamma initialization of `components_`, transform-time row normalization of
