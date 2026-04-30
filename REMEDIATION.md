@@ -889,6 +889,12 @@ Potential remediation path:
   the small post-fit helpers for `_n_features_out` and the metric-driven
   pairwise input tag. Warning side effects, distance construction, and the
   optimizer loop remain deferred.
+- Completed helper slice:
+  `sklearn.manifold.tsne_fit_value_preparation` now publishes the
+  deterministic `_fit` postprocessing shell for exact-method distance
+  validation and non-euclidean squaring, Barnes-Hut neighbor-graph distance
+  squaring, exact-method condensed probability sanity checks, and ndarray init
+  passthrough before the deferred optimizer loop.
 - Additional t-SNE remediation should cover remaining estimator orchestration
   such as binary perplexity search boundaries, full optimization-loop
   execution, and native Barnes-Hut gradient handling.
@@ -1005,6 +1011,12 @@ Potential remediation path:
 - Completed helper slice: `sklearn.cluster.birch` now publishes BIRCH
   no-global-clustering fit, predict, and transform atoms with `n_clusters=None`
   and immutable subcluster state.
+- Completed helper slice: `sklearn.cluster.birch_bookkeeping` now publishes
+  deterministic BIRCH fit and global-bookkeeping helpers for first-call
+  detection, the copy-deprecation warning gate, post-tree leaf-centroid
+  concatenation, `_n_features_out` resolution, label-refresh gating, and the
+  integer `n_clusters` no-global-clustering fallback before the deferred
+  agglomerative/custom clusterer boundary.
 - Default `AgglomerativeClustering`, custom global clusterers, sparse inputs,
   `partial_fit`, and live mutable CF-tree object surfaces remain deferred.
 - Ingest the CF-tree insertion, subcluster merge, and node-splitting logic as

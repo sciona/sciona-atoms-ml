@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "module": "sciona.atoms.ml.sklearn.manifold.tsne_fit_value_preparation",
+  "family": "sklearn.manifold.tsne_fit_value_preparation",
+  "root": "sklearn_manifold_tsne_fit_value_preparation_root",
+  "nodes": [
+    {
+      "node_id": "tsne_exact_distance_matrix",
+      "name": "tsne_exact_distance_matrix",
+      "status": "atomic",
+      "concept_type": "distance_postprocessing",
+      "description": "Apply t-SNE exact-method distance validation and optional non-euclidean squaring to a supplied distance matrix.",
+      "inputs": [
+        {"name": "distances", "type_desc": "ndarray", "required": true},
+        {"name": "metric", "type_desc": "str", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+    },
+    {
+      "node_id": "tsne_neighbor_graph_squared_data",
+      "name": "tsne_neighbor_graph_squared_data",
+      "status": "atomic",
+      "concept_type": "distance_postprocessing",
+      "description": "Square Barnes-Hut neighbor-graph distance values to match t-SNE's exact-distance convention.",
+      "inputs": [{"name": "data", "type_desc": "ndarray", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+    },
+    {
+      "node_id": "tsne_exact_probability_vector",
+      "name": "tsne_exact_probability_vector",
+      "status": "atomic",
+      "concept_type": "probability_validation",
+      "description": "Apply t-SNE exact-method probability sanity checks to a supplied condensed probability vector.",
+      "inputs": [{"name": "P", "type_desc": "ndarray", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+    },
+    {
+      "node_id": "tsne_provided_layout_matrix",
+      "name": "tsne_provided_layout_matrix",
+      "status": "atomic",
+      "concept_type": "initialization_passthrough",
+      "description": "Return the ndarray initialization branch for t-SNE embeddings.",
+      "inputs": [{"name": "init", "type_desc": "ndarray", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+    }
+  ],
+  "edges": [
+    {"source": "tsne_exact_distance_matrix", "target": "tsne_exact_probability_vector", "kind": "exact_path"},
+    {"source": "tsne_neighbor_graph_squared_data", "target": "tsne_exact_probability_vector", "kind": "neighbor_path"},
+    {"source": "tsne_provided_layout_matrix", "target": "tsne_exact_probability_vector", "kind": "fit_value_context"}
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0",
+  "module": "sciona.atoms.ml.sklearn.cluster.birch_bookkeeping",
+  "family": "sklearn.cluster.birch_bookkeeping",
+  "root": "sklearn_cluster_birch_bookkeeping_root",
+  "nodes": [
+    {
+      "node_id": "birch_first_call",
+      "name": "birch_first_call",
+      "status": "atomic",
+      "concept_type": "fit_bookkeeping",
+      "description": "Resolve whether Birch._fit starts a new CF tree from partial-fit state.",
+      "inputs": [
+        {"name": "partial", "type_desc": "bool", "required": true},
+        {"name": "has_root", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    },
+    {
+      "node_id": "birch_copy_warning_required",
+      "name": "birch_copy_warning_required",
+      "status": "atomic",
+      "concept_type": "warning_gate",
+      "description": "Resolve whether Birch emits its deprecated copy-parameter warning on entry.",
+      "inputs": [
+        {"name": "copy", "type_desc": "str | bool", "required": true},
+        {"name": "first_call", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    },
+    {
+      "node_id": "birch_compute_labels_required",
+      "name": "birch_compute_labels_required",
+      "status": "atomic",
+      "concept_type": "postfit_gate",
+      "description": "Resolve whether Birch._global_clustering should recompute labels_ from fitted subcluster labels.",
+      "inputs": [
+        {"name": "has_input_data", "type_desc": "bool", "required": true},
+        {"name": "compute_labels", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    },
+    {
+      "node_id": "birch_not_enough_centroids",
+      "name": "birch_not_enough_centroids",
+      "status": "atomic",
+      "concept_type": "branch_predicate",
+      "description": "Resolve whether Birch skips integer global clustering because the number of subclusters is below n_clusters.",
+      "inputs": [
+        {"name": "n_centroids", "type_desc": "int", "required": true},
+        {"name": "n_clusters", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    },
+    {
+      "node_id": "birch_identity_subcluster_labels",
+      "name": "birch_identity_subcluster_labels",
+      "status": "atomic",
+      "concept_type": "label_initialization",
+      "description": "Create Birch's identity subcluster labels for the no-global-clustering branch.",
+      "inputs": [{"name": "n_centroids", "type_desc": "int", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+    },
+    {
+      "node_id": "birch_leaf_centers",
+      "name": "birch_leaf_centers",
+      "status": "atomic",
+      "concept_type": "summary_aggregation",
+      "description": "Concatenate Birch leaf-centroid blocks into the subcluster-centers matrix.",
+      "inputs": [{"name": "leaf_centroid_blocks", "type_desc": "tuple[ndarray, ...]", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+    },
+    {
+      "node_id": "birch_n_features_out",
+      "name": "birch_n_features_out",
+      "status": "atomic",
+      "concept_type": "postfit_attribute",
+      "description": "Return Birch's transformed output width from the number of subcluster centers.",
+      "inputs": [{"name": "subcluster_centers", "type_desc": "ndarray", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "int"}]
+    }
+  ],
+  "edges": [
+    {"source": "birch_first_call", "target": "birch_copy_warning_required", "kind": "fit_entry_gate"},
+    {"source": "birch_leaf_centers", "target": "birch_n_features_out", "kind": "summary_shape"},
+    {"source": "birch_not_enough_centroids", "target": "birch_identity_subcluster_labels", "kind": "no_global_clustering_branch"},
+    {"source": "birch_compute_labels_required", "target": "birch_identity_subcluster_labels", "kind": "label_refresh_context"}
+  ]
+}
