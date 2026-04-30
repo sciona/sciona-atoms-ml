@@ -419,6 +419,12 @@ Potential remediation path:
   per-class binary label pair passed to each `_fit_binary` task, fitted class
   count and multilabel summaries, and partial-fit first-call detection before
   label binarization or estimator callbacks.
+- Completed helper slice:
+  `sklearn.multiclass.one_vs_rest_partial_fit_bookkeeping` now publishes the
+  remaining deterministic OneVsRestClassifier partial-fit shell around
+  first-call estimator allocation count, the class vector used to fit the
+  sparse label binarizer, and fitted `n_features_in_` pass-through after the
+  worker partial-fit loop.
 - Ingest estimator-independent helpers first, such as one-vs-one class-pair
   index generation, one-vs-rest score aggregation, output-code book creation,
   and code-distance decoding from supplied response matrices.

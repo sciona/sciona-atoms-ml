@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.multiclass.one_vs_rest_partial_fit_bookkeeping.one_vs_rest_partial_fit_estimator_count@sciona/atoms/ml/sklearn/multiclass/one_vs_rest_partial_fit_bookkeeping/atoms.py:38": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the first-call `self.estimators_ = [clone(self.estimator) for _ in range(self.n_classes_)]` allocation in sklearn.multiclass.OneVsRestClassifier.partial_fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.multiclass.one_vs_rest_partial_fit_bookkeeping.one_vs_rest_partial_fit_label_binarizer_classes@sciona/atoms/ml/sklearn/multiclass/one_vs_rest_partial_fit_bookkeeping/atoms.py:46": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the first-call `self.label_binarizer_.fit(self.classes_)` setup in sklearn.multiclass.OneVsRestClassifier.partial_fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.multiclass.one_vs_rest_partial_fit_bookkeeping.one_vs_rest_partial_fit_n_features_in@sciona/atoms/ml/sklearn/multiclass/one_vs_rest_partial_fit_bookkeeping/atoms.py:56": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the fitted `self.n_features_in_ = self.estimators_[0].n_features_in_` pass-through in sklearn.multiclass.OneVsRestClassifier.partial_fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}
