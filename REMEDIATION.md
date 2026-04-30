@@ -777,6 +777,11 @@ Potential remediation path:
   and final regression or binary-classification reshape helpers around supplied
   prediction arrays, while estimator prediction callbacks remain deferred.
 - Completed helper slice:
+  `sklearn.inspection.partial_dependence_result_packaging` now publishes the
+  deterministic tail of `partial_dependence` after prediction callbacks:
+  per-feature grid-length extraction from `grid_values`, final grid-shaped
+  average and individual reshaping, and Bunch assembly by requested `kind`.
+- Completed helper slice:
   `sklearn.inspection.partial_dependence_preflight` now publishes the explicit
   regressor response-method guard, kind-versus-method resolution, recursion
   sample-weight restriction, auto-method resolution from supplied recursion

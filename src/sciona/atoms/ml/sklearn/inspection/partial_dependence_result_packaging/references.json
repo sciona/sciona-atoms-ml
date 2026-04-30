@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_result_packaging.partial_dependence_grid_value_lengths@sciona/atoms/ml/sklearn/inspection/partial_dependence_result_packaging/atoms.py:140": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from sklearn.inspection._partial_dependence.partial_dependence for per-feature grid length extraction from `values` before final reshaping."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_result_packaging.partial_dependence_grid_shaped_averages@sciona/atoms/ml/sklearn/inspection/partial_dependence_result_packaging/atoms.py:150": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from sklearn.inspection._partial_dependence.partial_dependence for reshaping averaged_predictions to (n_outputs, len(values[0]), ...)."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_result_packaging.partial_dependence_grid_shaped_individual@sciona/atoms/ml/sklearn/inspection/partial_dependence_result_packaging/atoms.py:164": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from sklearn.inspection._partial_dependence.partial_dependence for reshaping brute individual predictions to (n_outputs, n_instances, len(values[0]), ...)."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_result_packaging.partial_dependence_result_bunch@sciona/atoms/ml/sklearn/inspection/partial_dependence_result_packaging/atoms.py:178": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from sklearn.inspection._partial_dependence.partial_dependence for final Bunch assembly of grid_values, average, and individual outputs by kind."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}
