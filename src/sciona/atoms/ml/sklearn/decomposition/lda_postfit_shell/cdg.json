@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "module": "sciona.atoms.ml.sklearn.decomposition.lda_postfit_shell",
+  "family": "sklearn.decomposition.lda_postfit_shell",
+  "root": "sklearn_decomposition_lda_postfit_shell_root",
+  "nodes": [
+    {
+      "node_id": "lda_unnormalized_transform_output",
+      "name": "lda_unnormalized_transform_output",
+      "status": "atomic",
+      "concept_type": "postfit_passthrough",
+      "description": "Return the unnormalized document-topic matrix after LDA's deferred E-step has produced it.",
+      "inputs": [{"name": "doc_topic_distr", "type_desc": "ndarray", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+    },
+    {
+      "node_id": "lda_transform_output",
+      "name": "lda_transform_output",
+      "status": "atomic",
+      "concept_type": "normalization",
+      "description": "Apply LDA's transform-time optional normalization to a supplied unnormalized document-topic matrix.",
+      "inputs": [
+        {"name": "doc_topic_distr", "type_desc": "ndarray", "required": true},
+        {"name": "normalize", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+    },
+    {
+      "node_id": "lda_score_from_bound",
+      "name": "lda_score_from_bound",
+      "status": "atomic",
+      "concept_type": "postfit_passthrough",
+      "description": "Return LDA's score shell result from a supplied approximate bound.",
+      "inputs": [{"name": "bound", "type_desc": "float", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "float"}]
+    },
+    {
+      "node_id": "lda_n_features_out",
+      "name": "lda_n_features_out",
+      "status": "atomic",
+      "concept_type": "postfit_attribute",
+      "description": "Return LDA's transformed output width from the fitted component count.",
+      "inputs": [{"name": "n_components", "type_desc": "int", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "int"}]
+    }
+  ],
+  "edges": [
+    {"source": "lda_unnormalized_transform_output", "target": "lda_transform_output", "kind": "transform_normalization"},
+    {"source": "lda_transform_output", "target": "lda_n_features_out", "kind": "postfit_shape"},
+    {"source": "lda_score_from_bound", "target": "lda_n_features_out", "kind": "postfit_interface"}
+  ]
+}

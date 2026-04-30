@@ -1233,6 +1233,13 @@ Potential remediation path:
   statistics have already been computed. The compiled `_online_lda_fast`
   expectation helpers, the document-topic fixed-point loop, and estimator
   state remain deferred.
+- Completed helper slice:
+  `sklearn.decomposition.lda_postfit_shell` now publishes the deterministic
+  LatentDirichletAllocation post-fit shell for passthrough of supplied
+  unnormalized transform outputs, optional transform-time row normalization,
+  score passthrough from a supplied approximate bound, and the transformed
+  output-width property from the fitted component count. Input validation,
+  fitted-state checks, the E-step, and bound computation remain deferred.
 - Sparse-code solving, LARS/Lasso/OMP/coordinate-descent branches, joblib
   parallel sparse encoding, dictionary-learning callbacks, mini-batch
   scheduling, sklearn's random unused-atom resampling branch, and non-threshold
