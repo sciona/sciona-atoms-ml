@@ -882,6 +882,13 @@ Potential remediation path:
   precomputed square-matrix checks, exact-method sparse-precomputed rejection,
   and the Barnes-Hut dimensionality guard before pairwise distances,
   nearest-neighbor search, or optimizer execution.
+- Completed helper slice:
+  `sklearn.manifold.tsne_fit_transform_bookkeeping` now publishes the
+  deterministic `TSNE.fit_transform` iteration-argument shell for conflicting
+  `n_iter` versus `max_iter` guards and effective `_max_iter` resolution, plus
+  the small post-fit helpers for `_n_features_out` and the metric-driven
+  pairwise input tag. Warning side effects, distance construction, and the
+  optimizer loop remain deferred.
 - Additional t-SNE remediation should cover remaining estimator orchestration
   such as binary perplexity search boundaries, full optimization-loop
   execution, and native Barnes-Hut gradient handling.

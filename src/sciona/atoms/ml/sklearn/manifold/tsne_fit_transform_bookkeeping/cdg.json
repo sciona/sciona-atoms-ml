@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0",
+  "module": "sciona.atoms.ml.sklearn.manifold.tsne_fit_transform_bookkeeping",
+  "family": "sklearn.manifold.tsne_fit_transform_bookkeeping",
+  "root": "sklearn_manifold_tsne_fit_transform_bookkeeping_root",
+  "nodes": [
+    {
+      "node_id": "tsne_fit_transform_require_single_iter_source",
+      "name": "tsne_fit_transform_require_single_iter_source",
+      "status": "atomic",
+      "concept_type": "parameter_guard",
+      "description": "Require TSNE.fit_transform to use at most one explicit iteration source between deprecated n_iter and max_iter.",
+      "inputs": [
+        {"name": "n_iter", "type_desc": "str | int", "required": true},
+        {"name": "max_iter", "type_desc": "int | None", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    },
+    {
+      "node_id": "tsne_fit_transform_max_iter",
+      "name": "tsne_fit_transform_max_iter",
+      "status": "atomic",
+      "concept_type": "parameter_resolution",
+      "description": "Resolve TSNE.fit_transform's effective _max_iter value from n_iter and max_iter.",
+      "inputs": [
+        {"name": "n_iter", "type_desc": "str | int", "required": true},
+        {"name": "max_iter", "type_desc": "int | None", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "int"}]
+    },
+    {
+      "node_id": "tsne_n_features_out",
+      "name": "tsne_n_features_out",
+      "status": "atomic",
+      "concept_type": "postfit_attribute",
+      "description": "Return the transformed output width from a fitted t-SNE embedding matrix.",
+      "inputs": [{"name": "embedding", "type_desc": "ndarray", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "int"}]
+    },
+    {
+      "node_id": "tsne_pairwise_input_tag",
+      "name": "tsne_pairwise_input_tag",
+      "status": "atomic",
+      "concept_type": "tag_resolution",
+      "description": "Resolve t-SNE's pairwise input tag from the configured metric.",
+      "inputs": [{"name": "metric", "type_desc": "str", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    }
+  ],
+  "edges": [
+    {"source": "tsne_fit_transform_require_single_iter_source", "target": "tsne_fit_transform_max_iter", "kind": "guarded_resolution"},
+    {"source": "tsne_fit_transform_max_iter", "target": "tsne_n_features_out", "kind": "fit_transform_shell"},
+    {"source": "tsne_pairwise_input_tag", "target": "tsne_n_features_out", "kind": "postfit_tags"}
+  ]
+}
