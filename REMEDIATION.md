@@ -1202,6 +1202,15 @@ Potential remediation path:
   feature-count validation, and dtype-name resolution before nonnegative input
   validation. The compiled variational E-step and M-step internals remain
   deferred.
+- Completed helper slice:
+  `sklearn.decomposition.lda_bound` now publishes pure-Python variational-bound
+  helpers for one Dirichlet prior-minus-variational log-likelihood term, the
+  document-word log-probability contribution from supplied Dirichlet
+  expectations, optional subsampling-ratio scaling, and full approximate-bound
+  composition from supplied positive variational parameters and supplied
+  Dirichlet expectations. The compiled `_online_lda_fast` expectation helpers,
+  the variational E-step and M-step loops, and estimator state remain
+  deferred.
 - Sparse-code solving, LARS/Lasso/OMP/coordinate-descent branches, joblib
   parallel sparse encoding, dictionary-learning callbacks, mini-batch
   scheduling, sklearn's random unused-atom resampling branch, and non-threshold

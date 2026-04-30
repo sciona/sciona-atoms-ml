@@ -1,0 +1,105 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_decomposition_lda_bound_root",
+      "name": "Sklearn LDA Variational Bound Helpers",
+      "description": "Deterministic LatentDirichletAllocation variational-bound helpers from supplied Dirichlet expectations and variational parameters.",
+      "status": "decomposed",
+      "children": [
+        "lda_dirichlet_loglikelihood",
+        "lda_document_log_probability_bound",
+        "lda_apply_subsampling_ratio",
+        "lda_approx_bound_from_expectations"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "lda_dirichlet_loglikelihood",
+      "name": "lda_dirichlet_loglikelihood",
+      "description": "Compute one scalar Dirichlet prior-minus-variational log-likelihood term used inside the LDA variational bound.",
+      "concept_type": "probabilistic_model_likelihood",
+      "status": "atomic",
+      "type_signature": "(prior: float, distr: NDArray[np.float64], dirichlet_distr: NDArray[np.float64], size: int) -> float",
+      "depth": 1,
+      "inputs": [
+        {"name": "prior", "type_desc": "float", "required": true},
+        {"name": "distr", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "dirichlet_distr", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "size", "type_desc": "int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "float"}
+      ]
+    },
+    {
+      "node_id": "lda_document_log_probability_bound",
+      "name": "lda_document_log_probability_bound",
+      "description": "Compute the scalar E[log p(docs | theta, beta)] contribution in sklearn's LDA bound from supplied document-topic and topic-word expectations.",
+      "concept_type": "probabilistic_model_likelihood",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], dirichlet_doc_topic: NDArray[np.float64], dirichlet_component: NDArray[np.float64]) -> float",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "dirichlet_doc_topic", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "dirichlet_component", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "float"}
+      ]
+    },
+    {
+      "node_id": "lda_apply_subsampling_ratio",
+      "name": "lda_apply_subsampling_ratio",
+      "description": "Apply sklearn's optional document subsampling ratio to a variational bound term.",
+      "concept_type": "numerical_scaling",
+      "status": "atomic",
+      "type_signature": "(score: float, total_samples: float, current_samples: int, sub_sampling: bool = False) -> float",
+      "depth": 1,
+      "inputs": [
+        {"name": "score", "type_desc": "float", "required": true},
+        {"name": "total_samples", "type_desc": "float", "required": true},
+        {"name": "current_samples", "type_desc": "int", "required": true},
+        {"name": "sub_sampling", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "float"}
+      ]
+    },
+    {
+      "node_id": "lda_approx_bound_from_expectations",
+      "name": "lda_approx_bound_from_expectations",
+      "description": "Compute sklearn's scalar approximate LDA variational bound from supplied document counts, positive variational parameters, and Dirichlet expectations.",
+      "concept_type": "probabilistic_model_likelihood",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], doc_topic_distr: NDArray[np.float64], dirichlet_doc_topic: NDArray[np.float64], components: NDArray[np.float64], dirichlet_component: NDArray[np.float64], doc_topic_prior: float, topic_word_prior: float, total_samples: float = 1.0, sub_sampling: bool = False) -> float",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "doc_topic_distr", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "dirichlet_doc_topic", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "components", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "dirichlet_component", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "doc_topic_prior", "type_desc": "float", "required": true},
+        {"name": "topic_word_prior", "type_desc": "float", "required": true},
+        {"name": "total_samples", "type_desc": "float", "required": false},
+        {"name": "sub_sampling", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "float"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "lda_document_log_probability_bound", "target": "lda_approx_bound_from_expectations", "kind": "document_term_input"},
+    {"source": "lda_dirichlet_loglikelihood", "target": "lda_approx_bound_from_expectations", "kind": "dirichlet_term_input"},
+    {"source": "lda_apply_subsampling_ratio", "target": "lda_approx_bound_from_expectations", "kind": "subsampling_scaling_input"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.decomposition._lda",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 5 decomposition and matrix-factorization pipelines"
+  }
+}
