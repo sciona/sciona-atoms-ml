@@ -303,6 +303,12 @@ Potential remediation path:
   all-active support mask, all-ones ranking vector, empty step-history
   buffers, bounded per-iteration elimination count, and final selected-feature
   counting from a terminal support mask.
+- Completed helper slice:
+  `sklearn.feature_selection.rfe_postfit_attributes` now publishes the
+  deterministic shared RFE/RFECV post-fit interface shell for delegated
+  estimator type, fitted class labels from the final estimator, and support-
+  mask exposure through `_get_support_mask` after the deferred elimination and
+  final-estimator fit boundaries.
 - Ingest estimator-independent helper atoms first, such as threshold parsing,
   support-mask updates from supplied importance vectors, and candidate subset
   bookkeeping.

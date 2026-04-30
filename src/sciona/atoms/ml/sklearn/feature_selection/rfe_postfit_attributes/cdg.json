@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "module": "sciona.atoms.ml.sklearn.feature_selection.rfe_postfit_attributes",
+  "family": "sklearn.feature_selection.rfe_postfit_attributes",
+  "root": "sklearn_feature_selection_rfe_postfit_attributes_root",
+  "nodes": [
+    {
+      "node_id": "rfe_estimator_type",
+      "name": "rfe_estimator_type",
+      "status": "atomic",
+      "concept_type": "attribute_passthrough",
+      "description": "Expose the delegated estimator type label returned by sklearn RFE's _estimator_type property.",
+      "inputs": [{"name": "estimator_type", "type_desc": "str", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "str"}]
+    },
+    {
+      "node_id": "rfe_classes",
+      "name": "rfe_classes",
+      "status": "atomic",
+      "concept_type": "attribute_passthrough",
+      "description": "Expose the fitted class labels returned by sklearn RFE's classes_ property from the final estimator.",
+      "inputs": [{"name": "classes", "type_desc": "tuple[object, ...]", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "tuple[object, ...]"}]
+    },
+    {
+      "node_id": "rfe_support_mask",
+      "name": "rfe_support_mask",
+      "status": "atomic",
+      "concept_type": "attribute_passthrough",
+      "description": "Expose the fitted support mask returned by sklearn RFE's _get_support_mask method.",
+      "inputs": [{"name": "support_mask", "type_desc": "NDArray[np.bool_]", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.bool_]"}]
+    }
+  ],
+  "edges": [
+    {"source": "rfe_support_mask", "target": "rfe_classes", "kind": "postfit_interface"},
+    {"source": "rfe_estimator_type", "target": "rfe_classes", "kind": "estimator_interface"}
+  ]
+}
