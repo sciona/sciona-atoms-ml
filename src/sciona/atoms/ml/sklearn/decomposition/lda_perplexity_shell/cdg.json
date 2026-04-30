@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "module": "sciona.atoms.ml.sklearn.decomposition.lda_perplexity_shell",
+  "family": "sklearn.decomposition.lda_perplexity_shell",
+  "root": "sklearn_decomposition_lda_perplexity_shell_root",
+  "nodes": [
+    {
+      "node_id": "lda_perplexity_precomputed_topics",
+      "name": "lda_perplexity_precomputed_topics",
+      "status": "atomic",
+      "concept_type": "perplexity_scalar",
+      "description": "Compute LDA perplexity from a supplied approximate bound and a prevalidated topic matrix.",
+      "inputs": [
+        {"name": "bound", "type_desc": "float", "required": true},
+        {"name": "X", "type_desc": "ndarray", "required": true},
+        {"name": "doc_topic_distr", "type_desc": "ndarray", "required": true},
+        {"name": "n_components", "type_desc": "int", "required": true},
+        {"name": "total_samples", "type_desc": "float", "required": false},
+        {"name": "sub_sampling", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [{"name": "result", "type_desc": "float"}]
+    },
+    {
+      "node_id": "lda_fit_transform_output",
+      "name": "lda_fit_transform_output",
+      "status": "atomic",
+      "concept_type": "postfit_passthrough",
+      "description": "Return LDA's fit_transform shell result from a supplied transform output.",
+      "inputs": [{"name": "transformed", "type_desc": "ndarray", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+    }
+  ],
+  "edges": [
+    {"source": "lda_fit_transform_output", "target": "lda_perplexity_precomputed_topics", "kind": "transform_then_perplexity"}
+  ]
+}

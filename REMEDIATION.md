@@ -1240,6 +1240,13 @@ Potential remediation path:
   score passthrough from a supplied approximate bound, and the transformed
   output-width property from the fitted component count. Input validation,
   fitted-state checks, the E-step, and bound computation remain deferred.
+- Completed helper slice:
+  `sklearn.decomposition.lda_perplexity_shell` now publishes the deterministic
+  LatentDirichletAllocation perplexity shell for perplexity computation from a
+  supplied approximate bound and prevalidated topic matrix, plus the trivial
+  fit_transform return shell from a supplied transform output. Fitted-state
+  checks, input validation, the E-step, and approximate bound computation
+  remain deferred.
 - Sparse-code solving, LARS/Lasso/OMP/coordinate-descent branches, joblib
   parallel sparse encoding, dictionary-learning callbacks, mini-batch
   scheduling, sklearn's random unused-atom resampling branch, and non-threshold
