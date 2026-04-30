@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "module": "sciona.atoms.ml.sklearn.cluster.dbscan_fit_bookkeeping",
+  "family": "sklearn.cluster.dbscan_fit_bookkeeping",
+  "root": "sklearn_cluster_dbscan_fit_bookkeeping_root",
+  "nodes": [
+    {
+      "node_id": "dbscan_precomputed_sparse_self_neighbors",
+      "name": "dbscan_precomputed_sparse_self_neighbors",
+      "status": "atomic",
+      "concept_type": "sparse_preprocessing",
+      "description": "Copy a sparse precomputed distance graph and make its diagonal explicit for DBSCAN self-neighbor handling.",
+      "inputs": [{"name": "X", "type_desc": "scipy.sparse matrix", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "csr_matrix"}]
+    },
+    {
+      "node_id": "dbscan_neighbor_count_vector",
+      "name": "dbscan_neighbor_count_vector",
+      "status": "atomic",
+      "concept_type": "neighbor_reduction",
+      "description": "Count the number of neighbor indices in each DBSCAN neighborhood list.",
+      "inputs": [{"name": "neighborhoods", "type_desc": "tuple[ndarray, ...]", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+    },
+    {
+      "node_id": "dbscan_weighted_neighbor_sums",
+      "name": "dbscan_weighted_neighbor_sums",
+      "status": "atomic",
+      "concept_type": "neighbor_reduction",
+      "description": "Reduce each DBSCAN neighborhood list to a sample-weight mass total.",
+      "inputs": [
+        {"name": "neighborhoods", "type_desc": "tuple[ndarray, ...]", "required": true},
+        {"name": "sample_weight", "type_desc": "ndarray", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+    },
+    {
+      "node_id": "dbscan_core_sample_mask",
+      "name": "dbscan_core_sample_mask",
+      "status": "atomic",
+      "concept_type": "thresholding",
+      "description": "Threshold DBSCAN neighborhood mass into the uint8 core-sample mask.",
+      "inputs": [
+        {"name": "neighbor_mass", "type_desc": "ndarray", "required": true},
+        {"name": "min_samples", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+    },
+    {
+      "node_id": "dbscan_initial_noise_labels",
+      "name": "dbscan_initial_noise_labels",
+      "status": "atomic",
+      "concept_type": "state_initialization",
+      "description": "Initialize DBSCAN labels to the all-noise (-1) vector before connected expansion.",
+      "inputs": [{"name": "n_samples", "type_desc": "int", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+    },
+    {
+      "node_id": "dbscan_dense_core_components",
+      "name": "dbscan_dense_core_components",
+      "status": "atomic",
+      "concept_type": "state_projection",
+      "description": "Copy the dense core-sample rows selected by DBSCAN into the public components matrix.",
+      "inputs": [
+        {"name": "X", "type_desc": "ndarray", "required": true},
+        {"name": "core_sample_indices", "type_desc": "ndarray", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+    },
+    {
+      "node_id": "dbscan_empty_components",
+      "name": "dbscan_empty_components",
+      "status": "atomic",
+      "concept_type": "state_initialization",
+      "description": "Create DBSCAN's empty dense components fallback when no core samples exist.",
+      "inputs": [{"name": "n_features", "type_desc": "int", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+    }
+  ],
+  "edges": [
+    {"source": "dbscan_precomputed_sparse_self_neighbors", "target": "dbscan_neighbor_count_vector", "kind": "precomputed_sparse_path"},
+    {"source": "dbscan_neighbor_count_vector", "target": "dbscan_core_sample_mask", "kind": "unweighted_neighbor_reduction"},
+    {"source": "dbscan_weighted_neighbor_sums", "target": "dbscan_core_sample_mask", "kind": "weighted_neighbor_reduction"},
+    {"source": "dbscan_core_sample_mask", "target": "dbscan_initial_noise_labels", "kind": "pre_expansion_state"},
+    {"source": "dbscan_core_sample_mask", "target": "dbscan_dense_core_components", "kind": "component_projection"},
+    {"source": "dbscan_initial_noise_labels", "target": "dbscan_empty_components", "kind": "no_core_fallback"}
+  ]
+}
