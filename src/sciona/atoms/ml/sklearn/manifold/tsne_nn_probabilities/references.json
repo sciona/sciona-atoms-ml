@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.manifold.tsne_nn_probabilities.tsne_nn_distance_blocks@sciona/atoms/ml/sklearn/manifold/tsne_nn_probabilities/atoms.py:103": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the CSR sort-and-reshape preprocessing in sklearn.manifold._t_sne._joint_probabilities_nn."
+          }
+        },
+        {
+          "ref_id": "vandermaaten2008tsne",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Primary t-SNE reference for the neighbor-probability construction surface."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.manifold.tsne_nn_probabilities.tsne_nn_conditional_probability_matrix@sciona/atoms/ml/sklearn/manifold/tsne_nn_probabilities/atoms.py:120": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the CSR conditional-probability matrix construction in sklearn.manifold._t_sne._joint_probabilities_nn."
+          }
+        },
+        {
+          "ref_id": "vandermaaten2008tsne",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Primary t-SNE reference for the sparse neighbor-probability stage."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.manifold.tsne_nn_probabilities.tsne_nn_joint_probabilities@sciona/atoms/ml/sklearn/manifold/tsne_nn_probabilities/atoms.py:141": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the sparse symmetrization and normalization step in sklearn.manifold._t_sne._joint_probabilities_nn."
+          }
+        },
+        {
+          "ref_id": "vandermaaten2008tsne",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Primary t-SNE reference for normalized joint probabilities."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

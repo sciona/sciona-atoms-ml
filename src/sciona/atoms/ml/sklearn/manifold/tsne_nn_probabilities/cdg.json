@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "module": "sciona.atoms.ml.sklearn.manifold.tsne_nn_probabilities",
+  "family": "sklearn.manifold.tsne_nn_probabilities",
+  "root": "sklearn_manifold_tsne_nn_probabilities_root",
+  "nodes": [
+    {
+      "node_id": "tsne_nn_distance_blocks",
+      "name": "tsne_nn_distance_blocks",
+      "status": "atomic",
+      "concept_type": "sparse_preprocessing",
+      "description": "Extract the per-sample nearest-neighbor distance rows from CSR storage before sklearn's binary perplexity search.",
+      "inputs": [{"name": "distances", "type_desc": "csr_matrix", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+    },
+    {
+      "node_id": "tsne_nn_conditional_probability_matrix",
+      "name": "tsne_nn_conditional_probability_matrix",
+      "status": "atomic",
+      "concept_type": "sparse_matrix_construction",
+      "description": "Rebuild sklearn's CSR conditional-probability matrix from perplexity-search outputs and the nearest-neighbor CSR structure.",
+      "inputs": [
+        {"name": "conditional_probabilities", "type_desc": "ndarray", "required": true},
+        {"name": "indices", "type_desc": "ndarray", "required": true},
+        {"name": "indptr", "type_desc": "ndarray", "required": true},
+        {"name": "n_samples", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "csr_matrix"}]
+    },
+    {
+      "node_id": "tsne_nn_joint_probabilities",
+      "name": "tsne_nn_joint_probabilities",
+      "status": "atomic",
+      "concept_type": "sparse_normalization",
+      "description": "Symmetrize and normalize sparse nearest-neighbor conditional probabilities into t-SNE joint probabilities.",
+      "inputs": [{"name": "conditional_probability_matrix", "type_desc": "csr_matrix", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "csr_matrix"}]
+    }
+  ],
+  "edges": [
+    {"source": "tsne_nn_distance_blocks", "target": "tsne_nn_conditional_probability_matrix", "kind": "perplexity_search_input"},
+    {"source": "tsne_nn_conditional_probability_matrix", "target": "tsne_nn_joint_probabilities", "kind": "symmetrize_and_normalize"}
+  ]
+}

@@ -849,6 +849,11 @@ Potential remediation path:
   deterministic optimization bookkeeping helpers for gradient-descent buffer
   initialization, scalar-error scheduling, convergence checks, dense/CSR early
   exaggeration scaling and unscaling, and the stage-two continuation predicate.
+- Completed helper slice: `sklearn.manifold.tsne_nn_probabilities` now
+  publishes the sparse nearest-neighbor t-SNE probability shell for CSR
+  distance-block extraction before compiled perplexity search, sparse
+  conditional-probability reconstruction, and sparse symmetrization plus
+  normalization before the deferred optimization stages.
 - Additional t-SNE remediation should cover remaining estimator orchestration
   such as binary perplexity search boundaries, full optimization-loop
   execution, and native Barnes-Hut gradient handling.
