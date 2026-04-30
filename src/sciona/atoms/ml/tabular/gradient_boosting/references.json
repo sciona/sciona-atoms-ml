@@ -1,0 +1,157 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.tabular.gradient_boosting.group_aggregate@sciona/atoms/ml/tabular/gradient_boosting/atoms.py:139": {
+      "references": [
+        {
+          "ref_id": "sciona2026tabulargbdtresearch",
+          "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Research report candidate for pure NumPy entity aggregation around tabular GBDT pipelines."}
+        },
+        {
+          "ref_id": "vanderplas2017groupby",
+          "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "medium", "notes": "Background on NumPy group-by decomposition with unique indices and bin counts."}
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.tabular.gradient_boosting.aggregate_child_table@sciona/atoms/ml/tabular/gradient_boosting/atoms.py:192": {
+      "references": [
+        {
+          "ref_id": "sciona2026tabulargbdtresearch",
+          "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Research report candidate for parent-aligned child-table aggregation."}
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.tabular.gradient_boosting.temporal_difference@sciona/atoms/ml/tabular/gradient_boosting/atoms.py:224": {
+      "references": [
+        {
+          "ref_id": "repo_numpy",
+          "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Uses NumPy sorting and differencing semantics for within-entity deltas."}
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.tabular.gradient_boosting.rolling_statistics@sciona/atoms/ml/tabular/gradient_boosting/atoms.py:253": {
+      "references": [
+        {
+          "ref_id": "repo_numpy",
+          "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Uses NumPy reduction semantics for rolling tabular feature summaries."}
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.tabular.gradient_boosting.time_decay_aggregate@sciona/atoms/ml/tabular/gradient_boosting/atoms.py:286": {
+      "references": [
+        {
+          "ref_id": "sciona2026tabulargbdtresearch",
+          "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Research report candidate for exponentially decayed group aggregation."}
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.tabular.gradient_boosting.pairwise_products@sciona/atoms/ml/tabular/gradient_boosting/atoms.py:307": {
+      "references": [
+        {
+          "ref_id": "sciona2026tabulargbdtresearch",
+          "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Research report candidate for pairwise tabular interaction columns."}
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.tabular.gradient_boosting.pairwise_ratios@sciona/atoms/ml/tabular/gradient_boosting/atoms.py:322": {
+      "references": [
+        {
+          "ref_id": "sciona2026tabulargbdtresearch",
+          "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Research report candidate for guarded pairwise ratio features."}
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.tabular.gradient_boosting.missing_indicator_and_impute@sciona/atoms/ml/tabular/gradient_boosting/atoms.py:343": {
+      "references": [
+        {
+          "ref_id": "sciona2026tabulargbdtresearch",
+          "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Research report candidate for missingness indicators and deterministic imputation."}
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.tabular.gradient_boosting.rank_transform@sciona/atoms/ml/tabular/gradient_boosting/atoms.py:359": {
+      "references": [
+        {
+          "ref_id": "repo_scipy",
+          "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Uses SciPy rankdata tie-handling semantics."}
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.tabular.gradient_boosting.frequency_encode_fit@sciona/atoms/ml/tabular/gradient_boosting/atoms.py:370": {
+      "references": [
+        {
+          "ref_id": "sciona2026tabulargbdtresearch",
+          "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Research report candidate for split fit/transform frequency encoding."}
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.tabular.gradient_boosting.frequency_encode@sciona/atoms/ml/tabular/gradient_boosting/atoms.py:386": {
+      "references": [
+        {
+          "ref_id": "sciona2026tabulargbdtresearch",
+          "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Research report candidate for applying fitted category frequencies."}
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.tabular.gradient_boosting.target_encode@sciona/atoms/ml/tabular/gradient_boosting/atoms.py:405": {
+      "references": [
+        {
+          "ref_id": "micci2001targetencoding",
+          "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "medium", "notes": "High-cardinality categorical preprocessing reference for target statistics by category."}
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.tabular.gradient_boosting.tweedie_gradient@sciona/atoms/ml/tabular/gradient_boosting/atoms.py:433": {
+      "references": [
+        {
+          "ref_id": "xgboost_custom_objectives",
+          "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Custom objective interface context for returning gradient and hessian arrays."}
+        },
+        {
+          "ref_id": "friedman1999boosting",
+          "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "medium", "notes": "Gradient boosting objective-derivative context."}
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.tabular.gradient_boosting.log_cosh_gradient@sciona/atoms/ml/tabular/gradient_boosting/atoms.py:455": {
+      "references": [
+        {
+          "ref_id": "xgboost_custom_objectives",
+          "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Custom objective interface context for smooth robust-loss derivatives."}
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.tabular.gradient_boosting.null_importance_p_values@sciona/atoms/ml/tabular/gradient_boosting/atoms.py:472": {
+      "references": [
+        {
+          "ref_id": "sciona2026tabulargbdtresearch",
+          "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Research report candidate for null-importance feature-selection postprocessing."}
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.tabular.gradient_boosting.extract_pseudo_labels@sciona/atoms/ml/tabular/gradient_boosting/atoms.py:487": {
+      "references": [
+        {
+          "ref_id": "sciona2026tabulargbdtresearch",
+          "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Research report candidate for probability-threshold pseudo-label extraction."}
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

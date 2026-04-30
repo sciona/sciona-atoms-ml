@@ -1,0 +1,332 @@
+{
+  "nodes": [
+    {
+      "node_id": "tabular_gradient_boosting_root",
+      "parent_id": null,
+      "name": "tabular_gradient_boosting",
+      "description": "Pure tabular feature-engineering and loss-derivative helpers around gradient-boosting models.",
+      "concept_type": "data_assembly",
+      "inputs": [],
+      "outputs": [],
+      "status": "decomposed",
+      "children": [
+        "group_aggregate",
+        "aggregate_child_table",
+        "temporal_difference",
+        "rolling_statistics",
+        "time_decay_aggregate",
+        "pairwise_products",
+        "pairwise_ratios",
+        "missing_indicator_and_impute",
+        "rank_transform",
+        "frequency_encode_fit",
+        "frequency_encode",
+        "target_encode",
+        "tweedie_gradient",
+        "log_cosh_gradient",
+        "null_importance_p_values",
+        "extract_pseudo_labels"
+      ],
+      "depth": 0,
+      "type_signature": "",
+      "matched_primitive": null,
+      "primitive_binding_confidence": 0.0,
+      "primitive_binding_source": "",
+      "is_optional": false,
+      "is_opaque": false,
+      "is_external": false,
+      "parallelizable": true,
+      "conceptual_summary": "The family keeps tree fitting external and exposes deterministic array transforms, aggregations, encodings, and objective derivatives.",
+      "critic_notes": "",
+      "decomposition_rationale": "Each child is a separable pure function used before or after compiled GBDT training."
+    },
+    {
+      "node_id": "group_aggregate",
+      "parent_id": "tabular_gradient_boosting_root",
+      "name": "group_aggregate",
+      "description": "Aggregate a numeric vector by group keys using deterministic NumPy reductions.",
+      "concept_type": "data_assembly",
+      "inputs": [
+        {"name": "values", "type_desc": "NDArray[np.float64]", "constraints": "finite 1D", "required": true, "default_value_repr": ""},
+        {"name": "groups", "type_desc": "NDArray[np.object_]", "constraints": "1D, same length as values", "required": true, "default_value_repr": ""},
+        {"name": "agg_fn", "type_desc": "str", "constraints": "sum|mean|var|std|min|max|count|first|last", "required": true, "default_value_repr": ""}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]", "constraints": "one finite value per unique group", "required": true, "default_value_repr": ""}],
+      "status": "atomic",
+      "children": [],
+      "depth": 1,
+      "type_signature": "(values, groups, agg_fn) -> NDArray[np.float64]",
+      "matched_primitive": null,
+      "primitive_binding_confidence": 0.0,
+      "primitive_binding_source": "",
+      "is_optional": false,
+      "is_opaque": false,
+      "is_external": false,
+      "parallelizable": true,
+      "conceptual_summary": "Entity-level group-by statistic.",
+      "critic_notes": "",
+      "decomposition_rationale": ""
+    },
+    {
+      "node_id": "aggregate_child_table",
+      "parent_id": "tabular_gradient_boosting_root",
+      "name": "aggregate_child_table",
+      "description": "Aggregate child records and align the resulting columns to parent key order.",
+      "concept_type": "data_assembly",
+      "inputs": [
+        {"name": "child_values", "type_desc": "NDArray[np.float64]", "constraints": "finite 1D", "required": true, "default_value_repr": ""},
+        {"name": "parent_keys", "type_desc": "NDArray[np.object_]", "constraints": "unique 1D keys", "required": true, "default_value_repr": ""},
+        {"name": "child_keys", "type_desc": "NDArray[np.object_]", "constraints": "1D, same length as child_values", "required": true, "default_value_repr": ""},
+        {"name": "agg_fns", "type_desc": "Sequence[str]", "constraints": "non-empty supported aggregation names", "required": true, "default_value_repr": ""},
+        {"name": "fill_value", "type_desc": "float", "constraints": "finite or NaN", "required": false, "default_value_repr": "nan"}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]", "constraints": "shape (len(parent_keys), len(agg_fns))", "required": true, "default_value_repr": ""}],
+      "status": "atomic",
+      "children": [],
+      "depth": 1,
+      "type_signature": "(child_values, parent_keys, child_keys, agg_fns, fill_value=nan) -> NDArray[np.float64]",
+      "matched_primitive": null,
+      "primitive_binding_confidence": 0.0,
+      "primitive_binding_source": "",
+      "is_optional": false,
+      "is_opaque": false,
+      "is_external": false,
+      "parallelizable": true,
+      "conceptual_summary": "Relational child-to-parent aggregate alignment.",
+      "critic_notes": "",
+      "decomposition_rationale": ""
+    },
+    {
+      "node_id": "temporal_difference",
+      "parent_id": "tabular_gradient_boosting_root",
+      "name": "temporal_difference",
+      "description": "Compute within-entity first differences after sorting rows by entity and time.",
+      "concept_type": "signal_transform",
+      "inputs": [
+        {"name": "values", "type_desc": "NDArray[np.float64]", "constraints": "finite 1D", "required": true, "default_value_repr": ""},
+        {"name": "entity_ids", "type_desc": "NDArray[np.object_]", "constraints": "1D, same length as values", "required": true, "default_value_repr": ""},
+        {"name": "sort_keys", "type_desc": "NDArray[np.float64]", "constraints": "1D, same length as values", "required": true, "default_value_repr": ""}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]", "constraints": "same shape as values; first row per entity is NaN", "required": true, "default_value_repr": ""}],
+      "status": "atomic",
+      "children": [],
+      "depth": 1,
+      "type_signature": "(values, entity_ids, sort_keys) -> NDArray[np.float64]"
+    },
+    {
+      "node_id": "rolling_statistics",
+      "parent_id": "tabular_gradient_boosting_root",
+      "name": "rolling_statistics",
+      "description": "Compute trailing rolling statistics using partial windows at the start.",
+      "concept_type": "signal_transform",
+      "inputs": [
+        {"name": "values", "type_desc": "NDArray[np.float64]", "constraints": "finite 1D", "required": true, "default_value_repr": ""},
+        {"name": "window_size", "type_desc": "int", "constraints": "positive", "required": true, "default_value_repr": ""},
+        {"name": "agg_fns", "type_desc": "Sequence[str]", "constraints": "mean|std|min|max|sum", "required": true, "default_value_repr": ""}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]", "constraints": "shape (len(values), len(agg_fns))", "required": true, "default_value_repr": ""}],
+      "status": "atomic",
+      "children": [],
+      "depth": 1,
+      "type_signature": "(values, window_size, agg_fns) -> NDArray[np.float64]"
+    },
+    {
+      "node_id": "time_decay_aggregate",
+      "parent_id": "tabular_gradient_boosting_root",
+      "name": "time_decay_aggregate",
+      "description": "Compute per-group exponentially decayed sums relative to each group's latest timestamp.",
+      "concept_type": "data_assembly",
+      "inputs": [
+        {"name": "values", "type_desc": "NDArray[np.float64]", "constraints": "finite 1D", "required": true, "default_value_repr": ""},
+        {"name": "timestamps", "type_desc": "NDArray[np.float64]", "constraints": "finite 1D", "required": true, "default_value_repr": ""},
+        {"name": "groups", "type_desc": "NDArray[np.object_]", "constraints": "1D, same length as values", "required": true, "default_value_repr": ""},
+        {"name": "decay_rate", "type_desc": "float", "constraints": "positive finite", "required": true, "default_value_repr": ""}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]", "constraints": "one finite decayed sum per unique group", "required": true, "default_value_repr": ""}],
+      "status": "atomic",
+      "children": [],
+      "depth": 1,
+      "type_signature": "(values, timestamps, groups, decay_rate) -> NDArray[np.float64]"
+    },
+    {
+      "node_id": "pairwise_products",
+      "parent_id": "tabular_gradient_boosting_root",
+      "name": "pairwise_products",
+      "description": "Create unordered pairwise feature-product columns for a tabular design matrix.",
+      "concept_type": "signal_transform",
+      "inputs": [{"name": "features", "type_desc": "NDArray[np.float64]", "constraints": "finite 2D", "required": true, "default_value_repr": ""}],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]", "constraints": "n choose 2 product columns", "required": true, "default_value_repr": ""}],
+      "status": "atomic",
+      "children": [],
+      "depth": 1,
+      "type_signature": "(features) -> NDArray[np.float64]"
+    },
+    {
+      "node_id": "pairwise_ratios",
+      "parent_id": "tabular_gradient_boosting_root",
+      "name": "pairwise_ratios",
+      "description": "Create unordered pairwise ratio columns using a positive denominator guard.",
+      "concept_type": "signal_transform",
+      "inputs": [
+        {"name": "features", "type_desc": "NDArray[np.float64]", "constraints": "finite 2D", "required": true, "default_value_repr": ""},
+        {"name": "epsilon", "type_desc": "float", "constraints": "positive finite", "required": false, "default_value_repr": "1e-12"}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]", "constraints": "n choose 2 ratio columns", "required": true, "default_value_repr": ""}],
+      "status": "atomic",
+      "children": [],
+      "depth": 1,
+      "type_signature": "(features, epsilon=1e-12) -> NDArray[np.float64]"
+    },
+    {
+      "node_id": "missing_indicator_and_impute",
+      "parent_id": "tabular_gradient_boosting_root",
+      "name": "missing_indicator_and_impute",
+      "description": "Return missing indicators plus an array with NaNs replaced by a fill value.",
+      "concept_type": "signal_transform",
+      "inputs": [
+        {"name": "values", "type_desc": "NDArray[np.float64]", "constraints": "1D or 2D numeric", "required": true, "default_value_repr": ""},
+        {"name": "fill_value", "type_desc": "float", "constraints": "finite", "required": false, "default_value_repr": "0.0"}
+      ],
+      "outputs": [{"name": "result", "type_desc": "tuple[NDArray[np.float64], NDArray[np.float64]]", "constraints": "imputed values and binary missing indicators", "required": true, "default_value_repr": ""}],
+      "status": "atomic",
+      "children": [],
+      "depth": 1,
+      "type_signature": "(values, fill_value=0.0) -> tuple[NDArray[np.float64], NDArray[np.float64]]"
+    },
+    {
+      "node_id": "rank_transform",
+      "parent_id": "tabular_gradient_boosting_root",
+      "name": "rank_transform",
+      "description": "Replace numeric values with one-based ranks using SciPy tie handling semantics.",
+      "concept_type": "signal_transform",
+      "inputs": [
+        {"name": "values", "type_desc": "NDArray[np.float64]", "constraints": "finite 1D", "required": true, "default_value_repr": ""},
+        {"name": "method", "type_desc": "str", "constraints": "average|min|max|dense|ordinal", "required": false, "default_value_repr": "average"}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]", "constraints": "finite ranks with same shape as values", "required": true, "default_value_repr": ""}],
+      "status": "atomic",
+      "children": [],
+      "depth": 1,
+      "type_signature": "(values, method='average') -> NDArray[np.float64]"
+    },
+    {
+      "node_id": "frequency_encode_fit",
+      "parent_id": "tabular_gradient_boosting_root",
+      "name": "frequency_encode_fit",
+      "description": "Fit a deterministic category-to-relative-frequency mapping.",
+      "concept_type": "data_assembly",
+      "inputs": [{"name": "categories", "type_desc": "NDArray[np.object_]", "constraints": "1D categories", "required": true, "default_value_repr": ""}],
+      "outputs": [{"name": "result", "type_desc": "dict[object, float]", "constraints": "finite nonnegative relative frequencies", "required": true, "default_value_repr": ""}],
+      "status": "atomic",
+      "children": [],
+      "depth": 1,
+      "type_signature": "(categories) -> dict[object, float]"
+    },
+    {
+      "node_id": "frequency_encode",
+      "parent_id": "tabular_gradient_boosting_root",
+      "name": "frequency_encode",
+      "description": "Map categories to fitted relative frequencies, using a fixed value for unknowns.",
+      "concept_type": "signal_transform",
+      "inputs": [
+        {"name": "categories", "type_desc": "NDArray[np.object_]", "constraints": "1D categories", "required": true, "default_value_repr": ""},
+        {"name": "frequency_map", "type_desc": "Mapping[object, float]", "constraints": "finite nonnegative values", "required": true, "default_value_repr": ""},
+        {"name": "unknown_value", "type_desc": "float", "constraints": "finite nonnegative", "required": false, "default_value_repr": "0.0"}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]", "constraints": "finite nonnegative values matching categories", "required": true, "default_value_repr": ""}],
+      "status": "atomic",
+      "children": [],
+      "depth": 1,
+      "type_signature": "(categories, frequency_map, unknown_value=0.0) -> NDArray[np.float64]"
+    },
+    {
+      "node_id": "target_encode",
+      "parent_id": "tabular_gradient_boosting_root",
+      "name": "target_encode",
+      "description": "Compute smoothed target means for each category without storing estimator state.",
+      "concept_type": "data_assembly",
+      "inputs": [
+        {"name": "categories", "type_desc": "NDArray[np.object_]", "constraints": "1D categories", "required": true, "default_value_repr": ""},
+        {"name": "targets", "type_desc": "NDArray[np.float64]", "constraints": "finite 1D same length as categories", "required": true, "default_value_repr": ""},
+        {"name": "smoothing", "type_desc": "float", "constraints": "finite nonnegative", "required": false, "default_value_repr": "1.0"},
+        {"name": "prior", "type_desc": "float | None", "constraints": "finite when supplied", "required": false, "default_value_repr": "None"}
+      ],
+      "outputs": [{"name": "result", "type_desc": "dict[object, float]", "constraints": "finite category encodings", "required": true, "default_value_repr": ""}],
+      "status": "atomic",
+      "children": [],
+      "depth": 1,
+      "type_signature": "(categories, targets, smoothing=1.0, prior=None) -> dict[object, float]"
+    },
+    {
+      "node_id": "tweedie_gradient",
+      "parent_id": "tabular_gradient_boosting_root",
+      "name": "tweedie_gradient",
+      "description": "Compute gradient and hessian for a Tweedie loss with log-link raw predictions.",
+      "concept_type": "analysis",
+      "inputs": [
+        {"name": "predictions", "type_desc": "NDArray[np.float64]", "constraints": "finite raw-score vector", "required": true, "default_value_repr": ""},
+        {"name": "targets", "type_desc": "NDArray[np.float64]", "constraints": "finite nonnegative vector", "required": true, "default_value_repr": ""},
+        {"name": "power", "type_desc": "float", "constraints": "1 < power < 2", "required": true, "default_value_repr": ""}
+      ],
+      "outputs": [{"name": "result", "type_desc": "tuple[NDArray[np.float64], NDArray[np.float64]]", "constraints": "gradient and positive hessian vectors", "required": true, "default_value_repr": ""}],
+      "status": "atomic",
+      "children": [],
+      "depth": 1,
+      "type_signature": "(predictions, targets, power) -> tuple[NDArray[np.float64], NDArray[np.float64]]"
+    },
+    {
+      "node_id": "log_cosh_gradient",
+      "parent_id": "tabular_gradient_boosting_root",
+      "name": "log_cosh_gradient",
+      "description": "Compute gradient and hessian for the smooth log-cosh regression loss.",
+      "concept_type": "analysis",
+      "inputs": [
+        {"name": "targets", "type_desc": "NDArray[np.float64]", "constraints": "finite 1D", "required": true, "default_value_repr": ""},
+        {"name": "predictions", "type_desc": "NDArray[np.float64]", "constraints": "finite 1D same length as targets", "required": true, "default_value_repr": ""}
+      ],
+      "outputs": [{"name": "result", "type_desc": "tuple[NDArray[np.float64], NDArray[np.float64]]", "constraints": "gradient and hessian vectors", "required": true, "default_value_repr": ""}],
+      "status": "atomic",
+      "children": [],
+      "depth": 1,
+      "type_signature": "(targets, predictions) -> tuple[NDArray[np.float64], NDArray[np.float64]]"
+    },
+    {
+      "node_id": "null_importance_p_values",
+      "parent_id": "tabular_gradient_boosting_root",
+      "name": "null_importance_p_values",
+      "description": "Estimate feature-importance p-values from a null-importance sample matrix.",
+      "concept_type": "analysis",
+      "inputs": [
+        {"name": "actual_importances", "type_desc": "NDArray[np.float64]", "constraints": "finite 1D", "required": true, "default_value_repr": ""},
+        {"name": "null_importances_matrix", "type_desc": "NDArray[np.float64]", "constraints": "finite 2D with matching feature columns", "required": true, "default_value_repr": ""}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]", "constraints": "p-values in [0, 1]", "required": true, "default_value_repr": ""}],
+      "status": "atomic",
+      "children": [],
+      "depth": 1,
+      "type_signature": "(actual_importances, null_importances_matrix) -> NDArray[np.float64]"
+    },
+    {
+      "node_id": "extract_pseudo_labels",
+      "parent_id": "tabular_gradient_boosting_root",
+      "name": "extract_pseudo_labels",
+      "description": "Return high-confidence positive and negative indices from probability predictions.",
+      "concept_type": "analysis",
+      "inputs": [
+        {"name": "test_predictions", "type_desc": "NDArray[np.float64]", "constraints": "probabilities in [0, 1]", "required": true, "default_value_repr": ""},
+        {"name": "upper_threshold", "type_desc": "float", "constraints": "0 <= lower < upper <= 1", "required": true, "default_value_repr": ""},
+        {"name": "lower_threshold", "type_desc": "float", "constraints": "0 <= lower < upper <= 1", "required": true, "default_value_repr": ""}
+      ],
+      "outputs": [{"name": "result", "type_desc": "tuple[NDArray[np.int64], NDArray[np.int64]]", "constraints": "disjoint positive and negative index vectors", "required": true, "default_value_repr": ""}],
+      "status": "atomic",
+      "children": [],
+      "depth": 1,
+      "type_signature": "(test_predictions, upper_threshold, lower_threshold) -> tuple[NDArray[np.int64], NDArray[np.int64]]"
+    }
+  ],
+  "edges": [],
+  "metadata": {
+    "source": "research/10_gradient_boosting_tabular.md and research/10_research.pdf",
+    "class_name": "TabularGradientBoosting"
+  }
+}
