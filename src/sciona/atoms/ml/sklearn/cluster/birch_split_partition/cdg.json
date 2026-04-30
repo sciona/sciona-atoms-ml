@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "module": "sciona.atoms.ml.sklearn.cluster.birch_split_partition",
+  "family": "sklearn.cluster.birch_split_partition",
+  "root": "sklearn_cluster_birch_split_partition_root",
+  "nodes": [
+    {
+      "node_id": "birch_split_distance_matrix",
+      "name": "birch_split_distance_matrix",
+      "status": "atomic",
+      "concept_type": "distance_bookkeeping",
+      "description": "Compute the squared centroid-distance matrix used by sklearn BIRCH node splitting.",
+      "inputs": [
+        {"name": "centroids", "type_desc": "ndarray[float64]", "required": true},
+        {"name": "squared_norm", "type_desc": "ndarray[float64]", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "ndarray[float64]"}]
+    },
+    {
+      "node_id": "birch_split_farthest_pair",
+      "name": "birch_split_farthest_pair",
+      "status": "atomic",
+      "concept_type": "index_selection",
+      "description": "Select the farthest centroid-pair index tuple from the BIRCH split distance matrix.",
+      "inputs": [{"name": "distance_matrix", "type_desc": "ndarray[float64]", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "tuple[int, int]"}]
+    },
+    {
+      "node_id": "birch_split_assignment_mask",
+      "name": "birch_split_assignment_mask",
+      "status": "atomic",
+      "concept_type": "partitioning",
+      "description": "Compute sklearn's node1-closer Boolean partition mask, including the tie-breaking override that forces the first farthest index into node1.",
+      "inputs": [
+        {"name": "distance_matrix", "type_desc": "ndarray[float64]", "required": true},
+        {"name": "farthest_pair", "type_desc": "tuple[int, int]", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "ndarray[bool]"}]
+    },
+    {
+      "node_id": "birch_split_partition_indices",
+      "name": "birch_split_partition_indices",
+      "status": "atomic",
+      "concept_type": "partitioning",
+      "description": "Materialize the two nonempty centroid-index groups induced by sklearn's BIRCH split mask.",
+      "inputs": [{"name": "node1_closer", "type_desc": "ndarray[bool]", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "tuple[ndarray[int64], ndarray[int64]]"}]
+    },
+    {
+      "node_id": "birch_split_partition_stats",
+      "name": "birch_split_partition_stats",
+      "status": "atomic",
+      "concept_type": "statistics",
+      "description": "Aggregate two BIRCH split partitions into the subcluster statistics that seed the new child nodes.",
+      "inputs": [
+        {"name": "subcluster_states", "type_desc": "tuple[BirchSubclusterStats, ...]", "required": true},
+        {"name": "node1_closer", "type_desc": "ndarray[bool]", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "tuple[BirchSubclusterStats, BirchSubclusterStats]"}]
+    }
+  ],
+  "edges": [
+    {"source": "birch_split_distance_matrix", "target": "birch_split_farthest_pair", "kind": "selection"},
+    {"source": "birch_split_farthest_pair", "target": "birch_split_assignment_mask", "kind": "call_context"},
+    {"source": "birch_split_assignment_mask", "target": "birch_split_partition_indices", "kind": "partition"},
+    {"source": "birch_split_assignment_mask", "target": "birch_split_partition_stats", "kind": "partition"}
+  ]
+}

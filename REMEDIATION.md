@@ -1033,6 +1033,11 @@ Potential remediation path:
   initialization, additive updates, squared-radius algebra, thresholded local
   merge acceptance, and the nonnegative radius property before any CF-tree
   node mutation or global clustering.
+- Completed helper slice: `sklearn.cluster.birch_split_partition` now
+  publishes the deterministic partitioning core of `_split_node` for squared
+  centroid-distance construction, farthest-pair selection, tie-broken
+  node-assignment masks, index partitioning, and aggregate child-subcluster
+  statistics before node allocation and leaf-pointer rewiring.
 - Default `AgglomerativeClustering`, custom global clusterers, sparse inputs,
   `partial_fit`, and live mutable CF-tree object surfaces remain deferred.
 - Ingest the CF-tree insertion, subcluster merge, and node-splitting logic as
