@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0",
+  "module": "sciona.atoms.ml.sklearn.cluster.birch_output_math",
+  "family": "sklearn.cluster.birch_output_math",
+  "root": "sklearn_cluster_birch_output_math_root",
+  "nodes": [
+    {
+      "node_id": "birch_subcluster_norms",
+      "name": "birch_subcluster_norms",
+      "status": "atomic",
+      "concept_type": "statistics",
+      "description": "Compute Birch's cached squared subcluster norms from supplied subcluster centers.",
+      "inputs": [{"name": "subcluster_centers", "type_desc": "ndarray[float64]", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "ndarray[float64]"}]
+    },
+    {
+      "node_id": "birch_predict_argmin",
+      "name": "birch_predict_argmin",
+      "status": "atomic",
+      "concept_type": "assignment",
+      "description": "Compute Birch's nearest-subcluster indices from supplied samples, centers, and squared center norms.",
+      "inputs": [
+        {"name": "X", "type_desc": "ndarray[float64]", "required": true},
+        {"name": "subcluster_centers", "type_desc": "ndarray[float64]", "required": true},
+        {"name": "subcluster_norms", "type_desc": "ndarray[float64]", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "ndarray[int64]"}]
+    },
+    {
+      "node_id": "birch_predict_labels",
+      "name": "birch_predict_labels",
+      "status": "atomic",
+      "concept_type": "postprocessing",
+      "description": "Lookup Birch predicted labels from nearest-subcluster indices and a supplied subcluster-label vector.",
+      "inputs": [
+        {"name": "nearest_subcluster_indices", "type_desc": "ndarray[int64]", "required": true},
+        {"name": "subcluster_labels", "type_desc": "ndarray[int64]", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "ndarray[int64]"}]
+    },
+    {
+      "node_id": "birch_transform_distances",
+      "name": "birch_transform_distances",
+      "status": "atomic",
+      "concept_type": "distance_matrix",
+      "description": "Compute Birch transform distances from supplied samples to supplied subcluster centers.",
+      "inputs": [
+        {"name": "X", "type_desc": "ndarray[float64]", "required": true},
+        {"name": "subcluster_centers", "type_desc": "ndarray[float64]", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "ndarray[float64]"}]
+    }
+  ],
+  "edges": [
+    {"source": "birch_subcluster_norms", "target": "birch_predict_argmin", "kind": "cached_statistic"},
+    {"source": "birch_predict_argmin", "target": "birch_predict_labels", "kind": "label_lookup"},
+    {"source": "birch_subcluster_norms", "target": "birch_transform_distances", "kind": "shared_centers"}
+  ]
+}

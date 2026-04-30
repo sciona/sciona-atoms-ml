@@ -1061,6 +1061,12 @@ Potential remediation path:
   plan for the two replacement leaves, while node allocation, subcluster
   redistribution, child pointers, and full mutable CF-tree state remain
   deferred.
+- Completed helper slice: `sklearn.cluster.birch_output_math` now publishes
+  deterministic post-tree Birch output helpers for cached squared subcluster
+  norms, nearest-subcluster argmins, predicted-label lookup from supplied
+  subcluster labels, and transform distances from supplied subcluster centers,
+  while mutable CF-tree insertion, sparse fit iteration, and default
+  agglomerative global clustering remain deferred.
 - Default `AgglomerativeClustering`, custom global clusterers, sparse inputs,
   `partial_fit`, and live mutable CF-tree object surfaces remain deferred.
 - Ingest the CF-tree insertion, subcluster merge, and node-splitting logic as
