@@ -1050,6 +1050,12 @@ Potential remediation path:
   centroid and squared-norm append views, and one-row replacement plus append
   after a split update, without exposing mutable subcluster lists, child
   pointers, or leaf-link rewiring.
+- Completed helper slice: `sklearn.cluster.birch_split_leaf_links` now
+  publishes deterministic leaf-chain rewiring helpers from `_split_node` for
+  previous/next neighbor update predicates and the role-level prev/next link
+  plan for the two replacement leaves, while node allocation, subcluster
+  redistribution, child pointers, and full mutable CF-tree state remain
+  deferred.
 - Default `AgglomerativeClustering`, custom global clusterers, sparse inputs,
   `partial_fit`, and live mutable CF-tree object surfaces remain deferred.
 - Ingest the CF-tree insertion, subcluster merge, and node-splitting logic as

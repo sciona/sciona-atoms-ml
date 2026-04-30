@@ -1,0 +1,39 @@
+{
+  "family": "sciona.atoms.ml.sklearn.cluster.birch_split_leaf_links",
+  "nodes": [
+    {
+      "node_id": "birch_split_prev_neighbor_update_required",
+      "name": "birch_split_prev_neighbor_update_required",
+      "status": "atomic",
+      "inputs": [
+        {"name": "has_prev_leaf", "type_desc": "bool"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "birch_split_next_neighbor_update_required",
+      "name": "birch_split_next_neighbor_update_required",
+      "status": "atomic",
+      "inputs": [
+        {"name": "has_next_leaf", "type_desc": "bool"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "birch_split_leaf_link_plan",
+      "name": "birch_split_leaf_link_plan",
+      "status": "atomic",
+      "inputs": [
+        {"name": "has_prev_leaf", "type_desc": "bool"},
+        {"name": "has_next_leaf", "type_desc": "bool"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "BirchLeafLinkPlan"}
+      ]
+    }
+  ]
+}
