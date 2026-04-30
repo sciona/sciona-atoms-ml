@@ -1,0 +1,152 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.cluster.birch_insert_routing.birch_insert_closest_scores@sciona/atoms/ml/sklearn/cluster/birch_insert_routing/atoms.py:72": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the closest-subcluster score computation in sklearn.cluster._birch._CFNode.insert_cf_subcluster."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.cluster.birch_insert_routing.birch_insert_closest_index@sciona/atoms/ml/sklearn/cluster/birch_insert_routing/atoms.py:87": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the `np.argmin` closest-subcluster selection in sklearn.cluster._birch._CFNode.insert_cf_subcluster."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.cluster.birch_insert_routing.birch_insert_child_update_required@sciona/atoms/ml/sklearn/cluster/birch_insert_routing/atoms.py:96": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the `if not split_child` recursive child-update branch in sklearn.cluster._birch._CFNode.insert_cf_subcluster."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.cluster.birch_insert_routing.birch_insert_child_split_required@sciona/atoms/ml/sklearn/cluster/birch_insert_routing/atoms.py:105": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the `else` recursive child-split branch in sklearn.cluster._birch._CFNode.insert_cf_subcluster."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.cluster.birch_insert_routing.birch_insert_append_without_split_required@sciona/atoms/ml/sklearn/cluster/birch_insert_routing/atoms.py:116": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the `len(self.subclusters_) < self.branching_factor` leaf append branch in sklearn.cluster._birch._CFNode.insert_cf_subcluster."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.cluster.birch_insert_routing.birch_insert_append_with_split_required@sciona/atoms/ml/sklearn/cluster/birch_insert_routing/atoms.py:132": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the final leaf overflow branch in sklearn.cluster._birch._CFNode.insert_cf_subcluster."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.cluster.birch_insert_routing.birch_insert_parent_split_required@sciona/atoms/ml/sklearn/cluster/birch_insert_routing/atoms.py:146": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the `len(self.subclusters_) > self.branching_factor` parent-overflow check after a recursive child split in sklearn.cluster._birch._CFNode.insert_cf_subcluster."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

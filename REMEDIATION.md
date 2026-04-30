@@ -1038,6 +1038,12 @@ Potential remediation path:
   centroid-distance construction, farthest-pair selection, tie-broken
   node-assignment masks, index partitioning, and aggregate child-subcluster
   statistics before node allocation and leaf-pointer rewiring.
+- Completed helper slice: `sklearn.cluster.birch_insert_routing` now
+  publishes deterministic `_CFNode.insert_cf_subcluster` routing for
+  closest-subcluster score computation, closest-index selection, recursive
+  child-update and child-split branch predicates, leaf append-without-split
+  and append-with-overflow predicates, and the parent-overflow check after a
+  recursive child split.
 - Default `AgglomerativeClustering`, custom global clusterers, sparse inputs,
   `partial_fit`, and live mutable CF-tree object surfaces remain deferred.
 - Ingest the CF-tree insertion, subcluster merge, and node-splitting logic as

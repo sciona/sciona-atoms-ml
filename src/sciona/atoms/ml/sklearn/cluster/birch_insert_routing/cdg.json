@@ -1,0 +1,102 @@
+{
+  "schema_version": "1.0",
+  "module": "sciona.atoms.ml.sklearn.cluster.birch_insert_routing",
+  "family": "sklearn.cluster.birch_insert_routing",
+  "root": "sklearn_cluster_birch_insert_routing_root",
+  "nodes": [
+    {
+      "node_id": "birch_insert_closest_scores",
+      "name": "birch_insert_closest_scores",
+      "status": "atomic",
+      "concept_type": "score_computation",
+      "description": "Compute the score vector sklearn uses to pick the closest BIRCH subcluster during insertion.",
+      "inputs": [
+        {"name": "centroids", "type_desc": "ndarray[float64]", "required": true},
+        {"name": "squared_norm", "type_desc": "ndarray[float64]", "required": true},
+        {"name": "candidate_centroid", "type_desc": "ndarray[float64]", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "ndarray[float64]"}]
+    },
+    {
+      "node_id": "birch_insert_closest_index",
+      "name": "birch_insert_closest_index",
+      "status": "atomic",
+      "concept_type": "index_selection",
+      "description": "Select the closest subcluster index from sklearn's BIRCH insert score vector.",
+      "inputs": [{"name": "closest_scores", "type_desc": "ndarray[float64]", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "int"}]
+    },
+    {
+      "node_id": "birch_insert_child_update_required",
+      "name": "birch_insert_child_update_required",
+      "status": "atomic",
+      "concept_type": "branch_predicate",
+      "description": "Return whether BIRCH insertion follows the recursive child-update branch after a child absorbs the new subcluster without splitting.",
+      "inputs": [
+        {"name": "has_child", "type_desc": "bool", "required": true},
+        {"name": "split_child", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    },
+    {
+      "node_id": "birch_insert_child_split_required",
+      "name": "birch_insert_child_split_required",
+      "status": "atomic",
+      "concept_type": "branch_predicate",
+      "description": "Return whether BIRCH insertion follows the recursive child-split branch after a child overflows.",
+      "inputs": [
+        {"name": "has_child", "type_desc": "bool", "required": true},
+        {"name": "split_child", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    },
+    {
+      "node_id": "birch_insert_append_without_split_required",
+      "name": "birch_insert_append_without_split_required",
+      "status": "atomic",
+      "concept_type": "branch_predicate",
+      "description": "Return whether BIRCH insertion appends a new leaf subcluster without signaling overflow.",
+      "inputs": [
+        {"name": "has_child", "type_desc": "bool", "required": true},
+        {"name": "merged", "type_desc": "bool", "required": true},
+        {"name": "current_count", "type_desc": "int", "required": true},
+        {"name": "branching_factor", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    },
+    {
+      "node_id": "birch_insert_append_with_split_required",
+      "name": "birch_insert_append_with_split_required",
+      "status": "atomic",
+      "concept_type": "branch_predicate",
+      "description": "Return whether BIRCH insertion appends a new leaf subcluster and signals node overflow.",
+      "inputs": [
+        {"name": "has_child", "type_desc": "bool", "required": true},
+        {"name": "merged", "type_desc": "bool", "required": true},
+        {"name": "current_count", "type_desc": "int", "required": true},
+        {"name": "branching_factor", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    },
+    {
+      "node_id": "birch_insert_parent_split_required",
+      "name": "birch_insert_parent_split_required",
+      "status": "atomic",
+      "concept_type": "branch_predicate",
+      "description": "Return whether a parent node must split after accommodating two child partitions from a recursive BIRCH split.",
+      "inputs": [
+        {"name": "updated_count", "type_desc": "int", "required": true},
+        {"name": "branching_factor", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    }
+  ],
+  "edges": [
+    {"source": "birch_insert_closest_scores", "target": "birch_insert_closest_index", "kind": "selection"},
+    {"source": "birch_insert_closest_index", "target": "birch_insert_child_update_required", "kind": "call_context"},
+    {"source": "birch_insert_closest_index", "target": "birch_insert_child_split_required", "kind": "call_context"},
+    {"source": "birch_insert_closest_index", "target": "birch_insert_append_without_split_required", "kind": "call_context"},
+    {"source": "birch_insert_closest_index", "target": "birch_insert_append_with_split_required", "kind": "call_context"},
+    {"source": "birch_insert_child_split_required", "target": "birch_insert_parent_split_required", "kind": "overflow_check"}
+  ]
+}
