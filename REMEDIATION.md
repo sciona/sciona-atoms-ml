@@ -711,6 +711,12 @@ Potential remediation path:
   publishes deterministic empty-feature bookkeeping for fit-time all-missing
   detection, dense nonempty-column filtering, keep-empty mask clearing, and
   empty-column restoration from supplied filled values.
+- Completed helper slice: `sklearn.impute.iterative_loop_bookkeeping` now
+  publishes deterministic fit/transform loop bookkeeping for early-return
+  predicates, the single-feature fit short-circuit, strict min/max limit
+  ordering, missing-feature counts from the ordered index vector, scaled
+  tolerance calculation, and transform-time imputations-per-round grouping
+  before the deferred estimator callbacks and mutable imputation loop.
 - Decompose the deterministic helper boundaries first, including feature order,
   correlation-based neighbor selection, limit validation, one-feature
   prediction postprocessing, and any remaining initial-imputation bookkeeping.
