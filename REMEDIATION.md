@@ -1067,6 +1067,11 @@ Potential remediation path:
   subcluster labels, and transform distances from supplied subcluster centers,
   while mutable CF-tree insertion, sparse fit iteration, and default
   agglomerative global clustering remain deferred.
+- Completed helper slice: `sklearn.cluster.birch_sparse_iteration` now
+  publishes Birch's private sparse-row densification helper as deterministic
+  CSR row-bounds lookup, one-row dense reconstruction, and full dense-row
+  stacking over CSR storage arrays, while CF-tree insertion, leaf traversal,
+  and global clustering remain deferred.
 - Default `AgglomerativeClustering`, custom global clusterers, sparse inputs,
   `partial_fit`, and live mutable CF-tree object surfaces remain deferred.
 - Ingest the CF-tree insertion, subcluster merge, and node-splitting logic as

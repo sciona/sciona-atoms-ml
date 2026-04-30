@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "module": "sciona.atoms.ml.sklearn.cluster.birch_sparse_iteration",
+  "family": "sklearn.cluster.birch_sparse_iteration",
+  "root": "sklearn_cluster_birch_sparse_iteration_root",
+  "nodes": [
+    {
+      "node_id": "birch_sparse_row_bounds",
+      "name": "birch_sparse_row_bounds",
+      "status": "atomic",
+      "concept_type": "indexing",
+      "description": "Compute CSR start and end pointers for one Birch sparse row.",
+      "inputs": [
+        {"name": "indptr", "type_desc": "ndarray[int64]", "required": true},
+        {"name": "row_index", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "tuple[int, int]"}]
+    },
+    {
+      "node_id": "birch_sparse_dense_row",
+      "name": "birch_sparse_dense_row",
+      "status": "atomic",
+      "concept_type": "row_reconstruction",
+      "description": "Rebuild one dense Birch sparse row from CSR index and value slices.",
+      "inputs": [
+        {"name": "n_features", "type_desc": "int", "required": true},
+        {"name": "nonzero_indices", "type_desc": "ndarray[int64]", "required": true},
+        {"name": "nonzero_values", "type_desc": "ndarray[float64]", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "ndarray[float64]"}]
+    },
+    {
+      "node_id": "birch_sparse_dense_rows",
+      "name": "birch_sparse_dense_rows",
+      "status": "atomic",
+      "concept_type": "matrix_reconstruction",
+      "description": "Stack Birch dense rows reconstructed from CSR indptr, indices, and data arrays.",
+      "inputs": [
+        {"name": "X_indptr", "type_desc": "ndarray[int64]", "required": true},
+        {"name": "X_indices", "type_desc": "ndarray[int64]", "required": true},
+        {"name": "X_data", "type_desc": "ndarray[float64]", "required": true},
+        {"name": "n_features", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "ndarray[float64]"}]
+    }
+  ],
+  "edges": [
+    {"source": "birch_sparse_row_bounds", "target": "birch_sparse_dense_rows", "kind": "csr_row_slicing"},
+    {"source": "birch_sparse_dense_row", "target": "birch_sparse_dense_rows", "kind": "row_reconstruction"}
+  ]
+}
