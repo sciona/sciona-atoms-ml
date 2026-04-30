@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.multiclass.one_vs_rest_probability_bookkeeping.one_vs_rest_positive_probability_stack@sciona/atoms/ml/sklearn/multiclass/one_vs_rest_probability_bookkeeping/atoms.py:64": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the `Y = np.array([e.predict_proba(X)[:, 1] for e in self.estimators_]).T` bookkeeping in sklearn.multiclass.OneVsRestClassifier.predict_proba before later binary expansion or multiclass normalization."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

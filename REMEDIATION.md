@@ -359,6 +359,12 @@ Potential remediation path:
   one-estimator binary probability expansion, multiclass probability
   normalization, and decision-output shape resolution.
 - Completed helper slice:
+  `sklearn.multiclass.one_vs_rest_probability_bookkeeping` now publishes the
+  deterministic `OneVsRestClassifier.predict_proba` bookkeeping that extracts
+  each fitted estimator's positive-class probability column into the
+  output-by-sample stack consumed by the already-landed binary-expansion and
+  multiclass-normalization helpers.
+- Completed helper slice:
   `sklearn.multiclass.one_vs_rest_targets` now publishes deterministic
   one-vs-rest target encoding helpers for class discovery, fit-time CSC target
   indicators, partial-fit unknown-class detection, partial-fit CSC target
