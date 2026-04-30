@@ -1,0 +1,55 @@
+{
+  "module": "sciona.atoms.ml.sklearn.multiclass.one_vs_one_decision_bookkeeping",
+  "family": "sciona.atoms.ml.sklearn.multiclass.one_vs_one_decision_bookkeeping",
+  "nodes": [
+    {
+      "node_id": "sklearn_multiclass_one_vs_one_decision_bookkeeping_root",
+      "name": "sklearn_multiclass_one_vs_one_decision_bookkeeping_root",
+      "status": "composite",
+      "kind": "family",
+      "description": "Deterministic bookkeeping helpers inside OneVsOneClassifier.decision_function around feature-block expansion and the final binary output squeeze.",
+      "children": [
+        "one_vs_one_decision_feature_blocks",
+        "one_vs_one_decision_output"
+      ]
+    },
+    {
+      "node_id": "one_vs_one_decision_feature_blocks",
+      "name": "one_vs_one_decision_feature_blocks",
+      "status": "atomic",
+      "kind": "atom",
+      "description": "Build the per-estimator feature matrices used by OneVsOneClassifier.decision_function, either by repeating the full dense X matrix or by slicing the supplied pairwise feature-index blocks.",
+      "type_signature": "(X: NDArray[np.float64], *, estimator_count: int, pairwise_indices: tuple[tuple[int, ...], ...] | None = None) -> tuple[NDArray[np.float64], ...]",
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "estimator_count", "type_desc": "int", "required": true},
+        {"name": "pairwise_indices", "type_desc": "tuple[tuple[int, ...], ...] | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[NDArray[np.float64], ...]"}
+      ]
+    },
+    {
+      "node_id": "one_vs_one_decision_output",
+      "name": "one_vs_one_decision_output",
+      "status": "atomic",
+      "kind": "atom",
+      "description": "Apply the public binary-output squeeze in OneVsOneClassifier.decision_function, returning Y[:, 1] for binary classification and the full decision-score matrix otherwise.",
+      "type_signature": "(decision_scores: NDArray[np.float64], *, n_classes: int) -> NDArray[np.float64]",
+      "inputs": [
+        {"name": "decision_scores", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "n_classes", "type_desc": "int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "one_vs_one_decision_feature_blocks",
+      "target": "one_vs_one_decision_output",
+      "kind": "decision_function_shell"
+    }
+  ]
+}

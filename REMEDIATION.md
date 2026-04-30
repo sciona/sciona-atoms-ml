@@ -385,6 +385,12 @@ Potential remediation path:
   single-class fit guard, and pairwise index exposure from already-produced
   worker index blocks when the pairwise input tag is enabled.
 - Completed helper slice:
+  `sklearn.multiclass.one_vs_one_decision_bookkeeping` now publishes the
+  remaining deterministic OneVsOneClassifier decision-function shell for
+  expanding per-estimator dense feature blocks from stored pairwise indices
+  and for the public binary-output squeeze that returns `Y[:, 1]` instead of
+  the full decision matrix.
+- Completed helper slice:
   `sklearn.multiclass.output_code_fit_bookkeeping` now publishes
   deterministic OutputCodeClassifier fit-shell helpers for the empty-class
   guard, binary-estimator count resolution from `code_size`, and fitted

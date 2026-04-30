@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.multiclass.one_vs_one_decision_bookkeeping.one_vs_one_decision_feature_blocks@sciona/atoms/ml/sklearn/multiclass/one_vs_one_decision_bookkeeping/atoms.py:110": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the `indices = self.pairwise_indices_`, `Xs = [X] * len(self.estimators_)`, and `Xs = [X[:, idx] for idx in indices]` bookkeeping in sklearn.multiclass.OneVsOneClassifier.decision_function."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.multiclass.one_vs_one_decision_bookkeeping.one_vs_one_decision_output@sciona/atoms/ml/sklearn/multiclass/one_vs_one_decision_bookkeeping/atoms.py:127": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the final `if self.n_classes_ == 2: return Y[:, 1]` branch in sklearn.multiclass.OneVsOneClassifier.decision_function."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}
