@@ -371,6 +371,12 @@ Potential remediation path:
   output-by-sample stack consumed by the already-landed binary-expansion and
   multiclass-normalization helpers.
 - Completed helper slice:
+  `sklearn.multiclass.one_vs_rest_decision_bookkeeping` now publishes the
+  deterministic `OneVsRestClassifier.decision_function` bookkeeping that
+  stacks each fitted estimator's decision vector into the output-by-sample
+  layout consumed by the already-landed binary-versus-multiclass decision
+  output helper.
+- Completed helper slice:
   `sklearn.multiclass.one_vs_rest_targets` now publishes deterministic
   one-vs-rest target encoding helpers for class discovery, fit-time CSC target
   indicators, partial-fit unknown-class detection, partial-fit CSC target

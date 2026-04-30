@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.multiclass.one_vs_rest_decision_bookkeeping.one_vs_rest_decision_stack@sciona/atoms/ml/sklearn/multiclass/one_vs_rest_decision_bookkeeping/atoms.py:57": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the multi-estimator `np.array([est.decision_function(X).ravel() for est in self.estimators_])` bookkeeping inside sklearn.multiclass.OneVsRestClassifier.decision_function."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0",
+  "module": "sciona.atoms.ml.sklearn.multiclass.one_vs_rest_decision_bookkeeping",
+  "family": "sklearn.multiclass.one_vs_rest_decision_bookkeeping",
+  "root": "sklearn_multiclass_one_vs_rest_decision_bookkeeping_root",
+  "nodes": [
+    {
+      "node_id": "one_vs_rest_decision_stack",
+      "name": "one_vs_rest_decision_stack",
+      "status": "atomic",
+      "concept_type": "prediction_bookkeeping",
+      "description": "Stack each estimator's decision vector into the output-by-sample layout consumed by sklearn's one-vs-rest decision-output shaping.",
+      "inputs": [
+        {"name": "decision_blocks", "type_desc": "tuple[ndarray, ...]", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+    }
+  ],
+  "edges": []
+}
