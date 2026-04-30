@@ -419,6 +419,11 @@ Potential remediation path:
   shell for integer-seeded uniform book generation and the later
   decision-function-versus-probability discretization into `{-1, 1}` or
   `{0, 1}` values before target-matrix assembly or estimator callbacks.
+- Completed helper slice: `sklearn.multiclass.output_code_decode` now
+  publishes the deterministic OutputCodeClassifier decode shell for
+  sample-by-class squared distance reduction from supplied response matrices
+  and a supplied code book, rowwise nearest-code selection, and final class
+  label lookup before or after the deferred estimator prediction callbacks.
 - Completed helper slice:
   `sklearn.multiclass.one_vs_rest_postfit_attributes` now publishes the
   remaining deterministic OneVsRestClassifier post-fit attribute shell for

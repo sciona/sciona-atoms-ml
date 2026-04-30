@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "module": "sciona.atoms.ml.sklearn.multiclass.output_code_decode",
+  "family": "sklearn.multiclass.output_code_decode",
+  "root": "sklearn_multiclass_output_code_decode_root",
+  "nodes": [
+    {
+      "node_id": "output_code_squared_distance_matrix",
+      "name": "output_code_squared_distance_matrix",
+      "status": "atomic",
+      "concept_type": "distance_reduction",
+      "description": "Compute the sample-by-class squared Euclidean distance matrix between output-code responses and each code-book row.",
+      "inputs": [
+        {"name": "response_matrix", "type_desc": "ndarray", "required": true},
+        {"name": "code_book", "type_desc": "ndarray", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+    },
+    {
+      "node_id": "output_code_nearest_class_indices",
+      "name": "output_code_nearest_class_indices",
+      "status": "atomic",
+      "concept_type": "argmin_selection",
+      "description": "Pick the nearest output-code row for each sample by rowwise argmin over squared distances.",
+      "inputs": [
+        {"name": "squared_distance_matrix", "type_desc": "ndarray", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+    },
+    {
+      "node_id": "output_code_label_vector",
+      "name": "output_code_label_vector",
+      "status": "atomic",
+      "concept_type": "label_lookup",
+      "description": "Map nearest output-code class indices back to the fitted class-label vector.",
+      "inputs": [
+        {"name": "classes", "type_desc": "ndarray", "required": true},
+        {"name": "class_indices", "type_desc": "ndarray", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+    }
+  ],
+  "edges": [
+    {"source": "output_code_squared_distance_matrix", "target": "output_code_nearest_class_indices", "kind": "nearest_code_search"},
+    {"source": "output_code_nearest_class_indices", "target": "output_code_label_vector", "kind": "class_lookup"}
+  ]
+}
