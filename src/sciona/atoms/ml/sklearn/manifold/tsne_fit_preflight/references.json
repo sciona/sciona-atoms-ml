@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.manifold.tsne_fit_preflight.tsne_fit_require_perplexity_below_sample_count@sciona/atoms/ml/sklearn/manifold/tsne_fit_preflight/atoms.py:51": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from sklearn.manifold._t_sne.TSNE._check_params_vs_input."
+          }
+        },
+        {
+          "ref_id": "vandermaaten2008tsne",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "medium",
+            "notes": "Primary t-SNE reference for the perplexity-controlled neighborhood scale behind the sample-count guard."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.manifold.tsne_fit_preflight.tsne_fit_accept_sparse_formats@sciona/atoms/ml/sklearn/manifold/tsne_fit_preflight/atoms.py:66": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the validate_data accept_sparse policy in sklearn.manifold._t_sne.TSNE._fit."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.manifold.tsne_fit_preflight.tsne_fit_require_sparse_input_init_not_pca@sciona/atoms/ml/sklearn/manifold/tsne_fit_preflight/atoms.py:80": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the sparse-input PCA-init guard in sklearn.manifold._t_sne.TSNE._fit."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.manifold.tsne_fit_preflight.tsne_fit_require_precomputed_square_matrix@sciona/atoms/ml/sklearn/manifold/tsne_fit_preflight/atoms.py:93": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the square-matrix guard for metric='precomputed' in sklearn.manifold._t_sne.TSNE._fit."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.manifold.tsne_fit_preflight.tsne_fit_require_dense_exact_precomputed@sciona/atoms/ml/sklearn/manifold/tsne_fit_preflight/atoms.py:106": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the exact-method sparse-precomputed guard in sklearn.manifold._t_sne.TSNE._fit."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.manifold.tsne_fit_preflight.tsne_fit_require_barnes_hut_components@sciona/atoms/ml/sklearn/manifold/tsne_fit_preflight/atoms.py:124": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the Barnes-Hut dimensionality guard in sklearn.manifold._t_sne.TSNE._fit."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

@@ -854,6 +854,12 @@ Potential remediation path:
   distance-block extraction before compiled perplexity search, sparse
   conditional-probability reconstruction, and sparse symmetrization plus
   normalization before the deferred optimization stages.
+- Completed helper slice: `sklearn.manifold.tsne_fit_preflight` now
+  publishes the explicit fit-entry guard layer around perplexity versus sample
+  count, method-driven sparse-format acceptance, sparse PCA-init rejection,
+  precomputed square-matrix checks, exact-method sparse-precomputed rejection,
+  and the Barnes-Hut dimensionality guard before pairwise distances,
+  nearest-neighbor search, or optimizer execution.
 - Additional t-SNE remediation should cover remaining estimator orchestration
   such as binary perplexity search boundaries, full optimization-loop
   execution, and native Barnes-Hut gradient handling.
