@@ -1046,6 +1046,11 @@ Potential remediation path:
   later correction/reweighting stages: the covariance-rank warning predicate
   plus the `assume_centered=True` raw-location, raw-covariance, and raw-distance
   recomputation helpers.
+- Completed helper slice:
+  `sklearn.covariance.mincovdet_correction` now publishes the deterministic
+  `MinCovDet.correct_covariance` shell for the zero-raw-covariance guard, the
+  empirical correction-factor calculation from raw distances, and the corrected
+  covariance and corrected-distance updates before the later reweighting stage.
 - Ingest robust covariance by decomposing FastMCD helpers (`fast_mcd`,
   candidate selection, correction, reweighting, and Mahalanobis scoring) before
   publishing `MinCovDet` or `EllipticEnvelope` fit states. Correction,

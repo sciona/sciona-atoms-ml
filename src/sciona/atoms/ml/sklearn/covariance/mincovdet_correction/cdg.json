@@ -1,0 +1,85 @@
+{
+  "module": "sciona.atoms.ml.sklearn.covariance.mincovdet_correction",
+  "family": "sciona.atoms.ml.sklearn.covariance.mincovdet_correction",
+  "nodes": [
+    {
+      "node_id": "sklearn_covariance_mincovdet_correction_root",
+      "name": "sklearn_covariance_mincovdet_correction_root",
+      "status": "composite",
+      "kind": "family",
+      "description": "Deterministic MinCovDet correction helpers after raw FastMCD state is available and before reweighting.",
+      "children": [
+        "mincovdet_correct_covariance_guard",
+        "mincovdet_empirical_correction_factor",
+        "mincovdet_corrected_covariance",
+        "mincovdet_corrected_distances"
+      ]
+    },
+    {
+      "node_id": "mincovdet_correct_covariance_guard",
+      "name": "mincovdet_correct_covariance_guard",
+      "status": "atomic",
+      "kind": "atom",
+      "description": "Apply MinCovDet's guard that rejects zero raw covariance when the raw support excludes at least one sample.",
+      "type_signature": "(raw_covariance: NDArray[np.float64], raw_support: NDArray[np.bool_], raw_distances: NDArray[np.float64]) -> bool",
+      "inputs": [
+        {"name": "raw_covariance", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "raw_support", "type_desc": "NDArray[np.bool_]", "required": true},
+        {"name": "raw_distances", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "mincovdet_empirical_correction_factor",
+      "name": "mincovdet_empirical_correction_factor",
+      "status": "atomic",
+      "kind": "atom",
+      "description": "Compute MinCovDet's empirical covariance-correction factor from raw squared distances and the feature count.",
+      "type_signature": "(raw_distances: NDArray[np.float64], n_features: int) -> float",
+      "inputs": [
+        {"name": "raw_distances", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "n_features", "type_desc": "int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "float"}
+      ]
+    },
+    {
+      "node_id": "mincovdet_corrected_covariance",
+      "name": "mincovdet_corrected_covariance",
+      "status": "atomic",
+      "kind": "atom",
+      "description": "Scale raw covariance by MinCovDet's empirical correction factor.",
+      "type_signature": "(raw_covariance: NDArray[np.float64], correction_factor: float) -> NDArray[np.float64]",
+      "inputs": [
+        {"name": "raw_covariance", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "correction_factor", "type_desc": "float", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "mincovdet_corrected_distances",
+      "name": "mincovdet_corrected_distances",
+      "status": "atomic",
+      "kind": "atom",
+      "description": "Scale raw squared distances by the inverse MinCovDet empirical correction factor.",
+      "type_signature": "(raw_distances: NDArray[np.float64], correction_factor: float) -> NDArray[np.float64]",
+      "inputs": [
+        {"name": "raw_distances", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "correction_factor", "type_desc": "float", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "mincovdet_correct_covariance_guard", "target": "mincovdet_empirical_correction_factor", "kind": "precondition"},
+    {"source": "mincovdet_empirical_correction_factor", "target": "mincovdet_corrected_covariance", "kind": "scale"},
+    {"source": "mincovdet_empirical_correction_factor", "target": "mincovdet_corrected_distances", "kind": "inverse_scale"}
+  ]
+}

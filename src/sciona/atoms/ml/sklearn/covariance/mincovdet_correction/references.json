@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.covariance.mincovdet_correction.mincovdet_correct_covariance_guard@sciona/atoms/ml/sklearn/covariance/mincovdet_correction/atoms.py:98": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the zero-raw-covariance guard in sklearn.covariance.MinCovDet.correct_covariance."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.covariance.mincovdet_correction.mincovdet_empirical_correction_factor@sciona/atoms/ml/sklearn/covariance/mincovdet_correction/atoms.py:120": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the empirical `np.median(self.dist_) / chi2(data.shape[1]).isf(0.5)` correction factor in sklearn.covariance.MinCovDet.correct_covariance."
+          }
+        },
+        {
+          "ref_id": "rousseeuw1999fastmcd",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Primary reference for the FastMCD empirical correction cited by sklearn."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.covariance.mincovdet_correction.mincovdet_corrected_covariance@sciona/atoms/ml/sklearn/covariance/mincovdet_correction/atoms.py:133": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the `covariance_corrected = self.raw_covariance_ * correction` update in sklearn.covariance.MinCovDet.correct_covariance."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.covariance.mincovdet_correction.mincovdet_corrected_distances@sciona/atoms/ml/sklearn/covariance/mincovdet_correction/atoms.py:145": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the in-place `self.dist_ /= correction` update in sklearn.covariance.MinCovDet.correct_covariance."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}
