@@ -254,6 +254,12 @@ Potential remediation path:
   best-feature-count selection and `cv_results_` materialization from supplied
   fold score histories and a shared feature-count path.
 - Completed helper slice:
+  `sklearn.feature_selection.rfecv_fit_bookkeeping` now publishes the
+  deterministic RFECV fit-shell helpers for the oversized
+  `min_features_to_select` warning predicate, the clamped min-feature floor
+  passed into the inner `RFE`, and the default scoring-name resolution that
+  falls back to `accuracy` for classifiers and `r2` for regressors.
+- Completed helper slice:
   `sklearn.feature_selection.selector_mixin_postfit` now publishes support-mask
   index extraction, dense feature filtering, dense inverse transform, and
   feature-name masking from supplied selector support masks.
