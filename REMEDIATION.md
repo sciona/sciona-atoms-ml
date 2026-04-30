@@ -763,6 +763,12 @@ Potential remediation path:
   values, featurewise means, featurewise standard deviations, and the combined
   summary tuple from supplied score arrays.
 - Completed helper slice:
+  `sklearn.inspection.permutation_preprocessing` now publishes the
+  deterministic dense preprocessing shell before scorer callbacks for
+  `max_samples` count resolution, non-bootstrap row subsample draws, repeated
+  shuffle-index generation, and dense feature-column permutation from supplied
+  shuffle states.
+- Completed helper slice:
   `sklearn.inspection.partial_dependence_grid` now publishes dense numeric
   grid-parameter validation, per-feature axis construction, and Cartesian grid
   construction before the deferred estimator prediction paths.
