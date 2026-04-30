@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "module": "sciona.atoms.ml.sklearn.multiclass.output_code_book",
+  "family": "sklearn.multiclass.output_code_book",
+  "root": "sklearn_multiclass_output_code_book_root",
+  "nodes": [
+    {
+      "node_id": "output_code_uniform_book",
+      "name": "output_code_uniform_book",
+      "status": "atomic",
+      "concept_type": "randomized_bookkeeping",
+      "description": "Generate the seeded uniform code-book matrix used by OutputCodeClassifier before sklearn discretizes it.",
+      "inputs": [
+        {"name": "n_classes", "type_desc": "int", "required": true},
+        {"name": "n_estimators", "type_desc": "int", "required": true},
+        {"name": "seed", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+    },
+    {
+      "node_id": "output_code_discrete_book",
+      "name": "output_code_discrete_book",
+      "status": "atomic",
+      "concept_type": "matrix_discretization",
+      "description": "Threshold the uniform output-code book and map nonpositive entries to {-1, 1} or {0, 1} depending on decision-function availability.",
+      "inputs": [
+        {"name": "uniform_book", "type_desc": "ndarray", "required": true},
+        {"name": "has_decision_function", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+    }
+  ],
+  "edges": [
+    {"source": "output_code_uniform_book", "target": "output_code_discrete_book", "kind": "book_discretization"}
+  ]
+}

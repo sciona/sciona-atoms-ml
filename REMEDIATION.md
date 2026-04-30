@@ -414,6 +414,11 @@ Potential remediation path:
   guard, binary-estimator count resolution from `code_size`, and fitted
   `n_features_in_` / `feature_names_in_` pass-through from the first trained
   estimator.
+- Completed helper slice: `sklearn.multiclass.output_code_book` now
+  publishes the deterministic OutputCodeClassifier code-book construction
+  shell for integer-seeded uniform book generation and the later
+  decision-function-versus-probability discretization into `{-1, 1}` or
+  `{0, 1}` values before target-matrix assembly or estimator callbacks.
 - Completed helper slice:
   `sklearn.multiclass.one_vs_rest_postfit_attributes` now publishes the
   remaining deterministic OneVsRestClassifier post-fit attribute shell for
