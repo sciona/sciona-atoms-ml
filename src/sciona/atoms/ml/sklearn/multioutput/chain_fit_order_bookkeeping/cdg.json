@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "module": "sciona.atoms.ml.sklearn.multioutput.chain_fit_order_bookkeeping",
+  "family": "sklearn.multioutput.chain_fit_order_bookkeeping",
+  "root": "sklearn_multioutput_chain_fit_order_bookkeeping_root",
+  "nodes": [
+    {
+      "node_id": "chain_fit_tuple_order_array",
+      "name": "chain_fit_tuple_order_array",
+      "status": "atomic",
+      "concept_type": "coercion",
+      "description": "Convert tuple-configured chain order into the ndarray form sklearn stores during fit.",
+      "inputs": [{"name": "order", "type_desc": "tuple[int, ...]", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "ndarray[int64]"}]
+    },
+    {
+      "node_id": "chain_fit_require_valid_order",
+      "name": "chain_fit_require_valid_order",
+      "status": "atomic",
+      "concept_type": "validation",
+      "description": "Require that an explicit chain order is a full permutation of output indices before estimator callbacks run.",
+      "inputs": [
+        {"name": "order", "type_desc": "list[int] | ndarray[int64]", "required": true},
+        {"name": "n_outputs", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    },
+    {
+      "node_id": "chain_fit_log_message",
+      "name": "chain_fit_log_message",
+      "status": "atomic",
+      "concept_type": "formatting",
+      "description": "Format sklearn's optional verbose chain fit progress message for one estimator step.",
+      "inputs": [
+        {"name": "verbose", "type_desc": "bool", "required": true},
+        {"name": "estimator_idx", "type_desc": "int", "required": true},
+        {"name": "n_estimators", "type_desc": "int", "required": true},
+        {"name": "processing_msg", "type_desc": "str", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "str | None"}]
+    }
+  ],
+  "edges": [
+    {"source": "chain_fit_tuple_order_array", "target": "chain_fit_require_valid_order", "kind": "precondition"},
+    {"source": "chain_fit_require_valid_order", "target": "chain_fit_log_message", "kind": "call_context"}
+  ]
+}
