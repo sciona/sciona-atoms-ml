@@ -652,6 +652,12 @@ Potential remediation path:
   linear, polynomial, laplacian, sigmoid, and cosine kernels, which are the
   actual math surfaces a deferred `PairwiseKernel` wrapper would delegate to.
 - Completed helper slice:
+  `sklearn.metrics_pairwise_distance_kernels` now publishes dense upstream
+  distance-based kernel helpers for RBF, additive chi-squared, and
+  exponentiated chi-squared kernels on finite dense inputs, which extends the
+  delegated pairwise-kernel surface behind the still-deferred
+  `PairwiseKernel` wrapper.
+- Completed helper slice:
   `sklearn.gaussian_process.kernel_hyperparameters` now publishes
   hyperparameter-bookkeeping helpers for flattening supplied non-fixed kernel
   value blocks into `theta`, reconstructing value blocks from `theta`,
