@@ -1028,6 +1028,11 @@ Potential remediation path:
   concatenation, `_n_features_out` resolution, label-refresh gating, and the
   integer `n_clusters` no-global-clustering fallback before the deferred
   agglomerative/custom clusterer boundary.
+- Completed helper slice: `sklearn.cluster.birch_subcluster_math` now
+  publishes deterministic `_CFSubcluster` statistics for singleton
+  initialization, additive updates, squared-radius algebra, thresholded local
+  merge acceptance, and the nonnegative radius property before any CF-tree
+  node mutation or global clustering.
 - Default `AgglomerativeClustering`, custom global clusterers, sparse inputs,
   `partial_fit`, and live mutable CF-tree object surfaces remain deferred.
 - Ingest the CF-tree insertion, subcluster merge, and node-splitting logic as
