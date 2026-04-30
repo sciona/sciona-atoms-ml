@@ -1,0 +1,28 @@
+{
+  "family": "sciona.atoms.ml.sklearn.cluster.dbscan_output_packaging",
+  "nodes": [
+    {
+      "node_id": "dbscan_core_sample_indices",
+      "name": "dbscan_core_sample_indices",
+      "status": "atomic",
+      "inputs": [
+        {"name": "core_samples", "type_desc": "uint8 mask vector"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "intp index vector"}
+      ]
+    },
+    {
+      "node_id": "dbscan_sparse_core_components",
+      "name": "dbscan_sparse_core_components",
+      "status": "atomic",
+      "inputs": [
+        {"name": "X", "type_desc": "sparse matrix"},
+        {"name": "core_sample_indices", "type_desc": "intp index vector"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "sparse matrix"}
+      ]
+    }
+  ]
+}

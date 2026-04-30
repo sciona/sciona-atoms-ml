@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.cluster.dbscan_output_packaging.dbscan_core_sample_indices@sciona/atoms/ml/sklearn/cluster/dbscan_output_packaging/atoms.py:65": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from sklearn.cluster._dbscan.DBSCAN.fit extracting `core_sample_indices_ = np.where(core_samples)[0]` after the compiled expansion step."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.cluster.dbscan_output_packaging.dbscan_sparse_core_components@sciona/atoms/ml/sklearn/cluster/dbscan_output_packaging/atoms.py:74": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from sklearn.cluster._dbscan.DBSCAN.fit packaging sparse `components_ = X[self.core_sample_indices_].copy()` when core samples exist."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

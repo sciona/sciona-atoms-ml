@@ -975,6 +975,11 @@ Potential remediation path:
   unweighted and weighted neighborhood reduction, core-sample mask formation,
   initial all-noise labels, and dense components packaging from supplied core
   indices before the deferred compiled connected expansion.
+- Completed helper slice:
+  `sklearn.cluster.dbscan_output_packaging` now publishes deterministic
+  post-expansion DBSCAN output helpers for `core_sample_indices_` extraction
+  from the uint8 core mask and sparse `components_` row-copy packaging from
+  already-selected core sample indices.
 - Completed helper slice: `sklearn.cluster.kmeans_plusplus` now publishes
   dense k-means++ seeding helpers for default local-trial counts, first-center
   weighted sampling, greedy candidate-id sampling, candidate-potential
