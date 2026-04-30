@@ -1,0 +1,68 @@
+{
+  "family": "sciona.atoms.ml.sklearn.cluster.birch_node_buffers",
+  "nodes": [
+    {
+      "node_id": "birch_append_active_count",
+      "name": "birch_append_active_count",
+      "status": "atomic",
+      "inputs": [
+        {"name": "current_count", "type_desc": "int"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "int"}
+      ]
+    },
+    {
+      "node_id": "birch_append_centroids",
+      "name": "birch_append_centroids",
+      "status": "atomic",
+      "inputs": [
+        {"name": "active_centroids", "type_desc": "float64 matrix"},
+        {"name": "candidate_centroid", "type_desc": "float64 vector"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "float64 matrix"}
+      ]
+    },
+    {
+      "node_id": "birch_append_squared_norms",
+      "name": "birch_append_squared_norms",
+      "status": "atomic",
+      "inputs": [
+        {"name": "active_squared_norms", "type_desc": "float64 vector"},
+        {"name": "candidate_sq_norm", "type_desc": "float"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "float64 vector"}
+      ]
+    },
+    {
+      "node_id": "birch_update_split_centroids",
+      "name": "birch_update_split_centroids",
+      "status": "atomic",
+      "inputs": [
+        {"name": "active_centroids", "type_desc": "float64 matrix"},
+        {"name": "replace_index", "type_desc": "int"},
+        {"name": "replacement_centroid", "type_desc": "float64 vector"},
+        {"name": "appended_centroid", "type_desc": "float64 vector"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "float64 matrix"}
+      ]
+    },
+    {
+      "node_id": "birch_update_split_squared_norms",
+      "name": "birch_update_split_squared_norms",
+      "status": "atomic",
+      "inputs": [
+        {"name": "active_squared_norms", "type_desc": "float64 vector"},
+        {"name": "replace_index", "type_desc": "int"},
+        {"name": "replacement_sq_norm", "type_desc": "float"},
+        {"name": "appended_sq_norm", "type_desc": "float"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "float64 vector"}
+      ]
+    }
+  ]
+}

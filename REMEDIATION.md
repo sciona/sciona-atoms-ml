@@ -1044,6 +1044,12 @@ Potential remediation path:
   child-update and child-split branch predicates, leaf append-without-split
   and append-with-overflow predicates, and the parent-overflow check after a
   recursive child split.
+- Completed helper slice: `sklearn.cluster.birch_node_buffers` now
+  publishes deterministic `_CFNode` active-buffer rewrites for
+  `append_subcluster` and `update_split_subclusters`: active-count increment,
+  centroid and squared-norm append views, and one-row replacement plus append
+  after a split update, without exposing mutable subcluster lists, child
+  pointers, or leaf-link rewiring.
 - Default `AgglomerativeClustering`, custom global clusterers, sparse inputs,
   `partial_fit`, and live mutable CF-tree object surfaces remain deferred.
 - Ingest the CF-tree insertion, subcluster merge, and node-splitting logic as
