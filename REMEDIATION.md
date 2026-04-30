@@ -1217,6 +1217,15 @@ Potential remediation path:
   Dirichlet expectations. The compiled `_online_lda_fast` expectation helpers,
   the variational E-step and M-step loops, and estimator state remain
   deferred.
+- Completed helper slice:
+  `sklearn.decomposition.lda_em_updates` now publishes the deterministic
+  LatentDirichletAllocation E-step merge shell for stacked document-topic
+  blocks and sufficient-statistics aggregation, plus the batch and online
+  component-update algebra for online weight scheduling, document-ratio
+  scaling, batch overwrite, and online component mixing after sufficient
+  statistics have already been computed. The compiled `_online_lda_fast`
+  expectation helpers, the document-topic fixed-point loop, and estimator
+  state remain deferred.
 - Sparse-code solving, LARS/Lasso/OMP/coordinate-descent branches, joblib
   parallel sparse encoding, dictionary-learning callbacks, mini-batch
   scheduling, sklearn's random unused-atom resampling branch, and non-threshold

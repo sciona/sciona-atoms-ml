@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0",
+  "module": "sciona.atoms.ml.sklearn.decomposition.lda_em_updates",
+  "family": "sklearn.decomposition.lda_em_updates",
+  "root": "sklearn_decomposition_lda_em_updates_root",
+  "nodes": [
+    {
+      "node_id": "lda_e_step_document_topic_matrix",
+      "name": "lda_e_step_document_topic_matrix",
+      "status": "atomic",
+      "concept_type": "matrix_stack",
+      "description": "Stack per-job document-topic matrices from the LatentDirichletAllocation E-step.",
+      "inputs": [{"name": "doc_topic_blocks", "type_desc": "tuple[ndarray, ...]", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+    },
+    {
+      "node_id": "lda_e_step_sufficient_statistics",
+      "name": "lda_e_step_sufficient_statistics",
+      "status": "atomic",
+      "concept_type": "sufficient_statistics_merge",
+      "description": "Merge per-job sufficient-statistics blocks and scale them by exp_dirichlet_component_ after the LatentDirichletAllocation E-step.",
+      "inputs": [
+        {"name": "sstats_blocks", "type_desc": "tuple[ndarray, ...]", "required": true},
+        {"name": "exp_dirichlet_component", "type_desc": "ndarray", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+    },
+    {
+      "node_id": "lda_online_update_weight",
+      "name": "lda_online_update_weight",
+      "status": "atomic",
+      "concept_type": "schedule_scalar",
+      "description": "Compute the online-learning weight used by LatentDirichletAllocation.",
+      "inputs": [
+        {"name": "learning_offset", "type_desc": "float", "required": true},
+        {"name": "n_batch_iter", "type_desc": "int", "required": true},
+        {"name": "learning_decay", "type_desc": "float", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "float"}]
+    },
+    {
+      "node_id": "lda_online_document_ratio",
+      "name": "lda_online_document_ratio",
+      "status": "atomic",
+      "concept_type": "schedule_scalar",
+      "description": "Compute the online-learning document ratio total_samples / batch_samples used by LatentDirichletAllocation.",
+      "inputs": [
+        {"name": "total_samples", "type_desc": "float", "required": true},
+        {"name": "current_samples", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "float"}]
+    },
+    {
+      "node_id": "lda_batch_components",
+      "name": "lda_batch_components",
+      "status": "atomic",
+      "concept_type": "matrix_update",
+      "description": "Apply the batch-learning M-step update for LatentDirichletAllocation components.",
+      "inputs": [
+        {"name": "topic_word_prior", "type_desc": "float", "required": true},
+        {"name": "suff_stats", "type_desc": "ndarray", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+    },
+    {
+      "node_id": "lda_online_components",
+      "name": "lda_online_components",
+      "status": "atomic",
+      "concept_type": "matrix_update",
+      "description": "Apply the online-learning M-step update for LatentDirichletAllocation components.",
+      "inputs": [
+        {"name": "previous_components", "type_desc": "ndarray", "required": true},
+        {"name": "topic_word_prior", "type_desc": "float", "required": true},
+        {"name": "suff_stats", "type_desc": "ndarray", "required": true},
+        {"name": "weight", "type_desc": "float", "required": true},
+        {"name": "doc_ratio", "type_desc": "float", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+    }
+  ],
+  "edges": [
+    {"source": "lda_e_step_sufficient_statistics", "target": "lda_batch_components", "kind": "sufficient_statistics"},
+    {"source": "lda_e_step_sufficient_statistics", "target": "lda_online_components", "kind": "sufficient_statistics"},
+    {"source": "lda_online_update_weight", "target": "lda_online_components", "kind": "update_weight"},
+    {"source": "lda_online_document_ratio", "target": "lda_online_components", "kind": "document_ratio"}
+  ]
+}

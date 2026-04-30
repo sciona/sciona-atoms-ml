@@ -1,0 +1,131 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.decomposition.lda_em_updates.lda_e_step_document_topic_matrix@sciona/atoms/ml/sklearn/decomposition/lda_em_updates/atoms.py:111": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the `np.vstack(doc_topics)` merge step in sklearn.decomposition.LatentDirichletAllocation._e_step."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.decomposition.lda_em_updates.lda_e_step_sufficient_statistics@sciona/atoms/ml/sklearn/decomposition/lda_em_updates/atoms.py:138": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the sufficient-statistics merge and exp_dirichlet_component_ scaling in sklearn.decomposition.LatentDirichletAllocation._e_step."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.decomposition.lda_em_updates.lda_online_update_weight@sciona/atoms/ml/sklearn/decomposition/lda_em_updates/atoms.py:158": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the online `weight = (learning_offset + n_batch_iter_) ** (-learning_decay)` update in sklearn.decomposition.LatentDirichletAllocation._em_step."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.decomposition.lda_em_updates.lda_online_document_ratio@sciona/atoms/ml/sklearn/decomposition/lda_em_updates/atoms.py:171": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the online `doc_ratio = total_samples / X.shape[0]` branch in sklearn.decomposition.LatentDirichletAllocation._em_step."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.decomposition.lda_em_updates.lda_batch_components@sciona/atoms/ml/sklearn/decomposition/lda_em_updates/atoms.py:183": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the batch `components_ = topic_word_prior_ + suff_stats` update in sklearn.decomposition.LatentDirichletAllocation._em_step."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.decomposition.lda_em_updates.lda_online_components@sciona/atoms/ml/sklearn/decomposition/lda_em_updates/atoms.py:199": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the online `components_ *= 1 - weight` and `components_ += weight * (topic_word_prior_ + doc_ratio * suff_stats)` update in sklearn.decomposition.LatentDirichletAllocation._em_step."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}
