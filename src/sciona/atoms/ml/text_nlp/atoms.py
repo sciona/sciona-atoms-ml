@@ -26,6 +26,7 @@ from .witnesses import (
     witness_filter_spans_by_length,
     witness_jaro_winkler,
     witness_levenshtein,
+    witness_readability_scores,
     witness_word_ngrams,
 )
 
@@ -444,3 +445,60 @@ def _min_lengths_valid(min_lengths: dict[str, int]) -> bool:
 def filter_spans_by_length(spans: list[tuple[str, int, int]], min_lengths: dict[str, int]) -> list[tuple[str, int, int]]:
     """Keep spans whose end-start length meets the class threshold."""
     return [span for span in spans if span[2] - span[1] >= min_lengths.get(span[0], 0)]
+
+
+def _count_syllables(word: str) -> int:
+    """Estimate syllable count for an English word."""
+    word = word.lower().strip()
+    if len(word) == 0:
+        return 0
+    # Remove trailing 'e' (silent e)
+    if word.endswith("e") and len(word) > 2:
+        word = word[:-1]
+    # Count vowel groups
+    count = len(re.findall(r"[aeiouy]+", word))
+    return max(count, 1)
+
+
+@register_atom(witness_readability_scores)
+@icontract.require(lambda text: isinstance(text, str) and len(text.strip()) > 0, "text must be a non-empty string")
+@icontract.ensure(
+    lambda result: "flesch_kincaid" in result and "smog" in result,
+    "result must contain flesch_kincaid and smog keys",
+)
+@icontract.ensure(
+    lambda result: all(math.isfinite(v) for v in result.values()),
+    "all scores must be finite",
+)
+def readability_scores(text: str) -> dict[str, float]:
+    """Compute Flesch-Kincaid and SMOG readability indices from text.
+
+    Flesch-Kincaid Reading Ease scores text on a 0-100+ scale where higher
+    values indicate easier readability. SMOG estimates the years of education
+    needed to understand the text.
+    """
+    # Tokenize sentences (split on sentence-ending punctuation)
+    sentences = re.split(r"[.!?]+", text)
+    sentences = [s.strip() for s in sentences if s.strip()]
+    n_sentences = max(len(sentences), 1)
+
+    # Tokenize words
+    words = re.findall(r"[a-zA-Z]+", text)
+    n_words = max(len(words), 1)
+
+    # Count syllables and polysyllabic words
+    n_syllables = 0
+    n_polysyllabic = 0
+    for word in words:
+        syl = _count_syllables(word)
+        n_syllables += syl
+        if syl >= 3:
+            n_polysyllabic += 1
+
+    # Flesch-Kincaid Reading Ease
+    fk = 206.835 - 1.015 * (n_words / n_sentences) - 84.6 * (n_syllables / n_words)
+
+    # SMOG Index
+    smog = 3.0 + math.sqrt(n_polysyllabic * 30.0 / n_sentences)
+
+    return {"flesch_kincaid": fk, "smog": smog}

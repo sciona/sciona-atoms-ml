@@ -16,7 +16,8 @@
         "feature_hash",
         "word_ngrams",
         "char_ngrams",
-        "filter_spans_by_length"
+        "filter_spans_by_length",
+        "readability_scores"
       ]
     },
     {
@@ -409,6 +410,32 @@
           "required": true
         }
       ]
+    },
+    {
+      "node_id": "readability_scores",
+      "name": "readability_scores",
+      "description": "Compute Flesch-Kincaid reading ease and SMOG readability indices from text",
+      "concept_type": "analysis",
+      "status": "atomic",
+      "aliases": [
+        "linguistic_feature_extraction",
+        "flesch_kincaid",
+        "smog_index"
+      ],
+      "type_signature": "(text: str) -> dict[str, float]",
+      "inputs": [
+        {
+          "name": "text",
+          "type_desc": "str",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "dict[str, float]"
+        }
+      ]
     }
   ],
   "edges": [
@@ -451,6 +478,10 @@
     {
       "source": "ml_text_nlp_root",
       "target": "filter_spans_by_length"
+    },
+    {
+      "source": "ml_text_nlp_root",
+      "target": "readability_scores"
     }
   ],
   "metadata": {

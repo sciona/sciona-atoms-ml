@@ -87,3 +87,10 @@ def witness_filter_spans_by_length(spans: list[tuple[str, int, int]], min_length
     """Describe class-thresholded span output."""
     del min_lengths
     return AbstractArray(shape=(len(spans), 3), dtype="object")
+
+
+def witness_readability_scores(
+    text: str,
+) -> dict[str, float]:
+    """Ghost witness for readability index computation."""
+    return {"flesch_kincaid": 50.0, "smog": 10.0}
