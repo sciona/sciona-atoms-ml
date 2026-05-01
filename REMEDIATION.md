@@ -1377,6 +1377,11 @@ Potential remediation path:
   positive-coding algorithm support before the deferred sparse-code solver
   branches.
 - Completed helper slice:
+  `sklearn.decomposition.sparse_encode_scheduling` now publishes the
+  deterministic sparse_encode scheduling shell for serial-versus-parallel
+  branch gating, sklearn-style even sample-slice bounds, and dense code
+  reassembly from supplied per-slice solver outputs.
+- Completed helper slice:
   `sklearn.decomposition.lda_shell` now publishes deterministic
   LatentDirichletAllocation helper atoms for default prior resolution, random
   gamma initialization of `components_`, transform-time row normalization of

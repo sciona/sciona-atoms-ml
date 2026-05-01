@@ -1,0 +1,68 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_decomposition_sparse_encode_scheduling_root",
+      "name": "Sklearn Sparse Encode Scheduling Helpers",
+      "description": "Deterministic sparse_encode scheduling and result-assembly helpers around the deferred sparse-code solver.",
+      "status": "decomposed",
+      "children": [
+        "sparse_encode_parallel_required",
+        "sparse_encode_sample_bounds",
+        "sparse_encode_code_from_views"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "sparse_encode_parallel_required",
+      "name": "sparse_encode_parallel_required",
+      "description": "Return whether sparse_encode enters its parallel branch from the effective job count and algorithm.",
+      "concept_type": "scheduling",
+      "status": "atomic",
+      "type_signature": "(effective_job_count: int, algorithm: str) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "effective_job_count", "type_desc": "int", "required": true},
+        {"name": "algorithm", "type_desc": "str", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    },
+    {
+      "node_id": "sparse_encode_sample_bounds",
+      "name": "sparse_encode_sample_bounds",
+      "description": "Build sklearn's even sample-slice bounds for parallel sparse_encode jobs.",
+      "concept_type": "scheduling",
+      "status": "atomic",
+      "type_signature": "(n_samples: int, effective_job_count: int) -> NDArray[np.int64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_samples", "type_desc": "int", "required": true},
+        {"name": "effective_job_count", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.int64]"}]
+    },
+    {
+      "node_id": "sparse_encode_code_from_views",
+      "name": "sparse_encode_code_from_views",
+      "description": "Assemble sparse_encode's dense code matrix from per-slice solver outputs.",
+      "concept_type": "result_assembly",
+      "status": "atomic",
+      "type_signature": "(code_views: tuple[NDArray[np.float64], ...], bounds: NDArray[np.int64], n_samples: int, n_components: int) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "code_views", "type_desc": "tuple[NDArray[np.float64], ...]", "required": true},
+        {"name": "bounds", "type_desc": "NDArray[np.int64]", "required": true},
+        {"name": "n_samples", "type_desc": "int", "required": true},
+        {"name": "n_components", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+    }
+  ],
+  "edges": [],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.decomposition._dict_learning",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 4 sparse_encode scheduling shell"
+  }
+}
