@@ -1400,6 +1400,12 @@ Potential remediation path:
   budget resolution, and final `n_steps_` / `n_iter_` derivation around the
   deferred minibatch update and callback loop.
 - Completed helper slice:
+  `sklearn.decomposition.dictionary_learning_minibatch_initialization_shell`
+  now publishes the deterministic MiniBatchDictionaryLearning initialization
+  shell for choosing `dict_init` versus a supplied precomputed SVD dictionary,
+  resizing rows to `_n_components`, and normalizing the result into a writable
+  Fortran-order dictionary buffer before the deferred minibatch loop.
+- Completed helper slice:
   `sklearn.decomposition.lda_shell` now publishes deterministic
   LatentDirichletAllocation helper atoms for default prior resolution, random
   gamma initialization of `components_`, transform-time row normalization of
