@@ -1,0 +1,75 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_cluster_hdbscan_weighted_medoids_root",
+      "name": "Sklearn HDBSCAN Weighted Medoid Helpers",
+      "description": "Deterministic HDBSCAN weighted-medoid helpers after pairwise distances are already available for one cluster.",
+      "status": "decomposed",
+      "children": [
+        "hdbscan_medoid_weighted_distances",
+        "hdbscan_medoid_weighted_distance_sums",
+        "hdbscan_medoid_index",
+        "hdbscan_medoid"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "hdbscan_medoid_weighted_distances",
+      "name": "hdbscan_medoid_weighted_distances",
+      "description": "Broadcast cluster strengths across a pairwise-distance matrix for medoid selection.",
+      "concept_type": "matrix_transformation",
+      "status": "atomic",
+      "type_signature": "(distance_matrix: NDArray[np.float64], strength: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "distance_matrix", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "strength", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+    },
+    {
+      "node_id": "hdbscan_medoid_weighted_distance_sums",
+      "name": "hdbscan_medoid_weighted_distance_sums",
+      "description": "Reduce a weighted pairwise-distance matrix to one row sum per candidate medoid.",
+      "concept_type": "reduction",
+      "status": "atomic",
+      "type_signature": "(weighted_distances: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [{"name": "weighted_distances", "type_desc": "NDArray[np.float64]", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+    },
+    {
+      "node_id": "hdbscan_medoid_index",
+      "name": "hdbscan_medoid_index",
+      "description": "Select the medoid row index by argmin over weighted distance sums.",
+      "concept_type": "selection",
+      "status": "atomic",
+      "type_signature": "(weighted_distance_sums: NDArray[np.float64]) -> int",
+      "depth": 1,
+      "inputs": [{"name": "weighted_distance_sums", "type_desc": "NDArray[np.float64]", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "int"}]
+    },
+    {
+      "node_id": "hdbscan_medoid",
+      "name": "hdbscan_medoid",
+      "description": "Return the selected medoid feature row.",
+      "concept_type": "selection",
+      "status": "atomic",
+      "type_signature": "(data: NDArray[np.float64], medoid_index: int) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "data", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "medoid_index", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+    }
+  ],
+  "edges": [],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.cluster._hdbscan.hdbscan",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 4 HDBSCAN weighted medoid shell"
+  }
+}

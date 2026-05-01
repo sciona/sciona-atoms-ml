@@ -1065,13 +1065,18 @@ Potential remediation path:
   publishes deterministic HDBSCAN helpers for cluster-count bookkeeping,
   `store_centers` flag resolution, per-cluster data and probability selection,
   and weighted centroid computation after deferred hierarchy extraction.
+- Completed helper slice: `sklearn.cluster.hdbscan_weighted_medoids` now
+  publishes deterministic HDBSCAN helpers for the weighted-medoid tail after a
+  cluster's pairwise-distance matrix is already supplied: broadcasting
+  strengths across the distance matrix, summing weighted row distances, argmin
+  medoid selection, and final medoid row lookup.
 - Completed helper slice: `sklearn.cluster.hdbscan_tags` now publishes
   deterministic HDBSCAN estimator-tag helpers for sparse-input support and the
   metric-driven allow-nan flag.
 - MST construction, tree backends, hierarchy condensation/extraction,
   precomputed and sparse inputs, callable metrics, non-finite remapping, and
-  pairwise-distance medoid selection remain explicit native/private sklearn
-  boundaries.
+  pairwise-distance callbacks for medoid distance construction remain explicit
+  native/private sklearn boundaries.
 - Ingest HDBSCAN through the MST and hierarchy construction boundary with
   native/FFI provenance, including parity tests for brute-force, KD-tree,
   BallTree, sparse, and precomputed-distance modes.
