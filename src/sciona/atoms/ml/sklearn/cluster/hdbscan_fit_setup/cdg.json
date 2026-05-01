@@ -1,0 +1,158 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_cluster_hdbscan_fit_setup_root",
+      "name": "Sklearn HDBSCAN Fit Setup Helpers",
+      "description": "Deterministic HDBSCAN fit-shell helpers for public guards, resolved min_samples, and backend selection before deferred MST construction and hierarchy extraction.",
+      "status": "decomposed",
+      "children": [
+        "hdbscan_store_centers_precomputed_guard",
+        "hdbscan_resolved_min_samples",
+        "hdbscan_require_multiple_samples",
+        "hdbscan_require_min_samples_within_sample_count",
+        "hdbscan_tree_metric_compatibility_guard",
+        "hdbscan_sparse_forced_algorithm_guard",
+        "hdbscan_backend_name",
+        "hdbscan_backend_uses_copy",
+        "hdbscan_backend_leaf_size"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "hdbscan_store_centers_precomputed_guard",
+      "name": "hdbscan_store_centers_precomputed_guard",
+      "description": "Apply HDBSCAN's guard that forbids store_centers when metric='precomputed'.",
+      "concept_type": "fit_guard",
+      "status": "atomic",
+      "type_signature": "(metric: str, store_centers: object) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "metric", "type_desc": "str", "required": true},
+        {"name": "store_centers", "type_desc": "object", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    },
+    {
+      "node_id": "hdbscan_resolved_min_samples",
+      "name": "hdbscan_resolved_min_samples",
+      "description": "Resolve HDBSCAN's internal _min_samples from min_cluster_size and optional min_samples.",
+      "concept_type": "fit_setup",
+      "status": "atomic",
+      "type_signature": "(min_cluster_size: int, min_samples: int | None) -> int",
+      "depth": 1,
+      "inputs": [
+        {"name": "min_cluster_size", "type_desc": "int", "required": true},
+        {"name": "min_samples", "type_desc": "int | None", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "int"}]
+    },
+    {
+      "node_id": "hdbscan_require_multiple_samples",
+      "name": "hdbscan_require_multiple_samples",
+      "description": "Apply HDBSCAN's fit guard that requires more than one sample.",
+      "concept_type": "fit_guard",
+      "status": "atomic",
+      "type_signature": "(n_samples: int) -> bool",
+      "depth": 1,
+      "inputs": [{"name": "n_samples", "type_desc": "int", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    },
+    {
+      "node_id": "hdbscan_require_min_samples_within_sample_count",
+      "name": "hdbscan_require_min_samples_within_sample_count",
+      "description": "Apply HDBSCAN's guard that resolved min_samples not exceed the number of samples.",
+      "concept_type": "fit_guard",
+      "status": "atomic",
+      "type_signature": "(resolved_min_samples: int, n_samples: int) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "resolved_min_samples", "type_desc": "int", "required": true},
+        {"name": "n_samples", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    },
+    {
+      "node_id": "hdbscan_tree_metric_compatibility_guard",
+      "name": "hdbscan_tree_metric_compatibility_guard",
+      "description": "Apply HDBSCAN's explicit KDTree and BallTree metric compatibility guard.",
+      "concept_type": "fit_guard",
+      "status": "atomic",
+      "type_signature": "(algorithm: str, metric: str) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "algorithm", "type_desc": "str", "required": true},
+        {"name": "metric", "type_desc": "str", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    },
+    {
+      "node_id": "hdbscan_sparse_forced_algorithm_guard",
+      "name": "hdbscan_sparse_forced_algorithm_guard",
+      "description": "Apply HDBSCAN's sparse-data guard for explicit non-auto algorithms.",
+      "concept_type": "fit_guard",
+      "status": "atomic",
+      "type_signature": "(metric: str, is_sparse: bool, algorithm: str) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "metric", "type_desc": "str", "required": true},
+        {"name": "is_sparse", "type_desc": "bool", "required": true},
+        {"name": "algorithm", "type_desc": "str", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    },
+    {
+      "node_id": "hdbscan_backend_name",
+      "name": "hdbscan_backend_name",
+      "description": "Resolve HDBSCAN's MST backend selection to brute, kd_tree, or ball_tree before native execution.",
+      "concept_type": "fit_setup",
+      "status": "atomic",
+      "type_signature": "(metric: str, is_sparse: bool, algorithm: str) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "metric", "type_desc": "str", "required": true},
+        {"name": "is_sparse", "type_desc": "bool", "required": true},
+        {"name": "algorithm", "type_desc": "str", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "str"}]
+    },
+    {
+      "node_id": "hdbscan_backend_uses_copy",
+      "name": "hdbscan_backend_uses_copy",
+      "description": "Resolve whether the selected HDBSCAN backend passes the copy kwarg.",
+      "concept_type": "fit_setup",
+      "status": "atomic",
+      "type_signature": "(backend_name: str) -> bool",
+      "depth": 1,
+      "inputs": [{"name": "backend_name", "type_desc": "str", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    },
+    {
+      "node_id": "hdbscan_backend_leaf_size",
+      "name": "hdbscan_backend_leaf_size",
+      "description": "Resolve whether the selected HDBSCAN backend carries leaf_size into the native call.",
+      "concept_type": "fit_setup",
+      "status": "atomic",
+      "type_signature": "(backend_name: str, leaf_size: int) -> int | None",
+      "depth": 1,
+      "inputs": [
+        {"name": "backend_name", "type_desc": "str", "required": true},
+        {"name": "leaf_size", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "int | None"}]
+    }
+  ],
+  "edges": [
+    {"source": "hdbscan_resolved_min_samples", "target": "hdbscan_require_min_samples_within_sample_count", "kind": "sample_count_guard"},
+    {"source": "hdbscan_tree_metric_compatibility_guard", "target": "hdbscan_backend_name", "kind": "validated_metric_selection"},
+    {"source": "hdbscan_sparse_forced_algorithm_guard", "target": "hdbscan_backend_name", "kind": "sparse_algorithm_selection"},
+    {"source": "hdbscan_backend_name", "target": "hdbscan_backend_uses_copy", "kind": "backend_kwarg_selection"},
+    {"source": "hdbscan_backend_name", "target": "hdbscan_backend_leaf_size", "kind": "backend_kwarg_selection"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.cluster._hdbscan.hdbscan",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 4 HDBSCAN fit-shell guards and backend selection before deferred MST construction"
+  }
+}

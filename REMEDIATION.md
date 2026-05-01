@@ -1040,6 +1040,12 @@ Potential remediation path:
 - Completed helper slice: `sklearn.cluster.hdbscan` now publishes limited
   public-boundary HDBSCAN fit and fit-predict atoms for dense finite arrays
   with supported string metrics.
+- Completed helper slice: `sklearn.cluster.hdbscan_fit_setup` now publishes
+  deterministic HDBSCAN fit-shell guards and backend-selection helpers for
+  `store_centers` versus precomputed input, resolved `_min_samples`, sample
+  count guards, KDTree/BallTree metric compatibility, sparse explicit-algorithm
+  gating, and brute/KD-tree/Ball-tree backend kwarg selection before deferred
+  MST construction.
 - MST construction, tree backends, hierarchy condensation/extraction,
   precomputed and sparse inputs, callable metrics, non-finite remapping, and
   stored centers remain explicit native/private sklearn boundaries.
