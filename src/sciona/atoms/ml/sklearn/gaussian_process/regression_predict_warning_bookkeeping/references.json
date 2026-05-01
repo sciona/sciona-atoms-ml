@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.gaussian_process.regression_predict_warning_bookkeeping.gp_predict_negative_variance_mask@sciona/atoms/ml/sklearn/gaussian_process/regression_predict_warning_bookkeeping/atoms.py:51": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_source_parity",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from GaussianProcessRegressor.predict in sklearn.gaussian_process._gpr in scikit-learn 1.8.0 for the negative predictive-variance mask."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_project_reference",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for GaussianProcessRegressor predictive-variance warning helpers."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.regression_predict_warning_bookkeeping.gp_predict_negative_variance_warning_required@sciona/atoms/ml/sklearn/gaussian_process/regression_predict_warning_bookkeeping/atoms.py:61": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_source_parity",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from GaussianProcessRegressor.predict in sklearn.gaussian_process._gpr in scikit-learn 1.8.0 for the warning gate when any predictive variance is negative."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_project_reference",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for GaussianProcessRegressor predictive-variance warning helpers."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.regression_predict_warning_bookkeeping.gp_predict_nonnegative_variance@sciona/atoms/ml/sklearn/gaussian_process/regression_predict_warning_bookkeeping/atoms.py:72": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_source_parity",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from GaussianProcessRegressor.predict in sklearn.gaussian_process._gpr in scikit-learn 1.8.0 for clipping negative predictive variances to zero before scaling and square root."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_project_reference",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for GaussianProcessRegressor predictive-variance warning helpers."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

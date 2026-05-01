@@ -878,6 +878,11 @@ Potential remediation path:
   exclusivity, validate-data dtype and `ensure_2d` mode selection from kernel
   input requirements, and unfitted prior-branch selection before validation,
   kernel evaluation, or posterior algebra.
+- Completed helper slice:
+  `sklearn.gaussian_process.regression_predict_warning_bookkeeping` now
+  publishes the fitted-posterior warning shell for negative predictive
+  variance masking, warning gating, and zero clipping before the already-landed
+  standard-deviation formatting helper.
 - Ingest standalone Gaussian-process linear algebra primitives first, such as
   kernel regularization, Cholesky solve, posterior mean/covariance, and
   log-marginal-likelihood components. The first regression slice is complete;
