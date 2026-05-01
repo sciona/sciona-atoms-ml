@@ -1,0 +1,77 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_decomposition_dictionary_learning_minibatch_postfit_shell_root",
+      "name": "Sklearn MiniBatchDictionaryLearning Postfit Shell Helpers",
+      "description": "Deterministic postfit passthrough helpers for MiniBatchDictionaryLearning after the deferred minibatch loop completes.",
+      "status": "decomposed",
+      "children": [
+        "dictionary_learning_minibatch_postfit_components",
+        "dictionary_learning_minibatch_postfit_n_steps",
+        "dictionary_learning_minibatch_postfit_n_iter",
+        "dictionary_learning_minibatch_fit_return_self"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "dictionary_learning_minibatch_postfit_components",
+      "name": "dictionary_learning_minibatch_postfit_components",
+      "description": "Expose the fitted dictionary as components_.",
+      "concept_type": "state_exposure",
+      "status": "atomic",
+      "type_signature": "(dictionary: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "dictionary", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+    },
+    {
+      "node_id": "dictionary_learning_minibatch_postfit_n_steps",
+      "name": "dictionary_learning_minibatch_postfit_n_steps",
+      "description": "Expose the fitted minibatch step count as n_steps_.",
+      "concept_type": "state_exposure",
+      "status": "atomic",
+      "type_signature": "(n_steps: int) -> int",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_steps", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "int"}]
+    },
+    {
+      "node_id": "dictionary_learning_minibatch_postfit_n_iter",
+      "name": "dictionary_learning_minibatch_postfit_n_iter",
+      "description": "Expose the fitted outer-iteration count as n_iter_.",
+      "concept_type": "state_exposure",
+      "status": "atomic",
+      "type_signature": "(n_iter: float) -> float",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_iter", "type_desc": "float", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "float"}]
+    },
+    {
+      "node_id": "dictionary_learning_minibatch_fit_return_self",
+      "name": "dictionary_learning_minibatch_fit_return_self",
+      "description": "Model the fit method returning self after postfit state mutation.",
+      "concept_type": "result_assembly",
+      "status": "atomic",
+      "type_signature": "(estimator_token: str) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator_token", "type_desc": "str", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "str"}]
+    }
+  ],
+  "edges": [],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.decomposition._dict_learning",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 4 MiniBatchDictionaryLearning postfit shell"
+  }
+}

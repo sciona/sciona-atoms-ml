@@ -1418,6 +1418,12 @@ Potential remediation path:
   `components_`, `error_`, `n_iter_`, and the `fit_transform` return value
   after the deferred alternating-optimization loop.
 - Completed helper slice:
+  `sklearn.decomposition.dictionary_learning_minibatch_postfit_shell` now
+  publishes the deterministic MiniBatchDictionaryLearning postfit shell for
+  exposing the already-computed dictionary, minibatch step count, outer-
+  iteration count, and final `fit` self-return after the deferred minibatch
+  loop completes.
+- Completed helper slice:
   `sklearn.decomposition.lda_shell` now publishes deterministic
   LatentDirichletAllocation helper atoms for default prior resolution, random
   gamma initialization of `components_`, transform-time row normalization of
