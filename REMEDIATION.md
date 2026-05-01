@@ -1122,7 +1122,13 @@ Potential remediation path:
   helpers for piecewise vector reconstruction from KMeans outputs, residual
   norm scoring against those piecewise approximations, best-vector selection,
   and dense projection before the deferred KMeans assignment step.
-- Sparse biclustering normalization branches, SVD/randomized-SVD projection,
+- Completed helper slice:
+  `sklearn.cluster.bicluster_sparse_preprocessing` now publishes the sparse
+  spectral-biclustering normalization shell for sparse scale normalization,
+  sklearn's sparse bistochastic stopping-distance computation from stored data
+  arrays, and sparse bistochastic normalization before the deferred SVD and
+  KMeans stages.
+- Sparse log-normalization rejection, SVD/randomized-SVD projection,
   piecewise-vector selection, projection-and-cluster helpers, KMeans and
   MiniBatchKMeans label assignment, and full estimator state surfaces remain
   deferred.

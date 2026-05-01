@@ -1,0 +1,75 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_cluster_bicluster_sparse_preprocessing_root",
+      "name": "Sklearn Spectral Biclustering Sparse Preprocessing Atoms",
+      "description": "Sparse normalization helpers used before spectral biclustering SVD and KMeans stages",
+      "status": "decomposed",
+      "children": [
+        "bicluster_sparse_scale_normalize",
+        "bicluster_sparse_bistochastic_distance",
+        "bicluster_sparse_bistochastic_normalize"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "bicluster_sparse_scale_normalize",
+      "name": "bicluster_sparse_scale_normalize",
+      "description": "Shift sparse data to nonnegative values, then scale rows and columns independently for spectral biclustering.",
+      "concept_type": "spectral_biclustering_sparse_preprocessing",
+      "status": "atomic",
+      "type_signature": "(X: sparse matrix) -> tuple[sparse matrix, NDArray[np.float64], NDArray[np.float64]]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "sparse matrix", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[sparse matrix, row_factors, col_factors]"}
+      ]
+    },
+    {
+      "node_id": "bicluster_sparse_bistochastic_distance",
+      "name": "bicluster_sparse_bistochastic_distance",
+      "description": "Compute the sparse stopping distance used by sklearn's bistochastic normalization loop.",
+      "concept_type": "spectral_biclustering_sparse_preprocessing",
+      "status": "atomic",
+      "type_signature": "(current: sparse matrix, original: sparse matrix) -> float",
+      "depth": 1,
+      "inputs": [
+        {"name": "current", "type_desc": "sparse matrix", "required": true},
+        {"name": "original", "type_desc": "sparse matrix", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "float"}
+      ]
+    },
+    {
+      "node_id": "bicluster_sparse_bistochastic_normalize",
+      "name": "bicluster_sparse_bistochastic_normalize",
+      "description": "Repeatedly apply sparse scale normalization until sklearn's sparse stopping distance is small.",
+      "concept_type": "spectral_biclustering_sparse_preprocessing",
+      "status": "atomic",
+      "type_signature": "(X: sparse matrix, max_iter: int = 1000, tol: float = 1e-5) -> sparse matrix",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "sparse matrix", "required": true},
+        {"name": "max_iter", "type_desc": "int", "required": false},
+        {"name": "tol", "type_desc": "float", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "sparse matrix"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "bicluster_sparse_scale_normalize", "target": "bicluster_sparse_bistochastic_normalize", "kind": "iterative_normalization_step"},
+    {"source": "bicluster_sparse_bistochastic_distance", "target": "bicluster_sparse_bistochastic_normalize", "kind": "sparse_stopping_distance"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.cluster._bicluster",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 6 sparse spectral biclustering preprocessing before SVD and KMeans boundaries"
+  }
+}
