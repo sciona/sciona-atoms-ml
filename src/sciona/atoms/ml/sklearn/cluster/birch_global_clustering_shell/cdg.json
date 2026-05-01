@@ -1,0 +1,90 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_cluster_birch_global_clustering_shell_root",
+      "name": "Sklearn BIRCH Global Clustering Shell Atoms",
+      "description": "Deterministic BIRCH shell logic around the deferred global-clustering callback",
+      "status": "decomposed",
+      "children": [
+        "birch_partial_fit_global_only_required",
+        "birch_global_short_circuit_required",
+        "birch_not_enough_centroids_warning_required",
+        "birch_not_enough_centroids_warning_message"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "birch_partial_fit_global_only_required",
+      "name": "birch_partial_fit_global_only_required",
+      "description": "Return whether Birch.partial_fit should skip _fit and run only the global clustering step because X is None.",
+      "concept_type": "birch_global_clustering_shell",
+      "status": "atomic",
+      "type_signature": "(has_input_data: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "has_input_data", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "birch_global_short_circuit_required",
+      "name": "birch_global_short_circuit_required",
+      "description": "Return whether Birch._global_clustering should bypass clusterer.fit_predict and keep identity subcluster labels.",
+      "concept_type": "birch_global_clustering_shell",
+      "status": "atomic",
+      "type_signature": "(clusterer_is_none: bool, not_enough_centroids: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "clusterer_is_none", "type_desc": "bool", "required": true},
+        {"name": "not_enough_centroids", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "birch_not_enough_centroids_warning_required",
+      "name": "birch_not_enough_centroids_warning_required",
+      "description": "Return whether Birch should emit the too-few-subclusters convergence warning.",
+      "concept_type": "birch_global_clustering_shell",
+      "status": "atomic",
+      "type_signature": "(not_enough_centroids: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "not_enough_centroids", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "birch_not_enough_centroids_warning_message",
+      "name": "birch_not_enough_centroids_warning_message",
+      "description": "Format Birch's warning text when the requested integer cluster count exceeds the discovered subcluster count.",
+      "concept_type": "birch_global_clustering_shell",
+      "status": "atomic",
+      "type_signature": "(n_centroids: int, n_clusters: int) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_centroids", "type_desc": "int", "required": true},
+        {"name": "n_clusters", "type_desc": "int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "str"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "birch_global_short_circuit_required", "target": "birch_not_enough_centroids_warning_required", "kind": "warning_branch_flag"},
+    {"source": "birch_not_enough_centroids_warning_required", "target": "birch_not_enough_centroids_warning_message", "kind": "warning_text_gate"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.cluster._birch",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 6 BIRCH shell logic around the deferred global-clustering boundary"
+  }
+}

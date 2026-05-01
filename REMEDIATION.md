@@ -1083,8 +1083,14 @@ Potential remediation path:
   CSR row-bounds lookup, one-row dense reconstruction, and full dense-row
   stacking over CSR storage arrays, while CF-tree insertion, leaf traversal,
   and global clustering remain deferred.
+- Completed helper slice:
+  `sklearn.cluster.birch_global_clustering_shell` now publishes the
+  deterministic shell around the deferred global-clustering callback for the
+  `partial_fit(X=None)` branch predicate, the no-global-clustering
+  short-circuit predicate, and the too-few-subclusters warning gate and
+  message formatting.
 - Default `AgglomerativeClustering`, custom global clusterers, sparse inputs,
-  `partial_fit`, and live mutable CF-tree object surfaces remain deferred.
+  and live mutable CF-tree object surfaces remain deferred.
 - Ingest the CF-tree insertion, subcluster merge, and node-splitting logic as
   separate atoms with an explicit `n_clusters=None` or no-global-clustering
   boundary.
