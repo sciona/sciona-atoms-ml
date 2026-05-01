@@ -1046,6 +1046,12 @@ Potential remediation path:
   count guards, KDTree/BallTree metric compatibility, sparse explicit-algorithm
   gating, and brute/KD-tree/Ball-tree backend kwarg selection before deferred
   MST construction.
+- Completed helper slice:
+  `sklearn.cluster.hdbscan_nonfinite_remapping` now publishes deterministic
+  HDBSCAN fit-shell helpers for missing, infinite, and finite row bookkeeping,
+  internal-to-raw finite-index mapping, non-finite raw-index sets, and final
+  label and probability remapping back onto the raw sample axis after deferred
+  hierarchy extraction.
 - MST construction, tree backends, hierarchy condensation/extraction,
   precomputed and sparse inputs, callable metrics, non-finite remapping, and
   stored centers remain explicit native/private sklearn boundaries.

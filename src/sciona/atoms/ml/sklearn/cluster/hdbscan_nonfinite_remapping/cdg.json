@@ -1,0 +1,130 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_cluster_hdbscan_nonfinite_remapping_root",
+      "name": "Sklearn HDBSCAN Nonfinite Remapping Helpers",
+      "description": "Deterministic HDBSCAN fit-shell helpers for non-finite row bookkeeping and remapping labels and probabilities back onto the raw sample axis after deferred hierarchy extraction.",
+      "status": "decomposed",
+      "children": [
+        "hdbscan_missing_indices",
+        "hdbscan_infinite_indices",
+        "hdbscan_finite_row_indices",
+        "hdbscan_internal_to_raw_map",
+        "hdbscan_nonfinite_raw_indices",
+        "hdbscan_remapped_labels",
+        "hdbscan_remapped_probabilities"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "hdbscan_missing_indices",
+      "name": "hdbscan_missing_indices",
+      "description": "Extract raw indices of rows flagged as missing by NaN reduced row sums in HDBSCAN.fit.",
+      "concept_type": "fit_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(reduced_row_sums: NDArray[np.float64]) -> NDArray[np.intp]",
+      "depth": 1,
+      "inputs": [{"name": "reduced_row_sums", "type_desc": "NDArray[np.float64]", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.intp]"}]
+    },
+    {
+      "node_id": "hdbscan_infinite_indices",
+      "name": "hdbscan_infinite_indices",
+      "description": "Extract raw indices of rows flagged as infinite by Inf reduced row sums in HDBSCAN.fit.",
+      "concept_type": "fit_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(reduced_row_sums: NDArray[np.float64]) -> NDArray[np.intp]",
+      "depth": 1,
+      "inputs": [{"name": "reduced_row_sums", "type_desc": "NDArray[np.float64]", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.intp]"}]
+    },
+    {
+      "node_id": "hdbscan_finite_row_indices",
+      "name": "hdbscan_finite_row_indices",
+      "description": "Extract HDBSCAN's purely finite row indices from a dense or sparse sample matrix.",
+      "concept_type": "fit_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(X: object) -> NDArray[np.intp]",
+      "depth": 1,
+      "inputs": [{"name": "X", "type_desc": "object", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.intp]"}]
+    },
+    {
+      "node_id": "hdbscan_internal_to_raw_map",
+      "name": "hdbscan_internal_to_raw_map",
+      "description": "Build HDBSCAN's mapping from internal finite-sample indices back to raw sample indices.",
+      "concept_type": "fit_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(finite_index: NDArray[np.intp]) -> dict[int, int]",
+      "depth": 1,
+      "inputs": [{"name": "finite_index", "type_desc": "NDArray[np.intp]", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "dict[int, int]"}]
+    },
+    {
+      "node_id": "hdbscan_nonfinite_raw_indices",
+      "name": "hdbscan_nonfinite_raw_indices",
+      "description": "Build the raw-index set of non-finite rows used by HDBSCAN linkage-tree remapping.",
+      "concept_type": "fit_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(infinite_index: NDArray[np.intp], missing_index: NDArray[np.intp]) -> set[int]",
+      "depth": 1,
+      "inputs": [
+        {"name": "infinite_index", "type_desc": "NDArray[np.intp]", "required": true},
+        {"name": "missing_index", "type_desc": "NDArray[np.intp]", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "set[int]"}]
+    },
+    {
+      "node_id": "hdbscan_remapped_labels",
+      "name": "hdbscan_remapped_labels",
+      "description": "Remap finite HDBSCAN labels back onto the raw sample axis and apply the source missing and infinite outlier encodings.",
+      "concept_type": "fit_postprocessing",
+      "status": "atomic",
+      "type_signature": "(raw_sample_count: int, finite_index: NDArray[np.intp], finite_labels: NDArray[np.int32], infinite_index: NDArray[np.intp], missing_index: NDArray[np.intp]) -> NDArray[np.int32]",
+      "depth": 1,
+      "inputs": [
+        {"name": "raw_sample_count", "type_desc": "int", "required": true},
+        {"name": "finite_index", "type_desc": "NDArray[np.intp]", "required": true},
+        {"name": "finite_labels", "type_desc": "NDArray[np.int32]", "required": true},
+        {"name": "infinite_index", "type_desc": "NDArray[np.intp]", "required": true},
+        {"name": "missing_index", "type_desc": "NDArray[np.intp]", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.int32]"}]
+    },
+    {
+      "node_id": "hdbscan_remapped_probabilities",
+      "name": "hdbscan_remapped_probabilities",
+      "description": "Remap finite HDBSCAN probabilities back onto the raw sample axis and apply the source missing and infinite probability encodings.",
+      "concept_type": "fit_postprocessing",
+      "status": "atomic",
+      "type_signature": "(raw_sample_count: int, finite_index: NDArray[np.intp], finite_probabilities: NDArray[np.float64], infinite_index: NDArray[np.intp], missing_index: NDArray[np.intp]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "raw_sample_count", "type_desc": "int", "required": true},
+        {"name": "finite_index", "type_desc": "NDArray[np.intp]", "required": true},
+        {"name": "finite_probabilities", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "infinite_index", "type_desc": "NDArray[np.intp]", "required": true},
+        {"name": "missing_index", "type_desc": "NDArray[np.intp]", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+    }
+  ],
+  "edges": [
+    {"source": "hdbscan_missing_indices", "target": "hdbscan_nonfinite_raw_indices", "kind": "nonfinite_set"},
+    {"source": "hdbscan_infinite_indices", "target": "hdbscan_nonfinite_raw_indices", "kind": "nonfinite_set"},
+    {"source": "hdbscan_finite_row_indices", "target": "hdbscan_internal_to_raw_map", "kind": "index_mapping"},
+    {"source": "hdbscan_finite_row_indices", "target": "hdbscan_remapped_labels", "kind": "raw_axis_restore"},
+    {"source": "hdbscan_finite_row_indices", "target": "hdbscan_remapped_probabilities", "kind": "raw_axis_restore"},
+    {"source": "hdbscan_missing_indices", "target": "hdbscan_remapped_labels", "kind": "missing_encoding"},
+    {"source": "hdbscan_infinite_indices", "target": "hdbscan_remapped_labels", "kind": "infinite_encoding"},
+    {"source": "hdbscan_missing_indices", "target": "hdbscan_remapped_probabilities", "kind": "missing_encoding"},
+    {"source": "hdbscan_infinite_indices", "target": "hdbscan_remapped_probabilities", "kind": "infinite_encoding"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.cluster._hdbscan.hdbscan",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 4 HDBSCAN non-finite row bookkeeping and output remapping after deferred hierarchy extraction"
+  }
+}
