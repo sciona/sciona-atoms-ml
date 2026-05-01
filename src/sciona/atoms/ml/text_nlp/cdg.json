@@ -26,12 +26,27 @@
       "concept_type": "data_extraction",
       "type_signature": "(text: str, operations: list[str], vocab_freq: dict[str, int] | None = None) -> str",
       "inputs": [
-        {"name": "text", "type_desc": "str", "required": true},
-        {"name": "operations", "type_desc": "list[str]", "required": true},
-        {"name": "vocab_freq", "type_desc": "dict[str, int] | None", "required": false}
+        {
+          "name": "text",
+          "type_desc": "str",
+          "required": true
+        },
+        {
+          "name": "operations",
+          "type_desc": "list[str]",
+          "required": true
+        },
+        {
+          "name": "vocab_freq",
+          "type_desc": "dict[str, int] | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "str"}
+        {
+          "name": "result",
+          "type_desc": "str"
+        }
       ]
     },
     {
@@ -41,11 +56,22 @@
       "concept_type": "analysis",
       "type_signature": "(s1: str, s2: str) -> int",
       "inputs": [
-        {"name": "s1", "type_desc": "str", "required": true},
-        {"name": "s2", "type_desc": "str", "required": true}
+        {
+          "name": "s1",
+          "type_desc": "str",
+          "required": true
+        },
+        {
+          "name": "s2",
+          "type_desc": "str",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "int"}
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
       ]
     },
     {
@@ -55,12 +81,27 @@
       "concept_type": "analysis",
       "type_signature": "(s1: str, s2: str, prefix_weight: float = 0.1) -> float",
       "inputs": [
-        {"name": "s1", "type_desc": "str", "required": true},
-        {"name": "s2", "type_desc": "str", "required": true},
-        {"name": "prefix_weight", "type_desc": "float", "required": false}
+        {
+          "name": "s1",
+          "type_desc": "str",
+          "required": true
+        },
+        {
+          "name": "s2",
+          "type_desc": "str",
+          "required": true
+        },
+        {
+          "name": "prefix_weight",
+          "type_desc": "float",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "float"}
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
       ]
     },
     {
@@ -70,11 +111,22 @@
       "concept_type": "data_assembly",
       "type_signature": "(tags: list[str], tokens: list[str]) -> list[tuple[str, int, int]]",
       "inputs": [
-        {"name": "tags", "type_desc": "list[str]", "required": true},
-        {"name": "tokens", "type_desc": "list[str]", "required": true}
+        {
+          "name": "tags",
+          "type_desc": "list[str]",
+          "required": true
+        },
+        {
+          "name": "tokens",
+          "type_desc": "list[str]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "list[tuple[str, int, int]]"}
+        {
+          "name": "result",
+          "type_desc": "list[tuple[str, int, int]]"
+        }
       ]
     },
     {
@@ -84,11 +136,22 @@
       "concept_type": "data_assembly",
       "type_signature": "(char_spans: list[tuple[int, int]], offset_mapping: list[tuple[int, int]]) -> list[tuple[int, int]]",
       "inputs": [
-        {"name": "char_spans", "type_desc": "list[tuple[int, int]]", "required": true},
-        {"name": "offset_mapping", "type_desc": "list[tuple[int, int]]", "required": true}
+        {
+          "name": "char_spans",
+          "type_desc": "list[tuple[int, int]]",
+          "required": true
+        },
+        {
+          "name": "offset_mapping",
+          "type_desc": "list[tuple[int, int]]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "list[tuple[int, int]]"}
+        {
+          "name": "result",
+          "type_desc": "list[tuple[int, int]]"
+        }
       ]
     },
     {
@@ -98,15 +161,42 @@
       "concept_type": "searching",
       "type_signature": "(log_probs_fn: Callable[[tuple[tuple[int, ...], ...]], NDArray[np.float64]], start_token: int, end_token: int, beam_width: int, max_length: int, alpha: float = 0.7) -> list[tuple[list[int], float]]",
       "inputs": [
-        {"name": "log_probs_fn", "type_desc": "Callable[[tuple[tuple[int, ...], ...]], NDArray[np.float64]]", "required": true},
-        {"name": "start_token", "type_desc": "int", "required": true},
-        {"name": "end_token", "type_desc": "int", "required": true},
-        {"name": "beam_width", "type_desc": "int", "required": true},
-        {"name": "max_length", "type_desc": "int", "required": true},
-        {"name": "alpha", "type_desc": "float", "required": false}
+        {
+          "name": "log_probs_fn",
+          "type_desc": "Callable[[tuple[tuple[int, ...], ...]], NDArray[np.float64]]",
+          "required": true
+        },
+        {
+          "name": "start_token",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "end_token",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "beam_width",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "max_length",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "alpha",
+          "type_desc": "float",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "list[tuple[list[int], float]]"}
+        {
+          "name": "result",
+          "type_desc": "list[tuple[list[int], float]]"
+        }
       ]
     },
     {
@@ -116,11 +206,22 @@
       "concept_type": "data_assembly",
       "type_signature": "(tokens: list[str], n_features: int) -> dict[int, float]",
       "inputs": [
-        {"name": "tokens", "type_desc": "list[str]", "required": true},
-        {"name": "n_features", "type_desc": "int", "required": true}
+        {
+          "name": "tokens",
+          "type_desc": "list[str]",
+          "required": true
+        },
+        {
+          "name": "n_features",
+          "type_desc": "int",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "dict[int, float]"}
+        {
+          "name": "result",
+          "type_desc": "dict[int, float]"
+        }
       ]
     },
     {
@@ -130,11 +231,22 @@
       "concept_type": "data_assembly",
       "type_signature": "(tokens: list[str], n: int) -> list[tuple[str, ...]]",
       "inputs": [
-        {"name": "tokens", "type_desc": "list[str]", "required": true},
-        {"name": "n", "type_desc": "int", "required": true}
+        {
+          "name": "tokens",
+          "type_desc": "list[str]",
+          "required": true
+        },
+        {
+          "name": "n",
+          "type_desc": "int",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "list[tuple[str, ...]]"}
+        {
+          "name": "result",
+          "type_desc": "list[tuple[str, ...]]"
+        }
       ]
     },
     {
@@ -144,11 +256,22 @@
       "concept_type": "data_assembly",
       "type_signature": "(text: str, n: int) -> list[str]",
       "inputs": [
-        {"name": "text", "type_desc": "str", "required": true},
-        {"name": "n", "type_desc": "int", "required": true}
+        {
+          "name": "text",
+          "type_desc": "str",
+          "required": true
+        },
+        {
+          "name": "n",
+          "type_desc": "int",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "list[str]"}
+        {
+          "name": "result",
+          "type_desc": "list[str]"
+        }
       ]
     },
     {
@@ -158,25 +281,177 @@
       "concept_type": "analysis",
       "type_signature": "(spans: list[tuple[str, int, int]], min_lengths: dict[str, int]) -> list[tuple[str, int, int]]",
       "inputs": [
-        {"name": "spans", "type_desc": "list[tuple[str, int, int]]", "required": true},
-        {"name": "min_lengths", "type_desc": "dict[str, int]", "required": true}
+        {
+          "name": "spans",
+          "type_desc": "list[tuple[str, int, int]]",
+          "required": true
+        },
+        {
+          "name": "min_lengths",
+          "type_desc": "dict[str, int]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "list[tuple[str, int, int]]"}
+        {
+          "name": "result",
+          "type_desc": "list[tuple[str, int, int]]"
+        }
+      ]
+    },
+    {
+      "node_id": "beam_search",
+      "name": "beam_search",
+      "description": "Decode token sequences with a framework-independent beam search over vocabulary log-probabilities.",
+      "concept_type": "searching",
+      "status": "atomic",
+      "aliases": [
+        "beam_decode",
+        "beam_search_decoding",
+        "sequence_decoding"
+      ],
+      "type_signature": "(log_probs_fn: Callable, start_token: int, end_token: int, beam_width: int, max_length: int, alpha: float) -> list[tuple[list[int], float]]",
+      "inputs": [
+        {
+          "name": "log_probs_fn",
+          "type_desc": "Callable",
+          "required": true
+        },
+        {
+          "name": "start_token",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "end_token",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "beam_width",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "max_length",
+          "type_desc": "int",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "sequences",
+          "type_desc": "list[tuple[list[int], float]]",
+          "required": true
+        }
+      ]
+    },
+    {
+      "node_id": "bio_decode",
+      "name": "bio_decode",
+      "description": "Decode BIO, BILOU, or IOBES tag sequences into labeled inclusive token spans for named entity recognition.",
+      "concept_type": "data_extraction",
+      "status": "atomic",
+      "aliases": [
+        "bio_decoding",
+        "ner_decoding",
+        "sequence_tagging_decode"
+      ],
+      "type_signature": "(tags: list[str], tokens: list[str]) -> list[tuple[str, int, int]]",
+      "inputs": [
+        {
+          "name": "tags",
+          "type_desc": "list[str]",
+          "required": true
+        },
+        {
+          "name": "tokens",
+          "type_desc": "list[str]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "spans",
+          "type_desc": "list[tuple[str, int, int]]",
+          "required": true
+        }
+      ]
+    },
+    {
+      "node_id": "clean_text",
+      "name": "clean_text",
+      "description": "Normalize one text string with explicit cleaning operations: URL removal, HTML stripping, unicode normalization, lowercasing, and optional spelling correction.",
+      "concept_type": "data_extraction",
+      "status": "atomic",
+      "aliases": [
+        "text_cleaning",
+        "text_normalization",
+        "text_preprocessing"
+      ],
+      "type_signature": "(text: str, operations: list[str], vocab_freq: dict[str, int] | None) -> str",
+      "inputs": [
+        {
+          "name": "text",
+          "type_desc": "str",
+          "required": true
+        },
+        {
+          "name": "operations",
+          "type_desc": "list[str]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "cleaned",
+          "type_desc": "str",
+          "required": true
+        }
       ]
     }
   ],
   "edges": [
-    {"source": "ml_text_nlp_root", "target": "clean_text"},
-    {"source": "ml_text_nlp_root", "target": "levenshtein"},
-    {"source": "ml_text_nlp_root", "target": "jaro_winkler"},
-    {"source": "ml_text_nlp_root", "target": "bio_decode"},
-    {"source": "ml_text_nlp_root", "target": "char_to_token_offsets"},
-    {"source": "ml_text_nlp_root", "target": "beam_search"},
-    {"source": "ml_text_nlp_root", "target": "feature_hash"},
-    {"source": "ml_text_nlp_root", "target": "word_ngrams"},
-    {"source": "ml_text_nlp_root", "target": "char_ngrams"},
-    {"source": "ml_text_nlp_root", "target": "filter_spans_by_length"}
+    {
+      "source": "ml_text_nlp_root",
+      "target": "clean_text"
+    },
+    {
+      "source": "ml_text_nlp_root",
+      "target": "levenshtein"
+    },
+    {
+      "source": "ml_text_nlp_root",
+      "target": "jaro_winkler"
+    },
+    {
+      "source": "ml_text_nlp_root",
+      "target": "bio_decode"
+    },
+    {
+      "source": "ml_text_nlp_root",
+      "target": "char_to_token_offsets"
+    },
+    {
+      "source": "ml_text_nlp_root",
+      "target": "beam_search"
+    },
+    {
+      "source": "ml_text_nlp_root",
+      "target": "feature_hash"
+    },
+    {
+      "source": "ml_text_nlp_root",
+      "target": "word_ngrams"
+    },
+    {
+      "source": "ml_text_nlp_root",
+      "target": "char_ngrams"
+    },
+    {
+      "source": "ml_text_nlp_root",
+      "target": "filter_spans_by_length"
+    }
   ],
   "metadata": {
     "provider_repo": "sciona-atoms-ml",

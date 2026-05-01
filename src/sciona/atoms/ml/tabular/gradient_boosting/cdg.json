@@ -47,11 +47,37 @@
       "description": "Aggregate a numeric vector by group keys using deterministic NumPy reductions.",
       "concept_type": "data_assembly",
       "inputs": [
-        {"name": "values", "type_desc": "NDArray[np.float64]", "constraints": "finite 1D", "required": true, "default_value_repr": ""},
-        {"name": "groups", "type_desc": "NDArray[np.object_]", "constraints": "1D, same length as values", "required": true, "default_value_repr": ""},
-        {"name": "agg_fn", "type_desc": "str", "constraints": "sum|mean|var|std|min|max|count|first|last", "required": true, "default_value_repr": ""}
+        {
+          "name": "values",
+          "type_desc": "NDArray[np.float64]",
+          "constraints": "finite 1D",
+          "required": true,
+          "default_value_repr": ""
+        },
+        {
+          "name": "groups",
+          "type_desc": "NDArray[np.object_]",
+          "constraints": "1D, same length as values",
+          "required": true,
+          "default_value_repr": ""
+        },
+        {
+          "name": "agg_fn",
+          "type_desc": "str",
+          "constraints": "sum|mean|var|std|min|max|count|first|last",
+          "required": true,
+          "default_value_repr": ""
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]", "constraints": "one finite value per unique group", "required": true, "default_value_repr": ""}],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]",
+          "constraints": "one finite value per unique group",
+          "required": true,
+          "default_value_repr": ""
+        }
+      ],
       "status": "atomic",
       "children": [],
       "depth": 1,
@@ -65,7 +91,12 @@
       "parallelizable": true,
       "conceptual_summary": "Entity-level group-by statistic.",
       "critic_notes": "",
-      "decomposition_rationale": ""
+      "decomposition_rationale": "",
+      "aliases": [
+        "cross_sectional_aggregation",
+        "entity_aggregation",
+        "user_product_aggregation"
+      ]
     },
     {
       "node_id": "aggregate_child_table",
@@ -74,13 +105,51 @@
       "description": "Aggregate child records and align the resulting columns to parent key order.",
       "concept_type": "data_assembly",
       "inputs": [
-        {"name": "child_values", "type_desc": "NDArray[np.float64]", "constraints": "finite 1D", "required": true, "default_value_repr": ""},
-        {"name": "parent_keys", "type_desc": "NDArray[np.object_]", "constraints": "unique 1D keys", "required": true, "default_value_repr": ""},
-        {"name": "child_keys", "type_desc": "NDArray[np.object_]", "constraints": "1D, same length as child_values", "required": true, "default_value_repr": ""},
-        {"name": "agg_fns", "type_desc": "Sequence[str]", "constraints": "non-empty supported aggregation names", "required": true, "default_value_repr": ""},
-        {"name": "fill_value", "type_desc": "float", "constraints": "finite or NaN", "required": false, "default_value_repr": "nan"}
+        {
+          "name": "child_values",
+          "type_desc": "NDArray[np.float64]",
+          "constraints": "finite 1D",
+          "required": true,
+          "default_value_repr": ""
+        },
+        {
+          "name": "parent_keys",
+          "type_desc": "NDArray[np.object_]",
+          "constraints": "unique 1D keys",
+          "required": true,
+          "default_value_repr": ""
+        },
+        {
+          "name": "child_keys",
+          "type_desc": "NDArray[np.object_]",
+          "constraints": "1D, same length as child_values",
+          "required": true,
+          "default_value_repr": ""
+        },
+        {
+          "name": "agg_fns",
+          "type_desc": "Sequence[str]",
+          "constraints": "non-empty supported aggregation names",
+          "required": true,
+          "default_value_repr": ""
+        },
+        {
+          "name": "fill_value",
+          "type_desc": "float",
+          "constraints": "finite or NaN",
+          "required": false,
+          "default_value_repr": "nan"
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]", "constraints": "shape (len(parent_keys), len(agg_fns))", "required": true, "default_value_repr": ""}],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]",
+          "constraints": "shape (len(parent_keys), len(agg_fns))",
+          "required": true,
+          "default_value_repr": ""
+        }
+      ],
       "status": "atomic",
       "children": [],
       "depth": 1,
@@ -103,15 +172,46 @@
       "description": "Compute within-entity first differences after sorting rows by entity and time.",
       "concept_type": "signal_transform",
       "inputs": [
-        {"name": "values", "type_desc": "NDArray[np.float64]", "constraints": "finite 1D", "required": true, "default_value_repr": ""},
-        {"name": "entity_ids", "type_desc": "NDArray[np.object_]", "constraints": "1D, same length as values", "required": true, "default_value_repr": ""},
-        {"name": "sort_keys", "type_desc": "NDArray[np.float64]", "constraints": "1D, same length as values", "required": true, "default_value_repr": ""}
+        {
+          "name": "values",
+          "type_desc": "NDArray[np.float64]",
+          "constraints": "finite 1D",
+          "required": true,
+          "default_value_repr": ""
+        },
+        {
+          "name": "entity_ids",
+          "type_desc": "NDArray[np.object_]",
+          "constraints": "1D, same length as values",
+          "required": true,
+          "default_value_repr": ""
+        },
+        {
+          "name": "sort_keys",
+          "type_desc": "NDArray[np.float64]",
+          "constraints": "1D, same length as values",
+          "required": true,
+          "default_value_repr": ""
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]", "constraints": "same shape as values; first row per entity is NaN", "required": true, "default_value_repr": ""}],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]",
+          "constraints": "same shape as values; first row per entity is NaN",
+          "required": true,
+          "default_value_repr": ""
+        }
+      ],
       "status": "atomic",
       "children": [],
       "depth": 1,
-      "type_signature": "(values, entity_ids, sort_keys) -> NDArray[np.float64]"
+      "type_signature": "(values, entity_ids, sort_keys) -> NDArray[np.float64]",
+      "aliases": [
+        "difference_features",
+        "temporal_difference_features",
+        "time_series_difference_features"
+      ]
     },
     {
       "node_id": "rolling_statistics",
@@ -120,11 +220,37 @@
       "description": "Compute trailing rolling statistics using partial windows at the start.",
       "concept_type": "signal_transform",
       "inputs": [
-        {"name": "values", "type_desc": "NDArray[np.float64]", "constraints": "finite 1D", "required": true, "default_value_repr": ""},
-        {"name": "window_size", "type_desc": "int", "constraints": "positive", "required": true, "default_value_repr": ""},
-        {"name": "agg_fns", "type_desc": "Sequence[str]", "constraints": "mean|std|min|max|sum", "required": true, "default_value_repr": ""}
+        {
+          "name": "values",
+          "type_desc": "NDArray[np.float64]",
+          "constraints": "finite 1D",
+          "required": true,
+          "default_value_repr": ""
+        },
+        {
+          "name": "window_size",
+          "type_desc": "int",
+          "constraints": "positive",
+          "required": true,
+          "default_value_repr": ""
+        },
+        {
+          "name": "agg_fns",
+          "type_desc": "Sequence[str]",
+          "constraints": "mean|std|min|max|sum",
+          "required": true,
+          "default_value_repr": ""
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]", "constraints": "shape (len(values), len(agg_fns))", "required": true, "default_value_repr": ""}],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]",
+          "constraints": "shape (len(values), len(agg_fns))",
+          "required": true,
+          "default_value_repr": ""
+        }
+      ],
       "status": "atomic",
       "children": [],
       "depth": 1,
@@ -137,12 +263,44 @@
       "description": "Compute per-group exponentially decayed sums relative to each group's latest timestamp.",
       "concept_type": "data_assembly",
       "inputs": [
-        {"name": "values", "type_desc": "NDArray[np.float64]", "constraints": "finite 1D", "required": true, "default_value_repr": ""},
-        {"name": "timestamps", "type_desc": "NDArray[np.float64]", "constraints": "finite 1D", "required": true, "default_value_repr": ""},
-        {"name": "groups", "type_desc": "NDArray[np.object_]", "constraints": "1D, same length as values", "required": true, "default_value_repr": ""},
-        {"name": "decay_rate", "type_desc": "float", "constraints": "positive finite", "required": true, "default_value_repr": ""}
+        {
+          "name": "values",
+          "type_desc": "NDArray[np.float64]",
+          "constraints": "finite 1D",
+          "required": true,
+          "default_value_repr": ""
+        },
+        {
+          "name": "timestamps",
+          "type_desc": "NDArray[np.float64]",
+          "constraints": "finite 1D",
+          "required": true,
+          "default_value_repr": ""
+        },
+        {
+          "name": "groups",
+          "type_desc": "NDArray[np.object_]",
+          "constraints": "1D, same length as values",
+          "required": true,
+          "default_value_repr": ""
+        },
+        {
+          "name": "decay_rate",
+          "type_desc": "float",
+          "constraints": "positive finite",
+          "required": true,
+          "default_value_repr": ""
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]", "constraints": "one finite decayed sum per unique group", "required": true, "default_value_repr": ""}],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]",
+          "constraints": "one finite decayed sum per unique group",
+          "required": true,
+          "default_value_repr": ""
+        }
+      ],
       "status": "atomic",
       "children": [],
       "depth": 1,
@@ -154,8 +312,24 @@
       "name": "pairwise_products",
       "description": "Create unordered pairwise feature-product columns for a tabular design matrix.",
       "concept_type": "signal_transform",
-      "inputs": [{"name": "features", "type_desc": "NDArray[np.float64]", "constraints": "finite 2D", "required": true, "default_value_repr": ""}],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]", "constraints": "n choose 2 product columns", "required": true, "default_value_repr": ""}],
+      "inputs": [
+        {
+          "name": "features",
+          "type_desc": "NDArray[np.float64]",
+          "constraints": "finite 2D",
+          "required": true,
+          "default_value_repr": ""
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]",
+          "constraints": "n choose 2 product columns",
+          "required": true,
+          "default_value_repr": ""
+        }
+      ],
       "status": "atomic",
       "children": [],
       "depth": 1,
@@ -168,10 +342,30 @@
       "description": "Create unordered pairwise ratio columns using a positive denominator guard.",
       "concept_type": "signal_transform",
       "inputs": [
-        {"name": "features", "type_desc": "NDArray[np.float64]", "constraints": "finite 2D", "required": true, "default_value_repr": ""},
-        {"name": "epsilon", "type_desc": "float", "constraints": "positive finite", "required": false, "default_value_repr": "1e-12"}
+        {
+          "name": "features",
+          "type_desc": "NDArray[np.float64]",
+          "constraints": "finite 2D",
+          "required": true,
+          "default_value_repr": ""
+        },
+        {
+          "name": "epsilon",
+          "type_desc": "float",
+          "constraints": "positive finite",
+          "required": false,
+          "default_value_repr": "1e-12"
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]", "constraints": "n choose 2 ratio columns", "required": true, "default_value_repr": ""}],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]",
+          "constraints": "n choose 2 ratio columns",
+          "required": true,
+          "default_value_repr": ""
+        }
+      ],
       "status": "atomic",
       "children": [],
       "depth": 1,
@@ -184,10 +378,30 @@
       "description": "Return missing indicators plus an array with NaNs replaced by a fill value.",
       "concept_type": "signal_transform",
       "inputs": [
-        {"name": "values", "type_desc": "NDArray[np.float64]", "constraints": "1D or 2D numeric", "required": true, "default_value_repr": ""},
-        {"name": "fill_value", "type_desc": "float", "constraints": "finite", "required": false, "default_value_repr": "0.0"}
+        {
+          "name": "values",
+          "type_desc": "NDArray[np.float64]",
+          "constraints": "1D or 2D numeric",
+          "required": true,
+          "default_value_repr": ""
+        },
+        {
+          "name": "fill_value",
+          "type_desc": "float",
+          "constraints": "finite",
+          "required": false,
+          "default_value_repr": "0.0"
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "tuple[NDArray[np.float64], NDArray[np.float64]]", "constraints": "imputed values and binary missing indicators", "required": true, "default_value_repr": ""}],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "tuple[NDArray[np.float64], NDArray[np.float64]]",
+          "constraints": "imputed values and binary missing indicators",
+          "required": true,
+          "default_value_repr": ""
+        }
+      ],
       "status": "atomic",
       "children": [],
       "depth": 1,
@@ -200,10 +414,30 @@
       "description": "Replace numeric values with one-based ranks using SciPy tie handling semantics.",
       "concept_type": "signal_transform",
       "inputs": [
-        {"name": "values", "type_desc": "NDArray[np.float64]", "constraints": "finite 1D", "required": true, "default_value_repr": ""},
-        {"name": "method", "type_desc": "str", "constraints": "average|min|max|dense|ordinal", "required": false, "default_value_repr": "average"}
+        {
+          "name": "values",
+          "type_desc": "NDArray[np.float64]",
+          "constraints": "finite 1D",
+          "required": true,
+          "default_value_repr": ""
+        },
+        {
+          "name": "method",
+          "type_desc": "str",
+          "constraints": "average|min|max|dense|ordinal",
+          "required": false,
+          "default_value_repr": "average"
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]", "constraints": "finite ranks with same shape as values", "required": true, "default_value_repr": ""}],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]",
+          "constraints": "finite ranks with same shape as values",
+          "required": true,
+          "default_value_repr": ""
+        }
+      ],
       "status": "atomic",
       "children": [],
       "depth": 1,
@@ -215,8 +449,24 @@
       "name": "frequency_encode_fit",
       "description": "Fit a deterministic category-to-relative-frequency mapping.",
       "concept_type": "data_assembly",
-      "inputs": [{"name": "categories", "type_desc": "NDArray[np.object_]", "constraints": "1D categories", "required": true, "default_value_repr": ""}],
-      "outputs": [{"name": "result", "type_desc": "dict[object, float]", "constraints": "finite nonnegative relative frequencies", "required": true, "default_value_repr": ""}],
+      "inputs": [
+        {
+          "name": "categories",
+          "type_desc": "NDArray[np.object_]",
+          "constraints": "1D categories",
+          "required": true,
+          "default_value_repr": ""
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "dict[object, float]",
+          "constraints": "finite nonnegative relative frequencies",
+          "required": true,
+          "default_value_repr": ""
+        }
+      ],
       "status": "atomic",
       "children": [],
       "depth": 1,
@@ -229,15 +479,46 @@
       "description": "Map categories to fitted relative frequencies, using a fixed value for unknowns.",
       "concept_type": "signal_transform",
       "inputs": [
-        {"name": "categories", "type_desc": "NDArray[np.object_]", "constraints": "1D categories", "required": true, "default_value_repr": ""},
-        {"name": "frequency_map", "type_desc": "Mapping[object, float]", "constraints": "finite nonnegative values", "required": true, "default_value_repr": ""},
-        {"name": "unknown_value", "type_desc": "float", "constraints": "finite nonnegative", "required": false, "default_value_repr": "0.0"}
+        {
+          "name": "categories",
+          "type_desc": "NDArray[np.object_]",
+          "constraints": "1D categories",
+          "required": true,
+          "default_value_repr": ""
+        },
+        {
+          "name": "frequency_map",
+          "type_desc": "Mapping[object, float]",
+          "constraints": "finite nonnegative values",
+          "required": true,
+          "default_value_repr": ""
+        },
+        {
+          "name": "unknown_value",
+          "type_desc": "float",
+          "constraints": "finite nonnegative",
+          "required": false,
+          "default_value_repr": "0.0"
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]", "constraints": "finite nonnegative values matching categories", "required": true, "default_value_repr": ""}],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]",
+          "constraints": "finite nonnegative values matching categories",
+          "required": true,
+          "default_value_repr": ""
+        }
+      ],
       "status": "atomic",
       "children": [],
       "depth": 1,
-      "type_signature": "(categories, frequency_map, unknown_value=0.0) -> NDArray[np.float64]"
+      "type_signature": "(categories, frequency_map, unknown_value=0.0) -> NDArray[np.float64]",
+      "aliases": [
+        "count_encode",
+        "count_encoding",
+        "frequency_encoding"
+      ]
     },
     {
       "node_id": "target_encode",
@@ -246,16 +527,53 @@
       "description": "Compute smoothed target means for each category without storing estimator state.",
       "concept_type": "data_assembly",
       "inputs": [
-        {"name": "categories", "type_desc": "NDArray[np.object_]", "constraints": "1D categories", "required": true, "default_value_repr": ""},
-        {"name": "targets", "type_desc": "NDArray[np.float64]", "constraints": "finite 1D same length as categories", "required": true, "default_value_repr": ""},
-        {"name": "smoothing", "type_desc": "float", "constraints": "finite nonnegative", "required": false, "default_value_repr": "1.0"},
-        {"name": "prior", "type_desc": "float | None", "constraints": "finite when supplied", "required": false, "default_value_repr": "None"}
+        {
+          "name": "categories",
+          "type_desc": "NDArray[np.object_]",
+          "constraints": "1D categories",
+          "required": true,
+          "default_value_repr": ""
+        },
+        {
+          "name": "targets",
+          "type_desc": "NDArray[np.float64]",
+          "constraints": "finite 1D same length as categories",
+          "required": true,
+          "default_value_repr": ""
+        },
+        {
+          "name": "smoothing",
+          "type_desc": "float",
+          "constraints": "finite nonnegative",
+          "required": false,
+          "default_value_repr": "1.0"
+        },
+        {
+          "name": "prior",
+          "type_desc": "float | None",
+          "constraints": "finite when supplied",
+          "required": false,
+          "default_value_repr": "None"
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "dict[object, float]", "constraints": "finite category encodings", "required": true, "default_value_repr": ""}],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "dict[object, float]",
+          "constraints": "finite category encodings",
+          "required": true,
+          "default_value_repr": ""
+        }
+      ],
       "status": "atomic",
       "children": [],
       "depth": 1,
-      "type_signature": "(categories, targets, smoothing=1.0, prior=None) -> dict[object, float]"
+      "type_signature": "(categories, targets, smoothing=1.0, prior=None) -> dict[object, float]",
+      "aliases": [
+        "mean_encode",
+        "mean_encoding",
+        "target_mean_encoding"
+      ]
     },
     {
       "node_id": "tweedie_gradient",
@@ -264,11 +582,37 @@
       "description": "Compute gradient and hessian for a Tweedie loss with log-link raw predictions.",
       "concept_type": "analysis",
       "inputs": [
-        {"name": "predictions", "type_desc": "NDArray[np.float64]", "constraints": "finite raw-score vector", "required": true, "default_value_repr": ""},
-        {"name": "targets", "type_desc": "NDArray[np.float64]", "constraints": "finite nonnegative vector", "required": true, "default_value_repr": ""},
-        {"name": "power", "type_desc": "float", "constraints": "1 < power < 2", "required": true, "default_value_repr": ""}
+        {
+          "name": "predictions",
+          "type_desc": "NDArray[np.float64]",
+          "constraints": "finite raw-score vector",
+          "required": true,
+          "default_value_repr": ""
+        },
+        {
+          "name": "targets",
+          "type_desc": "NDArray[np.float64]",
+          "constraints": "finite nonnegative vector",
+          "required": true,
+          "default_value_repr": ""
+        },
+        {
+          "name": "power",
+          "type_desc": "float",
+          "constraints": "1 < power < 2",
+          "required": true,
+          "default_value_repr": ""
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "tuple[NDArray[np.float64], NDArray[np.float64]]", "constraints": "gradient and positive hessian vectors", "required": true, "default_value_repr": ""}],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "tuple[NDArray[np.float64], NDArray[np.float64]]",
+          "constraints": "gradient and positive hessian vectors",
+          "required": true,
+          "default_value_repr": ""
+        }
+      ],
       "status": "atomic",
       "children": [],
       "depth": 1,
@@ -281,10 +625,30 @@
       "description": "Compute gradient and hessian for the smooth log-cosh regression loss.",
       "concept_type": "analysis",
       "inputs": [
-        {"name": "targets", "type_desc": "NDArray[np.float64]", "constraints": "finite 1D", "required": true, "default_value_repr": ""},
-        {"name": "predictions", "type_desc": "NDArray[np.float64]", "constraints": "finite 1D same length as targets", "required": true, "default_value_repr": ""}
+        {
+          "name": "targets",
+          "type_desc": "NDArray[np.float64]",
+          "constraints": "finite 1D",
+          "required": true,
+          "default_value_repr": ""
+        },
+        {
+          "name": "predictions",
+          "type_desc": "NDArray[np.float64]",
+          "constraints": "finite 1D same length as targets",
+          "required": true,
+          "default_value_repr": ""
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "tuple[NDArray[np.float64], NDArray[np.float64]]", "constraints": "gradient and hessian vectors", "required": true, "default_value_repr": ""}],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "tuple[NDArray[np.float64], NDArray[np.float64]]",
+          "constraints": "gradient and hessian vectors",
+          "required": true,
+          "default_value_repr": ""
+        }
+      ],
       "status": "atomic",
       "children": [],
       "depth": 1,
@@ -297,10 +661,30 @@
       "description": "Estimate feature-importance p-values from a null-importance sample matrix.",
       "concept_type": "analysis",
       "inputs": [
-        {"name": "actual_importances", "type_desc": "NDArray[np.float64]", "constraints": "finite 1D", "required": true, "default_value_repr": ""},
-        {"name": "null_importances_matrix", "type_desc": "NDArray[np.float64]", "constraints": "finite 2D with matching feature columns", "required": true, "default_value_repr": ""}
+        {
+          "name": "actual_importances",
+          "type_desc": "NDArray[np.float64]",
+          "constraints": "finite 1D",
+          "required": true,
+          "default_value_repr": ""
+        },
+        {
+          "name": "null_importances_matrix",
+          "type_desc": "NDArray[np.float64]",
+          "constraints": "finite 2D with matching feature columns",
+          "required": true,
+          "default_value_repr": ""
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]", "constraints": "p-values in [0, 1]", "required": true, "default_value_repr": ""}],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]",
+          "constraints": "p-values in [0, 1]",
+          "required": true,
+          "default_value_repr": ""
+        }
+      ],
       "status": "atomic",
       "children": [],
       "depth": 1,
@@ -313,11 +697,37 @@
       "description": "Return high-confidence positive and negative indices from probability predictions.",
       "concept_type": "analysis",
       "inputs": [
-        {"name": "test_predictions", "type_desc": "NDArray[np.float64]", "constraints": "probabilities in [0, 1]", "required": true, "default_value_repr": ""},
-        {"name": "upper_threshold", "type_desc": "float", "constraints": "0 <= lower < upper <= 1", "required": true, "default_value_repr": ""},
-        {"name": "lower_threshold", "type_desc": "float", "constraints": "0 <= lower < upper <= 1", "required": true, "default_value_repr": ""}
+        {
+          "name": "test_predictions",
+          "type_desc": "NDArray[np.float64]",
+          "constraints": "probabilities in [0, 1]",
+          "required": true,
+          "default_value_repr": ""
+        },
+        {
+          "name": "upper_threshold",
+          "type_desc": "float",
+          "constraints": "0 <= lower < upper <= 1",
+          "required": true,
+          "default_value_repr": ""
+        },
+        {
+          "name": "lower_threshold",
+          "type_desc": "float",
+          "constraints": "0 <= lower < upper <= 1",
+          "required": true,
+          "default_value_repr": ""
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "tuple[NDArray[np.int64], NDArray[np.int64]]", "constraints": "disjoint positive and negative index vectors", "required": true, "default_value_repr": ""}],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "tuple[NDArray[np.int64], NDArray[np.int64]]",
+          "constraints": "disjoint positive and negative index vectors",
+          "required": true,
+          "default_value_repr": ""
+        }
+      ],
       "status": "atomic",
       "children": [],
       "depth": 1,
