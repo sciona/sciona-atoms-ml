@@ -1199,6 +1199,12 @@ Potential remediation path:
   selection, nested path verbosity resolution, explicit-alpha mode detection
   and validation, and refinement-count selection before cross-validated path
   solving.
+- Completed helper slice:
+  `sklearn.covariance.graphical_lasso_cv_path_postprocessing` now publishes
+  the deterministic `GraphicalLassoCV.fit` tail after deferred path solving:
+  descending path sorting, alpha and score unpacking from merged path records,
+  empirical baseline alpha and score appends, and final `best_alpha`
+  selection before the deferred sparse precision refit.
 - Completed helper slice: `sklearn.covariance.robust` now publishes
   post-FastMCD deterministic helpers for MCD consistency scaling, corrected
   covariance/distance updates, chi-square support reweighting, reweighted

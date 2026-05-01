@@ -1,0 +1,125 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_covariance_graphical_lasso_cv_path_postprocessing_root",
+      "name": "Sklearn GraphicalLassoCV Path Postprocessing Helpers",
+      "description": "Deterministic GraphicalLassoCV fit-shell helpers for sorting merged path records, unpacking alpha and score arrays, appending the empirical covariance baseline, and selecting the final alpha before the deferred sparse precision refit.",
+      "status": "decomposed",
+      "children": [
+        "graphical_lasso_cv_sorted_path_records",
+        "graphical_lasso_cv_path_alphas",
+        "graphical_lasso_cv_path_score_matrix",
+        "graphical_lasso_cv_alphas_with_baseline",
+        "graphical_lasso_cv_scores_with_baseline",
+        "graphical_lasso_cv_best_alpha"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "graphical_lasso_cv_sorted_path_records",
+      "name": "graphical_lasso_cv_sorted_path_records",
+      "description": "Sort merged GraphicalLassoCV path records by descending alpha after extending the accumulated path.",
+      "concept_type": "fit_postprocessing",
+      "status": "atomic",
+      "type_signature": "(path_records: object) -> tuple[tuple[float, tuple[float, ...], object], ...]",
+      "depth": 1,
+      "inputs": [
+        {"name": "path_records", "type_desc": "object", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[tuple[float, tuple[float, ...], object], ...]"}
+      ]
+    },
+    {
+      "node_id": "graphical_lasso_cv_path_alphas",
+      "name": "graphical_lasso_cv_path_alphas",
+      "description": "Unpack the descending alpha vector from sorted GraphicalLassoCV path records.",
+      "concept_type": "fit_postprocessing",
+      "status": "atomic",
+      "type_signature": "(path_records: object) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "path_records", "type_desc": "object", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "graphical_lasso_cv_path_score_matrix",
+      "name": "graphical_lasso_cv_path_score_matrix",
+      "description": "Unpack the alpha-by-fold score matrix from sorted GraphicalLassoCV path records.",
+      "concept_type": "fit_postprocessing",
+      "status": "atomic",
+      "type_signature": "(path_records: object) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "path_records", "type_desc": "object", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "graphical_lasso_cv_alphas_with_baseline",
+      "name": "graphical_lasso_cv_alphas_with_baseline",
+      "description": "Append the empirical covariance baseline alpha of zero to GraphicalLassoCV's descending alpha vector.",
+      "concept_type": "fit_postprocessing",
+      "status": "atomic",
+      "type_signature": "(alphas: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "alphas", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "graphical_lasso_cv_scores_with_baseline",
+      "name": "graphical_lasso_cv_scores_with_baseline",
+      "description": "Append empirical covariance cross-validation scores as the final row of GraphicalLassoCV's score matrix.",
+      "concept_type": "fit_postprocessing",
+      "status": "atomic",
+      "type_signature": "(grid_scores: NDArray[np.float64], empirical_scores: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "grid_scores", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "empirical_scores", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "graphical_lasso_cv_best_alpha",
+      "name": "graphical_lasso_cv_best_alpha",
+      "description": "Select GraphicalLassoCV's final alpha from the indexed alpha vector after the empirical baseline append.",
+      "concept_type": "fit_postprocessing",
+      "status": "atomic",
+      "type_signature": "(alphas: NDArray[np.float64], best_index: int) -> float",
+      "depth": 1,
+      "inputs": [
+        {"name": "alphas", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "best_index", "type_desc": "int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "float"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "graphical_lasso_cv_sorted_path_records", "target": "graphical_lasso_cv_path_alphas", "kind": "alpha_unpack"},
+    {"source": "graphical_lasso_cv_sorted_path_records", "target": "graphical_lasso_cv_path_score_matrix", "kind": "score_unpack"},
+    {"source": "graphical_lasso_cv_path_alphas", "target": "graphical_lasso_cv_alphas_with_baseline", "kind": "baseline_append"},
+    {"source": "graphical_lasso_cv_path_score_matrix", "target": "graphical_lasso_cv_scores_with_baseline", "kind": "baseline_append"},
+    {"source": "graphical_lasso_cv_alphas_with_baseline", "target": "graphical_lasso_cv_best_alpha", "kind": "indexed_selection"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.covariance._graph_lasso",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 4 GraphicalLassoCV path postprocessing after deferred cross-validated path solving"
+  }
+}
