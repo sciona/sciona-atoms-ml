@@ -1388,6 +1388,12 @@ Potential remediation path:
   and final reshape of supplied solver outputs, while the actual sparse-code
   solver callbacks remain deferred.
 - Completed helper slice:
+  `sklearn.decomposition.dictionary_learning_wrapper_bookkeeping` now
+  publishes deterministic public-wrapper helpers for lasso-method naming,
+  `n_components` defaulting from the input feature count, and the final return
+  packaging in `dict_learning` and `dict_learning_online`, while sparse-code
+  solving, dictionary updates, and callback execution remain deferred.
+- Completed helper slice:
   `sklearn.decomposition.lda_shell` now publishes deterministic
   LatentDirichletAllocation helper atoms for default prior resolution, random
   gamma initialization of `components_`, transform-time row normalization of
