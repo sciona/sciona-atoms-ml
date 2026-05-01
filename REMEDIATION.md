@@ -1412,6 +1412,12 @@ Potential remediation path:
   initial dictionary into `old_dict`, resolving the fixed verbose banner, and
   initializing convergence-monitor fields before the deferred minibatch loop.
 - Completed helper slice:
+  `sklearn.decomposition.dictionary_learning_postfit_shell` now publishes the
+  deterministic DictionaryLearning postfit shell for exposing the already-
+  computed dictionary factor, error curve, iteration count, and code factor as
+  `components_`, `error_`, `n_iter_`, and the `fit_transform` return value
+  after the deferred alternating-optimization loop.
+- Completed helper slice:
   `sklearn.decomposition.lda_shell` now publishes deterministic
   LatentDirichletAllocation helper atoms for default prior resolution, random
   gamma initialization of `components_`, transform-time row normalization of
