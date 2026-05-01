@@ -1198,6 +1198,11 @@ Potential remediation path:
 - Completed helper slice: `sklearn.cluster.cocluster_fit_preflight` now
   publishes the deterministic `SpectralCoclustering` sample-count guard
   before normalization, SVD, and KMeans.
+- Completed helper slice:
+  `sklearn.cluster.bicluster_fit_normalization_dispatch` now publishes the
+  deterministic dense and sparse normalization dispatch shell in
+  `SpectralBiclustering._fit` for selecting already-landed normalization
+  helpers by validated method before SVD.
 - Sparse log-normalization rejection, SVD/randomized-SVD projection,
   piecewise-vector selection, projection-and-cluster helpers, KMeans and
   MiniBatchKMeans label assignment, and full estimator state surfaces remain
