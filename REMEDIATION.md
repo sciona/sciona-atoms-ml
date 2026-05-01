@@ -769,6 +769,12 @@ Potential remediation path:
   shuffle-index generation, and dense feature-column permutation from supplied
   shuffle states.
 - Completed helper slice:
+  `sklearn.inspection.permutation_result_packaging` now publishes the
+  deterministic `permutation_importance` result-packaging layer after scorer
+  outputs exist: shared int32 random-seed derivation, multimetric score-matrix
+  unpacking, single-metric importances Bunch assembly, and multimetric
+  dict-of-Bunch assembly.
+- Completed helper slice:
   `sklearn.inspection.partial_dependence_grid` now publishes dense numeric
   grid-parameter validation, per-feature axis construction, and Cartesian grid
   construction before the deferred estimator prediction paths.

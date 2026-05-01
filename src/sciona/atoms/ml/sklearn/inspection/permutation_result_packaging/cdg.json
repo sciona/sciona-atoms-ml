@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0",
+  "module": "sciona.atoms.ml.sklearn.inspection.permutation_result_packaging",
+  "family": "sklearn.inspection.permutation_result_packaging",
+  "root": "sklearn_inspection_permutation_result_packaging_root",
+  "nodes": [
+    {
+      "node_id": "permutation_importance_random_seed",
+      "name": "permutation_importance_random_seed",
+      "status": "atomic",
+      "concept_type": "rng_bookkeeping",
+      "description": "Derive sklearn's per-call int32 permutation seed from the public random_state parameter.",
+      "inputs": [{"name": "random_state", "type_desc": "int | None", "required": false}],
+      "outputs": [{"name": "result", "type_desc": "int"}]
+    },
+    {
+      "node_id": "permutation_importance_metric_score_matrix",
+      "name": "permutation_importance_metric_score_matrix",
+      "status": "atomic",
+      "concept_type": "unpacking",
+      "description": "Unpack one metric's per-feature repeated scores from sklearn's multimetric score-dict outputs.",
+      "inputs": [
+        {"name": "score_dicts_by_feature", "type_desc": "tuple[dict[str, ndarray[float64]], ...]", "required": true},
+        {"name": "metric_name", "type_desc": "str", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "ndarray[float64]"}]
+    },
+    {
+      "node_id": "permutation_importance_summary_bunch",
+      "name": "permutation_importance_summary_bunch",
+      "status": "atomic",
+      "concept_type": "packaging",
+      "description": "Build sklearn's single-metric importances Bunch from a baseline score and a permuted-score matrix.",
+      "inputs": [
+        {"name": "baseline_score", "type_desc": "float", "required": true},
+        {"name": "permuted_scores", "type_desc": "ndarray[float64]", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "Bunch"}]
+    },
+    {
+      "node_id": "permutation_importance_multi_metric_bunches",
+      "name": "permutation_importance_multi_metric_bunches",
+      "status": "atomic",
+      "concept_type": "packaging",
+      "description": "Build sklearn's metric-keyed dict of importances Bunch objects from baseline scores and unpacked score dicts.",
+      "inputs": [
+        {"name": "baseline_scores", "type_desc": "dict[str, float]", "required": true},
+        {"name": "score_dicts_by_feature", "type_desc": "tuple[dict[str, ndarray[float64]], ...]", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "dict[str, Bunch]"}]
+    }
+  ],
+  "edges": [
+    {"source": "permutation_importance_random_seed", "target": "permutation_importance_metric_score_matrix", "kind": "parallel_seed_context"},
+    {"source": "permutation_importance_metric_score_matrix", "target": "permutation_importance_summary_bunch", "kind": "score_matrix"},
+    {"source": "permutation_importance_metric_score_matrix", "target": "permutation_importance_multi_metric_bunches", "kind": "metric_unpacking"},
+    {"source": "permutation_importance_summary_bunch", "target": "permutation_importance_multi_metric_bunches", "kind": "per_metric_packaging"}
+  ]
+}
