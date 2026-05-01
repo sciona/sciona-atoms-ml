@@ -1,0 +1,68 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_cluster_hdbscan_dbscan_clustering_root",
+      "name": "Sklearn HDBSCAN DBSCAN Clustering Helpers",
+      "description": "Deterministic HDBSCAN helpers for postprocessing DBSCAN-style labels after the deferred labelling-at-cut callback.",
+      "status": "decomposed",
+      "children": [
+        "hdbscan_dbscan_infinite_mask",
+        "hdbscan_dbscan_missing_mask",
+        "hdbscan_dbscan_labels"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "hdbscan_dbscan_infinite_mask",
+      "name": "hdbscan_dbscan_infinite_mask",
+      "description": "Infer HDBSCAN's infinite-row mask from fitted labels.",
+      "concept_type": "fit_postprocessing",
+      "status": "atomic",
+      "type_signature": "(fitted_labels: NDArray[np.int_]) -> NDArray[np.bool_]",
+      "depth": 1,
+      "inputs": [
+        {"name": "fitted_labels", "type_desc": "NDArray[np.int_]", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.bool_]"}]
+    },
+    {
+      "node_id": "hdbscan_dbscan_missing_mask",
+      "name": "hdbscan_dbscan_missing_mask",
+      "description": "Infer HDBSCAN's missing-row mask from fitted labels.",
+      "concept_type": "fit_postprocessing",
+      "status": "atomic",
+      "type_signature": "(fitted_labels: NDArray[np.int_]) -> NDArray[np.bool_]",
+      "depth": 1,
+      "inputs": [
+        {"name": "fitted_labels", "type_desc": "NDArray[np.int_]", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.bool_]"}]
+    },
+    {
+      "node_id": "hdbscan_dbscan_labels",
+      "name": "hdbscan_dbscan_labels",
+      "description": "Apply HDBSCAN's infinite and missing outlier overrides to labels already computed at a tree cut.",
+      "concept_type": "fit_postprocessing",
+      "status": "atomic",
+      "type_signature": "(labels_at_cut: NDArray[np.int_], infinite_mask: NDArray[np.bool_], missing_mask: NDArray[np.bool_]) -> NDArray[np.int_]",
+      "depth": 1,
+      "inputs": [
+        {"name": "labels_at_cut", "type_desc": "NDArray[np.int_]", "required": true},
+        {"name": "infinite_mask", "type_desc": "NDArray[np.bool_]", "required": true},
+        {"name": "missing_mask", "type_desc": "NDArray[np.bool_]", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.int_]"}]
+    }
+  ],
+  "edges": [
+    {"source": "hdbscan_dbscan_infinite_mask", "target": "hdbscan_dbscan_labels", "kind": "outlier_override"},
+    {"source": "hdbscan_dbscan_missing_mask", "target": "hdbscan_dbscan_labels", "kind": "outlier_override"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.cluster._hdbscan.hdbscan",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 4 HDBSCAN DBSCAN-clustering postprocessing after deferred labelling_at_cut"
+  }
+}

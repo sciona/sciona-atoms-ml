@@ -1057,6 +1057,10 @@ Potential remediation path:
   single-linkage tree endpoint ids, constructing appended outlier linkage rows,
   and restoring non-finite raw samples into the final linkage tree after
   deferred hierarchy extraction.
+- Completed helper slice: `sklearn.cluster.hdbscan_dbscan_clustering` now
+  publishes deterministic HDBSCAN helpers for inferring infinite and missing
+  outlier masks from fitted labels and applying those overrides to labels
+  already produced by the deferred `labelling_at_cut(...)` callback.
 - MST construction, tree backends, hierarchy condensation/extraction,
   precomputed and sparse inputs, callable metrics, non-finite remapping, and
   stored centers remain explicit native/private sklearn boundaries.
