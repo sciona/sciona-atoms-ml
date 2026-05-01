@@ -1,0 +1,66 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_cluster_bicluster_fit_preflight_root",
+      "name": "Sklearn Spectral Biclustering Preflight Helpers",
+      "description": "Deterministic parameter and normalization-method guards for spectral biclustering before SVD and KMeans.",
+      "status": "decomposed",
+      "children": [
+        "bicluster_checked_cluster_counts",
+        "bicluster_checked_n_best",
+        "bicluster_checked_method"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "bicluster_checked_cluster_counts",
+      "name": "bicluster_checked_cluster_counts",
+      "description": "Validate biclustering cluster counts against the sample count and return the row and column counts.",
+      "concept_type": "parameter_validation",
+      "status": "atomic",
+      "type_signature": "(n_clusters: int | tuple[int, int], n_samples: int) -> tuple[int, int]",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_clusters", "type_desc": "int | tuple[int, int]", "required": true},
+        {"name": "n_samples", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "tuple[int, int]"}]
+    },
+    {
+      "node_id": "bicluster_checked_n_best",
+      "name": "bicluster_checked_n_best",
+      "description": "Validate that the number of best singular vectors does not exceed n_components.",
+      "concept_type": "parameter_validation",
+      "status": "atomic",
+      "type_signature": "(n_best: int, n_components: int) -> int",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_best", "type_desc": "int", "required": true},
+        {"name": "n_components", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "int"}]
+    },
+    {
+      "node_id": "bicluster_checked_method",
+      "name": "bicluster_checked_method",
+      "description": "Validate the normalization method against sparse input and return the method.",
+      "concept_type": "parameter_validation",
+      "status": "atomic",
+      "type_signature": "(method: str, is_sparse: bool) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "method", "type_desc": "str", "required": true},
+        {"name": "is_sparse", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "str"}]
+    }
+  ],
+  "edges": [],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.cluster._bicluster",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 4 spectral biclustering preflight shell"
+  }
+}

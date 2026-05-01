@@ -1190,6 +1190,11 @@ Potential remediation path:
   sklearn's sparse bistochastic stopping-distance computation from stored data
   arrays, and sparse bistochastic normalization before the deferred SVD and
   KMeans stages.
+- Completed helper slice: `sklearn.cluster.bicluster_fit_preflight` now
+  publishes deterministic spectral-biclustering preflight helpers for
+  sample-count-aware `n_clusters` validation, the `n_best <= n_components`
+  guard, and sparse rejection for `method='log'` before normalization, SVD,
+  and KMeans stages.
 - Sparse log-normalization rejection, SVD/randomized-SVD projection,
   piecewise-vector selection, projection-and-cluster helpers, KMeans and
   MiniBatchKMeans label assignment, and full estimator state surfaces remain
