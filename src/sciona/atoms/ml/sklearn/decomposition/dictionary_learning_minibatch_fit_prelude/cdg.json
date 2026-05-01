@@ -1,0 +1,79 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_decomposition_dictionary_learning_minibatch_fit_prelude_root",
+      "name": "Sklearn MiniBatchDictionaryLearning Fit Prelude Helpers",
+      "description": "Deterministic fit-prelude helpers around MiniBatchDictionaryLearning.fit before the deferred minibatch update loop.",
+      "status": "decomposed",
+      "children": [
+        "dictionary_learning_minibatch_training_data",
+        "dictionary_learning_minibatch_old_dictionary",
+        "dictionary_learning_minibatch_verbose_message",
+        "dictionary_learning_minibatch_monitor_state"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "dictionary_learning_minibatch_training_data",
+      "name": "dictionary_learning_minibatch_training_data",
+      "description": "Select the original data matrix or a provided shuffled row permutation before minibatch iteration.",
+      "concept_type": "data_selection",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.floating], shuffle: bool, permutation: NDArray[np.int64] | None = None) -> NDArray[np.floating]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.floating]", "required": true},
+        {"name": "shuffle", "type_desc": "bool", "required": true},
+        {"name": "permutation", "type_desc": "NDArray[np.int64] | None", "required": false}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.floating]"}]
+    },
+    {
+      "node_id": "dictionary_learning_minibatch_old_dictionary",
+      "name": "dictionary_learning_minibatch_old_dictionary",
+      "description": "Copy the initial dictionary into the old_dict tracking buffer.",
+      "concept_type": "buffer_preparation",
+      "status": "atomic",
+      "type_signature": "(dictionary: NDArray[np.floating]) -> NDArray[np.floating]",
+      "depth": 1,
+      "inputs": [
+        {"name": "dictionary", "type_desc": "NDArray[np.floating]", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.floating]"}]
+    },
+    {
+      "node_id": "dictionary_learning_minibatch_verbose_message",
+      "name": "dictionary_learning_minibatch_verbose_message",
+      "description": "Resolve sklearn's fixed verbose banner for dictionary learning.",
+      "concept_type": "ui",
+      "status": "atomic",
+      "type_signature": "(verbose: bool | int) -> str | None",
+      "depth": 1,
+      "inputs": [
+        {"name": "verbose", "type_desc": "bool | int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "str | None"}]
+    },
+    {
+      "node_id": "dictionary_learning_minibatch_monitor_state",
+      "name": "dictionary_learning_minibatch_monitor_state",
+      "description": "Initialize the EWA cost and no-improvement monitor fields before iteration.",
+      "concept_type": "state_initialization",
+      "status": "atomic",
+      "type_signature": "(max_no_improvement: int | None) -> tuple[None, None, int]",
+      "depth": 1,
+      "inputs": [
+        {"name": "max_no_improvement", "type_desc": "int | None", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "tuple[None, None, int]"}]
+    }
+  ],
+  "edges": [],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.decomposition._dict_learning",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 4 MiniBatchDictionaryLearning fit prelude shell"
+  }
+}

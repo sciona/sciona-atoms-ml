@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_minibatch_fit_prelude.dictionary_learning_minibatch_training_data@sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch_fit_prelude/atoms.py:88": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_source_parity",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from the `if self.shuffle: X_train = X.copy(); self._random_state.shuffle(X_train) else: X_train = X` branch in MiniBatchDictionaryLearning.fit in scikit-learn 1.8.0, with the row permutation supplied explicitly."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_project_reference",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for MiniBatchDictionaryLearning fit-prelude helpers."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_minibatch_fit_prelude.dictionary_learning_minibatch_old_dictionary@sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch_fit_prelude/atoms.py:105": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_source_parity",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from `old_dict = dictionary.copy()` in MiniBatchDictionaryLearning.fit in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_project_reference",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for MiniBatchDictionaryLearning fit-prelude helpers."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_minibatch_fit_prelude.dictionary_learning_minibatch_verbose_message@sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch_fit_prelude/atoms.py:117": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_source_parity",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from the `if self.verbose: print(\"[dict_learning]\")` banner in MiniBatchDictionaryLearning.fit in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_project_reference",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for MiniBatchDictionaryLearning fit-prelude helpers."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_minibatch_fit_prelude.dictionary_learning_minibatch_monitor_state@sciona/atoms/ml/sklearn/decomposition/dictionary_learning_minibatch_fit_prelude/atoms.py:128": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_source_parity",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from the `_ewa_cost = None`, `_ewa_cost_min = None`, and `_no_improvement = 0` initialization in MiniBatchDictionaryLearning.fit in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_project_reference",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for MiniBatchDictionaryLearning fit-prelude helpers."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

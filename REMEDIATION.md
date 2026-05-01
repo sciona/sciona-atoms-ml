@@ -1406,6 +1406,12 @@ Potential remediation path:
   resizing rows to `_n_components`, and normalizing the result into a writable
   Fortran-order dictionary buffer before the deferred minibatch loop.
 - Completed helper slice:
+  `sklearn.decomposition.dictionary_learning_minibatch_fit_prelude` now
+  publishes the deterministic MiniBatchDictionaryLearning fit prelude for
+  training-data selection from a supplied shuffle permutation, copying the
+  initial dictionary into `old_dict`, resolving the fixed verbose banner, and
+  initializing convergence-monitor fields before the deferred minibatch loop.
+- Completed helper slice:
   `sklearn.decomposition.lda_shell` now publishes deterministic
   LatentDirichletAllocation helper atoms for default prior resolution, random
   gamma initialization of `components_`, transform-time row normalization of
