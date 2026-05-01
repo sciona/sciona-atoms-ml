@@ -1193,6 +1193,12 @@ Potential remediation path:
   initial alpha-grid construction, mean-score clipping, best-index
   tie-breaking, refinement-bound selection, refined interior alpha grids, and
   `cv_results_` materialization from supplied alpha-by-fold score matrices.
+- Completed helper slice:
+  `sklearn.covariance.graphical_lasso_cv_fit_setup` now publishes the
+  deterministic `GraphicalLassoCV.fit` setup shell for fitted location
+  selection, nested path verbosity resolution, explicit-alpha mode detection
+  and validation, and refinement-count selection before cross-validated path
+  solving.
 - Completed helper slice: `sklearn.covariance.robust` now publishes
   post-FastMCD deterministic helpers for MCD consistency scaling, corrected
   covariance/distance updates, chi-square support reweighting, reweighted

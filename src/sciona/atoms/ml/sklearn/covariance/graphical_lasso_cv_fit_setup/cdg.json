@@ -1,0 +1,106 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_covariance_graphical_lasso_cv_fit_setup_root",
+      "name": "Sklearn GraphicalLassoCV Fit Setup Helpers",
+      "description": "Deterministic GraphicalLassoCV fit-shell helpers for location setup, inner verbosity resolution, explicit-alpha mode handling, and refinement-count selection before cross-validated path solving.",
+      "status": "decomposed",
+      "children": [
+        "graphical_lasso_cv_location",
+        "graphical_lasso_cv_inner_verbose",
+        "graphical_lasso_cv_use_explicit_alphas",
+        "graphical_lasso_cv_explicit_alphas",
+        "graphical_lasso_cv_refinement_count"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "graphical_lasso_cv_location",
+      "name": "graphical_lasso_cv_location",
+      "description": "Resolve GraphicalLassoCV's fitted location vector from the assume_centered flag and observed samples.",
+      "concept_type": "fit_setup",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], assume_centered: bool) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "assume_centered", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "graphical_lasso_cv_inner_verbose",
+      "name": "graphical_lasso_cv_inner_verbose",
+      "description": "Resolve the inner graphical_lasso_path verbosity level from GraphicalLassoCV.verbose.",
+      "concept_type": "fit_setup",
+      "status": "atomic",
+      "type_signature": "(verbose: int) -> int",
+      "depth": 1,
+      "inputs": [
+        {"name": "verbose", "type_desc": "int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "int"}
+      ]
+    },
+    {
+      "node_id": "graphical_lasso_cv_use_explicit_alphas",
+      "name": "graphical_lasso_cv_use_explicit_alphas",
+      "description": "Decide whether GraphicalLassoCV treats alphas as an explicit sequence instead of a grid size.",
+      "concept_type": "fit_branching",
+      "status": "atomic",
+      "type_signature": "(alphas: object) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "alphas", "type_desc": "object", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "graphical_lasso_cv_explicit_alphas",
+      "name": "graphical_lasso_cv_explicit_alphas",
+      "description": "Validate and materialize GraphicalLassoCV's explicit alpha sequence when alphas is non-scalar array-like.",
+      "concept_type": "fit_setup",
+      "status": "atomic",
+      "type_signature": "(alphas: object) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "alphas", "type_desc": "object", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "graphical_lasso_cv_refinement_count",
+      "name": "graphical_lasso_cv_refinement_count",
+      "description": "Resolve GraphicalLassoCV's refinement count from alpha input mode and configured n_refinements.",
+      "concept_type": "fit_setup",
+      "status": "atomic",
+      "type_signature": "(use_explicit_alphas: bool, n_refinements: int) -> int",
+      "depth": 1,
+      "inputs": [
+        {"name": "use_explicit_alphas", "type_desc": "bool", "required": true},
+        {"name": "n_refinements", "type_desc": "int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "int"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "graphical_lasso_cv_use_explicit_alphas", "target": "graphical_lasso_cv_explicit_alphas", "kind": "explicit_alpha_mode"},
+    {"source": "graphical_lasso_cv_use_explicit_alphas", "target": "graphical_lasso_cv_refinement_count", "kind": "refinement_mode"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.covariance._graph_lasso",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 4 GraphicalLassoCV fit-shell setup before cross-validated path solving"
+  }
+}
