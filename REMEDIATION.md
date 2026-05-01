@@ -1065,6 +1065,9 @@ Potential remediation path:
   publishes deterministic HDBSCAN helpers for cluster-count bookkeeping,
   `store_centers` flag resolution, per-cluster data and probability selection,
   and weighted centroid computation after deferred hierarchy extraction.
+- Completed helper slice: `sklearn.cluster.hdbscan_tags` now publishes
+  deterministic HDBSCAN estimator-tag helpers for sparse-input support and the
+  metric-driven allow-nan flag.
 - MST construction, tree backends, hierarchy condensation/extraction,
   precomputed and sparse inputs, callable metrics, non-finite remapping, and
   pairwise-distance medoid selection remain explicit native/private sklearn
