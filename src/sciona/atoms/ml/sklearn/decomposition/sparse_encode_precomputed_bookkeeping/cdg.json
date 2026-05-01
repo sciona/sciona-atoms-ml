@@ -1,0 +1,80 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_decomposition_sparse_encode_precomputed_bookkeeping_root",
+      "name": "Sklearn Sparse Encode Precomputed Bookkeeping Helpers",
+      "description": "Deterministic setup and result-shaping helpers inside _sparse_encode_precomputed around the deferred sparse-code solver calls.",
+      "status": "decomposed",
+      "children": [
+        "sparse_encode_lasso_alpha",
+        "sparse_encode_writable_init",
+        "sparse_encode_omp_norms_squared",
+        "sparse_encode_precomputed_output"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "sparse_encode_lasso_alpha",
+      "name": "sparse_encode_lasso_alpha",
+      "description": "Scale regularization by the feature count for the lasso_lars and lasso_cd branches.",
+      "concept_type": "parameter_resolution",
+      "status": "atomic",
+      "type_signature": "(regularization: float, n_features: int) -> float",
+      "depth": 1,
+      "inputs": [
+        {"name": "regularization", "type_desc": "float", "required": true},
+        {"name": "n_features", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "float"}]
+    },
+    {
+      "node_id": "sparse_encode_writable_init",
+      "name": "sparse_encode_writable_init",
+      "description": "Make a lasso_cd warm-start matrix writable before assigning it to clf.coef_.",
+      "concept_type": "buffer_preparation",
+      "status": "atomic",
+      "type_signature": "(init: NDArray[np.floating]) -> NDArray[np.floating]",
+      "depth": 1,
+      "inputs": [
+        {"name": "init", "type_desc": "NDArray[np.floating]", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.floating]"}]
+    },
+    {
+      "node_id": "sparse_encode_omp_norms_squared",
+      "name": "sparse_encode_omp_norms_squared",
+      "description": "Compute the squared sample norms passed into orthogonal_mp_gram.",
+      "concept_type": "precompute",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.floating]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.floating]", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+    },
+    {
+      "node_id": "sparse_encode_precomputed_output",
+      "name": "sparse_encode_precomputed_output",
+      "description": "Reshape solver output into sparse_encode's final sample-by-component matrix.",
+      "concept_type": "result_assembly",
+      "status": "atomic",
+      "type_signature": "(new_code: NDArray[np.floating], n_samples: int, n_components: int) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "new_code", "type_desc": "NDArray[np.floating]", "required": true},
+        {"name": "n_samples", "type_desc": "int", "required": true},
+        {"name": "n_components", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+    }
+  ],
+  "edges": [],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.decomposition._dict_learning",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 4 sparse_encode precomputed bookkeeping shell"
+  }
+}

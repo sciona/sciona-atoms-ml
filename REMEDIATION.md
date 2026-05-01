@@ -1382,6 +1382,12 @@ Potential remediation path:
   branch gating, sklearn-style even sample-slice bounds, and dense code
   reassembly from supplied per-slice solver outputs.
 - Completed helper slice:
+  `sklearn.decomposition.sparse_encode_precomputed_bookkeeping` now publishes
+  the deterministic `_sparse_encode_precomputed` setup and tail shell for
+  lasso alpha scaling, writable warm-start handling, OMP squared sample norms,
+  and final reshape of supplied solver outputs, while the actual sparse-code
+  solver callbacks remain deferred.
+- Completed helper slice:
   `sklearn.decomposition.lda_shell` now publishes deterministic
   LatentDirichletAllocation helper atoms for default prior resolution, random
   gamma initialization of `components_`, transform-time row normalization of
