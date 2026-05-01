@@ -1052,6 +1052,11 @@ Potential remediation path:
   internal-to-raw finite-index mapping, non-finite raw-index sets, and final
   label and probability remapping back onto the raw sample axis after deferred
   hierarchy extraction.
+- Completed helper slice: `sklearn.cluster.hdbscan_tree_remapping` now
+  publishes deterministic HDBSCAN helpers for remapping finite-row
+  single-linkage tree endpoint ids, constructing appended outlier linkage rows,
+  and restoring non-finite raw samples into the final linkage tree after
+  deferred hierarchy extraction.
 - MST construction, tree backends, hierarchy condensation/extraction,
   precomputed and sparse inputs, callable metrics, non-finite remapping, and
   stored centers remain explicit native/private sklearn boundaries.

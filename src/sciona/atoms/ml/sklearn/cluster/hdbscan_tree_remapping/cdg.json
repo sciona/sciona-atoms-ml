@@ -1,0 +1,90 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_cluster_hdbscan_tree_remapping_root",
+      "name": "Sklearn HDBSCAN Tree Remapping Helpers",
+      "description": "Deterministic HDBSCAN helpers for remapping single-linkage tree node ids and appending outlier rows after deferred hierarchy extraction.",
+      "status": "decomposed",
+      "children": [
+        "hdbscan_tree_node_id",
+        "hdbscan_remapped_tree_rows",
+        "hdbscan_outlier_linkage_rows",
+        "hdbscan_remapped_single_linkage_tree"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "hdbscan_tree_node_id",
+      "name": "hdbscan_tree_node_id",
+      "description": "Remap one HDBSCAN single-linkage tree endpoint id from internal finite indexing to raw indexing.",
+      "concept_type": "fit_postprocessing",
+      "status": "atomic",
+      "type_signature": "(node_id: int, finite_count: int, outlier_count: int, internal_to_raw: dict[int, int]) -> int",
+      "depth": 1,
+      "inputs": [
+        {"name": "node_id", "type_desc": "int", "required": true},
+        {"name": "finite_count", "type_desc": "int", "required": true},
+        {"name": "outlier_count", "type_desc": "int", "required": true},
+        {"name": "internal_to_raw", "type_desc": "dict[int, int]", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "int"}]
+    },
+    {
+      "node_id": "hdbscan_remapped_tree_rows",
+      "name": "hdbscan_remapped_tree_rows",
+      "description": "Remap HDBSCAN single-linkage tree endpoint ids before appending outlier rows.",
+      "concept_type": "fit_postprocessing",
+      "status": "atomic",
+      "type_signature": "(tree: NDArray[np.void], internal_to_raw: dict[int, int], outlier_count: int) -> NDArray[np.void]",
+      "depth": 1,
+      "inputs": [
+        {"name": "tree", "type_desc": "NDArray[np.void]", "required": true},
+        {"name": "internal_to_raw", "type_desc": "dict[int, int]", "required": true},
+        {"name": "outlier_count", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.void]"}]
+    },
+    {
+      "node_id": "hdbscan_outlier_linkage_rows",
+      "name": "hdbscan_outlier_linkage_rows",
+      "description": "Construct HDBSCAN's appended outlier linkage rows at infinite distance.",
+      "concept_type": "fit_postprocessing",
+      "status": "atomic",
+      "type_signature": "(last_cluster_id: int, last_cluster_size: int, nonfinite_raw_indices: NDArray[np.int64]) -> NDArray[np.void]",
+      "depth": 1,
+      "inputs": [
+        {"name": "last_cluster_id", "type_desc": "int", "required": true},
+        {"name": "last_cluster_size", "type_desc": "int", "required": true},
+        {"name": "nonfinite_raw_indices", "type_desc": "NDArray[np.int64]", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.void]"}]
+    },
+    {
+      "node_id": "hdbscan_remapped_single_linkage_tree",
+      "name": "hdbscan_remapped_single_linkage_tree",
+      "description": "Restore non-finite raw samples into HDBSCAN's single-linkage tree after hierarchy extraction.",
+      "concept_type": "fit_postprocessing",
+      "status": "atomic",
+      "type_signature": "(tree: NDArray[np.void], internal_to_raw: dict[int, int], nonfinite_raw_indices: NDArray[np.int64]) -> NDArray[np.void]",
+      "depth": 1,
+      "inputs": [
+        {"name": "tree", "type_desc": "NDArray[np.void]", "required": true},
+        {"name": "internal_to_raw", "type_desc": "dict[int, int]", "required": true},
+        {"name": "nonfinite_raw_indices", "type_desc": "NDArray[np.int64]", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.void]"}]
+    }
+  ],
+  "edges": [
+    {"source": "hdbscan_tree_node_id", "target": "hdbscan_remapped_tree_rows", "kind": "endpoint_remap"},
+    {"source": "hdbscan_remapped_tree_rows", "target": "hdbscan_remapped_single_linkage_tree", "kind": "core_tree_remap"},
+    {"source": "hdbscan_outlier_linkage_rows", "target": "hdbscan_remapped_single_linkage_tree", "kind": "outlier_append"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.cluster._hdbscan.hdbscan",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 4 HDBSCAN single-linkage tree remapping after deferred hierarchy extraction"
+  }
+}
