@@ -1,0 +1,135 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_decomposition_dictionary_learning_minibatch_partial_fit_shell_root",
+      "name": "Sklearn MiniBatchDictionaryLearning Partial Fit Shell Helpers",
+      "description": "Deterministic helpers around MiniBatchDictionaryLearning.partial_fit before and after the deferred minibatch update.",
+      "status": "decomposed",
+      "children": [
+        "dictionary_learning_minibatch_partial_fit_first_call",
+        "dictionary_learning_minibatch_partial_fit_reset_required",
+        "dictionary_learning_minibatch_partial_fit_initial_n_steps",
+        "dictionary_learning_minibatch_partial_fit_initial_inner_stats",
+        "dictionary_learning_minibatch_partial_fit_initial_dictionary",
+        "dictionary_learning_minibatch_partial_fit_existing_dictionary",
+        "dictionary_learning_minibatch_partial_fit_components",
+        "dictionary_learning_minibatch_partial_fit_updated_n_steps"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "dictionary_learning_minibatch_partial_fit_first_call",
+      "name": "dictionary_learning_minibatch_partial_fit_first_call",
+      "description": "Determine whether partial_fit is running on an unfitted instance with no components_.",
+      "concept_type": "branch_predicate",
+      "status": "atomic",
+      "type_signature": "(has_components: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "has_components", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    },
+    {
+      "node_id": "dictionary_learning_minibatch_partial_fit_reset_required",
+      "name": "dictionary_learning_minibatch_partial_fit_reset_required",
+      "description": "Resolve validate_data(reset=...) from the fitted-components predicate.",
+      "concept_type": "validation_mode",
+      "status": "atomic",
+      "type_signature": "(has_components: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "has_components", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    },
+    {
+      "node_id": "dictionary_learning_minibatch_partial_fit_initial_n_steps",
+      "name": "dictionary_learning_minibatch_partial_fit_initial_n_steps",
+      "description": "Initialize n_steps_ to zero on the first partial_fit call.",
+      "concept_type": "state_initialization",
+      "status": "atomic",
+      "type_signature": "(first_call: bool) -> int",
+      "depth": 1,
+      "inputs": [
+        {"name": "first_call", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "int"}]
+    },
+    {
+      "node_id": "dictionary_learning_minibatch_partial_fit_initial_inner_stats",
+      "name": "dictionary_learning_minibatch_partial_fit_initial_inner_stats",
+      "description": "Allocate zero-valued _A and _B buffers on the first partial_fit call.",
+      "concept_type": "buffer_preparation",
+      "status": "atomic",
+      "type_signature": "(n_components: int, n_features: int, dtype_name: str) -> tuple[NDArray[np.floating], NDArray[np.floating]]",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_components", "type_desc": "int", "required": true},
+        {"name": "n_features", "type_desc": "int", "required": true},
+        {"name": "dtype_name", "type_desc": "str", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "tuple[NDArray[np.floating], NDArray[np.floating]]"}]
+    },
+    {
+      "node_id": "dictionary_learning_minibatch_partial_fit_initial_dictionary",
+      "name": "dictionary_learning_minibatch_partial_fit_initial_dictionary",
+      "description": "Expose the initialized dictionary selected on the first partial_fit call.",
+      "concept_type": "state_exposure",
+      "status": "atomic",
+      "type_signature": "(dictionary: NDArray[np.floating]) -> NDArray[np.floating]",
+      "depth": 1,
+      "inputs": [
+        {"name": "dictionary", "type_desc": "NDArray[np.floating]", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.floating]"}]
+    },
+    {
+      "node_id": "dictionary_learning_minibatch_partial_fit_existing_dictionary",
+      "name": "dictionary_learning_minibatch_partial_fit_existing_dictionary",
+      "description": "Expose the already-fitted components matrix reused as the active dictionary.",
+      "concept_type": "state_exposure",
+      "status": "atomic",
+      "type_signature": "(components: NDArray[np.floating]) -> NDArray[np.floating]",
+      "depth": 1,
+      "inputs": [
+        {"name": "components", "type_desc": "NDArray[np.floating]", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.floating]"}]
+    },
+    {
+      "node_id": "dictionary_learning_minibatch_partial_fit_components",
+      "name": "dictionary_learning_minibatch_partial_fit_components",
+      "description": "Expose the updated dictionary as components_ after one minibatch step.",
+      "concept_type": "state_exposure",
+      "status": "atomic",
+      "type_signature": "(dictionary: NDArray[np.floating]) -> NDArray[np.floating]",
+      "depth": 1,
+      "inputs": [
+        {"name": "dictionary", "type_desc": "NDArray[np.floating]", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.floating]"}]
+    },
+    {
+      "node_id": "dictionary_learning_minibatch_partial_fit_updated_n_steps",
+      "name": "dictionary_learning_minibatch_partial_fit_updated_n_steps",
+      "description": "Increment n_steps_ after one partial-fit minibatch update.",
+      "concept_type": "state_update",
+      "status": "atomic",
+      "type_signature": "(n_steps: int) -> int",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_steps", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "int"}]
+    }
+  ],
+  "edges": [],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.decomposition._dict_learning",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 4 MiniBatchDictionaryLearning partial_fit shell"
+  }
+}

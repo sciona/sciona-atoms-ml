@@ -1424,6 +1424,13 @@ Potential remediation path:
   iteration count, and final `fit` self-return after the deferred minibatch
   loop completes.
 - Completed helper slice:
+  `sklearn.decomposition.dictionary_learning_minibatch_partial_fit_shell` now
+  publishes the deterministic MiniBatchDictionaryLearning `partial_fit` shell
+  for first-call detection, `validate_data(reset=...)` selection, first-pass
+  zero-buffer allocation for `_A` and `_B`, initialized-versus-existing
+  dictionary exposure, and the final `components_` / `n_steps_` state update
+  around the deferred minibatch step.
+- Completed helper slice:
   `sklearn.decomposition.lda_shell` now publishes deterministic
   LatentDirichletAllocation helper atoms for default prior resolution, random
   gamma initialization of `components_`, transform-time row normalization of
