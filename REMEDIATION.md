@@ -1061,9 +1061,14 @@ Potential remediation path:
   publishes deterministic HDBSCAN helpers for inferring infinite and missing
   outlier masks from fitted labels and applying those overrides to labels
   already produced by the deferred `labelling_at_cut(...)` callback.
+- Completed helper slice: `sklearn.cluster.hdbscan_weighted_centers` now
+  publishes deterministic HDBSCAN helpers for cluster-count bookkeeping,
+  `store_centers` flag resolution, per-cluster data and probability selection,
+  and weighted centroid computation after deferred hierarchy extraction.
 - MST construction, tree backends, hierarchy condensation/extraction,
   precomputed and sparse inputs, callable metrics, non-finite remapping, and
-  stored centers remain explicit native/private sklearn boundaries.
+  pairwise-distance medoid selection remain explicit native/private sklearn
+  boundaries.
 - Ingest HDBSCAN through the MST and hierarchy construction boundary with
   native/FFI provenance, including parity tests for brute-force, KD-tree,
   BallTree, sparse, and precomputed-distance modes.
