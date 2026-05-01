@@ -638,6 +638,11 @@ Potential remediation path:
   decoding, validation-score history appends, cached best-score and
   best-parameter updates, and final best-parameter restore after the deferred
   score callback and optimizer loop.
+- Completed helper slice:
+  `sklearn.neural_network.mlp_lbfgs_loss_grad` now publishes the deterministic
+  L-BFGS shell for unpacking flat parameter vectors into layer blocks and for
+  evaluating the packed loss-and-gradient pair from supplied layer layouts,
+  inputs, and targets above the deferred SciPy optimizer call.
 - Decide whether SGD/Adam/L-BFGS optimizer state should be represented as
   separate atom families before publishing full MLP training surfaces.
 
