@@ -872,6 +872,12 @@ Potential remediation path:
   unfitted-prior helper atoms for target-count defaulting, zero-mean output
   shaping, covariance and variance formatting from supplied kernel outputs,
   and standard-deviation conversion.
+- Completed helper slice:
+  `sklearn.gaussian_process.regression_predict_preflight` now publishes the
+  deterministic `GaussianProcessRegressor.predict` shell for uncertainty-mode
+  exclusivity, validate-data dtype and `ensure_2d` mode selection from kernel
+  input requirements, and unfitted prior-branch selection before validation,
+  kernel evaluation, or posterior algebra.
 - Ingest standalone Gaussian-process linear algebra primitives first, such as
   kernel regularization, Cholesky solve, posterior mean/covariance, and
   log-marginal-likelihood components. The first regression slice is complete;

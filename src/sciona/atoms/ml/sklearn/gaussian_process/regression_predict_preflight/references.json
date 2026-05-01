@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.gaussian_process.regression_predict_preflight.gp_predict_require_single_uncertainty_mode@sciona/atoms/ml/sklearn/gaussian_process/regression_predict_preflight/atoms.py:25": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_source_parity",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from GaussianProcessRegressor.predict in sklearn.gaussian_process._gpr in scikit-learn 1.8.0 for the return_std/return_cov exclusivity guard."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_project_reference",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for GaussianProcessRegressor predict behavior."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.regression_predict_preflight.gp_predict_dtype_name@sciona/atoms/ml/sklearn/gaussian_process/regression_predict_preflight/atoms.py:38": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_source_parity",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from GaussianProcessRegressor.predict in sklearn.gaussian_process._gpr in scikit-learn 1.8.0 for dtype selection before validate_data."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_project_reference",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for GaussianProcessRegressor validation mode selection."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.regression_predict_preflight.gp_predict_validate_ensure_2d@sciona/atoms/ml/sklearn/gaussian_process/regression_predict_preflight/atoms.py:52": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_source_parity",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from GaussianProcessRegressor.predict in sklearn.gaussian_process._gpr in scikit-learn 1.8.0 for ensure_2d selection before validate_data."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_project_reference",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for GaussianProcessRegressor validation mode selection."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.regression_predict_preflight.gp_predict_use_prior_branch@sciona/atoms/ml/sklearn/gaussian_process/regression_predict_preflight/atoms.py:63": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_source_parity",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from GaussianProcessRegressor.predict in sklearn.gaussian_process._gpr in scikit-learn 1.8.0 for the unfitted prior-branch predicate."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_project_reference",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for GaussianProcessRegressor prior-versus-posterior branching."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}
