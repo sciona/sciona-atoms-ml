@@ -1431,6 +1431,12 @@ Potential remediation path:
   dictionary exposure, and the final `components_` / `n_steps_` state update
   around the deferred minibatch step.
 - Completed helper slice:
+  `sklearn.decomposition.sparse_coder_api_shell` now publishes the
+  deterministic SparseCoder API shell for no-op `fit` self-return, transform-
+  time dictionary dispatch into the deferred `_transform` path, the
+  `requires_fit=False` and dtype-preservation tag overrides, and
+  `_n_features_out` exposure from the dictionary row count.
+- Completed helper slice:
   `sklearn.decomposition.lda_shell` now publishes deterministic
   LatentDirichletAllocation helper atoms for default prior resolution, random
   gamma initialization of `components_`, transform-time row normalization of
