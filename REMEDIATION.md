@@ -1394,6 +1394,12 @@ Potential remediation path:
   packaging in `dict_learning` and `dict_learning_online`, while sparse-code
   solving, dictionary updates, and callback execution remain deferred.
 - Completed helper slice:
+  `sklearn.decomposition.dictionary_learning_minibatch_fit_scheduling` now
+  publishes the deterministic MiniBatchDictionaryLearning fit shell for zero
+  inner-stat buffer allocation, minibatch step-count scheduling, total step
+  budget resolution, and final `n_steps_` / `n_iter_` derivation around the
+  deferred minibatch update and callback loop.
+- Completed helper slice:
   `sklearn.decomposition.lda_shell` now publishes deterministic
   LatentDirichletAllocation helper atoms for default prior resolution, random
   gamma initialization of `components_`, transform-time row normalization of

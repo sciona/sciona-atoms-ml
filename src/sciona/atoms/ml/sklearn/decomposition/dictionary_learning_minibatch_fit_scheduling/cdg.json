@@ -1,0 +1,82 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_decomposition_dictionary_learning_minibatch_fit_scheduling_root",
+      "name": "Sklearn MiniBatchDictionaryLearning Fit Scheduling Helpers",
+      "description": "Deterministic fit-loop scheduling and counter helpers around the deferred MiniBatchDictionaryLearning minibatch update loop.",
+      "status": "decomposed",
+      "children": [
+        "dictionary_learning_minibatch_inner_stat_buffers",
+        "dictionary_learning_minibatch_steps_per_iter",
+        "dictionary_learning_minibatch_total_steps",
+        "dictionary_learning_minibatch_fit_counters"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "dictionary_learning_minibatch_inner_stat_buffers",
+      "name": "dictionary_learning_minibatch_inner_stat_buffers",
+      "description": "Allocate zero-filled A and B inner-stat buffers before the minibatch loop.",
+      "concept_type": "buffer_preparation",
+      "status": "atomic",
+      "type_signature": "(n_features: int, n_components: int, dtype_name: str) -> tuple[NDArray[np.floating], NDArray[np.floating]]",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_features", "type_desc": "int", "required": true},
+        {"name": "n_components", "type_desc": "int", "required": true},
+        {"name": "dtype_name", "type_desc": "str", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "tuple[NDArray[np.floating], NDArray[np.floating]]"}]
+    },
+    {
+      "node_id": "dictionary_learning_minibatch_steps_per_iter",
+      "name": "dictionary_learning_minibatch_steps_per_iter",
+      "description": "Compute the number of minibatches in one outer iteration.",
+      "concept_type": "scheduling",
+      "status": "atomic",
+      "type_signature": "(n_samples: int, batch_size: int) -> int",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_samples", "type_desc": "int", "required": true},
+        {"name": "batch_size", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "int"}]
+    },
+    {
+      "node_id": "dictionary_learning_minibatch_total_steps",
+      "name": "dictionary_learning_minibatch_total_steps",
+      "description": "Compute the total minibatch step budget from max_iter and steps_per_iter.",
+      "concept_type": "scheduling",
+      "status": "atomic",
+      "type_signature": "(max_iter: int, steps_per_iter: int) -> int",
+      "depth": 1,
+      "inputs": [
+        {"name": "max_iter", "type_desc": "int", "required": true},
+        {"name": "steps_per_iter", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "int"}]
+    },
+    {
+      "node_id": "dictionary_learning_minibatch_fit_counters",
+      "name": "dictionary_learning_minibatch_fit_counters",
+      "description": "Derive final n_steps_ and n_iter_ from the last completed minibatch index.",
+      "concept_type": "result_assembly",
+      "status": "atomic",
+      "type_signature": "(final_step_index: int, steps_per_iter: int) -> tuple[int, float]",
+      "depth": 1,
+      "inputs": [
+        {"name": "final_step_index", "type_desc": "int", "required": true},
+        {"name": "steps_per_iter", "type_desc": "int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "tuple[int, float]"}]
+    }
+  ],
+  "edges": [],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.decomposition._dict_learning",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 4 MiniBatchDictionaryLearning fit scheduling shell"
+  }
+}
