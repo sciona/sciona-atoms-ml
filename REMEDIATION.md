@@ -1195,6 +1195,9 @@ Potential remediation path:
   sample-count-aware `n_clusters` validation, the `n_best <= n_components`
   guard, and sparse rejection for `method='log'` before normalization, SVD,
   and KMeans stages.
+- Completed helper slice: `sklearn.cluster.cocluster_fit_preflight` now
+  publishes the deterministic `SpectralCoclustering` sample-count guard
+  before normalization, SVD, and KMeans.
 - Sparse log-normalization rejection, SVD/randomized-SVD projection,
   piecewise-vector selection, projection-and-cluster helpers, KMeans and
   MiniBatchKMeans label assignment, and full estimator state surfaces remain
