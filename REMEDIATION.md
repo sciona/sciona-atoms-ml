@@ -643,6 +643,11 @@ Potential remediation path:
   L-BFGS shell for unpacking flat parameter vectors into layer blocks and for
   evaluating the packed loss-and-gradient pair from supplied layer layouts,
   inputs, and targets above the deferred SciPy optimizer call.
+- Completed helper slice:
+  `sklearn.neural_network.mlp_fit_buffer_setup` now publishes the
+  deterministic post-validation fit shell for target reshaping to 2D,
+  layer-width construction, and coefficient/intercept gradient-buffer
+  allocation before the deferred stochastic or L-BFGS solver execution.
 - Decide whether SGD/Adam/L-BFGS optimizer state should be represented as
   separate atom families before publishing full MLP training surfaces.
 

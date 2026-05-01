@@ -1,0 +1,93 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_neural_network_mlp_fit_buffer_setup_root",
+      "name": "Sklearn MLP Fit Buffer Setup Helpers",
+      "description": "Deterministic MLP fit-shell helpers for 2D target reshaping, layer-width construction, and solver-gradient buffer allocation before stochastic or LBFGS training.",
+      "status": "decomposed",
+      "children": [
+        "mlp_fit_targets_2d",
+        "mlp_fit_layer_units",
+        "mlp_fit_coef_gradient_buffers",
+        "mlp_fit_intercept_gradient_buffers"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "mlp_fit_targets_2d",
+      "name": "mlp_fit_targets_2d",
+      "description": "Reshape one-dimensional MLP targets into sklearn's required two-dimensional column format.",
+      "concept_type": "mlp_fit_target_shape",
+      "status": "atomic",
+      "type_signature": "(y: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "mlp_fit_layer_units",
+      "name": "mlp_fit_layer_units",
+      "description": "Construct sklearn's layer-unit sequence from input width, normalized hidden widths, and output width.",
+      "concept_type": "mlp_fit_structure",
+      "status": "atomic",
+      "type_signature": "(n_features: int, hidden_layer_sizes: tuple[int, ...], n_outputs: int) -> tuple[int, ...]",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_features", "type_desc": "int", "required": true},
+        {"name": "hidden_layer_sizes", "type_desc": "tuple[int, ...]", "required": true},
+        {"name": "n_outputs", "type_desc": "int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[int, ...]"}
+      ]
+    },
+    {
+      "node_id": "mlp_fit_coef_gradient_buffers",
+      "name": "mlp_fit_coef_gradient_buffers",
+      "description": "Allocate sklearn's per-layer coefficient-gradient buffers from layer widths and sample dtype.",
+      "concept_type": "mlp_fit_buffer_allocation",
+      "status": "atomic",
+      "type_signature": "(layer_units: tuple[int, ...], dtype_name: str) -> tuple[NDArray[np.generic], ...]",
+      "depth": 1,
+      "inputs": [
+        {"name": "layer_units", "type_desc": "tuple[int, ...]", "required": true},
+        {"name": "dtype_name", "type_desc": "str", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[NDArray[np.generic], ...]"}
+      ]
+    },
+    {
+      "node_id": "mlp_fit_intercept_gradient_buffers",
+      "name": "mlp_fit_intercept_gradient_buffers",
+      "description": "Allocate sklearn's per-layer intercept-gradient buffers from layer widths and sample dtype.",
+      "concept_type": "mlp_fit_buffer_allocation",
+      "status": "atomic",
+      "type_signature": "(layer_units: tuple[int, ...], dtype_name: str) -> tuple[NDArray[np.generic], ...]",
+      "depth": 1,
+      "inputs": [
+        {"name": "layer_units", "type_desc": "tuple[int, ...]", "required": true},
+        {"name": "dtype_name", "type_desc": "str", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[NDArray[np.generic], ...]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "mlp_fit_targets_2d", "target": "mlp_fit_layer_units", "kind": "output_width_context"},
+    {"source": "mlp_fit_layer_units", "target": "mlp_fit_coef_gradient_buffers", "kind": "buffer_shape_context"},
+    {"source": "mlp_fit_layer_units", "target": "mlp_fit_intercept_gradient_buffers", "kind": "buffer_shape_context"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.neural_network._multilayer_perceptron",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 4 deterministic MLP fit-shell setup before deferred solver execution"
+  }
+}
