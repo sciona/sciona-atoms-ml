@@ -1,0 +1,110 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_gaussian_process_regression_log_marginal_likelihood_shell_root",
+      "name": "Sklearn Gaussian Process Regression Log Marginal Likelihood Shell Helpers",
+      "description": "Deterministic GaussianProcessRegressor.log_marginal_likelihood helpers for theta guards, cached-result branching, kernel selection, Cholesky-failure fallback formatting, and target-shape normalization.",
+      "status": "decomposed",
+      "children": [
+        "gp_log_marginal_likelihood_require_theta_for_gradient",
+        "gp_log_marginal_likelihood_cached_result",
+        "gp_log_marginal_likelihood_kernel",
+        "gp_log_marginal_likelihood_cholesky_failure_result",
+        "gp_log_marginal_likelihood_train_targets"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "gp_log_marginal_likelihood_require_theta_for_gradient",
+      "name": "gp_log_marginal_likelihood_require_theta_for_gradient",
+      "description": "Reject gradient evaluation when theta is omitted.",
+      "concept_type": "likelihood_guard",
+      "status": "atomic",
+      "type_signature": "(theta_is_none: bool, eval_gradient: bool) -> None",
+      "depth": 1,
+      "inputs": [
+        {"name": "theta_is_none", "type_desc": "bool", "required": true},
+        {"name": "eval_gradient", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "None"}
+      ]
+    },
+    {
+      "node_id": "gp_log_marginal_likelihood_cached_result",
+      "name": "gp_log_marginal_likelihood_cached_result",
+      "description": "Return the cached log-marginal-likelihood value when theta is omitted and no gradient is requested.",
+      "concept_type": "likelihood_branching",
+      "status": "atomic",
+      "type_signature": "(log_marginal_likelihood_value: float) -> float",
+      "depth": 1,
+      "inputs": [
+        {"name": "log_marginal_likelihood_value", "type_desc": "float", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "float"}
+      ]
+    },
+    {
+      "node_id": "gp_log_marginal_likelihood_kernel",
+      "name": "gp_log_marginal_likelihood_kernel",
+      "description": "Resolve the kernel object used for log-marginal-likelihood evaluation by cloning with theta or assigning theta in place.",
+      "concept_type": "kernel_selection",
+      "status": "atomic",
+      "type_signature": "(kernel: Kernel, theta: NDArray[np.float64], clone_kernel: bool) -> Kernel",
+      "depth": 1,
+      "inputs": [
+        {"name": "kernel", "type_desc": "Kernel", "required": true},
+        {"name": "theta", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "clone_kernel", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "Kernel"}
+      ]
+    },
+    {
+      "node_id": "gp_log_marginal_likelihood_cholesky_failure_result",
+      "name": "gp_log_marginal_likelihood_cholesky_failure_result",
+      "description": "Format sklearn's Cholesky-failure fallback as -inf or (-inf, zeros_like(theta)).",
+      "concept_type": "likelihood_failure_format",
+      "status": "atomic",
+      "type_signature": "(theta: NDArray[np.float64], eval_gradient: bool) -> float | tuple[float, NDArray[np.float64]]",
+      "depth": 1,
+      "inputs": [
+        {"name": "theta", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "eval_gradient", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "float | tuple[float, NDArray[np.float64]]"}
+      ]
+    },
+    {
+      "node_id": "gp_log_marginal_likelihood_train_targets",
+      "name": "gp_log_marginal_likelihood_train_targets",
+      "description": "Normalize one-dimensional training targets into the column-matrix form used by log-marginal-likelihood evaluation.",
+      "concept_type": "likelihood_shape_normalization",
+      "status": "atomic",
+      "type_signature": "(y_train: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "y_train", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "gp_log_marginal_likelihood_require_theta_for_gradient", "target": "gp_log_marginal_likelihood_cached_result", "kind": "theta_none_branch"},
+    {"source": "gp_log_marginal_likelihood_require_theta_for_gradient", "target": "gp_log_marginal_likelihood_kernel", "kind": "theta_present_branch"},
+    {"source": "gp_log_marginal_likelihood_kernel", "target": "gp_log_marginal_likelihood_cholesky_failure_result", "kind": "factorization_fallback"},
+    {"source": "gp_log_marginal_likelihood_kernel", "target": "gp_log_marginal_likelihood_train_targets", "kind": "evaluation_inputs"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.gaussian_process._gpr",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 4 Gaussian-process likelihood control shell above landed regression algebra"
+  }
+}

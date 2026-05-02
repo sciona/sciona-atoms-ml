@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.gaussian_process.regression_log_marginal_likelihood_shell.gp_log_marginal_likelihood_require_theta_for_gradient@sciona/atoms/ml/sklearn/gaussian_process/regression_log_marginal_likelihood_shell/atoms.py:74": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the theta=None plus eval_gradient guard in GaussianProcessRegressor.log_marginal_likelihood in sklearn.gaussian_process._gpr in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for GaussianProcessRegressor likelihood control flow."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.regression_log_marginal_likelihood_shell.gp_log_marginal_likelihood_cached_result@sciona/atoms/ml/sklearn/gaussian_process/regression_log_marginal_likelihood_shell/atoms.py:88": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the cached-value return branch in GaussianProcessRegressor.log_marginal_likelihood in sklearn.gaussian_process._gpr in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for GaussianProcessRegressor cached likelihood behavior."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.regression_log_marginal_likelihood_shell.gp_log_marginal_likelihood_kernel@sciona/atoms/ml/sklearn/gaussian_process/regression_log_marginal_likelihood_shell/atoms.py:100": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from clone_kernel handling in GaussianProcessRegressor.log_marginal_likelihood in sklearn.gaussian_process._gpr in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for GaussianProcessRegressor kernel handling."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.regression_log_marginal_likelihood_shell.gp_log_marginal_likelihood_cholesky_failure_result@sciona/atoms/ml/sklearn/gaussian_process/regression_log_marginal_likelihood_shell/atoms.py:124": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the LinAlgError fallback return in GaussianProcessRegressor.log_marginal_likelihood in sklearn.gaussian_process._gpr in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for GaussianProcessRegressor likelihood failure handling."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.regression_log_marginal_likelihood_shell.gp_log_marginal_likelihood_train_targets@sciona/atoms/ml/sklearn/gaussian_process/regression_log_marginal_likelihood_shell/atoms.py:140": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the y_train one-dimensional expansion in GaussianProcessRegressor.log_marginal_likelihood in sklearn.gaussian_process._gpr in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for GaussianProcessRegressor target-shape handling."
+          }
+        }
+      ]
+    }
+  }
+}

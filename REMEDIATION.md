@@ -895,6 +895,13 @@ Potential remediation path:
   remaining deterministic `GaussianProcessRegressor` kernel-selection and API
   shell for fit-time default-or-clone kernel selection, unfitted prior-branch
   kernel selection, and the `requires_fit=False` tag override.
+- Completed helper slice:
+  `sklearn.gaussian_process.regression_log_marginal_likelihood_shell` now
+  publishes the deterministic `GaussianProcessRegressor.log_marginal_likelihood`
+  control shell for the theta-required-for-gradient guard, cached-value
+  branch, clone-versus-in-place kernel selection, Cholesky-failure fallback
+  formatting, and one-dimensional target expansion before the already-landed
+  regression algebra and gradient contractions.
 - Ingest standalone Gaussian-process linear algebra primitives first, such as
   kernel regularization, Cholesky solve, posterior mean/covariance, and
   log-marginal-likelihood components. The first regression slice is complete;
