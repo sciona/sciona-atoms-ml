@@ -884,6 +884,13 @@ Potential remediation path:
   user-callable optimizer branch selection, unsupported-optimizer error
   formatting, and final result packaging.
 - Completed helper slice:
+  `sklearn.gaussian_process.classification_binary_fit_shell` now publishes the
+  deterministic `_BinaryGaussianProcessClassifierLaplace.fit` setup shell
+  before deferred optimizer and posterior-mode callbacks: default-or-cloned
+  kernel selection, `copy_X_train` input storage, LabelEncoder-style class
+  discovery and target encoding, binary-class validation, and the
+  optimizer-entry predicate.
+- Completed helper slice:
   `sklearn.gaussian_process.regression_gradients` now publishes dense
   log-marginal-likelihood gradient helpers for the shared
   alpha-alpha-transpose-minus-kernel-inverse inner tensor, per-parameter

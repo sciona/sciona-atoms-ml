@@ -1,0 +1,124 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_gaussian_process_classification_binary_fit_shell_root",
+      "name": "Sklearn Binary Gaussian Process Classification Fit Shell Helpers",
+      "description": "Deterministic _BinaryGaussianProcessClassifierLaplace.fit helpers for default-or-cloned kernel setup, training-input storage, class discovery and encoding, binary-class validation, and optimizer-branch selection before deferred optimizer and posterior-mode callbacks.",
+      "status": "decomposed",
+      "children": [
+        "gpc_binary_fit_kernel",
+        "gpc_binary_fit_stored_train_inputs",
+        "gpc_binary_fit_classes",
+        "gpc_binary_fit_encoded_targets",
+        "gpc_binary_fit_require_binary_classes",
+        "gpc_binary_fit_use_optimizer_branch"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "gpc_binary_fit_kernel",
+      "name": "gpc_binary_fit_kernel",
+      "description": "Resolve the default fixed ConstantKernel times RBF kernel or clone the configured kernel during binary GPC fitting.",
+      "concept_type": "kernel_setup",
+      "status": "atomic",
+      "type_signature": "(kernel: Kernel | None) -> Kernel",
+      "depth": 1,
+      "inputs": [
+        {"name": "kernel", "type_desc": "Kernel | None", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "Kernel"}
+      ]
+    },
+    {
+      "node_id": "gpc_binary_fit_stored_train_inputs",
+      "name": "gpc_binary_fit_stored_train_inputs",
+      "description": "Store training inputs using sklearn's copy_X_train policy during binary GPC fitting.",
+      "concept_type": "training_data_storage",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.object_], copy_X_train: bool) -> NDArray[np.object_]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.object_]", "required": true},
+        {"name": "copy_X_train", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.object_]"}
+      ]
+    },
+    {
+      "node_id": "gpc_binary_fit_classes",
+      "name": "gpc_binary_fit_classes",
+      "description": "Compute the sorted unique class vector used by LabelEncoder during binary GPC fitting.",
+      "concept_type": "class_discovery",
+      "status": "atomic",
+      "type_signature": "(y: NDArray[np.object_]) -> NDArray[np.object_]",
+      "depth": 1,
+      "inputs": [
+        {"name": "y", "type_desc": "NDArray[np.object_]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.object_]"}
+      ]
+    },
+    {
+      "node_id": "gpc_binary_fit_encoded_targets",
+      "name": "gpc_binary_fit_encoded_targets",
+      "description": "Encode training labels into LabelEncoder-style integer target codes during binary GPC fitting.",
+      "concept_type": "target_encoding",
+      "status": "atomic",
+      "type_signature": "(y: NDArray[np.object_]) -> NDArray[np.int64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "y", "type_desc": "NDArray[np.object_]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.int64]"}
+      ]
+    },
+    {
+      "node_id": "gpc_binary_fit_require_binary_classes",
+      "name": "gpc_binary_fit_require_binary_classes",
+      "description": "Apply sklearn's binary-class guard and format the one-class or too-many-classes errors during binary GPC fitting.",
+      "concept_type": "class_guard",
+      "status": "atomic",
+      "type_signature": "(classes: NDArray[np.object_], class_name: str) -> int",
+      "depth": 1,
+      "inputs": [
+        {"name": "classes", "type_desc": "NDArray[np.object_]", "required": true},
+        {"name": "class_name", "type_desc": "str", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "int"}
+      ]
+    },
+    {
+      "node_id": "gpc_binary_fit_use_optimizer_branch",
+      "name": "gpc_binary_fit_use_optimizer_branch",
+      "description": "Decide whether binary GPC fitting enters optimizer selection from optimizer availability and kernel dimensionality.",
+      "concept_type": "optimizer_branching",
+      "status": "atomic",
+      "type_signature": "(optimizer_is_not_none: bool, kernel_n_dims: int) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "optimizer_is_not_none", "type_desc": "bool", "required": true},
+        {"name": "kernel_n_dims", "type_desc": "int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "gpc_binary_fit_classes", "target": "gpc_binary_fit_encoded_targets", "kind": "shared_label_encoder_logic"},
+    {"source": "gpc_binary_fit_classes", "target": "gpc_binary_fit_require_binary_classes", "kind": "class_guard_input"},
+    {"source": "gpc_binary_fit_kernel", "target": "gpc_binary_fit_use_optimizer_branch", "kind": "kernel_dimension_input"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.gaussian_process._gpc",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 4 binary Gaussian-process classifier fit shell before deferred optimizer and posterior-mode callbacks"
+  }
+}
