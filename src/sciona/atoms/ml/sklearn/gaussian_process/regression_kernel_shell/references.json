@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.gaussian_process.regression_kernel_shell.gp_fit_kernel@sciona/atoms/ml/sklearn/gaussian_process/regression_kernel_shell/atoms.py:45": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from GaussianProcessRegressor.fit in sklearn.gaussian_process._gpr in scikit-learn 1.8.0 for default-kernel selection and clone(self.kernel)."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for GaussianProcessRegressor fit-time kernel handling."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.regression_kernel_shell.gp_predict_prior_kernel@sciona/atoms/ml/sklearn/gaussian_process/regression_kernel_shell/atoms.py:60": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the unfitted prior branch in GaussianProcessRegressor.predict in sklearn.gaussian_process._gpr in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for GaussianProcessRegressor prior-kernel handling."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.regression_kernel_shell.gp_regression_requires_fit_tag@sciona/atoms/ml/sklearn/gaussian_process/regression_kernel_shell/atoms.py:74": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from GaussianProcessRegressor.__sklearn_tags__ in sklearn.gaussian_process._gpr in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for estimator tag behavior."
+          }
+        }
+      ]
+    }
+  }
+}

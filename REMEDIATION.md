@@ -890,6 +890,11 @@ Potential remediation path:
   branch gating from configured optimizer and kernel dimensionality, and
   training input/target storage under the shared `copy_X_train` policy before
   kernel optimization or linear algebra.
+- Completed helper slice:
+  `sklearn.gaussian_process.regression_kernel_shell` now publishes the
+  remaining deterministic `GaussianProcessRegressor` kernel-selection and API
+  shell for fit-time default-or-clone kernel selection, unfitted prior-branch
+  kernel selection, and the `requires_fit=False` tag override.
 - Ingest standalone Gaussian-process linear algebra primitives first, such as
   kernel regularization, Cholesky solve, posterior mean/covariance, and
   log-marginal-likelihood components. The first regression slice is complete;

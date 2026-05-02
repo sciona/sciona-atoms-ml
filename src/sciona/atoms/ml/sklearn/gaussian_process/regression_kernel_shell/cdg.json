@@ -1,0 +1,71 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_gaussian_process_regression_kernel_shell_root",
+      "name": "Sklearn Gaussian Process Regression Kernel Shell Helpers",
+      "description": "Deterministic GaussianProcessRegressor helpers for default-kernel construction, fit-time kernel selection, unfitted prior-kernel selection, and requires_fit tag override.",
+      "status": "decomposed",
+      "children": [
+        "gp_fit_kernel",
+        "gp_predict_prior_kernel",
+        "gp_regression_requires_fit_tag"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "gp_fit_kernel",
+      "name": "gp_fit_kernel",
+      "description": "Resolve the kernel object used by GaussianProcessRegressor.fit, defaulting or cloning as needed.",
+      "concept_type": "kernel_selection",
+      "status": "atomic",
+      "type_signature": "(kernel: Kernel | None = None) -> Kernel",
+      "depth": 1,
+      "inputs": [
+        {"name": "kernel", "type_desc": "Kernel | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "Kernel"}
+      ]
+    },
+    {
+      "node_id": "gp_predict_prior_kernel",
+      "name": "gp_predict_prior_kernel",
+      "description": "Resolve the kernel object used by GaussianProcessRegressor.predict in the unfitted prior branch.",
+      "concept_type": "kernel_selection",
+      "status": "atomic",
+      "type_signature": "(kernel: Kernel | None = None) -> Kernel",
+      "depth": 1,
+      "inputs": [
+        {"name": "kernel", "type_desc": "Kernel | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "Kernel"}
+      ]
+    },
+    {
+      "node_id": "gp_regression_requires_fit_tag",
+      "name": "gp_regression_requires_fit_tag",
+      "description": "Override the requires_fit tag for GaussianProcessRegressor.",
+      "concept_type": "api_tag",
+      "status": "atomic",
+      "type_signature": "(parent_requires_fit: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "parent_requires_fit", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "gp_fit_kernel", "target": "gp_predict_prior_kernel", "kind": "shared_kernel_surface"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.gaussian_process._gpr",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 4 Gaussian-process kernel-selection and API-shell bookkeeping"
+  }
+}
