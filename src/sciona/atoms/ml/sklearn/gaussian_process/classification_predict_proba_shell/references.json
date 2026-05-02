@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.gaussian_process.classification_predict_proba_shell.gpc_predict_proba_require_supported_multiclass_mode@sciona/atoms/ml/sklearn/gaussian_process/classification_predict_proba_shell/atoms.py:27": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the one-vs-one probability guard in GaussianProcessClassifier.predict_proba in sklearn.gaussian_process._gpc in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for GaussianProcessClassifier predict_proba control flow."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.classification_predict_proba_shell.gpc_predict_proba_dtype_name@sciona/atoms/ml/sklearn/gaussian_process/classification_predict_proba_shell/atoms.py:46": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from GaussianProcessClassifier.predict_proba in sklearn.gaussian_process._gpc in scikit-learn 1.8.0 for dtype selection before validate_data."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for GaussianProcessClassifier predict_proba validation behavior."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.classification_predict_proba_shell.gpc_predict_proba_validate_ensure_2d@sciona/atoms/ml/sklearn/gaussian_process/classification_predict_proba_shell/atoms.py:64": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from GaussianProcessClassifier.predict_proba in sklearn.gaussian_process._gpc in scikit-learn 1.8.0 for ensure_2d selection before validate_data."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for GaussianProcessClassifier predict_proba validation behavior."
+          }
+        }
+      ]
+    }
+  }
+}
