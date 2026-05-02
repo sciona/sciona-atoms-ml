@@ -877,6 +877,13 @@ Potential remediation path:
   theta-shape branch predicates, per-estimator theta slicing, mean
   aggregation, and invalid-theta-shape error formatting.
 - Completed helper slice:
+  `sklearn.gaussian_process.classification_constrained_optimization_shell` now
+  publishes the deterministic
+  `_BinaryGaussianProcessClassifierLaplace._constrained_optimization` shell
+  above deferred optimizer execution: internal L-BFGS-B branch selection,
+  user-callable optimizer branch selection, unsupported-optimizer error
+  formatting, and final result packaging.
+- Completed helper slice:
   `sklearn.gaussian_process.regression_gradients` now publishes dense
   log-marginal-likelihood gradient helpers for the shared
   alpha-alpha-transpose-minus-kernel-inverse inner tensor, per-parameter
