@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.gaussian_process.classification_log_marginal_likelihood_shell.gpc_log_marginal_likelihood_require_theta_for_gradient@sciona/atoms/ml/sklearn/gaussian_process/classification_log_marginal_likelihood_shell/atoms.py:47": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the theta-required-for-gradient guard in GaussianProcessClassifier.log_marginal_likelihood in sklearn.gaussian_process._gpc in scikit-learn 1.8.0."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for GaussianProcessClassifier log-marginal-likelihood control flow."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.classification_log_marginal_likelihood_shell.gpc_log_marginal_likelihood_cached_result@sciona/atoms/ml/sklearn/gaussian_process/classification_log_marginal_likelihood_shell/atoms.py:60": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the cached log-marginal-likelihood branch in GaussianProcessClassifier.log_marginal_likelihood in sklearn.gaussian_process._gpc in scikit-learn 1.8.0."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for GaussianProcessClassifier cached log-marginal-likelihood behavior."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.classification_log_marginal_likelihood_shell.gpc_log_marginal_likelihood_require_no_multiclass_gradient@sciona/atoms/ml/sklearn/gaussian_process/classification_log_marginal_likelihood_shell/atoms.py:71": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the multiclass gradient NotImplementedError guard in GaussianProcessClassifier.log_marginal_likelihood in sklearn.gaussian_process._gpc in scikit-learn 1.8.0."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for GaussianProcessClassifier multiclass log-marginal-likelihood guards."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.classification_log_marginal_likelihood_shell.gpc_log_marginal_likelihood_use_binary_branch@sciona/atoms/ml/sklearn/gaussian_process/classification_log_marginal_likelihood_shell/atoms.py:87": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the n_classes_ == 2 branch in GaussianProcessClassifier.log_marginal_likelihood in sklearn.gaussian_process._gpc in scikit-learn 1.8.0."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for GaussianProcessClassifier binary-versus-multiclass branching."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.classification_log_marginal_likelihood_shell.gpc_log_marginal_likelihood_use_shared_theta@sciona/atoms/ml/sklearn/gaussian_process/classification_log_marginal_likelihood_shell/atoms.py:96": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the theta.shape[0] == n_dims branch in multiclass GaussianProcessClassifier.log_marginal_likelihood in sklearn.gaussian_process._gpc in scikit-learn 1.8.0."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for GaussianProcessClassifier multiclass theta routing."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.classification_log_marginal_likelihood_shell.gpc_log_marginal_likelihood_use_compound_theta@sciona/atoms/ml/sklearn/gaussian_process/classification_log_marginal_likelihood_shell/atoms.py:109": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the theta.shape[0] == n_dims * classes_.shape[0] branch in multiclass GaussianProcessClassifier.log_marginal_likelihood in sklearn.gaussian_process._gpc in scikit-learn 1.8.0."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for GaussianProcessClassifier multiclass theta routing."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.classification_log_marginal_likelihood_shell.gpc_log_marginal_likelihood_theta_slice@sciona/atoms/ml/sklearn/gaussian_process/classification_log_marginal_likelihood_shell/atoms.py:122": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the theta[n_dims * i : n_dims * (i + 1)] slice logic in multiclass GaussianProcessClassifier.log_marginal_likelihood in sklearn.gaussian_process._gpc in scikit-learn 1.8.0."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for GaussianProcessClassifier compound theta slicing."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.classification_log_marginal_likelihood_shell.gpc_log_marginal_likelihood_mean@sciona/atoms/ml/sklearn/gaussian_process/classification_log_marginal_likelihood_shell/atoms.py:145": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from np.mean over multiclass estimator log-marginal-likelihood callback outputs in GaussianProcessClassifier.log_marginal_likelihood in sklearn.gaussian_process._gpc in scikit-learn 1.8.0."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for GaussianProcessClassifier multiclass log-marginal-likelihood aggregation."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.classification_log_marginal_likelihood_shell.gpc_log_marginal_likelihood_theta_shape_message@sciona/atoms/ml/sklearn/gaussian_process/classification_log_marginal_likelihood_shell/atoms.py:154": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the invalid-theta-shape ValueError message in multiclass GaussianProcessClassifier.log_marginal_likelihood in sklearn.gaussian_process._gpc in scikit-learn 1.8.0."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for GaussianProcessClassifier theta-shape validation."}}
+      ]
+    }
+  }
+}

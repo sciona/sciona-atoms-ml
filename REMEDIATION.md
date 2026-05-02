@@ -870,6 +870,13 @@ Potential remediation path:
   passthrough branch and multiclass `CompoundKernel` assembly from already-
   fitted estimator kernels.
 - Completed helper slice:
+  `sklearn.gaussian_process.classification_log_marginal_likelihood_shell` now
+  publishes the deterministic `GaussianProcessClassifier.log_marginal_likelihood`
+  shell above deferred estimator callbacks: the cached-value branch,
+  multiclass gradient guard, binary-versus-multiclass routing, multiclass
+  theta-shape branch predicates, per-estimator theta slicing, mean
+  aggregation, and invalid-theta-shape error formatting.
+- Completed helper slice:
   `sklearn.gaussian_process.regression_gradients` now publishes dense
   log-marginal-likelihood gradient helpers for the shared
   alpha-alpha-transpose-minus-kernel-inverse inner tensor, per-parameter
