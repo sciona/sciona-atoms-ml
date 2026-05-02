@@ -94,3 +94,19 @@ def witness_readability_scores(
 ) -> dict[str, float]:
     """Ghost witness for readability index computation."""
     return {"flesch_kincaid": 50.0, "smog": 10.0}
+
+
+def witness_qa_span_selector(
+    start_logits: AbstractArray,
+    end_logits: AbstractArray,
+    max_answer_length: int = 100,
+    top_k: int = 20,
+) -> list[tuple[int, int, float]]:
+    """Ghost witness for QA span selection from start/end logits."""
+    if len(start_logits.shape) != 1 or len(end_logits.shape) != 1:
+        raise ValueError("logits must be 1D")
+    if start_logits.shape[0] != end_logits.shape[0]:
+        raise ValueError("start and end logits must have equal length")
+    if max_answer_length <= 0:
+        raise ValueError("max_answer_length must be positive")
+    return [(0, 0, 1.0)]

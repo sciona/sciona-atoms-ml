@@ -20,6 +20,9 @@
       "status": "atomic",
       "type_signature": "(predictions: tuple[PredictionEntry, ...], stack_method_names: tuple[str, ...], is_binary_classification: bool, X: NDArray[np.float64] | scipy.sparse.spmatrix | None = None, passthrough: bool = False) -> NDArray[np.float64] | scipy.sparse.spmatrix",
       "depth": 1,
+      "aliases": [
+        "oof_stacking"
+      ],
       "inputs": [
         {"name": "predictions", "type_desc": "tuple[PredictionEntry, ...]", "required": true},
         {"name": "stack_method_names", "type_desc": "tuple[str, ...]", "required": true},

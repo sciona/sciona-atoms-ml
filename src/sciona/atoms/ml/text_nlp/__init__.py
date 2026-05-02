@@ -10,6 +10,7 @@ from .atoms import (
     filter_spans_by_length,
     jaro_winkler,
     levenshtein,
+    qa_span_selector,
     word_ngrams,
 )
 
@@ -23,5 +24,6 @@ __all__ = [
     "filter_spans_by_length",
     "jaro_winkler",
     "levenshtein",
+    "qa_span_selector",
     "word_ngrams",
 ]

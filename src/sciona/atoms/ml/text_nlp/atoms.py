@@ -26,6 +26,7 @@ from .witnesses import (
     witness_filter_spans_by_length,
     witness_jaro_winkler,
     witness_levenshtein,
+    witness_qa_span_selector,
     witness_readability_scores,
     witness_word_ngrams,
 )
@@ -502,3 +503,28 @@ def readability_scores(text: str) -> dict[str, float]:
     smog = 3.0 + math.sqrt(n_polysyllabic * 30.0 / n_sentences)
 
     return {"flesch_kincaid": fk, "smog": smog}
+
+
+@register_atom(witness_qa_span_selector)
+@icontract.require(lambda start_logits, end_logits: len(start_logits) == len(end_logits), "start_logits and end_logits must have equal length")
+@icontract.require(lambda max_answer_length: max_answer_length > 0, "max_answer_length must be positive")
+@icontract.ensure(lambda result, top_k: len(result) <= top_k, "result must not exceed top_k candidates")
+@icontract.ensure(lambda result: all(s <= e for s, e, _ in result), "span start must not exceed span end")
+def qa_span_selector(
+    start_logits: NDArray[np.float64],
+    end_logits: NDArray[np.float64],
+    max_answer_length: int = 100,
+    top_k: int = 20,
+) -> list[tuple[int, int, float]]:
+    """Select top-k answer spans from QA start/end logits with length penalty."""
+    n = len(start_logits)
+    candidates = []
+    top_starts = np.argsort(start_logits)[-top_k:][::-1]
+    top_ends = np.argsort(end_logits)[-top_k:][::-1]
+    for s in top_starts:
+        for e in top_ends:
+            if e >= s and (e - s + 1) <= max_answer_length:
+                score = start_logits[s] + end_logits[e]
+                candidates.append((int(s), int(e), float(score)))
+    candidates.sort(key=lambda x: -x[2])
+    return candidates[:top_k]

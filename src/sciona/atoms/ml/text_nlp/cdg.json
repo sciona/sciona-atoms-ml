@@ -17,7 +17,8 @@
         "word_ngrams",
         "char_ngrams",
         "filter_spans_by_length",
-        "readability_scores"
+        "readability_scores",
+        "qa_span_selector"
       ]
     },
     {
@@ -356,7 +357,9 @@
       "aliases": [
         "bio_decoding",
         "ner_decoding",
-        "sequence_tagging_decode"
+        "sequence_tagging_decode",
+        "span_decoding",
+        "index_to_span"
       ],
       "type_signature": "(tags: list[str], tokens: list[str]) -> list[tuple[str, int, int]]",
       "inputs": [
@@ -436,6 +439,48 @@
           "type_desc": "dict[str, float]"
         }
       ]
+    },
+    {
+      "node_id": "qa_span_selector",
+      "name": "qa_span_selector",
+      "description": "Select top-k answer spans from QA start/end logits with length constraint",
+      "concept_type": "searching",
+      "status": "atomic",
+      "aliases": [
+        "post_processing_logic",
+        "span_selection",
+        "qa_answer_extraction"
+      ],
+      "type_signature": "(start_logits: NDArray[np.float64], end_logits: NDArray[np.float64], max_answer_length: int = 100, top_k: int = 20) -> list[tuple[int, int, float]]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "start_logits",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "end_logits",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "max_answer_length",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "top_k",
+          "type_desc": "int",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "list[tuple[int, int, float]]"
+        }
+      ]
     }
   ],
   "edges": [
@@ -482,6 +527,10 @@
     {
       "source": "ml_text_nlp_root",
       "target": "readability_scores"
+    },
+    {
+      "source": "ml_text_nlp_root",
+      "target": "qa_span_selector"
     }
   ],
   "metadata": {
