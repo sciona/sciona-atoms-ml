@@ -1,0 +1,47 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_gaussian_process_classification_predict_shell_root",
+      "name": "Sklearn Gaussian Process Classification Predict Shell Helpers",
+      "description": "Deterministic GaussianProcessClassifier.predict helpers for validate-data mode selection before deferred fitted-estimator predict callbacks.",
+      "status": "decomposed",
+      "children": [
+        "gpc_predict_dtype_name",
+        "gpc_predict_validate_ensure_2d"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "gpc_predict_dtype_name",
+      "name": "gpc_predict_dtype_name",
+      "description": "Resolve the dtype mode passed into validate_data during GaussianProcessClassifier.predict.",
+      "concept_type": "validation_mode",
+      "status": "atomic",
+      "type_signature": "(kernel_is_none_or_requires_vector_input: bool) -> str | None",
+      "depth": 1,
+      "inputs": [{"name": "kernel_is_none_or_requires_vector_input", "type_desc": "bool", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "str | None"}]
+    },
+    {
+      "node_id": "gpc_predict_validate_ensure_2d",
+      "name": "gpc_predict_validate_ensure_2d",
+      "description": "Resolve the ensure_2d mode passed into validate_data during GaussianProcessClassifier.predict.",
+      "concept_type": "validation_mode",
+      "status": "atomic",
+      "type_signature": "(kernel_is_none_or_requires_vector_input: bool) -> bool",
+      "depth": 1,
+      "inputs": [{"name": "kernel_is_none_or_requires_vector_input", "type_desc": "bool", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    }
+  ],
+  "edges": [
+    {"source": "gpc_predict_dtype_name", "target": "gpc_predict_validate_ensure_2d", "kind": "validation_mode_pair"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.gaussian_process._gpc",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 4 Gaussian-process classifier predict shell before deferred fitted-estimator predict callbacks"
+  }
+}
