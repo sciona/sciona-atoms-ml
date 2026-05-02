@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_fit_transform_prelude.dictionary_learning_fit_transform_require_positive_coding_supported@sciona/atoms/ml/sklearn/decomposition/dictionary_learning_fit_transform_prelude/atoms.py:44": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_source_parity",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from `_check_positive_coding(method=self.fit_algorithm, positive=self.positive_code)` and the underlying positive/lars rejection logic in sklearn.decomposition._dict_learning."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_project_reference",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for DictionaryLearning fit_transform prelude helpers."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_fit_transform_prelude.dictionary_learning_fit_transform_method@sciona/atoms/ml/sklearn/decomposition/dictionary_learning_fit_transform_prelude/atoms.py:59": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_source_parity",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from `method = \"lasso_\" + self.fit_algorithm` in sklearn.decomposition.DictionaryLearning.fit_transform."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_project_reference",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for DictionaryLearning fit_transform prelude helpers."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_fit_transform_prelude.dictionary_learning_fit_transform_validated_data@sciona/atoms/ml/sklearn/decomposition/dictionary_learning_fit_transform_prelude/atoms.py:67": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_source_parity",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from `X = validate_data(self, X)` in sklearn.decomposition.DictionaryLearning.fit_transform for already-valid dense finite inputs."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_project_reference",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for DictionaryLearning fit_transform prelude helpers."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_fit_transform_prelude.dictionary_learning_fit_transform_n_components@sciona/atoms/ml/sklearn/decomposition/dictionary_learning_fit_transform_prelude/atoms.py:80": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_source_parity",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from the estimator-side `if self.n_components is None: n_components = X.shape[1] else: n_components = self.n_components` branch in sklearn.decomposition.DictionaryLearning.fit_transform."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_project_reference",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for DictionaryLearning fit_transform prelude helpers."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

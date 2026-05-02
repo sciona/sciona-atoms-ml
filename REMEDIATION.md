@@ -1443,6 +1443,13 @@ Potential remediation path:
   properties from `components_` row count, and both
   `preserves_dtype=["float64", "float32"]` tag overrides.
 - Completed helper slice:
+  `sklearn.decomposition.dictionary_learning_fit_transform_prelude` now
+  publishes the deterministic DictionaryLearning `fit_transform` prelude for
+  the positive-coding support guard, lasso-method label resolution,
+  validated-data passthrough for already-valid dense inputs, and
+  estimator-side `n_components` defaulting before the deferred
+  `_dict_learning(...)` call.
+- Completed helper slice:
   `sklearn.decomposition.lda_shell` now publishes deterministic
   LatentDirichletAllocation helper atoms for default prior resolution, random
   gamma initialization of `components_`, transform-time row normalization of
