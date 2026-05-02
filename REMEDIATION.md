@@ -902,6 +902,12 @@ Potential remediation path:
   branch, clone-versus-in-place kernel selection, Cholesky-failure fallback
   formatting, and one-dimensional target expansion before the already-landed
   regression algebra and gradient contractions.
+- Completed helper slice:
+  `sklearn.gaussian_process.regression_constrained_optimization_shell` now
+  publishes the deterministic `_constrained_optimization` control shell for
+  built-in L-BFGS-B branch selection, callable-optimizer branch selection,
+  unsupported-optimizer error formatting, and final result packaging above the
+  deferred SciPy or user-provided optimizer execution.
 - Ingest standalone Gaussian-process linear algebra primitives first, such as
   kernel regularization, Cholesky solve, posterior mean/covariance, and
   log-marginal-likelihood components. The first regression slice is complete;

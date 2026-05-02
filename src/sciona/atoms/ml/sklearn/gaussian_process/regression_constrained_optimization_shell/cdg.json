@@ -1,0 +1,92 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_gaussian_process_regression_constrained_optimization_shell_root",
+      "name": "Sklearn Gaussian Process Regression Constrained Optimization Shell Helpers",
+      "description": "Deterministic GaussianProcessRegressor._constrained_optimization helpers for internal-optimizer branch selection, callable branch selection, unsupported-optimizer error formatting, and final result packaging.",
+      "status": "decomposed",
+      "children": [
+        "gp_constrained_optimization_use_lbfgsb",
+        "gp_constrained_optimization_use_callable",
+        "gp_constrained_optimization_unknown_optimizer_message",
+        "gp_constrained_optimization_result"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "gp_constrained_optimization_use_lbfgsb",
+      "name": "gp_constrained_optimization_use_lbfgsb",
+      "description": "Decide whether GaussianProcessRegressor._constrained_optimization uses sklearn's internal L-BFGS-B branch.",
+      "concept_type": "optimizer_branching",
+      "status": "atomic",
+      "type_signature": "(optimizer_name: str) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "optimizer_name", "type_desc": "str", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "gp_constrained_optimization_use_callable",
+      "name": "gp_constrained_optimization_use_callable",
+      "description": "Decide whether GaussianProcessRegressor._constrained_optimization uses the user-callable optimizer branch.",
+      "concept_type": "optimizer_branching",
+      "status": "atomic",
+      "type_signature": "(optimizer_is_callable: bool, optimizer_name: str) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "optimizer_is_callable", "type_desc": "bool", "required": true},
+        {"name": "optimizer_name", "type_desc": "str", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "gp_constrained_optimization_unknown_optimizer_message",
+      "name": "gp_constrained_optimization_unknown_optimizer_message",
+      "description": "Format sklearn's unsupported-optimizer error message.",
+      "concept_type": "optimizer_guard_message",
+      "status": "atomic",
+      "type_signature": "(optimizer_name: str) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "optimizer_name", "type_desc": "str", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "str"}
+      ]
+    },
+    {
+      "node_id": "gp_constrained_optimization_result",
+      "name": "gp_constrained_optimization_result",
+      "description": "Package the final optimized theta and objective value in sklearn's return order.",
+      "concept_type": "optimizer_result_packaging",
+      "status": "atomic",
+      "type_signature": "(theta_opt: NDArray[np.float64], func_min: float) -> tuple[NDArray[np.float64], float]",
+      "depth": 1,
+      "inputs": [
+        {"name": "theta_opt", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "func_min", "type_desc": "float", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[NDArray[np.float64], float]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "gp_constrained_optimization_use_lbfgsb", "target": "gp_constrained_optimization_use_callable", "kind": "branch_exclusivity"},
+    {"source": "gp_constrained_optimization_use_callable", "target": "gp_constrained_optimization_unknown_optimizer_message", "kind": "unsupported_branch"},
+    {"source": "gp_constrained_optimization_use_lbfgsb", "target": "gp_constrained_optimization_result", "kind": "optimizer_output"},
+    {"source": "gp_constrained_optimization_use_callable", "target": "gp_constrained_optimization_result", "kind": "optimizer_output"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.gaussian_process._gpr",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 4 Gaussian-process constrained-optimization control shell above deferred optimizer execution"
+  }
+}
