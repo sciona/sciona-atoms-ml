@@ -883,6 +883,13 @@ Potential remediation path:
   publishes the fitted-posterior warning shell for negative predictive
   variance masking, warning gating, and zero clipping before the already-landed
   standard-deviation formatting helper.
+- Completed helper slice:
+  `sklearn.gaussian_process.regression_fit_shell` now publishes the
+  deterministic `GaussianProcessRegressor.fit` shell for validate-data dtype
+  and `ensure_2d` mode selection from kernel input requirements, optimizer
+  branch gating from configured optimizer and kernel dimensionality, and
+  training input/target storage under the shared `copy_X_train` policy before
+  kernel optimization or linear algebra.
 - Ingest standalone Gaussian-process linear algebra primitives first, such as
   kernel regularization, Cholesky solve, posterior mean/covariance, and
   log-marginal-likelihood components. The first regression slice is complete;
