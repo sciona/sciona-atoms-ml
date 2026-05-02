@@ -1450,6 +1450,11 @@ Potential remediation path:
   estimator-side `n_components` defaulting before the deferred
   `_dict_learning(...)` call.
 - Completed helper slice:
+  `sklearn.decomposition.sparse_encode_precompute_dispatch` now publishes the
+  deterministic `_sparse_encode` precompute-dispatch shell for Gram and
+  covariance preservation-versus-computation and the final `copy_cov`
+  resolution before the deferred solver scheduling path.
+- Completed helper slice:
   `sklearn.decomposition.lda_shell` now publishes deterministic
   LatentDirichletAllocation helper atoms for default prior resolution, random
   gamma initialization of `components_`, transform-time row normalization of

@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0",
+  "module": "sciona.atoms.ml.sklearn.decomposition.sparse_encode_precompute_dispatch",
+  "description": "Deterministic sparse-encode precompute-dispatch helpers before solver scheduling.",
+  "nodes": [
+    {
+      "node_id": "sparse_encode_dispatched_gram",
+      "name": "sparse_encode_dispatched_gram",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Resolve the Gram matrix by preserving a provided input or computing dictionary @ dictionary.T when needed.",
+      "concept_type": "precompute_dispatch",
+      "type_signature": "(gram: NDArray[np.float64] | None, dictionary: NDArray[np.float64], algorithm: str) -> NDArray[np.float64] | None",
+      "inputs": [
+        {"name": "gram", "type_desc": "NDArray[np.float64] | None", "required": true},
+        {"name": "dictionary", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "algorithm", "type_desc": "str", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64] | None"}
+      ]
+    },
+    {
+      "node_id": "sparse_encode_dispatched_covariance",
+      "name": "sparse_encode_dispatched_covariance",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Resolve the covariance matrix by preserving a provided input or computing dictionary @ X.T when needed.",
+      "concept_type": "precompute_dispatch",
+      "type_signature": "(cov: NDArray[np.float64] | None, X: NDArray[np.float64], dictionary: NDArray[np.float64], algorithm: str) -> NDArray[np.float64] | None",
+      "inputs": [
+        {"name": "cov", "type_desc": "NDArray[np.float64] | None", "required": true},
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "dictionary", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "algorithm", "type_desc": "str", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64] | None"}
+      ]
+    },
+    {
+      "node_id": "sparse_encode_resolved_copy_cov",
+      "name": "sparse_encode_resolved_copy_cov",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Resolve copy_cov after sklearn disables covariance copying when it computes cov internally.",
+      "concept_type": "precompute_dispatch",
+      "type_signature": "(copy_cov: bool, cov: NDArray[np.float64] | None, algorithm: str) -> bool",
+      "inputs": [
+        {"name": "copy_cov", "type_desc": "bool", "required": true},
+        {"name": "cov", "type_desc": "NDArray[np.float64] | None", "required": true},
+        {"name": "algorithm", "type_desc": "str", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "sparse_encode_dispatched_gram", "target": "sparse_encode_dispatched_covariance", "kind": "precompute_context"},
+    {"source": "sparse_encode_dispatched_covariance", "target": "sparse_encode_resolved_copy_cov", "kind": "covariance_mode"}
+  ]
+}

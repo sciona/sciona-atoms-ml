@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.decomposition.sparse_encode_precompute_dispatch.sparse_encode_dispatched_gram@sciona/atoms/ml/sklearn/decomposition/sparse_encode_precompute_dispatch/atoms.py:84": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_source_parity",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from `if gram is None and algorithm != \"threshold\": gram = np.dot(dictionary, dictionary.T)` in sklearn.decomposition._dict_learning._sparse_encode."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_project_reference",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for sparse_encode precompute-dispatch helpers."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.decomposition.sparse_encode_precompute_dispatch.sparse_encode_dispatched_covariance@sciona/atoms/ml/sklearn/decomposition/sparse_encode_precompute_dispatch/atoms.py:101": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_source_parity",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from `if cov is None and algorithm != \"lasso_cd\": copy_cov = False; cov = np.dot(dictionary, X.T)` in sklearn.decomposition._dict_learning._sparse_encode."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_project_reference",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for sparse_encode precompute-dispatch helpers."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.decomposition.sparse_encode_precompute_dispatch.sparse_encode_resolved_copy_cov@sciona/atoms/ml/sklearn/decomposition/sparse_encode_precompute_dispatch/atoms.py:118": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_source_parity",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from sklearn disabling copy_cov when it computes covariance internally in _sparse_encode."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_project_reference",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for sparse_encode precompute-dispatch helpers."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}
