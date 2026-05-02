@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.gaussian_process.classification_kernel_shell.gpc_kernel_use_binary_branch@sciona/atoms/ml/sklearn/gaussian_process/classification_kernel_shell/atoms.py:27": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the n_classes_ == 2 property branch in GaussianProcessClassifier.kernel_ in sklearn.gaussian_process._gpc in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for GaussianProcessClassifier kernel property behavior."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.classification_kernel_shell.gpc_kernel_result@sciona/atoms/ml/sklearn/gaussian_process/classification_kernel_shell/atoms.py:36": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from GaussianProcessClassifier.kernel_ in sklearn.gaussian_process._gpc in scikit-learn 1.8.0 for binary passthrough and multiclass CompoundKernel assembly."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for GaussianProcessClassifier kernel property assembly."
+          }
+        }
+      ]
+    }
+  }
+}

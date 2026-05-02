@@ -865,6 +865,11 @@ Potential remediation path:
   fitted-estimator predict callbacks: the validate-data dtype and `ensure_2d`
   mode selection.
 - Completed helper slice:
+  `sklearn.gaussian_process.classification_kernel_shell` now publishes the
+  deterministic `GaussianProcessClassifier.kernel_` property shell: the binary
+  passthrough branch and multiclass `CompoundKernel` assembly from already-
+  fitted estimator kernels.
+- Completed helper slice:
   `sklearn.gaussian_process.regression_gradients` now publishes dense
   log-marginal-likelihood gradient helpers for the shared
   alpha-alpha-transpose-minus-kernel-inverse inner tensor, per-parameter

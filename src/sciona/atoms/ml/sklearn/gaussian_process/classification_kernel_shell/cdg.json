@@ -1,0 +1,57 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_gaussian_process_classification_kernel_shell_root",
+      "name": "Sklearn Gaussian Process Classification Kernel Shell Helpers",
+      "description": "Deterministic GaussianProcessClassifier.kernel_ helpers for binary passthrough versus multiclass CompoundKernel assembly from fitted estimator kernels.",
+      "status": "decomposed",
+      "children": [
+        "gpc_kernel_use_binary_branch",
+        "gpc_kernel_result"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "gpc_kernel_use_binary_branch",
+      "name": "gpc_kernel_use_binary_branch",
+      "description": "Decide whether GaussianProcessClassifier.kernel_ returns the fitted binary base-estimator kernel directly.",
+      "concept_type": "property_branching",
+      "status": "atomic",
+      "type_signature": "(n_classes: int) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_classes", "type_desc": "int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "gpc_kernel_result",
+      "name": "gpc_kernel_result",
+      "description": "Resolve GaussianProcessClassifier.kernel_ from the fitted binary kernel or a tuple of multiclass estimator kernels.",
+      "concept_type": "property_assembly",
+      "status": "atomic",
+      "type_signature": "(n_classes: int, *, binary_kernel: Kernel | None = None, estimator_kernels: tuple[Kernel, ...] = ()) -> Kernel",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_classes", "type_desc": "int", "required": true},
+        {"name": "binary_kernel", "type_desc": "Kernel | None", "required": false},
+        {"name": "estimator_kernels", "type_desc": "tuple[Kernel, ...]", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "Kernel"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "gpc_kernel_use_binary_branch", "target": "gpc_kernel_result", "kind": "property_branch"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.gaussian_process._gpc",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 4 Gaussian-process classifier kernel property shell above deferred fitted-estimator surfaces"
+  }
+}
