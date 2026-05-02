@@ -1,0 +1,165 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.gaussian_process.classification_fit_bookkeeping.gpc_fit_require_not_compound_kernel@sciona/atoms/ml/sklearn/gaussian_process/classification_fit_bookkeeping/atoms.py:59": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the CompoundKernel guard in GaussianProcessClassifier.fit in sklearn.gaussian_process._gpc in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for GaussianProcessClassifier fit preflight behavior."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.classification_fit_bookkeeping.gpc_fit_dtype_name@sciona/atoms/ml/sklearn/gaussian_process/classification_fit_bookkeeping/atoms.py:71": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from GaussianProcessClassifier.fit in sklearn.gaussian_process._gpc in scikit-learn 1.8.0 for dtype selection before validate_data."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for GaussianProcessClassifier fit validation behavior."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.classification_fit_bookkeeping.gpc_fit_validate_ensure_2d@sciona/atoms/ml/sklearn/gaussian_process/classification_fit_bookkeeping/atoms.py:89": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from GaussianProcessClassifier.fit in sklearn.gaussian_process._gpc in scikit-learn 1.8.0 for ensure_2d selection before validate_data."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for GaussianProcessClassifier fit validation behavior."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.classification_fit_bookkeeping.gpc_fit_classes@sciona/atoms/ml/sklearn/gaussian_process/classification_fit_bookkeeping/atoms.py:102": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from class discovery via np.unique(y) in GaussianProcessClassifier.fit in sklearn.gaussian_process._gpc in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for GaussianProcessClassifier label bookkeeping."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.classification_fit_bookkeeping.gpc_fit_class_count@sciona/atoms/ml/sklearn/gaussian_process/classification_fit_bookkeeping/atoms.py:112": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from n_classes_ = classes_.size in GaussianProcessClassifier.fit in sklearn.gaussian_process._gpc in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for GaussianProcessClassifier fitted class-count bookkeeping."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.classification_fit_bookkeeping.gpc_fit_require_multiple_classes@sciona/atoms/ml/sklearn/gaussian_process/classification_fit_bookkeeping/atoms.py:122": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the single-class rejection guard in GaussianProcessClassifier.fit in sklearn.gaussian_process._gpc in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for GaussianProcessClassifier class-count validation."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.classification_fit_bookkeeping.gpc_fit_use_one_vs_rest@sciona/atoms/ml/sklearn/gaussian_process/classification_fit_bookkeeping/atoms.py:139": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the one_vs_rest multiclass wrapper branch in GaussianProcessClassifier.fit in sklearn.gaussian_process._gpc in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for GaussianProcessClassifier multiclass control flow."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.classification_fit_bookkeeping.gpc_fit_use_one_vs_one@sciona/atoms/ml/sklearn/gaussian_process/classification_fit_bookkeeping/atoms.py:151": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the one_vs_one multiclass wrapper branch in GaussianProcessClassifier.fit in sklearn.gaussian_process._gpc in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for GaussianProcessClassifier multiclass control flow."
+          }
+        }
+      ]
+    }
+  }
+}

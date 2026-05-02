@@ -848,6 +848,12 @@ Potential remediation path:
   the log-marginal-likelihood improvement stopping rule, and the fixed-kernel
   Newton loop returning the cached latent vector and final Newton temporaries.
 - Completed helper slice:
+  `sklearn.gaussian_process.classification_fit_bookkeeping` now publishes the
+  deterministic `GaussianProcessClassifier.fit` shell before deferred Laplace
+  or meta-estimator callbacks: the CompoundKernel guard, validate-data mode
+  selection, class discovery and distinct-class validation, and multiclass
+  one-vs-rest or one-vs-one branch predicates.
+- Completed helper slice:
   `sklearn.gaussian_process.regression_gradients` now publishes dense
   log-marginal-likelihood gradient helpers for the shared
   alpha-alpha-transpose-minus-kernel-inverse inner tensor, per-parameter
