@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0",
+  "module": "sciona.atoms.ml.sklearn.decomposition.dictionary_learning_output_tags",
+  "description": "Deterministic DictionaryLearning and MiniBatchDictionaryLearning output/tag helpers above the deferred optimization loops.",
+  "nodes": [
+    {
+      "node_id": "dictionary_learning_fit_return_self",
+      "name": "dictionary_learning_fit_return_self",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Model DictionaryLearning.fit returning self unchanged after fit_transform side effects.",
+      "concept_type": "estimator_api_shell",
+      "type_signature": "(estimator_token: str) -> str",
+      "inputs": [
+        {"name": "estimator_token", "type_desc": "str", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "str"}
+      ]
+    },
+    {
+      "node_id": "dictionary_learning_n_features_out",
+      "name": "dictionary_learning_n_features_out",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Expose DictionaryLearning._n_features_out from components_ row count.",
+      "concept_type": "estimator_property",
+      "type_signature": "(components: NDArray[np.float64]) -> int",
+      "inputs": [
+        {"name": "components", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "int"}
+      ]
+    },
+    {
+      "node_id": "dictionary_learning_preserves_dtype_tags",
+      "name": "dictionary_learning_preserves_dtype_tags",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Override DictionaryLearning preserves_dtype transformer tags to float64 and float32.",
+      "concept_type": "estimator_tags",
+      "type_signature": "(parent_preserves_dtype: tuple[str, ...]) -> tuple[str, str]",
+      "inputs": [
+        {"name": "parent_preserves_dtype", "type_desc": "tuple[str, ...]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[str, str]"}
+      ]
+    },
+    {
+      "node_id": "dictionary_learning_minibatch_n_features_out",
+      "name": "dictionary_learning_minibatch_n_features_out",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Expose MiniBatchDictionaryLearning._n_features_out from components_ row count.",
+      "concept_type": "estimator_property",
+      "type_signature": "(components: NDArray[np.float64]) -> int",
+      "inputs": [
+        {"name": "components", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "int"}
+      ]
+    },
+    {
+      "node_id": "dictionary_learning_minibatch_preserves_dtype_tags",
+      "name": "dictionary_learning_minibatch_preserves_dtype_tags",
+      "kind": "atom",
+      "status": "atomic",
+      "description": "Override MiniBatchDictionaryLearning preserves_dtype transformer tags to float64 and float32.",
+      "concept_type": "estimator_tags",
+      "type_signature": "(parent_preserves_dtype: tuple[str, ...]) -> tuple[str, str]",
+      "inputs": [
+        {"name": "parent_preserves_dtype", "type_desc": "tuple[str, ...]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[str, str]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "dictionary_learning_n_features_out", "target": "dictionary_learning_fit_return_self", "kind": "postfit_interface"},
+    {"source": "dictionary_learning_preserves_dtype_tags", "target": "dictionary_learning_n_features_out", "kind": "tag_context"},
+    {"source": "dictionary_learning_minibatch_n_features_out", "target": "dictionary_learning_minibatch_preserves_dtype_tags", "kind": "tag_context"}
+  ]
+}

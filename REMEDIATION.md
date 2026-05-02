@@ -1437,6 +1437,12 @@ Potential remediation path:
   `requires_fit=False` and dtype-preservation tag overrides, and
   `_n_features_out` exposure from the dictionary row count.
 - Completed helper slice:
+  `sklearn.decomposition.dictionary_learning_output_tags` now publishes the
+  deterministic DictionaryLearning and MiniBatchDictionaryLearning shell for
+  DictionaryLearning `fit` self-return, both estimators' `_n_features_out`
+  properties from `components_` row count, and both
+  `preserves_dtype=["float64", "float32"]` tag overrides.
+- Completed helper slice:
   `sklearn.decomposition.lda_shell` now publishes deterministic
   LatentDirichletAllocation helper atoms for default prior resolution, random
   gamma initialization of `components_`, transform-time row normalization of
