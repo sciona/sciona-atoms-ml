@@ -908,6 +908,12 @@ Potential remediation path:
   built-in L-BFGS-B branch selection, callable-optimizer branch selection,
   unsupported-optimizer error formatting, and final result packaging above the
   deferred SciPy or user-provided optimizer execution.
+- Completed helper slice:
+  `sklearn.gaussian_process.regression_sample_y_shell` now publishes the
+  deterministic `GaussianProcessRegressor.sample_y` shell after the deferred
+  `predict(return_cov=True)` callback: single-versus-multi-output branch
+  selection from the predictive mean rank, and final wrapper dispatch into the
+  already-landed predictive sampling atoms.
 - Ingest standalone Gaussian-process linear algebra primitives first, such as
   kernel regularization, Cholesky solve, posterior mean/covariance, and
   log-marginal-likelihood components. The first regression slice is complete;

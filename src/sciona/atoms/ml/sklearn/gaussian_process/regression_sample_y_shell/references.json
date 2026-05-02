@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.gaussian_process.regression_sample_y_shell.gp_sample_y_use_multioutput_branch@sciona/atoms/ml/sklearn/gaussian_process/regression_sample_y_shell/atoms.py:71": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the y_mean.ndim branch in GaussianProcessRegressor.sample_y in sklearn.gaussian_process._gpr in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for GaussianProcessRegressor predictive sampling control flow."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.regression_sample_y_shell.gp_sample_y_result@sciona/atoms/ml/sklearn/gaussian_process/regression_sample_y_shell/atoms.py:80": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from GaussianProcessRegressor.sample_y in sklearn.gaussian_process._gpr in scikit-learn 1.8.0 after the deferred predict(return_cov=True) callback, reusing landed predictive sampling atoms for the single-output and multi-output branches."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for GaussianProcessRegressor predictive sampling output assembly."
+          }
+        }
+      ]
+    }
+  }
+}
