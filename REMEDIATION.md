@@ -891,6 +891,13 @@ Potential remediation path:
   discovery and target encoding, binary-class validation, and the
   optimizer-entry predicate.
 - Completed helper slice:
+  `sklearn.gaussian_process.classification_optimizer_bookkeeping` now
+  publishes deterministic restart bookkeeping around
+  `_BinaryGaussianProcessClassifierLaplace.fit`: finite-bounds validation for
+  multiple restarts, exponentiated restart-theta draws from log-space kernel
+  bounds, and best-optimum selection with cached log-marginal-likelihood
+  packaging.
+- Completed helper slice:
   `sklearn.gaussian_process.regression_gradients` now publishes dense
   log-marginal-likelihood gradient helpers for the shared
   alpha-alpha-transpose-minus-kernel-inverse inner tensor, per-parameter
