@@ -734,7 +734,19 @@
       "status": "atomic",
       "children": [],
       "depth": 1,
-      "type_signature": "(test_predictions, upper_threshold, lower_threshold) -> tuple[NDArray[np.int64], NDArray[np.int64]]"
+      "type_signature": "(test_predictions, upper_threshold, lower_threshold) -> tuple[NDArray[np.int64], NDArray[np.int64]]",
+      "common_patterns": [
+        {
+          "pattern_id": "pseudo_labeling_pipeline",
+          "description": "Select high-confidence predictions as pseudo-labels then retrain",
+          "atoms": [
+            "extract_pseudo_labels",
+            "self_training_fit"
+          ],
+          "ordering": "sequential",
+          "when": "Stage describes pseudo-labeling or self-training"
+        }
+      ]
     }
   ],
   "edges": [],

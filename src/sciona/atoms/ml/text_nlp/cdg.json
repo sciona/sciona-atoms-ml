@@ -129,6 +129,19 @@
           "name": "result",
           "type_desc": "list[tuple[str, int, int]]"
         }
+      ],
+      "common_patterns": [
+        {
+          "pattern_id": "bio_tagging_pipeline",
+          "description": "Tokenize text, decode BIO tags to spans, map character offsets",
+          "atoms": [
+            "tokenize",
+            "bio_decode",
+            "char_to_token_offsets"
+          ],
+          "ordering": "sequential",
+          "when": "Stage describes NER, sequence tagging, or BIO decoding"
+        }
       ]
     },
     {
@@ -136,6 +149,7 @@
       "name": "char_to_token_offsets",
       "description": "Align half-open character spans to inclusive token spans.",
       "concept_type": "data_assembly",
+      "status": "atomic",
       "type_signature": "(char_spans: list[tuple[int, int]], offset_mapping: list[tuple[int, int]]) -> list[tuple[int, int]]",
       "inputs": [
         {
@@ -153,6 +167,19 @@
         {
           "name": "result",
           "type_desc": "list[tuple[int, int]]"
+        }
+      ],
+      "common_patterns": [
+        {
+          "pattern_id": "bio_tagging_pipeline",
+          "description": "Tokenize text, decode BIO tags to spans, map character offsets",
+          "atoms": [
+            "tokenize",
+            "bio_decode",
+            "char_to_token_offsets"
+          ],
+          "ordering": "sequential",
+          "when": "Stage describes NER, sequence tagging, or BIO decoding"
         }
       ]
     },
@@ -379,6 +406,19 @@
           "name": "spans",
           "type_desc": "list[tuple[str, int, int]]",
           "required": true
+        }
+      ],
+      "common_patterns": [
+        {
+          "pattern_id": "bio_tagging_pipeline",
+          "description": "Tokenize text, decode BIO tags to spans, map character offsets",
+          "atoms": [
+            "tokenize",
+            "bio_decode",
+            "char_to_token_offsets"
+          ],
+          "ordering": "sequential",
+          "when": "Stage describes NER, sequence tagging, or BIO decoding"
         }
       ]
     },

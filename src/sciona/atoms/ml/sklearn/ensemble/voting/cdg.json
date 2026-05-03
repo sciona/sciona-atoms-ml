@@ -21,12 +21,27 @@
       "type_signature": "(encoded_predictions: NDArray[np.int64], classes: NDArray[np.float64], weights: tuple[float, ...] | None = None) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "encoded_predictions", "type_desc": "NDArray[np.int64]", "required": true},
-        {"name": "classes", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "weights", "type_desc": "tuple[float, ...] | None", "required": false}
+        {
+          "name": "encoded_predictions",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        },
+        {
+          "name": "classes",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "weights",
+          "type_desc": "tuple[float, ...] | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
       ]
     },
     {
@@ -38,11 +53,36 @@
       "type_signature": "(probabilities: NDArray[np.float64], weights: tuple[float, ...] | None = None) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "probabilities", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "weights", "type_desc": "tuple[float, ...] | None", "required": false}
+        {
+          "name": "probabilities",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "weights",
+          "type_desc": "tuple[float, ...] | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "common_patterns": [
+        {
+          "pattern_id": "prediction_averaging",
+          "description": "Average predictions from multiple models",
+          "atoms": [
+            "voting_classifier_soft_probabilities",
+            "voting_regressor_average",
+            "ranked_prediction_blend",
+            "fold_ensemble_average"
+          ],
+          "ordering": "alternatives",
+          "when": "Stage describes ensembling, blending, or averaging model predictions"
+        }
       ]
     },
     {
@@ -54,11 +94,36 @@
       "type_signature": "(predictions: NDArray[np.float64], weights: tuple[float, ...] | None = None) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "predictions", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "weights", "type_desc": "tuple[float, ...] | None", "required": false}
+        {
+          "name": "predictions",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "weights",
+          "type_desc": "tuple[float, ...] | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "common_patterns": [
+        {
+          "pattern_id": "prediction_averaging",
+          "description": "Average predictions from multiple models",
+          "atoms": [
+            "voting_classifier_soft_probabilities",
+            "voting_regressor_average",
+            "ranked_prediction_blend",
+            "fold_ensemble_average"
+          ],
+          "ordering": "alternatives",
+          "when": "Stage describes ensembling, blending, or averaging model predictions"
+        }
       ]
     }
   ],

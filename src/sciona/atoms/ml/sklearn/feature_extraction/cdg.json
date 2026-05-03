@@ -285,6 +285,18 @@
           "name": "result",
           "type_desc": "NDArray[np.float64]"
         }
+      ],
+      "common_patterns": [
+        {
+          "pattern_id": "tfidf_pipeline",
+          "description": "Fit TF-IDF vocabulary then transform documents to feature vectors",
+          "atoms": [
+            "tfidf_vectorizer_fit",
+            "tfidf_transform"
+          ],
+          "ordering": "sequential",
+          "when": "Stage describes TF-IDF text vectorization"
+        }
       ]
     },
     {
@@ -670,6 +682,18 @@
         {
           "name": "result",
           "type_desc": "TfidfVectorizerState"
+        }
+      ],
+      "common_patterns": [
+        {
+          "pattern_id": "tfidf_pipeline",
+          "description": "Fit TF-IDF vocabulary then transform documents to feature vectors",
+          "atoms": [
+            "tfidf_vectorizer_fit",
+            "tfidf_transform"
+          ],
+          "ordering": "sequential",
+          "when": "Stage describes TF-IDF text vectorization"
         }
       ]
     },

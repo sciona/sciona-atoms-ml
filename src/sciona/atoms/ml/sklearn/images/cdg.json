@@ -23,13 +23,44 @@
       "type_signature": "(image: NDArray[np.float64], patch_size: tuple[int, int], max_patches: int | float | None = None, random_state: int | np.random.RandomState | None = None) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "image", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "patch_size", "type_desc": "tuple[int, int]", "required": true},
-        {"name": "max_patches", "type_desc": "int | float | None", "required": false},
-        {"name": "random_state", "type_desc": "int | np.random.RandomState | None", "required": false}
+        {
+          "name": "image",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "patch_size",
+          "type_desc": "tuple[int, int]",
+          "required": true
+        },
+        {
+          "name": "max_patches",
+          "type_desc": "int | float | None",
+          "required": false
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int | np.random.RandomState | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "common_patterns": [
+        {
+          "pattern_id": "image_patch_pipeline",
+          "description": "Extract image patches and reassemble from patch predictions",
+          "atoms": [
+            "extract_patches_2d",
+            "reconstruct_from_patches_2d"
+          ],
+          "ordering": "sequential",
+          "when": "Stage describes tiling, patching, or gigapixel stitching"
+        }
       ]
     },
     {
@@ -41,11 +72,34 @@
       "type_signature": "(patches: NDArray[np.float64], image_size: tuple[int, ...]) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "patches", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "image_size", "type_desc": "tuple[int, ...]", "required": true}
+        {
+          "name": "patches",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "image_size",
+          "type_desc": "tuple[int, ...]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "common_patterns": [
+        {
+          "pattern_id": "image_patch_pipeline",
+          "description": "Extract image patches and reassemble from patch predictions",
+          "atoms": [
+            "extract_patches_2d",
+            "reconstruct_from_patches_2d"
+          ],
+          "ordering": "sequential",
+          "when": "Stage describes tiling, patching, or gigapixel stitching"
+        }
       ]
     },
     {
@@ -57,13 +111,32 @@
       "type_signature": "(X: NDArray[np.float64], patch_size: tuple[int, int] | None = None, max_patches: int | float | None = None, random_state: int | np.random.RandomState | None = None) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "patch_size", "type_desc": "tuple[int, int] | None", "required": false},
-        {"name": "max_patches", "type_desc": "int | float | None", "required": false},
-        {"name": "random_state", "type_desc": "int | np.random.RandomState | None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "patch_size",
+          "type_desc": "tuple[int, int] | None",
+          "required": false
+        },
+        {
+          "name": "max_patches",
+          "type_desc": "int | float | None",
+          "required": false
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int | np.random.RandomState | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
       ]
     },
     {
@@ -75,13 +148,32 @@
       "type_signature": "(img: NDArray[np.float64], mask: NDArray[np.bool_] | None = None, return_as: type = scipy.sparse.coo_matrix, dtype: npt.DTypeLike | None = None) -> scipy.sparse.spmatrix | NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "img", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "mask", "type_desc": "NDArray[np.bool_] | None", "required": false},
-        {"name": "return_as", "type_desc": "type[scipy.sparse.spmatrix] | type[np.ndarray]", "required": false},
-        {"name": "dtype", "type_desc": "npt.DTypeLike | None", "required": false}
+        {
+          "name": "img",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "mask",
+          "type_desc": "NDArray[np.bool_] | None",
+          "required": false
+        },
+        {
+          "name": "return_as",
+          "type_desc": "type[scipy.sparse.spmatrix] | type[np.ndarray]",
+          "required": false
+        },
+        {
+          "name": "dtype",
+          "type_desc": "npt.DTypeLike | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "scipy.sparse.spmatrix | NDArray[np.float64]"}
+        {
+          "name": "result",
+          "type_desc": "scipy.sparse.spmatrix | NDArray[np.float64]"
+        }
       ]
     },
     {
@@ -93,15 +185,42 @@
       "type_signature": "(n_x: int, n_y: int, n_z: int = 1, mask: NDArray[np.bool_] | None = None, return_as: type = scipy.sparse.coo_matrix, dtype: npt.DTypeLike = int) -> scipy.sparse.spmatrix | NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "n_x", "type_desc": "int", "required": true},
-        {"name": "n_y", "type_desc": "int", "required": true},
-        {"name": "n_z", "type_desc": "int", "required": false},
-        {"name": "mask", "type_desc": "NDArray[np.bool_] | None", "required": false},
-        {"name": "return_as", "type_desc": "type[scipy.sparse.spmatrix] | type[np.ndarray]", "required": false},
-        {"name": "dtype", "type_desc": "npt.DTypeLike", "required": false}
+        {
+          "name": "n_x",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "n_y",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "n_z",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "mask",
+          "type_desc": "NDArray[np.bool_] | None",
+          "required": false
+        },
+        {
+          "name": "return_as",
+          "type_desc": "type[scipy.sparse.spmatrix] | type[np.ndarray]",
+          "required": false
+        },
+        {
+          "name": "dtype",
+          "type_desc": "npt.DTypeLike",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "scipy.sparse.spmatrix | NDArray[np.float64]"}
+        {
+          "name": "result",
+          "type_desc": "scipy.sparse.spmatrix | NDArray[np.float64]"
+        }
       ]
     }
   ],

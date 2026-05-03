@@ -28,17 +28,52 @@
       "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, y: NDArray[np.object_] | NDArray[np.int_] | list[object] | tuple[object, ...], kernel: str | callable = 'rbf', gamma: float = 20.0, n_neighbors: int = 7, max_iter: int = 1000, tol: float = 1e-3, n_jobs: int | None = None) -> LabelPropagationState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
-        {"name": "y", "type_desc": "NDArray[np.object_] | NDArray[np.int_] | list[object] | tuple[object, ...]", "required": true},
-        {"name": "kernel", "type_desc": "str | callable", "required": false},
-        {"name": "gamma", "type_desc": "float", "required": false},
-        {"name": "n_neighbors", "type_desc": "int", "required": false},
-        {"name": "max_iter", "type_desc": "int", "required": false},
-        {"name": "tol", "type_desc": "float", "required": false},
-        {"name": "n_jobs", "type_desc": "int | None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.object_] | NDArray[np.int_] | list[object] | tuple[object, ...]",
+          "required": true
+        },
+        {
+          "name": "kernel",
+          "type_desc": "str | callable",
+          "required": false
+        },
+        {
+          "name": "gamma",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "n_neighbors",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "tol",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "n_jobs",
+          "type_desc": "int | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "LabelPropagationState"}
+        {
+          "name": "result",
+          "type_desc": "LabelPropagationState"
+        }
       ]
     },
     {
@@ -50,11 +85,22 @@
       "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, state: LabelPropagationState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
-        {"name": "state", "type_desc": "LabelPropagationState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "LabelPropagationState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
       ]
     },
     {
@@ -66,11 +112,22 @@
       "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, state: LabelPropagationState) -> NDArray[np.object_]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
-        {"name": "state", "type_desc": "LabelPropagationState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "LabelPropagationState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.object_]"}
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.object_]"
+        }
       ]
     },
     {
@@ -82,18 +139,57 @@
       "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, y: NDArray[np.object_] | NDArray[np.int_] | list[object] | tuple[object, ...], kernel: str | callable = 'rbf', gamma: float = 20.0, n_neighbors: int = 7, alpha: float = 0.2, max_iter: int = 30, tol: float = 1e-3, n_jobs: int | None = None) -> LabelPropagationState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
-        {"name": "y", "type_desc": "NDArray[np.object_] | NDArray[np.int_] | list[object] | tuple[object, ...]", "required": true},
-        {"name": "kernel", "type_desc": "str | callable", "required": false},
-        {"name": "gamma", "type_desc": "float", "required": false},
-        {"name": "n_neighbors", "type_desc": "int", "required": false},
-        {"name": "alpha", "type_desc": "float", "required": false},
-        {"name": "max_iter", "type_desc": "int", "required": false},
-        {"name": "tol", "type_desc": "float", "required": false},
-        {"name": "n_jobs", "type_desc": "int | None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.object_] | NDArray[np.int_] | list[object] | tuple[object, ...]",
+          "required": true
+        },
+        {
+          "name": "kernel",
+          "type_desc": "str | callable",
+          "required": false
+        },
+        {
+          "name": "gamma",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "n_neighbors",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "alpha",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "tol",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "n_jobs",
+          "type_desc": "int | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "LabelPropagationState"}
+        {
+          "name": "result",
+          "type_desc": "LabelPropagationState"
+        }
       ]
     },
     {
@@ -105,11 +201,22 @@
       "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, state: LabelPropagationState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
-        {"name": "state", "type_desc": "LabelPropagationState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "LabelPropagationState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
       ]
     },
     {
@@ -121,11 +228,22 @@
       "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, state: LabelPropagationState) -> NDArray[np.object_]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
-        {"name": "state", "type_desc": "LabelPropagationState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "LabelPropagationState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.object_]"}
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.object_]"
+        }
       ]
     },
     {
@@ -137,13 +255,32 @@
       "type_signature": "(max_proba: NDArray[np.float64], threshold: float = 0.75, criterion: str = 'threshold', k_best: int = 10) -> NDArray[np.bool_] | NDArray[np.int_]",
       "depth": 1,
       "inputs": [
-        {"name": "max_proba", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "threshold", "type_desc": "float", "required": false},
-        {"name": "criterion", "type_desc": "str", "required": false},
-        {"name": "k_best", "type_desc": "int", "required": false}
+        {
+          "name": "max_proba",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "threshold",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "criterion",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "k_best",
+          "type_desc": "int",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.bool_] | NDArray[np.int_]"}
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.bool_] | NDArray[np.int_]"
+        }
       ]
     },
     {
@@ -155,17 +292,64 @@
       "type_signature": "(estimator: object, X: NDArray[np.float64] | scipy.sparse.spmatrix, y: NDArray[np.object_] | NDArray[np.int_] | list[object] | tuple[object, ...], threshold: float = 0.75, criterion: str = 'threshold', k_best: int = 10, max_iter: int | None = 10, verbose: bool = False) -> SelfTrainingClassifierState",
       "depth": 1,
       "inputs": [
-        {"name": "estimator", "type_desc": "object", "required": true},
-        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
-        {"name": "y", "type_desc": "NDArray[np.object_] | NDArray[np.int_] | list[object] | tuple[object, ...]", "required": true},
-        {"name": "threshold", "type_desc": "float", "required": false},
-        {"name": "criterion", "type_desc": "str", "required": false},
-        {"name": "k_best", "type_desc": "int", "required": false},
-        {"name": "max_iter", "type_desc": "int | None", "required": false},
-        {"name": "verbose", "type_desc": "bool", "required": false}
+        {
+          "name": "estimator",
+          "type_desc": "object",
+          "required": true
+        },
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.object_] | NDArray[np.int_] | list[object] | tuple[object, ...]",
+          "required": true
+        },
+        {
+          "name": "threshold",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "criterion",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "k_best",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "int | None",
+          "required": false
+        },
+        {
+          "name": "verbose",
+          "type_desc": "bool",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "SelfTrainingClassifierState"}
+        {
+          "name": "result",
+          "type_desc": "SelfTrainingClassifierState"
+        }
+      ],
+      "common_patterns": [
+        {
+          "pattern_id": "pseudo_labeling_pipeline",
+          "description": "Select high-confidence predictions as pseudo-labels then retrain",
+          "atoms": [
+            "extract_pseudo_labels",
+            "self_training_fit"
+          ],
+          "ordering": "sequential",
+          "when": "Stage describes pseudo-labeling or self-training"
+        }
       ]
     },
     {
@@ -177,11 +361,22 @@
       "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, state: SelfTrainingClassifierState) -> NDArray[np.object_]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
-        {"name": "state", "type_desc": "SelfTrainingClassifierState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "SelfTrainingClassifierState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.object_]"}
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.object_]"
+        }
       ]
     },
     {
@@ -193,11 +388,22 @@
       "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix, state: SelfTrainingClassifierState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix", "required": true},
-        {"name": "state", "type_desc": "SelfTrainingClassifierState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "SelfTrainingClassifierState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
       ]
     }
   ],

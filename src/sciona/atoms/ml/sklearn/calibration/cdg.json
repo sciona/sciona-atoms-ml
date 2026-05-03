@@ -89,6 +89,18 @@
           "name": "result",
           "type_desc": "SigmoidCalibrationState"
         }
+      ],
+      "common_patterns": [
+        {
+          "pattern_id": "sigmoid_calibration_pipeline",
+          "description": "Fit Platt sigmoid calibration then apply to predictions",
+          "atoms": [
+            "sigmoid_calibration_fit",
+            "sigmoid_calibration_predict"
+          ],
+          "ordering": "sequential",
+          "when": "Stage describes Platt scaling or probability calibration"
+        }
       ]
     },
     {
@@ -115,6 +127,18 @@
         {
           "name": "result",
           "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "common_patterns": [
+        {
+          "pattern_id": "sigmoid_calibration_pipeline",
+          "description": "Fit Platt sigmoid calibration then apply to predictions",
+          "atoms": [
+            "sigmoid_calibration_fit",
+            "sigmoid_calibration_predict"
+          ],
+          "ordering": "sequential",
+          "when": "Stage describes Platt scaling or probability calibration"
         }
       ]
     },

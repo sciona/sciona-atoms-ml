@@ -41,6 +41,19 @@
       "aliases": [
         "low_variance_filter",
         "variance_thresholding"
+      ],
+      "common_patterns": [
+        {
+          "pattern_id": "variance_threshold_pipeline",
+          "description": "Fit variance threshold, compute support mask, filter features",
+          "atoms": [
+            "variance_threshold_fit",
+            "variance_threshold_support_mask",
+            "variance_threshold_transform"
+          ],
+          "ordering": "sequential",
+          "when": "Stage describes removing low-variance features"
+        }
       ]
     },
     {
@@ -62,6 +75,19 @@
         {
           "name": "result",
           "type_desc": "NDArray[np.bool_]"
+        }
+      ],
+      "common_patterns": [
+        {
+          "pattern_id": "variance_threshold_pipeline",
+          "description": "Fit variance threshold, compute support mask, filter features",
+          "atoms": [
+            "variance_threshold_fit",
+            "variance_threshold_support_mask",
+            "variance_threshold_transform"
+          ],
+          "ordering": "sequential",
+          "when": "Stage describes removing low-variance features"
         }
       ]
     },
@@ -89,6 +115,19 @@
         {
           "name": "result",
           "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"
+        }
+      ],
+      "common_patterns": [
+        {
+          "pattern_id": "variance_threshold_pipeline",
+          "description": "Fit variance threshold, compute support mask, filter features",
+          "atoms": [
+            "variance_threshold_fit",
+            "variance_threshold_support_mask",
+            "variance_threshold_transform"
+          ],
+          "ordering": "sequential",
+          "when": "Stage describes removing low-variance features"
         }
       ]
     }
