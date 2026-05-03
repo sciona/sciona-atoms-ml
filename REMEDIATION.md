@@ -898,6 +898,14 @@ Potential remediation path:
   bounds, and best-optimum selection with cached log-marginal-likelihood
   packaging.
 - Completed helper slice:
+  `sklearn.gaussian_process.classification_binary_log_marginal_likelihood_shell`
+  now publishes the deterministic
+  `_BinaryGaussianProcessClassifierLaplace.log_marginal_likelihood` control
+  shell above deferred kernel calls, posterior-mode callbacks, and gradient
+  algebra: the theta-required-for-gradient guard, cached-value branch,
+  clone-versus-in-place kernel selection, gradient-branch selection, and
+  scalar-versus-tuple result packaging.
+- Completed helper slice:
   `sklearn.gaussian_process.regression_gradients` now publishes dense
   log-marginal-likelihood gradient helpers for the shared
   alpha-alpha-transpose-minus-kernel-inverse inner tensor, per-parameter
