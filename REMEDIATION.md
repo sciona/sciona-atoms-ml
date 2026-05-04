@@ -1438,6 +1438,12 @@ Potential remediation path:
   `MinCovDet.correct_covariance` shell for the zero-raw-covariance guard, the
   empirical correction-factor calculation from raw distances, and the corrected
   covariance and corrected-distance updates before the later reweighting stage.
+- Completed helper slice:
+  `sklearn.covariance.mincovdet_postfit_state` now publishes the deterministic
+  fitted-state tail of `MinCovDet.fit` after deferred FastMCD, correction, and
+  reweighting work completes: fitted `raw_location_`, `raw_covariance_`,
+  `raw_support_`, final `location_`, `covariance_`, `support_`, `dist_`, and
+  the final self-return.
 - Ingest robust covariance by decomposing FastMCD helpers (`fast_mcd`,
   candidate selection, correction, reweighting, and Mahalanobis scoring) before
   publishing `MinCovDet` or `EllipticEnvelope` fit states. Correction,
