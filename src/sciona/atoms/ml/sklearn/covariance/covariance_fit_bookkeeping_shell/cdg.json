@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "family": "ml_sklearn_covariance_fit_bookkeeping_shell",
+  "root": {
+    "node_id": "covariance_fit_bookkeeping_shell",
+    "name": "covariance_fit_bookkeeping_shell",
+    "kind": "family",
+    "children": [
+      "covariance_fit_location",
+      "covariance_set_covariance_matrix",
+      "covariance_set_precision_required",
+      "covariance_set_precision_matrix"
+    ]
+  },
+  "nodes": [
+    {
+      "node_id": "covariance_fit_location",
+      "name": "covariance_fit_location",
+      "kind": "atom",
+      "status": "atomic",
+      "inputs": [
+        {"name": "X", "type_desc": "float64 matrix", "required": true},
+        {"name": "assume_centered", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "float64 vector"}]
+    },
+    {
+      "node_id": "covariance_set_covariance_matrix",
+      "name": "covariance_set_covariance_matrix",
+      "kind": "atom",
+      "status": "atomic",
+      "inputs": [{"name": "covariance", "type_desc": "float64 square matrix", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "float64 square matrix"}]
+    },
+    {
+      "node_id": "covariance_set_precision_required",
+      "name": "covariance_set_precision_required",
+      "kind": "atom",
+      "status": "atomic",
+      "inputs": [{"name": "store_precision", "type_desc": "bool", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    },
+    {
+      "node_id": "covariance_set_precision_matrix",
+      "name": "covariance_set_precision_matrix",
+      "kind": "atom",
+      "status": "atomic",
+      "inputs": [{"name": "covariance", "type_desc": "float64 square matrix", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "float64 square matrix"}]
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.covariance.covariance_fit_bookkeeping_shell.covariance_fit_location@sciona/atoms/ml/sklearn/covariance/covariance_fit_bookkeeping_shell/atoms.py:65": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the shared `if self.assume_centered: self.location_ = np.zeros(X.shape[1]) else: self.location_ = X.mean(0)` fit logic used by EmpiricalCovariance, ShrunkCovariance, LedoitWolf, and OAS."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for covariance-estimator fit bookkeeping."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.covariance.covariance_fit_bookkeeping_shell.covariance_set_covariance_matrix@sciona/atoms/ml/sklearn/covariance/covariance_fit_bookkeeping_shell/atoms.py:83": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the `covariance = check_array(covariance)` and `self.covariance_ = covariance` steps in `EmpiricalCovariance._set_covariance`."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for covariance-estimator fitted covariance assignment."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.covariance.covariance_fit_bookkeeping_shell.covariance_set_precision_required@sciona/atoms/ml/sklearn/covariance/covariance_fit_bookkeeping_shell/atoms.py:93": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the `if self.store_precision:` branch predicate in `EmpiricalCovariance._set_covariance`."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for covariance-estimator precision storage branching."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.covariance.covariance_fit_bookkeeping_shell.covariance_set_precision_matrix@sciona/atoms/ml/sklearn/covariance/covariance_fit_bookkeeping_shell/atoms.py:103": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from `self.precision_ = linalg.pinvh(covariance, check_finite=False)` in `EmpiricalCovariance._set_covariance`."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for covariance-estimator fitted precision assignment."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

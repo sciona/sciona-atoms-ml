@@ -1499,6 +1499,12 @@ Potential remediation path:
   versus derived precision resolution, centered test-covariance preparation
   before Gaussian score evaluation, and Mahalanobis location/result shaping
   around the deferred pairwise-distance and log-likelihood callbacks.
+- Completed helper slice:
+  `sklearn.covariance.covariance_fit_bookkeeping_shell` now publishes the
+  deterministic shared covariance-estimator fit bookkeeping shell for fitted
+  location resolution, validated `covariance_` assignment, the
+  `store_precision` branch predicate, and `precision_` computation inside
+  `_set_covariance`.
 - Graphical-lasso coordinate-descent and LARS inner solvers, path fitting,
   cross-validation orchestration, public estimator mutation, and alpha
   selection remain deferred.
