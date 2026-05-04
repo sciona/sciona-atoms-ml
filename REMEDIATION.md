@@ -860,6 +860,11 @@ Potential remediation path:
   the deterministic custom-values and feature-wrapping shell in
   `partial_dependence`: defaulting `custom_values`, scalar feature wrapping,
   and indexed custom-values subset remapping before grid construction.
+- Completed helper slice:
+  `sklearn.inspection.partial_dependence_feature_index_guard` now publishes
+  the deterministic integer-feature guard shell in `partial_dependence`: the
+  integer-key-type branch predicate, negative-index guard predicate, and exact
+  ValueError message before column lookup.
 - Ingest small helper atoms only where the boundary is explicit, such as
   permutation score aggregation from baseline and permuted score arrays.
 - Decide how estimator callback boundaries should be represented before

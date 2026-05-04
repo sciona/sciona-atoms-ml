@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_feature_index_guard.partial_dependence_integer_feature_key_type@sciona/atoms/ml/sklearn/inspection/partial_dependence_feature_index_guard/atoms.py:37": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from `_determine_key_type(features, accept_slice=False) == \"int\"` in sklearn.inspection._partial_dependence.partial_dependence."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for partial_dependence integer-feature guard branching."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_feature_index_guard.partial_dependence_negative_feature_guard_required@sciona/atoms/ml/sklearn/inspection/partial_dependence_feature_index_guard/atoms.py:47": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from `if np.any(np.less(features, 0)):` in sklearn.inspection._partial_dependence.partial_dependence."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for partial_dependence negative-feature guard semantics."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_feature_index_guard.partial_dependence_negative_feature_message@sciona/atoms/ml/sklearn/inspection/partial_dependence_feature_index_guard/atoms.py:57": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from `ValueError(\"all features must be in [0, {}]\".format(X.shape[1] - 1))` in sklearn.inspection._partial_dependence.partial_dependence."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for partial_dependence negative-feature guard message formatting."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}
