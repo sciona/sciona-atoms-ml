@@ -803,6 +803,13 @@ Potential remediation path:
   multimetric key iteration order, and single-metric `np.array(scores)`
   coercion before the existing result-packaging helpers.
 - Completed helper slice:
+  `sklearn.inspection.permutation_feature_score_aggregation_shell` now
+  publishes the deterministic tail branching in
+  `_calculate_permutation_scores` after repeated scorer callbacks for one
+  feature: the `isinstance(scores[0], dict)` predicate and the single-metric
+  `np.array(scores)` coercion, while multimetric dict aggregation remains
+  deferred.
+- Completed helper slice:
   `sklearn.inspection.partial_dependence_grid` now publishes dense numeric
   grid-parameter validation, per-feature axis construction, and Cartesian grid
   construction before the deferred estimator prediction paths.

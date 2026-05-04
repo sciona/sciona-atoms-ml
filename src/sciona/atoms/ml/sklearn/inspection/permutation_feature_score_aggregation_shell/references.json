@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.inspection.permutation_feature_score_aggregation_shell.permutation_importance_feature_scores_are_multimetric@sciona/atoms/ml/sklearn/inspection/permutation_feature_score_aggregation_shell/atoms.py:53": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from `if isinstance(scores[0], dict):` in sklearn.inspection._permutation_importance._calculate_permutation_scores."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for permutation-importance per-feature score aggregation."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.permutation_feature_score_aggregation_shell.permutation_importance_single_feature_score_vector@sciona/atoms/ml/sklearn/inspection/permutation_feature_score_aggregation_shell/atoms.py:69": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the `scores = np.array(scores)` single-metric branch in sklearn.inspection._permutation_importance._calculate_permutation_scores."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for permutation-importance one-feature score-vector coercion."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}
