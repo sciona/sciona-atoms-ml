@@ -990,6 +990,12 @@ Potential remediation path:
   training input/target storage under the shared `copy_X_train` policy before
   kernel optimization or linear algebra.
 - Completed helper slice:
+  `sklearn.gaussian_process.regression_postfit_attributes` now publishes the
+  deterministic fitted-attribute tail of `GaussianProcessRegressor.fit` after
+  deferred optimizer execution and the already-landed regression linear
+  algebra: fitted `log_marginal_likelihood_value_`, `L_`, `alpha_`, and the
+  final self-return.
+- Completed helper slice:
   `sklearn.gaussian_process.regression_kernel_shell` now publishes the
   remaining deterministic `GaussianProcessRegressor` kernel-selection and API
   shell for fit-time default-or-clone kernel selection, unfitted prior-branch
