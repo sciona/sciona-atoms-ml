@@ -1,0 +1,97 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_cluster_spectral_fit_bookkeeping_root",
+      "name": "Sklearn Spectral Clustering Fit Bookkeeping Helpers",
+      "description": "Deterministic SpectralClustering.fit bookkeeping above deferred affinity construction, spectral embedding, and KMeans execution.",
+      "status": "decomposed",
+      "children": [
+        "spectral_fit_n_components",
+        "spectral_fit_verbose_message",
+        "spectral_fit_use_kmeans",
+        "spectral_fit_use_cluster_qr",
+        "spectral_fit_return_self"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "spectral_fit_n_components",
+      "name": "spectral_fit_n_components",
+      "description": "Resolve SpectralClustering.fit's effective embedding width from n_clusters and n_components.",
+      "concept_type": "fit_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(n_clusters: int, n_components: int | None) -> int",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_clusters", "type_desc": "int", "required": true},
+        {"name": "n_components", "type_desc": "int | None", "required": false}
+      ],
+      "outputs": [{"name": "result", "type_desc": "int"}]
+    },
+    {
+      "node_id": "spectral_fit_verbose_message",
+      "name": "spectral_fit_verbose_message",
+      "description": "Format SpectralClustering.fit's verbose label-assignment message.",
+      "concept_type": "fit_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(assign_labels: str) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "assign_labels", "type_desc": "str", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "str"}]
+    },
+    {
+      "node_id": "spectral_fit_use_kmeans",
+      "name": "spectral_fit_use_kmeans",
+      "description": "Return whether SpectralClustering.fit takes the k-means label-assignment branch.",
+      "concept_type": "fit_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(assign_labels: str) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "assign_labels", "type_desc": "str", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    },
+    {
+      "node_id": "spectral_fit_use_cluster_qr",
+      "name": "spectral_fit_use_cluster_qr",
+      "description": "Return whether SpectralClustering.fit takes the cluster_qr label-assignment branch.",
+      "concept_type": "fit_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(assign_labels: str) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "assign_labels", "type_desc": "str", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    },
+    {
+      "node_id": "spectral_fit_return_self",
+      "name": "spectral_fit_return_self",
+      "description": "Model SpectralClustering.fit returning the fitted estimator itself.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator_token: str) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator_token", "type_desc": "str", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "str"}]
+    }
+  ],
+  "edges": [
+    {"source": "spectral_fit_n_components", "target": "spectral_fit_use_kmeans", "kind": "fit_context"},
+    {"source": "spectral_fit_verbose_message", "target": "spectral_fit_use_cluster_qr", "kind": "label_assignment_context"},
+    {"source": "spectral_fit_use_kmeans", "target": "spectral_fit_return_self", "kind": "fit_completion"},
+    {"source": "spectral_fit_use_cluster_qr", "target": "spectral_fit_return_self", "kind": "fit_completion"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.cluster._spectral",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 4 spectral clustering fit bookkeeping shell"
+  }
+}
