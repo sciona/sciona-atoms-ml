@@ -1505,6 +1505,11 @@ Potential remediation path:
   location resolution, validated `covariance_` assignment, the
   `store_precision` branch predicate, and `precision_` computation inside
   `_set_covariance`.
+- Completed helper slice:
+  `sklearn.covariance.covariance_shrinkage_postfit_state` now publishes the
+  deterministic post-fit tail for covariance shrinkage estimators: fitted
+  `shrinkage_` exposure for `LedoitWolf` and `OAS`, plus the final `fit`
+  self-return shared by empirical and shrinkage covariance estimators.
 - Graphical-lasso coordinate-descent and LARS inner solvers, path fitting,
   cross-validation orchestration, public estimator mutation, and alpha
   selection remain deferred.

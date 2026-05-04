@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0",
+  "family": "ml_sklearn_covariance_shrinkage_postfit_state",
+  "root": {
+    "node_id": "covariance_shrinkage_postfit_state",
+    "name": "covariance_shrinkage_postfit_state",
+    "kind": "family",
+    "children": [
+      "covariance_ledoit_wolf_fit_shrinkage",
+      "covariance_oas_fit_shrinkage",
+      "covariance_fit_return_self"
+    ]
+  },
+  "nodes": [
+    {
+      "node_id": "covariance_ledoit_wolf_fit_shrinkage",
+      "name": "covariance_ledoit_wolf_fit_shrinkage",
+      "kind": "atom",
+      "status": "atomic",
+      "inputs": [{"name": "shrinkage", "type_desc": "float in [0, 1]", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "float in [0, 1]"}]
+    },
+    {
+      "node_id": "covariance_oas_fit_shrinkage",
+      "name": "covariance_oas_fit_shrinkage",
+      "kind": "atom",
+      "status": "atomic",
+      "inputs": [{"name": "shrinkage", "type_desc": "float in [0, 1]", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "float in [0, 1]"}]
+    },
+    {
+      "node_id": "covariance_fit_return_self",
+      "name": "covariance_fit_return_self",
+      "kind": "atom",
+      "status": "atomic",
+      "inputs": [{"name": "estimator_token", "type_desc": "nonempty string", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "same nonempty string"}]
+    }
+  ]
+}
