@@ -1,0 +1,63 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_cluster_bicluster_fit_api_shell_root",
+      "name": "Sklearn Spectral Biclustering Fit API Shell Helpers",
+      "description": "Deterministic shared fit-validation and sparse-tag helpers for SpectralBiclustering and SpectralCoclustering.",
+      "status": "decomposed",
+      "children": [
+        "bicluster_fit_accept_sparse_format",
+        "bicluster_fit_dtype_name",
+        "bicluster_sparse_input_tag"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "bicluster_fit_accept_sparse_format",
+      "name": "bicluster_fit_accept_sparse_format",
+      "description": "Expose the accept_sparse format used by SpectralBiclustering and SpectralCoclustering fit validation.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(parent_accept_sparse: str | tuple[str, ...] | None) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "parent_accept_sparse", "type_desc": "str | tuple[str, ...] | None", "required": false}
+      ],
+      "outputs": [{"name": "result", "type_desc": "str"}]
+    },
+    {
+      "node_id": "bicluster_fit_dtype_name",
+      "name": "bicluster_fit_dtype_name",
+      "description": "Expose the dtype name used by SpectralBiclustering and SpectralCoclustering fit validation.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(parent_dtype_name: str | None) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "parent_dtype_name", "type_desc": "str | None", "required": false}
+      ],
+      "outputs": [{"name": "result", "type_desc": "str"}]
+    },
+    {
+      "node_id": "bicluster_sparse_input_tag",
+      "name": "bicluster_sparse_input_tag",
+      "description": "Override the sparse-input sklearn tag shared by SpectralBiclustering and SpectralCoclustering.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(parent_sparse: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "parent_sparse", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    }
+  ],
+  "edges": [],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.cluster._bicluster",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 4 spectral biclustering fit validation and tag shell"
+  }
+}

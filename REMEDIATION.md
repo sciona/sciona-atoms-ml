@@ -1358,6 +1358,11 @@ Potential remediation path:
   fitted-state tail shared by spectral biclustering and coclustering after
   deferred SVD and KMeans work completes: fitted `row_labels_`,
   `column_labels_`, `rows_`, `columns_`, and the final self-return.
+- Completed helper slice:
+  `sklearn.cluster.bicluster_fit_api_shell` now publishes the shared fit API
+  shell for spectral biclustering and coclustering: the `accept_sparse='csr'`
+  validation mode, the `float64` fit dtype, and the sparse-input sklearn tag
+  override.
 - Sparse log-normalization rejection, SVD/randomized-SVD projection,
   piecewise-vector selection, projection-and-cluster helpers, KMeans and
   MiniBatchKMeans label assignment, and full estimator state surfaces remain
