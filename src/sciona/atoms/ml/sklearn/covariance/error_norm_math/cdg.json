@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0",
+  "family": "ml_sklearn_covariance_error_norm_math",
+  "root": {
+    "node_id": "covariance_error_norm_math",
+    "name": "covariance_error_norm_math",
+    "kind": "family",
+    "children": [
+      "covariance_error_matrix",
+      "covariance_error_squared_norm",
+      "covariance_error_scaled_squared_norm",
+      "covariance_error_result"
+    ]
+  },
+  "nodes": [
+    {
+      "node_id": "covariance_error_matrix",
+      "name": "covariance_error_matrix",
+      "kind": "atom",
+      "status": "atomic",
+      "inputs": [
+        {"name": "comp_cov", "type_desc": "float64 square matrix", "required": true},
+        {"name": "covariance", "type_desc": "float64 square matrix", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "float64 square matrix"}]
+    },
+    {
+      "node_id": "covariance_error_squared_norm",
+      "name": "covariance_error_squared_norm",
+      "kind": "atom",
+      "status": "atomic",
+      "inputs": [
+        {"name": "error", "type_desc": "float64 square matrix", "required": true},
+        {"name": "norm", "type_desc": "str", "required": false}
+      ],
+      "outputs": [{"name": "result", "type_desc": "float"}]
+    },
+    {
+      "node_id": "covariance_error_scaled_squared_norm",
+      "name": "covariance_error_scaled_squared_norm",
+      "kind": "atom",
+      "status": "atomic",
+      "inputs": [
+        {"name": "squared_norm", "type_desc": "float", "required": true},
+        {"name": "scaling", "type_desc": "bool", "required": false},
+        {"name": "n_features", "type_desc": "int", "required": false}
+      ],
+      "outputs": [{"name": "result", "type_desc": "float"}]
+    },
+    {
+      "node_id": "covariance_error_result",
+      "name": "covariance_error_result",
+      "kind": "atom",
+      "status": "atomic",
+      "inputs": [
+        {"name": "squared_norm", "type_desc": "float", "required": true},
+        {"name": "squared", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [{"name": "result", "type_desc": "float"}]
+    }
+  ]
+}

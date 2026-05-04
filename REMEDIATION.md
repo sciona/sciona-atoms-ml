@@ -1482,6 +1482,12 @@ Potential remediation path:
   `GraphicalLasso` constructor-kwargs assembly with
   `covariance='precomputed'` and `assume_centered=True`, plus final tuple
   packaging from fitted `covariance_`, `precision_`, `costs_`, and `n_iter_`.
+- Completed helper slice:
+  `sklearn.covariance.error_norm_math` now publishes the deterministic
+  covariance-estimator `error_norm` math shared across empirical and
+  graphical-lasso-style estimators: covariance-difference construction,
+  frobenius-versus-spectral squared norms, optional feature-count scaling,
+  and final squared-versus-square-root result packaging.
 - Graphical-lasso coordinate-descent and LARS inner solvers, path fitting,
   cross-validation orchestration, public estimator mutation, and alpha
   selection remain deferred.

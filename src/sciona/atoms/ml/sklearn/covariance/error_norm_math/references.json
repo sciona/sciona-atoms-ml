@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.covariance.error_norm_math.covariance_error_matrix@sciona/atoms/ml/sklearn/covariance/error_norm_math/atoms.py:81": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from `error = comp_cov - self.covariance_` in sklearn.covariance._empirical_covariance.EmpiricalCovariance.error_norm."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for covariance error_norm math."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.covariance.error_norm_math.covariance_error_squared_norm@sciona/atoms/ml/sklearn/covariance/error_norm_math/atoms.py:93": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the frobenius-versus-spectral squared-norm branch in sklearn.covariance._empirical_covariance.EmpiricalCovariance.error_norm."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for covariance error-norm branch logic."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.covariance.error_norm_math.covariance_error_scaled_squared_norm@sciona/atoms/ml/sklearn/covariance/error_norm_math/atoms.py:111": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the optional `squared_norm = squared_norm / error.shape[0]` scaling step in sklearn.covariance._empirical_covariance.EmpiricalCovariance.error_norm."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for covariance error-norm scaling."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.covariance.error_norm_math.covariance_error_result@sciona/atoms/ml/sklearn/covariance/error_norm_math/atoms.py:126": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the final squared-versus-square-root result branch in sklearn.covariance._empirical_covariance.EmpiricalCovariance.error_norm."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for covariance error-norm final result packaging."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}
