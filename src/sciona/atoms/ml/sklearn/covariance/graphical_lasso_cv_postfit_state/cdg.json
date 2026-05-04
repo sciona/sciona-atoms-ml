@@ -1,0 +1,99 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_covariance_graphical_lasso_cv_postfit_state_root",
+      "name": "Sklearn GraphicalLassoCV Postfit State Helpers",
+      "description": "Deterministic GraphicalLassoCV fitted-state helpers for exposing alpha_, covariance_, precision_, costs_, n_iter_, and the final self-return after deferred path solving and sparse precision refit.",
+      "status": "decomposed",
+      "children": [
+        "graphical_lasso_cv_fit_alpha",
+        "graphical_lasso_cv_fit_covariance",
+        "graphical_lasso_cv_fit_precision",
+        "graphical_lasso_cv_fit_costs",
+        "graphical_lasso_cv_fit_n_iter",
+        "graphical_lasso_cv_fit_return_self"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "graphical_lasso_cv_fit_alpha",
+      "name": "graphical_lasso_cv_fit_alpha",
+      "description": "Expose GraphicalLassoCV.alpha_ after the best alpha has already been selected.",
+      "concept_type": "fit_postprocessing",
+      "status": "atomic",
+      "type_signature": "(alpha: float) -> float",
+      "depth": 1,
+      "inputs": [{"name": "alpha", "type_desc": "float", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "float"}]
+    },
+    {
+      "node_id": "graphical_lasso_cv_fit_covariance",
+      "name": "graphical_lasso_cv_fit_covariance",
+      "description": "Expose GraphicalLassoCV.covariance_ from the already-computed sparse precision refit.",
+      "concept_type": "fit_postprocessing",
+      "status": "atomic",
+      "type_signature": "(covariance: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [{"name": "covariance", "type_desc": "NDArray[np.float64]", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+    },
+    {
+      "node_id": "graphical_lasso_cv_fit_precision",
+      "name": "graphical_lasso_cv_fit_precision",
+      "description": "Expose GraphicalLassoCV.precision_ from the already-computed sparse precision refit.",
+      "concept_type": "fit_postprocessing",
+      "status": "atomic",
+      "type_signature": "(precision: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [{"name": "precision", "type_desc": "NDArray[np.float64]", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+    },
+    {
+      "node_id": "graphical_lasso_cv_fit_costs",
+      "name": "graphical_lasso_cv_fit_costs",
+      "description": "Expose GraphicalLassoCV.costs_ as the already-computed solver cost history.",
+      "concept_type": "fit_postprocessing",
+      "status": "atomic",
+      "type_signature": "(costs: list[tuple[float, float]]) -> list[tuple[float, float]]",
+      "depth": 1,
+      "inputs": [{"name": "costs", "type_desc": "list[tuple[float, float]]", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "list[tuple[float, float]]"}]
+    },
+    {
+      "node_id": "graphical_lasso_cv_fit_n_iter",
+      "name": "graphical_lasso_cv_fit_n_iter",
+      "description": "Expose GraphicalLassoCV.n_iter_ from the already-computed sparse precision refit.",
+      "concept_type": "fit_postprocessing",
+      "status": "atomic",
+      "type_signature": "(n_iter: int) -> int",
+      "depth": 1,
+      "inputs": [{"name": "n_iter", "type_desc": "int", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "int"}]
+    },
+    {
+      "node_id": "graphical_lasso_cv_fit_return_self",
+      "name": "graphical_lasso_cv_fit_return_self",
+      "description": "Model GraphicalLassoCV.fit returning self after assigning fitted postfit attributes.",
+      "concept_type": "fit_postprocessing",
+      "status": "atomic",
+      "type_signature": "(estimator_token: str) -> str",
+      "depth": 1,
+      "inputs": [{"name": "estimator_token", "type_desc": "str", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "str"}]
+    }
+  ],
+  "edges": [
+    {"source": "graphical_lasso_cv_fit_alpha", "target": "graphical_lasso_cv_fit_covariance", "kind": "selected_alpha_refit"},
+    {"source": "graphical_lasso_cv_fit_covariance", "target": "graphical_lasso_cv_fit_precision", "kind": "refit_state"},
+    {"source": "graphical_lasso_cv_fit_precision", "target": "graphical_lasso_cv_fit_costs", "kind": "solver_outputs"},
+    {"source": "graphical_lasso_cv_fit_costs", "target": "graphical_lasso_cv_fit_n_iter", "kind": "solver_outputs"},
+    {"source": "graphical_lasso_cv_fit_n_iter", "target": "graphical_lasso_cv_fit_return_self", "kind": "fit_completion"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.covariance._graph_lasso",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 4 GraphicalLassoCV fitted-state shell after deferred path solving and sparse precision refit"
+  }
+}

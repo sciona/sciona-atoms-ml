@@ -1398,6 +1398,11 @@ Potential remediation path:
   descending path sorting, alpha and score unpacking from merged path records,
   empirical baseline alpha and score appends, and final `best_alpha`
   selection before the deferred sparse precision refit.
+- Completed helper slice:
+  `sklearn.covariance.graphical_lasso_cv_postfit_state` now publishes the
+  deterministic fitted-state tail of `GraphicalLassoCV.fit` after deferred
+  path solving and sparse precision refit: fitted `alpha_`, `covariance_`,
+  `precision_`, `costs_`, `n_iter_`, and the final self-return.
 - Completed helper slice: `sklearn.covariance.robust` now publishes
   post-FastMCD deterministic helpers for MCD consistency scaling, corrected
   covariance/distance updates, chi-square support reweighting, reweighted
