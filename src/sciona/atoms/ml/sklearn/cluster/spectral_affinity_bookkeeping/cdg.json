@@ -1,0 +1,105 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_cluster_spectral_affinity_bookkeeping_root",
+      "name": "sklearn.cluster.spectral_affinity_bookkeeping",
+      "description": "Deterministic SpectralClustering affinity-branch bookkeeping above deferred nearest-neighbor search, pairwise-kernel callbacks, spectral embedding, and label assignment.",
+      "status": "composite",
+      "children": [
+        "spectral_fit_use_nearest_neighbors",
+        "spectral_fit_use_precomputed_nearest_neighbors",
+        "spectral_fit_use_precomputed_affinity",
+        "spectral_fit_use_pairwise_kernel_hyperparameters",
+        "spectral_fit_pairwise_kernel_params",
+        "spectral_fit_symmetric_connectivity"
+      ]
+    },
+    {
+      "node_id": "spectral_fit_use_nearest_neighbors",
+      "name": "spectral_fit_use_nearest_neighbors",
+      "description": "Return whether SpectralClustering.fit takes the nearest-neighbors affinity branch.",
+      "status": "atomic",
+      "concept_type": "spectral_affinity_branch",
+      "inputs": [
+        {"name": "affinity", "type_desc": "str"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "spectral_fit_use_precomputed_nearest_neighbors",
+      "name": "spectral_fit_use_precomputed_nearest_neighbors",
+      "description": "Return whether SpectralClustering.fit takes the precomputed-nearest-neighbors branch.",
+      "status": "atomic",
+      "concept_type": "spectral_affinity_branch",
+      "inputs": [
+        {"name": "affinity", "type_desc": "str"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "spectral_fit_use_precomputed_affinity",
+      "name": "spectral_fit_use_precomputed_affinity",
+      "description": "Return whether SpectralClustering.fit uses the supplied affinity matrix directly.",
+      "status": "atomic",
+      "concept_type": "spectral_affinity_branch",
+      "inputs": [
+        {"name": "affinity", "type_desc": "str"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "spectral_fit_use_pairwise_kernel_hyperparameters",
+      "name": "spectral_fit_use_pairwise_kernel_hyperparameters",
+      "description": "Return whether SpectralClustering injects gamma, degree, and coef0 into pairwise_kernels for the configured affinity.",
+      "status": "atomic",
+      "concept_type": "spectral_affinity_setup",
+      "inputs": [
+        {"name": "affinity", "type_desc": "callable or str"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "spectral_fit_pairwise_kernel_params",
+      "name": "spectral_fit_pairwise_kernel_params",
+      "description": "Resolve the parameter mapping passed into pairwise_kernels in SpectralClustering.fit.",
+      "status": "atomic",
+      "concept_type": "spectral_affinity_setup",
+      "inputs": [
+        {"name": "kernel_params", "type_desc": "dict[str, object] | None"},
+        {"name": "use_kernel_hyperparameters", "type_desc": "bool"},
+        {"name": "gamma", "type_desc": "float"},
+        {"name": "degree", "type_desc": "float"},
+        {"name": "coef0", "type_desc": "float"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "dict[str, object]"}
+      ]
+    },
+    {
+      "node_id": "spectral_fit_symmetric_connectivity",
+      "name": "spectral_fit_symmetric_connectivity",
+      "description": "Symmetrize the nearest-neighbor connectivity matrix stored as SpectralClustering.affinity_matrix_.",
+      "status": "atomic",
+      "concept_type": "spectral_affinity_matrix",
+      "inputs": [
+        {"name": "connectivity", "type_desc": "square dense or sparse matrix"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "square dense or sparse matrix"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "spectral_fit_use_nearest_neighbors", "target": "spectral_fit_symmetric_connectivity", "kind": "branch_to_affinity_matrix"},
+    {"source": "spectral_fit_use_precomputed_nearest_neighbors", "target": "spectral_fit_symmetric_connectivity", "kind": "branch_to_affinity_matrix"},
+    {"source": "spectral_fit_use_pairwise_kernel_hyperparameters", "target": "spectral_fit_pairwise_kernel_params", "kind": "hyperparameter_gate"}
+  ]
+}

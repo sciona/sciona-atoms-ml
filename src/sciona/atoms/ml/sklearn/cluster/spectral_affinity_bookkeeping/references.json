@@ -1,0 +1,131 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.cluster.spectral_affinity_bookkeeping.spectral_fit_use_nearest_neighbors@sciona/atoms/ml/sklearn/cluster/spectral_affinity_bookkeeping/atoms.py:113": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the self.affinity == 'nearest_neighbors' branch in sklearn.cluster.SpectralClustering.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.cluster.spectral_affinity_bookkeeping.spectral_fit_use_precomputed_nearest_neighbors@sciona/atoms/ml/sklearn/cluster/spectral_affinity_bookkeeping/atoms.py:121": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the self.affinity == 'precomputed_nearest_neighbors' branch in sklearn.cluster.SpectralClustering.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.cluster.spectral_affinity_bookkeeping.spectral_fit_use_precomputed_affinity@sciona/atoms/ml/sklearn/cluster/spectral_affinity_bookkeeping/atoms.py:129": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the self.affinity == 'precomputed' branch in sklearn.cluster.SpectralClustering.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.cluster.spectral_affinity_bookkeeping.spectral_fit_use_pairwise_kernel_hyperparameters@sciona/atoms/ml/sklearn/cluster/spectral_affinity_bookkeeping/atoms.py:140": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the not callable(self.affinity) check before gamma, degree, and coef0 injection in sklearn.cluster.SpectralClustering.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.cluster.spectral_affinity_bookkeeping.spectral_fit_pairwise_kernel_params@sciona/atoms/ml/sklearn/cluster/spectral_affinity_bookkeeping/atoms.py:168": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the params = self.kernel_params or {} setup and optional gamma, degree, coef0 injection before pairwise_kernels in sklearn.cluster.SpectralClustering.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.cluster.spectral_affinity_bookkeeping.spectral_fit_symmetric_connectivity@sciona/atoms/ml/sklearn/cluster/spectral_affinity_bookkeeping/atoms.py:193": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the 0.5 * (connectivity + connectivity.T) affinity-matrix packaging in the nearest-neighbors branches of sklearn.cluster.SpectralClustering.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level publication for scikit-learn."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

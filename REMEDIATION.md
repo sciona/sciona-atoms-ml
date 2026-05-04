@@ -1374,6 +1374,12 @@ Potential remediation path:
   `affinity='precomputed'` estimator construction and final `labels_`
   passthrough after the deferred `SpectralClustering.fit` call.
 - Completed helper slice:
+  `sklearn.cluster.spectral_affinity_bookkeeping` now publishes the
+  deterministic `SpectralClustering.fit` affinity shell for nearest-neighbor,
+  precomputed-nearest-neighbor, and precomputed branch predicates, symmetric
+  connectivity packaging, and pairwise-kernel parameter assembly before the
+  deferred neighbor-search and kernel callbacks.
+- Completed helper slice:
   `sklearn.cluster.bicluster_fit_api_shell` now publishes the shared fit API
   shell for spectral biclustering and coclustering: the `accept_sparse='csr'`
   validation mode, the `float64` fit dtype, and the sparse-input sklearn tag
