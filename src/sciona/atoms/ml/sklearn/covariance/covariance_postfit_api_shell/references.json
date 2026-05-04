@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.covariance.covariance_postfit_api_shell.covariance_precision_matrix@sciona/atoms/ml/sklearn/covariance/covariance_postfit_api_shell/atoms.py:95": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from `EmpiricalCovariance.get_precision`, including the stored-versus-derived precision branch and `linalg.pinvh(..., check_finite=False)` fallback in sklearn.covariance._empirical_covariance."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for covariance-estimator precision resolution."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.covariance.covariance_postfit_api_shell.covariance_score_test_covariance@sciona/atoms/ml/sklearn/covariance/covariance_postfit_api_shell/atoms.py:107": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the centered test-covariance preparation step in `EmpiricalCovariance.score`, namely `empirical_covariance(X_test - self.location_, assume_centered=True)`."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for covariance-estimator score preprocessing."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.covariance.covariance_postfit_api_shell.covariance_mahalanobis_location_row@sciona/atoms/ml/sklearn/covariance/covariance_postfit_api_shell/atoms.py:121": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the `self.location_[np.newaxis, :]` row-lift passed to `pairwise_distances(..., metric=\"mahalanobis\")` in `EmpiricalCovariance.mahalanobis`."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for covariance-estimator Mahalanobis distance setup."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.covariance.covariance_postfit_api_shell.covariance_mahalanobis_result@sciona/atoms/ml/sklearn/covariance/covariance_postfit_api_shell/atoms.py:130": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from `np.reshape(dist, (len(X),)) ** 2` in `EmpiricalCovariance.mahalanobis` after `pairwise_distances` returns one-column distances."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for covariance-estimator Mahalanobis result shaping."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

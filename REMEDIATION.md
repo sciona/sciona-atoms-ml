@@ -1493,6 +1493,12 @@ Potential remediation path:
   sklearn tag surface shared by covariance estimators for
   `target_required=False`, `estimator_type=None`, and classifier-tag absence,
   plus EllipticEnvelope's `estimator_type='outlier_detector'` override.
+- Completed helper slice:
+  `sklearn.covariance.covariance_postfit_api_shell` now publishes the
+  deterministic shared covariance-estimator post-fit API shell for stored
+  versus derived precision resolution, centered test-covariance preparation
+  before Gaussian score evaluation, and Mahalanobis location/result shaping
+  around the deferred pairwise-distance and log-likelihood callbacks.
 - Graphical-lasso coordinate-descent and LARS inner solvers, path fitting,
   cross-validation orchestration, public estimator mutation, and alpha
   selection remain deferred.

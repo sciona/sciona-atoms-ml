@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "family": "ml_sklearn_covariance_postfit_api_shell",
+  "root": {
+    "node_id": "covariance_postfit_api_shell",
+    "name": "covariance_postfit_api_shell",
+    "kind": "family",
+    "children": [
+      "covariance_precision_matrix",
+      "covariance_score_test_covariance",
+      "covariance_mahalanobis_location_row",
+      "covariance_mahalanobis_result"
+    ]
+  },
+  "nodes": [
+    {
+      "node_id": "covariance_precision_matrix",
+      "name": "covariance_precision_matrix",
+      "kind": "atom",
+      "status": "atomic",
+      "inputs": [{"name": "state", "type_desc": "CovarianceState", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "float64 square matrix"}]
+    },
+    {
+      "node_id": "covariance_score_test_covariance",
+      "name": "covariance_score_test_covariance",
+      "kind": "atom",
+      "status": "atomic",
+      "inputs": [
+        {"name": "X_test", "type_desc": "float64 matrix", "required": true},
+        {"name": "location", "type_desc": "float64 vector", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "float64 square matrix"}]
+    },
+    {
+      "node_id": "covariance_mahalanobis_location_row",
+      "name": "covariance_mahalanobis_location_row",
+      "kind": "atom",
+      "status": "atomic",
+      "inputs": [{"name": "location", "type_desc": "float64 vector", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "float64 matrix with shape (1, n_features)"}]
+    },
+    {
+      "node_id": "covariance_mahalanobis_result",
+      "name": "covariance_mahalanobis_result",
+      "kind": "atom",
+      "status": "atomic",
+      "inputs": [{"name": "distances", "type_desc": "float64 matrix with one column", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "float64 vector"}]
+    }
+  ]
+}
