@@ -1,0 +1,38 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_gaussian_process_classification_fit_multiclass_mode_guard_root",
+      "name": "Sklearn Gaussian Process Classification Fit Multiclass Mode Guard Helper Atoms",
+      "description": "Deterministic multiclass-mode validation helpers inside GaussianProcessClassifier.fit before OvR or OvO wrapper construction.",
+      "status": "decomposed",
+      "children": [
+        "gpc_fit_require_supported_multiclass_mode"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "gpc_fit_require_supported_multiclass_mode",
+      "name": "gpc_fit_require_supported_multiclass_mode",
+      "description": "Validate GaussianProcessClassifier.fit's multiclass mode string, raising the sklearn error for unsupported values only when more than two classes are present.",
+      "concept_type": "gaussian_process_helper",
+      "status": "atomic",
+      "type_signature": "(n_classes: int, multi_class: str) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_classes", "type_desc": "int", "required": true},
+        {"name": "multi_class", "type_desc": "str", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "str"}
+      ]
+    }
+  ],
+  "edges": [],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.gaussian_process._gpc",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 7 probabilistic and mutable-kernel workflows"
+  }
+}

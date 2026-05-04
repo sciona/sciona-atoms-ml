@@ -926,6 +926,12 @@ Potential remediation path:
   binary and multiclass `log_marginal_likelihood_value_` summary assignment,
   and the final self-return.
 - Completed helper slice:
+  `sklearn.gaussian_process.classification_fit_multiclass_mode_guard` now
+  publishes the remaining explicit unsupported-mode guard inside
+  `GaussianProcessClassifier.fit`: the sklearn `ValueError` for unknown
+  `multi_class` strings when more than two classes are present, while leaving
+  binary fit paths untouched.
+- Completed helper slice:
   `sklearn.gaussian_process.regression_gradients` now publishes dense
   log-marginal-likelihood gradient helpers for the shared
   alpha-alpha-transpose-minus-kernel-inverse inner tensor, per-parameter
