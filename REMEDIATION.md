@@ -919,6 +919,13 @@ Potential remediation path:
   `estimator_type='classifier'`, target-required, and classifier-tag
   presence overrides.
 - Completed helper slice:
+  `sklearn.gaussian_process.classification_fit_state_shell` now publishes the
+  deterministic construction and post-fit shell around
+  `GaussianProcessClassifier.fit`: binary base-estimator construction,
+  one-vs-rest and one-vs-one wrapper construction after branch selection,
+  binary and multiclass `log_marginal_likelihood_value_` summary assignment,
+  and the final self-return.
+- Completed helper slice:
   `sklearn.gaussian_process.regression_gradients` now publishes dense
   log-marginal-likelihood gradient helpers for the shared
   alpha-alpha-transpose-minus-kernel-inverse inner tensor, per-parameter
