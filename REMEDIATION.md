@@ -1488,6 +1488,11 @@ Potential remediation path:
   graphical-lasso-style estimators: covariance-difference construction,
   frobenius-versus-spectral squared norms, optional feature-count scaling,
   and final squared-versus-square-root result packaging.
+- Completed helper slice:
+  `sklearn.covariance.covariance_tags` now publishes the deterministic
+  sklearn tag surface shared by covariance estimators for
+  `target_required=False`, `estimator_type=None`, and classifier-tag absence,
+  plus EllipticEnvelope's `estimator_type='outlier_detector'` override.
 - Graphical-lasso coordinate-descent and LARS inner solvers, path fitting,
   cross-validation orchestration, public estimator mutation, and alpha
   selection remain deferred.

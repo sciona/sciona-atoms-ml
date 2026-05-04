@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "family": "ml_sklearn_covariance_covariance_tags",
+  "root": {
+    "node_id": "covariance_tags",
+    "name": "covariance_tags",
+    "kind": "family",
+    "children": [
+      "covariance_target_required_tag",
+      "covariance_estimator_type_tag",
+      "covariance_has_classifier_tags",
+      "elliptic_envelope_estimator_type_tag"
+    ]
+  },
+  "nodes": [
+    {
+      "node_id": "covariance_target_required_tag",
+      "name": "covariance_target_required_tag",
+      "kind": "atom",
+      "status": "atomic",
+      "inputs": [{"name": "parent_required", "type_desc": "bool", "required": false}],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    },
+    {
+      "node_id": "covariance_estimator_type_tag",
+      "name": "covariance_estimator_type_tag",
+      "kind": "atom",
+      "status": "atomic",
+      "inputs": [{"name": "parent_estimator_type", "type_desc": "str | None", "required": false}],
+      "outputs": [{"name": "result", "type_desc": "None"}]
+    },
+    {
+      "node_id": "covariance_has_classifier_tags",
+      "name": "covariance_has_classifier_tags",
+      "kind": "atom",
+      "status": "atomic",
+      "inputs": [{"name": "parent_has_classifier_tags", "type_desc": "bool", "required": false}],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    },
+    {
+      "node_id": "elliptic_envelope_estimator_type_tag",
+      "name": "elliptic_envelope_estimator_type_tag",
+      "kind": "atom",
+      "status": "atomic",
+      "inputs": [{"name": "parent_estimator_type", "type_desc": "str | None", "required": false}],
+      "outputs": [{"name": "result", "type_desc": "str"}]
+    }
+  ]
+}
