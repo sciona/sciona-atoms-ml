@@ -1416,6 +1416,11 @@ Potential remediation path:
   shell for spectral biclustering and coclustering: the `accept_sparse='csr'`
   validation mode, the `float64` fit dtype, and the sparse-input sklearn tag
   override.
+- Completed helper slice:
+  `sklearn.cluster.bicluster_svd_postprocessing` now publishes the
+  deterministic `BaseSpectral._svd` postprocessing after deferred
+  `randomized_svd` or `svds` callbacks: left-singular-vector slicing by
+  `n_discard`, and right-singular-vector slicing plus transpose from `vt`.
 - Sparse log-normalization rejection, SVD/randomized-SVD projection,
   piecewise-vector selection, projection-and-cluster helpers, KMeans and
   MiniBatchKMeans label assignment, and full estimator state surfaces remain
