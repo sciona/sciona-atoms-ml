@@ -932,6 +932,12 @@ Potential remediation path:
   `multi_class` strings when more than two classes are present, while leaving
   binary fit paths untouched.
 - Completed helper slice:
+  `sklearn.gaussian_process.classification_binary_postfit_attributes` now
+  publishes the deterministic fitted-state tail of
+  `_BinaryGaussianProcessClassifierLaplace.fit` after deferred optimizer and
+  posterior-mode callbacks: the fitted `pi_`, `W_sr_`, `L_`, fitted
+  `log_marginal_likelihood_value_`, and the final self-return.
+- Completed helper slice:
   `sklearn.gaussian_process.regression_gradients` now publishes dense
   log-marginal-likelihood gradient helpers for the shared
   alpha-alpha-transpose-minus-kernel-inverse inner tensor, per-parameter

@@ -1,0 +1,101 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_gaussian_process_classification_binary_postfit_attributes_root",
+      "name": "Sklearn Binary Gaussian Process Classification Postfit Attribute Helper Atoms",
+      "description": "Deterministic post-fit attribute exposure helpers for _BinaryGaussianProcessClassifierLaplace after deferred optimizer and posterior-mode callbacks complete.",
+      "status": "decomposed",
+      "children": [
+        "gpc_binary_fit_pi",
+        "gpc_binary_fit_W_sr",
+        "gpc_binary_fit_L",
+        "gpc_binary_fit_log_marginal_likelihood_value",
+        "gpc_binary_fit_return_self"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "gpc_binary_fit_pi",
+      "name": "gpc_binary_fit_pi",
+      "description": "Expose the fitted binary Gaussian-process pi_ vector copied from posterior-mode temporaries.",
+      "concept_type": "gaussian_process_helper",
+      "status": "atomic",
+      "type_signature": "(pi: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "pi", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "gpc_binary_fit_W_sr",
+      "name": "gpc_binary_fit_W_sr",
+      "description": "Expose the fitted binary Gaussian-process W_sr_ vector copied from posterior-mode temporaries.",
+      "concept_type": "gaussian_process_helper",
+      "status": "atomic",
+      "type_signature": "(W_sr: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "W_sr", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "gpc_binary_fit_L",
+      "name": "gpc_binary_fit_L",
+      "description": "Expose the fitted binary Gaussian-process L_ lower Cholesky factor copied from posterior-mode temporaries.",
+      "concept_type": "gaussian_process_helper",
+      "status": "atomic",
+      "type_signature": "(L: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "L", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.float64]"}
+      ]
+    },
+    {
+      "node_id": "gpc_binary_fit_log_marginal_likelihood_value",
+      "name": "gpc_binary_fit_log_marginal_likelihood_value",
+      "description": "Expose the fitted binary Gaussian-process log_marginal_likelihood_value_ scalar.",
+      "concept_type": "gaussian_process_helper",
+      "status": "atomic",
+      "type_signature": "(log_marginal_likelihood_value: float) -> float",
+      "depth": 1,
+      "inputs": [
+        {"name": "log_marginal_likelihood_value", "type_desc": "float", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "float"}
+      ]
+    },
+    {
+      "node_id": "gpc_binary_fit_return_self",
+      "name": "gpc_binary_fit_return_self",
+      "description": "Model _BinaryGaussianProcessClassifierLaplace.fit returning self after fitted-state updates complete.",
+      "concept_type": "api_tag",
+      "status": "atomic",
+      "type_signature": "(estimator_token: str) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator_token", "type_desc": "str", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "str"}
+      ]
+    }
+  ],
+  "edges": [],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.gaussian_process._gpc",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 7 probabilistic and mutable-kernel workflows"
+  }
+}
