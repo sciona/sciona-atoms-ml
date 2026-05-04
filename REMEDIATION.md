@@ -855,6 +855,11 @@ Potential remediation path:
   the deterministic integer-dtype warning shell before grid construction in
   `partial_dependence`: the per-feature warning predicate, exact FutureWarning
   text, and first-warning selection with sklearn's warn-once break behavior.
+- Completed helper slice:
+  `sklearn.inspection.partial_dependence_custom_values_shell` now publishes
+  the deterministic custom-values and feature-wrapping shell in
+  `partial_dependence`: defaulting `custom_values`, scalar feature wrapping,
+  and indexed custom-values subset remapping before grid construction.
 - Ingest small helper atoms only where the boundary is explicit, such as
   permutation score aggregation from baseline and permuted score arrays.
 - Decide how estimator callback boundaries should be represented before

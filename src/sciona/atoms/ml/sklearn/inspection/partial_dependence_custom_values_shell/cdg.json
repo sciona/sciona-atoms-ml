@@ -1,0 +1,59 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_inspection_partial_dependence_custom_values_shell_root",
+      "name": "sklearn.inspection.partial_dependence_custom_values_shell",
+      "description": "Deterministic custom-values and feature-wrapping shell in sklearn.inspection.partial_dependence before grid construction.",
+      "status": "composite",
+      "children": [
+        "partial_dependence_custom_values_mapping",
+        "partial_dependence_feature_sequence",
+        "partial_dependence_custom_values_subset_mapping"
+      ]
+    },
+    {
+      "node_id": "partial_dependence_custom_values_mapping",
+      "name": "partial_dependence_custom_values_mapping",
+      "description": "Resolve sklearn's `custom_values = custom_values or {}` shell.",
+      "status": "atomic",
+      "concept_type": "partial_dependence_input_bookkeeping",
+      "inputs": [
+        {"name": "custom_values", "type_desc": "optional mapping"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "dict"}
+      ]
+    },
+    {
+      "node_id": "partial_dependence_feature_sequence",
+      "name": "partial_dependence_feature_sequence",
+      "description": "Wrap sklearn scalar feature inputs and preserve sequence order otherwise.",
+      "status": "atomic",
+      "concept_type": "partial_dependence_input_bookkeeping",
+      "inputs": [
+        {"name": "features", "type_desc": "scalar feature label or nonempty sequence of feature items"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple of feature items"}
+      ]
+    },
+    {
+      "node_id": "partial_dependence_custom_values_subset_mapping",
+      "name": "partial_dependence_custom_values_subset_mapping",
+      "description": "Build the indexed custom-values mapping used for the selected feature subset.",
+      "status": "atomic",
+      "concept_type": "partial_dependence_input_bookkeeping",
+      "inputs": [
+        {"name": "features", "type_desc": "tuple of feature items"},
+        {"name": "custom_values", "type_desc": "mapping"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "dict[int, object]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "partial_dependence_custom_values_mapping", "target": "partial_dependence_custom_values_subset_mapping", "kind": "mapping_default_to_subset"},
+    {"source": "partial_dependence_feature_sequence", "target": "partial_dependence_custom_values_subset_mapping", "kind": "feature_order_to_subset"}
+  ]
+}
