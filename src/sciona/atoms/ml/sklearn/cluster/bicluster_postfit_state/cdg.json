@@ -1,0 +1,81 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_cluster_bicluster_postfit_state_root",
+      "name": "Sklearn Spectral Biclustering Postfit State Helpers",
+      "description": "Deterministic fitted-state exposure helpers shared by SpectralBiclustering and SpectralCoclustering after deferred SVD and KMeans work completes.",
+      "status": "decomposed",
+      "children": [
+        "bicluster_fit_row_labels",
+        "bicluster_fit_column_labels",
+        "bicluster_fit_rows",
+        "bicluster_fit_columns",
+        "bicluster_fit_return_self"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "bicluster_fit_row_labels",
+      "name": "bicluster_fit_row_labels",
+      "description": "Expose the fitted row-label vector assigned by spectral biclustering or coclustering.",
+      "concept_type": "cluster_helper",
+      "status": "atomic",
+      "type_signature": "(row_labels: NDArray[np.int64]) -> NDArray[np.int64]",
+      "depth": 1,
+      "inputs": [{"name": "row_labels", "type_desc": "NDArray[np.int64]", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.int64]"}]
+    },
+    {
+      "node_id": "bicluster_fit_column_labels",
+      "name": "bicluster_fit_column_labels",
+      "description": "Expose the fitted column-label vector assigned by spectral biclustering or coclustering.",
+      "concept_type": "cluster_helper",
+      "status": "atomic",
+      "type_signature": "(column_labels: NDArray[np.int64]) -> NDArray[np.int64]",
+      "depth": 1,
+      "inputs": [{"name": "column_labels", "type_desc": "NDArray[np.int64]", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.int64]"}]
+    },
+    {
+      "node_id": "bicluster_fit_rows",
+      "name": "bicluster_fit_rows",
+      "description": "Expose the fitted boolean row-indicator matrix.",
+      "concept_type": "cluster_helper",
+      "status": "atomic",
+      "type_signature": "(rows: NDArray[np.bool_]) -> NDArray[np.bool_]",
+      "depth": 1,
+      "inputs": [{"name": "rows", "type_desc": "NDArray[np.bool_]", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.bool_]"}]
+    },
+    {
+      "node_id": "bicluster_fit_columns",
+      "name": "bicluster_fit_columns",
+      "description": "Expose the fitted boolean column-indicator matrix.",
+      "concept_type": "cluster_helper",
+      "status": "atomic",
+      "type_signature": "(columns: NDArray[np.bool_]) -> NDArray[np.bool_]",
+      "depth": 1,
+      "inputs": [{"name": "columns", "type_desc": "NDArray[np.bool_]", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.bool_]"}]
+    },
+    {
+      "node_id": "bicluster_fit_return_self",
+      "name": "bicluster_fit_return_self",
+      "description": "Model spectral biclustering and coclustering fit returning self after fitted-state assignment.",
+      "concept_type": "api_tag",
+      "status": "atomic",
+      "type_signature": "(estimator_token: str) -> str",
+      "depth": 1,
+      "inputs": [{"name": "estimator_token", "type_desc": "str", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "str"}]
+    }
+  ],
+  "edges": [],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.cluster._bicluster",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 7 probabilistic and mutable-kernel workflows"
+  }
+}

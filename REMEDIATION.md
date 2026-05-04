@@ -1344,6 +1344,11 @@ Potential remediation path:
   biclustering and coclustering: the mini-batch branch flag, fitted centroid
   and label unpacking, and the final projected-label return from
   `_project_and_cluster`.
+- Completed helper slice:
+  `sklearn.cluster.bicluster_postfit_state` now publishes the deterministic
+  fitted-state tail shared by spectral biclustering and coclustering after
+  deferred SVD and KMeans work completes: fitted `row_labels_`,
+  `column_labels_`, `rows_`, `columns_`, and the final self-return.
 - Sparse log-normalization rejection, SVD/randomized-SVD projection,
   piecewise-vector selection, projection-and-cluster helpers, KMeans and
   MiniBatchKMeans label assignment, and full estimator state surfaces remain
