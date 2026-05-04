@@ -1,0 +1,96 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_cluster_spectral_fit_api_shell_root",
+      "name": "Sklearn Spectral Clustering Fit API Shell Helpers",
+      "description": "Deterministic fit-validation and tag helpers for SpectralClustering above the deferred affinity, embedding, and labeling stages.",
+      "status": "decomposed",
+      "children": [
+        "spectral_fit_accept_sparse_formats",
+        "spectral_fit_dtype_name",
+        "spectral_fit_affinity_allows_square_input",
+        "spectral_fit_square_input_warning_required",
+        "spectral_pairwise_input_tag"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "spectral_fit_accept_sparse_formats",
+      "name": "spectral_fit_accept_sparse_formats",
+      "description": "Expose the sparse formats accepted by SpectralClustering.fit validation.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(parent_accept_sparse: tuple[str, ...] | None) -> tuple[str, str, str]",
+      "depth": 1,
+      "inputs": [
+        {"name": "parent_accept_sparse", "type_desc": "tuple[str, ...] | None", "required": false}
+      ],
+      "outputs": [{"name": "result", "type_desc": "tuple[str, str, str]"}]
+    },
+    {
+      "node_id": "spectral_fit_dtype_name",
+      "name": "spectral_fit_dtype_name",
+      "description": "Expose the dtype name used by SpectralClustering.fit validation.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(parent_dtype_name: str | None) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "parent_dtype_name", "type_desc": "str | None", "required": false}
+      ],
+      "outputs": [{"name": "result", "type_desc": "str"}]
+    },
+    {
+      "node_id": "spectral_fit_affinity_allows_square_input",
+      "name": "spectral_fit_affinity_allows_square_input",
+      "description": "Return whether SpectralClustering.fit accepts square inputs without warning for the configured affinity.",
+      "concept_type": "parameter_validation",
+      "status": "atomic",
+      "type_signature": "(affinity: str) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "affinity", "type_desc": "str", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    },
+    {
+      "node_id": "spectral_fit_square_input_warning_required",
+      "name": "spectral_fit_square_input_warning_required",
+      "description": "Decide whether SpectralClustering.fit would warn about square input being treated as feature data.",
+      "concept_type": "parameter_validation",
+      "status": "atomic",
+      "type_signature": "(affinity: str, shape: tuple[int, int]) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "affinity", "type_desc": "str", "required": true},
+        {"name": "shape", "type_desc": "tuple[int, int]", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    },
+    {
+      "node_id": "spectral_pairwise_input_tag",
+      "name": "spectral_pairwise_input_tag",
+      "description": "Override SpectralClustering's pairwise-input tag from the configured affinity.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(affinity: str, parent_pairwise: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "affinity", "type_desc": "str", "required": true},
+        {"name": "parent_pairwise", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    }
+  ],
+  "edges": [
+    {"source": "spectral_fit_affinity_allows_square_input", "target": "spectral_fit_square_input_warning_required", "kind": "warning_gate"},
+    {"source": "spectral_fit_affinity_allows_square_input", "target": "spectral_pairwise_input_tag", "kind": "shared_affinity_mode"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.cluster._spectral",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 4 spectral clustering fit validation and tag shell"
+  }
+}

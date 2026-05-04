@@ -1359,6 +1359,11 @@ Potential remediation path:
   deferred SVD and KMeans work completes: fitted `row_labels_`,
   `column_labels_`, `rows_`, `columns_`, and the final self-return.
 - Completed helper slice:
+  `sklearn.cluster.spectral_fit_api_shell` now publishes the deterministic
+  `SpectralClustering` fit-validation and tag shell for accepted sparse
+  formats, `float64` validation dtype, the affinity-driven square-input
+  warning gate, and the pairwise-input tag override.
+- Completed helper slice:
   `sklearn.cluster.bicluster_fit_api_shell` now publishes the shared fit API
   shell for spectral biclustering and coclustering: the `accept_sparse='csr'`
   validation mode, the `float64` fit dtype, and the sparse-input sklearn tag
