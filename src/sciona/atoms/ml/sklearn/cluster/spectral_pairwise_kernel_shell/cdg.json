@@ -1,0 +1,44 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_cluster_spectral_pairwise_kernel_shell_root",
+      "name": "sklearn.cluster.spectral_pairwise_kernel_shell",
+      "description": "Deterministic SpectralClustering.fit setup around the deferred pairwise_kernels callback.",
+      "status": "composite",
+      "children": [
+        "spectral_fit_pairwise_kernel_kwargs",
+        "spectral_fit_pairwise_affinity_matrix"
+      ]
+    },
+    {
+      "node_id": "spectral_fit_pairwise_kernel_kwargs",
+      "name": "spectral_fit_pairwise_kernel_kwargs",
+      "description": "Resolve the pairwise_kernels kwargs used by SpectralClustering.fit.",
+      "status": "atomic",
+      "concept_type": "spectral_affinity_callback",
+      "inputs": [
+        {"name": "affinity", "type_desc": "callable | nonempty string"},
+        {"name": "params", "type_desc": "mapping[str, object]"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "dict[str, object]"}
+      ]
+    },
+    {
+      "node_id": "spectral_fit_pairwise_affinity_matrix",
+      "name": "spectral_fit_pairwise_affinity_matrix",
+      "description": "Expose the dense affinity matrix returned by pairwise_kernels.",
+      "status": "atomic",
+      "concept_type": "spectral_affinity_output",
+      "inputs": [
+        {"name": "affinity_matrix", "type_desc": "finite square dense matrix"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "finite square dense matrix"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "spectral_fit_pairwise_kernel_kwargs", "target": "spectral_fit_pairwise_affinity_matrix", "kind": "callback_result"}
+  ]
+}

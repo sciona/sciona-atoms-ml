@@ -1401,6 +1401,12 @@ Potential remediation path:
   and `discretize` callbacks: `k_means` kwarg assembly, k-means label
   unpacking, and discretize kwarg assembly.
 - Completed helper slice:
+  `sklearn.cluster.spectral_pairwise_kernel_shell` now publishes the
+  deterministic `SpectralClustering.fit` setup around the deferred
+  `pairwise_kernels` callback: non-precomputed affinity-call kwarg
+  assembly with fixed `filter_params=True`, and dense affinity-matrix
+  passthrough into `affinity_matrix_`.
+- Completed helper slice:
   `sklearn.cluster.bicluster_fit_api_shell` now publishes the shared fit API
   shell for spectral biclustering and coclustering: the `accept_sparse='csr'`
   validation mode, the `float64` fit dtype, and the sparse-input sklearn tag
