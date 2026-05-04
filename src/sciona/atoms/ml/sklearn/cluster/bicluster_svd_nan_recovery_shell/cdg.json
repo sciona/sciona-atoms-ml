@@ -1,0 +1,79 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_cluster_bicluster_svd_nan_recovery_shell_root",
+      "name": "sklearn.cluster.bicluster_svd_nan_recovery_shell",
+      "description": "Deterministic BaseSpectral._svd NaN-recovery setup around deferred eigsh fallback callbacks.",
+      "status": "composite",
+      "children": [
+        "bicluster_svd_vt_nan_recovery_required",
+        "bicluster_svd_u_nan_recovery_required",
+        "bicluster_svd_right_gram_matrix",
+        "bicluster_svd_left_gram_matrix",
+        "bicluster_svd_arpack_init_vector",
+        "bicluster_svd_eigsh_kwargs"
+      ]
+    },
+    {
+      "node_id": "bicluster_svd_vt_nan_recovery_required",
+      "name": "bicluster_svd_vt_nan_recovery_required",
+      "description": "Return whether BaseSpectral._svd should repair NaNs in vt.",
+      "status": "atomic",
+      "concept_type": "svd_nan_recovery",
+      "inputs": [{"name": "vt", "type_desc": "2D float-like matrix"}],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    },
+    {
+      "node_id": "bicluster_svd_u_nan_recovery_required",
+      "name": "bicluster_svd_u_nan_recovery_required",
+      "description": "Return whether BaseSpectral._svd should repair NaNs in u.",
+      "status": "atomic",
+      "concept_type": "svd_nan_recovery",
+      "inputs": [{"name": "u", "type_desc": "2D float-like matrix"}],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    },
+    {
+      "node_id": "bicluster_svd_right_gram_matrix",
+      "name": "bicluster_svd_right_gram_matrix",
+      "description": "Build the right-side Gram matrix used for vt NaN recovery.",
+      "status": "atomic",
+      "concept_type": "svd_nan_recovery",
+      "inputs": [{"name": "array", "type_desc": "finite dense or sparse matrix"}],
+      "outputs": [{"name": "result", "type_desc": "square Gram matrix"}]
+    },
+    {
+      "node_id": "bicluster_svd_left_gram_matrix",
+      "name": "bicluster_svd_left_gram_matrix",
+      "description": "Build the left-side Gram matrix used for u NaN recovery.",
+      "status": "atomic",
+      "concept_type": "svd_nan_recovery",
+      "inputs": [{"name": "array", "type_desc": "finite dense or sparse matrix"}],
+      "outputs": [{"name": "result", "type_desc": "square Gram matrix"}]
+    },
+    {
+      "node_id": "bicluster_svd_arpack_init_vector",
+      "name": "bicluster_svd_arpack_init_vector",
+      "description": "Build the ARPACK-style initialization vector used for eigsh fallback.",
+      "status": "atomic",
+      "concept_type": "svd_nan_recovery",
+      "inputs": [
+        {"name": "random_state", "type_desc": "object"},
+        {"name": "width", "type_desc": "int"}
+      ],
+      "outputs": [{"name": "result", "type_desc": "finite vector"}]
+    },
+    {
+      "node_id": "bicluster_svd_eigsh_kwargs",
+      "name": "bicluster_svd_eigsh_kwargs",
+      "description": "Resolve the eigsh kwargs used during BaseSpectral._svd NaN recovery.",
+      "status": "atomic",
+      "concept_type": "svd_nan_recovery",
+      "inputs": [
+        {"name": "n_svd_vecs", "type_desc": "int | None"},
+        {"name": "v0", "type_desc": "finite vector"}
+      ],
+      "outputs": [{"name": "result", "type_desc": "dict[str, object]"}]
+    }
+  ],
+  "edges": []
+}
