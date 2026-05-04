@@ -791,6 +791,12 @@ Potential remediation path:
   `check_array(..., ensure_all_finite="allow-nan", dtype=None)` path, and the
   oversized-integer `max_samples <= n_samples` guard predicate.
 - Completed helper slice:
+  `sklearn.inspection.permutation_weighted_scorer_shell` now publishes the
+  deterministic sample-weight forwarding shell inside
+  `sklearn.inspection._permutation_importance._weights_scorer`: the
+  `sample_weight is not None` branch predicate and the scorer keyword-argument
+  mapping used before the deferred scorer callback.
+- Completed helper slice:
   `sklearn.inspection.partial_dependence_grid` now publishes dense numeric
   grid-parameter validation, per-feature axis construction, and Cartesian grid
   construction before the deferred estimator prediction paths.

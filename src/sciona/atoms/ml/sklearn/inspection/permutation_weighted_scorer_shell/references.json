@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.inspection.permutation_weighted_scorer_shell.permutation_importance_use_sample_weight@sciona/atoms/ml/sklearn/inspection/permutation_weighted_scorer_shell/atoms.py:45": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the `if sample_weight is not None:` branch in sklearn.inspection._permutation_importance._weights_scorer."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for permutation-importance scorer forwarding semantics."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.permutation_weighted_scorer_shell.permutation_importance_scorer_kwargs@sciona/atoms/ml/sklearn/inspection/permutation_weighted_scorer_shell/atoms.py:61": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the `scorer(..., sample_weight=sample_weight)` and bare `scorer(...)` call split in sklearn.inspection._permutation_importance._weights_scorer."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for permutation-importance scorer keyword forwarding."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}
