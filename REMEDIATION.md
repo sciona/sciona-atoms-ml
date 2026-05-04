@@ -1426,6 +1426,11 @@ Potential remediation path:
   deterministic `BaseSpectral._svd` callback setup for randomized-versus-
   arpack branch predicates, randomized-SVD kwarg assembly with optional
   `n_oversamples`, and `svds` kwarg assembly with fixed `k` and `ncv`.
+- Completed helper slice:
+  `sklearn.cluster.bicluster_kmeans_callback_shell` now publishes the
+  deterministic `BaseSpectral._k_means` callback setup for `KMeans` and
+  `MiniBatchKMeans` constructor-kwargs assembly from `n_clusters`, `init`,
+  `n_init`, and `random_state`.
 - Sparse log-normalization rejection, SVD/randomized-SVD projection,
   piecewise-vector selection, projection-and-cluster helpers, KMeans and
   MiniBatchKMeans label assignment, and full estimator state surfaces remain

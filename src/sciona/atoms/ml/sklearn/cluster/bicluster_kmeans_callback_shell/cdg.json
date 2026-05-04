@@ -1,0 +1,43 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_cluster_bicluster_kmeans_callback_shell_root",
+      "name": "sklearn.cluster.bicluster_kmeans_callback_shell",
+      "description": "Deterministic BaseSpectral._k_means setup around deferred KMeans and MiniBatchKMeans constructors.",
+      "status": "composite",
+      "children": [
+        "bicluster_kmeans_kwargs",
+        "bicluster_minibatch_kmeans_kwargs"
+      ]
+    },
+    {
+      "node_id": "bicluster_kmeans_kwargs",
+      "name": "bicluster_kmeans_kwargs",
+      "description": "Resolve the non-positional KMeans kwargs used by BaseSpectral._k_means.",
+      "status": "atomic",
+      "concept_type": "kmeans_callback_shell",
+      "inputs": [
+        {"name": "n_clusters", "type_desc": "int"},
+        {"name": "init", "type_desc": "str | callable | finite matrix"},
+        {"name": "n_init", "type_desc": "int"},
+        {"name": "random_state", "type_desc": "object"}
+      ],
+      "outputs": [{"name": "result", "type_desc": "dict[str, object]"}]
+    },
+    {
+      "node_id": "bicluster_minibatch_kmeans_kwargs",
+      "name": "bicluster_minibatch_kmeans_kwargs",
+      "description": "Resolve the non-positional MiniBatchKMeans kwargs used by BaseSpectral._k_means.",
+      "status": "atomic",
+      "concept_type": "kmeans_callback_shell",
+      "inputs": [
+        {"name": "n_clusters", "type_desc": "int"},
+        {"name": "init", "type_desc": "str | callable | finite matrix"},
+        {"name": "n_init", "type_desc": "int"},
+        {"name": "random_state", "type_desc": "object"}
+      ],
+      "outputs": [{"name": "result", "type_desc": "dict[str, object]"}]
+    }
+  ],
+  "edges": []
+}
