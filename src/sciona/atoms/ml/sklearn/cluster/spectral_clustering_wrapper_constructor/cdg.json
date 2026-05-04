@@ -1,0 +1,34 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_cluster_spectral_clustering_wrapper_constructor_root",
+      "name": "sklearn.cluster.spectral_clustering_wrapper_constructor",
+      "description": "Deterministic spectral_clustering wrapper setup around the deferred SpectralClustering constructor.",
+      "status": "composite",
+      "children": [
+        "spectral_clustering_constructor_kwargs"
+      ]
+    },
+    {
+      "node_id": "spectral_clustering_constructor_kwargs",
+      "name": "spectral_clustering_constructor_kwargs",
+      "description": "Resolve the SpectralClustering constructor kwargs used by spectral_clustering.",
+      "status": "atomic",
+      "concept_type": "api_shell",
+      "inputs": [
+        {"name": "n_clusters", "type_desc": "int"},
+        {"name": "n_components", "type_desc": "int | None"},
+        {"name": "eigen_solver", "type_desc": "str | None"},
+        {"name": "random_state", "type_desc": "object"},
+        {"name": "n_init", "type_desc": "int"},
+        {"name": "eigen_tol", "type_desc": "float | str"},
+        {"name": "assign_labels", "type_desc": "str"},
+        {"name": "verbose", "type_desc": "bool | int"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "dict[str, object]"}
+      ]
+    }
+  ],
+  "edges": []
+}
