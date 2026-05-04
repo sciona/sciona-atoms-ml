@@ -1,0 +1,60 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_cluster_spectral_label_callback_shell_root",
+      "name": "sklearn.cluster.spectral_label_callback_shell",
+      "description": "Deterministic SpectralClustering.fit setup around deferred k_means and discretize callbacks.",
+      "status": "composite",
+      "children": [
+        "spectral_fit_kmeans_kwargs",
+        "spectral_fit_kmeans_output_labels",
+        "spectral_fit_discretize_kwargs"
+      ]
+    },
+    {
+      "node_id": "spectral_fit_kmeans_kwargs",
+      "name": "spectral_fit_kmeans_kwargs",
+      "description": "Resolve the k_means kwargs used by SpectralClustering.fit.",
+      "status": "atomic",
+      "concept_type": "spectral_label_callback",
+      "inputs": [
+        {"name": "n_clusters", "type_desc": "int"},
+        {"name": "n_init", "type_desc": "int"},
+        {"name": "verbose", "type_desc": "bool | int"},
+        {"name": "random_state", "type_desc": "numpy RandomState"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "dict[str, object]"}
+      ]
+    },
+    {
+      "node_id": "spectral_fit_kmeans_output_labels",
+      "name": "spectral_fit_kmeans_output_labels",
+      "description": "Expose the label vector unpacked from the deferred k_means return tuple.",
+      "status": "atomic",
+      "concept_type": "spectral_label_output",
+      "inputs": [
+        {"name": "labels", "type_desc": "integer vector"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "integer vector"}
+      ]
+    },
+    {
+      "node_id": "spectral_fit_discretize_kwargs",
+      "name": "spectral_fit_discretize_kwargs",
+      "description": "Resolve the discretize kwargs used by SpectralClustering.fit.",
+      "status": "atomic",
+      "concept_type": "spectral_label_callback",
+      "inputs": [
+        {"name": "random_state", "type_desc": "numpy RandomState"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "dict[str, object]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "spectral_fit_kmeans_kwargs", "target": "spectral_fit_kmeans_output_labels", "kind": "callback_output_unpack"}
+  ]
+}
