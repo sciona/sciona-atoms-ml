@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.gaussian_process.classification_binary_predict_proba_outputs.gpc_binary_predict_proba_alpha@sciona/atoms/ml/sklearn/gaussian_process/classification_binary_predict_proba_outputs/atoms.py:77": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the alpha = 1 / (2 * var_f_star) scaling in _BinaryGaussianProcessClassifierLaplace.predict_proba in sklearn.gaussian_process._gpc in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for binary Gaussian-process predictive-probability approximation bookkeeping."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.classification_binary_predict_proba_outputs.gpc_binary_predict_proba_gamma@sciona/atoms/ml/sklearn/gaussian_process/classification_binary_predict_proba_outputs/atoms.py:90": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from gamma = LAMBDAS * f_star in _BinaryGaussianProcessClassifierLaplace.predict_proba in sklearn.gaussian_process._gpc in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for binary Gaussian-process predictive-probability approximation bookkeeping."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.classification_binary_predict_proba_outputs.gpc_binary_predict_proba_integrals@sciona/atoms/ml/sklearn/gaussian_process/classification_binary_predict_proba_outputs/atoms.py:104": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from sklearn's five-error-function integral approximation in _BinaryGaussianProcessClassifierLaplace.predict_proba in sklearn.gaussian_process._gpc in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "williamsbarber1998gpc",
+          "match_metadata": {
+            "match_type": "manual_algorithm_reference",
+            "confidence": "medium",
+            "notes": "Algorithmic reference cited by sklearn for the approximate logistic-Gaussian predictive probability integral."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.classification_binary_predict_proba_outputs.gpc_binary_predict_proba_positive_class_probabilities@sciona/atoms/ml/sklearn/gaussian_process/classification_binary_predict_proba_outputs/atoms.py:125": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from pi_star = (COEFS * integrals).sum(axis=0) + 0.5 * COEFS.sum() in _BinaryGaussianProcessClassifierLaplace.predict_proba in sklearn.gaussian_process._gpc in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for binary Gaussian-process predictive probability assembly."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.classification_binary_predict_proba_outputs.gpc_binary_predict_proba_matrix@sciona/atoms/ml/sklearn/gaussian_process/classification_binary_predict_proba_outputs/atoms.py:139": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from return np.vstack((1 - pi_star, pi_star)).T in _BinaryGaussianProcessClassifierLaplace.predict_proba in sklearn.gaussian_process._gpc in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for binary Gaussian-process probability output formatting."
+          }
+        }
+      ]
+    }
+  }
+}

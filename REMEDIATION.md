@@ -937,6 +937,15 @@ Potential remediation path:
   `_BinaryGaussianProcessClassifierLaplace.fit` after deferred optimizer and
   posterior-mode callbacks: the fitted `pi_`, `W_sr_`, `L_`, fitted
   `log_marginal_likelihood_value_`, and the final self-return.
+
+- Completed helper slice:
+  `sklearn.gaussian_process.classification_binary_predict_proba_outputs` now
+  publishes the deterministic output math at the tail of
+  `_BinaryGaussianProcessClassifierLaplace.predict_proba` after deferred kernel
+  evaluation, linear solves, and predictive-variance callbacks: the positive
+  `alpha` scaling vector, the five-row `gamma` expansion, sklearn's fixed
+  integral approximation matrix, the positive-class probability vector
+  `pi_star`, and the final two-column probability matrix.
 - Completed helper slice:
   `sklearn.gaussian_process.regression_gradients` now publishes dense
   log-marginal-likelihood gradient helpers for the shared
