@@ -1,0 +1,58 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_inspection_permutation_output_branching_shell_root",
+      "name": "sklearn.inspection.permutation_output_branching_shell",
+      "description": "Deterministic tail branching in sklearn.inspection.permutation_importance after parallel per-feature scores are collected.",
+      "status": "composite",
+      "children": [
+        "permutation_importance_use_multimetric_results",
+        "permutation_importance_metric_names",
+        "permutation_importance_single_metric_score_matrix"
+      ]
+    },
+    {
+      "node_id": "permutation_importance_use_multimetric_results",
+      "name": "permutation_importance_use_multimetric_results",
+      "description": "Decide whether permutation_importance uses the multimetric return branch.",
+      "status": "atomic",
+      "concept_type": "permutation_output_branch",
+      "inputs": [
+        {"name": "baseline_score", "type_desc": "finite scalar or nonempty metric-to-score mapping"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "permutation_importance_metric_names",
+      "name": "permutation_importance_metric_names",
+      "description": "Resolve the metric iteration order used by permutation_importance.",
+      "status": "atomic",
+      "concept_type": "permutation_output_bookkeeping",
+      "inputs": [
+        {"name": "baseline_scores", "type_desc": "nonempty metric-to-score mapping"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[str, ...]"}
+      ]
+    },
+    {
+      "node_id": "permutation_importance_single_metric_score_matrix",
+      "name": "permutation_importance_single_metric_score_matrix",
+      "description": "Coerce single-metric per-feature scores into sklearn's final score matrix.",
+      "status": "atomic",
+      "concept_type": "permutation_output_bookkeeping",
+      "inputs": [
+        {"name": "scores", "type_desc": "finite 2D score matrix"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "numpy.ndarray"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "permutation_importance_use_multimetric_results", "target": "permutation_importance_metric_names", "kind": "dict_branch_iteration"},
+    {"source": "permutation_importance_use_multimetric_results", "target": "permutation_importance_single_metric_score_matrix", "kind": "scalar_branch_matrix_coercion"}
+  ]
+}

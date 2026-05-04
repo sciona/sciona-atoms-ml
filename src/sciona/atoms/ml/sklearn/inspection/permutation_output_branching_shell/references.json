@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.inspection.permutation_output_branching_shell.permutation_importance_use_multimetric_results@sciona/atoms/ml/sklearn/inspection/permutation_output_branching_shell/atoms.py:71": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from `if isinstance(baseline_score, dict):` in the return branch of sklearn.inspection._permutation_importance.permutation_importance."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for permutation-importance multimetric output branching."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.permutation_output_branching_shell.permutation_importance_metric_names@sciona/atoms/ml/sklearn/inspection/permutation_output_branching_shell/atoms.py:87": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the `for name in baseline_score` iteration order in the multimetric return branch of sklearn.inspection._permutation_importance.permutation_importance."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for permutation-importance metric iteration order."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.permutation_output_branching_shell.permutation_importance_single_metric_score_matrix@sciona/atoms/ml/sklearn/inspection/permutation_output_branching_shell/atoms.py:103": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the `np.array(scores)` single-metric return branch in sklearn.inspection._permutation_importance.permutation_importance."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for permutation-importance single-metric score coercion."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

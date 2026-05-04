@@ -797,6 +797,12 @@ Potential remediation path:
   `sample_weight is not None` branch predicate and the scorer keyword-argument
   mapping used before the deferred scorer callback.
 - Completed helper slice:
+  `sklearn.inspection.permutation_output_branching_shell` now publishes the
+  deterministic tail branching in `permutation_importance` after per-feature
+  scores are computed: the dict-versus-scalar baseline branch predicate,
+  multimetric key iteration order, and single-metric `np.array(scores)`
+  coercion before the existing result-packaging helpers.
+- Completed helper slice:
   `sklearn.inspection.partial_dependence_grid` now publishes dense numeric
   grid-parameter validation, per-feature axis construction, and Cartesian grid
   construction before the deferred estimator prediction paths.
