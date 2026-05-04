@@ -1,0 +1,101 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_gaussian_process_classification_tags_root",
+      "name": "Sklearn Gaussian Process Classification Estimator Tag Helper Atoms",
+      "description": "Deterministic estimator-tag override helpers for the binary Laplace classifier and GaussianProcessClassifier shells.",
+      "status": "decomposed",
+      "children": [
+        "gpc_binary_target_required_tag",
+        "gpc_binary_has_classifier_tags",
+        "gpc_classifier_estimator_type_tag",
+        "gpc_classifier_target_required_tag",
+        "gpc_classifier_has_classifier_tags"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "gpc_binary_target_required_tag",
+      "name": "gpc_binary_target_required_tag",
+      "description": "Return the binary Laplace classifier's target-required tag override.",
+      "concept_type": "api_tag",
+      "status": "atomic",
+      "type_signature": "(parent_required: bool = False) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "parent_required", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "gpc_binary_has_classifier_tags",
+      "name": "gpc_binary_has_classifier_tags",
+      "description": "Return whether the binary Laplace classifier exposes classifier-specific tag payloads.",
+      "concept_type": "api_tag",
+      "status": "atomic",
+      "type_signature": "(parent_has_classifier_tags: bool = False) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "parent_has_classifier_tags", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "gpc_classifier_estimator_type_tag",
+      "name": "gpc_classifier_estimator_type_tag",
+      "description": "Return GaussianProcessClassifier's estimator_type tag override.",
+      "concept_type": "api_tag",
+      "status": "atomic",
+      "type_signature": "(parent_estimator_type: str | None = None) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "parent_estimator_type", "type_desc": "str | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "str"}
+      ]
+    },
+    {
+      "node_id": "gpc_classifier_target_required_tag",
+      "name": "gpc_classifier_target_required_tag",
+      "description": "Return GaussianProcessClassifier's target-required tag override.",
+      "concept_type": "api_tag",
+      "status": "atomic",
+      "type_signature": "(parent_required: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "parent_required", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "gpc_classifier_has_classifier_tags",
+      "name": "gpc_classifier_has_classifier_tags",
+      "description": "Return whether GaussianProcessClassifier exposes classifier-specific tag payloads.",
+      "concept_type": "api_tag",
+      "status": "atomic",
+      "type_signature": "(parent_has_classifier_tags: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "parent_has_classifier_tags", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    }
+  ],
+  "edges": [],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.gaussian_process._gpc",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 7 probabilistic and mutable-kernel workflows"
+  }
+}

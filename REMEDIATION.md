@@ -912,6 +912,13 @@ Potential remediation path:
   mean callbacks: the strict `f_star > 0` positive-class mask and final
   class-label lookup from the fitted two-class vector.
 - Completed helper slice:
+  `sklearn.gaussian_process.classification_tags` now publishes the remaining
+  deterministic `__sklearn_tags__` overrides on the binary Laplace estimator
+  and `GaussianProcessClassifier`: the binary target-required and
+  classifier-tag absence flags, plus the public classifier's
+  `estimator_type='classifier'`, target-required, and classifier-tag
+  presence overrides.
+- Completed helper slice:
   `sklearn.gaussian_process.regression_gradients` now publishes dense
   log-marginal-likelihood gradient helpers for the shared
   alpha-alpha-transpose-minus-kernel-inverse inner tensor, per-parameter
