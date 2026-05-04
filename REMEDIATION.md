@@ -1377,6 +1377,12 @@ Potential remediation path:
   supplied-state scoring atoms for the off-diagonal L1 penalty, Gaussian
   covariance log-likelihood, graphical-lasso objective value, and dual-gap
   convergence score.
+- Completed helper slice:
+  `sklearn.covariance.graphical_lasso_fit_shell` now publishes the
+  deterministic GraphicalLasso estimator shell around the deferred sparse
+  precision solver: precomputed-covariance branch selection, covariance-input
+  resolution, `location_` setup, fitted `covariance_`, `precision_`,
+  `costs_`, `n_iter_`, and the final self-return.
 - Graphical-lasso coordinate-descent and LARS inner solvers, path fitting,
   cross-validation orchestration, public estimator mutation, and alpha
   selection remain deferred.

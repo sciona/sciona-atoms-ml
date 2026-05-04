@@ -1,0 +1,205 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.covariance.graphical_lasso_fit_shell.graphical_lasso_fit_use_precomputed_covariance@sciona/atoms/ml/sklearn/covariance/graphical_lasso_fit_shell/atoms.py:94": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_source_parity",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from the `if self.covariance == \"precomputed\"` branch in GraphicalLasso.fit in sklearn.covariance._graph_lasso in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_project_reference",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for GraphicalLasso fit-branch selection."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.covariance.graphical_lasso_fit_shell.graphical_lasso_fit_empirical_covariance@sciona/atoms/ml/sklearn/covariance/graphical_lasso_fit_shell/atoms.py:107": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_source_parity",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from GraphicalLasso.fit in sklearn.covariance._graph_lasso in scikit-learn 1.8.0 for precomputed covariance passthrough versus empirical covariance computation before the sparse solver."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_project_reference",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for GraphicalLasso empirical covariance input resolution."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.covariance.graphical_lasso_fit_shell.graphical_lasso_fit_location@sciona/atoms/ml/sklearn/covariance/graphical_lasso_fit_shell/atoms.py:125": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_source_parity",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from GraphicalLasso.fit in sklearn.covariance._graph_lasso in scikit-learn 1.8.0 for location_ setup in the precomputed, assume_centered, and sample-mean branches."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_project_reference",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for GraphicalLasso location_ setup."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.covariance.graphical_lasso_fit_shell.graphical_lasso_fit_covariance@sciona/atoms/ml/sklearn/covariance/graphical_lasso_fit_shell/atoms.py:141": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_source_parity",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from the `self.covariance_` assignment from `_graphical_lasso(...)` in GraphicalLasso.fit in sklearn.covariance._graph_lasso in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_project_reference",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for GraphicalLasso fitted covariance exposure."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.covariance.graphical_lasso_fit_shell.graphical_lasso_fit_precision@sciona/atoms/ml/sklearn/covariance/graphical_lasso_fit_shell/atoms.py:151": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_source_parity",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from the `self.precision_` assignment from `_graphical_lasso(...)` in GraphicalLasso.fit in sklearn.covariance._graph_lasso in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_project_reference",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for GraphicalLasso fitted precision exposure."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.covariance.graphical_lasso_fit_shell.graphical_lasso_fit_costs@sciona/atoms/ml/sklearn/covariance/graphical_lasso_fit_shell/atoms.py:161": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_source_parity",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from the `self.costs_` assignment from `_graphical_lasso(...)` in GraphicalLasso.fit in sklearn.covariance._graph_lasso in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_project_reference",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for GraphicalLasso solver cost-history exposure."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.covariance.graphical_lasso_fit_shell.graphical_lasso_fit_n_iter@sciona/atoms/ml/sklearn/covariance/graphical_lasso_fit_shell/atoms.py:171": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_source_parity",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from the `self.n_iter_` assignment from `_graphical_lasso(...)` in GraphicalLasso.fit in sklearn.covariance._graph_lasso in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_project_reference",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for GraphicalLasso fitted iteration-count exposure."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.covariance.graphical_lasso_fit_shell.graphical_lasso_fit_return_self@sciona/atoms/ml/sklearn/covariance/graphical_lasso_fit_shell/atoms.py:181": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_source_parity",
+            "matched_nodes": [],
+            "confidence": "high",
+            "notes": "Adapted from the `return self` tail in GraphicalLasso.fit in sklearn.covariance._graph_lasso in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual_project_reference",
+            "matched_nodes": [],
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for GraphicalLasso fit self-return semantics."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

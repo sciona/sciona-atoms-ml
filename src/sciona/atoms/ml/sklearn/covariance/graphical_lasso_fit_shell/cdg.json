@@ -1,0 +1,133 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_covariance_graphical_lasso_fit_shell_root",
+      "name": "Sklearn GraphicalLasso Fit Shell Helpers",
+      "description": "Deterministic GraphicalLasso fit-shell helpers for the precomputed-covariance branch predicate, covariance-input resolution, location_ setup, fitted solver outputs, and the final self-return around the deferred sparse precision solver.",
+      "status": "decomposed",
+      "children": [
+        "graphical_lasso_fit_use_precomputed_covariance",
+        "graphical_lasso_fit_empirical_covariance",
+        "graphical_lasso_fit_location",
+        "graphical_lasso_fit_covariance",
+        "graphical_lasso_fit_precision",
+        "graphical_lasso_fit_costs",
+        "graphical_lasso_fit_n_iter",
+        "graphical_lasso_fit_return_self"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "graphical_lasso_fit_use_precomputed_covariance",
+      "name": "graphical_lasso_fit_use_precomputed_covariance",
+      "description": "Decide whether GraphicalLasso.fit treats the input matrix as a precomputed empirical covariance.",
+      "concept_type": "fit_preprocessing",
+      "status": "atomic",
+      "type_signature": "(covariance_mode: str) -> bool",
+      "depth": 1,
+      "inputs": [{"name": "covariance_mode", "type_desc": "str", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    },
+    {
+      "node_id": "graphical_lasso_fit_empirical_covariance",
+      "name": "graphical_lasso_fit_empirical_covariance",
+      "description": "Resolve the covariance matrix passed into GraphicalLasso's deferred sparse solver from raw samples or a precomputed matrix.",
+      "concept_type": "fit_preprocessing",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], covariance_mode: str, *, assume_centered: bool) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "covariance_mode", "type_desc": "str", "required": true},
+        {"name": "assume_centered", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+    },
+    {
+      "node_id": "graphical_lasso_fit_location",
+      "name": "graphical_lasso_fit_location",
+      "description": "Resolve GraphicalLasso.location_ from the input matrix, covariance mode, and assume_centered flag before sparse refit.",
+      "concept_type": "fit_preprocessing",
+      "status": "atomic",
+      "type_signature": "(X: NDArray[np.float64], covariance_mode: str, *, assume_centered: bool) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
+        {"name": "covariance_mode", "type_desc": "str", "required": true},
+        {"name": "assume_centered", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+    },
+    {
+      "node_id": "graphical_lasso_fit_covariance",
+      "name": "graphical_lasso_fit_covariance",
+      "description": "Expose GraphicalLasso.covariance_ from the already-computed sparse refit.",
+      "concept_type": "fit_postprocessing",
+      "status": "atomic",
+      "type_signature": "(covariance: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [{"name": "covariance", "type_desc": "NDArray[np.float64]", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+    },
+    {
+      "node_id": "graphical_lasso_fit_precision",
+      "name": "graphical_lasso_fit_precision",
+      "description": "Expose GraphicalLasso.precision_ from the already-computed sparse refit.",
+      "concept_type": "fit_postprocessing",
+      "status": "atomic",
+      "type_signature": "(precision: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [{"name": "precision", "type_desc": "NDArray[np.float64]", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+    },
+    {
+      "node_id": "graphical_lasso_fit_costs",
+      "name": "graphical_lasso_fit_costs",
+      "description": "Expose GraphicalLasso.costs_ as the already-computed solver cost history.",
+      "concept_type": "fit_postprocessing",
+      "status": "atomic",
+      "type_signature": "(costs: list[tuple[float, float]]) -> list[tuple[float, float]]",
+      "depth": 1,
+      "inputs": [{"name": "costs", "type_desc": "list[tuple[float, float]]", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "list[tuple[float, float]]"}]
+    },
+    {
+      "node_id": "graphical_lasso_fit_n_iter",
+      "name": "graphical_lasso_fit_n_iter",
+      "description": "Expose GraphicalLasso.n_iter_ from the already-computed sparse refit.",
+      "concept_type": "fit_postprocessing",
+      "status": "atomic",
+      "type_signature": "(n_iter: int) -> int",
+      "depth": 1,
+      "inputs": [{"name": "n_iter", "type_desc": "int", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "int"}]
+    },
+    {
+      "node_id": "graphical_lasso_fit_return_self",
+      "name": "graphical_lasso_fit_return_self",
+      "description": "Model GraphicalLasso.fit returning self after fitted-state assignment.",
+      "concept_type": "fit_postprocessing",
+      "status": "atomic",
+      "type_signature": "(estimator_token: str) -> str",
+      "depth": 1,
+      "inputs": [{"name": "estimator_token", "type_desc": "str", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "str"}]
+    }
+  ],
+  "edges": [
+    {"source": "graphical_lasso_fit_use_precomputed_covariance", "target": "graphical_lasso_fit_empirical_covariance", "kind": "branch_selection"},
+    {"source": "graphical_lasso_fit_use_precomputed_covariance", "target": "graphical_lasso_fit_location", "kind": "branch_selection"},
+    {"source": "graphical_lasso_fit_empirical_covariance", "target": "graphical_lasso_fit_covariance", "kind": "solver_input"},
+    {"source": "graphical_lasso_fit_covariance", "target": "graphical_lasso_fit_precision", "kind": "solver_output"},
+    {"source": "graphical_lasso_fit_precision", "target": "graphical_lasso_fit_costs", "kind": "solver_output"},
+    {"source": "graphical_lasso_fit_costs", "target": "graphical_lasso_fit_n_iter", "kind": "solver_output"},
+    {"source": "graphical_lasso_fit_n_iter", "target": "graphical_lasso_fit_return_self", "kind": "fit_completion"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.covariance._graph_lasso",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 4 GraphicalLasso estimator shell around deferred sparse precision refit"
+  }
+}
