@@ -906,6 +906,12 @@ Potential remediation path:
   clone-versus-in-place kernel selection, gradient-branch selection, and
   scalar-versus-tuple result packaging.
 - Completed helper slice:
+  `sklearn.gaussian_process.classification_binary_prediction_outputs` now
+  publishes the deterministic hard-decision tail of
+  `_BinaryGaussianProcessClassifierLaplace.predict` after deferred posterior
+  mean callbacks: the strict `f_star > 0` positive-class mask and final
+  class-label lookup from the fitted two-class vector.
+- Completed helper slice:
   `sklearn.gaussian_process.regression_gradients` now publishes dense
   log-marginal-likelihood gradient helpers for the shared
   alpha-alpha-transpose-minus-kernel-inverse inner tensor, per-parameter

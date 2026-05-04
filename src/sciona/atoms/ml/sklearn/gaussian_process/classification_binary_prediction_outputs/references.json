@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.gaussian_process.classification_binary_prediction_outputs.gpc_binary_predict_positive_class_mask@sciona/atoms/ml/sklearn/gaussian_process/classification_binary_prediction_outputs/atoms.py:41": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the f_star > 0 hard-decision threshold in _BinaryGaussianProcessClassifierLaplace.predict in sklearn.gaussian_process._gpc in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for binary Gaussian-process classification hard-decision thresholding."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.classification_binary_prediction_outputs.gpc_binary_predict_labels@sciona/atoms/ml/sklearn/gaussian_process/classification_binary_prediction_outputs/atoms.py:59": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the np.where label selection in _BinaryGaussianProcessClassifierLaplace.predict in sklearn.gaussian_process._gpc in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for binary Gaussian-process classification label lookup."
+          }
+        }
+      ]
+    }
+  }
+}

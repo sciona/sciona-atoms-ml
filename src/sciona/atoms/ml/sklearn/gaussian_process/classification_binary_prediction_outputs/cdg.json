@@ -1,0 +1,60 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_gaussian_process_classification_binary_prediction_outputs_root",
+      "name": "Sklearn Binary Gaussian Process Classification Prediction Output Helper Atoms",
+      "description": "Deterministic hard-decision helpers for _BinaryGaussianProcessClassifierLaplace.predict after deferred posterior mean callbacks.",
+      "status": "decomposed",
+      "children": [
+        "gpc_binary_predict_positive_class_mask",
+        "gpc_binary_predict_labels"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "gpc_binary_predict_positive_class_mask",
+      "name": "gpc_binary_predict_positive_class_mask",
+      "description": "Threshold latent means at zero to determine whether each binary Gaussian-process prediction selects the positive class.",
+      "concept_type": "gaussian_process_helper",
+      "status": "atomic",
+      "type_signature": "(f_star: NDArray[np.float64]) -> NDArray[np.bool_]",
+      "depth": 1,
+      "inputs": [
+        {"name": "f_star", "type_desc": "NDArray[np.float64]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.bool_]"}
+      ]
+    },
+    {
+      "node_id": "gpc_binary_predict_labels",
+      "name": "gpc_binary_predict_labels",
+      "description": "Select class labels from a binary Gaussian-process positive-class mask and the fitted two-class vector.",
+      "concept_type": "gaussian_process_helper",
+      "status": "atomic",
+      "type_signature": "(positive_class_mask: NDArray[np.bool_], classes: NDArray[np.object_]) -> NDArray[np.object_]",
+      "depth": 1,
+      "inputs": [
+        {"name": "positive_class_mask", "type_desc": "NDArray[np.bool_]", "required": true},
+        {"name": "classes", "type_desc": "NDArray[np.object_]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.object_]"}
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "gpc_binary_predict_positive_class_mask",
+      "target": "gpc_binary_predict_labels",
+      "kind": "positive_class_mask"
+    }
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.gaussian_process._gpc",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 7 probabilistic and mutable-kernel workflows"
+  }
+}
