@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "family": "ml_sklearn_covariance_graphical_lasso_wrapper",
+  "root": {
+    "node_id": "graphical_lasso_wrapper",
+    "name": "graphical_lasso_wrapper",
+    "kind": "family",
+    "children": [
+      "graphical_lasso_constructor_kwargs",
+      "graphical_lasso_return_values"
+    ]
+  },
+  "nodes": [
+    {
+      "node_id": "graphical_lasso_constructor_kwargs",
+      "name": "graphical_lasso_constructor_kwargs",
+      "kind": "atom",
+      "status": "atomic",
+      "inputs": [
+        {"name": "alpha", "type_desc": "float", "required": true},
+        {"name": "mode", "type_desc": "str", "required": false},
+        {"name": "tol", "type_desc": "float", "required": false},
+        {"name": "enet_tol", "type_desc": "float", "required": false},
+        {"name": "max_iter", "type_desc": "int", "required": false},
+        {"name": "verbose", "type_desc": "bool | int", "required": false},
+        {"name": "eps", "type_desc": "float", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "dict[str, object]"}
+      ]
+    },
+    {
+      "node_id": "graphical_lasso_return_values",
+      "name": "graphical_lasso_return_values",
+      "kind": "atom",
+      "status": "atomic",
+      "inputs": [
+        {"name": "covariance", "type_desc": "float64 square matrix", "required": true},
+        {"name": "precision", "type_desc": "float64 square matrix", "required": true},
+        {"name": "return_costs", "type_desc": "bool", "required": false},
+        {"name": "costs", "type_desc": "tuple[tuple[float, float], ...] | None", "required": false},
+        {"name": "return_n_iter", "type_desc": "bool", "required": false},
+        {"name": "n_iter", "type_desc": "int | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[object, ...]"}
+      ]
+    }
+  ]
+}

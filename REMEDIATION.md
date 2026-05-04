@@ -1476,6 +1476,12 @@ Potential remediation path:
   precision solver: precomputed-covariance branch selection, covariance-input
   resolution, `location_` setup, fitted `covariance_`, `precision_`,
   `costs_`, `n_iter_`, and the final self-return.
+- Completed helper slice:
+  `sklearn.covariance.graphical_lasso_wrapper` now publishes the
+  deterministic public `graphical_lasso(...)` wrapper shell for fixed
+  `GraphicalLasso` constructor-kwargs assembly with
+  `covariance='precomputed'` and `assume_centered=True`, plus final tuple
+  packaging from fitted `covariance_`, `precision_`, `costs_`, and `n_iter_`.
 - Graphical-lasso coordinate-descent and LARS inner solvers, path fitting,
   cross-validation orchestration, public estimator mutation, and alpha
   selection remain deferred.
