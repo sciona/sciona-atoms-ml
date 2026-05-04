@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "family": "ml_sklearn_cluster_bicluster_svd_finite_validation",
+  "root": {
+    "node_id": "bicluster_svd_finite_validation",
+    "name": "bicluster_svd_finite_validation",
+    "kind": "family",
+    "children": [
+      "bicluster_svd_checked_u",
+      "bicluster_svd_checked_vt"
+    ]
+  },
+  "nodes": [
+    {
+      "node_id": "bicluster_svd_checked_u",
+      "name": "bicluster_svd_checked_u",
+      "kind": "atom",
+      "status": "atomic",
+      "inputs": [
+        {
+          "name": "u",
+          "type_desc": "float64 matrix"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "float64 matrix"
+        }
+      ]
+    },
+    {
+      "node_id": "bicluster_svd_checked_vt",
+      "name": "bicluster_svd_checked_vt",
+      "kind": "atom",
+      "status": "atomic",
+      "inputs": [
+        {
+          "name": "vt",
+          "type_desc": "float64 matrix"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "float64 matrix"
+        }
+      ]
+    }
+  ]
+}

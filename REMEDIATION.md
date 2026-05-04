@@ -1437,6 +1437,11 @@ Potential remediation path:
   detection in `u` and `vt`, Gram-matrix construction via `safe_sparse_dot`,
   ARPACK-style initialization-vector generation, and `eigsh` kwarg assembly
   before the deferred fallback eigensolver call.
+- Completed helper slice:
+  `sklearn.cluster.bicluster_svd_finite_validation` now publishes the
+  deterministic `BaseSpectral._svd` finite-output guard for `u` and `vt`
+  through `assert_all_finite` before the already-landed kept-vector slicing
+  tail.
 - Sparse log-normalization rejection, SVD/randomized-SVD projection,
   piecewise-vector selection, projection-and-cluster helpers, KMeans and
   MiniBatchKMeans label assignment, and full estimator state surfaces remain
