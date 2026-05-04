@@ -1421,6 +1421,11 @@ Potential remediation path:
   deterministic `BaseSpectral._svd` postprocessing after deferred
   `randomized_svd` or `svds` callbacks: left-singular-vector slicing by
   `n_discard`, and right-singular-vector slicing plus transpose from `vt`.
+- Completed helper slice:
+  `sklearn.cluster.bicluster_svd_callback_shell` now publishes the
+  deterministic `BaseSpectral._svd` callback setup for randomized-versus-
+  arpack branch predicates, randomized-SVD kwarg assembly with optional
+  `n_oversamples`, and `svds` kwarg assembly with fixed `k` and `ncv`.
 - Sparse log-normalization rejection, SVD/randomized-SVD projection,
   piecewise-vector selection, projection-and-cluster helpers, KMeans and
   MiniBatchKMeans label assignment, and full estimator state surfaces remain

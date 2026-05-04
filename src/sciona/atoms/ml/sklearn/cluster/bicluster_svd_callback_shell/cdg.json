@@ -1,0 +1,59 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_cluster_bicluster_svd_callback_shell_root",
+      "name": "sklearn.cluster.bicluster_svd_callback_shell",
+      "description": "Deterministic BaseSpectral._svd setup around deferred randomized_svd and svds callbacks.",
+      "status": "composite",
+      "children": [
+        "bicluster_svd_use_randomized",
+        "bicluster_svd_use_arpack",
+        "bicluster_svd_randomized_kwargs",
+        "bicluster_svd_svds_kwargs"
+      ]
+    },
+    {
+      "node_id": "bicluster_svd_use_randomized",
+      "name": "bicluster_svd_use_randomized",
+      "description": "Return whether BaseSpectral._svd takes the randomized_svd branch.",
+      "status": "atomic",
+      "concept_type": "svd_callback_shell",
+      "inputs": [{"name": "svd_method", "type_desc": "str"}],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    },
+    {
+      "node_id": "bicluster_svd_use_arpack",
+      "name": "bicluster_svd_use_arpack",
+      "description": "Return whether BaseSpectral._svd takes the svds/arpack branch.",
+      "status": "atomic",
+      "concept_type": "svd_callback_shell",
+      "inputs": [{"name": "svd_method", "type_desc": "str"}],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    },
+    {
+      "node_id": "bicluster_svd_randomized_kwargs",
+      "name": "bicluster_svd_randomized_kwargs",
+      "description": "Resolve the randomized_svd kwargs used by BaseSpectral._svd.",
+      "status": "atomic",
+      "concept_type": "svd_callback_shell",
+      "inputs": [
+        {"name": "random_state", "type_desc": "object"},
+        {"name": "n_svd_vecs", "type_desc": "int | None"}
+      ],
+      "outputs": [{"name": "result", "type_desc": "dict[str, object]"}]
+    },
+    {
+      "node_id": "bicluster_svd_svds_kwargs",
+      "name": "bicluster_svd_svds_kwargs",
+      "description": "Resolve the svds kwargs used by BaseSpectral._svd.",
+      "status": "atomic",
+      "concept_type": "svd_callback_shell",
+      "inputs": [
+        {"name": "n_components", "type_desc": "int"},
+        {"name": "n_svd_vecs", "type_desc": "int | None"}
+      ],
+      "outputs": [{"name": "result", "type_desc": "dict[str, object]"}]
+    }
+  ],
+  "edges": []
+}
