@@ -1338,6 +1338,12 @@ Potential remediation path:
   deterministic dense and sparse normalization dispatch shell in
   `SpectralBiclustering._fit` for selecting already-landed normalization
   helpers by validated method before SVD.
+- Completed helper slice:
+  `sklearn.cluster.bicluster_kmeans_shell` now publishes the deterministic
+  shell around deferred KMeans and MiniBatchKMeans calls in spectral
+  biclustering and coclustering: the mini-batch branch flag, fitted centroid
+  and label unpacking, and the final projected-label return from
+  `_project_and_cluster`.
 - Sparse log-normalization rejection, SVD/randomized-SVD projection,
   piecewise-vector selection, projection-and-cluster helpers, KMeans and
   MiniBatchKMeans label assignment, and full estimator state surfaces remain

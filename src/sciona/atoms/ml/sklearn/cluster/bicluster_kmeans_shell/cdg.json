@@ -1,0 +1,69 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_cluster_bicluster_kmeans_shell_root",
+      "name": "Sklearn Spectral Biclustering KMeans Shell Helpers",
+      "description": "Deterministic shell helpers around deferred KMeans and MiniBatchKMeans calls used by spectral biclustering and coclustering.",
+      "status": "decomposed",
+      "children": [
+        "bicluster_use_minibatch_kmeans",
+        "bicluster_kmeans_centroids",
+        "bicluster_kmeans_labels",
+        "bicluster_project_cluster_labels"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "bicluster_use_minibatch_kmeans",
+      "name": "bicluster_use_minibatch_kmeans",
+      "description": "Resolve whether the deferred clustering backend is MiniBatchKMeans instead of KMeans.",
+      "concept_type": "cluster_helper",
+      "status": "atomic",
+      "type_signature": "(mini_batch: bool) -> bool",
+      "depth": 1,
+      "inputs": [{"name": "mini_batch", "type_desc": "bool", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    },
+    {
+      "node_id": "bicluster_kmeans_centroids",
+      "name": "bicluster_kmeans_centroids",
+      "description": "Expose cluster centers from a fitted KMeans-like model used by spectral biclustering.",
+      "concept_type": "cluster_helper",
+      "status": "atomic",
+      "type_signature": "(cluster_centers: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [{"name": "cluster_centers", "type_desc": "NDArray[np.float64]", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+    },
+    {
+      "node_id": "bicluster_kmeans_labels",
+      "name": "bicluster_kmeans_labels",
+      "description": "Expose fitted KMeans-like labels from the deferred clustering step.",
+      "concept_type": "cluster_helper",
+      "status": "atomic",
+      "type_signature": "(labels: NDArray[np.int64]) -> NDArray[np.int64]",
+      "depth": 1,
+      "inputs": [{"name": "labels", "type_desc": "NDArray[np.int64]", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.int64]"}]
+    },
+    {
+      "node_id": "bicluster_project_cluster_labels",
+      "name": "bicluster_project_cluster_labels",
+      "description": "Model SpectralBiclustering._project_and_cluster returning labels after the deferred KMeans call.",
+      "concept_type": "cluster_helper",
+      "status": "atomic",
+      "type_signature": "(labels: NDArray[np.int64]) -> NDArray[np.int64]",
+      "depth": 1,
+      "inputs": [{"name": "labels", "type_desc": "NDArray[np.int64]", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.int64]"}]
+    }
+  ],
+  "edges": [],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.cluster._bicluster",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 7 probabilistic and mutable-kernel workflows"
+  }
+}

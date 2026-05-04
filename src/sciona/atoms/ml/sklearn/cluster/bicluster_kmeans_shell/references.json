@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.cluster.bicluster_kmeans_shell.bicluster_use_minibatch_kmeans@sciona/atoms/ml/sklearn/cluster/bicluster_kmeans_shell/atoms.py:47": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the mini_batch branch selection in BaseSpectral._k_means in sklearn.cluster._bicluster in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for spectral biclustering KMeans dispatch."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.cluster.bicluster_kmeans_shell.bicluster_kmeans_centroids@sciona/atoms/ml/sklearn/cluster/bicluster_kmeans_shell/atoms.py:60": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from centroid = model.cluster_centers_ in BaseSpectral._k_means in sklearn.cluster._bicluster in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for spectral biclustering KMeans result packaging."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.cluster.bicluster_kmeans_shell.bicluster_kmeans_labels@sciona/atoms/ml/sklearn/cluster/bicluster_kmeans_shell/atoms.py:73": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from labels = model.labels_ in BaseSpectral._k_means in sklearn.cluster._bicluster in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for spectral biclustering KMeans result packaging."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.cluster.bicluster_kmeans_shell.bicluster_project_cluster_labels@sciona/atoms/ml/sklearn/cluster/bicluster_kmeans_shell/atoms.py:86": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from return labels in SpectralBiclustering._project_and_cluster in sklearn.cluster._bicluster in scikit-learn 1.8.0."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for spectral biclustering projected-label packaging."
+          }
+        }
+      ]
+    }
+  }
+}
