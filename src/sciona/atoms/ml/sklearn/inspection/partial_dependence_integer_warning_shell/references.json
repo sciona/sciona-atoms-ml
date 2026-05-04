@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_integer_warning_shell.partial_dependence_integer_warning_required@sciona/atoms/ml/sklearn/inspection/partial_dependence_integer_warning_shell/atoms.py:68": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the `if is_cat: continue` and `if _safe_indexing(...).dtype.kind in \"iu\":` warning predicate in sklearn.inspection._partial_dependence.partial_dependence."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for partial_dependence integer-data warning behavior."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_integer_warning_shell.partial_dependence_integer_warning_message@sciona/atoms/ml/sklearn/inspection/partial_dependence_integer_warning_shell/atoms.py:79": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the FutureWarning message emitted for integer-valued non-categorical features in sklearn.inspection._partial_dependence.partial_dependence."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for partial_dependence warning-text behavior."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_integer_warning_shell.partial_dependence_first_integer_warning_feature@sciona/atoms/ml/sklearn/inspection/partial_dependence_integer_warning_shell/atoms.py:102": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the integer-warning loop and immediate `break` in sklearn.inspection._partial_dependence.partial_dependence."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for partial_dependence first-warning selection semantics."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

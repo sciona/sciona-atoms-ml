@@ -850,6 +850,11 @@ Potential remediation path:
   `partial_dependence`: the object-dtype `check_array` branch predicate and
   the resulting `check_array(..., ensure_all_finite="allow-nan", dtype=object)`
   path before task guards, feature bookkeeping, and estimator callbacks.
+- Completed helper slice:
+  `sklearn.inspection.partial_dependence_integer_warning_shell` now publishes
+  the deterministic integer-dtype warning shell before grid construction in
+  `partial_dependence`: the per-feature warning predicate, exact FutureWarning
+  text, and first-warning selection with sklearn's warn-once break behavior.
 - Ingest small helper atoms only where the boundary is explicit, such as
   permutation score aggregation from baseline and permuted score arrays.
 - Decide how estimator callback boundaries should be represented before

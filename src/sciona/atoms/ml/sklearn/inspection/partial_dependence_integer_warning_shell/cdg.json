@@ -1,0 +1,61 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_inspection_partial_dependence_integer_warning_shell_root",
+      "name": "sklearn.inspection.partial_dependence_integer_warning_shell",
+      "description": "Deterministic integer-dtype warning shell in sklearn.inspection.partial_dependence before grid construction.",
+      "status": "composite",
+      "children": [
+        "partial_dependence_integer_warning_required",
+        "partial_dependence_integer_warning_message",
+        "partial_dependence_first_integer_warning_feature"
+      ]
+    },
+    {
+      "node_id": "partial_dependence_integer_warning_required",
+      "name": "partial_dependence_integer_warning_required",
+      "description": "Decide whether partial_dependence warns for one non-categorical integer-typed feature.",
+      "status": "atomic",
+      "concept_type": "partial_dependence_warning_branch",
+      "inputs": [
+        {"name": "is_categorical", "type_desc": "bool"},
+        {"name": "dtype_kind", "type_desc": "dtype-kind string"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "partial_dependence_integer_warning_message",
+      "name": "partial_dependence_integer_warning_message",
+      "description": "Format sklearn's integer-dtype FutureWarning message for partial_dependence.",
+      "status": "atomic",
+      "concept_type": "partial_dependence_warning_text",
+      "inputs": [
+        {"name": "feature", "type_desc": "feature label"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "str"}
+      ]
+    },
+    {
+      "node_id": "partial_dependence_first_integer_warning_feature",
+      "name": "partial_dependence_first_integer_warning_feature",
+      "description": "Select the first feature that would trigger sklearn's integer-data warning.",
+      "status": "atomic",
+      "concept_type": "partial_dependence_warning_bookkeeping",
+      "inputs": [
+        {"name": "features", "type_desc": "tuple of feature labels"},
+        {"name": "is_categorical", "type_desc": "tuple of bool"},
+        {"name": "dtype_kinds", "type_desc": "tuple of dtype-kind strings"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "feature label or None"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "partial_dependence_integer_warning_required", "target": "partial_dependence_first_integer_warning_feature", "kind": "warning_loop_predicate"},
+    {"source": "partial_dependence_first_integer_warning_feature", "target": "partial_dependence_integer_warning_message", "kind": "warning_message_selection"}
+  ]
+}
