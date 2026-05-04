@@ -810,6 +810,12 @@ Potential remediation path:
   `np.array(scores)` coercion, while multimetric dict aggregation remains
   deferred.
 - Completed helper slice:
+  `sklearn.inspection.permutation_feature_multimetric_aggregation` now
+  publishes the deterministic numeric multimetric aggregation path for one
+  feature after repeated scorer callbacks in `_calculate_permutation_scores`:
+  metric-key order preservation and numeric dict-of-score-vectors packaging
+  adapted from `_aggregate_score_dicts`.
+- Completed helper slice:
   `sklearn.inspection.partial_dependence_grid` now publishes dense numeric
   grid-parameter validation, per-feature axis construction, and Cartesian grid
   construction before the deferred estimator prediction paths.

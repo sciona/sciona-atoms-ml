@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.inspection.permutation_feature_multimetric_aggregation.permutation_importance_feature_metric_names@sciona/atoms/ml/sklearn/inspection/permutation_feature_multimetric_aggregation/atoms.py:75": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the `for key in scores[0]` iteration order inside sklearn.model_selection._validation._aggregate_score_dicts as used by sklearn.inspection._permutation_importance._calculate_permutation_scores."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for permutation-importance multimetric key-order preservation."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.permutation_feature_multimetric_aggregation.permutation_importance_feature_metric_score_dict@sciona/atoms/ml/sklearn/inspection/permutation_feature_multimetric_aggregation/atoms.py:91": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the numeric `np.asarray([score[key] for score in scores])` branch in sklearn.model_selection._validation._aggregate_score_dicts as used by sklearn.inspection._permutation_importance._calculate_permutation_scores."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for permutation-importance numeric multimetric aggregation."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

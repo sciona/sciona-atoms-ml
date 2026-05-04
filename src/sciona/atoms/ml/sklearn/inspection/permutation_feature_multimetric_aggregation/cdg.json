@@ -1,0 +1,43 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_inspection_permutation_feature_multimetric_aggregation_root",
+      "name": "sklearn.inspection.permutation_feature_multimetric_aggregation",
+      "description": "Deterministic numeric multimetric aggregation for one feature in sklearn.inspection._permutation_importance._calculate_permutation_scores.",
+      "status": "composite",
+      "children": [
+        "permutation_importance_feature_metric_names",
+        "permutation_importance_feature_metric_score_dict"
+      ]
+    },
+    {
+      "node_id": "permutation_importance_feature_metric_names",
+      "name": "permutation_importance_feature_metric_names",
+      "description": "Resolve the metric iteration order used by _aggregate_score_dicts for one feature.",
+      "status": "atomic",
+      "concept_type": "permutation_feature_metric_bookkeeping",
+      "inputs": [
+        {"name": "score_dicts", "type_desc": "nonempty tuple of same-key finite score dictionaries"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[str, ...]"}
+      ]
+    },
+    {
+      "node_id": "permutation_importance_feature_metric_score_dict",
+      "name": "permutation_importance_feature_metric_score_dict",
+      "description": "Aggregate one feature's repeated numeric score dicts into sklearn's dict-of-vectors form.",
+      "status": "atomic",
+      "concept_type": "permutation_feature_metric_bookkeeping",
+      "inputs": [
+        {"name": "score_dicts", "type_desc": "nonempty tuple of same-key finite score dictionaries"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "dict[str, numpy.ndarray]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "permutation_importance_feature_metric_names", "target": "permutation_importance_feature_metric_score_dict", "kind": "shared_key_order"}
+  ]
+}
