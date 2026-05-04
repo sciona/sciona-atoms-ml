@@ -785,6 +785,12 @@ Potential remediation path:
   unpacking, single-metric importances Bunch assembly, and multimetric
   dict-of-Bunch assembly.
 - Completed helper slice:
+  `sklearn.inspection.permutation_preflight_shell` now publishes the
+  deterministic `permutation_importance` preflight shell before scorer
+  callbacks run: dataframe-versus-`check_array` branching, the non-dataframe
+  `check_array(..., ensure_all_finite="allow-nan", dtype=None)` path, and the
+  oversized-integer `max_samples <= n_samples` guard predicate.
+- Completed helper slice:
   `sklearn.inspection.partial_dependence_grid` now publishes dense numeric
   grid-parameter validation, per-feature axis construction, and Cartesian grid
   construction before the deferred estimator prediction paths.

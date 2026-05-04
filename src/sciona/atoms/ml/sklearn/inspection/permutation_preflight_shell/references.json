@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.inspection.permutation_preflight_shell.permutation_importance_use_dataframe_passthrough@sciona/atoms/ml/sklearn/inspection/permutation_preflight_shell/atoms.py:59": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the `if not hasattr(X, \"iloc\"):` dataframe-versus-check_array branch in sklearn.inspection.permutation_importance."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for permutation_importance preflight branching."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.permutation_preflight_shell.permutation_importance_checked_array@sciona/atoms/ml/sklearn/inspection/permutation_preflight_shell/atoms.py:69": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from `check_array(X, ensure_all_finite=\"allow-nan\", dtype=None)` in the non-dataframe preflight branch of sklearn.inspection.permutation_importance."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for permutation_importance input normalization."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.permutation_preflight_shell.permutation_importance_max_samples_guard_required@sciona/atoms/ml/sklearn/inspection/permutation_preflight_shell/atoms.py:80": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the `elif max_samples > X.shape[0]: raise ValueError(\"max_samples must be <= n_samples\")` integer guard in sklearn.inspection.permutation_importance."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for permutation_importance max_samples guarding."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

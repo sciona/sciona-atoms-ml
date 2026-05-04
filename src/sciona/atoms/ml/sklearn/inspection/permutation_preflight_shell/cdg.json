@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "family": "ml_sklearn_inspection_permutation_preflight_shell",
+  "root": {
+    "node_id": "permutation_preflight_shell",
+    "name": "permutation_preflight_shell",
+    "kind": "family",
+    "children": [
+      "permutation_importance_use_dataframe_passthrough",
+      "permutation_importance_checked_array",
+      "permutation_importance_max_samples_guard_required"
+    ]
+  },
+  "nodes": [
+    {
+      "node_id": "permutation_importance_use_dataframe_passthrough",
+      "name": "permutation_importance_use_dataframe_passthrough",
+      "kind": "atom",
+      "status": "atomic",
+      "inputs": [{"name": "has_iloc", "type_desc": "bool", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    },
+    {
+      "node_id": "permutation_importance_checked_array",
+      "name": "permutation_importance_checked_array",
+      "kind": "atom",
+      "status": "atomic",
+      "inputs": [{"name": "X", "type_desc": "array-like 2D", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "float64 matrix"}]
+    },
+    {
+      "node_id": "permutation_importance_max_samples_guard_required",
+      "name": "permutation_importance_max_samples_guard_required",
+      "kind": "atom",
+      "status": "atomic",
+      "inputs": [
+        {"name": "max_samples", "type_desc": "int or float in (0, 1]", "required": true},
+        {"name": "n_samples", "type_desc": "positive int", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    }
+  ]
+}
