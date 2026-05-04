@@ -1385,6 +1385,11 @@ Potential remediation path:
   `discretize` branch predicate and final `labels_` selection from supplied
   k-means, `cluster_qr`, or discretize callback outputs.
 - Completed helper slice:
+  `sklearn.cluster.spectral_embedding_call_shell` now publishes the
+  deterministic `SpectralClustering.fit` setup around the deferred
+  `_spectral_embedding` callback: random-state normalization,
+  fixed `drop_first=False`, and keyword-argument assembly.
+- Completed helper slice:
   `sklearn.cluster.bicluster_fit_api_shell` now publishes the shared fit API
   shell for spectral biclustering and coclustering: the `accept_sparse='csr'`
   validation mode, the `float64` fit dtype, and the sparse-input sklearn tag
