@@ -1,0 +1,51 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_cluster_spectral_clustering_wrapper_root",
+      "name": "Sklearn Spectral Clustering Wrapper Helpers",
+      "description": "Deterministic public-wrapper helpers for spectral_clustering above the deferred SpectralClustering.fit path.",
+      "status": "decomposed",
+      "children": [
+        "spectral_clustering_precomputed_affinity",
+        "spectral_clustering_return_labels"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "spectral_clustering_precomputed_affinity",
+      "name": "spectral_clustering_precomputed_affinity",
+      "description": "Expose the fixed affinity='precomputed' override passed by spectral_clustering into SpectralClustering.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(parent_affinity: str | None) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "parent_affinity", "type_desc": "str | None", "required": false}
+      ],
+      "outputs": [{"name": "result", "type_desc": "str"}]
+    },
+    {
+      "node_id": "spectral_clustering_return_labels",
+      "name": "spectral_clustering_return_labels",
+      "description": "Return the fitted cluster label vector exposed by spectral_clustering.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(labels: NDArray[np.int_]) -> NDArray[np.int_]",
+      "depth": 1,
+      "inputs": [
+        {"name": "labels", "type_desc": "NDArray[np.int_]", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "NDArray[np.int_]"}]
+    }
+  ],
+  "edges": [
+    {"source": "spectral_clustering_precomputed_affinity", "target": "spectral_clustering_return_labels", "kind": "wrapper_fit_path"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.cluster._spectral",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 4 spectral_clustering public wrapper shell"
+  }
+}
