@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_input_shell.partial_dependence_use_object_check_array@sciona/atoms/ml/sklearn/inspection/partial_dependence_input_shell/atoms.py:45": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the `if not (hasattr(X, \"__array__\") or sparse.issparse(X)):` branch in sklearn.inspection.partial_dependence."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for partial_dependence input normalization."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_input_shell.partial_dependence_checked_object_array@sciona/atoms/ml/sklearn/inspection/partial_dependence_input_shell/atoms.py:56": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from `check_array(X, ensure_all_finite=\"allow-nan\", dtype=object)` in the non-array-like branch of sklearn.inspection.partial_dependence."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for partial_dependence object-array normalization."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

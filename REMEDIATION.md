@@ -819,6 +819,12 @@ Potential remediation path:
   estimator task-kind guard, multiclass-multioutput rejection, recursion-mode
   response_method normalization from `auto` to `decision_function`, and the
   final recursion response-method guard before estimator callbacks.
+- Completed helper slice:
+  `sklearn.inspection.partial_dependence_input_shell` now publishes the
+  deterministic non-array-like input normalization shell at the entry of
+  `partial_dependence`: the object-dtype `check_array` branch predicate and
+  the resulting `check_array(..., ensure_all_finite="allow-nan", dtype=object)`
+  path before task guards, feature bookkeeping, and estimator callbacks.
 - Ingest small helper atoms only where the boundary is explicit, such as
   permutation score aggregation from baseline and permuted score arrays.
 - Decide how estimator callback boundaries should be represented before
