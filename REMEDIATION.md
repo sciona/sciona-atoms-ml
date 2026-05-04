@@ -1380,6 +1380,11 @@ Potential remediation path:
   connectivity packaging, and pairwise-kernel parameter assembly before the
   deferred neighbor-search and kernel callbacks.
 - Completed helper slice:
+  `sklearn.cluster.spectral_label_selection` now publishes the deterministic
+  `SpectralClustering.fit` label tail for the explicit fallback
+  `discretize` branch predicate and final `labels_` selection from supplied
+  k-means, `cluster_qr`, or discretize callback outputs.
+- Completed helper slice:
   `sklearn.cluster.bicluster_fit_api_shell` now publishes the shared fit API
   shell for spectral biclustering and coclustering: the `accept_sparse='csr'`
   validation mode, the `float64` fit dtype, and the sparse-input sklearn tag

@@ -1,0 +1,47 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_cluster_spectral_label_selection_root",
+      "name": "sklearn.cluster.spectral_label_selection",
+      "description": "Deterministic SpectralClustering label-branch selection after deferred label-assignment callbacks run.",
+      "status": "composite",
+      "children": [
+        "spectral_fit_use_discretize",
+        "spectral_fit_selected_labels"
+      ]
+    },
+    {
+      "node_id": "spectral_fit_use_discretize",
+      "name": "spectral_fit_use_discretize",
+      "description": "Return whether SpectralClustering.fit falls through to discretize label assignment.",
+      "status": "atomic",
+      "concept_type": "spectral_label_branch",
+      "inputs": [
+        {"name": "assign_labels", "type_desc": "str"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "spectral_fit_selected_labels",
+      "name": "spectral_fit_selected_labels",
+      "description": "Select the final SpectralClustering label vector from supplied branch outputs.",
+      "status": "atomic",
+      "concept_type": "spectral_label_output",
+      "inputs": [
+        {"name": "use_kmeans", "type_desc": "bool"},
+        {"name": "use_cluster_qr", "type_desc": "bool"},
+        {"name": "kmeans_labels", "type_desc": "integer vector"},
+        {"name": "cluster_qr_labels", "type_desc": "integer vector"},
+        {"name": "discretize_labels", "type_desc": "integer vector"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "integer vector"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "spectral_fit_use_discretize", "target": "spectral_fit_selected_labels", "kind": "fallback_label_branch"}
+  ]
+}
