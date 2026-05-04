@@ -1074,6 +1074,9 @@ Potential remediation path:
   validation and non-euclidean squaring, Barnes-Hut neighbor-graph distance
   squaring, exact-method condensed probability sanity checks, and ndarray init
   passthrough before the deferred optimizer loop.
+- Completed helper slice: `sklearn.manifold.tsne_fit_shell` now publishes the
+  deterministic public `TSNE.fit` self-return shell after fit delegates to the
+  already-sliced `fit_transform` path.
 - Additional t-SNE remediation should cover remaining estimator orchestration
   such as binary perplexity search boundaries, full optimization-loop
   execution, and native Barnes-Hut gradient handling.
