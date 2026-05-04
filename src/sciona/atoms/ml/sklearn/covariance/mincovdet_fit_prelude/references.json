@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.covariance.mincovdet_fit_prelude.mincovdet_fit_validated_data@sciona/atoms/ml/sklearn/covariance/mincovdet_fit_prelude/atoms.py:75": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the `validate_data(self, X, ensure_min_samples=2, estimator=\"MinCovDet\")` input-validation step in sklearn.covariance._robust_covariance.MinCovDet.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for MinCovDet fit input validation."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.covariance.mincovdet_fit_prelude.mincovdet_fit_random_state@sciona/atoms/ml/sklearn/covariance/mincovdet_fit_prelude/atoms.py:85": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from `random_state = check_random_state(self.random_state)` in sklearn.covariance._robust_covariance.MinCovDet.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for MinCovDet random-state normalization."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.covariance.mincovdet_fit_prelude.mincovdet_fit_shape@sciona/atoms/ml/sklearn/covariance/mincovdet_fit_prelude/atoms.py:95": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from `n_samples, n_features = X.shape` in sklearn.covariance._robust_covariance.MinCovDet.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for MinCovDet shape unpacking."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.covariance.mincovdet_fit_prelude.mincovdet_fit_assume_centered_branch@sciona/atoms/ml/sklearn/covariance/mincovdet_fit_prelude/atoms.py:106": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the `if self.assume_centered:` branch predicate in sklearn.covariance._robust_covariance.MinCovDet.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for MinCovDet branch selection."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

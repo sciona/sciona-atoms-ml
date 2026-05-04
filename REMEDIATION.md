@@ -1544,6 +1544,11 @@ Potential remediation path:
   plus the `assume_centered=True` raw-location, raw-covariance, and raw-distance
   recomputation helpers.
 - Completed helper slice:
+  `sklearn.covariance.mincovdet_fit_prelude` now publishes the deterministic
+  `MinCovDet.fit` entry shell before FastMCD: dense input validation with
+  `ensure_min_samples=2`, random-state normalization, `(n_samples, n_features)`
+  shape unpacking, and the `assume_centered` branch predicate.
+- Completed helper slice:
   `sklearn.covariance.mincovdet_correction` now publishes the deterministic
   `MinCovDet.correct_covariance` shell for the zero-raw-covariance guard, the
   empirical correction-factor calculation from raw distances, and the corrected

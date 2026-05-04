@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "family": "ml_sklearn_covariance_mincovdet_fit_prelude",
+  "root": {
+    "node_id": "mincovdet_fit_prelude",
+    "name": "mincovdet_fit_prelude",
+    "kind": "family",
+    "children": [
+      "mincovdet_fit_validated_data",
+      "mincovdet_fit_random_state",
+      "mincovdet_fit_shape",
+      "mincovdet_fit_assume_centered_branch"
+    ]
+  },
+  "nodes": [
+    {
+      "node_id": "mincovdet_fit_validated_data",
+      "name": "mincovdet_fit_validated_data",
+      "kind": "atom",
+      "status": "atomic",
+      "inputs": [{"name": "X", "type_desc": "array-like 2D data", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "float64 matrix"}]
+    },
+    {
+      "node_id": "mincovdet_fit_random_state",
+      "name": "mincovdet_fit_random_state",
+      "kind": "atom",
+      "status": "atomic",
+      "inputs": [{"name": "random_state", "type_desc": "None | int | RandomState", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "numpy RandomState"}]
+    },
+    {
+      "node_id": "mincovdet_fit_shape",
+      "name": "mincovdet_fit_shape",
+      "kind": "atom",
+      "status": "atomic",
+      "inputs": [{"name": "X", "type_desc": "float64 matrix", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "tuple[int, int]"}]
+    },
+    {
+      "node_id": "mincovdet_fit_assume_centered_branch",
+      "name": "mincovdet_fit_assume_centered_branch",
+      "kind": "atom",
+      "status": "atomic",
+      "inputs": [{"name": "assume_centered", "type_desc": "bool", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "bool"}]
+    }
+  ]
+}
