@@ -1,0 +1,61 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_inspection_partial_dependence_column_slice_shell_root",
+      "name": "sklearn.inspection.partial_dependence_column_slice_shell",
+      "description": "Deterministic label-slice shell inside _get_column_indices as used by sklearn.inspection.partial_dependence.",
+      "status": "composite",
+      "children": [
+        "partial_dependence_slice_uses_default_stop",
+        "partial_dependence_slice_stop_exclusive",
+        "partial_dependence_slice_column_indices"
+      ]
+    },
+    {
+      "node_id": "partial_dependence_slice_uses_default_stop",
+      "name": "partial_dependence_slice_uses_default_stop",
+      "description": "Decide whether sklearn uses n_columns + 1 as the slice stop.",
+      "status": "atomic",
+      "concept_type": "partial_dependence_branch",
+      "inputs": [
+        {"name": "stop_location", "type_desc": "optional int"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "partial_dependence_slice_stop_exclusive",
+      "name": "partial_dependence_slice_stop_exclusive",
+      "description": "Resolve sklearn's exclusive slice stop after label-to-index conversion.",
+      "status": "atomic",
+      "concept_type": "partial_dependence_bookkeeping",
+      "inputs": [
+        {"name": "stop_location", "type_desc": "optional int"},
+        {"name": "n_columns", "type_desc": "int"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "int"}
+      ]
+    },
+    {
+      "node_id": "partial_dependence_slice_column_indices",
+      "name": "partial_dependence_slice_column_indices",
+      "description": "Build sklearn's integer column-index slice after label endpoints are resolved.",
+      "status": "atomic",
+      "concept_type": "partial_dependence_bookkeeping",
+      "inputs": [
+        {"name": "n_columns", "type_desc": "int"},
+        {"name": "start_location", "type_desc": "optional int"},
+        {"name": "stop_exclusive", "type_desc": "int"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[int, ...]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "partial_dependence_slice_uses_default_stop", "target": "partial_dependence_slice_stop_exclusive", "kind": "branch_to_stop"},
+    {"source": "partial_dependence_slice_stop_exclusive", "target": "partial_dependence_slice_column_indices", "kind": "stop_to_indices"}
+  ]
+}

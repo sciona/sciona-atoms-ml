@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_column_slice_shell.partial_dependence_slice_uses_default_stop@sciona/atoms/ml/sklearn/inspection/partial_dependence_column_slice_shell/atoms.py:32": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from `if stop is not None: ... else: stop = n_columns + 1` in sklearn.utils._indexing._get_column_indices."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for partial_dependence label-slice default-stop branching."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_column_slice_shell.partial_dependence_slice_stop_exclusive@sciona/atoms/ml/sklearn/inspection/partial_dependence_column_slice_shell/atoms.py:43": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from `stop = all_columns.get_loc(stop) + 1` and `stop = n_columns + 1` in sklearn.utils._indexing._get_column_indices."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for partial_dependence label-slice exclusive-stop bookkeeping."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_column_slice_shell.partial_dependence_slice_column_indices@sciona/atoms/ml/sklearn/inspection/partial_dependence_column_slice_shell/atoms.py:62": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from `return list(islice(range(n_columns), start, stop))` in sklearn.utils._indexing._get_column_indices."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for partial_dependence label-slice integer index construction."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

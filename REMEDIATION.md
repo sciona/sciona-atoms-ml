@@ -895,6 +895,11 @@ Potential remediation path:
   `partial_dependence`: label-branch selection, the non-dataframe
   string-column guard, exact ValueError formatting, and singleton string-key
   wrapping before dataframe label lookup callbacks.
+- Completed helper slice:
+  `sklearn.inspection.partial_dependence_column_slice_shell` now publishes
+  the deterministic label-slice shell inside `_get_column_indices` used by
+  `partial_dependence`: default-stop branching, exclusive-stop bookkeeping
+  after slice endpoint resolution, and final integer slice-index construction.
 - Ingest small helper atoms only where the boundary is explicit, such as
   permutation score aggregation from baseline and permuted score arrays.
 - Decide how estimator callback boundaries should be represented before
