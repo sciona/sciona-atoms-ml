@@ -884,6 +884,11 @@ Potential remediation path:
   default `x{i}` name construction, provided-feature-name `tolist()`
   normalization gating, duplicate-name rejection, and exact ValueError
   message formatting.
+- Completed helper slice:
+  `sklearn.inspection.partial_dependence_feature_index_output_shell` now
+  publishes the deterministic output shell after `_get_column_indices` in
+  `partial_dependence`: C-order `np.intp` array normalization, 1D feature-index
+  vector flattening, and downstream selected-feature counting.
 - Ingest small helper atoms only where the boundary is explicit, such as
   permutation score aggregation from baseline and permuted score arrays.
 - Decide how estimator callback boundaries should be represented before

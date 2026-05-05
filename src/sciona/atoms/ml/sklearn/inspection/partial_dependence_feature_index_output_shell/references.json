@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_feature_index_output_shell.partial_dependence_feature_indices_array@sciona/atoms/ml/sklearn/inspection/partial_dependence_feature_index_output_shell/atoms.py:45": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from `np.asarray(_get_column_indices(X, features), dtype=np.intp, order=\"C\")` in sklearn.inspection._partial_dependence.partial_dependence."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for partial_dependence feature-index array normalization."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_feature_index_output_shell.partial_dependence_feature_indices_vector@sciona/atoms/ml/sklearn/inspection/partial_dependence_feature_index_output_shell/atoms.py:61": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the trailing `.ravel()` in the features_indices assignment inside sklearn.inspection._partial_dependence.partial_dependence."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for partial_dependence feature-index vectorization."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_feature_index_output_shell.partial_dependence_selected_feature_count@sciona/atoms/ml/sklearn/inspection/partial_dependence_feature_index_output_shell/atoms.py:71": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from downstream `len(features_indices)` use after sklearn's feature-index vectorization shell in partial_dependence."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for partial_dependence selected-feature counting."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

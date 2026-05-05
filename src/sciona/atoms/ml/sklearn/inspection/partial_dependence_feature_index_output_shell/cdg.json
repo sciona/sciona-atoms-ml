@@ -1,0 +1,58 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_inspection_partial_dependence_feature_index_output_shell_root",
+      "name": "sklearn.inspection.partial_dependence_feature_index_output_shell",
+      "description": "Deterministic feature-index output shell around _get_column_indices in sklearn.inspection.partial_dependence.",
+      "status": "composite",
+      "children": [
+        "partial_dependence_feature_indices_array",
+        "partial_dependence_feature_indices_vector",
+        "partial_dependence_selected_feature_count"
+      ]
+    },
+    {
+      "node_id": "partial_dependence_feature_indices_array",
+      "name": "partial_dependence_feature_indices_array",
+      "description": "Convert selected column indices to sklearn's C-order np.intp array.",
+      "status": "atomic",
+      "concept_type": "partial_dependence_bookkeeping",
+      "inputs": [
+        {"name": "column_indices", "type_desc": "tuple[int, ...]"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.intp]"}
+      ]
+    },
+    {
+      "node_id": "partial_dependence_feature_indices_vector",
+      "name": "partial_dependence_feature_indices_vector",
+      "description": "Flatten sklearn's feature-index array shell to a 1D np.intp vector.",
+      "status": "atomic",
+      "concept_type": "partial_dependence_bookkeeping",
+      "inputs": [
+        {"name": "feature_indices_array", "type_desc": "NDArray[np.intp]"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.intp]"}
+      ]
+    },
+    {
+      "node_id": "partial_dependence_selected_feature_count",
+      "name": "partial_dependence_selected_feature_count",
+      "description": "Count the selected feature indices after sklearn's vectorization shell.",
+      "status": "atomic",
+      "concept_type": "partial_dependence_bookkeeping",
+      "inputs": [
+        {"name": "feature_indices", "type_desc": "NDArray[np.intp]"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "int"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "partial_dependence_feature_indices_array", "target": "partial_dependence_feature_indices_vector", "kind": "array_to_vector"},
+    {"source": "partial_dependence_feature_indices_vector", "target": "partial_dependence_selected_feature_count", "kind": "vector_to_count"}
+  ]
+}
