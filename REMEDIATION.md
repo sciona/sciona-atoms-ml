@@ -150,6 +150,12 @@ Potential remediation path:
   boundary.
 - Or define limited estimator-state wrappers with explicit audit limitations
   only after deciding that opaque solver-backed atoms are acceptable.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_alpha_grid_math` now publishes the
+  deterministic NumPy math tail of `_alpha_grid` before the compiled
+  coordinate-descent solver boundary: Xyw shape normalization, effective
+  sample-count resolution, alpha-max computation, the float64-resolution
+  fallback predicate, and final alpha-grid construction.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 
