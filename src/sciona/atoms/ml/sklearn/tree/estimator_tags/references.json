@@ -1,0 +1,126 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.tree.estimator_tags.tree_sparse_input_tag@sciona/atoms/ml/sklearn/tree/estimator_tags/atoms.py:26": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from BaseDecisionTree.__sklearn_tags__ in sklearn.tree._classes in scikit-learn 1.8.0 for input_tags.sparse=True."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for tree estimator tag behavior."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.tree.estimator_tags.tree_classifier_multilabel_tag@sciona/atoms/ml/sklearn/tree/estimator_tags/atoms.py:38": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from DecisionTreeClassifier.__sklearn_tags__ and ExtraTreeClassifier.__sklearn_tags__ in sklearn.tree._classes in scikit-learn 1.8.0 for classifier_tags.multi_label=True."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for classifier tree tag payloads."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.tree.estimator_tags.decision_tree_classifier_allow_nan_tag@sciona/atoms/ml/sklearn/tree/estimator_tags/atoms.py:53": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from DecisionTreeClassifier.__sklearn_tags__ in sklearn.tree._classes in scikit-learn 1.8.0 for the allow_nan splitter-and-criterion rule."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for DecisionTreeClassifier tag semantics."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.tree.estimator_tags.decision_tree_regressor_allow_nan_tag@sciona/atoms/ml/sklearn/tree/estimator_tags/atoms.py:62": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from DecisionTreeRegressor.__sklearn_tags__ in sklearn.tree._classes in scikit-learn 1.8.0 for the allow_nan splitter-and-criterion rule."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for DecisionTreeRegressor tag semantics."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.tree.estimator_tags.extra_tree_classifier_allow_nan_tag@sciona/atoms/ml/sklearn/tree/estimator_tags/atoms.py:76": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from ExtraTreeClassifier.__sklearn_tags__ in sklearn.tree._classes in scikit-learn 1.8.0 for the random-splitter allow_nan rule."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for ExtraTreeClassifier tag semantics."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.tree.estimator_tags.extra_tree_regressor_allow_nan_tag@sciona/atoms/ml/sklearn/tree/estimator_tags/atoms.py:85": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from ExtraTreeRegressor.__sklearn_tags__ in the local sklearn.tree._classes source used for parity here; the loaded method leaves the inherited allow_nan tag unchanged, so this helper models the effective parent-tag passthrough."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for ExtraTreeRegressor tag semantics."
+          }
+        }
+      ]
+    }
+  }
+}
+

@@ -664,6 +664,12 @@ Deferred targets:
 
 Potential remediation path:
 
+- Completed helper slice: `sklearn.tree.estimator_tags` now publishes the
+  deterministic `__sklearn_tags__` shell for BaseDecisionTree and the public
+  decision-tree estimators: shared sparse-input support, classifier
+  multi-label tagging, the allow-NaN rules for DecisionTreeClassifier,
+  DecisionTreeRegressor, and ExtraTreeClassifier, and the effective inherited
+  allow-NaN value exposed by the local ExtraTreeRegressor runtime.
 - Decide whether tree estimators should be represented as limited
   estimator-state wrapper atoms with explicit audit limitations.
 - Or ingest the Cython/native tree builder, splitter, and criterion internals

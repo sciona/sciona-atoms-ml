@@ -1,0 +1,149 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "sciona.atoms.review_bundle.ml.sklearn_tree_estimator_tags.v1",
+  "provider_repo": "sciona-atoms-ml",
+  "family_batch": "ml_sklearn_tree_estimator_tags",
+  "review_status": "reviewed",
+  "review_semantic_verdict": "pass_with_limits",
+  "review_developer_semantic_verdict": "pass_with_limits",
+  "trust_readiness": "reviewed_with_limits",
+  "authoritative_sources": [
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/sklearn/tree/estimator_tags/atoms.py"},
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/sklearn/tree/estimator_tags/witnesses.py"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/sklearn/tree/estimator_tags/references.json"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/sklearn/tree/estimator_tags/cdg.json"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_tree_estimator_tags_behavior.py"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_tree_estimator_tags_references_metadata.py"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_tree_estimator_tags_review_bundle.py"}
+  ],
+  "limitations": [
+    "This batch covers only deterministic __sklearn_tags__ helpers for BaseDecisionTree and the public decision-tree estimators.",
+    "The helpers model sparse-input, multi-label, and allow_nan tag values only.",
+    "Tree fitting, prediction, and native splitter or criterion internals remain deferred."
+  ],
+  "blocking_findings": [],
+  "required_actions": [],
+  "review_record_path": "data/review_bundles/ml_sklearn_tree_estimator_tags.review_bundle.json",
+  "rows": [
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.tree.estimator_tags.tree_sparse_input_tag",
+      "atom_name": "sciona.atoms.ml.sklearn.tree.estimator_tags.tree_sparse_input_tag",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/tree/estimator_tags/atoms.py",
+        "src/sciona/atoms/ml/sklearn/tree/estimator_tags/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/tree/estimator_tags/references.json",
+        "src/sciona/atoms/ml/sklearn/tree/estimator_tags/cdg.json",
+        "tests/test_ml_sklearn_tree_estimator_tags_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_tree_estimator_tags.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.tree.estimator_tags.tree_classifier_multilabel_tag",
+      "atom_name": "sciona.atoms.ml.sklearn.tree.estimator_tags.tree_classifier_multilabel_tag",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/tree/estimator_tags/atoms.py",
+        "src/sciona/atoms/ml/sklearn/tree/estimator_tags/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/tree/estimator_tags/references.json",
+        "src/sciona/atoms/ml/sklearn/tree/estimator_tags/cdg.json",
+        "tests/test_ml_sklearn_tree_estimator_tags_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_tree_estimator_tags.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.tree.estimator_tags.decision_tree_classifier_allow_nan_tag",
+      "atom_name": "sciona.atoms.ml.sklearn.tree.estimator_tags.decision_tree_classifier_allow_nan_tag",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/tree/estimator_tags/atoms.py",
+        "src/sciona/atoms/ml/sklearn/tree/estimator_tags/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/tree/estimator_tags/references.json",
+        "src/sciona/atoms/ml/sklearn/tree/estimator_tags/cdg.json",
+        "tests/test_ml_sklearn_tree_estimator_tags_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_tree_estimator_tags.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.tree.estimator_tags.decision_tree_regressor_allow_nan_tag",
+      "atom_name": "sciona.atoms.ml.sklearn.tree.estimator_tags.decision_tree_regressor_allow_nan_tag",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/tree/estimator_tags/atoms.py",
+        "src/sciona/atoms/ml/sklearn/tree/estimator_tags/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/tree/estimator_tags/references.json",
+        "src/sciona/atoms/ml/sklearn/tree/estimator_tags/cdg.json",
+        "tests/test_ml_sklearn_tree_estimator_tags_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_tree_estimator_tags.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.tree.estimator_tags.extra_tree_classifier_allow_nan_tag",
+      "atom_name": "sciona.atoms.ml.sklearn.tree.estimator_tags.extra_tree_classifier_allow_nan_tag",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/tree/estimator_tags/atoms.py",
+        "src/sciona/atoms/ml/sklearn/tree/estimator_tags/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/tree/estimator_tags/references.json",
+        "src/sciona/atoms/ml/sklearn/tree/estimator_tags/cdg.json",
+        "tests/test_ml_sklearn_tree_estimator_tags_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_tree_estimator_tags.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.tree.estimator_tags.extra_tree_regressor_allow_nan_tag",
+      "atom_name": "sciona.atoms.ml.sklearn.tree.estimator_tags.extra_tree_regressor_allow_nan_tag",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/tree/estimator_tags/atoms.py",
+        "src/sciona/atoms/ml/sklearn/tree/estimator_tags/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/tree/estimator_tags/references.json",
+        "src/sciona/atoms/ml/sklearn/tree/estimator_tags/cdg.json",
+        "tests/test_ml_sklearn_tree_estimator_tags_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_tree_estimator_tags.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    }
+  ]
+}

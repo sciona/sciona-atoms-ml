@@ -1,0 +1,121 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_tree_estimator_tags_root",
+      "name": "Sklearn Tree Estimator Tag Helper Atoms",
+      "description": "Deterministic estimator-tag helpers for BaseDecisionTree and public decision-tree estimators.",
+      "status": "decomposed",
+      "children": [
+        "tree_sparse_input_tag",
+        "tree_classifier_multilabel_tag",
+        "decision_tree_classifier_allow_nan_tag",
+        "decision_tree_regressor_allow_nan_tag",
+        "extra_tree_classifier_allow_nan_tag",
+        "extra_tree_regressor_allow_nan_tag"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "tree_sparse_input_tag",
+      "name": "tree_sparse_input_tag",
+      "description": "Return BaseDecisionTree's sparse-input tag override.",
+      "concept_type": "api_tag",
+      "status": "atomic",
+      "type_signature": "(parent_sparse: bool = False) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "parent_sparse", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "tree_classifier_multilabel_tag",
+      "name": "tree_classifier_multilabel_tag",
+      "description": "Return the shared multi-label tag override for classifier tree estimators.",
+      "concept_type": "api_tag",
+      "status": "atomic",
+      "type_signature": "(parent_multi_label: bool = False) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "parent_multi_label", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "decision_tree_classifier_allow_nan_tag",
+      "name": "decision_tree_classifier_allow_nan_tag",
+      "description": "Return DecisionTreeClassifier's allow_nan tag rule from splitter and criterion.",
+      "concept_type": "api_tag",
+      "status": "atomic",
+      "type_signature": "(splitter: str, criterion: str) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "splitter", "type_desc": "str", "required": true},
+        {"name": "criterion", "type_desc": "str", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "decision_tree_regressor_allow_nan_tag",
+      "name": "decision_tree_regressor_allow_nan_tag",
+      "description": "Return DecisionTreeRegressor's allow_nan tag rule from splitter and criterion.",
+      "concept_type": "api_tag",
+      "status": "atomic",
+      "type_signature": "(splitter: str, criterion: str) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "splitter", "type_desc": "str", "required": true},
+        {"name": "criterion", "type_desc": "str", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "extra_tree_classifier_allow_nan_tag",
+      "name": "extra_tree_classifier_allow_nan_tag",
+      "description": "Return ExtraTreeClassifier's allow_nan tag rule from splitter and criterion.",
+      "concept_type": "api_tag",
+      "status": "atomic",
+      "type_signature": "(splitter: str, criterion: str) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "splitter", "type_desc": "str", "required": true},
+        {"name": "criterion", "type_desc": "str", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "extra_tree_regressor_allow_nan_tag",
+      "name": "extra_tree_regressor_allow_nan_tag",
+      "description": "Return ExtraTreeRegressor's effective allow_nan tag value from its parent tag payload.",
+      "concept_type": "api_tag",
+      "status": "atomic",
+      "type_signature": "(parent_allow_nan: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "parent_allow_nan", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    }
+  ],
+  "edges": [],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.tree._classes",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 7 probabilistic and mutable-kernel workflows"
+  }
+}
+
