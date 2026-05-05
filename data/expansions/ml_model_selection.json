@@ -11,6 +11,116 @@
   "description": "Declarative expansion and refinement inventory for reusable Kaggle-style ML pipeline adaptations.",
   "operations": [
     {
+      "rule_name": "insert_preprocessing_before_estimator",
+      "operation_id": "sciona.expansions.ml.preprocessing_before_estimator",
+      "operation_type": "insert",
+      "applies_to": "tabular_pipeline.preprocessing->estimator",
+      "runtime_rule_builder": "insert_preprocessing_before_estimator",
+      "runtime_diagnostic": "preprocessing_recommendation",
+      "name": "Insert Recommended Preprocessing",
+      "intent": "Insert scaling or power transformation before the estimator when diagnostics recommend it.",
+      "dejargonized_summary": "Add a preprocessing step before model training when feature scale or distribution problems are detected.",
+      "trigger": {
+        "metric_name": "preprocessing_recommendation",
+        "comparison": "gt",
+        "threshold": 0.0,
+        "required_intermediate_keys": [
+          "model_selection.recommend_preprocessing"
+        ]
+      },
+      "action_classes": [
+        "precondition"
+      ],
+      "rewrite": {
+        "before_summary": "Features feed the estimator directly.",
+        "after_summary": "A recommended preprocessing stage is inserted before the estimator.",
+        "information_flow_effect": "Preserves feature semantics while improving estimator conditioning."
+      }
+    },
+    {
+      "rule_name": "replace_estimator_from_recommendation",
+      "operation_id": "sciona.expansions.ml.replace_estimator",
+      "operation_type": "replace",
+      "applies_to": "tabular_pipeline.estimator",
+      "runtime_rule_builder": "replace_estimator_from_recommendation",
+      "runtime_diagnostic": "estimator_recommendation",
+      "name": "Replace Estimator From Recommendation",
+      "intent": "Select a better estimator class when model-selection diagnostics identify a stronger fit.",
+      "dejargonized_summary": "Swap the model-training stage for the recommended estimator type.",
+      "trigger": {
+        "metric_name": "estimator_recommendation",
+        "comparison": "gt",
+        "threshold": 0.0,
+        "required_intermediate_keys": [
+          "model_selection.recommend_estimator"
+        ]
+      },
+      "action_classes": [
+        "replace_stage"
+      ],
+      "rewrite": {
+        "before_summary": "A generic estimator stage trains the model.",
+        "after_summary": "The estimator stage is replaced with the recommended sklearn-style estimator.",
+        "information_flow_effect": "Preserves the estimator contract while changing the model class."
+      }
+    },
+    {
+      "rule_name": "insert_dimensionality_reduction_before_estimator",
+      "operation_id": "sciona.expansions.ml.dimensionality_reduction_before_estimator",
+      "operation_type": "insert",
+      "applies_to": "tabular_pipeline.preprocessing->estimator",
+      "runtime_rule_builder": "insert_dimensionality_reduction_before_estimator",
+      "runtime_diagnostic": "condition_number",
+      "name": "Insert Dimensionality Reduction",
+      "intent": "Insert PCA or truncated SVD when high-dimensional features are poorly conditioned.",
+      "dejargonized_summary": "Add a feature-reduction step before model training when the feature matrix is unstable.",
+      "trigger": {
+        "metric_name": "condition_number",
+        "comparison": "gt",
+        "threshold": 30.0,
+        "required_intermediate_keys": [
+          "model_selection.condition_number",
+          "model_selection.recommend_dimensionality_reduction"
+        ]
+      },
+      "action_classes": [
+        "precondition"
+      ],
+      "rewrite": {
+        "before_summary": "The estimator consumes the full feature matrix directly.",
+        "after_summary": "A dimensionality-reduction stage is inserted before the estimator.",
+        "information_flow_effect": "Preserves downstream prediction semantics while reducing feature instability."
+      }
+    },
+    {
+      "rule_name": "force_cv_strategy",
+      "operation_id": "sciona.expansions.ml.force_cv_strategy",
+      "operation_type": "validation",
+      "applies_to": "tabular_pipeline.validation",
+      "runtime_rule_builder": "force_cv_strategy",
+      "runtime_diagnostic": "is_time_series",
+      "name": "Force Cross-Validation Strategy",
+      "intent": "Use leakage-safe validation when data ordering or grouping requires a specific split strategy.",
+      "dejargonized_summary": "Force a time-aware or group-aware validation split when ordinary random folds would leak information.",
+      "trigger": {
+        "metric_name": "is_time_series",
+        "comparison": "gt",
+        "threshold": 0.0,
+        "required_intermediate_keys": [
+          "model_selection.is_time_series",
+          "model_selection.recommend_cv_strategy"
+        ]
+      },
+      "action_classes": [
+        "gate_or_validate"
+      ],
+      "rewrite": {
+        "before_summary": "Validation may use a generic splitter.",
+        "after_summary": "The validation stage is constrained to the recommended leakage-safe split strategy.",
+        "information_flow_effect": "Keeps validation output semantics while preventing invalid train/test leakage."
+      }
+    },
+    {
       "rule_name": "apply_kfold_ensemble",
       "operation_id": "sciona.expansions.ml.kfold_ensemble",
       "operation_type": "replace",
