@@ -1,0 +1,70 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_tree_fit_postbuild_classifier_state_root",
+      "name": "Sklearn Tree Fit Postbuild Classifier State Helper Atoms",
+      "description": "Deterministic post-build classifier-state collapse helpers for BaseDecisionTree._fit after deferred native build and pruning.",
+      "status": "decomposed",
+      "children": [
+        "tree_fit_single_output_classifier_branch",
+        "tree_fit_single_output_n_classes",
+        "tree_fit_single_output_classes"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "tree_fit_single_output_classifier_branch",
+      "name": "tree_fit_single_output_classifier_branch",
+      "description": "Return whether BaseDecisionTree._fit should collapse classifier state.",
+      "concept_type": "branch_predicate",
+      "status": "atomic",
+      "type_signature": "(n_outputs: int, is_classifier: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_outputs", "type_desc": "positive output count", "required": true},
+        {"name": "is_classifier", "type_desc": "classifier flag", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "whether single-output classifier collapse should run"}
+      ]
+    },
+    {
+      "node_id": "tree_fit_single_output_n_classes",
+      "name": "tree_fit_single_output_n_classes",
+      "description": "Return the collapsed scalar n_classes_ value for single-output classification.",
+      "concept_type": "state_update",
+      "status": "atomic",
+      "type_signature": "(n_classes: NDArray[np.integer]) -> int",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_classes", "type_desc": "nonempty one-dimensional integer class-count vector", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "positive integer class count"}
+      ]
+    },
+    {
+      "node_id": "tree_fit_single_output_classes",
+      "name": "tree_fit_single_output_classes",
+      "description": "Return the collapsed classes_ vector for single-output classification.",
+      "concept_type": "state_update",
+      "status": "atomic",
+      "type_signature": "(classes: NDArray[np.object_]) -> NDArray[np.object_]",
+      "depth": 1,
+      "inputs": [
+        {"name": "classes", "type_desc": "nonempty two-dimensional class block array", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "one-dimensional class vector"}
+      ]
+    }
+  ],
+  "edges": [],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.tree._classes",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 7 probabilistic and mutable-kernel workflows"
+  }
+}

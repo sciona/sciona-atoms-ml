@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "sciona.atoms.review_bundle.ml.sklearn_tree_fit_postbuild_classifier_state.v1",
+  "provider_repo": "sciona-atoms-ml",
+  "family_batch": "ml_sklearn_tree_fit_postbuild_classifier_state",
+  "review_status": "reviewed",
+  "review_semantic_verdict": "pass_with_limits",
+  "review_developer_semantic_verdict": "pass_with_limits",
+  "trust_readiness": "reviewed_with_limits",
+  "authoritative_sources": [
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/sklearn/tree/fit_postbuild_classifier_state/atoms.py"},
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/sklearn/tree/fit_postbuild_classifier_state/witnesses.py"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/sklearn/tree/fit_postbuild_classifier_state/references.json"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/sklearn/tree/fit_postbuild_classifier_state/cdg.json"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_tree_fit_postbuild_classifier_state_behavior.py"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_tree_fit_postbuild_classifier_state_references_metadata.py"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_tree_fit_postbuild_classifier_state_review_bundle.py"}
+  ],
+  "limitations": [
+    "This batch covers only the deterministic single-output classifier-state collapse tail in BaseDecisionTree._fit after deferred native build and pruning.",
+    "The helpers model the branch predicate plus scalar and class-vector collapse of n_classes_ and classes_.",
+    "Native tree building, pruning, and all broader fit preprocessing remain deferred."
+  ],
+  "blocking_findings": [],
+  "required_actions": [],
+  "review_record_path": "data/review_bundles/ml_sklearn_tree_fit_postbuild_classifier_state.review_bundle.json",
+  "rows": [
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.tree.fit_postbuild_classifier_state.tree_fit_single_output_classifier_branch",
+      "atom_name": "sciona.atoms.ml.sklearn.tree.fit_postbuild_classifier_state.tree_fit_single_output_classifier_branch",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/tree/fit_postbuild_classifier_state/atoms.py",
+        "src/sciona/atoms/ml/sklearn/tree/fit_postbuild_classifier_state/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/tree/fit_postbuild_classifier_state/references.json",
+        "src/sciona/atoms/ml/sklearn/tree/fit_postbuild_classifier_state/cdg.json",
+        "tests/test_ml_sklearn_tree_fit_postbuild_classifier_state_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_tree_fit_postbuild_classifier_state.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.tree.fit_postbuild_classifier_state.tree_fit_single_output_n_classes",
+      "atom_name": "sciona.atoms.ml.sklearn.tree.fit_postbuild_classifier_state.tree_fit_single_output_n_classes",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/tree/fit_postbuild_classifier_state/atoms.py",
+        "src/sciona/atoms/ml/sklearn/tree/fit_postbuild_classifier_state/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/tree/fit_postbuild_classifier_state/references.json",
+        "src/sciona/atoms/ml/sklearn/tree/fit_postbuild_classifier_state/cdg.json",
+        "tests/test_ml_sklearn_tree_fit_postbuild_classifier_state_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_tree_fit_postbuild_classifier_state.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.tree.fit_postbuild_classifier_state.tree_fit_single_output_classes",
+      "atom_name": "sciona.atoms.ml.sklearn.tree.fit_postbuild_classifier_state.tree_fit_single_output_classes",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/tree/fit_postbuild_classifier_state/atoms.py",
+        "src/sciona/atoms/ml/sklearn/tree/fit_postbuild_classifier_state/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/tree/fit_postbuild_classifier_state/references.json",
+        "src/sciona/atoms/ml/sklearn/tree/fit_postbuild_classifier_state/cdg.json",
+        "tests/test_ml_sklearn_tree_fit_postbuild_classifier_state_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_tree_fit_postbuild_classifier_state.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.tree.fit_postbuild_classifier_state.tree_fit_single_output_classifier_branch@sciona/atoms/ml/sklearn/tree/fit_postbuild_classifier_state/atoms.py:37": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `if self.n_outputs_ == 1 and is_classifier(self)` branch in BaseDecisionTree._fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for post-build classifier-state collapse control flow."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.tree.fit_postbuild_classifier_state.tree_fit_single_output_n_classes@sciona/atoms/ml/sklearn/tree/fit_postbuild_classifier_state/atoms.py:51": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `self.n_classes_ = self.n_classes_[0]` shell in BaseDecisionTree._fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for post-build classifier n_classes_ collapse."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.tree.fit_postbuild_classifier_state.tree_fit_single_output_classes@sciona/atoms/ml/sklearn/tree/fit_postbuild_classifier_state/atoms.py:64": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `self.classes_ = self.classes_[0]` shell in BaseDecisionTree._fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for post-build classifier classes_ collapse."
+          }
+        }
+      ]
+    }
+  }
+}

@@ -739,6 +739,11 @@ Potential remediation path:
   native pruning callback: the zero-alpha early-return predicate, classifier
   and regressor constructor-argument preparation for the replacement tree,
   and final pruned-tree passthrough.
+- Completed helper slice:
+  `sklearn.tree.fit_postbuild_classifier_state` now publishes the
+  deterministic single-output classifier tail in `BaseDecisionTree._fit`
+  after deferred native build and pruning: the branch predicate and the
+  scalar/vector collapse of `n_classes_` and `classes_`.
 - Decide whether tree estimators should be represented as limited
   estimator-state wrapper atoms with explicit audit limitations.
 - Or ingest the Cython/native tree builder, splitter, and criterion internals
