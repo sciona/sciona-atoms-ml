@@ -1,0 +1,74 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_inspection_partial_dependence_column_lookup_shell_root",
+      "name": "sklearn.inspection.partial_dependence_column_lookup_shell",
+      "description": "Deterministic dataframe label-lookup shell inside _get_column_indices as used by sklearn.inspection.partial_dependence.",
+      "status": "composite",
+      "children": [
+        "partial_dependence_nonunique_column_guard_required",
+        "partial_dependence_nonunique_column_message",
+        "partial_dependence_column_indices_appended",
+        "partial_dependence_missing_column_message"
+      ]
+    },
+    {
+      "node_id": "partial_dependence_nonunique_column_guard_required",
+      "name": "partial_dependence_nonunique_column_guard_required",
+      "description": "Decide whether sklearn raises the non-unique-dataframe-column ValueError.",
+      "status": "atomic",
+      "concept_type": "partial_dependence_branch",
+      "inputs": [
+        {"name": "column_index", "type_desc": "object"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "partial_dependence_nonunique_column_message",
+      "name": "partial_dependence_nonunique_column_message",
+      "description": "Format sklearn's non-unique dataframe-column ValueError message.",
+      "status": "atomic",
+      "concept_type": "partial_dependence_error_message",
+      "inputs": [
+        {"name": "columns", "type_desc": "tuple[object, ...]"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "str"}
+      ]
+    },
+    {
+      "node_id": "partial_dependence_column_indices_appended",
+      "name": "partial_dependence_column_indices_appended",
+      "description": "Append one resolved dataframe column index in sklearn's lookup loop.",
+      "status": "atomic",
+      "concept_type": "partial_dependence_bookkeeping",
+      "inputs": [
+        {"name": "column_indices", "type_desc": "tuple[int, ...]"},
+        {"name": "column_index", "type_desc": "int"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[int, ...]"}
+      ]
+    },
+    {
+      "node_id": "partial_dependence_missing_column_message",
+      "name": "partial_dependence_missing_column_message",
+      "description": "Return sklearn's missing-dataframe-column ValueError message.",
+      "status": "atomic",
+      "concept_type": "partial_dependence_error_message",
+      "inputs": [
+        {"name": "missing_column", "type_desc": "object"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "str"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "partial_dependence_nonunique_column_guard_required", "target": "partial_dependence_nonunique_column_message", "kind": "guard_to_message"},
+    {"source": "partial_dependence_nonunique_column_guard_required", "target": "partial_dependence_column_indices_appended", "kind": "guard_to_append"},
+    {"source": "partial_dependence_column_indices_appended", "target": "partial_dependence_missing_column_message", "kind": "lookup_loop_to_missing_message"}
+  ]
+}

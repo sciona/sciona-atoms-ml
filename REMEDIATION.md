@@ -900,6 +900,12 @@ Potential remediation path:
   the deterministic label-slice shell inside `_get_column_indices` used by
   `partial_dependence`: default-stop branching, exclusive-stop bookkeeping
   after slice endpoint resolution, and final integer slice-index construction.
+- Completed helper slice:
+  `sklearn.inspection.partial_dependence_column_lookup_shell` now publishes
+  the deterministic dataframe label-lookup shell inside `_get_column_indices`
+  used by `partial_dependence`: the non-unique-column guard after `get_loc`
+  output exists, exact ValueError message formatting, progressive integer
+  index accumulation, and the fixed missing-column message.
 - Ingest small helper atoms only where the boundary is explicit, such as
   permutation score aggregation from baseline and permuted score arrays.
 - Decide how estimator callback boundaries should be represented before

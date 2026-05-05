@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_column_lookup_shell.partial_dependence_nonunique_column_guard_required@sciona/atoms/ml/sklearn/inspection/partial_dependence_column_lookup_shell/atoms.py:33": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from `if not isinstance(col_idx, numbers.Integral):` in sklearn.utils._indexing._get_column_indices."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for the non-unique dataframe-column guard in partial_dependence column lookup."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_column_lookup_shell.partial_dependence_nonunique_column_message@sciona/atoms/ml/sklearn/inspection/partial_dependence_column_lookup_shell/atoms.py:43": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from `ValueError(f\"Selected columns, {columns}, are not unique in dataframe\")` in sklearn.utils._indexing._get_column_indices."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for non-unique dataframe-column error formatting."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_column_lookup_shell.partial_dependence_column_indices_appended@sciona/atoms/ml/sklearn/inspection/partial_dependence_column_lookup_shell/atoms.py:58": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from `column_indices.append(col_idx)` in sklearn.utils._indexing._get_column_indices."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for progressive dataframe-column index accumulation."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_column_lookup_shell.partial_dependence_missing_column_message@sciona/atoms/ml/sklearn/inspection/partial_dependence_column_lookup_shell/atoms.py:68": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from `ValueError(\"A given column is not a column of the dataframe\")` in sklearn.utils._indexing._get_column_indices."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for missing dataframe-column error formatting."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}
