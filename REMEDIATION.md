@@ -206,6 +206,12 @@ Potential remediation path:
   deterministic `LinearModelCV` API shell: metadata-routing owner/split
   mapping and the shared sparse/multi-output tag values derived from the
   multitask predicate.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_multitask_estimator_shell` now
+  publishes deterministic `MultiTaskElasticNet` estimator-shell helpers
+  around the delegated multitask solver: model-name resolution, mono-task
+  guarding, random selection, post-solver dual-gap scaling, final self
+  return, and the fixed multitask tags.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 

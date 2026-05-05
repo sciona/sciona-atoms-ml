@@ -1,0 +1,173 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_multitask_estimator_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent Multitask Estimator Shell Helper Atoms",
+      "description": "Deterministic estimator-side shell helpers from sklearn.linear_model._coordinate_descent.MultiTaskElasticNet around the delegated multitask solver.",
+      "status": "decomposed",
+      "children": [
+        "cd_multitask_model_name",
+        "cd_multitask_mono_task_guard_required",
+        "cd_multitask_mono_task_message",
+        "cd_multitask_random_selection",
+        "cd_multitask_dual_gap",
+        "cd_multitask_fit_return_self",
+        "cd_multitask_sparse_input_tag",
+        "cd_multitask_target_multi_output_tag",
+        "cd_multitask_target_single_output_tag"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_multitask_model_name",
+      "name": "cd_multitask_model_name",
+      "description": "Return the model name used in the mono-task error message.",
+      "concept_type": "branch_resolution",
+      "status": "atomic",
+      "type_signature": "(has_l1_ratio_attr: bool) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "has_l1_ratio_attr", "type_desc": "whether the estimator exposes l1_ratio", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "ElasticNet or Lasso"}
+      ]
+    },
+    {
+      "node_id": "cd_multitask_mono_task_guard_required",
+      "name": "cd_multitask_mono_task_guard_required",
+      "description": "Return whether MultiTaskElasticNet.fit should raise for mono-task targets.",
+      "concept_type": "branch_predicate",
+      "status": "atomic",
+      "type_signature": "(y_ndim: int) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "y_ndim", "type_desc": "positive target ndim", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "whether y.ndim == 1"}
+      ]
+    },
+    {
+      "node_id": "cd_multitask_mono_task_message",
+      "name": "cd_multitask_mono_task_message",
+      "description": "Return the mono-task ValueError text used by MultiTaskElasticNet.fit.",
+      "concept_type": "error_formatting",
+      "status": "atomic",
+      "type_signature": "(model_name: str) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "model_name", "type_desc": "ElasticNet or Lasso", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "formatted mono-task error message"}
+      ]
+    },
+    {
+      "node_id": "cd_multitask_random_selection",
+      "name": "cd_multitask_random_selection",
+      "description": "Return whether the multitask estimator should use random selection.",
+      "concept_type": "branch_predicate",
+      "status": "atomic",
+      "type_signature": "(selection: str) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "selection", "type_desc": "random or cyclic", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "whether selection == 'random'"}
+      ]
+    },
+    {
+      "node_id": "cd_multitask_dual_gap",
+      "name": "cd_multitask_dual_gap",
+      "description": "Return the public dual gap after dividing the solver dual gap by n_samples.",
+      "concept_type": "numeric_scaling",
+      "status": "atomic",
+      "type_signature": "(dual_gap: float, n_samples: int) -> float",
+      "depth": 1,
+      "inputs": [
+        {"name": "dual_gap", "type_desc": "finite solver dual gap", "required": true},
+        {"name": "n_samples", "type_desc": "positive sample count", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "finite scaled dual gap"}
+      ]
+    },
+    {
+      "node_id": "cd_multitask_fit_return_self",
+      "name": "cd_multitask_fit_return_self",
+      "description": "Return self from MultiTaskElasticNet.fit.",
+      "concept_type": "api_return",
+      "status": "atomic",
+      "type_signature": "(estimator_identity: object) -> object",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator_identity", "type_desc": "the estimator instance being fit", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "same estimator instance"}
+      ]
+    },
+    {
+      "node_id": "cd_multitask_sparse_input_tag",
+      "name": "cd_multitask_sparse_input_tag",
+      "description": "Return the fixed sparse-input tag used by MultiTaskElasticNet.__sklearn_tags__.",
+      "concept_type": "tag_value",
+      "status": "atomic",
+      "type_signature": "(parent_sparse: bool = False) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "parent_sparse", "type_desc": "inherited sparse-input tag value", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "False"}
+      ]
+    },
+    {
+      "node_id": "cd_multitask_target_multi_output_tag",
+      "name": "cd_multitask_target_multi_output_tag",
+      "description": "Return the fixed multi_output tag used by MultiTaskElasticNet.__sklearn_tags__.",
+      "concept_type": "tag_value",
+      "status": "atomic",
+      "type_signature": "(parent_multi_output: bool = False) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "parent_multi_output", "type_desc": "inherited target multi_output tag value", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "True"}
+      ]
+    },
+    {
+      "node_id": "cd_multitask_target_single_output_tag",
+      "name": "cd_multitask_target_single_output_tag",
+      "description": "Return the fixed single_output tag used by MultiTaskElasticNet.__sklearn_tags__.",
+      "concept_type": "tag_value",
+      "status": "atomic",
+      "type_signature": "(parent_single_output: bool = False) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "parent_single_output", "type_desc": "inherited target single_output tag value", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "False"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_multitask_model_name", "target": "cd_multitask_mono_task_message", "kind": "message_context"},
+    {"source": "cd_multitask_mono_task_guard_required", "target": "cd_multitask_mono_task_message", "kind": "guard_message"},
+    {"source": "cd_multitask_random_selection", "target": "cd_multitask_dual_gap", "kind": "solver_context"},
+    {"source": "cd_multitask_dual_gap", "target": "cd_multitask_fit_return_self", "kind": "postfit_state"},
+    {"source": "cd_multitask_sparse_input_tag", "target": "cd_multitask_target_multi_output_tag", "kind": "shared_tags"},
+    {"source": "cd_multitask_target_multi_output_tag", "target": "cd_multitask_target_single_output_tag", "kind": "shared_tags"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 5 decomposition and matrix-factorization pipelines"
+  }
+}
