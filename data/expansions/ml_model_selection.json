@@ -285,6 +285,126 @@
       "uncertainty_notes": [
         "This operation should be gated by modality or an explicit transfer-learning recommendation."
       ]
+    },
+    {
+      "rule_name": "apply_tree_ensemble_blend",
+      "operation_id": "sciona.expansions.ml.tree_ensemble_blend",
+      "operation_type": "replace",
+      "applies_to": "tabular_pipeline.model_training+prediction_ensemble",
+      "runtime_rule_builder": "apply_tree_ensemble_blend",
+      "runtime_diagnostic": "requires_tree_ensemble_blend",
+      "name": "Heterogeneous Tree Ensemble Blend",
+      "intent": "Replace a single estimator with a LightGBM, XGBoost, CatBoost, ExtraTrees, or RandomForest blend when mined solution deltas require heterogeneous tree ensembling.",
+      "dejargonized_summary": "Train and blend multiple tree models such as LightGBM, XGBoost, CatBoost, ExtraTrees, or RandomForest instead of relying on one estimator.",
+      "trigger": {
+        "metric_name": "requires_tree_ensemble_blend",
+        "comparison": "gt",
+        "threshold": 0.0,
+        "required_any_intermediate_keys": [
+          "model_selection.requires_tree_ensemble_blend",
+          "model_selection.use_lightgbm_catboost_ensemble",
+          "model_selection.use_xgboost_lightgbm_ensemble",
+          "model_selection.use_random_forest_xgboost_ensemble"
+        ]
+      },
+      "action_classes": [
+        "replace_stage",
+        "smooth_or_aggregate"
+      ],
+      "rewrite": {
+        "before_summary": "A single estimator or flat model-training stage produces predictions.",
+        "after_summary": "Multiple heterogeneous tree estimators are trained and their predictions are blended.",
+        "information_flow_effect": "Preserves prediction output semantics while adding model diversity for tabular competitions.",
+        "notes": [
+          "Mined from recurring CatBoost/LightGBM/XGBoost/ExtraTrees/RandomForest ensemble gaps."
+        ]
+      }
+    },
+    {
+      "rule_name": "insert_recursive_feature_elimination_before_estimator",
+      "operation_id": "sciona.expansions.ml.recursive_feature_elimination",
+      "operation_type": "insert",
+      "applies_to": "tabular_pipeline.preprocessing->estimator",
+      "runtime_rule_builder": "insert_recursive_feature_elimination_before_estimator",
+      "runtime_diagnostic": "requires_recursive_feature_elimination",
+      "name": "Recursive Feature Elimination",
+      "intent": "Insert RFE before estimator training when solution deltas call for recursive feature selection.",
+      "dejargonized_summary": "Select a compact feature subset with Recursive Feature Elimination before training the model.",
+      "trigger": {
+        "metric_name": "requires_recursive_feature_elimination",
+        "comparison": "gt",
+        "threshold": 0.0,
+        "required_any_intermediate_keys": [
+          "model_selection.requires_recursive_feature_elimination",
+          "model_selection.use_rfe"
+        ]
+      },
+      "action_classes": [
+        "precondition"
+      ],
+      "rewrite": {
+        "before_summary": "All engineered features feed estimator training.",
+        "after_summary": "Recursive Feature Elimination selects a smaller feature subset before estimator training.",
+        "information_flow_effect": "Preserves estimator inputs while reducing feature noise and redundancy."
+      }
+    },
+    {
+      "rule_name": "insert_log_target_transform_before_estimator",
+      "operation_id": "sciona.expansions.ml.log_target_transform",
+      "operation_type": "insert",
+      "applies_to": "tabular_pipeline.target->estimator",
+      "runtime_rule_builder": "insert_log_target_transform_before_estimator",
+      "runtime_diagnostic": "requires_log_target_transform",
+      "name": "Log Target Transformation",
+      "intent": "Insert log1p target scaling for skewed regression targets and invert predictions after inference.",
+      "dejargonized_summary": "Train on a log-transformed target when the target distribution is strongly skewed, then transform predictions back.",
+      "trigger": {
+        "metric_name": "requires_log_target_transform",
+        "comparison": "gt",
+        "threshold": 0.0,
+        "required_any_intermediate_keys": [
+          "model_selection.requires_log_target_transform",
+          "model_selection.use_log_target_transform"
+        ]
+      },
+      "action_classes": [
+        "precondition",
+        "smooth_or_aggregate"
+      ],
+      "rewrite": {
+        "before_summary": "The estimator trains directly on the raw regression target.",
+        "after_summary": "The target is log-transformed for training and predictions are inverse-transformed.",
+        "information_flow_effect": "Preserves final target units while improving training stability for skewed targets."
+      }
+    },
+    {
+      "rule_name": "insert_smoothed_target_encoding_before_estimator",
+      "operation_id": "sciona.expansions.ml.smoothed_target_encoding",
+      "operation_type": "insert",
+      "applies_to": "tabular_pipeline.categorical_features->estimator",
+      "runtime_rule_builder": "insert_smoothed_target_encoding_before_estimator",
+      "runtime_diagnostic": "requires_target_encoding",
+      "name": "Smoothed Target Encoding",
+      "intent": "Insert fold-aware mean target encoding with Bayesian smoothing for high-cardinality categorical features.",
+      "dejargonized_summary": "Encode categories by smoothed target means without leaking validation targets into training folds.",
+      "trigger": {
+        "metric_name": "requires_target_encoding",
+        "comparison": "gt",
+        "threshold": 0.0,
+        "required_any_intermediate_keys": [
+          "model_selection.requires_target_encoding",
+          "model_selection.use_smoothed_target_encoding"
+        ]
+      },
+      "action_classes": [
+        "precondition",
+        "gate_or_validate"
+      ],
+      "rewrite": {
+        "before_summary": "Categorical variables feed the estimator through generic encoding.",
+        "after_summary": "Categorical variables are encoded with leakage-safe smoothed target means.",
+        "information_flow_effect": "Preserves feature-table shape while adding target-aware categorical signal."
+      }
     }
   ],
   "audit": {
