@@ -27,10 +27,12 @@
         "required_intermediate_keys": [
           "model_selection.recommend_preprocessing"
         ],
-        "required_any_intermediate_keys": [
-          "model_selection.vif_max",
-          "model_selection.skewness_max"
-        ]
+                "required_any_intermediate_keys": [
+                    "model_selection.vif_max",
+                    "model_selection.skewness_max",
+                    "model_selection.use_standard_scaler",
+                    "model_selection.requires_feature_scaling"
+                ]
       },
       "action_classes": [
         "precondition"
@@ -122,7 +124,10 @@
           "model_selection.recommend_cv_strategy"
         ],
         "required_any_intermediate_keys": [
-          "model_selection.is_time_series"
+          "model_selection.is_time_series",
+          "model_selection.requires_group_kfold",
+          "model_selection.use_group_kfold",
+          "model_selection.requires_group_aware_cv"
         ]
       },
       "action_classes": [
@@ -259,7 +264,7 @@
       "runtime_diagnostic": "requires_dl_backbone",
       "name": "Deep Learning Backbone Substitution",
       "intent": "Rewrite manual feature engineering plus shallow model training into pretrained-backbone finetuning.",
-      "dejargonized_summary": "Use a pretrained image, text, or multimodal backbone instead of hand-built features when the modality calls for transfer learning.",
+      "dejargonized_summary": "Use a pretrained image, text, or multimodal backbone instead of hand-built features when the modality calls for transfer learning, including EfficientNet, ResNet, DenseNet, Inception, VGG, Swin, DeiT, ConvNeXt, NFNet, and UNet-style backbones.",
       "trigger": {
         "metric_name": "requires_dl_backbone",
         "comparison": "gt",
@@ -268,7 +273,8 @@
           "model_selection.use_pretrained_backbone",
           "model_selection.requires_dl_backbone",
           "model_selection.requires_transfer_learning",
-          "model_selection.recommend_dl_backbone"
+          "model_selection.recommend_dl_backbone",
+          "model_selection.use_swin_unet_backbone"
         ]
       },
       "action_classes": [
@@ -285,6 +291,40 @@
       "uncertainty_notes": [
         "This operation should be gated by modality or an explicit transfer-learning recommendation."
       ]
+    },
+    {
+      "rule_name": "apply_pretrained_backbone_ensemble",
+      "operation_id": "sciona.expansions.ml.pretrained_backbone_ensemble",
+      "operation_type": "replace",
+      "applies_to": "tabular_pipeline.model_training+prediction_ensemble",
+      "runtime_rule_builder": "apply_pretrained_backbone_ensemble",
+      "runtime_diagnostic": "requires_pretrained_backbone_ensemble",
+      "name": "Pretrained Backbone Ensemble",
+      "intent": "Replace single-backbone training with a diverse ensemble of pretrained CNN, transformer, and segmentation backbones.",
+      "dejargonized_summary": "Train and blend multiple pretrained backbones such as EfficientNet, DenseNet, ResNet, Inception, VGG, DeiT, Swin, ConvNeXt, NFNet, or UNet variants.",
+      "trigger": {
+        "metric_name": "requires_pretrained_backbone_ensemble",
+        "comparison": "gt",
+        "threshold": 0.0,
+        "required_any_intermediate_keys": [
+          "model_selection.requires_pretrained_backbone_ensemble",
+          "model_selection.use_pretrained_backbone_ensemble",
+          "model_selection.use_efficientnet_ensemble",
+          "model_selection.use_swin_unet_ensemble"
+        ]
+      },
+      "action_classes": [
+        "replace_stage",
+        "smooth_or_aggregate"
+      ],
+      "rewrite": {
+        "before_summary": "One model-training path feeds predictions.",
+        "after_summary": "Multiple pretrained backbones are finetuned and their predictions are blended.",
+        "information_flow_effect": "Preserves prediction semantics while adding architecture diversity across transfer-learning backbones.",
+        "notes": [
+          "This covers recurring EfficientNet, ResNet, DenseNet, Inception, VGG, Swin, DeiT, ConvNeXt, NFNet, and UNet ensemble gaps."
+        ]
+      }
     },
     {
       "rule_name": "apply_tree_ensemble_blend",
@@ -318,6 +358,153 @@
         "notes": [
           "Mined from recurring CatBoost/LightGBM/XGBoost/ExtraTrees/RandomForest ensemble gaps."
         ]
+      }
+    },
+    {
+      "rule_name": "insert_permutation_importance_feature_selection_before_estimator",
+      "operation_id": "sciona.expansions.ml.permutation_importance_feature_selection",
+      "operation_type": "insert",
+      "applies_to": "tabular_pipeline.preprocessing->estimator",
+      "runtime_rule_builder": "insert_permutation_importance_feature_selection_before_estimator",
+      "runtime_diagnostic": "requires_permutation_importance_feature_selection",
+      "name": "Permutation Importance Feature Selection",
+      "intent": "Insert permutation-importance feature selection before estimator training.",
+      "dejargonized_summary": "Rank features by validation permutation importance and train on the retained subset.",
+      "trigger": {
+        "metric_name": "requires_permutation_importance_feature_selection",
+        "comparison": "gt",
+        "threshold": 0.0,
+        "required_any_intermediate_keys": [
+          "model_selection.requires_permutation_importance_feature_selection",
+          "model_selection.use_permutation_importance"
+        ]
+      },
+      "action_classes": [
+        "precondition"
+      ],
+      "rewrite": {
+        "before_summary": "All engineered features feed estimator training.",
+        "after_summary": "Permutation importance selects a smaller validated feature subset before estimator training.",
+        "information_flow_effect": "Preserves estimator inputs while reducing low-value or noisy features."
+      }
+    },
+    {
+      "rule_name": "insert_balanced_sampling_before_training",
+      "operation_id": "sciona.expansions.ml.balanced_sampling",
+      "operation_type": "insert",
+      "applies_to": "tabular_pipeline.preprocessing->estimator",
+      "runtime_rule_builder": "insert_balanced_sampling_before_training",
+      "runtime_diagnostic": "requires_balanced_sampling",
+      "name": "Balanced Rare-Class Sampling",
+      "intent": "Insert over-sampling or balanced sampling before training when rare classes need more representation.",
+      "dejargonized_summary": "Balance rare classes or rare species before model training so the learner sees enough minority examples.",
+      "trigger": {
+        "metric_name": "requires_balanced_sampling",
+        "comparison": "gt",
+        "threshold": 0.0,
+        "required_any_intermediate_keys": [
+          "model_selection.requires_balanced_sampling",
+          "model_selection.use_balanced_oversampling",
+          "model_selection.use_rare_class_sampling"
+        ]
+      },
+      "action_classes": [
+        "precondition"
+      ],
+      "rewrite": {
+        "before_summary": "Training consumes the original class distribution.",
+        "after_summary": "Training consumes a balanced or over-sampled class distribution.",
+        "information_flow_effect": "Preserves labels and feature semantics while changing sample frequency."
+      }
+    },
+    {
+      "rule_name": "replace_loss_with_metric_aligned_objective",
+      "operation_id": "sciona.expansions.ml.metric_aligned_objective",
+      "operation_type": "replace",
+      "applies_to": "tabular_pipeline.model_training",
+      "runtime_rule_builder": "replace_loss_with_metric_aligned_objective",
+      "runtime_diagnostic": "requires_metric_aligned_objective",
+      "name": "Metric-Aligned Objective",
+      "intent": "Replace generic model training with a loss or objective aligned to the leaderboard metric.",
+      "dejargonized_summary": "Use a custom objective such as quantile loss, RMSLE/RMSE-aligned loss, partial AUC weighting, Brier score, Pearson correlation, or F1-weighted loss.",
+      "trigger": {
+        "metric_name": "requires_metric_aligned_objective",
+        "comparison": "gt",
+        "threshold": 0.0,
+        "required_any_intermediate_keys": [
+          "model_selection.requires_metric_aligned_objective",
+          "model_selection.use_custom_objective",
+          "model_selection.use_quantile_loss",
+          "model_selection.use_rmsle_objective"
+        ]
+      },
+      "action_classes": [
+        "replace_stage"
+      ],
+      "rewrite": {
+        "before_summary": "Model training uses the default estimator objective.",
+        "after_summary": "Model training is configured with a custom objective aligned to the target leaderboard metric.",
+        "information_flow_effect": "Preserves prediction output shape while changing the optimization target."
+      }
+    },
+    {
+      "rule_name": "insert_metric_optimized_thresholding_after_prediction",
+      "operation_id": "sciona.expansions.ml.metric_optimized_thresholding",
+      "operation_type": "insert",
+      "applies_to": "tabular_pipeline.prediction_ensemble->output",
+      "runtime_rule_builder": "insert_metric_optimized_thresholding_after_prediction",
+      "runtime_diagnostic": "requires_metric_optimized_thresholding",
+      "name": "Metric-Optimized Thresholding",
+      "intent": "Insert threshold calibration when class or label decisions are scored by Macro F1, MCC, or related discrete metrics.",
+      "dejargonized_summary": "Tune prediction thresholds for metrics such as Macro F1, MCC, tag F1, or per-label F1 before formatting the submission.",
+      "trigger": {
+        "metric_name": "requires_metric_optimized_thresholding",
+        "comparison": "gt",
+        "threshold": 0.0,
+        "required_any_intermediate_keys": [
+          "model_selection.requires_metric_optimized_thresholding",
+          "model_selection.use_macro_f1_thresholding",
+          "model_selection.use_mcc_thresholding"
+        ]
+      },
+      "action_classes": [
+        "smooth_or_aggregate",
+        "insert_correction"
+      ],
+      "rewrite": {
+        "before_summary": "Probabilities or raw scores flow directly to output formatting.",
+        "after_summary": "Thresholds are calibrated against the competition metric before final labels are emitted.",
+        "information_flow_effect": "Preserves prediction targets while converting scores to decisions with metric-aware thresholds."
+      }
+    },
+    {
+      "rule_name": "insert_retrieval_reranking_after_prediction",
+      "operation_id": "sciona.expansions.ml.retrieval_reranking",
+      "operation_type": "insert",
+      "applies_to": "tabular_pipeline.prediction_ensemble->output",
+      "runtime_rule_builder": "insert_retrieval_reranking_after_prediction",
+      "runtime_diagnostic": "requires_retrieval_reranking",
+      "name": "Retrieval Re-Ranking",
+      "intent": "Insert local-feature or pairwise-model reranking after first-pass retrieval predictions.",
+      "dejargonized_summary": "Rerank candidate matches with DELF deep local features or an XGBoost-style pair ranker.",
+      "trigger": {
+        "metric_name": "requires_retrieval_reranking",
+        "comparison": "gt",
+        "threshold": 0.0,
+        "required_any_intermediate_keys": [
+          "model_selection.requires_retrieval_reranking",
+          "model_selection.use_delf_reranking",
+          "model_selection.use_xgboost_reranking"
+        ]
+      },
+      "action_classes": [
+        "insert_correction",
+        "smooth_or_aggregate"
+      ],
+      "rewrite": {
+        "before_summary": "First-pass retrieval candidates flow directly to output formatting.",
+        "after_summary": "Candidates are reranked with local-feature matching or a pairwise ranking model.",
+        "information_flow_effect": "Preserves candidate identity while reordering predictions with stronger pair evidence."
       }
     },
     {
