@@ -156,6 +156,12 @@ Potential remediation path:
   coordinate-descent solver boundary: Xyw shape normalization, effective
   sample-count resolution, alpha-max computation, the float64-resolution
   fallback predicate, and final alpha-grid construction.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_enet_path_bookkeeping` now
+  publishes the deterministic bookkeeping shell in `enet_path` around the
+  compiled coordinate-descent solver calls: multi-output detection,
+  target-count bookkeeping, positivity guarding, alpha ordering, selection
+  branching, regularization scaling, and final output packaging.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 
