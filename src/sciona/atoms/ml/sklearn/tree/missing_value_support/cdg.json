@@ -1,0 +1,88 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_tree_missing_value_support_root",
+      "name": "Sklearn Tree Missing-Value Support Helper Atoms",
+      "description": "Deterministic helpers for BaseDecisionTree's missing-value support gate.",
+      "status": "decomposed",
+      "children": [
+        "tree_missing_values_x_is_sparse",
+        "tree_missing_values_allow_nan_enabled",
+        "tree_missing_values_monotonic_constraints_absent",
+        "tree_missing_values_supported"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "tree_missing_values_x_is_sparse",
+      "name": "tree_missing_values_x_is_sparse",
+      "description": "Return whether the tree input is sparse.",
+      "concept_type": "predicate",
+      "status": "atomic",
+      "type_signature": "(x_is_sparse: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "x_is_sparse", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "tree_missing_values_allow_nan_enabled",
+      "name": "tree_missing_values_allow_nan_enabled",
+      "description": "Return whether the tree tag payload permits NaN input.",
+      "concept_type": "predicate",
+      "status": "atomic",
+      "type_signature": "(allow_nan_tag: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "allow_nan_tag", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "tree_missing_values_monotonic_constraints_absent",
+      "name": "tree_missing_values_monotonic_constraints_absent",
+      "description": "Return whether monotonic constraints are absent.",
+      "concept_type": "predicate",
+      "status": "atomic",
+      "type_signature": "(monotonic_cst_is_none: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "monotonic_cst_is_none", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "tree_missing_values_supported",
+      "name": "tree_missing_values_supported",
+      "description": "Return BaseDecisionTree._support_missing_values from explicit gate inputs.",
+      "concept_type": "predicate",
+      "status": "atomic",
+      "type_signature": "(*, x_is_sparse: bool, allow_nan_tag: bool, monotonic_cst_is_none: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "x_is_sparse", "type_desc": "bool", "required": true},
+        {"name": "allow_nan_tag", "type_desc": "bool", "required": true},
+        {"name": "monotonic_cst_is_none", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    }
+  ],
+  "edges": [],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.tree._classes",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 7 probabilistic and mutable-kernel workflows"
+  }
+}
+

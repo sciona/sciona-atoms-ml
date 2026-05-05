@@ -1,0 +1,86 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.tree.missing_value_support.tree_missing_values_x_is_sparse@sciona/atoms/ml/sklearn/tree/missing_value_support/atoms.py:23": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from BaseDecisionTree._support_missing_values in sklearn.tree._classes in scikit-learn 1.8.0 for the `not issparse(X)` gate."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for tree missing-value support behavior."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.tree.missing_value_support.tree_missing_values_allow_nan_enabled@sciona/atoms/ml/sklearn/tree/missing_value_support/atoms.py:31": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from BaseDecisionTree._support_missing_values in sklearn.tree._classes in scikit-learn 1.8.0 for the `self.__sklearn_tags__().input_tags.allow_nan` gate."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for tree allow-NaN tag behavior."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.tree.missing_value_support.tree_missing_values_monotonic_constraints_absent@sciona/atoms/ml/sklearn/tree/missing_value_support/atoms.py:42": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from BaseDecisionTree._support_missing_values in sklearn.tree._classes in scikit-learn 1.8.0 for the `self.monotonic_cst is None` gate."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for tree monotonic-constraint gating."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.tree.missing_value_support.tree_missing_values_supported@sciona/atoms/ml/sklearn/tree/missing_value_support/atoms.py:54": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from BaseDecisionTree._support_missing_values in sklearn.tree._classes in scikit-learn 1.8.0 for the combined sparse-input, allow_nan, and monotonic-constraint gate."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for tree missing-value support behavior."
+          }
+        }
+      ]
+    }
+  }
+}
+

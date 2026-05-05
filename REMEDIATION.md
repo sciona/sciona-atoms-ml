@@ -674,6 +674,10 @@ Potential remediation path:
   deterministic fitted-property wrappers around BaseDecisionTree's
   `get_depth()` and `get_n_leaves()`: direct exposure of `tree_.max_depth`
   and `tree_.n_leaves` after fitted-state validation.
+- Completed helper slice: `sklearn.tree.missing_value_support` now publishes
+  the deterministic `_support_missing_values(X)` shell in BaseDecisionTree:
+  sparse-input rejection, allow-NaN tag gating, monotonic-constraint absence,
+  and the combined missing-value support predicate.
 - Decide whether tree estimators should be represented as limited
   estimator-state wrapper atoms with explicit audit limitations.
 - Or ingest the Cython/native tree builder, splitter, and criterion internals

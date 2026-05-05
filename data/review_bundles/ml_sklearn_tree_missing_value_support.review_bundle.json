@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "sciona.atoms.review_bundle.ml.sklearn_tree_missing_value_support.v1",
+  "provider_repo": "sciona-atoms-ml",
+  "family_batch": "ml_sklearn_tree_missing_value_support",
+  "review_status": "reviewed",
+  "review_semantic_verdict": "pass_with_limits",
+  "review_developer_semantic_verdict": "pass_with_limits",
+  "trust_readiness": "reviewed_with_limits",
+  "authoritative_sources": [
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/sklearn/tree/missing_value_support/atoms.py"},
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/sklearn/tree/missing_value_support/witnesses.py"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/sklearn/tree/missing_value_support/references.json"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/sklearn/tree/missing_value_support/cdg.json"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_tree_missing_value_support_behavior.py"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_tree_missing_value_support_references_metadata.py"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_tree_missing_value_support_review_bundle.py"}
+  ],
+  "limitations": [
+    "This batch covers only the deterministic _support_missing_values gate in BaseDecisionTree.",
+    "The helpers model sparse rejection, allow_nan tag gating, monotonic-constraint absence, and the combined support predicate.",
+    "Finite-value checks, missing-mask computation, and tree fitting remain deferred."
+  ],
+  "blocking_findings": [],
+  "required_actions": [],
+  "review_record_path": "data/review_bundles/ml_sklearn_tree_missing_value_support.review_bundle.json",
+  "rows": [
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.tree.missing_value_support.tree_missing_values_x_is_sparse",
+      "atom_name": "sciona.atoms.ml.sklearn.tree.missing_value_support.tree_missing_values_x_is_sparse",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/tree/missing_value_support/atoms.py",
+        "src/sciona/atoms/ml/sklearn/tree/missing_value_support/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/tree/missing_value_support/references.json",
+        "src/sciona/atoms/ml/sklearn/tree/missing_value_support/cdg.json",
+        "tests/test_ml_sklearn_tree_missing_value_support_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_tree_missing_value_support.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.tree.missing_value_support.tree_missing_values_allow_nan_enabled",
+      "atom_name": "sciona.atoms.ml.sklearn.tree.missing_value_support.tree_missing_values_allow_nan_enabled",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/tree/missing_value_support/atoms.py",
+        "src/sciona/atoms/ml/sklearn/tree/missing_value_support/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/tree/missing_value_support/references.json",
+        "src/sciona/atoms/ml/sklearn/tree/missing_value_support/cdg.json",
+        "tests/test_ml_sklearn_tree_missing_value_support_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_tree_missing_value_support.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.tree.missing_value_support.tree_missing_values_monotonic_constraints_absent",
+      "atom_name": "sciona.atoms.ml.sklearn.tree.missing_value_support.tree_missing_values_monotonic_constraints_absent",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/tree/missing_value_support/atoms.py",
+        "src/sciona/atoms/ml/sklearn/tree/missing_value_support/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/tree/missing_value_support/references.json",
+        "src/sciona/atoms/ml/sklearn/tree/missing_value_support/cdg.json",
+        "tests/test_ml_sklearn_tree_missing_value_support_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_tree_missing_value_support.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.tree.missing_value_support.tree_missing_values_supported",
+      "atom_name": "sciona.atoms.ml.sklearn.tree.missing_value_support.tree_missing_values_supported",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/tree/missing_value_support/atoms.py",
+        "src/sciona/atoms/ml/sklearn/tree/missing_value_support/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/tree/missing_value_support/references.json",
+        "src/sciona/atoms/ml/sklearn/tree/missing_value_support/cdg.json",
+        "tests/test_ml_sklearn_tree_missing_value_support_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_tree_missing_value_support.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    }
+  ]
+}
+
