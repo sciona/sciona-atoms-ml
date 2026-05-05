@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_categorical_dispatch_shell.partial_dependence_categorical_array@sciona/atoms/ml/sklearn/inspection/partial_dependence_categorical_dispatch_shell/atoms.py:45": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from `categorical_features = np.asarray(categorical_features)` in sklearn.inspection._partial_dependence.partial_dependence."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for categorical_features array coercion in partial_dependence."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_categorical_dispatch_shell.partial_dependence_categorical_bool_branch@sciona/atoms/ml/sklearn/inspection/partial_dependence_categorical_dispatch_shell/atoms.py:55": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from `if categorical_features.dtype.kind == \"b\":` in sklearn.inspection._partial_dependence.partial_dependence."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for the boolean categorical branch in partial_dependence."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_categorical_dispatch_shell.partial_dependence_categorical_index_or_name_branch@sciona/atoms/ml/sklearn/inspection/partial_dependence_categorical_dispatch_shell/atoms.py:65": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from `elif categorical_features.dtype.kind in (\"i\", \"O\", \"U\"):` in sklearn.inspection._partial_dependence.partial_dependence."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for the integer-or-name categorical branch in partial_dependence."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

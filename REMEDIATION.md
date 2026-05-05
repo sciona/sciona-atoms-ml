@@ -919,6 +919,12 @@ Potential remediation path:
   in `partial_dependence`: the recursion guard predicate, sklearn's fixed
   supported-class tuple, and the exact `ValueError` text that suggests
   `method='brute'`.
+- Completed helper slice:
+  `sklearn.inspection.partial_dependence_categorical_dispatch_shell` now
+  publishes the deterministic categorical-features dispatch shell in
+  `partial_dependence`: `np.asarray` coercion plus the boolean-mask and
+  integer-or-name dtype-kind branch predicates before the existing
+  categorical mask and error helpers.
 - Ingest small helper atoms only where the boundary is explicit, such as
   permutation score aggregation from baseline and permuted score arrays.
 - Decide how estimator callback boundaries should be represented before

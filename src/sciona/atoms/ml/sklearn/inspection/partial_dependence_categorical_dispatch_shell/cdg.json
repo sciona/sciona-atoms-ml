@@ -1,0 +1,58 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_inspection_partial_dependence_categorical_dispatch_shell_root",
+      "name": "sklearn.inspection.partial_dependence_categorical_dispatch_shell",
+      "description": "Deterministic categorical_features dispatch shell inside sklearn.inspection.partial_dependence.",
+      "status": "composite",
+      "children": [
+        "partial_dependence_categorical_array",
+        "partial_dependence_categorical_bool_branch",
+        "partial_dependence_categorical_index_or_name_branch"
+      ]
+    },
+    {
+      "node_id": "partial_dependence_categorical_array",
+      "name": "partial_dependence_categorical_array",
+      "description": "Coerce sklearn's categorical_features input with np.asarray before dtype branching.",
+      "status": "atomic",
+      "concept_type": "partial_dependence_bookkeeping",
+      "inputs": [
+        {"name": "categorical_features", "type_desc": "object"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "NDArray[np.generic]"}
+      ]
+    },
+    {
+      "node_id": "partial_dependence_categorical_bool_branch",
+      "name": "partial_dependence_categorical_bool_branch",
+      "description": "Decide whether sklearn takes the boolean-mask categorical branch.",
+      "status": "atomic",
+      "concept_type": "partial_dependence_branch",
+      "inputs": [
+        {"name": "dtype_kind", "type_desc": "str"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "partial_dependence_categorical_index_or_name_branch",
+      "name": "partial_dependence_categorical_index_or_name_branch",
+      "description": "Decide whether sklearn takes the integer-or-name categorical branch.",
+      "status": "atomic",
+      "concept_type": "partial_dependence_branch",
+      "inputs": [
+        {"name": "dtype_kind", "type_desc": "str"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "partial_dependence_categorical_array", "target": "partial_dependence_categorical_bool_branch", "kind": "dtype_kind_context"},
+    {"source": "partial_dependence_categorical_array", "target": "partial_dependence_categorical_index_or_name_branch", "kind": "dtype_kind_context"}
+  ]
+}
