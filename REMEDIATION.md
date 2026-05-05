@@ -734,6 +734,11 @@ Potential remediation path:
   deferred native callback: float32 grid normalization, float64
   averaged-prediction allocation, intp target-feature normalization, and
   final prediction-vector passthrough.
+- Completed helper slice: `sklearn.tree.prune_tree_shell` now publishes the
+  deterministic shell of `BaseDecisionTree._prune_tree` around the deferred
+  native pruning callback: the zero-alpha early-return predicate, classifier
+  and regressor constructor-argument preparation for the replacement tree,
+  and final pruned-tree passthrough.
 - Decide whether tree estimators should be represented as limited
   estimator-state wrapper atoms with explicit audit limitations.
 - Or ingest the Cython/native tree builder, splitter, and criterion internals

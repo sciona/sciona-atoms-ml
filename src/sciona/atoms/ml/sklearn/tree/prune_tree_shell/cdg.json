@@ -1,0 +1,85 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_tree_prune_tree_shell_root",
+      "name": "Sklearn Tree Prune Tree Shell Helper Atoms",
+      "description": "Deterministic no-op gating, constructor-argument preparation, and final assignment helpers for BaseDecisionTree._prune_tree around the deferred native pruning callback.",
+      "status": "decomposed",
+      "children": [
+        "tree_prune_required",
+        "tree_prune_classifier_n_classes",
+        "tree_prune_regressor_n_classes",
+        "tree_pruned_tree_result"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "tree_prune_required",
+      "name": "tree_prune_required",
+      "description": "Return whether _prune_tree should proceed past the zero-alpha early return.",
+      "concept_type": "branch_predicate",
+      "status": "atomic",
+      "type_signature": "(ccp_alpha: float) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "ccp_alpha", "type_desc": "finite complexity parameter", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "whether pruning should proceed"}
+      ]
+    },
+    {
+      "node_id": "tree_prune_classifier_n_classes",
+      "name": "tree_prune_classifier_n_classes",
+      "description": "Return the classifier n_classes vector used to construct a pruned tree.",
+      "concept_type": "api_setup",
+      "status": "atomic",
+      "type_signature": "(n_classes: int | NDArray[np.integer]) -> NDArray[np.intp]",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_classes", "type_desc": "positive class count or class-count vector", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "one-dimensional intp class-count vector"}
+      ]
+    },
+    {
+      "node_id": "tree_prune_regressor_n_classes",
+      "name": "tree_prune_regressor_n_classes",
+      "description": "Return the regressor class-count vector used to construct a pruned tree.",
+      "concept_type": "api_setup",
+      "status": "atomic",
+      "type_signature": "(n_outputs: int) -> NDArray[np.intp]",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_outputs", "type_desc": "positive output count", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "one-dimensional all-ones intp vector"}
+      ]
+    },
+    {
+      "node_id": "tree_pruned_tree_result",
+      "name": "tree_pruned_tree_result",
+      "description": "Return the pruned tree object assigned back onto the estimator.",
+      "concept_type": "api_return",
+      "status": "atomic",
+      "type_signature": "(pruned_tree: object) -> object",
+      "depth": 1,
+      "inputs": [
+        {"name": "pruned_tree", "type_desc": "native pruned tree object", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "same native pruned tree object"}
+      ]
+    }
+  ],
+  "edges": [],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.tree._classes",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 7 probabilistic and mutable-kernel workflows"
+  }
+}

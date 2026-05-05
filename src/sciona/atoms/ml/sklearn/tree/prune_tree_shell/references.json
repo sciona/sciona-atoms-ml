@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.tree.prune_tree_shell.tree_prune_required@sciona/atoms/ml/sklearn/tree/prune_tree_shell/atoms.py:39": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `if self.ccp_alpha == 0.0: return` gate in BaseDecisionTree._prune_tree."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for tree pruning control flow."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.tree.prune_tree_shell.tree_prune_classifier_n_classes@sciona/atoms/ml/sklearn/tree/prune_tree_shell/atoms.py:53": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `np.atleast_1d(self.n_classes_)` shell in the classifier branch of BaseDecisionTree._prune_tree."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for classifier pruning-tree constructor setup."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.tree.prune_tree_shell.tree_prune_regressor_n_classes@sciona/atoms/ml/sklearn/tree/prune_tree_shell/atoms.py:71": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `np.array([1] * self.n_outputs_, dtype=np.intp)` shell in the regressor branch of BaseDecisionTree._prune_tree."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for regressor pruning-tree constructor setup."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.tree.prune_tree_shell.tree_pruned_tree_result@sciona/atoms/ml/sklearn/tree/prune_tree_shell/atoms.py:82": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the final `self.tree_ = pruned_tree` shell in BaseDecisionTree._prune_tree."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for pruned-tree state replacement."
+          }
+        }
+      ]
+    }
+  }
+}
