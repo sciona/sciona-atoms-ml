@@ -127,7 +127,9 @@
           "model_selection.is_time_series",
           "model_selection.requires_group_kfold",
           "model_selection.use_group_kfold",
-          "model_selection.requires_group_aware_cv"
+          "model_selection.requires_group_aware_cv",
+          "model_selection.requires_stratified_group_kfold",
+          "model_selection.use_stratified_group_kfold"
         ]
       },
       "action_classes": [
@@ -416,6 +418,90 @@
         "after_summary": "Training consumes a balanced or over-sampled class distribution.",
         "information_flow_effect": "Preserves labels and feature semantics while changing sample frequency."
       }
+    },
+    {
+      "rule_name": "insert_pseudo_labeling_loop_before_training",
+      "operation_id": "sciona.expansions.ml.pseudo_labeling_loop",
+      "operation_type": "insert",
+      "applies_to": "tabular_pipeline.preprocessing->estimator",
+      "runtime_rule_builder": "insert_pseudo_labeling_loop_before_training",
+      "runtime_diagnostic": "requires_pseudo_labeling",
+      "name": "Pseudo-Labeling Loop",
+      "intent": "Insert pseudo-label generation and confidence filtering before retraining.",
+      "dejargonized_summary": "Generate pseudo-labels for unlabeled regions, unlabeled images, test-set data, external datasets, scraped data, or domain-adaptation data, then retrain on high-confidence labels.",
+      "trigger": {"metric_name": "requires_pseudo_labeling", "comparison": "gt", "threshold": 0.0, "required_any_intermediate_keys": ["model_selection.requires_pseudo_labeling", "model_selection.use_pseudo_labeling", "model_selection.use_test_pseudo_labels"]},
+      "action_classes": ["precondition", "smooth_or_aggregate"],
+      "rewrite": {"before_summary": "Only labeled training data feeds estimator training.", "after_summary": "High-confidence pseudo-labeled examples are added before estimator training.", "information_flow_effect": "Preserves target semantics while expanding training supervision."}
+    },
+    {
+      "rule_name": "insert_iterative_imputation_before_estimator",
+      "operation_id": "sciona.expansions.ml.iterative_imputation",
+      "operation_type": "insert",
+      "applies_to": "tabular_pipeline.preprocessing->estimator",
+      "runtime_rule_builder": "insert_iterative_imputation_before_estimator",
+      "runtime_diagnostic": "requires_iterative_imputation",
+      "name": "Iterative Imputation",
+      "intent": "Insert chained-model imputation for missing values before estimator training.",
+      "dejargonized_summary": "Use Iterative Imputation for missing data, missing markers, or missing values before training.",
+      "trigger": {"metric_name": "requires_iterative_imputation", "comparison": "gt", "threshold": 0.0, "required_any_intermediate_keys": ["model_selection.requires_iterative_imputation", "model_selection.use_iterative_imputation"]},
+      "action_classes": ["precondition"],
+      "rewrite": {"before_summary": "Missing values flow into estimator training or basic preprocessing.", "after_summary": "Missing values are iteratively imputed before estimator training.", "information_flow_effect": "Preserves feature columns while filling missing entries with model-based estimates."}
+    },
+    {
+      "rule_name": "insert_feature_hashing_before_estimator",
+      "operation_id": "sciona.expansions.ml.feature_hashing",
+      "operation_type": "insert",
+      "applies_to": "tabular_pipeline.preprocessing->estimator",
+      "runtime_rule_builder": "insert_feature_hashing_before_estimator",
+      "runtime_diagnostic": "requires_feature_hashing",
+      "name": "Feature Hashing",
+      "intent": "Insert the hashing trick for high-cardinality sparse features.",
+      "dejargonized_summary": "Use Feature Hashing or the Hashing Trick for high-cardinality categorical, ad, click-through-rate, or text-like sparse features.",
+      "trigger": {"metric_name": "requires_feature_hashing", "comparison": "gt", "threshold": 0.0, "required_any_intermediate_keys": ["model_selection.requires_feature_hashing", "model_selection.use_feature_hashing"]},
+      "action_classes": ["precondition"],
+      "rewrite": {"before_summary": "High-cardinality features feed estimator training through ordinary encoding.", "after_summary": "High-cardinality features are hashed into a fixed sparse feature space.", "information_flow_effect": "Preserves sparse feature signal while bounding feature dimensionality."}
+    },
+    {
+      "rule_name": "insert_tree_early_stopping_validation",
+      "operation_id": "sciona.expansions.ml.tree_early_stopping",
+      "operation_type": "insert",
+      "applies_to": "tabular_pipeline.model_training->prediction_ensemble",
+      "runtime_rule_builder": "insert_tree_early_stopping_validation",
+      "runtime_diagnostic": "requires_tree_early_stopping",
+      "name": "Boosted Tree Early Stopping",
+      "intent": "Insert early-stopping validation for LightGBM or XGBoost training.",
+      "dejargonized_summary": "Use XGBoost early stopping or LightGBM early stopping to select the best validation iteration.",
+      "trigger": {"metric_name": "requires_tree_early_stopping", "comparison": "gt", "threshold": 0.0, "required_any_intermediate_keys": ["model_selection.requires_tree_early_stopping", "model_selection.use_tree_early_stopping"]},
+      "action_classes": ["gate_or_validate"],
+      "rewrite": {"before_summary": "Boosted trees train for a fixed number of iterations.", "after_summary": "Boosted trees stop at the best validation iteration.", "information_flow_effect": "Preserves prediction semantics while constraining training duration by validation performance."}
+    },
+    {
+      "rule_name": "insert_database_augmentation_for_retrieval",
+      "operation_id": "sciona.expansions.ml.database_augmentation_retrieval",
+      "operation_type": "insert",
+      "applies_to": "tabular_pipeline.prediction_ensemble->output",
+      "runtime_rule_builder": "insert_database_augmentation_for_retrieval",
+      "runtime_diagnostic": "requires_database_augmentation",
+      "name": "Database Augmentation",
+      "intent": "Insert retrieval database augmentation before final search or ranking.",
+      "dejargonized_summary": "Use Database Augmentation (DBA) to smooth or diffuse retrieval database embeddings before final ranking.",
+      "trigger": {"metric_name": "requires_database_augmentation", "comparison": "gt", "threshold": 0.0, "required_any_intermediate_keys": ["model_selection.requires_database_augmentation", "model_selection.use_database_augmentation"]},
+      "action_classes": ["smooth_or_aggregate"],
+      "rewrite": {"before_summary": "Retrieval embeddings feed final search or output directly.", "after_summary": "Retrieval embeddings are augmented with database-neighbor evidence before final search or output.", "information_flow_effect": "Preserves retrieval identity while smoothing database representations."}
+    },
+    {
+      "rule_name": "insert_prompt_reasoning_augmentation_before_training",
+      "operation_id": "sciona.expansions.ml.prompt_reasoning_augmentation",
+      "operation_type": "insert",
+      "applies_to": "tabular_pipeline.preprocessing->estimator",
+      "runtime_rule_builder": "insert_prompt_reasoning_augmentation_before_training",
+      "runtime_diagnostic": "requires_prompt_reasoning_augmentation",
+      "name": "Prompt Reasoning Augmentation",
+      "intent": "Insert chain-of-thought or prompt-reasoning augmentation for LLM-style tasks.",
+      "dejargonized_summary": "Use Chain-of-Thought data augmentation, Chain-of-Thought prompting, or prompt-based CoT traces before training or inference.",
+      "trigger": {"metric_name": "requires_prompt_reasoning_augmentation", "comparison": "gt", "threshold": 0.0, "required_any_intermediate_keys": ["model_selection.requires_prompt_reasoning_augmentation", "model_selection.use_chain_of_thought"]},
+      "action_classes": ["precondition"],
+      "rewrite": {"before_summary": "Prompts or examples feed the model without explicit reasoning traces.", "after_summary": "Prompts or examples are augmented with reasoning traces before modeling.", "information_flow_effect": "Preserves answer targets while adding intermediate reasoning supervision or prompting context."}
     },
     {
       "rule_name": "replace_loss_with_metric_aligned_objective",
