@@ -684,6 +684,12 @@ Potential remediation path:
   `estimator_name` defaulting, `common_kwargs` construction, and the
   `overall_sum` predicates for elementwise finite checking and NaN-detected
   missing values.
+- Completed helper slice:
+  `sklearn.tree.missing_value_mask_outputs` now publishes the deterministic
+  return-side shell of `BaseDecisionTree._compute_missing_values_in_feature_mask`:
+  the None-return branches for unsupported or missing-free inputs, the branch
+  predicate that decides whether `_any_isnan_axis0(X)` is needed, and final
+  missing-mask passthrough.
 - Decide whether tree estimators should be represented as limited
   estimator-state wrapper atoms with explicit audit limitations.
 - Or ingest the Cython/native tree builder, splitter, and criterion internals

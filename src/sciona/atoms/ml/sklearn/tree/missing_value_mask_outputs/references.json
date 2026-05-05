@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.tree.missing_value_mask_outputs.tree_missing_values_none_result@sciona/atoms/ml/sklearn/tree/missing_value_mask_outputs/atoms.py:27": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `return None` branches in BaseDecisionTree._compute_missing_values_in_feature_mask when missing-value support is unavailable or overall_sum is not NaN."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for tree missing-value mask return behavior."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.tree.missing_value_mask_outputs.tree_missing_values_mask_required@sciona/atoms/ml/sklearn/tree/missing_value_mask_outputs/atoms.py:43": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the control flow in BaseDecisionTree._compute_missing_values_in_feature_mask that reaches `_any_isnan_axis0(X)` only when missing-value support is enabled and overall_sum is NaN."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for tree missing-value mask control flow."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.tree.missing_value_mask_outputs.tree_missing_values_mask_result@sciona/atoms/ml/sklearn/tree/missing_value_mask_outputs/atoms.py:58": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the final `missing_values_in_feature_mask = _any_isnan_axis0(X); return missing_values_in_feature_mask` tail in BaseDecisionTree._compute_missing_values_in_feature_mask."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for tree missing-value mask outputs."
+          }
+        }
+      ]
+    }
+  }
+}
+

@@ -1,0 +1,72 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_tree_missing_value_mask_outputs_root",
+      "name": "Sklearn Tree Missing-Value Mask Output Helper Atoms",
+      "description": "Deterministic helpers for the return-side shell of BaseDecisionTree._compute_missing_values_in_feature_mask.",
+      "status": "decomposed",
+      "children": [
+        "tree_missing_values_none_result",
+        "tree_missing_values_mask_required",
+        "tree_missing_values_mask_result"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "tree_missing_values_none_result",
+      "name": "tree_missing_values_none_result",
+      "description": "Return sklearn's None branch when missing-value support is disabled or overall_sum shows no missing values.",
+      "concept_type": "branch_result",
+      "status": "atomic",
+      "type_signature": "(*, mask_supported: bool, overall_sum_has_missing: bool) -> None",
+      "depth": 1,
+      "inputs": [
+        {"name": "mask_supported", "type_desc": "bool", "required": true},
+        {"name": "overall_sum_has_missing", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "None"}
+      ]
+    },
+    {
+      "node_id": "tree_missing_values_mask_required",
+      "name": "tree_missing_values_mask_required",
+      "description": "Return whether sklearn proceeds to compute _any_isnan_axis0(X).",
+      "concept_type": "predicate",
+      "status": "atomic",
+      "type_signature": "(*, mask_supported: bool, overall_sum_has_missing: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "mask_supported", "type_desc": "bool", "required": true},
+        {"name": "overall_sum_has_missing", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "tree_missing_values_mask_result",
+      "name": "tree_missing_values_mask_result",
+      "description": "Return sklearn's final missing-values-per-feature mask.",
+      "concept_type": "branch_result",
+      "status": "atomic",
+      "type_signature": "(missing_values_in_feature_mask: tuple[bool, ...]) -> tuple[bool, ...]",
+      "depth": 1,
+      "inputs": [
+        {"name": "missing_values_in_feature_mask", "type_desc": "tuple[bool, ...]", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[bool, ...]"}
+      ]
+    }
+  ],
+  "edges": [],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.tree._classes",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 7 probabilistic and mutable-kernel workflows"
+  }
+}
+
