@@ -1,0 +1,62 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_inspection_partial_dependence_auto_recursion_support_shell_root",
+      "name": "sklearn.inspection.partial_dependence_auto_recursion_support_shell",
+      "description": "Deterministic estimator-family recursion-support shell used by partial_dependence method='auto'.",
+      "status": "composite",
+      "children": [
+        "partial_dependence_gradient_boosting_recursion_supported",
+        "partial_dependence_tree_recursion_supported",
+        "partial_dependence_recursion_supported_estimator"
+      ]
+    },
+    {
+      "node_id": "partial_dependence_gradient_boosting_recursion_supported",
+      "name": "partial_dependence_gradient_boosting_recursion_supported",
+      "description": "Decide whether sklearn's BaseGradientBoosting branch can use recursion.",
+      "status": "atomic",
+      "concept_type": "partial_dependence_branch",
+      "inputs": [
+        {"name": "is_base_gradient_boosting", "type_desc": "bool"},
+        {"name": "init_is_none", "type_desc": "bool"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "partial_dependence_tree_recursion_supported",
+      "name": "partial_dependence_tree_recursion_supported",
+      "description": "Decide whether sklearn's tree-family recursion branch is taken.",
+      "status": "atomic",
+      "concept_type": "partial_dependence_branch",
+      "inputs": [
+        {"name": "is_base_hist_gradient_boosting", "type_desc": "bool"},
+        {"name": "is_decision_tree_regressor", "type_desc": "bool"},
+        {"name": "is_random_forest_regressor", "type_desc": "bool"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "partial_dependence_recursion_supported_estimator",
+      "name": "partial_dependence_recursion_supported_estimator",
+      "description": "Combine sklearn's recursion-eligible estimator-family branches.",
+      "status": "atomic",
+      "concept_type": "partial_dependence_branch",
+      "inputs": [
+        {"name": "gradient_boosting_supported", "type_desc": "bool"},
+        {"name": "tree_supported", "type_desc": "bool"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "partial_dependence_gradient_boosting_recursion_supported", "target": "partial_dependence_recursion_supported_estimator", "kind": "family_support"},
+    {"source": "partial_dependence_tree_recursion_supported", "target": "partial_dependence_recursion_supported_estimator", "kind": "family_support"}
+  ]
+}

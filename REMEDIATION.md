@@ -906,6 +906,13 @@ Potential remediation path:
   used by `partial_dependence`: the non-unique-column guard after `get_loc`
   output exists, exact ValueError message formatting, progressive integer
   index accumulation, and the fixed missing-column message.
+- Completed helper slice:
+  `sklearn.inspection.partial_dependence_auto_recursion_support_shell` now
+  publishes the deterministic estimator-family recursion-support shell used
+  by `partial_dependence` when `method='auto'`: the BaseGradientBoosting
+  `init is None` predicate, the HistGradientBoosting/DecisionTreeRegressor/
+  RandomForestRegressor branch predicate, and the combined recursion-support
+  flag passed into neighboring preflight helpers.
 - Ingest small helper atoms only where the boundary is explicit, such as
   permutation score aggregation from baseline and permuted score arrays.
 - Decide how estimator callback boundaries should be represented before

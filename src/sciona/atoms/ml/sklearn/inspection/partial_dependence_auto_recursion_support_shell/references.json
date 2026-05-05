@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_auto_recursion_support_shell.partial_dependence_gradient_boosting_recursion_supported@sciona/atoms/ml/sklearn/inspection/partial_dependence_auto_recursion_support_shell/atoms.py:24": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from `elif isinstance(estimator, BaseGradientBoosting) and estimator.init is None:` in sklearn.inspection._partial_dependence.partial_dependence."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for BaseGradientBoosting recursion eligibility in partial_dependence."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_auto_recursion_support_shell.partial_dependence_tree_recursion_supported@sciona/atoms/ml/sklearn/inspection/partial_dependence_auto_recursion_support_shell/atoms.py:38": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from `elif isinstance(estimator, (BaseHistGradientBoosting, DecisionTreeRegressor, RandomForestRegressor)):` in sklearn.inspection._partial_dependence.partial_dependence."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for tree-family recursion eligibility in partial_dependence."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_auto_recursion_support_shell.partial_dependence_recursion_supported_estimator@sciona/atoms/ml/sklearn/inspection/partial_dependence_auto_recursion_support_shell/atoms.py:56": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the combined recursion-support branching before method='auto' resolves in sklearn.inspection._partial_dependence.partial_dependence."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for combined estimator-family recursion support in partial_dependence."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}
