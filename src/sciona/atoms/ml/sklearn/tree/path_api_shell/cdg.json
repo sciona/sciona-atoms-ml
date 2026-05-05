@@ -1,0 +1,54 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_tree_path_api_shell_root",
+      "name": "Sklearn Tree Path API Shell Helper Atoms",
+      "description": "Deterministic final-return helpers for BaseDecisionTree.apply and BaseDecisionTree.decision_path after deferred native callbacks.",
+      "status": "decomposed",
+      "children": [
+        "tree_apply_leaf_indices",
+        "tree_decision_path_indicator"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "tree_apply_leaf_indices",
+      "name": "tree_apply_leaf_indices",
+      "description": "Return BaseDecisionTree.apply's final leaf-index vector.",
+      "concept_type": "api_return",
+      "status": "atomic",
+      "type_signature": "(leaf_indices: NDArray[np.integer]) -> NDArray[np.integer]",
+      "depth": 1,
+      "inputs": [
+        {"name": "leaf_indices", "type_desc": "1D nonnegative integer vector", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "1D nonnegative integer vector"}
+      ]
+    },
+    {
+      "node_id": "tree_decision_path_indicator",
+      "name": "tree_decision_path_indicator",
+      "description": "Return BaseDecisionTree.decision_path's final sparse indicator matrix.",
+      "concept_type": "api_return",
+      "status": "atomic",
+      "type_signature": "(indicator: csr_matrix) -> csr_matrix",
+      "depth": 1,
+      "inputs": [
+        {"name": "indicator", "type_desc": "nonempty sparse decision-path matrix", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "csr_matrix"}
+      ]
+    }
+  ],
+  "edges": [],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.tree._classes",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 7 probabilistic and mutable-kernel workflows"
+  }
+}
+

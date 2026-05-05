@@ -705,6 +705,10 @@ Potential remediation path:
   validation and native tree prediction: sample-count bookkeeping plus the
   classifier-versus-regressor and single-output-versus-multioutput branch
   predicates.
+- Completed helper slice: `sklearn.tree.path_api_shell` now publishes the
+  deterministic final-return shell of `BaseDecisionTree.apply` and
+  `BaseDecisionTree.decision_path` after deferred native callbacks:
+  leaf-index passthrough and sparse decision-path indicator passthrough.
 - Decide whether tree estimators should be represented as limited
   estimator-state wrapper atoms with explicit audit limitations.
 - Or ingest the Cython/native tree builder, splitter, and criterion internals
