@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.tree.classifier_probability_outputs.tree_predict_proba_single_output@sciona/atoms/ml/sklearn/tree/classifier_probability_outputs/atoms.py:119": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `return proba[:, : self.n_classes_]` shell in DecisionTreeClassifier.predict_proba."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for single-output tree classifier probabilities."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.tree.classifier_probability_outputs.tree_predict_proba_multioutput@sciona/atoms/ml/sklearn/tree/classifier_probability_outputs/atoms.py:146": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the per-output `proba[:, k, : self.n_classes_[k]]` slicing loop in DecisionTreeClassifier.predict_proba."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for multioutput tree classifier probabilities."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.tree.classifier_probability_outputs.tree_predict_log_proba_single_output@sciona/atoms/ml/sklearn/tree/classifier_probability_outputs/atoms.py:172": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `return np.log(proba)` shell in single-output DecisionTreeClassifier.predict_log_proba."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for single-output tree classifier log probabilities."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.tree.classifier_probability_outputs.tree_predict_log_proba_multioutput@sciona/atoms/ml/sklearn/tree/classifier_probability_outputs/atoms.py:199": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the per-output `proba[k] = np.log(proba[k])` loop in multioutput DecisionTreeClassifier.predict_log_proba."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for multioutput tree classifier log probabilities."
+          }
+        }
+      ]
+    }
+  }
+}

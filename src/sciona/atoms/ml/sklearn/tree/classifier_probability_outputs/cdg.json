@@ -1,0 +1,87 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_tree_classifier_probability_outputs_root",
+      "name": "Sklearn Tree Classifier Probability Output Helper Atoms",
+      "description": "Deterministic probability and log-probability return helpers for DecisionTreeClassifier after deferred native prediction callbacks.",
+      "status": "decomposed",
+      "children": [
+        "tree_predict_proba_single_output",
+        "tree_predict_proba_multioutput",
+        "tree_predict_log_proba_single_output",
+        "tree_predict_log_proba_multioutput"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "tree_predict_proba_single_output",
+      "name": "tree_predict_proba_single_output",
+      "description": "Return the single-output DecisionTreeClassifier.predict_proba slice.",
+      "concept_type": "api_return",
+      "status": "atomic",
+      "type_signature": "(probabilities: NDArray[np.float64], n_classes: int) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "probabilities", "type_desc": "nonempty sample-by-class probability matrix", "required": true},
+        {"name": "n_classes", "type_desc": "positive class count", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "sample-by-class probability matrix"}
+      ]
+    },
+    {
+      "node_id": "tree_predict_proba_multioutput",
+      "name": "tree_predict_proba_multioutput",
+      "description": "Return the multioutput DecisionTreeClassifier.predict_proba per-output class slices.",
+      "concept_type": "api_return",
+      "status": "atomic",
+      "type_signature": "(probabilities: NDArray[np.float64], n_classes: tuple[int, ...]) -> list[NDArray[np.float64]]",
+      "depth": 1,
+      "inputs": [
+        {"name": "probabilities", "type_desc": "nonempty sample-by-output-by-class probability tensor", "required": true},
+        {"name": "n_classes", "type_desc": "per-output positive class counts", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "list of sample-by-class probability matrices"}
+      ]
+    },
+    {
+      "node_id": "tree_predict_log_proba_single_output",
+      "name": "tree_predict_log_proba_single_output",
+      "description": "Return single-output DecisionTreeClassifier.predict_log_proba values.",
+      "concept_type": "api_return",
+      "status": "atomic",
+      "type_signature": "(probabilities: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "probabilities", "type_desc": "nonempty sample-by-class probability matrix", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "sample-by-class log-probability matrix"}
+      ]
+    },
+    {
+      "node_id": "tree_predict_log_proba_multioutput",
+      "name": "tree_predict_log_proba_multioutput",
+      "description": "Return multioutput DecisionTreeClassifier.predict_log_proba values.",
+      "concept_type": "api_return",
+      "status": "atomic",
+      "type_signature": "(probabilities: tuple[NDArray[np.float64], ...]) -> list[NDArray[np.float64]]",
+      "depth": 1,
+      "inputs": [
+        {"name": "probabilities", "type_desc": "nonempty tuple of sample-by-class probability matrices", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "list of sample-by-class log-probability matrices"}
+      ]
+    }
+  ],
+  "edges": [],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.tree._classes",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 7 probabilistic and mutable-kernel workflows"
+  }
+}

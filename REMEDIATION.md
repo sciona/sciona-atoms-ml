@@ -709,6 +709,11 @@ Potential remediation path:
   deterministic final-return shell of `BaseDecisionTree.apply` and
   `BaseDecisionTree.decision_path` after deferred native callbacks:
   leaf-index passthrough and sparse decision-path indicator passthrough.
+- Completed helper slice: `sklearn.tree.classifier_probability_outputs` now
+  publishes the deterministic probability-output tail of
+  `DecisionTreeClassifier`: single-output and multioutput class-slice
+  packaging in `predict_proba`, plus the elementwise log packaging used by
+  single-output and multioutput `predict_log_proba`.
 - Decide whether tree estimators should be represented as limited
   estimator-state wrapper atoms with explicit audit limitations.
 - Or ingest the Cython/native tree builder, splitter, and criterion internals
