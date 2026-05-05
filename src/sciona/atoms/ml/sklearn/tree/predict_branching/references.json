@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.tree.predict_branching.tree_predict_sample_count@sciona/atoms/ml/sklearn/tree/predict_branching/atoms.py:24": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `n_samples = X.shape[0]` bookkeeping in BaseDecisionTree.predict."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for tree prediction bookkeeping."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.tree.predict_branching.tree_predict_use_classifier_branch@sciona/atoms/ml/sklearn/tree/predict_branching/atoms.py:34": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `if is_classifier(self):` branch predicate in BaseDecisionTree.predict."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for tree predict control flow."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.tree.predict_branching.tree_predict_use_single_output_branch@sciona/atoms/ml/sklearn/tree/predict_branching/atoms.py:42": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `if self.n_outputs_ == 1:` branch predicate used in both classifier and regressor tails of BaseDecisionTree.predict."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for tree single-output and multioutput prediction branching."
+          }
+        }
+      ]
+    }
+  }
+}
+

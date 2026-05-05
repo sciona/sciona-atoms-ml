@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "sciona.atoms.review_bundle.ml.sklearn_tree_predict_branching.v1",
+  "provider_repo": "sciona-atoms-ml",
+  "family_batch": "ml_sklearn_tree_predict_branching",
+  "review_status": "reviewed",
+  "review_semantic_verdict": "pass_with_limits",
+  "review_developer_semantic_verdict": "pass_with_limits",
+  "trust_readiness": "reviewed_with_limits",
+  "authoritative_sources": [
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/sklearn/tree/predict_branching/atoms.py"},
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/sklearn/tree/predict_branching/witnesses.py"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/sklearn/tree/predict_branching/references.json"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/sklearn/tree/predict_branching/cdg.json"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_tree_predict_branching_behavior.py"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_tree_predict_branching_references_metadata.py"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_tree_predict_branching_review_bundle.py"}
+  ],
+  "limitations": [
+    "This batch covers only the deterministic branching shell inside BaseDecisionTree.predict after `_validate_X_predict` and `tree_.predict(X)`.",
+    "The helpers model sample-count bookkeeping plus classifier-versus-regressor and single-output-versus-multioutput branch predicates.",
+    "Native tree prediction and final label or value decoding remain separate."
+  ],
+  "blocking_findings": [],
+  "required_actions": [],
+  "review_record_path": "data/review_bundles/ml_sklearn_tree_predict_branching.review_bundle.json",
+  "rows": [
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.tree.predict_branching.tree_predict_sample_count",
+      "atom_name": "sciona.atoms.ml.sklearn.tree.predict_branching.tree_predict_sample_count",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/tree/predict_branching/atoms.py",
+        "src/sciona/atoms/ml/sklearn/tree/predict_branching/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/tree/predict_branching/references.json",
+        "src/sciona/atoms/ml/sklearn/tree/predict_branching/cdg.json",
+        "tests/test_ml_sklearn_tree_predict_branching_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_tree_predict_branching.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.tree.predict_branching.tree_predict_use_classifier_branch",
+      "atom_name": "sciona.atoms.ml.sklearn.tree.predict_branching.tree_predict_use_classifier_branch",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/tree/predict_branching/atoms.py",
+        "src/sciona/atoms/ml/sklearn/tree/predict_branching/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/tree/predict_branching/references.json",
+        "src/sciona/atoms/ml/sklearn/tree/predict_branching/cdg.json",
+        "tests/test_ml_sklearn_tree_predict_branching_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_tree_predict_branching.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.tree.predict_branching.tree_predict_use_single_output_branch",
+      "atom_name": "sciona.atoms.ml.sklearn.tree.predict_branching.tree_predict_use_single_output_branch",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/tree/predict_branching/atoms.py",
+        "src/sciona/atoms/ml/sklearn/tree/predict_branching/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/tree/predict_branching/references.json",
+        "src/sciona/atoms/ml/sklearn/tree/predict_branching/cdg.json",
+        "tests/test_ml_sklearn_tree_predict_branching_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_tree_predict_branching.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    }
+  ]
+}
+

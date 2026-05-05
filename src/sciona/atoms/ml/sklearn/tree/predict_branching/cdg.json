@@ -1,0 +1,70 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_tree_predict_branching_root",
+      "name": "Sklearn Tree Prediction Branching Helper Atoms",
+      "description": "Deterministic branching helpers for the pure-Python shell inside BaseDecisionTree.predict.",
+      "status": "decomposed",
+      "children": [
+        "tree_predict_sample_count",
+        "tree_predict_use_classifier_branch",
+        "tree_predict_use_single_output_branch"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "tree_predict_sample_count",
+      "name": "tree_predict_sample_count",
+      "description": "Return BaseDecisionTree.predict's `n_samples = X.shape[0]` bookkeeping value.",
+      "concept_type": "bookkeeping",
+      "status": "atomic",
+      "type_signature": "(sample_count: int) -> int",
+      "depth": 1,
+      "inputs": [
+        {"name": "sample_count", "type_desc": "positive int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "positive int"}
+      ]
+    },
+    {
+      "node_id": "tree_predict_use_classifier_branch",
+      "name": "tree_predict_use_classifier_branch",
+      "description": "Return the classifier-versus-regressor branch predicate in BaseDecisionTree.predict.",
+      "concept_type": "predicate",
+      "status": "atomic",
+      "type_signature": "(is_classifier_task: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "is_classifier_task", "type_desc": "bool", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "tree_predict_use_single_output_branch",
+      "name": "tree_predict_use_single_output_branch",
+      "description": "Return the single-output-versus-multioutput branch predicate in BaseDecisionTree.predict.",
+      "concept_type": "predicate",
+      "status": "atomic",
+      "type_signature": "(n_outputs: int) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_outputs", "type_desc": "positive int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    }
+  ],
+  "edges": [],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.tree._classes",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 7 probabilistic and mutable-kernel workflows"
+  }
+}
+

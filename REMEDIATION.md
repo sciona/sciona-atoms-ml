@@ -700,6 +700,11 @@ Potential remediation path:
   deferred native `tree_.predict(X)` execution: single-output and multioutput
   classifier label decoding plus single-output and multioutput regression
   value selection.
+- Completed helper slice: `sklearn.tree.predict_branching` now publishes the
+  deterministic branching shell inside `BaseDecisionTree.predict` after input
+  validation and native tree prediction: sample-count bookkeeping plus the
+  classifier-versus-regressor and single-output-versus-multioutput branch
+  predicates.
 - Decide whether tree estimators should be represented as limited
   estimator-state wrapper atoms with explicit audit limitations.
 - Or ingest the Cython/native tree builder, splitter, and criterion internals
