@@ -913,6 +913,12 @@ Potential remediation path:
   `init is None` predicate, the HistGradientBoosting/DecisionTreeRegressor/
   RandomForestRegressor branch predicate, and the combined recursion-support
   flag passed into neighboring preflight helpers.
+- Completed helper slice:
+  `sklearn.inspection.partial_dependence_recursion_support_message_shell` now
+  publishes the deterministic unsupported-recursion estimator message shell
+  in `partial_dependence`: the recursion guard predicate, sklearn's fixed
+  supported-class tuple, and the exact `ValueError` text that suggests
+  `method='brute'`.
 - Ingest small helper atoms only where the boundary is explicit, such as
   permutation score aggregation from baseline and permuted score arrays.
 - Decide how estimator callback boundaries should be represented before

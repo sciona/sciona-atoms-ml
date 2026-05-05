@@ -1,0 +1,59 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_inspection_partial_dependence_recursion_support_message_shell_root",
+      "name": "sklearn.inspection.partial_dependence_recursion_support_message_shell",
+      "description": "Deterministic recursion-support error-message shell used by sklearn.inspection.partial_dependence.",
+      "status": "composite",
+      "children": [
+        "partial_dependence_recursion_support_guard_required",
+        "partial_dependence_supported_recursion_classes",
+        "partial_dependence_unsupported_recursion_message"
+      ]
+    },
+    {
+      "node_id": "partial_dependence_recursion_support_guard_required",
+      "name": "partial_dependence_recursion_support_guard_required",
+      "description": "Decide whether sklearn raises the unsupported-recursion estimator error.",
+      "status": "atomic",
+      "concept_type": "partial_dependence_guard_branch",
+      "inputs": [
+        {"name": "method", "type_desc": "str"},
+        {"name": "supports_recursion", "type_desc": "bool"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "partial_dependence_supported_recursion_classes",
+      "name": "partial_dependence_supported_recursion_classes",
+      "description": "Return sklearn's fixed supported-class tuple for recursion-mode errors.",
+      "status": "atomic",
+      "concept_type": "partial_dependence_bookkeeping",
+      "inputs": [
+        {"name": "method", "type_desc": "str"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[str, ...]"}
+      ]
+    },
+    {
+      "node_id": "partial_dependence_unsupported_recursion_message",
+      "name": "partial_dependence_unsupported_recursion_message",
+      "description": "Format sklearn's unsupported-recursion estimator ValueError message.",
+      "status": "atomic",
+      "concept_type": "partial_dependence_guard_message",
+      "inputs": [
+        {"name": "supported_classes", "type_desc": "tuple[str, ...]"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "str"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "partial_dependence_recursion_support_guard_required", "target": "partial_dependence_supported_recursion_classes", "kind": "guard_context"},
+    {"source": "partial_dependence_supported_recursion_classes", "target": "partial_dependence_unsupported_recursion_message", "kind": "class_names_to_message"}
+  ]
+}
