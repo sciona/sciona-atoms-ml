@@ -1,0 +1,88 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_tree_predict_outputs_root",
+      "name": "Sklearn Tree Prediction Output Helper Atoms",
+      "description": "Deterministic helpers for the output-selection tail of BaseDecisionTree.predict after tree_.predict(X).",
+      "status": "decomposed",
+      "children": [
+        "tree_classifier_single_output_labels",
+        "tree_classifier_multioutput_labels",
+        "tree_regressor_single_output_values",
+        "tree_regressor_multioutput_values"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "tree_classifier_single_output_labels",
+      "name": "tree_classifier_single_output_labels",
+      "description": "Decode single-output tree classifier labels from tree_.predict(X).",
+      "concept_type": "output_postprocessing",
+      "status": "atomic",
+      "type_signature": "(probabilities: NDArray[np.float64], classes: NDArray[np.object_]) -> NDArray[np.object_]",
+      "depth": 1,
+      "inputs": [
+        {"name": "probabilities", "type_desc": "sample-by-class matrix", "required": true},
+        {"name": "classes", "type_desc": "unique class vector", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "label vector"}
+      ]
+    },
+    {
+      "node_id": "tree_classifier_multioutput_labels",
+      "name": "tree_classifier_multioutput_labels",
+      "description": "Decode multioutput tree classifier labels from tree_.predict(X).",
+      "concept_type": "output_postprocessing",
+      "status": "atomic",
+      "type_signature": "(probabilities: NDArray[np.float64], classes_blocks: tuple[NDArray[np.object_], ...]) -> NDArray[np.object_]",
+      "depth": 1,
+      "inputs": [
+        {"name": "probabilities", "type_desc": "sample-by-output-by-class tensor", "required": true},
+        {"name": "classes_blocks", "type_desc": "tuple of class vectors", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "sample-by-output label matrix"}
+      ]
+    },
+    {
+      "node_id": "tree_regressor_single_output_values",
+      "name": "tree_regressor_single_output_values",
+      "description": "Return single-output tree regressor values from tree_.predict(X).",
+      "concept_type": "output_postprocessing",
+      "status": "atomic",
+      "type_signature": "(probabilities: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "probabilities", "type_desc": "sample-by-1 matrix", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "value vector"}
+      ]
+    },
+    {
+      "node_id": "tree_regressor_multioutput_values",
+      "name": "tree_regressor_multioutput_values",
+      "description": "Return multioutput tree regressor values from tree_.predict(X).",
+      "concept_type": "output_postprocessing",
+      "status": "atomic",
+      "type_signature": "(probabilities: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "probabilities", "type_desc": "sample-by-output-by-1 tensor", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "sample-by-output value matrix"}
+      ]
+    }
+  ],
+  "edges": [],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.tree._classes",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 7 probabilistic and mutable-kernel workflows"
+  }
+}
+

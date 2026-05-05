@@ -695,6 +695,11 @@ Potential remediation path:
   `BaseDecisionTree._validate_X_predict`: the `check_input` branch predicate,
   missing-value validation mode selection, and the CSR sparse-index dtype
   guard before deferred `validate_data` execution and feature-count checks.
+- Completed helper slice: `sklearn.tree.predict_outputs` now publishes the
+  deterministic output-selection tail of `BaseDecisionTree.predict` after
+  deferred native `tree_.predict(X)` execution: single-output and multioutput
+  classifier label decoding plus single-output and multioutput regression
+  value selection.
 - Decide whether tree estimators should be represented as limited
   estimator-state wrapper atoms with explicit audit limitations.
 - Or ingest the Cython/native tree builder, splitter, and criterion internals

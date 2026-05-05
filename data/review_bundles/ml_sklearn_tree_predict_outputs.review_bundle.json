@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "sciona.atoms.review_bundle.ml.sklearn_tree_predict_outputs.v1",
+  "provider_repo": "sciona-atoms-ml",
+  "family_batch": "ml_sklearn_tree_predict_outputs",
+  "review_status": "reviewed",
+  "review_semantic_verdict": "pass_with_limits",
+  "review_developer_semantic_verdict": "pass_with_limits",
+  "trust_readiness": "reviewed_with_limits",
+  "authoritative_sources": [
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/sklearn/tree/predict_outputs/atoms.py"},
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/sklearn/tree/predict_outputs/witnesses.py"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/sklearn/tree/predict_outputs/references.json"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/sklearn/tree/predict_outputs/cdg.json"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_tree_predict_outputs_behavior.py"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_tree_predict_outputs_references_metadata.py"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_tree_predict_outputs_review_bundle.py"}
+  ],
+  "limitations": [
+    "This batch covers only the deterministic output-selection tail of BaseDecisionTree.predict after tree_.predict(X).",
+    "The helpers model single-output and multioutput classifier label decoding plus single-output and multioutput regression value selection.",
+    "Fitted-estimator checks, input validation, and native tree prediction remain deferred."
+  ],
+  "blocking_findings": [],
+  "required_actions": [],
+  "review_record_path": "data/review_bundles/ml_sklearn_tree_predict_outputs.review_bundle.json",
+  "rows": [
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.tree.predict_outputs.tree_classifier_single_output_labels",
+      "atom_name": "sciona.atoms.ml.sklearn.tree.predict_outputs.tree_classifier_single_output_labels",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/tree/predict_outputs/atoms.py",
+        "src/sciona/atoms/ml/sklearn/tree/predict_outputs/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/tree/predict_outputs/references.json",
+        "src/sciona/atoms/ml/sklearn/tree/predict_outputs/cdg.json",
+        "tests/test_ml_sklearn_tree_predict_outputs_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_tree_predict_outputs.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.tree.predict_outputs.tree_classifier_multioutput_labels",
+      "atom_name": "sciona.atoms.ml.sklearn.tree.predict_outputs.tree_classifier_multioutput_labels",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/tree/predict_outputs/atoms.py",
+        "src/sciona/atoms/ml/sklearn/tree/predict_outputs/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/tree/predict_outputs/references.json",
+        "src/sciona/atoms/ml/sklearn/tree/predict_outputs/cdg.json",
+        "tests/test_ml_sklearn_tree_predict_outputs_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_tree_predict_outputs.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.tree.predict_outputs.tree_regressor_single_output_values",
+      "atom_name": "sciona.atoms.ml.sklearn.tree.predict_outputs.tree_regressor_single_output_values",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/tree/predict_outputs/atoms.py",
+        "src/sciona/atoms/ml/sklearn/tree/predict_outputs/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/tree/predict_outputs/references.json",
+        "src/sciona/atoms/ml/sklearn/tree/predict_outputs/cdg.json",
+        "tests/test_ml_sklearn_tree_predict_outputs_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_tree_predict_outputs.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.tree.predict_outputs.tree_regressor_multioutput_values",
+      "atom_name": "sciona.atoms.ml.sklearn.tree.predict_outputs.tree_regressor_multioutput_values",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantics_status": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/tree/predict_outputs/atoms.py",
+        "src/sciona/atoms/ml/sklearn/tree/predict_outputs/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/tree/predict_outputs/references.json",
+        "src/sciona/atoms/ml/sklearn/tree/predict_outputs/cdg.json",
+        "tests/test_ml_sklearn_tree_predict_outputs_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_tree_predict_outputs.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    }
+  ]
+}
+

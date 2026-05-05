@@ -1,0 +1,86 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.tree.predict_outputs.tree_classifier_single_output_labels@sciona/atoms/ml/sklearn/tree/predict_outputs/atoms.py:107": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the single-output classifier `return self.classes_.take(np.argmax(proba, axis=1), axis=0)` branch in BaseDecisionTree.predict."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for tree classifier prediction outputs."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.tree.predict_outputs.tree_classifier_multioutput_labels@sciona/atoms/ml/sklearn/tree/predict_outputs/atoms.py:124": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the multioutput classifier label-decoding loop in BaseDecisionTree.predict."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for multioutput tree classifier outputs."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.tree.predict_outputs.tree_regressor_single_output_values@sciona/atoms/ml/sklearn/tree/predict_outputs/atoms.py:144": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the single-output regression `return proba[:, 0]` branch in BaseDecisionTree.predict."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for tree regressor prediction outputs."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.tree.predict_outputs.tree_regressor_multioutput_values@sciona/atoms/ml/sklearn/tree/predict_outputs/atoms.py:157": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the multioutput regression `return proba[:, :, 0]` branch in BaseDecisionTree.predict."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for multioutput tree regressor prediction outputs."
+          }
+        }
+      ]
+    }
+  }
+}
+
