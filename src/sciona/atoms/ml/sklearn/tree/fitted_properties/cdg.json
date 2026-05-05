@@ -1,0 +1,54 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_tree_fitted_properties_root",
+      "name": "Sklearn Tree Fitted Property Helper Atoms",
+      "description": "Deterministic fitted-property helpers for BaseDecisionTree wrappers around tree_.max_depth and tree_.n_leaves.",
+      "status": "decomposed",
+      "children": [
+        "tree_get_depth_result",
+        "tree_get_n_leaves_result"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "tree_get_depth_result",
+      "name": "tree_get_depth_result",
+      "description": "Return BaseDecisionTree.get_depth from the fitted tree max_depth value.",
+      "concept_type": "fitted_property",
+      "status": "atomic",
+      "type_signature": "(tree_max_depth: int) -> int",
+      "depth": 1,
+      "inputs": [
+        {"name": "tree_max_depth", "type_desc": "nonnegative int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "nonnegative int"}
+      ]
+    },
+    {
+      "node_id": "tree_get_n_leaves_result",
+      "name": "tree_get_n_leaves_result",
+      "description": "Return BaseDecisionTree.get_n_leaves from the fitted tree n_leaves value.",
+      "concept_type": "fitted_property",
+      "status": "atomic",
+      "type_signature": "(tree_n_leaves: int) -> int",
+      "depth": 1,
+      "inputs": [
+        {"name": "tree_n_leaves", "type_desc": "positive int", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "positive int"}
+      ]
+    }
+  ],
+  "edges": [],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.tree._classes",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 7 probabilistic and mutable-kernel workflows"
+  }
+}
+

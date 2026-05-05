@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "sciona.atoms.review_bundle.ml.sklearn_tree_fitted_properties.v1",
+  "provider_repo": "sciona-atoms-ml",
+  "family_batch": "ml_sklearn_tree_fitted_properties",
+  "review_status": "reviewed",
+  "review_semantic_verdict": "pass_with_limits",
+  "review_developer_semantic_verdict": "pass_with_limits",
+  "trust_readiness": "reviewed_with_limits",
+  "authoritative_sources": [
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/sklearn/tree/fitted_properties/atoms.py"},
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/sklearn/tree/fitted_properties/witnesses.py"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/sklearn/tree/fitted_properties/references.json"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/sklearn/tree/fitted_properties/cdg.json"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_tree_fitted_properties_behavior.py"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_tree_fitted_properties_references_metadata.py"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_tree_fitted_properties_review_bundle.py"}
+  ],
+  "limitations": [
+    "This batch covers only the deterministic fitted-property wrappers get_depth() and get_n_leaves().",
+    "The helpers model direct access to tree_.max_depth and tree_.n_leaves after fitted-state validation.",
+    "Tree fitting, prediction, and native tree-building internals remain deferred."
+  ],
+  "blocking_findings": [],
+  "required_actions": [],
+  "review_record_path": "data/review_bundles/ml_sklearn_tree_fitted_properties.review_bundle.json",
+  "rows": [
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.tree.fitted_properties.tree_get_depth_result",
+      "atom_name": "sciona.atoms.ml.sklearn.tree.fitted_properties.tree_get_depth_result",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/tree/fitted_properties/atoms.py",
+        "src/sciona/atoms/ml/sklearn/tree/fitted_properties/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/tree/fitted_properties/references.json",
+        "src/sciona/atoms/ml/sklearn/tree/fitted_properties/cdg.json",
+        "tests/test_ml_sklearn_tree_fitted_properties_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_tree_fitted_properties.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.tree.fitted_properties.tree_get_n_leaves_result",
+      "atom_name": "sciona.atoms.ml.sklearn.tree.fitted_properties.tree_get_n_leaves_result",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/tree/fitted_properties/atoms.py",
+        "src/sciona/atoms/ml/sklearn/tree/fitted_properties/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/tree/fitted_properties/references.json",
+        "src/sciona/atoms/ml/sklearn/tree/fitted_properties/cdg.json",
+        "tests/test_ml_sklearn_tree_fitted_properties_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_tree_fitted_properties.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    }
+  ]
+}
+

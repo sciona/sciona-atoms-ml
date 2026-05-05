@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.tree.fitted_properties.tree_get_depth_result@sciona/atoms/ml/sklearn/tree/fitted_properties/atoms.py:24": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from BaseDecisionTree.get_depth in sklearn.tree._classes in scikit-learn 1.8.0 for the direct return of self.tree_.max_depth after fitted-state validation."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for fitted tree depth accessors."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.tree.fitted_properties.tree_get_n_leaves_result@sciona/atoms/ml/sklearn/tree/fitted_properties/atoms.py:36": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from BaseDecisionTree.get_n_leaves in sklearn.tree._classes in scikit-learn 1.8.0 for the direct return of self.tree_.n_leaves after fitted-state validation."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for fitted tree leaf-count accessors."
+          }
+        }
+      ]
+    }
+  }
+}
+

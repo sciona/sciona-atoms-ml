@@ -670,6 +670,10 @@ Potential remediation path:
   multi-label tagging, the allow-NaN rules for DecisionTreeClassifier,
   DecisionTreeRegressor, and ExtraTreeClassifier, and the effective inherited
   allow-NaN value exposed by the local ExtraTreeRegressor runtime.
+- Completed helper slice: `sklearn.tree.fitted_properties` now publishes the
+  deterministic fitted-property wrappers around BaseDecisionTree's
+  `get_depth()` and `get_n_leaves()`: direct exposure of `tree_.max_depth`
+  and `tree_.n_leaves` after fitted-state validation.
 - Decide whether tree estimators should be represented as limited
   estimator-state wrapper atoms with explicit audit limitations.
 - Or ingest the Cython/native tree builder, splitter, and criterion internals
