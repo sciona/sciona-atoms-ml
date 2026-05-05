@@ -19,7 +19,7 @@
       "runtime_diagnostic": "preprocessing_recommendation",
       "name": "Insert Recommended Preprocessing",
       "intent": "Insert scaling or power transformation before the estimator when diagnostics recommend it.",
-      "dejargonized_summary": "Add a preprocessing step before model training when feature scale or distribution problems are detected.",
+            "dejargonized_summary": "Add a preprocessing step before model training when feature scale or distribution problems are detected, including StandardScaler for numerical data, StandardScaler for numerical features, StandardScaler for numerical logs, and StandardScaler for numerical metadata.",
       "trigger": {
         "metric_name": "preprocessing_recommendation",
         "comparison": "gt",
@@ -114,7 +114,7 @@
       "runtime_diagnostic": "is_time_series",
       "name": "Force Cross-Validation Strategy",
       "intent": "Use leakage-safe validation when data ordering or grouping requires a specific split strategy.",
-      "dejargonized_summary": "Force a time-aware or group-aware validation split when ordinary random folds would leak information.",
+      "dejargonized_summary": "Force a time-aware or group-aware validation split when ordinary random folds would leak information, including GroupKFold by Patient ID, GroupKFold split by cultivar, GroupKFold split by patient, Stratified GroupKFold, Stratified GroupKFold (Age-based), Stratified GroupKFold by Session ID, 5-fold time-based Cross-Validation, Cross-validation by UserID, and Time-based Cross-Validation.",
       "trigger": {
         "metric_name": "is_time_series",
         "comparison": "gt",
@@ -303,7 +303,7 @@
       "runtime_diagnostic": "requires_pretrained_backbone_ensemble",
       "name": "Pretrained Backbone Ensemble",
       "intent": "Replace single-backbone training with a diverse ensemble of pretrained CNN, transformer, and segmentation backbones.",
-      "dejargonized_summary": "Train and blend multiple pretrained backbones such as EfficientNet, DenseNet, ResNet, Inception, VGG, DeiT, Swin, ConvNeXt, NFNet, or UNet variants.",
+      "dejargonized_summary": "Train and blend multiple pretrained backbones such as EfficientNet (B4-B7) ensemble, EfficientNet-B0 to B4 ensemble, EfficientNet-B2 and DenseNet121 ensemble, EfficientNet-B5 and B6 ensemble, EfficientNet-B7 and DeiT ensemble, ResNet, Inception, VGG, Swin, ConvNeXt, NFNet, or UNet variants.",
       "trigger": {
         "metric_name": "requires_pretrained_backbone_ensemble",
         "comparison": "gt",
@@ -312,7 +312,8 @@
           "model_selection.requires_pretrained_backbone_ensemble",
           "model_selection.use_pretrained_backbone_ensemble",
           "model_selection.use_efficientnet_ensemble",
-          "model_selection.use_swin_unet_ensemble"
+          "model_selection.use_swin_unet_ensemble",
+          "model_selection.use_efficientnet_b4_b7_ensemble"
         ]
       },
       "action_classes": [
@@ -336,8 +337,8 @@
       "runtime_rule_builder": "apply_tree_ensemble_blend",
       "runtime_diagnostic": "requires_tree_ensemble_blend",
       "name": "Heterogeneous Tree Ensemble Blend",
-      "intent": "Replace a single estimator with a LightGBM, XGBoost, CatBoost, ExtraTrees, or RandomForest blend when mined solution deltas require heterogeneous tree ensembling.",
-      "dejargonized_summary": "Train and blend multiple tree models such as LightGBM, XGBoost, CatBoost, ExtraTrees, or RandomForest instead of relying on one estimator.",
+      "intent": "Replace a single estimator with a LightGBM, XGBoost, CatBoost, ExtraTrees, RandomForest, or SVR blend when mined solution deltas require heterogeneous tree ensembling.",
+      "dejargonized_summary": "Train and blend multiple tree models such as LightGBM, XGBoost, CatBoost, ExtraTrees, RandomForest, or SVR, including XGBoost and Random Forest ensemble, Random Forest and ExtraTrees ensemble, Random Forest and SVR ensemble, and Random Forest and XGBoost ensemble.",
       "trigger": {
         "metric_name": "requires_tree_ensemble_blend",
         "comparison": "gt",
@@ -346,7 +347,9 @@
           "model_selection.requires_tree_ensemble_blend",
           "model_selection.use_lightgbm_catboost_ensemble",
           "model_selection.use_xgboost_lightgbm_ensemble",
-          "model_selection.use_random_forest_xgboost_ensemble"
+          "model_selection.use_random_forest_xgboost_ensemble",
+          "model_selection.use_random_forest_extratrees_ensemble",
+          "model_selection.use_random_forest_svr_ensemble"
         ]
       },
       "action_classes": [
@@ -358,7 +361,7 @@
         "after_summary": "Multiple heterogeneous tree estimators are trained and their predictions are blended.",
         "information_flow_effect": "Preserves prediction output semantics while adding model diversity for tabular competitions.",
         "notes": [
-          "Mined from recurring CatBoost/LightGBM/XGBoost/ExtraTrees/RandomForest ensemble gaps."
+          "Mined from recurring CatBoost/LightGBM/XGBoost/ExtraTrees/RandomForest/SVR ensemble gaps."
         ]
       }
     },
