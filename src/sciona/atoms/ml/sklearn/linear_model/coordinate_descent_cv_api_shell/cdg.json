@@ -1,0 +1,105 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_cv_api_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent CV API Shell Helper Atoms",
+      "description": "Deterministic metadata-routing and sklearn-tag helpers from sklearn.linear_model._coordinate_descent.LinearModelCV.",
+      "status": "decomposed",
+      "children": [
+        "cd_cv_metadata_router_spec",
+        "cd_cv_multitask_bool",
+        "cd_cv_sparse_input_tag",
+        "cd_cv_target_multi_output_tag",
+        "cd_cv_target_single_output_tag"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_cv_metadata_router_spec",
+      "name": "cd_cv_metadata_router_spec",
+      "description": "Return the owner and split mapping spec assembled by LinearModelCV.get_metadata_routing.",
+      "concept_type": "callback_kwargs",
+      "status": "atomic",
+      "type_signature": "(class_name: str) -> dict[str, str]",
+      "depth": 1,
+      "inputs": [
+        {"name": "class_name", "type_desc": "nonempty estimator class name", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "metadata-routing owner/caller/callee mapping"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_multitask_bool",
+      "name": "cd_cv_multitask_bool",
+      "description": "Return the multitask boolean used by LinearModelCV.__sklearn_tags__.",
+      "concept_type": "branch_predicate",
+      "status": "atomic",
+      "type_signature": "(is_multitask_result: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "is_multitask_result", "type_desc": "result of _is_multitask()", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "multitask tag context boolean"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_sparse_input_tag",
+      "name": "cd_cv_sparse_input_tag",
+      "description": "Return the sparse-input tag used by LinearModelCV.__sklearn_tags__.",
+      "concept_type": "tag_value",
+      "status": "atomic",
+      "type_signature": "(multitask: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "multitask", "type_desc": "multitask tag context boolean", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "sparse-input tag value"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_target_multi_output_tag",
+      "name": "cd_cv_target_multi_output_tag",
+      "description": "Return the target multi_output tag used by LinearModelCV.__sklearn_tags__.",
+      "concept_type": "tag_value",
+      "status": "atomic",
+      "type_signature": "(multitask: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "multitask", "type_desc": "multitask tag context boolean", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "target multi_output tag value"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_target_single_output_tag",
+      "name": "cd_cv_target_single_output_tag",
+      "description": "Return the implied target single_output tag complement for LinearModelCV-style shells.",
+      "concept_type": "tag_value",
+      "status": "atomic",
+      "type_signature": "(multitask: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "multitask", "type_desc": "multitask tag context boolean", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "target single_output tag value"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_cv_multitask_bool", "target": "cd_cv_sparse_input_tag", "kind": "tag_context"},
+    {"source": "cd_cv_multitask_bool", "target": "cd_cv_target_multi_output_tag", "kind": "tag_context"},
+    {"source": "cd_cv_multitask_bool", "target": "cd_cv_target_single_output_tag", "kind": "tag_context"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 5 decomposition and matrix-factorization pipelines"
+  }
+}

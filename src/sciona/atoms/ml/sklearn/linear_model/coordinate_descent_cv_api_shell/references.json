@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_api_shell.cd_cv_metadata_router_spec@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_api_shell/atoms.py:17": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the MetadataRouter owner and MethodMapping split shell in sklearn.linear_model._coordinate_descent.LinearModelCV.get_metadata_routing."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent CV metadata routing."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_api_shell.cd_cv_multitask_bool@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_api_shell/atoms.py:38": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `multitask = self._is_multitask()` shell in sklearn.linear_model._coordinate_descent.LinearModelCV.__sklearn_tags__."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent CV multitask tagging."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_api_shell.cd_cv_sparse_input_tag@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_api_shell/atoms.py:50": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `tags.input_tags.sparse = not multitask` shell in sklearn.linear_model._coordinate_descent.LinearModelCV.__sklearn_tags__."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent CV sparse-input tagging."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_api_shell.cd_cv_target_multi_output_tag@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_api_shell/atoms.py:62": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `tags.target_tags.multi_output = multitask` shell in sklearn.linear_model._coordinate_descent.LinearModelCV.__sklearn_tags__."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent CV multi-output tagging."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_api_shell.cd_cv_target_single_output_tag@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_api_shell/atoms.py:74": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_inference",
+            "confidence": "high",
+            "notes": "Logical complement of the multitask target tag used by sklearn.linear_model._coordinate_descent.LinearModelCV-style estimators."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent CV single-output tag complement."
+          }
+        }
+      ]
+    }
+  }
+}

@@ -201,6 +201,11 @@ Potential remediation path:
   deterministic `LinearModelCV` post-fit shell helpers after refitting the
   selected model: the sample-weight refit branch, `l1_ratio_` cleanup,
   fitted-state attribute passthrough, and final self return.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_cv_api_shell` now publishes the
+  deterministic `LinearModelCV` API shell: metadata-routing owner/split
+  mapping and the shared sparse/multi-output tag values derived from the
+  multitask predicate.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 
