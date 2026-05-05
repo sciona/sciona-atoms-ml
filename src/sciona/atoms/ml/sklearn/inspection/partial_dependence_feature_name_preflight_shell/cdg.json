@@ -1,0 +1,90 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_inspection_partial_dependence_feature_name_preflight_shell_root",
+      "name": "sklearn.inspection.partial_dependence_feature_name_preflight_shell",
+      "description": "Deterministic string-feature-name guard shell around sklearn.inspection._partial_dependence._get_feature_index.",
+      "status": "composite",
+      "children": [
+        "partial_dependence_feature_key_is_string",
+        "partial_dependence_feature_names_required_guard_required",
+        "partial_dependence_feature_names_required_message",
+        "partial_dependence_feature_name_missing_guard_required",
+        "partial_dependence_feature_name_missing_message"
+      ]
+    },
+    {
+      "node_id": "partial_dependence_feature_key_is_string",
+      "name": "partial_dependence_feature_key_is_string",
+      "description": "Decide whether sklearn's feature-index helper enters the string-name branch.",
+      "status": "atomic",
+      "concept_type": "partial_dependence_guard_branch",
+      "inputs": [
+        {"name": "feature_key", "type_desc": "int | str"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "partial_dependence_feature_names_required_guard_required",
+      "name": "partial_dependence_feature_names_required_guard_required",
+      "description": "Decide whether sklearn rejects a string feature key without feature names.",
+      "status": "atomic",
+      "concept_type": "partial_dependence_guard_branch",
+      "inputs": [
+        {"name": "key_is_string", "type_desc": "bool"},
+        {"name": "feature_names_provided", "type_desc": "bool"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "partial_dependence_feature_names_required_message",
+      "name": "partial_dependence_feature_names_required_message",
+      "description": "Format sklearn's missing-feature-names ValueError for string feature keys.",
+      "status": "atomic",
+      "concept_type": "partial_dependence_guard_message",
+      "inputs": [
+        {"name": "feature_name", "type_desc": "str"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "str"}
+      ]
+    },
+    {
+      "node_id": "partial_dependence_feature_name_missing_guard_required",
+      "name": "partial_dependence_feature_name_missing_guard_required",
+      "description": "Decide whether sklearn rejects a string feature key missing from feature_names.",
+      "status": "atomic",
+      "concept_type": "partial_dependence_guard_branch",
+      "inputs": [
+        {"name": "feature_name", "type_desc": "str"},
+        {"name": "feature_names", "type_desc": "tuple[str, ...]"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "partial_dependence_feature_name_missing_message",
+      "name": "partial_dependence_feature_name_missing_message",
+      "description": "Format sklearn's missing-feature-name ValueError.",
+      "status": "atomic",
+      "concept_type": "partial_dependence_guard_message",
+      "inputs": [
+        {"name": "feature_name", "type_desc": "str"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "str"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "partial_dependence_feature_key_is_string", "target": "partial_dependence_feature_names_required_guard_required", "kind": "string_branch_to_guard"},
+    {"source": "partial_dependence_feature_names_required_guard_required", "target": "partial_dependence_feature_names_required_message", "kind": "guard_to_message"},
+    {"source": "partial_dependence_feature_key_is_string", "target": "partial_dependence_feature_name_missing_guard_required", "kind": "string_branch_to_guard"},
+    {"source": "partial_dependence_feature_name_missing_guard_required", "target": "partial_dependence_feature_name_missing_message", "kind": "guard_to_message"}
+  ]
+}

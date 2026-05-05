@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_feature_name_preflight_shell.partial_dependence_feature_key_is_string@sciona/atoms/ml/sklearn/inspection/partial_dependence_feature_name_preflight_shell/atoms.py:41": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from `if isinstance(fx, str):` in sklearn.inspection._partial_dependence._get_feature_index."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for partial_dependence feature-key branching."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_feature_name_preflight_shell.partial_dependence_feature_names_required_guard_required@sciona/atoms/ml/sklearn/inspection/partial_dependence_feature_name_preflight_shell/atoms.py:52": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the `if feature_names is None:` guard inside sklearn.inspection._partial_dependence._get_feature_index."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for partial_dependence missing-feature-names guards."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_feature_name_preflight_shell.partial_dependence_feature_names_required_message@sciona/atoms/ml/sklearn/inspection/partial_dependence_feature_name_preflight_shell/atoms.py:63": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the missing-feature-names ValueError message in sklearn.inspection._partial_dependence._get_feature_index."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for partial_dependence missing-feature-names message formatting."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_feature_name_preflight_shell.partial_dependence_feature_name_missing_guard_required@sciona/atoms/ml/sklearn/inspection/partial_dependence_feature_name_preflight_shell/atoms.py:79": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the `feature_names.index(fx)` lookup and `except ValueError` branch in sklearn.inspection._partial_dependence._get_feature_index."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for partial_dependence missing-feature-name guards."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_feature_name_preflight_shell.partial_dependence_feature_name_missing_message@sciona/atoms/ml/sklearn/inspection/partial_dependence_feature_name_preflight_shell/atoms.py:90": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from `ValueError(f\"Feature {fx!r} not in feature_names\")` in sklearn.inspection._partial_dependence._get_feature_index."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for partial_dependence missing-feature-name message formatting."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

@@ -871,6 +871,12 @@ Potential remediation path:
   `partial_dependence`: empty-input rejection, boolean-mask size rejection,
   supported dtype-kind detection, and exact ValueError message formatting
   before categorical mask bookkeeping.
+- Completed helper slice:
+  `sklearn.inspection.partial_dependence_feature_name_preflight_shell` now
+  publishes the deterministic string-feature-name guard shell around
+  `_get_feature_index` in `partial_dependence`: string-branch selection,
+  missing-feature-names rejection, missing-feature-name rejection, and exact
+  ValueError message formatting before downstream feature-name lookup.
 - Ingest small helper atoms only where the boundary is explicit, such as
   permutation score aggregation from baseline and permuted score arrays.
 - Decide how estimator callback boundaries should be represented before
