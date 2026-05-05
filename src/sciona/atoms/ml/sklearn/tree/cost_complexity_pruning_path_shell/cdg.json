@@ -1,0 +1,53 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_tree_cost_complexity_pruning_path_shell_root",
+      "name": "Sklearn Tree Cost Complexity Pruning Path Shell Helper Atoms",
+      "description": "Deterministic estimator-clone and result-packaging helpers for BaseDecisionTree.cost_complexity_pruning_path around deferred fit and native pruning callbacks.",
+      "status": "decomposed",
+      "children": [
+        "tree_pruning_path_estimator",
+        "tree_pruning_path_result"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "tree_pruning_path_estimator",
+      "name": "tree_pruning_path_estimator",
+      "description": "Return the cloned zero-alpha estimator used by cost_complexity_pruning_path.",
+      "concept_type": "api_setup",
+      "status": "atomic",
+      "type_signature": "(estimator: object) -> object",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator", "type_desc": "estimator supporting get_params and set_params", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "cloned estimator with ccp_alpha reset to 0.0"}
+      ]
+    },
+    {
+      "node_id": "tree_pruning_path_result",
+      "name": "tree_pruning_path_result",
+      "description": "Return the Bunch packaging used by cost_complexity_pruning_path.",
+      "concept_type": "api_return",
+      "status": "atomic",
+      "type_signature": "(pruning_path: Mapping[str, NDArray[np.float64]]) -> Bunch",
+      "depth": 1,
+      "inputs": [
+        {"name": "pruning_path", "type_desc": "mapping with aligned ccp_alphas and impurities vectors", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "Bunch with ccp_alphas and impurities"}
+      ]
+    }
+  ],
+  "edges": [],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.tree._classes",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 7 probabilistic and mutable-kernel workflows"
+  }
+}

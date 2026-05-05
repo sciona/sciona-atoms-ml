@@ -718,6 +718,11 @@ Potential remediation path:
   publishes the deterministic final-return shell of
   `BaseDecisionTree.feature_importances_` after deferred native
   feature-importance computation: final importance-vector passthrough.
+- Completed helper slice:
+  `sklearn.tree.cost_complexity_pruning_path_shell` now publishes the
+  deterministic wrapper shell of `BaseDecisionTree.cost_complexity_pruning_path`
+  around deferred fit and native pruning callbacks: zero-alpha clone setup
+  and final `Bunch` packaging of `ccp_alphas` and `impurities`.
 - Decide whether tree estimators should be represented as limited
   estimator-state wrapper atoms with explicit audit limitations.
 - Or ingest the Cython/native tree builder, splitter, and criterion internals

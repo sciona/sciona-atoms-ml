@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.tree.cost_complexity_pruning_path_shell.tree_pruning_path_estimator@sciona/atoms/ml/sklearn/tree/cost_complexity_pruning_path_shell/atoms.py:53": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `clone(self).set_params(ccp_alpha=0.0)` shell in BaseDecisionTree.cost_complexity_pruning_path."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for tree pruning-path wrapper behavior."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.tree.cost_complexity_pruning_path_shell.tree_pruning_path_result@sciona/atoms/ml/sklearn/tree/cost_complexity_pruning_path_shell/atoms.py:71": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the final `Bunch(**ccp_pruning_path(est.tree_))` packaging in BaseDecisionTree.cost_complexity_pruning_path."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for tree pruning-path outputs."
+          }
+        }
+      ]
+    }
+  }
+}
