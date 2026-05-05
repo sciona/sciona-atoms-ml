@@ -191,6 +191,11 @@ Potential remediation path:
   the thin deterministic `lasso_path` wrapper shell around `enet_path`:
   fixed `l1_ratio=1.0` delegated call-kwargs assembly and final result
   passthrough.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_estimator_postfit_shell` now
+  publishes deterministic `ElasticNet` post-fit shell helpers after delegated
+  path solving: single-target output collapse, the non-finite parameter
+  guard/message, and `sparse_coef_` exposure.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 

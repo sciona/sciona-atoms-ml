@@ -1,0 +1,141 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_estimator_postfit_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent Estimator Post-Fit Shell Helper Atoms",
+      "description": "Deterministic post-fit helper atoms from sklearn.linear_model._coordinate_descent.ElasticNet after delegated path solving.",
+      "status": "decomposed",
+      "children": [
+        "cd_estimator_single_target_branch",
+        "cd_estimator_single_target_n_iter",
+        "cd_estimator_single_target_coef",
+        "cd_estimator_single_target_dual_gap",
+        "cd_estimator_nonfinite_parameter_guard_required",
+        "cd_estimator_nonfinite_parameter_message",
+        "cd_estimator_sparse_coef"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_estimator_single_target_branch",
+      "name": "cd_estimator_single_target_branch",
+      "description": "Return whether ElasticNet.fit should collapse post-fit outputs for a single target.",
+      "concept_type": "branch_predicate",
+      "status": "atomic",
+      "type_signature": "(n_targets: int) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_targets", "type_desc": "positive target count", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "whether n_targets == 1"}
+      ]
+    },
+    {
+      "node_id": "cd_estimator_single_target_n_iter",
+      "name": "cd_estimator_single_target_n_iter",
+      "description": "Return the collapsed single-target n_iter value.",
+      "concept_type": "shape_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(n_iter_list: Sequence[int]) -> int",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_iter_list", "type_desc": "nonempty sequence of positive iteration counts", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "first iteration count"}
+      ]
+    },
+    {
+      "node_id": "cd_estimator_single_target_coef",
+      "name": "cd_estimator_single_target_coef",
+      "description": "Return the collapsed single-target coefficient vector.",
+      "concept_type": "shape_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(coef_matrix: NDArray[np.floating]) -> NDArray[np.floating]",
+      "depth": 1,
+      "inputs": [
+        {"name": "coef_matrix", "type_desc": "finite coefficient matrix with a leading target axis", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "first coefficient row"}
+      ]
+    },
+    {
+      "node_id": "cd_estimator_single_target_dual_gap",
+      "name": "cd_estimator_single_target_dual_gap",
+      "description": "Return the collapsed single-target dual gap.",
+      "concept_type": "shape_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(dual_gaps: NDArray[np.floating]) -> float",
+      "depth": 1,
+      "inputs": [
+        {"name": "dual_gaps", "type_desc": "finite dual-gap vector", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "first dual-gap entry"}
+      ]
+    },
+    {
+      "node_id": "cd_estimator_nonfinite_parameter_guard_required",
+      "name": "cd_estimator_nonfinite_parameter_guard_required",
+      "description": "Return whether ElasticNet.fit should raise for non-finite fitted parameters.",
+      "concept_type": "branch_predicate",
+      "status": "atomic",
+      "type_signature": "(coef: object, intercept: object) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "coef", "type_desc": "fitted coefficient array", "required": true},
+        {"name": "intercept", "type_desc": "fitted intercept scalar or array", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "whether any fitted parameter is non-finite"}
+      ]
+    },
+    {
+      "node_id": "cd_estimator_nonfinite_parameter_message",
+      "name": "cd_estimator_nonfinite_parameter_message",
+      "description": "Return the non-finite-parameter ValueError text used by ElasticNet.fit.",
+      "concept_type": "error_formatting",
+      "status": "atomic",
+      "type_signature": "(coef: object, intercept: object) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "coef", "type_desc": "fitted coefficient array", "required": true},
+        {"name": "intercept", "type_desc": "fitted intercept scalar or array", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "formatted non-finite-parameter error message"}
+      ]
+    },
+    {
+      "node_id": "cd_estimator_sparse_coef",
+      "name": "cd_estimator_sparse_coef",
+      "description": "Return the CSR sparse representation of coef_.",
+      "concept_type": "api_return",
+      "status": "atomic",
+      "type_signature": "(coef: object) -> sparse.csr_matrix",
+      "depth": 1,
+      "inputs": [
+        {"name": "coef", "type_desc": "finite coefficient vector or matrix", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "CSR sparse representation of coef_"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_estimator_single_target_branch", "target": "cd_estimator_single_target_n_iter", "kind": "single_target_collapse"},
+    {"source": "cd_estimator_single_target_branch", "target": "cd_estimator_single_target_coef", "kind": "single_target_collapse"},
+    {"source": "cd_estimator_single_target_branch", "target": "cd_estimator_single_target_dual_gap", "kind": "single_target_collapse"},
+    {"source": "cd_estimator_nonfinite_parameter_guard_required", "target": "cd_estimator_nonfinite_parameter_message", "kind": "guard_message"},
+    {"source": "cd_estimator_single_target_coef", "target": "cd_estimator_sparse_coef", "kind": "postfit_property"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 5 decomposition and matrix-factorization pipelines"
+  }
+}

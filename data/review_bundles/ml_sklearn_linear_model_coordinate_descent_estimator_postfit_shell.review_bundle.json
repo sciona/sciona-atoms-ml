@@ -1,0 +1,169 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "sciona.atoms.review_bundle.ml.sklearn_linear_model_coordinate_descent_estimator_postfit_shell.v1",
+  "provider_repo": "sciona-atoms-ml",
+  "family_batch": "ml_sklearn_linear_model_coordinate_descent_estimator_postfit_shell",
+  "review_status": "reviewed",
+  "review_semantic_verdict": "pass_with_limits",
+  "review_developer_semantic_verdict": "pass_with_limits",
+  "trust_readiness": "reviewed_with_limits",
+  "authoritative_sources": [
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_postfit_shell/atoms.py"},
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_postfit_shell/witnesses.py"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_postfit_shell/references.json"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_postfit_shell/cdg.json"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_linear_model_coordinate_descent_estimator_postfit_shell_behavior.py"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_linear_model_coordinate_descent_estimator_postfit_shell_references_metadata.py"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_linear_model_coordinate_descent_estimator_postfit_shell_review_bundle.py"}
+  ],
+  "limitations": [
+    "This batch covers only deterministic post-fit shell helpers from ElasticNet after delegated path solving.",
+    "The helpers model single-target output collapse, the non-finite parameter guard/message, and sparse_coef_ exposure.",
+    "Input validation, preprocessing, path solving, intercept computation, and compiled coordinate-descent execution remain deferred or are covered by separate families."
+  ],
+  "blocking_findings": [],
+  "required_actions": [],
+  "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_estimator_postfit_shell.review_bundle.json",
+  "rows": [
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_postfit_shell.cd_estimator_single_target_branch",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_postfit_shell.cd_estimator_single_target_branch",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_postfit_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_postfit_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_postfit_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_postfit_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_estimator_postfit_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_estimator_postfit_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_postfit_shell.cd_estimator_single_target_n_iter",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_postfit_shell.cd_estimator_single_target_n_iter",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_postfit_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_postfit_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_postfit_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_postfit_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_estimator_postfit_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_estimator_postfit_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_postfit_shell.cd_estimator_single_target_coef",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_postfit_shell.cd_estimator_single_target_coef",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_postfit_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_postfit_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_postfit_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_postfit_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_estimator_postfit_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_estimator_postfit_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_postfit_shell.cd_estimator_single_target_dual_gap",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_postfit_shell.cd_estimator_single_target_dual_gap",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_postfit_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_postfit_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_postfit_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_postfit_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_estimator_postfit_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_estimator_postfit_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_postfit_shell.cd_estimator_nonfinite_parameter_guard_required",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_postfit_shell.cd_estimator_nonfinite_parameter_guard_required",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_postfit_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_postfit_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_postfit_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_postfit_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_estimator_postfit_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_estimator_postfit_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_postfit_shell.cd_estimator_nonfinite_parameter_message",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_postfit_shell.cd_estimator_nonfinite_parameter_message",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_postfit_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_postfit_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_postfit_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_postfit_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_estimator_postfit_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_estimator_postfit_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_postfit_shell.cd_estimator_sparse_coef",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_postfit_shell.cd_estimator_sparse_coef",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_postfit_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_postfit_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_postfit_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_postfit_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_estimator_postfit_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_estimator_postfit_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    }
+  ]
+}
