@@ -678,6 +678,12 @@ Potential remediation path:
   the deterministic `_support_missing_values(X)` shell in BaseDecisionTree:
   sparse-input rejection, allow-NaN tag gating, monotonic-constraint absence,
   and the combined missing-value support predicate.
+- Completed helper slice:
+  `sklearn.tree.missing_value_mask_prelude` now publishes the deterministic
+  prelude inside `BaseDecisionTree._compute_missing_values_in_feature_mask`:
+  `estimator_name` defaulting, `common_kwargs` construction, and the
+  `overall_sum` predicates for elementwise finite checking and NaN-detected
+  missing values.
 - Decide whether tree estimators should be represented as limited
   estimator-state wrapper atoms with explicit audit limitations.
 - Or ingest the Cython/native tree builder, splitter, and criterion internals

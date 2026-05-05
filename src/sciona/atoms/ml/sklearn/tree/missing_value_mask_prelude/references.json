@@ -1,0 +1,86 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.tree.missing_value_mask_prelude.tree_missing_values_estimator_name@sciona/atoms/ml/sklearn/tree/missing_value_mask_prelude/atoms.py:29": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `estimator_name = estimator_name or self.__class__.__name__` line in BaseDecisionTree._compute_missing_values_in_feature_mask in sklearn.tree._classes."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for tree missing-value bookkeeping."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.tree.missing_value_mask_prelude.tree_missing_values_common_kwargs@sciona/atoms/ml/sklearn/tree/missing_value_mask_prelude/atoms.py:43": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `common_kwargs = dict(estimator_name=estimator_name, input_name=\"X\")` line in BaseDecisionTree._compute_missing_values_in_feature_mask in sklearn.tree._classes."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for tree finite-check kwargs bookkeeping."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.tree.missing_value_mask_prelude.tree_missing_values_overall_sum_requires_elementwise_check@sciona/atoms/ml/sklearn/tree/missing_value_mask_prelude/atoms.py:53": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `if not np.isfinite(overall_sum):` guard in BaseDecisionTree._compute_missing_values_in_feature_mask in sklearn.tree._classes."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for tree missing-value sum diagnostics."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.tree.missing_value_mask_prelude.tree_missing_values_overall_sum_has_missing@sciona/atoms/ml/sklearn/tree/missing_value_mask_prelude/atoms.py:61": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `if not np.isnan(overall_sum): return None` branch in BaseDecisionTree._compute_missing_values_in_feature_mask in sklearn.tree._classes."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for tree missing-value sum diagnostics."
+          }
+        }
+      ]
+    }
+  }
+}
+

@@ -1,0 +1,87 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_tree_missing_value_mask_prelude_root",
+      "name": "Sklearn Tree Missing-Value Mask Prelude Helper Atoms",
+      "description": "Deterministic helpers for the early bookkeeping in BaseDecisionTree._compute_missing_values_in_feature_mask.",
+      "status": "decomposed",
+      "children": [
+        "tree_missing_values_estimator_name",
+        "tree_missing_values_common_kwargs",
+        "tree_missing_values_overall_sum_requires_elementwise_check",
+        "tree_missing_values_overall_sum_has_missing"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "tree_missing_values_estimator_name",
+      "name": "tree_missing_values_estimator_name",
+      "description": "Resolve estimator_name defaulting to the estimator class name.",
+      "concept_type": "bookkeeping",
+      "status": "atomic",
+      "type_signature": "(class_name: str, estimator_name: str | None = None) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "class_name", "type_desc": "str", "required": true},
+        {"name": "estimator_name", "type_desc": "str | None", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "str"}
+      ]
+    },
+    {
+      "node_id": "tree_missing_values_common_kwargs",
+      "name": "tree_missing_values_common_kwargs",
+      "description": "Construct sklearn's common_kwargs payload for finite-value checks.",
+      "concept_type": "bookkeeping",
+      "status": "atomic",
+      "type_signature": "(estimator_name: str) -> dict[str, str]",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator_name", "type_desc": "str", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "dict[str, str]"}
+      ]
+    },
+    {
+      "node_id": "tree_missing_values_overall_sum_requires_elementwise_check",
+      "name": "tree_missing_values_overall_sum_requires_elementwise_check",
+      "description": "Return whether sklearn escalates to elementwise finite checking from overall_sum.",
+      "concept_type": "predicate",
+      "status": "atomic",
+      "type_signature": "(overall_sum: float) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "overall_sum", "type_desc": "numeric scalar", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "tree_missing_values_overall_sum_has_missing",
+      "name": "tree_missing_values_overall_sum_has_missing",
+      "description": "Return whether sklearn's overall_sum indicates missing values via NaN.",
+      "concept_type": "predicate",
+      "status": "atomic",
+      "type_signature": "(overall_sum: float) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "overall_sum", "type_desc": "numeric scalar", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    }
+  ],
+  "edges": [],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.tree._classes",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 7 probabilistic and mutable-kernel workflows"
+  }
+}
+
