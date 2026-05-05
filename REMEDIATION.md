@@ -174,6 +174,12 @@ Potential remediation path:
   compiled coordinate-descent family: Gram-validation gating, sparse,
   multitask, Gram, and dense solver predicates, and the invalid-precompute
   error message.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_enet_path_state_setup` now
+  publishes the deterministic `enet_path` state setup before the compiled
+  solver loop: alpha-count resolution, dual-gap and coefficient-path buffer
+  allocation, empty iteration-buffer setup, and zero-init versus warm-start
+  initial coefficient preparation.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 

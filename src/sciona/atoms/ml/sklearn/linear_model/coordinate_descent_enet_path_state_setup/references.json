@@ -1,0 +1,145 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_enet_path_state_setup.cd_enet_path_alpha_count@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_enet_path_state_setup/atoms.py:46": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `n_alphas = len(alphas)` shell in sklearn.linear_model._coordinate_descent.enet_path."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for enet_path alpha-count setup."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_enet_path_state_setup.cd_enet_path_dual_gap_buffer@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_enet_path_state_setup/atoms.py:59": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `dual_gaps = np.empty(n_alphas)` allocation shell in sklearn.linear_model._coordinate_descent.enet_path."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for enet_path dual-gap allocation."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_enet_path_state_setup.cd_enet_path_iteration_buffer@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_enet_path_state_setup/atoms.py:71": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `n_iters = []` allocation shell in sklearn.linear_model._coordinate_descent.enet_path."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for enet_path iteration-buffer setup."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_enet_path_state_setup.cd_enet_path_coef_path_shape@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_enet_path_state_setup/atoms.py:77": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the mono-output versus multi-output coefficient-path shape shell in sklearn.linear_model._coordinate_descent.enet_path."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for enet_path coefficient-path shape setup."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_enet_path_state_setup.cd_enet_path_coef_path_buffer@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_enet_path_state_setup/atoms.py:104": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `coefs = np.empty(..., dtype=X.dtype)` allocation shell in sklearn.linear_model._coordinate_descent.enet_path."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for enet_path coefficient-path allocation."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_enet_path_state_setup.cd_enet_path_initial_coef_required@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_enet_path_state_setup/atoms.py:120": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `if coef_init is None:` branch predicate in sklearn.linear_model._coordinate_descent.enet_path."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for enet_path warm-start branching."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_enet_path_state_setup.cd_enet_path_initial_coef@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_enet_path_state_setup/atoms.py:131": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the zero-init versus `np.asfortranarray(coef_init, dtype=X.dtype)` shell in sklearn.linear_model._coordinate_descent.enet_path."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for enet_path initial coefficient setup."
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,169 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "sciona.atoms.review_bundle.ml.sklearn_linear_model_coordinate_descent_enet_path_state_setup.v1",
+  "provider_repo": "sciona-atoms-ml",
+  "family_batch": "ml_sklearn_linear_model_coordinate_descent_enet_path_state_setup",
+  "review_status": "reviewed",
+  "review_semantic_verdict": "pass_with_limits",
+  "review_developer_semantic_verdict": "pass_with_limits",
+  "trust_readiness": "reviewed_with_limits",
+  "authoritative_sources": [
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_enet_path_state_setup/atoms.py"},
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_enet_path_state_setup/witnesses.py"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_enet_path_state_setup/references.json"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_enet_path_state_setup/cdg.json"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_linear_model_coordinate_descent_enet_path_state_setup_behavior.py"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_linear_model_coordinate_descent_enet_path_state_setup_references_metadata.py"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_linear_model_coordinate_descent_enet_path_state_setup_review_bundle.py"}
+  ],
+  "limitations": [
+    "This batch covers only the deterministic enet_path state setup before the compiled coordinate-descent solver loop.",
+    "The helpers model alpha-count resolution, dual-gap and coefficient-path buffer allocation, empty iteration-buffer setup, and zero-init versus warm-start initial coefficient preparation.",
+    "Random-state normalization, solver dispatch, compiled coordinate-descent execution, and loop-side numerical updates remain deferred or are covered by separate families."
+  ],
+  "blocking_findings": [],
+  "required_actions": [],
+  "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_enet_path_state_setup.review_bundle.json",
+  "rows": [
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_enet_path_state_setup.cd_enet_path_alpha_count",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_enet_path_state_setup.cd_enet_path_alpha_count",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_enet_path_state_setup/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_enet_path_state_setup/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_enet_path_state_setup/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_enet_path_state_setup/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_enet_path_state_setup_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_enet_path_state_setup.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_enet_path_state_setup.cd_enet_path_dual_gap_buffer",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_enet_path_state_setup.cd_enet_path_dual_gap_buffer",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_enet_path_state_setup/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_enet_path_state_setup/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_enet_path_state_setup/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_enet_path_state_setup/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_enet_path_state_setup_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_enet_path_state_setup.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_enet_path_state_setup.cd_enet_path_iteration_buffer",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_enet_path_state_setup.cd_enet_path_iteration_buffer",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_enet_path_state_setup/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_enet_path_state_setup/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_enet_path_state_setup/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_enet_path_state_setup/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_enet_path_state_setup_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_enet_path_state_setup.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_enet_path_state_setup.cd_enet_path_coef_path_shape",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_enet_path_state_setup.cd_enet_path_coef_path_shape",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_enet_path_state_setup/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_enet_path_state_setup/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_enet_path_state_setup/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_enet_path_state_setup/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_enet_path_state_setup_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_enet_path_state_setup.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_enet_path_state_setup.cd_enet_path_coef_path_buffer",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_enet_path_state_setup.cd_enet_path_coef_path_buffer",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_enet_path_state_setup/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_enet_path_state_setup/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_enet_path_state_setup/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_enet_path_state_setup/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_enet_path_state_setup_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_enet_path_state_setup.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_enet_path_state_setup.cd_enet_path_initial_coef_required",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_enet_path_state_setup.cd_enet_path_initial_coef_required",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_enet_path_state_setup/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_enet_path_state_setup/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_enet_path_state_setup/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_enet_path_state_setup/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_enet_path_state_setup_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_enet_path_state_setup.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_enet_path_state_setup.cd_enet_path_initial_coef",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_enet_path_state_setup.cd_enet_path_initial_coef",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_enet_path_state_setup/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_enet_path_state_setup/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_enet_path_state_setup/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_enet_path_state_setup/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_enet_path_state_setup_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_enet_path_state_setup.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    }
+  ]
+}

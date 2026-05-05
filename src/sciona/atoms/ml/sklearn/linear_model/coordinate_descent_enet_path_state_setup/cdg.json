@@ -1,0 +1,145 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_enet_path_state_setup_root",
+      "name": "Sklearn Linear Model Coordinate Descent enet_path State Setup Helper Atoms",
+      "description": "Deterministic state-setup helpers from sklearn.linear_model._coordinate_descent.enet_path before the compiled solver loop.",
+      "status": "decomposed",
+      "children": [
+        "cd_enet_path_alpha_count",
+        "cd_enet_path_dual_gap_buffer",
+        "cd_enet_path_iteration_buffer",
+        "cd_enet_path_coef_path_shape",
+        "cd_enet_path_coef_path_buffer",
+        "cd_enet_path_initial_coef_required",
+        "cd_enet_path_initial_coef"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_enet_path_alpha_count",
+      "name": "cd_enet_path_alpha_count",
+      "description": "Return the `n_alphas = len(alphas)` value used by enet_path.",
+      "concept_type": "shape_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(alphas: Sequence[object]) -> int",
+      "depth": 1,
+      "inputs": [
+        {"name": "alphas", "type_desc": "nonempty alpha sequence", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "positive alpha count"}
+      ]
+    },
+    {
+      "node_id": "cd_enet_path_dual_gap_buffer",
+      "name": "cd_enet_path_dual_gap_buffer",
+      "description": "Return the dual-gap buffer allocated by enet_path.",
+      "concept_type": "buffer_allocation",
+      "status": "atomic",
+      "type_signature": "(alpha_count: int) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "alpha_count", "type_desc": "positive alpha count", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "float64 dual-gap buffer"}
+      ]
+    },
+    {
+      "node_id": "cd_enet_path_iteration_buffer",
+      "name": "cd_enet_path_iteration_buffer",
+      "description": "Return the empty iteration-count list allocated by enet_path.",
+      "concept_type": "buffer_allocation",
+      "status": "atomic",
+      "type_signature": "(alpha_count: int) -> list[int]",
+      "depth": 1,
+      "inputs": [
+        {"name": "alpha_count", "type_desc": "positive alpha count", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "empty iteration-count list"}
+      ]
+    },
+    {
+      "node_id": "cd_enet_path_coef_path_shape",
+      "name": "cd_enet_path_coef_path_shape",
+      "description": "Return the coefficient-path allocation shape used by enet_path.",
+      "concept_type": "shape_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(n_features: int, alpha_count: int, multi_output: bool, n_targets: int | None) -> tuple[int, ...]",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_features", "type_desc": "positive feature count", "required": true},
+        {"name": "alpha_count", "type_desc": "positive alpha count", "required": true},
+        {"name": "multi_output", "type_desc": "whether y is multi-output", "required": true},
+        {"name": "n_targets", "type_desc": "optional positive target count", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "2D or 3D coefficient-path shape"}
+      ]
+    },
+    {
+      "node_id": "cd_enet_path_coef_path_buffer",
+      "name": "cd_enet_path_coef_path_buffer",
+      "description": "Return the coefficient-path ndarray allocated by enet_path.",
+      "concept_type": "buffer_allocation",
+      "status": "atomic",
+      "type_signature": "(coef_shape: tuple[int, ...], dtype_name: str) -> NDArray[np.floating]",
+      "depth": 1,
+      "inputs": [
+        {"name": "coef_shape", "type_desc": "positive 2D or 3D coefficient-path shape", "required": true},
+        {"name": "dtype_name", "type_desc": "float32 or float64 output dtype", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "coefficient-path buffer"}
+      ]
+    },
+    {
+      "node_id": "cd_enet_path_initial_coef_required",
+      "name": "cd_enet_path_initial_coef_required",
+      "description": "Return whether enet_path should allocate zero coefficients instead of using coef_init.",
+      "concept_type": "branch_predicate",
+      "status": "atomic",
+      "type_signature": "(coef_init: object) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "coef_init", "type_desc": "optional warm-start coefficient array", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "whether coef_init is None"}
+      ]
+    },
+    {
+      "node_id": "cd_enet_path_initial_coef",
+      "name": "cd_enet_path_initial_coef",
+      "description": "Return the Fortran-contiguous initial coefficient array used by enet_path.",
+      "concept_type": "buffer_allocation",
+      "status": "atomic",
+      "type_signature": "(coef_shape: tuple[int, ...], dtype_name: str, coef_init: object) -> NDArray[np.floating]",
+      "depth": 1,
+      "inputs": [
+        {"name": "coef_shape", "type_desc": "positive 2D or 3D coefficient-path shape", "required": true},
+        {"name": "dtype_name", "type_desc": "float32 or float64 output dtype", "required": true},
+        {"name": "coef_init", "type_desc": "optional finite warm-start coefficient array", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "Fortran-contiguous initial coefficient buffer"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_enet_path_alpha_count", "target": "cd_enet_path_dual_gap_buffer", "kind": "shared_length"},
+    {"source": "cd_enet_path_alpha_count", "target": "cd_enet_path_coef_path_shape", "kind": "shared_length"},
+    {"source": "cd_enet_path_coef_path_shape", "target": "cd_enet_path_coef_path_buffer", "kind": "allocation_shape"},
+    {"source": "cd_enet_path_coef_path_shape", "target": "cd_enet_path_initial_coef", "kind": "warm_start_shape"},
+    {"source": "cd_enet_path_initial_coef_required", "target": "cd_enet_path_initial_coef", "kind": "branch"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 5 decomposition and matrix-factorization pipelines"
+  }
+}
