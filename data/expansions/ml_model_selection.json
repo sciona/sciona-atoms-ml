@@ -114,22 +114,21 @@
       "runtime_diagnostic": "is_time_series",
       "name": "Force Cross-Validation Strategy",
       "intent": "Use leakage-safe validation when data ordering or grouping requires a specific split strategy.",
-      "dejargonized_summary": "Force a time-aware or group-aware validation split when ordinary random folds would leak information, including GroupKFold by Patient ID, GroupKFold split by cultivar, GroupKFold split by patient, Stratified GroupKFold, Stratified GroupKFold (Age-based), Stratified GroupKFold by Session ID, 5-fold time-based Cross-Validation, Cross-validation by UserID, and Time-based Cross-Validation.",
+      "dejargonized_summary": "Force a time-aware, group-aware, or spatial validation split when ordinary random folds would leak information, including GroupKFold by Patient ID, GroupKFold split by cultivar, GroupKFold split by patient, Stratified GroupKFold, Stratified GroupKFold (Age-based), Stratified GroupKFold by Session ID, Spatial Cross-Validation (SCV), 5-fold time-based Cross-Validation, Cross-validation by UserID, and Time-based Cross-Validation.",
       "trigger": {
         "metric_name": "is_time_series",
         "comparison": "gt",
         "threshold": 0.0,
-        "required_intermediate_keys": [
-          "model_selection.is_time_series",
-          "model_selection.recommend_cv_strategy"
-        ],
         "required_any_intermediate_keys": [
           "model_selection.is_time_series",
           "model_selection.requires_group_kfold",
           "model_selection.use_group_kfold",
           "model_selection.requires_group_aware_cv",
           "model_selection.requires_stratified_group_kfold",
-          "model_selection.use_stratified_group_kfold"
+          "model_selection.use_stratified_group_kfold",
+          "model_selection.requires_spatial_cv",
+          "model_selection.use_spatial_cv",
+          "model_selection.requires_spatial_cross_validation"
         ]
       },
       "action_classes": [
