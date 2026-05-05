@@ -690,6 +690,11 @@ Potential remediation path:
   the None-return branches for unsupported or missing-free inputs, the branch
   predicate that decides whether `_any_isnan_axis0(X)` is needed, and final
   missing-mask passthrough.
+- Completed helper slice: `sklearn.tree.predict_preflight` now publishes
+  deterministic helper atoms for the pure-Python preflight inside
+  `BaseDecisionTree._validate_X_predict`: the `check_input` branch predicate,
+  missing-value validation mode selection, and the CSR sparse-index dtype
+  guard before deferred `validate_data` execution and feature-count checks.
 - Decide whether tree estimators should be represented as limited
   estimator-state wrapper atoms with explicit audit limitations.
 - Or ingest the Cython/native tree builder, splitter, and criterion internals

@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "sciona.atoms.review_bundle.ml.sklearn_tree_predict_preflight.v1",
+  "provider_repo": "sciona-atoms-ml",
+  "family_batch": "ml_sklearn_tree_predict_preflight",
+  "review_status": "reviewed",
+  "review_semantic_verdict": "pass_with_limits",
+  "review_developer_semantic_verdict": "pass_with_limits",
+  "trust_readiness": "reviewed_with_limits",
+  "authoritative_sources": [
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/sklearn/tree/predict_preflight/atoms.py"},
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/sklearn/tree/predict_preflight/witnesses.py"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/sklearn/tree/predict_preflight/references.json"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/sklearn/tree/predict_preflight/cdg.json"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_tree_predict_preflight_behavior.py"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_tree_predict_preflight_references_metadata.py"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_tree_predict_preflight_review_bundle.py"}
+  ],
+  "limitations": [
+    "This batch covers only the deterministic pure-Python preflight inside BaseDecisionTree._validate_X_predict.",
+    "The helpers model the check_input branch predicate, ensure_all_finite mode selection, and the CSR sparse-index dtype guard.",
+    "validate_data execution, _check_n_features, and downstream tree prediction remain deferred."
+  ],
+  "blocking_findings": [],
+  "required_actions": [],
+  "review_record_path": "data/review_bundles/ml_sklearn_tree_predict_preflight.review_bundle.json",
+  "rows": [
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.tree.predict_preflight.tree_predict_use_check_input_branch",
+      "atom_name": "sciona.atoms.ml.sklearn.tree.predict_preflight.tree_predict_use_check_input_branch",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/tree/predict_preflight/atoms.py",
+        "src/sciona/atoms/ml/sklearn/tree/predict_preflight/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/tree/predict_preflight/references.json",
+        "src/sciona/atoms/ml/sklearn/tree/predict_preflight/cdg.json",
+        "tests/test_ml_sklearn_tree_predict_preflight_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_tree_predict_preflight.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.tree.predict_preflight.tree_predict_ensure_all_finite_mode",
+      "atom_name": "sciona.atoms.ml.sklearn.tree.predict_preflight.tree_predict_ensure_all_finite_mode",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/tree/predict_preflight/atoms.py",
+        "src/sciona/atoms/ml/sklearn/tree/predict_preflight/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/tree/predict_preflight/references.json",
+        "src/sciona/atoms/ml/sklearn/tree/predict_preflight/cdg.json",
+        "tests/test_ml_sklearn_tree_predict_preflight_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_tree_predict_preflight.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.tree.predict_preflight.tree_predict_require_sparse_int32_indices",
+      "atom_name": "sciona.atoms.ml.sklearn.tree.predict_preflight.tree_predict_require_sparse_int32_indices",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/tree/predict_preflight/atoms.py",
+        "src/sciona/atoms/ml/sklearn/tree/predict_preflight/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/tree/predict_preflight/references.json",
+        "src/sciona/atoms/ml/sklearn/tree/predict_preflight/cdg.json",
+        "tests/test_ml_sklearn_tree_predict_preflight_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_tree_predict_preflight.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    }
+  ]
+}
+

@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.tree.predict_preflight.tree_predict_use_check_input_branch@sciona/atoms/ml/sklearn/tree/predict_preflight/atoms.py:27": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `if check_input:` branch split in BaseDecisionTree._validate_X_predict in sklearn.tree._classes."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for tree prediction preflight control flow."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.tree.predict_preflight.tree_predict_ensure_all_finite_mode@sciona/atoms/ml/sklearn/tree/predict_preflight/atoms.py:35": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the ensure_all_finite mode selection in BaseDecisionTree._validate_X_predict in sklearn.tree._classes."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for tree prediction validation modes."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.tree.predict_preflight.tree_predict_require_sparse_int32_indices@sciona/atoms/ml/sklearn/tree/predict_preflight/atoms.py:50": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the CSR sparse-index dtype guard in BaseDecisionTree._validate_X_predict in sklearn.tree._classes."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for tree sparse prediction validation."
+          }
+        }
+      ]
+    }
+  }
+}
+
