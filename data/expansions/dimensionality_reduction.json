@@ -1,0 +1,119 @@
+{
+  "asset_id": "family.dimensionality_reduction.expansions.v1",
+  "asset_version": "phase1.v1",
+  "family": "dimensionality_reduction",
+  "family_aliases": [
+    "pca",
+    "svd",
+    "tsne",
+    "umap",
+    "manifold_learning"
+  ],
+  "domain": "ml",
+  "name": "Dimensionality Reduction Expansion Inventory",
+  "summary": "Declarative refinement inventory for dimensionality-reduction runtime diagnostics and safeguards.",
+  "operations": [
+    {
+      "rule_name": "insert_explained_variance_after_project",
+      "operation_id": "sciona.expansions.ml.dimensionality_reduction.explained_variance",
+      "operation_type": "insert",
+      "applies_to": "dimensionality_reduction.project->sink",
+      "name": "Explained Variance Analysis",
+      "intent": "Insert explained-variance analysis after projection.",
+      "dejargonized_summary": "Check whether the projection keeps enough of the original signal.",
+      "trigger": {
+        "metric_name": "cumulative_variance_ratio",
+        "comparison": "lt",
+        "threshold": 0.95,
+        "required_intermediate_keys": [
+          "cumulative_variance_ratio"
+        ]
+      },
+      "action_classes": [
+        "gate_or_validate"
+      ]
+    },
+    {
+      "rule_name": "insert_crowding_detection_after_project",
+      "operation_id": "sciona.expansions.ml.dimensionality_reduction.crowding_detection",
+      "operation_type": "insert",
+      "applies_to": "dimensionality_reduction.source->project",
+      "name": "Crowding Detection",
+      "intent": "Insert crowding detection before projection consumes upstream structure.",
+      "dejargonized_summary": "Check whether nearby points stay nearby after projection.",
+      "trigger": {
+        "metric_name": "trustworthiness",
+        "comparison": "lt",
+        "threshold": 0.9,
+        "required_intermediate_keys": [
+          "trustworthiness"
+        ]
+      },
+      "action_classes": [
+        "gate_or_validate"
+      ]
+    },
+    {
+      "rule_name": "insert_reconstruction_error_after_validate",
+      "operation_id": "sciona.expansions.ml.dimensionality_reduction.reconstruction_error",
+      "operation_type": "insert",
+      "applies_to": "dimensionality_reduction.validate_reconstruction->sink",
+      "name": "Reconstruction Error Check",
+      "intent": "Insert reconstruction-error checking after reconstruction validation.",
+      "dejargonized_summary": "Check whether too much information is lost when reconstructing from the projection.",
+      "trigger": {
+        "metric_name": "reconstruction_relative_error",
+        "comparison": "gt",
+        "threshold": 0.1,
+        "required_intermediate_keys": [
+          "reconstruction_relative_error"
+        ]
+      },
+      "action_classes": [
+        "gate_or_validate"
+      ]
+    },
+    {
+      "rule_name": "insert_orthogonality_validation_before_project",
+      "operation_id": "sciona.expansions.ml.dimensionality_reduction.orthogonality_validation",
+      "operation_type": "insert",
+      "applies_to": "dimensionality_reduction.source->validate_reconstruction",
+      "name": "Orthogonality Validation",
+      "intent": "Insert projection-component orthogonality validation before reconstruction validation.",
+      "dejargonized_summary": "Check whether projection components are independent enough for the method's assumptions.",
+      "trigger": {
+        "metric_name": "max_off_diagonal",
+        "comparison": "gt",
+        "threshold": 0.000001,
+        "required_intermediate_keys": [
+          "max_off_diagonal"
+        ]
+      },
+      "action_classes": [
+        "gate_or_validate"
+      ]
+    }
+  ],
+  "audit": {
+    "provenance": "provider_migrated_asset",
+    "source_kind": "shared_asset",
+    "review_status": "transitional",
+    "rationale": "Normalizes dimensionality-reduction runtime expansion rules into the provider expansion asset schema.",
+    "dejargonized_summary": "Projection checks for retained variance, neighbor preservation, reconstruction error, and component orthogonality now use the shared expansion schema.",
+    "migration_readiness": {
+      "status": "in_progress",
+      "target_repository": "../sciona-atoms-ml",
+      "target_scope": "expansion.dimensionality_reduction",
+      "rationale": "The operations are declared through data/expansions and backed by matcher runtime rules."
+    },
+    "references": [
+      {
+        "title": "sciona.principal.expansion_rules.dimensionality_reduction",
+        "note": "Runtime rule names and diagnostics in sciona-matcher."
+      }
+    ],
+    "maintainers": [
+      "sciona-atoms-ml"
+    ]
+  }
+}

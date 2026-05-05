@@ -1,0 +1,118 @@
+{
+  "asset_id": "family.clustering.expansions.v1",
+  "asset_version": "phase1.v1",
+  "family": "clustering",
+  "family_aliases": [
+    "kmeans",
+    "k_medoids",
+    "gaussian_mixture",
+    "em_gmm"
+  ],
+  "domain": "ml",
+  "name": "Clustering Expansion Inventory",
+  "summary": "Declarative refinement inventory for clustering runtime diagnostics and safeguards.",
+  "operations": [
+    {
+      "rule_name": "insert_cluster_balance_analysis_after_assign",
+      "operation_id": "sciona.expansions.ml.clustering.cluster_balance",
+      "operation_type": "insert",
+      "applies_to": "clustering.assign_points->sink",
+      "name": "Cluster Balance Analysis",
+      "intent": "Insert cluster-size balance analysis after point assignment.",
+      "dejargonized_summary": "Check whether one cluster is much larger than another after points are assigned.",
+      "trigger": {
+        "metric_name": "cluster_imbalance_ratio",
+        "comparison": "gt",
+        "threshold": 10.0,
+        "required_intermediate_keys": [
+          "cluster_imbalance_ratio"
+        ]
+      },
+      "action_classes": [
+        "gate_or_validate"
+      ]
+    },
+    {
+      "rule_name": "insert_assignment_stability_after_update",
+      "operation_id": "sciona.expansions.ml.clustering.assignment_stability",
+      "operation_type": "insert",
+      "applies_to": "clustering.update_centers->sink",
+      "name": "Assignment Stability Monitoring",
+      "intent": "Insert assignment-change monitoring after center updates.",
+      "dejargonized_summary": "Check whether too many points keep changing clusters between iterations.",
+      "trigger": {
+        "metric_name": "assignment_change_fraction",
+        "comparison": "gt",
+        "threshold": 0.01,
+        "required_intermediate_keys": [
+          "assignment_change_fraction"
+        ]
+      },
+      "action_classes": [
+        "gate_or_validate"
+      ]
+    },
+    {
+      "rule_name": "insert_empty_cluster_detection_after_assign",
+      "operation_id": "sciona.expansions.ml.clustering.empty_cluster_detection",
+      "operation_type": "insert",
+      "applies_to": "clustering.source->assign_points",
+      "name": "Empty Cluster Detection",
+      "intent": "Insert empty-cluster detection before assignment work proceeds.",
+      "dejargonized_summary": "Check whether any requested cluster has no assigned points.",
+      "trigger": {
+        "metric_name": "n_empty_clusters",
+        "comparison": "gt",
+        "threshold": 0.0,
+        "required_intermediate_keys": [
+          "n_empty_clusters"
+        ]
+      },
+      "action_classes": [
+        "gate_or_validate"
+      ]
+    },
+    {
+      "rule_name": "insert_separation_validation_after_update",
+      "operation_id": "sciona.expansions.ml.clustering.separation_validation",
+      "operation_type": "insert",
+      "applies_to": "clustering.source->update_centers",
+      "name": "Separation Validation",
+      "intent": "Insert cluster separation validation before center updates consume upstream state.",
+      "dejargonized_summary": "Check whether clusters are separated enough to trust the current grouping.",
+      "trigger": {
+        "metric_name": "separation_ratio",
+        "comparison": "lt",
+        "threshold": 1.0,
+        "required_intermediate_keys": [
+          "separation_ratio"
+        ]
+      },
+      "action_classes": [
+        "gate_or_validate"
+      ]
+    }
+  ],
+  "audit": {
+    "provenance": "provider_migrated_asset",
+    "source_kind": "shared_asset",
+    "review_status": "transitional",
+    "rationale": "Normalizes clustering runtime expansion rules into the provider expansion asset schema.",
+    "dejargonized_summary": "Clustering checks for imbalance, unstable assignments, empty clusters, and weak separation now use the shared expansion schema.",
+    "migration_readiness": {
+      "status": "in_progress",
+      "target_repository": "../sciona-atoms-ml",
+      "target_scope": "expansion.clustering",
+      "rationale": "The operations are declared through data/expansions and backed by matcher runtime rules."
+    },
+    "references": [
+      {
+        "title": "sciona.principal.expansion_rules.clustering",
+        "note": "Runtime rule names and diagnostics in sciona-matcher."
+      }
+    ],
+    "maintainers": [
+      "sciona-atoms-ml"
+    ]
+  }
+}
