@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "sciona.atoms.review_bundle.ml.sklearn_tree_feature_importances_shell.v1",
+  "provider_repo": "sciona-atoms-ml",
+  "family_batch": "ml_sklearn_tree_feature_importances_shell",
+  "review_status": "reviewed",
+  "review_semantic_verdict": "pass_with_limits",
+  "review_developer_semantic_verdict": "pass_with_limits",
+  "trust_readiness": "reviewed_with_limits",
+  "authoritative_sources": [
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/sklearn/tree/feature_importances_shell/atoms.py"},
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/sklearn/tree/feature_importances_shell/witnesses.py"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/sklearn/tree/feature_importances_shell/references.json"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/sklearn/tree/feature_importances_shell/cdg.json"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_tree_feature_importances_shell_behavior.py"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_tree_feature_importances_shell_references_metadata.py"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_tree_feature_importances_shell_review_bundle.py"}
+  ],
+  "limitations": [
+    "This batch covers only the deterministic final-return shell of BaseDecisionTree.feature_importances_ after deferred native feature-importance computation.",
+    "The helper models final importance-vector passthrough only.",
+    "Fitted-state validation and native feature-importance computation remain deferred."
+  ],
+  "blocking_findings": [],
+  "required_actions": [],
+  "review_record_path": "data/review_bundles/ml_sklearn_tree_feature_importances_shell.review_bundle.json",
+  "rows": [
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.tree.feature_importances_shell.tree_feature_importances_result",
+      "atom_name": "sciona.atoms.ml.sklearn.tree.feature_importances_shell.tree_feature_importances_result",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/tree/feature_importances_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/tree/feature_importances_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/tree/feature_importances_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/tree/feature_importances_shell/cdg.json",
+        "tests/test_ml_sklearn_tree_feature_importances_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_tree_feature_importances_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    }
+  ]
+}

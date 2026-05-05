@@ -714,6 +714,10 @@ Potential remediation path:
   `DecisionTreeClassifier`: single-output and multioutput class-slice
   packaging in `predict_proba`, plus the elementwise log packaging used by
   single-output and multioutput `predict_log_proba`.
+- Completed helper slice: `sklearn.tree.feature_importances_shell` now
+  publishes the deterministic final-return shell of
+  `BaseDecisionTree.feature_importances_` after deferred native
+  feature-importance computation: final importance-vector passthrough.
 - Decide whether tree estimators should be represented as limited
   estimator-state wrapper atoms with explicit audit limitations.
 - Or ingest the Cython/native tree builder, splitter, and criterion internals
