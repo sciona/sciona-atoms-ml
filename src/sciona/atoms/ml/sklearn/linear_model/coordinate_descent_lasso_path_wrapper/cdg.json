@@ -1,0 +1,66 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_lasso_path_wrapper_root",
+      "name": "Sklearn Linear Model Coordinate Descent lasso_path Wrapper Helper Atoms",
+      "description": "Deterministic public-wrapper helpers from sklearn.linear_model._coordinate_descent.lasso_path around the delegated enet_path call.",
+      "status": "decomposed",
+      "children": [
+        "cd_lasso_path_call_kwargs",
+        "cd_lasso_path_result"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_lasso_path_call_kwargs",
+      "name": "cd_lasso_path_call_kwargs",
+      "description": "Return the fixed enet_path kwargs assembled by lasso_path, including l1_ratio=1.0.",
+      "concept_type": "callback_kwargs",
+      "status": "atomic",
+      "type_signature": "(eps: float, n_alphas: int, alphas: object, precompute: object, Xy: object, copy_X: bool, coef_init: object, verbose: object, positive: bool, return_n_iter: bool, params: Mapping[str, object]) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "eps", "type_desc": "positive path ratio", "required": true},
+        {"name": "n_alphas", "type_desc": "positive alpha count", "required": true},
+        {"name": "alphas", "type_desc": "optional alpha vector", "required": true},
+        {"name": "precompute", "type_desc": "precompute mode or Gram matrix", "required": true},
+        {"name": "Xy", "type_desc": "optional precomputed X transpose y", "required": true},
+        {"name": "copy_X", "type_desc": "copy-input flag", "required": true},
+        {"name": "coef_init", "type_desc": "optional warm-start coefficient array", "required": true},
+        {"name": "verbose", "type_desc": "verbosity flag or level", "required": true},
+        {"name": "positive", "type_desc": "positive-coefficient flag", "required": true},
+        {"name": "return_n_iter", "type_desc": "whether to include iteration counts", "required": true},
+        {"name": "params", "type_desc": "extra delegated coordinate-descent parameters", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "enet_path keyword mapping with l1_ratio fixed to 1.0"}
+      ]
+    },
+    {
+      "node_id": "cd_lasso_path_result",
+      "name": "cd_lasso_path_result",
+      "description": "Return the delegated enet_path result tuple unchanged.",
+      "concept_type": "api_return",
+      "status": "atomic",
+      "type_signature": "(delegated_result: tuple[object, ...], return_n_iter: bool) -> tuple[object, ...]",
+      "depth": 1,
+      "inputs": [
+        {"name": "delegated_result", "type_desc": "three- or four-item delegated enet_path tuple", "required": true},
+        {"name": "return_n_iter", "type_desc": "whether iteration counts are expected", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "final lasso_path return tuple"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_lasso_path_call_kwargs", "target": "cd_lasso_path_result", "kind": "delegated_call"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 5 decomposition and matrix-factorization pipelines"
+  }
+}

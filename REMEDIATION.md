@@ -186,6 +186,11 @@ Potential remediation path:
   bookkeeping: invalid-selection detection, solver-tuple coefficient and
   iteration extraction, public dual-gap scaling, and verbose branch/message
   formatting.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_lasso_path_wrapper` now publishes
+  the thin deterministic `lasso_path` wrapper shell around `enet_path`:
+  fixed `l1_ratio=1.0` delegated call-kwargs assembly and final result
+  passthrough.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 
