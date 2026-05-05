@@ -1,0 +1,173 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_enet_path_loop_tail_root",
+      "name": "Sklearn Linear Model Coordinate Descent enet_path Loop Tail Helper Atoms",
+      "description": "Deterministic selection-guard and post-callback loop-tail helpers from sklearn.linear_model._coordinate_descent.enet_path.",
+      "status": "decomposed",
+      "children": [
+        "cd_enet_path_selection_guard_required",
+        "cd_enet_path_selection_error_message",
+        "cd_enet_path_model_coef",
+        "cd_enet_path_scaled_dual_gap",
+        "cd_enet_path_model_iteration_count",
+        "cd_enet_path_verbose_use_tuple_print",
+        "cd_enet_path_verbose_use_progress_print",
+        "cd_enet_path_verbose_use_stderr_dot",
+        "cd_enet_path_verbose_progress_message"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_enet_path_selection_guard_required",
+      "name": "cd_enet_path_selection_guard_required",
+      "description": "Return whether enet_path should raise on an invalid selection value.",
+      "concept_type": "branch_predicate",
+      "status": "atomic",
+      "type_signature": "(selection: object) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "selection", "type_desc": "candidate coordinate-selection mode", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "whether selection is outside {'random', 'cyclic'}"}
+      ]
+    },
+    {
+      "node_id": "cd_enet_path_selection_error_message",
+      "name": "cd_enet_path_selection_error_message",
+      "description": "Return the invalid-selection ValueError text used by enet_path.",
+      "concept_type": "error_formatting",
+      "status": "atomic",
+      "type_signature": "(selection: object) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "selection", "type_desc": "candidate coordinate-selection mode", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "formatted invalid-selection error message"}
+      ]
+    },
+    {
+      "node_id": "cd_enet_path_model_coef",
+      "name": "cd_enet_path_model_coef",
+      "description": "Return the coefficient array extracted from a four-item solver result tuple.",
+      "concept_type": "tuple_projection",
+      "status": "atomic",
+      "type_signature": "(model: tuple[object, object, object, object]) -> NDArray[np.generic]",
+      "depth": 1,
+      "inputs": [
+        {"name": "model", "type_desc": "four-item solver result tuple", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "coefficient array from model[0]"}
+      ]
+    },
+    {
+      "node_id": "cd_enet_path_scaled_dual_gap",
+      "name": "cd_enet_path_scaled_dual_gap",
+      "description": "Return the public dual gap obtained by dividing the solver dual gap by n_samples.",
+      "concept_type": "numeric_scaling",
+      "status": "atomic",
+      "type_signature": "(dual_gap: float, n_samples: int) -> float",
+      "depth": 1,
+      "inputs": [
+        {"name": "dual_gap", "type_desc": "finite solver dual gap", "required": true},
+        {"name": "n_samples", "type_desc": "positive sample count", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "finite scaled dual gap"}
+      ]
+    },
+    {
+      "node_id": "cd_enet_path_model_iteration_count",
+      "name": "cd_enet_path_model_iteration_count",
+      "description": "Return the iteration count extracted from a four-item solver result tuple.",
+      "concept_type": "tuple_projection",
+      "status": "atomic",
+      "type_signature": "(model: tuple[object, object, object, object]) -> int",
+      "depth": 1,
+      "inputs": [
+        {"name": "model", "type_desc": "four-item solver result tuple", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "positive iteration count from model[3]"}
+      ]
+    },
+    {
+      "node_id": "cd_enet_path_verbose_use_tuple_print",
+      "name": "cd_enet_path_verbose_use_tuple_print",
+      "description": "Return whether enet_path should print the full solver tuple in verbose mode.",
+      "concept_type": "branch_predicate",
+      "status": "atomic",
+      "type_signature": "(verbose: bool | int) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "verbose", "type_desc": "verbosity flag or level", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "whether verbose > 2"}
+      ]
+    },
+    {
+      "node_id": "cd_enet_path_verbose_use_progress_print",
+      "name": "cd_enet_path_verbose_use_progress_print",
+      "description": "Return whether enet_path should print the progress message in verbose mode.",
+      "concept_type": "branch_predicate",
+      "status": "atomic",
+      "type_signature": "(verbose: bool | int) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "verbose", "type_desc": "verbosity flag or level", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "whether verbose > 1"}
+      ]
+    },
+    {
+      "node_id": "cd_enet_path_verbose_use_stderr_dot",
+      "name": "cd_enet_path_verbose_use_stderr_dot",
+      "description": "Return whether enet_path should emit the stderr dot in verbose mode.",
+      "concept_type": "branch_predicate",
+      "status": "atomic",
+      "type_signature": "(verbose: bool | int) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "verbose", "type_desc": "verbosity flag or level", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "whether the stderr-dot branch is taken"}
+      ]
+    },
+    {
+      "node_id": "cd_enet_path_verbose_progress_message",
+      "name": "cd_enet_path_verbose_progress_message",
+      "description": "Return the formatted progress message emitted by enet_path.",
+      "concept_type": "error_formatting",
+      "status": "atomic",
+      "type_signature": "(index: int, alpha_count: int) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "index", "type_desc": "nonnegative loop index", "required": true},
+        {"name": "alpha_count", "type_desc": "positive alpha count", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "formatted progress message"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_enet_path_selection_guard_required", "target": "cd_enet_path_selection_error_message", "kind": "guard_message"},
+    {"source": "cd_enet_path_model_coef", "target": "cd_enet_path_scaled_dual_gap", "kind": "shared_model_tail"},
+    {"source": "cd_enet_path_model_coef", "target": "cd_enet_path_model_iteration_count", "kind": "shared_model_tail"},
+    {"source": "cd_enet_path_verbose_use_progress_print", "target": "cd_enet_path_verbose_progress_message", "kind": "message_gate"},
+    {"source": "cd_enet_path_verbose_use_tuple_print", "target": "cd_enet_path_verbose_use_stderr_dot", "kind": "verbose_order"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 5 decomposition and matrix-factorization pipelines"
+  }
+}

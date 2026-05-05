@@ -180,6 +180,12 @@ Potential remediation path:
   solver loop: alpha-count resolution, dual-gap and coefficient-path buffer
   allocation, empty iteration-buffer setup, and zero-init versus warm-start
   initial coefficient preparation.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_enet_path_loop_tail` now
+  publishes deterministic `enet_path` selection-guard and post-callback loop
+  bookkeeping: invalid-selection detection, solver-tuple coefficient and
+  iteration extraction, public dual-gap scaling, and verbose branch/message
+  formatting.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 
