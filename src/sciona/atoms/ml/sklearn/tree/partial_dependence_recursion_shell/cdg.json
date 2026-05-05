@@ -1,0 +1,85 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_tree_partial_dependence_recursion_shell_root",
+      "name": "Sklearn Tree Partial Dependence Recursion Shell Helper Atoms",
+      "description": "Deterministic input-normalization, buffer-allocation, and return helpers for DecisionTreeRegressor._compute_partial_dependence_recursion around the deferred native callback.",
+      "status": "decomposed",
+      "children": [
+        "tree_partial_dependence_grid",
+        "tree_partial_dependence_averaged_predictions",
+        "tree_partial_dependence_target_features",
+        "tree_partial_dependence_result"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "tree_partial_dependence_grid",
+      "name": "tree_partial_dependence_grid",
+      "description": "Return the normalized grid passed to compute_partial_dependence.",
+      "concept_type": "api_setup",
+      "status": "atomic",
+      "type_signature": "(grid: NDArray[np.floating]) -> NDArray[np.float32]",
+      "depth": 1,
+      "inputs": [
+        {"name": "grid", "type_desc": "nonempty finite 2D numeric array", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "C-order float32 grid"}
+      ]
+    },
+    {
+      "node_id": "tree_partial_dependence_averaged_predictions",
+      "name": "tree_partial_dependence_averaged_predictions",
+      "description": "Return the zeroed averaged_predictions buffer.",
+      "concept_type": "buffer_setup",
+      "status": "atomic",
+      "type_signature": "(grid: NDArray[np.floating]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "grid", "type_desc": "nonempty finite 2D numeric array", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "zeroed float64 prediction vector"}
+      ]
+    },
+    {
+      "node_id": "tree_partial_dependence_target_features",
+      "name": "tree_partial_dependence_target_features",
+      "description": "Return the normalized target_features vector.",
+      "concept_type": "api_setup",
+      "status": "atomic",
+      "type_signature": "(target_features: NDArray[np.integer]) -> NDArray[np.intp]",
+      "depth": 1,
+      "inputs": [
+        {"name": "target_features", "type_desc": "nonempty one-dimensional integer vector", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "C-order intp vector"}
+      ]
+    },
+    {
+      "node_id": "tree_partial_dependence_result",
+      "name": "tree_partial_dependence_result",
+      "description": "Return the final averaged_predictions vector.",
+      "concept_type": "api_return",
+      "status": "atomic",
+      "type_signature": "(averaged_predictions: NDArray[np.float64]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "averaged_predictions", "type_desc": "nonempty finite 1D float vector", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "finite float64 prediction vector"}
+      ]
+    }
+  ],
+  "edges": [],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.tree._classes",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 7 probabilistic and mutable-kernel workflows"
+  }
+}

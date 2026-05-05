@@ -727,6 +727,13 @@ Potential remediation path:
   deterministic final-return shell of `DecisionTreeClassifier.fit` and
   `DecisionTreeRegressor.fit` after deferred tree-building work:
   self-return on already fitted estimators.
+- Completed helper slice:
+  `sklearn.tree.partial_dependence_recursion_shell` now publishes the
+  deterministic regressor-side shell of
+  `DecisionTreeRegressor._compute_partial_dependence_recursion` around the
+  deferred native callback: float32 grid normalization, float64
+  averaged-prediction allocation, intp target-feature normalization, and
+  final prediction-vector passthrough.
 - Decide whether tree estimators should be represented as limited
   estimator-state wrapper atoms with explicit audit limitations.
 - Or ingest the Cython/native tree builder, splitter, and criterion internals

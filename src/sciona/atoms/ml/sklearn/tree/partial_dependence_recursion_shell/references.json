@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.tree.partial_dependence_recursion_shell.tree_partial_dependence_grid@sciona/atoms/ml/sklearn/tree/partial_dependence_recursion_shell/atoms.py:49": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `np.asarray(grid, dtype=DTYPE, order=\"C\")` shell in DecisionTreeRegressor._compute_partial_dependence_recursion."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for tree partial dependence recursion input normalization."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.tree.partial_dependence_recursion_shell.tree_partial_dependence_averaged_predictions@sciona/atoms/ml/sklearn/tree/partial_dependence_recursion_shell/atoms.py:66": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `np.zeros(shape=grid.shape[0], dtype=np.float64, order=\"C\")` shell in DecisionTreeRegressor._compute_partial_dependence_recursion."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for tree partial dependence recursion buffer allocation."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.tree.partial_dependence_recursion_shell.tree_partial_dependence_target_features@sciona/atoms/ml/sklearn/tree/partial_dependence_recursion_shell/atoms.py:86": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `np.asarray(target_features, dtype=np.intp, order=\"C\")` shell in DecisionTreeRegressor._compute_partial_dependence_recursion."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for tree partial dependence recursion target normalization."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.tree.partial_dependence_recursion_shell.tree_partial_dependence_result@sciona/atoms/ml/sklearn/tree/partial_dependence_recursion_shell/atoms.py:105": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the final `return averaged_predictions` shell in DecisionTreeRegressor._compute_partial_dependence_recursion."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for tree partial dependence recursion outputs."
+          }
+        }
+      ]
+    }
+  }
+}
