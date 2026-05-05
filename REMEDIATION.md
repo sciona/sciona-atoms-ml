@@ -889,6 +889,12 @@ Potential remediation path:
   publishes the deterministic output shell after `_get_column_indices` in
   `partial_dependence`: C-order `np.intp` array normalization, 1D feature-index
   vector flattening, and downstream selected-feature counting.
+- Completed helper slice:
+  `sklearn.inspection.partial_dependence_column_label_preflight_shell` now
+  publishes the deterministic label-side `_get_column_indices` shell used by
+  `partial_dependence`: label-branch selection, the non-dataframe
+  string-column guard, exact ValueError formatting, and singleton string-key
+  wrapping before dataframe label lookup callbacks.
 - Ingest small helper atoms only where the boundary is explicit, such as
   permutation score aggregation from baseline and permuted score arrays.
 - Decide how estimator callback boundaries should be represented before

@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_column_label_preflight_shell.partial_dependence_column_key_uses_label_branch@sciona/atoms/ml/sklearn/inspection/partial_dependence_column_label_preflight_shell/atoms.py:32": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from `elif key_dtype in (\"bool\", \"int\")` versus the `else:` label branch in sklearn.utils._indexing._get_column_indices."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for partial_dependence column-key branch selection."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_column_label_preflight_shell.partial_dependence_dataframe_columns_required_guard_required@sciona/atoms/ml/sklearn/inspection/partial_dependence_column_label_preflight_shell/atoms.py:43": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the `try: all_columns = X.columns` / `except AttributeError` guard in sklearn.utils._indexing._get_column_indices."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for partial_dependence dataframe-column availability guards."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_column_label_preflight_shell.partial_dependence_dataframe_columns_required_message@sciona/atoms/ml/sklearn/inspection/partial_dependence_column_label_preflight_shell/atoms.py:54": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from `ValueError(\"Specifying the columns using strings is only supported for dataframes.\")` in sklearn.utils._indexing._get_column_indices."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for partial_dependence non-dataframe label-selection message formatting."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_column_label_preflight_shell.partial_dependence_string_column_keys@sciona/atoms/ml/sklearn/inspection/partial_dependence_column_label_preflight_shell/atoms.py:65": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from `if isinstance(key, str): columns = [key]` in sklearn.utils._indexing._get_column_indices."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for partial_dependence singleton string-column key wrapping."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

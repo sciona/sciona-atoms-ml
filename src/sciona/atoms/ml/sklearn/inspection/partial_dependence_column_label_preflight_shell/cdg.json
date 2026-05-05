@@ -1,0 +1,74 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_inspection_partial_dependence_column_label_preflight_shell_root",
+      "name": "sklearn.inspection.partial_dependence_column_label_preflight_shell",
+      "description": "Deterministic label-side _get_column_indices shell in sklearn.inspection.partial_dependence before dataframe get_loc callbacks.",
+      "status": "composite",
+      "children": [
+        "partial_dependence_column_key_uses_label_branch",
+        "partial_dependence_dataframe_columns_required_guard_required",
+        "partial_dependence_dataframe_columns_required_message",
+        "partial_dependence_string_column_keys"
+      ]
+    },
+    {
+      "node_id": "partial_dependence_column_key_uses_label_branch",
+      "name": "partial_dependence_column_key_uses_label_branch",
+      "description": "Decide whether sklearn's column-index helper enters the label-based branch.",
+      "status": "atomic",
+      "concept_type": "partial_dependence_branch",
+      "inputs": [
+        {"name": "key_dtype", "type_desc": "str"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "partial_dependence_dataframe_columns_required_guard_required",
+      "name": "partial_dependence_dataframe_columns_required_guard_required",
+      "description": "Decide whether sklearn rejects label-based column selection without dataframe columns.",
+      "status": "atomic",
+      "concept_type": "partial_dependence_guard_branch",
+      "inputs": [
+        {"name": "uses_label_branch", "type_desc": "bool"},
+        {"name": "has_columns", "type_desc": "bool"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "partial_dependence_dataframe_columns_required_message",
+      "name": "partial_dependence_dataframe_columns_required_message",
+      "description": "Format sklearn's non-dataframe string-column ValueError message.",
+      "status": "atomic",
+      "concept_type": "partial_dependence_guard_message",
+      "inputs": [
+        {"name": "uses_label_branch", "type_desc": "bool"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "str"}
+      ]
+    },
+    {
+      "node_id": "partial_dependence_string_column_keys",
+      "name": "partial_dependence_string_column_keys",
+      "description": "Wrap one string column key the way sklearn builds its label lookup sequence.",
+      "status": "atomic",
+      "concept_type": "partial_dependence_bookkeeping",
+      "inputs": [
+        {"name": "column_name", "type_desc": "str"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple[str, ...]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "partial_dependence_column_key_uses_label_branch", "target": "partial_dependence_dataframe_columns_required_guard_required", "kind": "branch_to_guard"},
+    {"source": "partial_dependence_dataframe_columns_required_guard_required", "target": "partial_dependence_dataframe_columns_required_message", "kind": "guard_to_message"},
+    {"source": "partial_dependence_column_key_uses_label_branch", "target": "partial_dependence_string_column_keys", "kind": "string_branch_to_sequence"}
+  ]
+}
