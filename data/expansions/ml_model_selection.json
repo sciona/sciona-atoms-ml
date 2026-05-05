@@ -1,0 +1,169 @@
+{
+  "asset_id": "family.ml_model_selection.expansions.v1",
+  "asset_version": "phase1.v1",
+  "family": "ml_model_selection",
+  "family_aliases": [
+    "tabular_pipeline",
+    "sciona.skeletons.ml.tabular_pipeline"
+  ],
+  "domain": "ml",
+  "name": "ML Model Selection Expansion Inventory",
+  "description": "Declarative expansion and refinement inventory for reusable Kaggle-style ML pipeline adaptations.",
+  "operations": [
+    {
+      "rule_name": "apply_kfold_ensemble",
+      "operation_id": "sciona.expansions.ml.kfold_ensemble",
+      "operation_type": "replace",
+      "applies_to": "tabular_pipeline.model_training",
+      "source_cdg_path": "src/sciona/atoms/ml/skeletons/expansions/kfold_ensemble.cdg.json",
+      "runtime_rule_builder": "apply_kfold_ensemble",
+      "runtime_diagnostic": "requires_cross_validation",
+      "name": "K-Fold Cross-Validated Ensemble",
+      "intent": "Replace one-shot model training with fold-safe training that produces multiple models and out-of-fold predictions.",
+      "dejargonized_summary": "Train one model per fold so validation is fair and later stacking can use out-of-fold predictions.",
+      "trigger": {
+        "metric_name": "requires_cross_validation",
+        "comparison": "gt",
+        "threshold": 0.0
+      },
+      "action_classes": [
+        "replace_stage",
+        "split_stage"
+      ],
+      "rewrite": {
+        "before_summary": "A single model-training stage feeds prediction or ensembling directly.",
+        "after_summary": "The model-training stage is replaced by fold splitting followed by per-fold model training.",
+        "information_flow_effect": "Preserves the train-to-predict contract while adding leakage-safe validation artifacts and out-of-fold predictions.",
+        "notes": [
+          "Use a grouped or time-aware splitter when the planning artifact declares grouped or temporal leakage risk."
+        ]
+      },
+      "uncertainty_notes": [
+        "This operation changes validation structure but should preserve the downstream prediction contract."
+      ]
+    },
+    {
+      "rule_name": "apply_stacking_ensemble",
+      "operation_id": "sciona.expansions.ml.stacking",
+      "operation_type": "replace",
+      "applies_to": "tabular_pipeline.prediction_ensemble",
+      "source_cdg_path": "src/sciona/atoms/ml/skeletons/expansions/stacking.cdg.json",
+      "prerequisite_operations": [
+        "apply_kfold_ensemble"
+      ],
+      "runtime_rule_builder": "apply_stacking_ensemble",
+      "runtime_diagnostic": "requires_meta_learner",
+      "name": "Two-Level Stacking",
+      "intent": "Replace a flat prediction ensemble with a two-level meta-learner over out-of-fold predictions.",
+      "dejargonized_summary": "Use the first-level models' validation predictions as features for a simple second-level model.",
+      "trigger": {
+        "metric_name": "level1_model_count",
+        "comparison": "gt",
+        "threshold": 1.0
+      },
+      "action_classes": [
+        "replace_stage",
+        "smooth_or_aggregate"
+      ],
+      "rewrite": {
+        "before_summary": "A flat prediction ensemble consumes model outputs directly.",
+        "after_summary": "Out-of-fold predictions are collected into meta-features, a simple meta-learner is trained, and final predictions are produced through that meta-learner.",
+        "information_flow_effect": "Preserves prediction output shape while adding a second-level aggregation model.",
+        "notes": [
+          "The meta-learner should remain simple to avoid overfitting the stacking layer."
+        ]
+      },
+      "uncertainty_notes": [
+        "This operation is only justified when out-of-fold predictions or diverse level-one models are available."
+      ]
+    },
+    {
+      "rule_name": "insert_constraint_injection",
+      "operation_id": "sciona.expansions.ml.constraint_injection",
+      "operation_type": "insert",
+      "applies_to": "tabular_pipeline.model_training->prediction_ensemble",
+      "source_cdg_path": "src/sciona/atoms/ml/skeletons/expansions/constraint_injection.cdg.json",
+      "runtime_rule_builder": "insert_constraint_injection",
+      "runtime_diagnostic": "requires_constraint_injection",
+      "name": "Constraint Injection",
+      "intent": "Insert explicit verification and correction when predictions must satisfy fairness, decorrelation, or invariance constraints.",
+      "dejargonized_summary": "Check whether predictions violate a declared constraint and add a correction step when they do.",
+      "trigger": {
+        "metric_name": "requires_constraint_injection",
+        "comparison": "gt",
+        "threshold": 0.0
+      },
+      "action_classes": [
+        "gate_or_validate",
+        "insert_correction"
+      ],
+      "rewrite": {
+        "before_summary": "Model predictions flow directly into the prediction ensemble.",
+        "after_summary": "A constraint verification stage and correction stage are inserted before ensembling.",
+        "information_flow_effect": "Preserves prediction semantics while making constraint satisfaction explicit and auditable.",
+        "notes": [
+          "This operation is appropriate for decorrelation, fairness, and physics-invariance requirements."
+        ]
+      },
+      "uncertainty_notes": [
+        "Post-hoc correction can trade off leaderboard metric performance against constraint satisfaction."
+      ]
+    },
+    {
+      "rule_name": "apply_dl_backbone_substitution",
+      "operation_id": "sciona.expansions.ml.dl_backbone_substitution",
+      "operation_type": "rewrite",
+      "applies_to": "tabular_pipeline.feature_engineering+model_training",
+      "source_cdg_path": "src/sciona/atoms/ml/skeletons/expansions/dl_backbone_substitution.cdg.json",
+      "runtime_rule_builder": "apply_dl_backbone_substitution",
+      "runtime_diagnostic": "requires_dl_backbone",
+      "name": "Deep Learning Backbone Substitution",
+      "intent": "Rewrite manual feature engineering plus shallow model training into pretrained-backbone finetuning.",
+      "dejargonized_summary": "Use a pretrained image, text, or multimodal backbone instead of hand-built features when the modality calls for transfer learning.",
+      "trigger": {
+        "metric_name": "requires_dl_backbone",
+        "comparison": "gt",
+        "threshold": 0.0
+      },
+      "action_classes": [
+        "replace_stage"
+      ],
+      "rewrite": {
+        "before_summary": "Feature engineering feeds a generic model-training stage.",
+        "after_summary": "A pretrained backbone is loaded, finetuned, and optionally evaluated with test-time augmentation.",
+        "information_flow_effect": "Replaces handcrafted representations with learned transfer representations while preserving downstream prediction artifacts.",
+        "notes": [
+          "This is a topology rewrite, not a small post-processing insertion."
+        ]
+      },
+      "uncertainty_notes": [
+        "This operation should be gated by modality or an explicit transfer-learning recommendation."
+      ]
+    }
+  ],
+  "audit": {
+    "provenance": "provider_migrated_asset",
+    "source_kind": "shared_asset",
+    "review_status": "transitional",
+    "rationale": "Normalizes the existing ML skeleton expansion CDGs into the provider expansion asset schema consumed by the shared expansion engine.",
+    "dejargonized_summary": "Reusable ML pipeline changes such as k-fold training, stacking, constraints, and pretrained backbones now use the same expansion schema as other provider operations.",
+    "migration_readiness": {
+      "status": "in_progress",
+      "target_repository": "../sciona-atoms-ml",
+      "target_scope": "expansion.ml_model_selection",
+      "rationale": "The operations are now declared through data/expansions and backed by matcher runtime rules."
+    },
+    "uncertainty_notes": [
+      "The legacy skeleton expansion CDGs remain as source material until all downstream readers consume ExpansionFamilyAsset directly."
+    ],
+    "references": [
+      {
+        "title": "sciona-atoms-ml tabular pipeline skeleton",
+        "note": "Source skeleton and expansion descriptions under src/sciona/atoms/ml/skeletons."
+      }
+    ],
+    "maintainers": [
+      "sciona-atoms-ml"
+    ]
+  }
+}
