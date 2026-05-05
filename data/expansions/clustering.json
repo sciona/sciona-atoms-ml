@@ -30,7 +30,14 @@
       },
       "action_classes": [
         "gate_or_validate"
-      ]
+      ],
+      "rewrite": {
+        "before_summary": "Cluster assignments feed downstream evaluation without size-balance evidence.",
+        "after_summary": "A cluster-balance analyzer is inserted after assignment.",
+        "information_flow_effect": "Adds cluster-size evidence before downstream clustering results are trusted."
+      },
+      "runtime_rule_builder": "insert_cluster_balance_analysis_after_assign",
+      "runtime_diagnostic": "cluster_imbalance_ratio"
     },
     {
       "rule_name": "insert_assignment_stability_after_update",
@@ -50,7 +57,14 @@
       },
       "action_classes": [
         "gate_or_validate"
-      ]
+      ],
+      "rewrite": {
+        "before_summary": "Center updates feed the next iteration without assignment-stability evidence.",
+        "after_summary": "An assignment-stability monitor is inserted after center update.",
+        "information_flow_effect": "Adds iteration-stability evidence for convergence decisions."
+      },
+      "runtime_rule_builder": "insert_assignment_stability_after_update",
+      "runtime_diagnostic": "assignment_change_fraction"
     },
     {
       "rule_name": "insert_empty_cluster_detection_after_assign",
@@ -70,7 +84,14 @@
       },
       "action_classes": [
         "gate_or_validate"
-      ]
+      ],
+      "rewrite": {
+        "before_summary": "Assignment proceeds without checking whether every cluster is used.",
+        "after_summary": "An empty-cluster detector is inserted after assignment.",
+        "information_flow_effect": "Adds degeneracy evidence for requested cluster count."
+      },
+      "runtime_rule_builder": "insert_empty_cluster_detection_after_assign",
+      "runtime_diagnostic": "n_empty_clusters"
     },
     {
       "rule_name": "insert_separation_validation_after_update",
@@ -90,7 +111,14 @@
       },
       "action_classes": [
         "gate_or_validate"
-      ]
+      ],
+      "rewrite": {
+        "before_summary": "Updated clusters flow downstream without separation evidence.",
+        "after_summary": "A separation validator is inserted after update.",
+        "information_flow_effect": "Adds between-cluster quality evidence before interpreting groups."
+      },
+      "runtime_rule_builder": "insert_separation_validation_after_update",
+      "runtime_diagnostic": "separation_ratio"
     }
   ],
   "audit": {

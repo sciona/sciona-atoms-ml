@@ -26,6 +26,10 @@
         "threshold": 0.0,
         "required_intermediate_keys": [
           "model_selection.recommend_preprocessing"
+        ],
+        "required_any_intermediate_keys": [
+          "model_selection.vif_max",
+          "model_selection.skewness_max"
         ]
       },
       "action_classes": [
@@ -53,6 +57,10 @@
         "threshold": 0.0,
         "required_intermediate_keys": [
           "model_selection.recommend_estimator"
+        ],
+        "required_any_intermediate_keys": [
+          "model_selection.recommend_linear_model",
+          "model_selection.recommend_tree_ensemble"
         ]
       },
       "action_classes": [
@@ -81,6 +89,9 @@
         "required_intermediate_keys": [
           "model_selection.condition_number",
           "model_selection.recommend_dimensionality_reduction"
+        ],
+        "required_any_intermediate_keys": [
+          "model_selection.condition_number"
         ]
       },
       "action_classes": [
@@ -109,6 +120,9 @@
         "required_intermediate_keys": [
           "model_selection.is_time_series",
           "model_selection.recommend_cv_strategy"
+        ],
+        "required_any_intermediate_keys": [
+          "model_selection.is_time_series"
         ]
       },
       "action_classes": [
@@ -134,7 +148,13 @@
       "trigger": {
         "metric_name": "requires_cross_validation",
         "comparison": "gt",
-        "threshold": 0.0
+        "threshold": 0.0,
+        "required_any_intermediate_keys": [
+          "model_selection.use_kfold_ensemble",
+          "model_selection.requires_oof_predictions",
+          "model_selection.requires_cross_validation",
+          "model_selection.recommend_cv_strategy"
+        ]
       },
       "action_classes": [
         "replace_stage",
@@ -169,7 +189,12 @@
       "trigger": {
         "metric_name": "level1_model_count",
         "comparison": "gt",
-        "threshold": 1.0
+        "threshold": 1.0,
+        "required_any_intermediate_keys": [
+          "model_selection.use_stacking",
+          "model_selection.requires_meta_learner",
+          "model_selection.level1_model_count"
+        ]
       },
       "action_classes": [
         "replace_stage",
@@ -201,7 +226,12 @@
       "trigger": {
         "metric_name": "requires_constraint_injection",
         "comparison": "gt",
-        "threshold": 0.0
+        "threshold": 0.0,
+        "required_any_intermediate_keys": [
+          "model_selection.requires_constraint_injection",
+          "model_selection.requires_decorrelation",
+          "model_selection.requires_fairness_constraint"
+        ]
       },
       "action_classes": [
         "gate_or_validate",
@@ -233,7 +263,13 @@
       "trigger": {
         "metric_name": "requires_dl_backbone",
         "comparison": "gt",
-        "threshold": 0.0
+        "threshold": 0.0,
+        "required_any_intermediate_keys": [
+          "model_selection.use_pretrained_backbone",
+          "model_selection.requires_dl_backbone",
+          "model_selection.requires_transfer_learning",
+          "model_selection.recommend_dl_backbone"
+        ]
       },
       "action_classes": [
         "replace_stage"

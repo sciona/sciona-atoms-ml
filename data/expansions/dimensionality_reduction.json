@@ -31,7 +31,14 @@
       },
       "action_classes": [
         "gate_or_validate"
-      ]
+      ],
+      "rewrite": {
+        "before_summary": "Projected features flow downstream without retained-variance evidence.",
+        "after_summary": "An explained-variance analyzer is inserted after projection.",
+        "information_flow_effect": "Adds retained-information evidence for the reduced representation."
+      },
+      "runtime_rule_builder": "insert_explained_variance_after_project",
+      "runtime_diagnostic": "cumulative_variance_ratio"
     },
     {
       "rule_name": "insert_crowding_detection_after_project",
@@ -51,7 +58,14 @@
       },
       "action_classes": [
         "gate_or_validate"
-      ]
+      ],
+      "rewrite": {
+        "before_summary": "Projected embeddings flow downstream without neighborhood-preservation evidence.",
+        "after_summary": "A crowding detector is inserted after projection.",
+        "information_flow_effect": "Adds local-structure evidence for manifold projections."
+      },
+      "runtime_rule_builder": "insert_crowding_detection_after_project",
+      "runtime_diagnostic": "trustworthiness"
     },
     {
       "rule_name": "insert_reconstruction_error_after_validate",
@@ -71,7 +85,14 @@
       },
       "action_classes": [
         "gate_or_validate"
-      ]
+      ],
+      "rewrite": {
+        "before_summary": "Reconstruction validation flows downstream without explicit error magnitude evidence.",
+        "after_summary": "A reconstruction-error check is inserted after validation.",
+        "information_flow_effect": "Adds information-loss evidence for the projection."
+      },
+      "runtime_rule_builder": "insert_reconstruction_error_after_validate",
+      "runtime_diagnostic": "reconstruction_relative_error"
     },
     {
       "rule_name": "insert_orthogonality_validation_before_project",
@@ -84,14 +105,21 @@
       "trigger": {
         "metric_name": "max_off_diagonal",
         "comparison": "gt",
-        "threshold": 0.000001,
+        "threshold": 1e-06,
         "required_intermediate_keys": [
           "max_off_diagonal"
         ]
       },
       "action_classes": [
         "gate_or_validate"
-      ]
+      ],
+      "rewrite": {
+        "before_summary": "Projection uses components without explicit orthogonality evidence.",
+        "after_summary": "An orthogonality validator is inserted before projection.",
+        "information_flow_effect": "Adds component-independence evidence before dimensionality reduction."
+      },
+      "runtime_rule_builder": "insert_orthogonality_validation_before_project",
+      "runtime_diagnostic": "max_off_diagonal"
     }
   ],
   "audit": {
