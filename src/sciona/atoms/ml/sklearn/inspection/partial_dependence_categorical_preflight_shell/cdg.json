@@ -1,0 +1,103 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_inspection_partial_dependence_categorical_preflight_shell_root",
+      "name": "sklearn.inspection.partial_dependence_categorical_preflight_shell",
+      "description": "Deterministic categorical_features preflight guards in sklearn.inspection.partial_dependence before categorical mask bookkeeping.",
+      "status": "composite",
+      "children": [
+        "partial_dependence_categorical_empty_guard_required",
+        "partial_dependence_categorical_empty_message",
+        "partial_dependence_categorical_bool_size_guard_required",
+        "partial_dependence_categorical_bool_size_message",
+        "partial_dependence_categorical_dtype_supported",
+        "partial_dependence_categorical_dtype_message"
+      ]
+    },
+    {
+      "node_id": "partial_dependence_categorical_empty_guard_required",
+      "name": "partial_dependence_categorical_empty_guard_required",
+      "description": "Decide whether partial_dependence rejects an empty categorical_features input.",
+      "status": "atomic",
+      "concept_type": "partial_dependence_guard_branch",
+      "inputs": [
+        {"name": "size", "type_desc": "int"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "partial_dependence_categorical_empty_message",
+      "name": "partial_dependence_categorical_empty_message",
+      "description": "Format sklearn's empty categorical_features ValueError message.",
+      "status": "atomic",
+      "concept_type": "partial_dependence_guard_message",
+      "inputs": [
+        {"name": "size", "type_desc": "int"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "str"}
+      ]
+    },
+    {
+      "node_id": "partial_dependence_categorical_bool_size_guard_required",
+      "name": "partial_dependence_categorical_bool_size_guard_required",
+      "description": "Decide whether partial_dependence rejects a boolean categorical mask of the wrong length.",
+      "status": "atomic",
+      "concept_type": "partial_dependence_guard_branch",
+      "inputs": [
+        {"name": "size", "type_desc": "int"},
+        {"name": "n_features", "type_desc": "int"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "partial_dependence_categorical_bool_size_message",
+      "name": "partial_dependence_categorical_bool_size_message",
+      "description": "Format sklearn's boolean categorical_features length mismatch message.",
+      "status": "atomic",
+      "concept_type": "partial_dependence_guard_message",
+      "inputs": [
+        {"name": "size", "type_desc": "int"},
+        {"name": "n_features", "type_desc": "int"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "str"}
+      ]
+    },
+    {
+      "node_id": "partial_dependence_categorical_dtype_supported",
+      "name": "partial_dependence_categorical_dtype_supported",
+      "description": "Decide whether partial_dependence accepts the categorical_features dtype kind.",
+      "status": "atomic",
+      "concept_type": "partial_dependence_guard_branch",
+      "inputs": [
+        {"name": "dtype_kind", "type_desc": "str"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "bool"}
+      ]
+    },
+    {
+      "node_id": "partial_dependence_categorical_dtype_message",
+      "name": "partial_dependence_categorical_dtype_message",
+      "description": "Format sklearn's unsupported categorical_features dtype message.",
+      "status": "atomic",
+      "concept_type": "partial_dependence_guard_message",
+      "inputs": [
+        {"name": "dtype_name", "type_desc": "str"}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "str"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "partial_dependence_categorical_empty_guard_required", "target": "partial_dependence_categorical_empty_message", "kind": "guard_to_message"},
+    {"source": "partial_dependence_categorical_bool_size_guard_required", "target": "partial_dependence_categorical_bool_size_message", "kind": "guard_to_message"},
+    {"source": "partial_dependence_categorical_dtype_supported", "target": "partial_dependence_categorical_dtype_message", "kind": "guard_to_message"}
+  ]
+}

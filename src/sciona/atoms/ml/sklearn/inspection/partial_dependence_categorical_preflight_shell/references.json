@@ -1,0 +1,131 @@
+{
+  "schema_version": "1.0",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_categorical_preflight_shell.partial_dependence_categorical_empty_guard_required@sciona/atoms/ml/sklearn/inspection/partial_dependence_categorical_preflight_shell/atoms.py:38": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from `if categorical_features.size == 0:` in sklearn.inspection._partial_dependence.partial_dependence."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for partial_dependence categorical_features empty-input guards."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_categorical_preflight_shell.partial_dependence_categorical_empty_message@sciona/atoms/ml/sklearn/inspection/partial_dependence_categorical_preflight_shell/atoms.py:48": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the empty categorical_features ValueError message in sklearn.inspection._partial_dependence.partial_dependence."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for partial_dependence categorical_features empty-input message formatting."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_categorical_preflight_shell.partial_dependence_categorical_bool_size_guard_required@sciona/atoms/ml/sklearn/inspection/partial_dependence_categorical_preflight_shell/atoms.py:64": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from `if categorical_features.size != n_features:` in the boolean categorical_features branch of sklearn.inspection._partial_dependence.partial_dependence."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for partial_dependence boolean categorical mask size guards."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_categorical_preflight_shell.partial_dependence_categorical_bool_size_message@sciona/atoms/ml/sklearn/inspection/partial_dependence_categorical_preflight_shell/atoms.py:76": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the boolean categorical_features length mismatch ValueError message in sklearn.inspection._partial_dependence.partial_dependence."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for partial_dependence boolean categorical mask size message formatting."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_categorical_preflight_shell.partial_dependence_categorical_dtype_supported@sciona/atoms/ml/sklearn/inspection/partial_dependence_categorical_preflight_shell/atoms.py:92": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from `elif categorical_features.dtype.kind in (\"i\", \"O\", \"U\")` with the prior boolean branch in sklearn.inspection._partial_dependence.partial_dependence."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for partial_dependence categorical_features dtype acceptance."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_categorical_preflight_shell.partial_dependence_categorical_dtype_message@sciona/atoms/ml/sklearn/inspection/partial_dependence_categorical_preflight_shell/atoms.py:102": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the unsupported categorical_features dtype ValueError message in sklearn.inspection._partial_dependence.partial_dependence."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for partial_dependence categorical_features dtype error formatting."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

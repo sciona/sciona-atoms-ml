@@ -865,6 +865,12 @@ Potential remediation path:
   the deterministic integer-feature guard shell in `partial_dependence`: the
   integer-key-type branch predicate, negative-index guard predicate, and exact
   ValueError message before column lookup.
+- Completed helper slice:
+  `sklearn.inspection.partial_dependence_categorical_preflight_shell` now
+  publishes the deterministic categorical-features preflight guards in
+  `partial_dependence`: empty-input rejection, boolean-mask size rejection,
+  supported dtype-kind detection, and exact ValueError message formatting
+  before categorical mask bookkeeping.
 - Ingest small helper atoms only where the boundary is explicit, such as
   permutation score aggregation from baseline and permuted score arrays.
 - Decide how estimator callback boundaries should be represented before
