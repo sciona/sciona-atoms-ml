@@ -723,6 +723,10 @@ Potential remediation path:
   deterministic wrapper shell of `BaseDecisionTree.cost_complexity_pruning_path`
   around deferred fit and native pruning callbacks: zero-alpha clone setup
   and final `Bunch` packaging of `ccp_alphas` and `impurities`.
+- Completed helper slice: `sklearn.tree.fit_api_shell` now publishes the
+  deterministic final-return shell of `DecisionTreeClassifier.fit` and
+  `DecisionTreeRegressor.fit` after deferred tree-building work:
+  self-return on already fitted estimators.
 - Decide whether tree estimators should be represented as limited
   estimator-state wrapper atoms with explicit audit limitations.
 - Or ingest the Cython/native tree builder, splitter, and criterion internals
