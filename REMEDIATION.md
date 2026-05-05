@@ -162,6 +162,12 @@ Potential remediation path:
   compiled coordinate-descent solver calls: multi-output detection,
   target-count bookkeeping, positivity guarding, alpha ordering, selection
   branching, regularization scaling, and final output packaging.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_enet_path_input_shell` now
+  publishes the deterministic `enet_path` entry shell before alpha generation
+  and compiled coordinate-descent dispatch: leftover-parameter guarding,
+  `check_input` and `Xy` validation branching, sparse scaling construction,
+  fixed `_pre_fit` kwargs, and the `alphas is None` alpha-grid predicate.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 
