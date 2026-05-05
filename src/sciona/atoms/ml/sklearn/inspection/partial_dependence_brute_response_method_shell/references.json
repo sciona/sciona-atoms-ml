@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_brute_response_method_shell.partial_dependence_brute_auto_response_method@sciona/atoms/ml/sklearn/inspection/partial_dependence_brute_response_method_shell/atoms.py:36": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from `if response_method == \"auto\":` in sklearn.inspection._partial_dependence._partial_dependence_brute."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for brute response-method auto branching."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_brute_response_method_shell.partial_dependence_brute_auto_target_method@sciona/atoms/ml/sklearn/inspection/partial_dependence_brute_response_method_shell/atoms.py:46": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from `\"predict\" if is_regressor(est) else [\"predict_proba\", \"decision_function\"]` in sklearn.inspection._partial_dependence._partial_dependence_brute."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for brute auto response-method target selection."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_brute_response_method_shell.partial_dependence_brute_resolved_response_method@sciona/atoms/ml/sklearn/inspection/partial_dependence_brute_response_method_shell/atoms.py:60": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from the full brute response_method normalization branch in sklearn.inspection._partial_dependence._partial_dependence_brute."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for brute resolved response-method selection."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

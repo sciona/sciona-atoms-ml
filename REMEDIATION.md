@@ -925,6 +925,12 @@ Potential remediation path:
   `partial_dependence`: `np.asarray` coercion plus the boolean-mask and
   integer-or-name dtype-kind branch predicates before the existing
   categorical mask and error helpers.
+- Completed helper slice:
+  `sklearn.inspection.partial_dependence_brute_response_method_shell` now
+  publishes the deterministic response-method normalization shell inside
+  `_partial_dependence_brute`: the `response_method='auto'` predicate, the
+  regressor-versus-classifier auto target, and the final resolved
+  response-method object passed into estimator callbacks.
 - Ingest small helper atoms only where the boundary is explicit, such as
   permutation score aggregation from baseline and permuted score arrays.
 - Decide how estimator callback boundaries should be represented before
