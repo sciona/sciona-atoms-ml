@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_feature_name_setup_shell.partial_dependence_use_column_names_tolist@sciona/atoms/ml/sklearn/inspection/partial_dependence_feature_name_setup_shell/atoms.py:37": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from `if hasattr(X, \"columns\") and hasattr(X.columns, \"tolist\"):` in sklearn.inspection._partial_dependence._check_feature_names."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for partial_dependence dataframe-column feature-name setup."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_feature_name_setup_shell.partial_dependence_default_feature_names@sciona/atoms/ml/sklearn/inspection/partial_dependence_feature_name_setup_shell/atoms.py:52": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from `feature_names = [f\"x{i}\" for i in range(X.shape[1])]` in sklearn.inspection._partial_dependence._check_feature_names."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for partial_dependence default array feature names."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_feature_name_setup_shell.partial_dependence_use_feature_names_tolist@sciona/atoms/ml/sklearn/inspection/partial_dependence_feature_name_setup_shell/atoms.py:63": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from `elif hasattr(feature_names, \"tolist\"):` in sklearn.inspection._partial_dependence._check_feature_names."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for partial_dependence feature_names tolist normalization."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_feature_name_setup_shell.partial_dependence_duplicate_feature_names_guard_required@sciona/atoms/ml/sklearn/inspection/partial_dependence_feature_name_setup_shell/atoms.py:74": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from `if len(set(feature_names)) != len(feature_names):` in sklearn.inspection._partial_dependence._check_feature_names."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for partial_dependence duplicate-feature-name guards."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.sklearn.inspection.partial_dependence_feature_name_setup_shell.partial_dependence_duplicate_feature_names_message@sciona/atoms/ml/sklearn/inspection/partial_dependence_feature_name_setup_shell/atoms.py:84": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Adapted from `ValueError(\"feature_names should not contain duplicates.\")` in sklearn.inspection._partial_dependence._check_feature_names."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual",
+            "confidence": "high",
+            "notes": "Project-level scikit-learn reference for partial_dependence duplicate-feature-name message formatting."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

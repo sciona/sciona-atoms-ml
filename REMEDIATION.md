@@ -877,6 +877,13 @@ Potential remediation path:
   `_get_feature_index` in `partial_dependence`: string-branch selection,
   missing-feature-names rejection, missing-feature-name rejection, and exact
   ValueError message formatting before downstream feature-name lookup.
+- Completed helper slice:
+  `sklearn.inspection.partial_dependence_feature_name_setup_shell` now
+  publishes the deterministic setup shell around `_check_feature_names` in
+  `partial_dependence`: dataframe-column default-name branch selection,
+  default `x{i}` name construction, provided-feature-name `tolist()`
+  normalization gating, duplicate-name rejection, and exact ValueError
+  message formatting.
 - Ingest small helper atoms only where the boundary is explicit, such as
   permutation score aggregation from baseline and permuted score arrays.
 - Decide how estimator callback boundaries should be represented before
