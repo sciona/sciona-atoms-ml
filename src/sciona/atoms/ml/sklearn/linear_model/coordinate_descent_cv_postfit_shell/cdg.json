@@ -1,0 +1,140 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_cv_postfit_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent CV Post-Fit Shell Helper Atoms",
+      "description": "Deterministic post-fit helper atoms from sklearn.linear_model._coordinate_descent.LinearModelCV after the selected model is refit.",
+      "status": "decomposed",
+      "children": [
+        "cd_cv_refit_uses_sample_weight",
+        "cd_cv_delete_l1_ratio_required",
+        "cd_cv_fit_coef",
+        "cd_cv_fit_intercept",
+        "cd_cv_fit_dual_gap",
+        "cd_cv_fit_n_iter",
+        "cd_cv_fit_return_self"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_cv_refit_uses_sample_weight",
+      "name": "cd_cv_refit_uses_sample_weight",
+      "description": "Return whether LinearModelCV.fit should refit the selected model with sample_weight.",
+      "concept_type": "branch_predicate",
+      "status": "atomic",
+      "type_signature": "(sample_weight: object) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "sample_weight", "type_desc": "optional sample-weight vector", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "whether sample_weight is present"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_delete_l1_ratio_required",
+      "name": "cd_cv_delete_l1_ratio_required",
+      "description": "Return whether LinearModelCV.fit should delete l1_ratio_ after refit.",
+      "concept_type": "branch_predicate",
+      "status": "atomic",
+      "type_signature": "(has_l1_ratio_attr: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "has_l1_ratio_attr", "type_desc": "whether the estimator defines an l1_ratio parameter", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "whether l1_ratio_ cleanup should run"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_fit_coef",
+      "name": "cd_cv_fit_coef",
+      "description": "Return the fitted coef_ copied from the refit model.",
+      "concept_type": "api_return",
+      "status": "atomic",
+      "type_signature": "(model_coef: object) -> object",
+      "depth": 1,
+      "inputs": [
+        {"name": "model_coef", "type_desc": "finite coefficient vector or matrix", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "coef_ passthrough"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_fit_intercept",
+      "name": "cd_cv_fit_intercept",
+      "description": "Return the fitted intercept_ copied from the refit model.",
+      "concept_type": "api_return",
+      "status": "atomic",
+      "type_signature": "(model_intercept: object) -> object",
+      "depth": 1,
+      "inputs": [
+        {"name": "model_intercept", "type_desc": "finite intercept scalar or array", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "intercept_ passthrough"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_fit_dual_gap",
+      "name": "cd_cv_fit_dual_gap",
+      "description": "Return the fitted dual_gap_ copied from the refit model.",
+      "concept_type": "api_return",
+      "status": "atomic",
+      "type_signature": "(model_dual_gap: object) -> object",
+      "depth": 1,
+      "inputs": [
+        {"name": "model_dual_gap", "type_desc": "finite dual-gap scalar or vector", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "dual_gap_ passthrough"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_fit_n_iter",
+      "name": "cd_cv_fit_n_iter",
+      "description": "Return the fitted n_iter_ copied from the refit model.",
+      "concept_type": "api_return",
+      "status": "atomic",
+      "type_signature": "(model_n_iter: object) -> object",
+      "depth": 1,
+      "inputs": [
+        {"name": "model_n_iter", "type_desc": "positive integer or nonempty sequence of iteration counts", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "n_iter_ passthrough"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_fit_return_self",
+      "name": "cd_cv_fit_return_self",
+      "description": "Return self from LinearModelCV.fit.",
+      "concept_type": "api_return",
+      "status": "atomic",
+      "type_signature": "(estimator_identity: object) -> object",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator_identity", "type_desc": "the estimator instance being fit", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "same estimator instance"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_cv_refit_uses_sample_weight", "target": "cd_cv_fit_coef", "kind": "refit_context"},
+    {"source": "cd_cv_delete_l1_ratio_required", "target": "cd_cv_fit_coef", "kind": "postfit_cleanup"},
+    {"source": "cd_cv_fit_coef", "target": "cd_cv_fit_intercept", "kind": "state_copy"},
+    {"source": "cd_cv_fit_intercept", "target": "cd_cv_fit_dual_gap", "kind": "state_copy"},
+    {"source": "cd_cv_fit_dual_gap", "target": "cd_cv_fit_n_iter", "kind": "state_copy"},
+    {"source": "cd_cv_fit_n_iter", "target": "cd_cv_fit_return_self", "kind": "final_return"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 5 decomposition and matrix-factorization pipelines"
+  }
+}

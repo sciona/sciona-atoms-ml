@@ -196,6 +196,11 @@ Potential remediation path:
   publishes deterministic `ElasticNet` post-fit shell helpers after delegated
   path solving: single-target output collapse, the non-finite parameter
   guard/message, and `sparse_coef_` exposure.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_cv_postfit_shell` now publishes
+  deterministic `LinearModelCV` post-fit shell helpers after refitting the
+  selected model: the sample-weight refit branch, `l1_ratio_` cleanup,
+  fitted-state attribute passthrough, and final self return.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 
