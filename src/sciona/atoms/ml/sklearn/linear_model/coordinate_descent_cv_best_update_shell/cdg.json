@@ -1,0 +1,109 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_cv_best_update_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent CV Best Update Shell Helper Atoms",
+      "description": "Deterministic best-candidate update helpers from sklearn.linear_model._coordinate_descent.LinearModelCV.fit after MSE reduction and before refit.",
+      "status": "decomposed",
+      "children": [
+        "cd_cv_best_candidate_triples",
+        "cd_cv_best_candidate_count",
+        "cd_cv_best_mse_improved",
+        "cd_cv_fit_best_l1_ratio",
+        "cd_cv_fit_best_alpha"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_cv_best_candidate_triples",
+      "name": "cd_cv_best_candidate_triples",
+      "description": "Return the materialized zip(l1_ratios, alphas, mean_mse) iteration shell.",
+      "concept_type": "materialization",
+      "status": "atomic",
+      "type_signature": "(l1_ratios: Sequence[object], alphas: Sequence[object], mean_mse: Sequence[object]) -> list[tuple[object, object, object]]",
+      "depth": 1,
+      "inputs": [
+        {"name": "l1_ratios", "type_desc": "l1_ratio sequence", "required": true},
+        {"name": "alphas", "type_desc": "per-path alpha grids", "required": true},
+        {"name": "mean_mse", "type_desc": "per-path mean-MSE vectors", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "materialized path triplets"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_best_candidate_count",
+      "name": "cd_cv_best_candidate_count",
+      "description": "Return the number of best-candidate triplets iterated by LinearModelCV.fit.",
+      "concept_type": "counting",
+      "status": "atomic",
+      "type_signature": "(candidate_triples: Sequence[object]) -> int",
+      "depth": 1,
+      "inputs": [
+        {"name": "candidate_triples", "type_desc": "materialized path triplets", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "triplet count"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_best_mse_improved",
+      "name": "cd_cv_best_mse_improved",
+      "description": "Return whether one l1-ratio path improves the running best MSE.",
+      "concept_type": "branch_predicate",
+      "status": "atomic",
+      "type_signature": "(best_mse: float, this_best_mse: float) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "best_mse", "type_desc": "running best MSE", "required": true},
+        {"name": "this_best_mse", "type_desc": "candidate-path best MSE", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "whether the candidate path is strictly better"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_fit_best_l1_ratio",
+      "name": "cd_cv_fit_best_l1_ratio",
+      "description": "Return the final l1_ratio_ value exposed by LinearModelCV.fit.",
+      "concept_type": "state_assignment",
+      "status": "atomic",
+      "type_signature": "(best_l1_ratio: object) -> object",
+      "depth": 1,
+      "inputs": [
+        {"name": "best_l1_ratio", "type_desc": "selected best l1_ratio", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "final l1_ratio_ value"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_fit_best_alpha",
+      "name": "cd_cv_fit_best_alpha",
+      "description": "Return the final alpha_ value exposed by LinearModelCV.fit.",
+      "concept_type": "state_assignment",
+      "status": "atomic",
+      "type_signature": "(best_alpha: float) -> float",
+      "depth": 1,
+      "inputs": [
+        {"name": "best_alpha", "type_desc": "selected best alpha", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "final alpha_ value"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_cv_best_candidate_triples", "target": "cd_cv_best_candidate_count", "kind": "count_context"},
+    {"source": "cd_cv_best_candidate_triples", "target": "cd_cv_best_mse_improved", "kind": "iteration_context"},
+    {"source": "cd_cv_best_mse_improved", "target": "cd_cv_fit_best_l1_ratio", "kind": "selection_context"},
+    {"source": "cd_cv_best_mse_improved", "target": "cd_cv_fit_best_alpha", "kind": "selection_context"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 4 cross-validation and path orchestration"
+  }
+}

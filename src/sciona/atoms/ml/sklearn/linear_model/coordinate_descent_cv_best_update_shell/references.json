@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_best_update_shell.cd_cv_best_candidate_triples@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_best_update_shell/atoms.py:28": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `for l1_ratio, l1_alphas, mse_alphas in zip(l1_ratios, alphas, mean_mse)` iteration shell in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for LinearModelCV best-candidate iteration."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_best_update_shell.cd_cv_best_candidate_count@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_best_update_shell/atoms.py:51": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the number of triplets traversed by the `zip(l1_ratios, alphas, mean_mse)` loop in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for LinearModelCV candidate-loop counting."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_best_update_shell.cd_cv_best_mse_improved@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_best_update_shell/atoms.py:64": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `if this_best_mse < best_mse` guard in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for LinearModelCV best-MSE comparison."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_best_update_shell.cd_cv_fit_best_l1_ratio@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_best_update_shell/atoms.py:80": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `self.l1_ratio_ = best_l1_ratio` assignment shell in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for LinearModelCV final l1_ratio_ state."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_best_update_shell.cd_cv_fit_best_alpha@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_best_update_shell/atoms.py:89": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `self.alpha_ = best_alpha` assignment shell in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for LinearModelCV final alpha_ state."
+          }
+        }
+      ]
+    }
+  }
+}

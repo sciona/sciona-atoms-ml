@@ -304,6 +304,13 @@ Potential remediation path:
   callback shell around deferred CV path execution: the fixed
   `prefer="threads"` mode, the `n_jobs`/`verbose`/`prefer` kwarg
   mapping, and the materialized `mse_paths` output shell before reshape.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_cv_best_update_shell` now
+  publishes the deterministic `LinearModelCV.fit` best-candidate update
+  shell after mean-MSE reduction: zipped `(l1_ratio, alphas, mean_mse)`
+  materialization, candidate-count bookkeeping, the strict
+  `this_best_mse < best_mse` improvement guard, and the final `alpha_`
+  and `l1_ratio_` state passthroughs before refit.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 
