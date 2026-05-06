@@ -113,8 +113,8 @@
       "runtime_rule_builder": "force_cv_strategy",
       "runtime_diagnostic": "is_time_series",
       "name": "Force Cross-Validation Strategy",
-      "intent": "Use leakage-safe validation when data ordering or grouping requires a specific split strategy.",
-      "dejargonized_summary": "Force a time-aware, group-aware, or spatial validation split when ordinary random folds would leak information, including GroupKFold by Patient ID, GroupKFold split by cultivar, GroupKFold split by patient, Stratified GroupKFold, Stratified GroupKFold (Age-based), Stratified GroupKFold by Session ID, Spatial Cross-Validation (SCV), 5-fold time-based Cross-Validation, Cross-validation by UserID, and Time-based Cross-Validation.",
+      "intent": "Use leakage-safe validation when labels, entities, geographic regions, repeated measurements, or time order require a specific split strategy.",
+      "dejargonized_summary": "Choose validation folds that preserve label balance, group or entity boundaries, geographic regions, spatial neighborhoods, repeated-subject structure, or time order, using standard splitters such as StratifiedKFold, GroupKFold, StratifiedGroupKFold, spatial CV, or time-based CV.",
       "trigger": {
         "metric_name": "is_time_series",
         "comparison": "gt",
@@ -128,7 +128,11 @@
           "model_selection.use_stratified_group_kfold",
           "model_selection.requires_spatial_cv",
           "model_selection.use_spatial_cv",
-          "model_selection.requires_spatial_cross_validation"
+          "model_selection.requires_spatial_cross_validation",
+          "model_selection.requires_entity_safe_cv",
+          "model_selection.requires_time_aware_cv",
+          "model_selection.requires_repeated_measurement_cv",
+          "model_selection.requires_geographic_group_cv"
         ]
       },
       "action_classes": [
@@ -136,7 +140,7 @@
       ],
       "rewrite": {
         "before_summary": "Validation may use a generic splitter.",
-        "after_summary": "The validation stage is constrained to the recommended leakage-safe split strategy.",
+        "after_summary": "The validation stage is constrained to the recommended leakage-safe split strategy, such as k-fold, stratified, grouped, stratified-grouped, spatial, or time-aware cross-validation.",
         "information_flow_effect": "Keeps validation output semantics while preventing invalid train/test leakage."
       }
     },
@@ -150,7 +154,7 @@
       "runtime_diagnostic": "requires_cross_validation",
       "name": "K-Fold Cross-Validated Ensemble",
       "intent": "Replace one-shot model training with fold-safe training that produces multiple models and out-of-fold predictions.",
-      "dejargonized_summary": "Train one model per fold so validation is fair and later stacking can use out-of-fold predictions.",
+      "dejargonized_summary": "Train one model per validation fold, using k-fold, stratified, grouped, repeated, or time-aware splits when needed, so validation is fair and later stacking can use out-of-fold predictions.",
       "trigger": {
         "metric_name": "requires_cross_validation",
         "comparison": "gt",
@@ -159,7 +163,10 @@
           "model_selection.use_kfold_ensemble",
           "model_selection.requires_oof_predictions",
           "model_selection.requires_cross_validation",
-          "model_selection.recommend_cv_strategy"
+          "model_selection.recommend_cv_strategy",
+          "model_selection.use_repeated_kfold",
+          "model_selection.use_stratified_kfold",
+          "model_selection.use_group_kfold"
         ]
       },
       "action_classes": [
@@ -336,8 +343,8 @@
       "runtime_rule_builder": "apply_tree_ensemble_blend",
       "runtime_diagnostic": "requires_tree_ensemble_blend",
       "name": "Heterogeneous Tree Ensemble Blend",
-      "intent": "Replace a single estimator with a LightGBM, XGBoost, CatBoost, ExtraTrees, RandomForest, or SVR blend when mined solution deltas require heterogeneous tree ensembling.",
-      "dejargonized_summary": "Train and blend multiple tree models such as LightGBM, XGBoost, CatBoost, ExtraTrees, RandomForest, or SVR, including XGBoost and Random Forest ensemble, Random Forest and ExtraTrees ensemble, Random Forest and SVR ensemble, and Random Forest and XGBoost ensemble.",
+      "intent": "Replace a single estimator with a heterogeneous ensemble when complementary boosted-tree, bagged-tree, or baseline learners provide useful diversity.",
+      "dejargonized_summary": "Train and blend multiple tabular estimators, such as LightGBM, XGBoost, CatBoost, gradient-boosted trees, bagged trees, extremely randomized trees, random forests, or a simple linear/kernel baseline, then aggregate their predictions.",
       "trigger": {
         "metric_name": "requires_tree_ensemble_blend",
         "comparison": "gt",
@@ -348,7 +355,9 @@
           "model_selection.use_xgboost_lightgbm_ensemble",
           "model_selection.use_random_forest_xgboost_ensemble",
           "model_selection.use_random_forest_extratrees_ensemble",
-          "model_selection.use_random_forest_svr_ensemble"
+          "model_selection.use_random_forest_svr_ensemble",
+          "model_selection.use_gradient_boosting_blend",
+          "model_selection.use_heterogeneous_tabular_ensemble"
         ]
       },
       "action_classes": [
@@ -357,10 +366,10 @@
       ],
       "rewrite": {
         "before_summary": "A single estimator or flat model-training stage produces predictions.",
-        "after_summary": "Multiple heterogeneous tree estimators are trained and their predictions are blended.",
-        "information_flow_effect": "Preserves prediction output semantics while adding model diversity for tabular competitions.",
+        "after_summary": "Multiple heterogeneous tabular estimators are trained and their predictions are blended or ranked.",
+        "information_flow_effect": "Preserves prediction output semantics while adding model diversity for tabular tasks.",
         "notes": [
-          "Mined from recurring CatBoost/LightGBM/XGBoost/ExtraTrees/RandomForest/SVR ensemble gaps."
+          "This operation covers standard tabular blending across boosted-tree libraries such as LightGBM, XGBoost, and CatBoost, bagged-tree families, and low-complexity baseline learners without changing the feature contract."
         ]
       }
     },
@@ -429,11 +438,11 @@
       "runtime_rule_builder": "insert_pseudo_labeling_loop_before_training",
       "runtime_diagnostic": "requires_pseudo_labeling",
       "name": "Pseudo-Labeling Loop",
-      "intent": "Insert pseudo-label generation and confidence filtering before retraining.",
-      "dejargonized_summary": "Generate pseudo-labels for unlabeled regions, unlabeled images, test-set data, external datasets, scraped data, or domain-adaptation data, then retrain on high-confidence labels.",
+      "intent": "Insert pseudo-label generation, confidence filtering, and retraining while keeping validation data isolated.",
+      "dejargonized_summary": "Use high-confidence predictions on unlabeled, external, or test-distribution examples as additional soft or hard labels, then retrain without leaking validation targets.",
       "trigger": {"metric_name": "requires_pseudo_labeling", "comparison": "gt", "threshold": 0.0, "required_any_intermediate_keys": ["model_selection.requires_pseudo_labeling", "model_selection.use_pseudo_labeling", "model_selection.use_test_pseudo_labels"]},
       "action_classes": ["precondition", "smooth_or_aggregate"],
-      "rewrite": {"before_summary": "Only labeled training data feeds estimator training.", "after_summary": "High-confidence pseudo-labeled examples are added before estimator training.", "information_flow_effect": "Preserves target semantics while expanding training supervision."}
+      "rewrite": {"before_summary": "Only labeled training data feeds estimator training.", "after_summary": "High-confidence pseudo-labeled examples are filtered and added before estimator training.", "information_flow_effect": "Preserves target semantics while expanding training supervision under an explicit confidence and validation-isolation policy."}
     },
     {
       "rule_name": "insert_iterative_imputation_before_estimator",
@@ -471,11 +480,11 @@
       "runtime_rule_builder": "insert_tree_early_stopping_validation",
       "runtime_diagnostic": "requires_tree_early_stopping",
       "name": "Boosted Tree Early Stopping",
-      "intent": "Insert early-stopping validation for LightGBM or XGBoost training.",
-      "dejargonized_summary": "Use XGBoost early stopping or LightGBM early stopping to select the best validation iteration.",
+      "intent": "Insert early-stopping validation for iterative boosted-tree or related tabular training.",
+      "dejargonized_summary": "Use LightGBM, XGBoost, CatBoost, or generic boosted-tree early stopping with a held-out fold or out-of-fold monitor to select the best validation iteration instead of a fixed round count.",
       "trigger": {"metric_name": "requires_tree_early_stopping", "comparison": "gt", "threshold": 0.0, "required_any_intermediate_keys": ["model_selection.requires_tree_early_stopping", "model_selection.use_tree_early_stopping"]},
       "action_classes": ["gate_or_validate"],
-      "rewrite": {"before_summary": "Boosted trees train for a fixed number of iterations.", "after_summary": "Boosted trees stop at the best validation iteration.", "information_flow_effect": "Preserves prediction semantics while constraining training duration by validation performance."}
+      "rewrite": {"before_summary": "Boosted trees train for a fixed number of iterations.", "after_summary": "Boosted trees stop at the best validation iteration using fold-local evaluation data.", "information_flow_effect": "Preserves prediction semantics while constraining training duration by validation performance."}
     },
     {
       "rule_name": "insert_database_augmentation_for_retrieval",
@@ -543,8 +552,8 @@
       "runtime_rule_builder": "insert_metric_optimized_thresholding_after_prediction",
       "runtime_diagnostic": "requires_metric_optimized_thresholding",
       "name": "Metric-Optimized Thresholding",
-      "intent": "Insert threshold calibration when class or label decisions are scored by Macro F1, MCC, or related discrete metrics.",
-      "dejargonized_summary": "Tune prediction thresholds for metrics such as Macro F1, MCC, tag F1, or per-label F1 before formatting the submission.",
+      "intent": "Insert threshold or cutoff calibration when class, label, ordinal, or ranked decisions are scored by a discrete leaderboard metric.",
+      "dejargonized_summary": "Tune prediction thresholds or top-k cutoffs for metrics such as Macro F1, MCC, quadratic weighted kappa, MAP@K, tag F1, or per-label F1 before formatting the submission.",
       "trigger": {
         "metric_name": "requires_metric_optimized_thresholding",
         "comparison": "gt",
@@ -552,7 +561,9 @@
         "required_any_intermediate_keys": [
           "model_selection.requires_metric_optimized_thresholding",
           "model_selection.use_macro_f1_thresholding",
-          "model_selection.use_mcc_thresholding"
+          "model_selection.use_mcc_thresholding",
+          "model_selection.use_qwk_thresholding",
+          "model_selection.use_mapk_cutoff_tuning"
         ]
       },
       "action_classes": [
@@ -561,8 +572,8 @@
       ],
       "rewrite": {
         "before_summary": "Probabilities or raw scores flow directly to output formatting.",
-        "after_summary": "Thresholds are calibrated against the competition metric before final labels are emitted.",
-        "information_flow_effect": "Preserves prediction targets while converting scores to decisions with metric-aware thresholds."
+        "after_summary": "Thresholds or ranked-list cutoffs are calibrated against the evaluation metric before final labels are emitted.",
+        "information_flow_effect": "Preserves prediction targets while converting scores to decisions or ranked outputs with metric-aware thresholds."
       }
     },
     {
@@ -573,8 +584,8 @@
       "runtime_rule_builder": "insert_retrieval_reranking_after_prediction",
       "runtime_diagnostic": "requires_retrieval_reranking",
       "name": "Retrieval Re-Ranking",
-      "intent": "Insert local-feature or pairwise-model reranking after first-pass retrieval predictions.",
-      "dejargonized_summary": "Rerank candidate matches with DELF deep local features or an XGBoost-style pair ranker.",
+      "intent": "Insert similarity features, local-feature evidence, or a pairwise model to rerank first-pass retrieval predictions.",
+      "dejargonized_summary": "Rerank candidate matches with general similarity signals such as cosine similarity, Jaccard similarity, edit distance or Levenshtein distance, deep local features, or a pairwise ranker.",
       "trigger": {
         "metric_name": "requires_retrieval_reranking",
         "comparison": "gt",
@@ -582,7 +593,9 @@
         "required_any_intermediate_keys": [
           "model_selection.requires_retrieval_reranking",
           "model_selection.use_delf_reranking",
-          "model_selection.use_xgboost_reranking"
+          "model_selection.use_xgboost_reranking",
+          "model_selection.use_similarity_reranking",
+          "model_selection.use_edit_distance_reranking"
         ]
       },
       "action_classes": [
@@ -591,7 +604,7 @@
       ],
       "rewrite": {
         "before_summary": "First-pass retrieval candidates flow directly to output formatting.",
-        "after_summary": "Candidates are reranked with local-feature matching or a pairwise ranking model.",
+        "after_summary": "Candidates are reranked with similarity features, local-feature matching, or a pairwise ranking model.",
         "information_flow_effect": "Preserves candidate identity while reordering predictions with stronger pair evidence."
       }
     },
@@ -603,8 +616,8 @@
       "runtime_rule_builder": "insert_recursive_feature_elimination_before_estimator",
       "runtime_diagnostic": "requires_recursive_feature_elimination",
       "name": "Recursive Feature Elimination",
-      "intent": "Insert RFE before estimator training when solution deltas call for recursive feature selection.",
-      "dejargonized_summary": "Select a compact feature subset with Recursive Feature Elimination before training the model.",
+      "intent": "Insert recursive feature elimination before estimator training when many redundant or weak features need validation-driven pruning.",
+      "dejargonized_summary": "Iteratively remove weak or redundant features using model importance or validation score, then train the estimator on the retained subset.",
       "trigger": {
         "metric_name": "requires_recursive_feature_elimination",
         "comparison": "gt",
@@ -619,7 +632,7 @@
       ],
       "rewrite": {
         "before_summary": "All engineered features feed estimator training.",
-        "after_summary": "Recursive Feature Elimination selects a smaller feature subset before estimator training.",
+        "after_summary": "Recursive Feature Elimination selects a smaller validated feature subset before estimator training.",
         "information_flow_effect": "Preserves estimator inputs while reducing feature noise and redundancy."
       }
     },
@@ -656,19 +669,22 @@
       "rule_name": "insert_smoothed_target_encoding_before_estimator",
       "operation_id": "sciona.expansions.ml.smoothed_target_encoding",
       "operation_type": "insert",
-      "applies_to": "tabular_pipeline.categorical_features->estimator",
+      "applies_to": "tabular_pipeline.feature_engineering.categorical_features->estimator",
       "runtime_rule_builder": "insert_smoothed_target_encoding_before_estimator",
       "runtime_diagnostic": "requires_target_encoding",
       "name": "Smoothed Target Encoding",
-      "intent": "Insert fold-aware mean target encoding with Bayesian smoothing for high-cardinality categorical features.",
-      "dejargonized_summary": "Encode categories by smoothed target means without leaking validation targets into training folds.",
+      "intent": "Insert leakage-safe target encoding or mean encoding with smoothing for high-cardinality categorical or identifier-like features.",
+      "dejargonized_summary": "Apply smoothed target encoding by replacing categories or IDs with out-of-fold target means, using only training-fold or earlier-row targets so validation labels do not leak into the features.",
       "trigger": {
         "metric_name": "requires_target_encoding",
         "comparison": "gt",
         "threshold": 0.0,
         "required_any_intermediate_keys": [
           "model_selection.requires_target_encoding",
-          "model_selection.use_smoothed_target_encoding"
+          "model_selection.use_smoothed_target_encoding",
+          "model_selection.use_mean_encoding",
+          "model_selection.requires_high_cardinality_categorical_encoding",
+          "model_selection.requires_leakage_safe_categorical_encoding"
         ]
       },
       "action_classes": [
@@ -676,9 +692,9 @@
         "gate_or_validate"
       ],
       "rewrite": {
-        "before_summary": "Categorical variables feed the estimator through generic encoding.",
-        "after_summary": "Categorical variables are encoded with leakage-safe smoothed target means.",
-        "information_flow_effect": "Preserves feature-table shape while adding target-aware categorical signal."
+        "before_summary": "During feature engineering, categorical variables or identifier columns feed the estimator through generic encoding.",
+        "after_summary": "Categorical variables or identifier columns are encoded with leakage-safe smoothed target encoding or mean encoding.",
+        "information_flow_effect": "Preserves feature-table shape while adding target-aware categorical signal under fold-local or time-aware isolation."
       }
     }
   ],
