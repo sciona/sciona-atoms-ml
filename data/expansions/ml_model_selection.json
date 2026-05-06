@@ -374,6 +374,37 @@
       }
     },
     {
+      "rule_name": "insert_lightgbm_large_leaf_configuration_before_training",
+      "operation_id": "sciona.expansions.ml.lightgbm_large_leaf_configuration",
+      "operation_type": "insert",
+      "applies_to": "tabular_pipeline.boosted_tree_config->model_training",
+      "runtime_rule_builder": "insert_lightgbm_large_leaf_configuration_before_training",
+      "runtime_diagnostic": "requires_lightgbm_large_leaf_configuration",
+      "name": "LightGBM Large-Leaf Configuration",
+      "intent": "Configure validation-controlled LightGBM leaf-wise model capacity before boosted-tree training.",
+      "dejargonized_summary": "Tune LightGBM leaf-wise growth settings such as num_leaves, max_depth, and minimum data per leaf when larger leaf capacity is useful and validation controls overfitting.",
+      "trigger": {
+        "metric_name": "requires_lightgbm_large_leaf_configuration",
+        "comparison": "gt",
+        "threshold": 0.0,
+        "required_any_intermediate_keys": [
+          "model_selection.requires_lightgbm_large_leaf_configuration",
+          "model_selection.use_lightgbm_large_leaf_configuration",
+          "model_selection.use_lightgbm_large_leaves",
+          "model_selection.tune_lightgbm_num_leaves"
+        ]
+      },
+      "action_classes": [
+        "precondition",
+        "gate_or_validate"
+      ],
+      "rewrite": {
+        "before_summary": "Boosted-tree training uses a generic or default LightGBM hyperparameter range.",
+        "after_summary": "LightGBM training receives a validation-controlled large-leaf hyperparameter configuration.",
+        "information_flow_effect": "Preserves estimator input and prediction semantics while changing tree capacity and overfitting controls."
+      }
+    },
+    {
       "rule_name": "insert_permutation_importance_feature_selection_before_estimator",
       "operation_id": "sciona.expansions.ml.permutation_importance_feature_selection",
       "operation_type": "insert",
