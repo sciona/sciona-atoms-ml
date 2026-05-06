@@ -696,6 +696,98 @@
         "after_summary": "Categorical variables or identifier columns are encoded with leakage-safe smoothed target encoding or mean encoding.",
         "information_flow_effect": "Preserves feature-table shape while adding target-aware categorical signal under fold-local or time-aware isolation."
       }
+    },
+    {
+      "rule_name": "insert_entity_embedding_encoding_before_estimator",
+      "operation_id": "sciona.expansions.ml.entity_embedding_encoding",
+      "operation_type": "insert",
+      "applies_to": "tabular_pipeline.feature_engineering.categorical_features->estimator",
+      "runtime_rule_builder": "insert_entity_embedding_encoding_before_estimator",
+      "runtime_diagnostic": "requires_entity_embeddings",
+      "name": "Entity Embedding Encoding",
+      "intent": "Insert learned dense embeddings for high-cardinality categorical or entity identifier features before estimator training.",
+      "dejargonized_summary": "Learn compact embeddings for categories, IDs, users, items, locations, or other repeated entities when one-hot or count encodings are too sparse.",
+      "trigger": {
+        "metric_name": "requires_entity_embeddings",
+        "comparison": "gt",
+        "threshold": 0.0,
+        "required_any_intermediate_keys": [
+          "model_selection.requires_entity_embeddings",
+          "model_selection.use_entity_embeddings",
+          "model_selection.requires_learned_categorical_embeddings",
+          "model_selection.requires_high_cardinality_categorical_encoding"
+        ]
+      },
+      "action_classes": [
+        "precondition"
+      ],
+      "rewrite": {
+        "before_summary": "Categorical or identifier columns feed the estimator through generic encoding.",
+        "after_summary": "Categorical or identifier columns are converted to learned entity embeddings before estimator training.",
+        "information_flow_effect": "Preserves row-level feature semantics while replacing sparse identifiers with trainable dense representations."
+      }
+    },
+    {
+      "rule_name": "replace_loss_with_rank_correlation_objective",
+      "operation_id": "sciona.expansions.ml.rank_correlation_objective",
+      "operation_type": "replace",
+      "applies_to": "tabular_pipeline.model_training",
+      "runtime_rule_builder": "replace_loss_with_rank_correlation_objective",
+      "runtime_diagnostic": "requires_rank_correlation_objective",
+      "name": "Rank-Correlation Objective",
+      "intent": "Replace generic model training with a rank-correlation-aware objective or validation loop when ordering quality is the target.",
+      "dejargonized_summary": "Optimize or select models for ordered predictions using Kendall Tau, Spearman correlation, pairwise ranking losses, or differentiable rank-correlation surrogates.",
+      "trigger": {
+        "metric_name": "requires_rank_correlation_objective",
+        "comparison": "gt",
+        "threshold": 0.0,
+        "required_any_intermediate_keys": [
+          "model_selection.requires_rank_correlation_objective",
+          "model_selection.use_kendall_tau_objective",
+          "model_selection.use_spearman_objective",
+          "model_selection.use_pairwise_ranking_objective"
+        ]
+      },
+      "action_classes": [
+        "replace_stage"
+      ],
+      "rewrite": {
+        "before_summary": "Model training optimizes a generic regression or classification objective.",
+        "after_summary": "Model training optimizes a rank-aware surrogate or uses rank-correlation validation for model and threshold selection.",
+        "information_flow_effect": "Preserves prediction output shape while changing optimization pressure toward correct ordering."
+      }
+    },
+    {
+      "rule_name": "insert_candidate_generation_before_reranking",
+      "operation_id": "sciona.expansions.ml.candidate_generation",
+      "operation_type": "insert",
+      "applies_to": "retrieval_pipeline.first_pass_prediction->reranking",
+      "runtime_rule_builder": "insert_candidate_generation_before_reranking",
+      "runtime_diagnostic": "requires_candidate_generation",
+      "name": "Candidate Generation",
+      "intent": "Insert a bounded candidate-generation stage before expensive retrieval reranking or pair scoring.",
+      "dejargonized_summary": "Generate candidate pairs or candidate items with embeddings, approximate nearest neighbors, graph traversal, coarse classifiers, or CNN-based first-pass scoring before reranking.",
+      "trigger": {
+        "metric_name": "requires_candidate_generation",
+        "comparison": "gt",
+        "threshold": 0.0,
+        "required_any_intermediate_keys": [
+          "model_selection.requires_candidate_generation",
+          "model_selection.use_candidate_generation",
+          "model_selection.use_graph_candidate_generation",
+          "model_selection.use_ann_candidate_generation",
+          "model_selection.use_cnn_candidate_generation"
+        ]
+      },
+      "action_classes": [
+        "precondition",
+        "smooth_or_aggregate"
+      ],
+      "rewrite": {
+        "before_summary": "All possible items or pairs flow toward matching, reranking, or output formatting.",
+        "after_summary": "A candidate-generation stage produces a tractable candidate set before matching, reranking, or output formatting.",
+        "information_flow_effect": "Preserves candidate identity semantics while reducing the search space for downstream pair evidence."
+      }
     }
   ],
   "audit": {
