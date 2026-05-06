@@ -1,0 +1,165 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_target_guards.cd_cv_reference_preserving_validation_branch@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_target_guards/atoms.py:35": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `isinstance(X, np.ndarray) or sparse.issparse(X)` validation branch in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent CV input-branch selection."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_target_guards.cd_cv_non_multitask_guard_required@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_target_guards/atoms.py:51": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the non-multitask multi-output guard in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent CV target-shape guarding."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_target_guards.cd_cv_non_multitask_message@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_target_guards/atoms.py:69": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the non-multitask multi-output ValueError text in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent CV non-multitask error messaging."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_target_guards.cd_cv_multitask_sparse_guard_required@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_target_guards/atoms.py:81": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the multitask sparse-input guard in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent CV multitask sparse guarding."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_target_guards.cd_cv_multitask_sparse_message@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_target_guards/atoms.py:93": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the multitask sparse-input TypeError text in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent CV sparse-input error messaging."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_target_guards.cd_cv_multitask_monotask_guard_required@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_target_guards/atoms.py:106": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the multitask mono-task guard in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent CV multitask mono-task guarding."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_target_guards.cd_cv_multitask_monotask_message@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_target_guards/atoms.py:118": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the multitask mono-task ValueError text in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent CV mono-task error messaging."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_target_guards.cd_cv_scalar_sample_weight_becomes_none@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_target_guards/atoms.py:131": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the scalar sample_weight normalization branch in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent CV sample-weight normalization."
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,158 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_cv_target_guards_root",
+      "name": "Sklearn Linear Model Coordinate Descent CV Target Guard Helper Atoms",
+      "description": "Deterministic target-shape, sparse-input, and scalar-sample-weight guard helpers from sklearn.linear_model._coordinate_descent.LinearModelCV.fit.",
+      "status": "decomposed",
+      "children": [
+        "cd_cv_reference_preserving_validation_branch",
+        "cd_cv_non_multitask_guard_required",
+        "cd_cv_non_multitask_message",
+        "cd_cv_multitask_sparse_guard_required",
+        "cd_cv_multitask_sparse_message",
+        "cd_cv_multitask_monotask_guard_required",
+        "cd_cv_multitask_monotask_message",
+        "cd_cv_scalar_sample_weight_becomes_none"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_cv_reference_preserving_validation_branch",
+      "name": "cd_cv_reference_preserving_validation_branch",
+      "description": "Return whether LinearModelCV.fit uses the ndarray-or-sparse validation branch that keeps a reference to X.",
+      "concept_type": "branch_predicate",
+      "status": "atomic",
+      "type_signature": "(x_is_ndarray: bool, x_is_sparse: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "x_is_ndarray", "type_desc": "whether X is a numpy ndarray", "required": true},
+        {"name": "x_is_sparse", "type_desc": "whether X is sparse", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "whether LinearModelCV.fit takes the reference-preserving validation branch"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_non_multitask_guard_required",
+      "name": "cd_cv_non_multitask_guard_required",
+      "description": "Return whether LinearModelCV.fit should reject multi-output y when the estimator is not multitask.",
+      "concept_type": "branch_predicate",
+      "status": "atomic",
+      "type_signature": "(multitask: bool, y_ndim: int, y_width: int) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "multitask", "type_desc": "whether the estimator is multitask", "required": true},
+        {"name": "y_ndim", "type_desc": "positive target ndim", "required": true},
+        {"name": "y_width", "type_desc": "positive second-dimension width when y.ndim > 1", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "whether the non-multitask multi-output guard should fire"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_non_multitask_message",
+      "name": "cd_cv_non_multitask_message",
+      "description": "Return the non-multitask multi-output ValueError text used by LinearModelCV.fit.",
+      "concept_type": "error_formatting",
+      "status": "atomic",
+      "type_signature": "(class_name: str) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "class_name", "type_desc": "nonempty estimator class name", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "formatted multi-task error message"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_multitask_sparse_guard_required",
+      "name": "cd_cv_multitask_sparse_guard_required",
+      "description": "Return whether LinearModelCV.fit should reject sparse X in multitask mode.",
+      "concept_type": "branch_predicate",
+      "status": "atomic",
+      "type_signature": "(multitask: bool, x_is_sparse: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "multitask", "type_desc": "whether the estimator is multitask", "required": true},
+        {"name": "x_is_sparse", "type_desc": "whether X is sparse", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "whether the sparse multitask guard should fire"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_multitask_sparse_message",
+      "name": "cd_cv_multitask_sparse_message",
+      "description": "Return the multitask sparse-input TypeError text used by LinearModelCV.fit.",
+      "concept_type": "error_formatting",
+      "status": "atomic",
+      "type_signature": "(guard_required: bool) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "guard_required", "type_desc": "whether the sparse multitask guard fires", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "fixed sparse-input TypeError message"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_multitask_monotask_guard_required",
+      "name": "cd_cv_multitask_monotask_guard_required",
+      "description": "Return whether LinearModelCV.fit should reject mono-task y in multitask mode.",
+      "concept_type": "branch_predicate",
+      "status": "atomic",
+      "type_signature": "(multitask: bool, y_ndim: int) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "multitask", "type_desc": "whether the estimator is multitask", "required": true},
+        {"name": "y_ndim", "type_desc": "positive target ndim", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "whether the mono-task multitask guard should fire"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_multitask_monotask_message",
+      "name": "cd_cv_multitask_monotask_message",
+      "description": "Return the multitask mono-task ValueError text used by LinearModelCV.fit.",
+      "concept_type": "error_formatting",
+      "status": "atomic",
+      "type_signature": "(class_name: str) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "class_name", "type_desc": "estimator class name beginning with MultiTask", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "formatted mono-task CV error message"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_scalar_sample_weight_becomes_none",
+      "name": "cd_cv_scalar_sample_weight_becomes_none",
+      "description": "Return whether LinearModelCV.fit replaces scalar sample_weight with None before validation.",
+      "concept_type": "branch_predicate",
+      "status": "atomic",
+      "type_signature": "(sample_weight_is_number: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "sample_weight_is_number", "type_desc": "whether sample_weight is a Python number", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "whether scalar sample_weight is normalized to None"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_cv_non_multitask_guard_required", "target": "cd_cv_non_multitask_message", "kind": "guard_message"},
+    {"source": "cd_cv_multitask_sparse_guard_required", "target": "cd_cv_multitask_sparse_message", "kind": "guard_message"},
+    {"source": "cd_cv_multitask_monotask_guard_required", "target": "cd_cv_multitask_monotask_message", "kind": "guard_message"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 5 decomposition and matrix-factorization pipelines"
+  }
+}

@@ -212,6 +212,12 @@ Potential remediation path:
   around the delegated multitask solver: model-name resolution, mono-task
   guarding, random selection, post-solver dual-gap scaling, final self
   return, and the fixed multitask tags.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_cv_target_guards` now publishes
+  deterministic `LinearModelCV.fit` target-shape and scalar-sample-weight
+  guard helpers before alpha-grid construction and CV orchestration: the
+  ndarray-or-sparse validation branch, non-multitask and multitask target
+  guards, exact error messages, and scalar sample-weight normalization.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 
