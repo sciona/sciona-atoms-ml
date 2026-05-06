@@ -298,6 +298,12 @@ Potential remediation path:
   materialization, fold-count bookkeeping, one `_path_residuals` job
   kwarg mapping, nested job-count bookkeeping, and `best_mse=np.inf`
   initialization.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_cv_parallel_callback_shell` now
+  publishes the deterministic `LinearModelCV.fit` `Parallel(...)`
+  callback shell around deferred CV path execution: the fixed
+  `prefer="threads"` mode, the `n_jobs`/`verbose`/`prefer` kwarg
+  mapping, and the materialized `mse_paths` output shell before reshape.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 
