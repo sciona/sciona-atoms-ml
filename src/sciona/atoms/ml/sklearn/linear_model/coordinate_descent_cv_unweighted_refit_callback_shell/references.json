@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_unweighted_refit_callback_shell.cd_cv_refit_unweighted_fit_call_required@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_unweighted_refit_callback_shell/atoms.py:21": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `if sample_weight is None:` branch in sklearn.linear_model._coordinate_descent.LinearModelCV.fit before the unweighted refit callback."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for LinearModelCV refit branch behavior."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_unweighted_refit_callback_shell.cd_cv_refit_unweighted_fit_args@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_unweighted_refit_callback_shell/atoms.py:31": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `model.fit(X, y)` positional-argument shell in sklearn.linear_model._coordinate_descent.LinearModelCV.fit when sample_weight is None."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for LinearModelCV unweighted refit arguments."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_unweighted_refit_callback_shell.cd_cv_refit_unweighted_fit_kwargs@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_unweighted_refit_callback_shell/atoms.py:47": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the absence of sample_weight kwargs in the `model.fit(X, y)` call in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for LinearModelCV unweighted refit kwargs."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_unweighted_refit_callback_shell.cd_cv_refit_unweighted_fitted_model@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_unweighted_refit_callback_shell/atoms.py:58": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the callback boundary immediately after `model.fit(X, y)` in sklearn.linear_model._coordinate_descent.LinearModelCV.fit before postfit attribute copying."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for LinearModelCV fitted-model callback identity."
+          }
+        }
+      ]
+    }
+  }
+}

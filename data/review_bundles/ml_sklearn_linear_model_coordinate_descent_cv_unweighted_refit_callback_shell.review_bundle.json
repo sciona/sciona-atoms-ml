@@ -1,0 +1,130 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "sciona.atoms.review_bundle.ml.sklearn_linear_model_coordinate_descent_cv_unweighted_refit_callback_shell.v1",
+  "provider_repo": "sciona-atoms-ml",
+  "family_batch": "ml_sklearn_linear_model_coordinate_descent_cv_unweighted_refit_callback_shell",
+  "review_status": "reviewed",
+  "review_semantic_verdict": "pass_with_limits",
+  "review_developer_semantic_verdict": "pass_with_limits",
+  "trust_readiness": "reviewed_with_limits",
+  "authoritative_sources": [
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_unweighted_refit_callback_shell/atoms.py"
+    },
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_unweighted_refit_callback_shell/witnesses.py"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_unweighted_refit_callback_shell/references.json"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_unweighted_refit_callback_shell/cdg.json"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_sklearn_linear_model_coordinate_descent_cv_unweighted_refit_callback_shell_behavior.py"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_sklearn_linear_model_coordinate_descent_cv_unweighted_refit_callback_shell_references_metadata.py"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_sklearn_linear_model_coordinate_descent_cv_unweighted_refit_callback_shell_review_bundle.py"
+    }
+  ],
+  "limitations": [
+    "This batch covers only the deterministic unweighted refit callback shell in LinearModelCV.fit when sample_weight is None.",
+    "The helpers model the branch predicate, X/y positional-argument passthrough, empty kwargs payload, and fitted-model callback identity around deferred model.fit(X, y).",
+    "The estimator's coordinate-descent solve, weighted refit branch, set_params callback, and postfit attribute copying remain deferred or are covered elsewhere."
+  ],
+  "blocking_findings": [],
+  "required_actions": [],
+  "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_cv_unweighted_refit_callback_shell.review_bundle.json",
+  "rows": [
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_unweighted_refit_callback_shell.cd_cv_refit_unweighted_fit_call_required",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_unweighted_refit_callback_shell.cd_cv_refit_unweighted_fit_call_required",
+      "has_references": true,
+      "overall_verdict": "pass",
+      "parity_test_status": "pass",
+      "references_status": "pass",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_cv_unweighted_refit_callback_shell.review_bundle.json",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_status": "reviewed",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_unweighted_refit_callback_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_unweighted_refit_callback_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_unweighted_refit_callback_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_unweighted_refit_callback_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_cv_unweighted_refit_callback_shell_behavior.py"
+      ],
+      "trust_readiness": "catalog_ready"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_unweighted_refit_callback_shell.cd_cv_refit_unweighted_fit_args",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_unweighted_refit_callback_shell.cd_cv_refit_unweighted_fit_args",
+      "has_references": true,
+      "overall_verdict": "pass",
+      "parity_test_status": "pass",
+      "references_status": "pass",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_cv_unweighted_refit_callback_shell.review_bundle.json",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_status": "reviewed",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_unweighted_refit_callback_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_unweighted_refit_callback_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_unweighted_refit_callback_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_unweighted_refit_callback_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_cv_unweighted_refit_callback_shell_behavior.py"
+      ],
+      "trust_readiness": "catalog_ready"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_unweighted_refit_callback_shell.cd_cv_refit_unweighted_fit_kwargs",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_unweighted_refit_callback_shell.cd_cv_refit_unweighted_fit_kwargs",
+      "has_references": true,
+      "overall_verdict": "pass",
+      "parity_test_status": "pass",
+      "references_status": "pass",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_cv_unweighted_refit_callback_shell.review_bundle.json",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_status": "reviewed",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_unweighted_refit_callback_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_unweighted_refit_callback_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_unweighted_refit_callback_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_unweighted_refit_callback_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_cv_unweighted_refit_callback_shell_behavior.py"
+      ],
+      "trust_readiness": "catalog_ready"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_unweighted_refit_callback_shell.cd_cv_refit_unweighted_fitted_model",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_unweighted_refit_callback_shell.cd_cv_refit_unweighted_fitted_model",
+      "has_references": true,
+      "overall_verdict": "pass",
+      "parity_test_status": "pass",
+      "references_status": "pass",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_cv_unweighted_refit_callback_shell.review_bundle.json",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_status": "reviewed",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_unweighted_refit_callback_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_unweighted_refit_callback_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_unweighted_refit_callback_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_unweighted_refit_callback_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_cv_unweighted_refit_callback_shell_behavior.py"
+      ],
+      "trust_readiness": "catalog_ready"
+    }
+  ]
+}

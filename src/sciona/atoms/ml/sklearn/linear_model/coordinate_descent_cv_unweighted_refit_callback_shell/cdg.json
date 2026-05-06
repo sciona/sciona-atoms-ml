@@ -1,0 +1,144 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_cv_unweighted_refit_callback_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent CV Unweighted Refit Callback Shell Helper Atoms",
+      "description": "Deterministic unweighted refit callback-shell helpers from sklearn.linear_model._coordinate_descent.LinearModelCV.fit around deferred model.fit(X, y).",
+      "status": "decomposed",
+      "children": [
+        "cd_cv_refit_unweighted_fit_call_required",
+        "cd_cv_refit_unweighted_fit_args",
+        "cd_cv_refit_unweighted_fit_kwargs",
+        "cd_cv_refit_unweighted_fitted_model"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_cv_refit_unweighted_fit_call_required",
+      "name": "cd_cv_refit_unweighted_fit_call_required",
+      "description": "Return sklearn's branch predicate for calling model.fit(X, y) without sample_weight.",
+      "concept_type": "branch_guard",
+      "status": "atomic",
+      "type_signature": "(sample_weight: object) -> bool",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "sample_weight",
+          "type_desc": "optional sample-weight payload",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "true exactly when sample_weight is None"
+        }
+      ]
+    },
+    {
+      "node_id": "cd_cv_refit_unweighted_fit_args",
+      "name": "cd_cv_refit_unweighted_fit_args",
+      "description": "Return the positional X and y arguments passed to model.fit(X, y).",
+      "concept_type": "callback_setup",
+      "status": "atomic",
+      "type_signature": "(X: object, y: object, sample_weight: object) -> tuple[object, object]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "validated design matrix passed to the refit model",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "validated target passed to the refit model",
+          "required": true
+        },
+        {
+          "name": "sample_weight",
+          "type_desc": "must be None on the unweighted refit branch",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "two-tuple preserving X and y object identity"
+        }
+      ]
+    },
+    {
+      "node_id": "cd_cv_refit_unweighted_fit_kwargs",
+      "name": "cd_cv_refit_unweighted_fit_kwargs",
+      "description": "Return the empty kwargs payload for the model.fit(X, y) refit call.",
+      "concept_type": "callback_setup",
+      "status": "atomic",
+      "type_signature": "(sample_weight: object) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "sample_weight",
+          "type_desc": "must be None on the unweighted refit branch",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "empty kwargs dict"
+        }
+      ]
+    },
+    {
+      "node_id": "cd_cv_refit_unweighted_fitted_model",
+      "name": "cd_cv_refit_unweighted_fitted_model",
+      "description": "Expose the fitted model object returned after deferred model.fit(X, y).",
+      "concept_type": "callback_output",
+      "status": "atomic",
+      "type_signature": "(model_after_fit: object) -> object",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "model_after_fit",
+          "type_desc": "model object after the deferred unweighted refit callback",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "the same fitted model object"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "cd_cv_refit_unweighted_fit_call_required",
+      "target": "cd_cv_refit_unweighted_fit_args",
+      "kind": "branch_context"
+    },
+    {
+      "source": "cd_cv_refit_unweighted_fit_call_required",
+      "target": "cd_cv_refit_unweighted_fit_kwargs",
+      "kind": "branch_context"
+    },
+    {
+      "source": "cd_cv_refit_unweighted_fit_args",
+      "target": "cd_cv_refit_unweighted_fitted_model",
+      "kind": "callback_context"
+    },
+    {
+      "source": "cd_cv_refit_unweighted_fit_kwargs",
+      "target": "cd_cv_refit_unweighted_fitted_model",
+      "kind": "callback_context"
+    }
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 4 cross-validation and path orchestration"
+  }
+}
