@@ -1,0 +1,175 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_cv_mse_selection_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent CV MSE Selection Helper Atoms",
+      "description": "Deterministic MSE reduction and best-parameter selection helpers from sklearn.linear_model._coordinate_descent.LinearModelCV.fit after parallel path evaluation.",
+      "status": "decomposed",
+      "children": [
+        "cd_cv_mse_paths_reshaped",
+        "cd_cv_mean_mse",
+        "cd_cv_mse_path_public",
+        "cd_cv_best_alpha_index",
+        "cd_cv_best_mse_value",
+        "cd_cv_best_alpha_value",
+        "cd_cv_best_l1_ratio_value",
+        "cd_cv_alphas_from_auto_grid",
+        "cd_cv_alphas_from_user_grid"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_cv_mse_paths_reshaped",
+      "name": "cd_cv_mse_paths_reshaped",
+      "description": "Return mse_paths reshaped to (n_l1_ratio, fold_count, -1).",
+      "concept_type": "shape_normalization",
+      "status": "atomic",
+      "type_signature": "(mse_paths: np.ndarray, n_l1_ratio: int, fold_count: int) -> np.ndarray",
+      "depth": 1,
+      "inputs": [
+        {"name": "mse_paths", "type_desc": "parallel residual outputs", "required": true},
+        {"name": "n_l1_ratio", "type_desc": "positive l1_ratio count", "required": true},
+        {"name": "fold_count", "type_desc": "positive fold count", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "reshaped mse path tensor"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_mean_mse",
+      "name": "cd_cv_mean_mse",
+      "description": "Return the mean MSE averaged across folds.",
+      "concept_type": "reduction",
+      "status": "atomic",
+      "type_signature": "(mse_paths_reshaped: np.ndarray) -> np.ndarray",
+      "depth": 1,
+      "inputs": [
+        {"name": "mse_paths_reshaped", "type_desc": "3D reshaped mse path tensor", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "mean MSE by l1_ratio and alpha"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_mse_path_public",
+      "name": "cd_cv_mse_path_public",
+      "description": "Return the public mse_path_ packaging used by LinearModelCV.fit.",
+      "concept_type": "shape_normalization",
+      "status": "atomic",
+      "type_signature": "(mse_paths_reshaped: np.ndarray) -> np.ndarray",
+      "depth": 1,
+      "inputs": [
+        {"name": "mse_paths_reshaped", "type_desc": "3D reshaped mse path tensor", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "public mse_path_ array"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_best_alpha_index",
+      "name": "cd_cv_best_alpha_index",
+      "description": "Return the best alpha index selected by argmin.",
+      "concept_type": "arg_selection",
+      "status": "atomic",
+      "type_signature": "(mse_alphas: np.ndarray) -> int",
+      "depth": 1,
+      "inputs": [
+        {"name": "mse_alphas", "type_desc": "nonempty 1D MSE vector for one l1_ratio", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "argmin position"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_best_mse_value",
+      "name": "cd_cv_best_mse_value",
+      "description": "Return the best MSE value selected from one l1_ratio path.",
+      "concept_type": "index_lookup",
+      "status": "atomic",
+      "type_signature": "(mse_alphas: np.ndarray, best_alpha_index: int) -> float",
+      "depth": 1,
+      "inputs": [
+        {"name": "mse_alphas", "type_desc": "nonempty 1D MSE vector for one l1_ratio", "required": true},
+        {"name": "best_alpha_index", "type_desc": "valid argmin position", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "best MSE value"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_best_alpha_value",
+      "name": "cd_cv_best_alpha_value",
+      "description": "Return the best alpha selected from one l1_ratio path.",
+      "concept_type": "index_lookup",
+      "status": "atomic",
+      "type_signature": "(l1_alphas: np.ndarray, best_alpha_index: int) -> float",
+      "depth": 1,
+      "inputs": [
+        {"name": "l1_alphas", "type_desc": "nonempty 1D alpha vector for one l1_ratio", "required": true},
+        {"name": "best_alpha_index", "type_desc": "valid argmin position", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "best alpha value"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_best_l1_ratio_value",
+      "name": "cd_cv_best_l1_ratio_value",
+      "description": "Return the best l1_ratio value selected for refit.",
+      "concept_type": "api_return",
+      "status": "atomic",
+      "type_signature": "(l1_ratio: object) -> object",
+      "depth": 1,
+      "inputs": [
+        {"name": "l1_ratio", "type_desc": "selected l1_ratio object", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "same l1_ratio object"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_alphas_from_auto_grid",
+      "name": "cd_cv_alphas_from_auto_grid",
+      "description": "Return alphas_ packaging when self.alphas is None.",
+      "concept_type": "shape_normalization",
+      "status": "atomic",
+      "type_signature": "(alphas: object, n_l1_ratio: int) -> np.ndarray",
+      "depth": 1,
+      "inputs": [
+        {"name": "alphas", "type_desc": "computed alpha grids", "required": true},
+        {"name": "n_l1_ratio", "type_desc": "positive l1_ratio count", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "public alphas_ array from computed grids"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_alphas_from_user_grid",
+      "name": "cd_cv_alphas_from_user_grid",
+      "description": "Return alphas_ packaging when user alphas are provided.",
+      "concept_type": "shape_normalization",
+      "status": "atomic",
+      "type_signature": "(alphas: object) -> np.ndarray",
+      "depth": 1,
+      "inputs": [
+        {"name": "alphas", "type_desc": "alpha grid container", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "public alphas_ array from user grid"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_cv_mse_paths_reshaped", "target": "cd_cv_mean_mse", "kind": "reduction_context"},
+    {"source": "cd_cv_mse_paths_reshaped", "target": "cd_cv_mse_path_public", "kind": "shape_context"},
+    {"source": "cd_cv_best_alpha_index", "target": "cd_cv_best_mse_value", "kind": "index_context"},
+    {"source": "cd_cv_best_alpha_index", "target": "cd_cv_best_alpha_value", "kind": "index_context"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 5 decomposition and matrix-factorization pipelines"
+  }
+}

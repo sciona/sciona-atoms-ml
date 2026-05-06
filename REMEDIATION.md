@@ -238,6 +238,14 @@ Potential remediation path:
   and n-jobs pruning, n-alphas update payload construction, initial
   `copy_X` storage, the parallel override guard, and the resolved
   path-level `copy_X` value.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_cv_mse_selection_shell` now
+  publishes deterministic `LinearModelCV.fit` MSE reduction and
+  best-parameter selection after parallel path evaluation: mse-path
+  reshaping, fold-mean reduction, public `mse_path_` packaging,
+  best-alpha argmin selection and associated value extraction, best
+  l1-ratio passthrough, and `alphas_` packaging for computed versus
+  user-provided grids.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 

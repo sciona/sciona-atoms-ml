@@ -1,0 +1,185 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_mse_selection_shell.cd_cv_mse_paths_reshaped@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_mse_selection_shell/atoms.py:28": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `np.reshape(mse_paths, (n_l1_ratio, len(folds), -1))` shell in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent CV mse path reshaping."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_mse_selection_shell.cd_cv_mean_mse@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_mse_selection_shell/atoms.py:45": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `np.mean(mse_paths, axis=1)` shell in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent CV fold-mean MSE reduction."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_mse_selection_shell.cd_cv_mse_path_public@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_mse_selection_shell/atoms.py:58": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `np.squeeze(np.moveaxis(mse_paths, 2, 1))` shell used to expose self.mse_path_ in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent CV public mse_path_ packaging."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_mse_selection_shell.cd_cv_best_alpha_index@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_mse_selection_shell/atoms.py:69": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `np.argmin(mse_alphas)` shell in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent CV best-alpha argmin selection."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_mse_selection_shell.cd_cv_best_mse_value@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_mse_selection_shell/atoms.py:81": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `this_best_mse = mse_alphas[i_best_alpha]` shell in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent CV best-MSE extraction."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_mse_selection_shell.cd_cv_best_alpha_value@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_mse_selection_shell/atoms.py:97": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `best_alpha = l1_alphas[i_best_alpha]` shell in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent CV best-alpha extraction."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_mse_selection_shell.cd_cv_best_l1_ratio_value@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_mse_selection_shell/atoms.py:113": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `best_l1_ratio = l1_ratio` shell in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent CV best l1_ratio selection."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_mse_selection_shell.cd_cv_alphas_from_auto_grid@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_mse_selection_shell/atoms.py:120": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `self.alphas_ = np.asarray(alphas)` and single-l1-ratio collapse shell in sklearn.linear_model._coordinate_descent.LinearModelCV.fit when self.alphas is None."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent CV auto-grid alphas_ packaging."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_mse_selection_shell.cd_cv_alphas_from_user_grid@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_mse_selection_shell/atoms.py:135": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `self.alphas_ = np.asarray(alphas[0])` shell in sklearn.linear_model._coordinate_descent.LinearModelCV.fit when user alphas are provided."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent CV user-grid alphas_ packaging."
+          }
+        }
+      ]
+    }
+  }
+}
