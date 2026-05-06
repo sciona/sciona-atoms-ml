@@ -1,0 +1,145 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_path_params_shell.cd_cv_path_params_fit_intercept_removed@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_path_params_shell/atoms.py:28": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `path_params.pop('fit_intercept', None)` shell in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent CV fit_intercept path-parameter pruning."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_path_params_shell.cd_cv_path_params_cv_removed@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_path_params_shell/atoms.py:40": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `path_params.pop('cv', None)` shell in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent CV cv path-parameter pruning."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_path_params_shell.cd_cv_path_params_n_jobs_removed@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_path_params_shell/atoms.py:52": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `path_params.pop('n_jobs', None)` shell in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent CV n_jobs path-parameter pruning."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_path_params_shell.cd_cv_path_params_n_alphas@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_path_params_shell/atoms.py:64": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `path_params.update({'n_alphas': n_alphas})` shell in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent CV n_alphas path-parameter bookkeeping."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_path_params_shell.cd_cv_path_params_copy_x@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_path_params_shell/atoms.py:76": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the initial `path_params['copy_X'] = copy_X` shell in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent CV copy_X path-parameter initialization."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_path_params_shell.cd_cv_parallel_copy_x_override_required@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_path_params_shell/atoms.py:88": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `if effective_n_jobs(self.n_jobs) > 1` branch in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent CV parallel copy_X override branching."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_path_params_shell.cd_cv_resolved_path_copy_x@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_path_params_shell/atoms.py:103": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the final resolved `path_params['copy_X']` value in sklearn.linear_model._coordinate_descent.LinearModelCV.fit after the parallel override."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent CV resolved path copy_X bookkeeping."
+          }
+        }
+      ]
+    }
+  }
+}

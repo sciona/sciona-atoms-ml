@@ -231,6 +231,13 @@ Potential remediation path:
   unsupported sample-weight guarding and exact error message, splitter
   sample-weight forwarding, estimator sample-weight dropping, and the
   non-routing fallback branch.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_cv_path_params_shell` now
+  publishes deterministic `LinearModelCV.fit` path-parameter pruning and
+  `copy_X` bookkeeping before CV splitter execution: fit-intercept, cv,
+  and n-jobs pruning, n-alphas update payload construction, initial
+  `copy_X` storage, the parallel override guard, and the resolved
+  path-level `copy_X` value.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 

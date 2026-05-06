@@ -1,0 +1,137 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_cv_path_params_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent CV Path Parameter Helper Atoms",
+      "description": "Deterministic path-parameter and copy_X bookkeeping helpers from sklearn.linear_model._coordinate_descent.LinearModelCV.fit before CV splitter execution.",
+      "status": "decomposed",
+      "children": [
+        "cd_cv_path_params_fit_intercept_removed",
+        "cd_cv_path_params_cv_removed",
+        "cd_cv_path_params_n_jobs_removed",
+        "cd_cv_path_params_n_alphas",
+        "cd_cv_path_params_copy_x",
+        "cd_cv_parallel_copy_x_override_required",
+        "cd_cv_resolved_path_copy_x"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_cv_path_params_fit_intercept_removed",
+      "name": "cd_cv_path_params_fit_intercept_removed",
+      "description": "Return whether fit_intercept is absent from the path-parameter mapping after pruning.",
+      "concept_type": "mapping_query",
+      "status": "atomic",
+      "type_signature": "(path_params: dict[object, object]) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "path_params", "type_desc": "path parameter dictionary after pruning", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "whether fit_intercept is absent"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_path_params_cv_removed",
+      "name": "cd_cv_path_params_cv_removed",
+      "description": "Return whether cv is absent from the path-parameter mapping after pruning.",
+      "concept_type": "mapping_query",
+      "status": "atomic",
+      "type_signature": "(path_params: dict[object, object]) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "path_params", "type_desc": "path parameter dictionary after pruning", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "whether cv is absent"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_path_params_n_jobs_removed",
+      "name": "cd_cv_path_params_n_jobs_removed",
+      "description": "Return whether n_jobs is absent from the path-parameter mapping after pruning.",
+      "concept_type": "mapping_query",
+      "status": "atomic",
+      "type_signature": "(path_params: dict[object, object]) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "path_params", "type_desc": "path parameter dictionary after pruning", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "whether n_jobs is absent"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_path_params_n_alphas",
+      "name": "cd_cv_path_params_n_alphas",
+      "description": "Return the n_alphas update payload applied to path_params.",
+      "concept_type": "mapping_update",
+      "status": "atomic",
+      "type_signature": "(n_alphas: int) -> dict[str, int]",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_alphas", "type_desc": "positive alpha count", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "mapping update payload {'n_alphas': n_alphas}"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_path_params_copy_x",
+      "name": "cd_cv_path_params_copy_x",
+      "description": "Return the initial copy_X value stored in path_params.",
+      "concept_type": "mapping_update",
+      "status": "atomic",
+      "type_signature": "(copy_x: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "copy_x", "type_desc": "estimator-side copy_X boolean", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "initial path copy_X value"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_parallel_copy_x_override_required",
+      "name": "cd_cv_parallel_copy_x_override_required",
+      "description": "Return whether LinearModelCV.fit overrides path_params['copy_X'] to False in parallel mode.",
+      "concept_type": "branch_predicate",
+      "status": "atomic",
+      "type_signature": "(effective_n_jobs_gt_one: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "effective_n_jobs_gt_one", "type_desc": "whether effective_n_jobs(self.n_jobs) > 1", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "whether the parallel copy_X override fires"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_resolved_path_copy_x",
+      "name": "cd_cv_resolved_path_copy_x",
+      "description": "Return the final copy_X value stored in path_params after the parallel override.",
+      "concept_type": "branch_resolution",
+      "status": "atomic",
+      "type_signature": "(initial_copy_x: bool, parallel_override_required: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "initial_copy_x", "type_desc": "initial path copy_X value", "required": true},
+        {"name": "parallel_override_required", "type_desc": "whether the parallel override fires", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "resolved path copy_X value"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_cv_path_params_copy_x", "target": "cd_cv_resolved_path_copy_x", "kind": "branch_context"},
+    {"source": "cd_cv_parallel_copy_x_override_required", "target": "cd_cv_resolved_path_copy_x", "kind": "branch_context"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 5 decomposition and matrix-factorization pipelines"
+  }
+}
