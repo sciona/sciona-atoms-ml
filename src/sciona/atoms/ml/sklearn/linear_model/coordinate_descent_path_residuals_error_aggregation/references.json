@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_error_aggregation.cd_path_residuals_intercepts@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_error_aggregation/atoms.py:82": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `intercepts = y_offset[:, np.newaxis] - np.dot(X_offset, coefs)` computation in sklearn.linear_model._coordinate_descent._path_residuals."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for _path_residuals intercept aggregation."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_error_aggregation.cd_path_residuals_residues@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_error_aggregation/atoms.py:107": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `residues = X_test_coefs - y_test[:, :, np.newaxis]; residues += intercepts` shell in sklearn.linear_model._coordinate_descent._path_residuals."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for _path_residuals residual tensor construction."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_error_aggregation.cd_path_residuals_use_weighted_mse@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_error_aggregation/atoms.py:131": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `if sample_weight is None` branch controlling weighted versus unweighted MSE in sklearn.linear_model._coordinate_descent._path_residuals."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for _path_residuals weighted MSE branching."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_error_aggregation.cd_path_residuals_mse@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_error_aggregation/atoms.py:141": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `(residues**2).mean(axis=0)` and `np.average(residues**2, weights=sw_test, axis=0)` branches in sklearn.linear_model._coordinate_descent._path_residuals."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for _path_residuals per-output MSE reduction."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_error_aggregation.cd_path_residuals_mean_mse@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_error_aggregation/atoms.py:159": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the final `return this_mse.mean(axis=0)` reduction in sklearn.linear_model._coordinate_descent._path_residuals."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for _path_residuals final mean MSE reduction."
+          }
+        }
+      ]
+    }
+  }
+}

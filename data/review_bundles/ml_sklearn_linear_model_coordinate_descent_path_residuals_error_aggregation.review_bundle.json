@@ -1,0 +1,150 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "sciona.atoms.review_bundle.ml.sklearn_linear_model_coordinate_descent_path_residuals_error_aggregation.v1",
+  "provider_repo": "sciona-atoms-ml",
+  "family_batch": "ml_sklearn_linear_model_coordinate_descent_path_residuals_error_aggregation",
+  "review_status": "reviewed",
+  "review_semantic_verdict": "pass_with_limits",
+  "review_developer_semantic_verdict": "pass_with_limits",
+  "trust_readiness": "reviewed_with_limits",
+  "authoritative_sources": [
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_error_aggregation/atoms.py"
+    },
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_error_aggregation/witnesses.py"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_error_aggregation/references.json"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_error_aggregation/cdg.json"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_sklearn_linear_model_coordinate_descent_path_residuals_error_aggregation_behavior.py"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_sklearn_linear_model_coordinate_descent_path_residuals_error_aggregation_references_metadata.py"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_sklearn_linear_model_coordinate_descent_path_residuals_error_aggregation_review_bundle.py"
+    }
+  ],
+  "limitations": [
+    "This batch covers only the deterministic intercept, residual, and MSE aggregation shell in _path_residuals after the deferred path callback.",
+    "The helpers model intercept construction, residual tensor construction, weighted-versus-unweighted MSE branching, per-output MSE reduction, and the final mean-over-outputs reduction.",
+    "The safe_sparse_dot callback itself and earlier path setup remain deferred or handled by prior slices."
+  ],
+  "blocking_findings": [],
+  "required_actions": [],
+  "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_path_residuals_error_aggregation.review_bundle.json",
+  "rows": [
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_error_aggregation.cd_path_residuals_intercepts",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_error_aggregation.cd_path_residuals_intercepts",
+      "has_references": true,
+      "overall_verdict": "pass",
+      "parity_test_status": "pass",
+      "references_status": "pass",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_path_residuals_error_aggregation.review_bundle.json",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_status": "reviewed",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_error_aggregation/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_error_aggregation/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_error_aggregation/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_error_aggregation/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_path_residuals_error_aggregation_behavior.py"
+      ],
+      "trust_readiness": "catalog_ready"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_error_aggregation.cd_path_residuals_residues",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_error_aggregation.cd_path_residuals_residues",
+      "has_references": true,
+      "overall_verdict": "pass",
+      "parity_test_status": "pass",
+      "references_status": "pass",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_path_residuals_error_aggregation.review_bundle.json",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_status": "reviewed",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_error_aggregation/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_error_aggregation/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_error_aggregation/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_error_aggregation/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_path_residuals_error_aggregation_behavior.py"
+      ],
+      "trust_readiness": "catalog_ready"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_error_aggregation.cd_path_residuals_use_weighted_mse",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_error_aggregation.cd_path_residuals_use_weighted_mse",
+      "has_references": true,
+      "overall_verdict": "pass",
+      "parity_test_status": "pass",
+      "references_status": "pass",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_path_residuals_error_aggregation.review_bundle.json",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_status": "reviewed",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_error_aggregation/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_error_aggregation/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_error_aggregation/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_error_aggregation/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_path_residuals_error_aggregation_behavior.py"
+      ],
+      "trust_readiness": "catalog_ready"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_error_aggregation.cd_path_residuals_mse",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_error_aggregation.cd_path_residuals_mse",
+      "has_references": true,
+      "overall_verdict": "pass",
+      "parity_test_status": "pass",
+      "references_status": "pass",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_path_residuals_error_aggregation.review_bundle.json",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_status": "reviewed",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_error_aggregation/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_error_aggregation/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_error_aggregation/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_error_aggregation/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_path_residuals_error_aggregation_behavior.py"
+      ],
+      "trust_readiness": "catalog_ready"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_error_aggregation.cd_path_residuals_mean_mse",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_error_aggregation.cd_path_residuals_mean_mse",
+      "has_references": true,
+      "overall_verdict": "pass",
+      "parity_test_status": "pass",
+      "references_status": "pass",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_path_residuals_error_aggregation.review_bundle.json",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_status": "reviewed",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_error_aggregation/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_error_aggregation/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_error_aggregation/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_error_aggregation/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_path_residuals_error_aggregation_behavior.py"
+      ],
+      "trust_readiness": "catalog_ready"
+    }
+  ]
+}

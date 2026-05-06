@@ -1,0 +1,112 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_path_residuals_error_aggregation_root",
+      "name": "Sklearn Linear Model Coordinate Descent Path Residuals Error Aggregation Helper Atoms",
+      "description": "Deterministic intercept, residual, and MSE aggregation helpers from sklearn.linear_model._coordinate_descent._path_residuals after the deferred path callback.",
+      "status": "decomposed",
+      "children": [
+        "cd_path_residuals_intercepts",
+        "cd_path_residuals_residues",
+        "cd_path_residuals_use_weighted_mse",
+        "cd_path_residuals_mse",
+        "cd_path_residuals_mean_mse"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_path_residuals_intercepts",
+      "name": "cd_path_residuals_intercepts",
+      "description": "Return sklearn's intercept tensor for the _path_residuals error shell.",
+      "concept_type": "numeric_reduction",
+      "status": "atomic",
+      "type_signature": "(y_offset: NDArray[np.floating], X_offset: NDArray[np.floating], coefs: NDArray[np.floating]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "y_offset", "type_desc": "finite rank-1 output offset vector", "required": true},
+        {"name": "X_offset", "type_desc": "finite rank-1 feature offset vector", "required": true},
+        {"name": "coefs", "type_desc": "finite rank-3 output-by-feature-by-alpha coefficient tensor", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "output-by-alpha intercept matrix"}
+      ]
+    },
+    {
+      "node_id": "cd_path_residuals_residues",
+      "name": "cd_path_residuals_residues",
+      "description": "Return sklearn's residual tensor after subtracting y_test and adding intercepts.",
+      "concept_type": "tensor_arithmetic",
+      "status": "atomic",
+      "type_signature": "(X_test_coefs: NDArray[np.floating], y_test: NDArray[np.floating], intercepts: NDArray[np.floating]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X_test_coefs", "type_desc": "finite rank-3 sample-by-output-by-alpha prediction tensor", "required": true},
+        {"name": "y_test", "type_desc": "finite rank-2 sample-by-output target matrix", "required": true},
+        {"name": "intercepts", "type_desc": "finite rank-2 output-by-alpha intercept matrix", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "sample-by-output-by-alpha residual tensor"}
+      ]
+    },
+    {
+      "node_id": "cd_path_residuals_use_weighted_mse",
+      "name": "cd_path_residuals_use_weighted_mse",
+      "description": "Return whether _path_residuals reduces squared residues with sample weights.",
+      "concept_type": "branch_predicate",
+      "status": "atomic",
+      "type_signature": "(sample_weight: object) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "sample_weight", "type_desc": "optional original sample-weight vector", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "whether weighted MSE reduction is used"}
+      ]
+    },
+    {
+      "node_id": "cd_path_residuals_mse",
+      "name": "cd_path_residuals_mse",
+      "description": "Return sklearn's weighted or unweighted squared-residue reduction over test samples.",
+      "concept_type": "numeric_reduction",
+      "status": "atomic",
+      "type_signature": "(residues: NDArray[np.floating], sw_test: object, use_weighted_mse: bool) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "residues", "type_desc": "finite rank-3 sample-by-output-by-alpha residual tensor", "required": true},
+        {"name": "sw_test", "type_desc": "optional finite rank-1 held-out sample weights", "required": true},
+        {"name": "use_weighted_mse", "type_desc": "whether weighted reduction is required", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "output-by-alpha MSE matrix"}
+      ]
+    },
+    {
+      "node_id": "cd_path_residuals_mean_mse",
+      "name": "cd_path_residuals_mean_mse",
+      "description": "Return sklearn's final mean(axis=0) reduction over outputs.",
+      "concept_type": "numeric_reduction",
+      "status": "atomic",
+      "type_signature": "(this_mse: NDArray[np.floating]) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "this_mse", "type_desc": "finite rank-2 output-by-alpha MSE matrix", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "rank-1 per-alpha mean MSE vector"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_path_residuals_intercepts", "target": "cd_path_residuals_residues", "kind": "numeric_context"},
+    {"source": "cd_path_residuals_residues", "target": "cd_path_residuals_mse", "kind": "reduction_context"},
+    {"source": "cd_path_residuals_use_weighted_mse", "target": "cd_path_residuals_mse", "kind": "branch_context"},
+    {"source": "cd_path_residuals_mse", "target": "cd_path_residuals_mean_mse", "kind": "reduction_context"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 5 decomposition and matrix-factorization pipelines"
+  }
+}

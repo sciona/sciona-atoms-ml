@@ -285,6 +285,12 @@ Potential remediation path:
   normalization helpers after the path callback: the `y.ndim == 1`
   branch, `coefs[np.newaxis, :, :]`, `np.atleast_1d(y_offset)`, and
   `y_test[:, np.newaxis]`.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_path_residuals_error_aggregation`
+  now publishes deterministic `_path_residuals` numeric tail helpers:
+  intercept construction, residual tensor construction, the
+  weighted-versus-unweighted MSE branch, per-output MSE reduction, and
+  the final mean-over-outputs reduction.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 
