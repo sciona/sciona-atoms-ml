@@ -259,6 +259,14 @@ Potential remediation path:
   presence branching, train/test sample-weight slicing, training sample
   counting, train sample-weight rescaling, the mono-output versus
   multitask precompute branch, and resolved precompute selection.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_path_residuals_path_params_shell`
+  now publishes deterministic `_path_residuals` `_pre_fit` kwarg and
+  `path_params` update helpers before path execution: the fixed
+  `copy=False` pre-fit flag, `Xy`/`X_offset`/`X_scale`/`precompute`/
+  `alphas`/`sample_weight` passthrough updates, the fixed
+  `copy_X=False` assignment, and the conditional `l1_ratio` update gate
+  and value passthrough.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 
