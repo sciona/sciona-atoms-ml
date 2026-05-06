@@ -318,6 +318,13 @@ Potential remediation path:
   kwarg packaging, set-params callback output identity, weighted
   `model.fit(..., sample_weight=...)` kwarg packaging, and fitted-model
   callback output identity before postfit attribute copying.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_cv_splitter_callback_shell` now
+  publishes the deterministic `LinearModelCV.fit` CV splitter callback
+  shell around deferred `check_cv(...)` and `cv.split(...)` calls: the
+  checked-CV callback output identity, routed split-kwargs packaging,
+  and split-iterator callback output identity before the already-landed
+  fold materialization helper.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 

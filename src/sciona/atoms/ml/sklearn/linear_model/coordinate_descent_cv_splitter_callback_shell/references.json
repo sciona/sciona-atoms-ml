@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_splitter_callback_shell.cd_cv_checked_cv@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_splitter_callback_shell/atoms.py:16": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `cv = check_cv(self.cv)` callback output shell in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for LinearModelCV check_cv callback output."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_splitter_callback_shell.cd_cv_split_kwargs@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_splitter_callback_shell/atoms.py:25": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `**routed_params.splitter.split` kwarg shell in the deferred cv.split(...) call inside sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for LinearModelCV cv.split kwarg setup."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_splitter_callback_shell.cd_cv_split_iterator@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_splitter_callback_shell/atoms.py:36": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the split iterator returned by cv.split(X, y, **routed_params.splitter.split) before list(...) materialization in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for LinearModelCV cv.split callback output."
+          }
+        }
+      ]
+    }
+  }
+}
