@@ -54,9 +54,17 @@ Deferred expansion:
 
 - Multi-file BPE or WordPiece assets such as `vocab.txt` and `merges.txt` can
   be added as a second state-port shape later.
-- SentencePiece `.model` support remains deferred. The format is protobuf
-  binary, not pickle-dangerous, but it needs an explicit allowlist/scanner rule
-  and loader policy before ingestion.
+
+SentencePiece `.model` support:
+
+- Resolved via conversion rather than allowlisting. The `.model` format is
+  protobuf binary — not pickle-dangerous, but adding it to the scanner
+  would require a new loader policy and protobuf-aware validation.
+- Instead, `scripts/convert_sentencepiece.py` in `sciona-atoms` converts
+  `.model` files to HuggingFace `tokenizer.json` format using raw protobuf
+  wire-format parsing (no `sentencepiece` wheel needed at conversion time).
+- The resulting `tokenizer.json` passes the existing JSON format scanner
+  and loads natively via `tokenizers.Tokenizer.from_file()`.
 
 ## Closed: `back_translate`
 
