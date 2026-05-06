@@ -1,0 +1,130 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "sciona.atoms.review_bundle.ml.sklearn_linear_model_coordinate_descent_cv_nonrouting_fallback_shell.v1",
+  "provider_repo": "sciona-atoms-ml",
+  "family_batch": "ml_sklearn_linear_model_coordinate_descent_cv_nonrouting_fallback_shell",
+  "review_status": "reviewed",
+  "review_semantic_verdict": "pass_with_limits",
+  "review_developer_semantic_verdict": "pass_with_limits",
+  "trust_readiness": "reviewed_with_limits",
+  "authoritative_sources": [
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_nonrouting_fallback_shell/atoms.py"
+    },
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_nonrouting_fallback_shell/witnesses.py"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_nonrouting_fallback_shell/references.json"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_nonrouting_fallback_shell/cdg.json"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_sklearn_linear_model_coordinate_descent_cv_nonrouting_fallback_shell_behavior.py"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_sklearn_linear_model_coordinate_descent_cv_nonrouting_fallback_shell_references_metadata.py"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_sklearn_linear_model_coordinate_descent_cv_nonrouting_fallback_shell_review_bundle.py"
+    }
+  ],
+  "limitations": [
+    "This batch covers only the deterministic non-routing fallback shape in LinearModelCV.fit when sklearn metadata routing is disabled.",
+    "The helpers model the empty split Bunch, Bunch(split=...) splitter payload, routed_params Bunch with a splitter attribute, and routed_params.splitter.split extraction before cv.split.",
+    "Metadata-routing internals, CV splitting, residual evaluation, and coordinate-descent solver execution remain deferred or are covered elsewhere."
+  ],
+  "blocking_findings": [],
+  "required_actions": [],
+  "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_cv_nonrouting_fallback_shell.review_bundle.json",
+  "rows": [
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_nonrouting_fallback_shell.cd_cv_nonrouting_empty_split_params",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_nonrouting_fallback_shell.cd_cv_nonrouting_empty_split_params",
+      "has_references": true,
+      "overall_verdict": "pass",
+      "parity_test_status": "pass",
+      "references_status": "pass",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_cv_nonrouting_fallback_shell.review_bundle.json",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_status": "reviewed",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_nonrouting_fallback_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_nonrouting_fallback_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_nonrouting_fallback_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_nonrouting_fallback_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_cv_nonrouting_fallback_shell_behavior.py"
+      ],
+      "trust_readiness": "catalog_ready"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_nonrouting_fallback_shell.cd_cv_nonrouting_splitter_payload",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_nonrouting_fallback_shell.cd_cv_nonrouting_splitter_payload",
+      "has_references": true,
+      "overall_verdict": "pass",
+      "parity_test_status": "pass",
+      "references_status": "pass",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_cv_nonrouting_fallback_shell.review_bundle.json",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_status": "reviewed",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_nonrouting_fallback_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_nonrouting_fallback_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_nonrouting_fallback_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_nonrouting_fallback_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_cv_nonrouting_fallback_shell_behavior.py"
+      ],
+      "trust_readiness": "catalog_ready"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_nonrouting_fallback_shell.cd_cv_nonrouting_routed_params",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_nonrouting_fallback_shell.cd_cv_nonrouting_routed_params",
+      "has_references": true,
+      "overall_verdict": "pass",
+      "parity_test_status": "pass",
+      "references_status": "pass",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_cv_nonrouting_fallback_shell.review_bundle.json",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_status": "reviewed",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_nonrouting_fallback_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_nonrouting_fallback_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_nonrouting_fallback_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_nonrouting_fallback_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_cv_nonrouting_fallback_shell_behavior.py"
+      ],
+      "trust_readiness": "catalog_ready"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_nonrouting_fallback_shell.cd_cv_nonrouting_split_kwargs",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_nonrouting_fallback_shell.cd_cv_nonrouting_split_kwargs",
+      "has_references": true,
+      "overall_verdict": "pass",
+      "parity_test_status": "pass",
+      "references_status": "pass",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_cv_nonrouting_fallback_shell.review_bundle.json",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_status": "reviewed",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_nonrouting_fallback_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_nonrouting_fallback_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_nonrouting_fallback_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_nonrouting_fallback_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_cv_nonrouting_fallback_shell_behavior.py"
+      ],
+      "trust_readiness": "catalog_ready"
+    }
+  ]
+}

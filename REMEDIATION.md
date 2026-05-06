@@ -340,6 +340,13 @@ Potential remediation path:
   sample-weight insertion into routing params, `process_routing`
   positional and keyword argument packaging, and routed-params result
   identity before CV splitting.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_cv_nonrouting_fallback_shell`
+  now publishes the deterministic `LinearModelCV.fit` non-routing
+  fallback shell for disabled metadata routing: empty split-kwargs
+  `Bunch` construction, `Bunch(split=...)` splitter payload packaging,
+  `routed_params.splitter` assignment shape, and
+  `routed_params.splitter.split` extraction before CV splitting.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 

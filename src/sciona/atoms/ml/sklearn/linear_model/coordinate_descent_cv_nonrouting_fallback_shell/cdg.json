@@ -1,0 +1,134 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_cv_nonrouting_fallback_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent CV Non-Routing Fallback Shell Helper Atoms",
+      "description": "Deterministic non-routing fallback helpers from sklearn.linear_model._coordinate_descent.LinearModelCV.fit that construct routed_params.splitter.split as empty Bunch objects.",
+      "status": "decomposed",
+      "children": [
+        "cd_cv_nonrouting_empty_split_params",
+        "cd_cv_nonrouting_splitter_payload",
+        "cd_cv_nonrouting_routed_params",
+        "cd_cv_nonrouting_split_kwargs"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_cv_nonrouting_empty_split_params",
+      "name": "cd_cv_nonrouting_empty_split_params",
+      "description": "Return the empty Bunch used as split kwargs when sklearn metadata routing is disabled.",
+      "concept_type": "fallback_packaging",
+      "status": "atomic",
+      "type_signature": "(default_routed_params_required: bool) -> Bunch",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "default_routed_params_required",
+          "type_desc": "true when metadata routing is disabled and the fallback branch is taken",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "empty sklearn Bunch for splitter split kwargs"
+        }
+      ]
+    },
+    {
+      "node_id": "cd_cv_nonrouting_splitter_payload",
+      "name": "cd_cv_nonrouting_splitter_payload",
+      "description": "Return the splitter Bunch containing the split kwargs Bunch.",
+      "concept_type": "fallback_packaging",
+      "status": "atomic",
+      "type_signature": "(split_params: Bunch) -> Bunch",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "split_params",
+          "type_desc": "empty split kwargs Bunch",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "Bunch with split attribute pointing to split_params"
+        }
+      ]
+    },
+    {
+      "node_id": "cd_cv_nonrouting_routed_params",
+      "name": "cd_cv_nonrouting_routed_params",
+      "description": "Return the routed_params Bunch with a splitter attribute for the non-routing branch.",
+      "concept_type": "fallback_packaging",
+      "status": "atomic",
+      "type_signature": "(default_routed_params_required: bool, splitter_payload: Bunch) -> Bunch",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "default_routed_params_required",
+          "type_desc": "true when metadata routing is disabled and the fallback branch is taken",
+          "required": true
+        },
+        {
+          "name": "splitter_payload",
+          "type_desc": "Bunch exposing split kwargs through its split attribute",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "Bunch with splitter attribute pointing to splitter_payload"
+        }
+      ]
+    },
+    {
+      "node_id": "cd_cv_nonrouting_split_kwargs",
+      "name": "cd_cv_nonrouting_split_kwargs",
+      "description": "Extract routed_params.splitter.split for the deferred cv.split(..., **kwargs) call.",
+      "concept_type": "fallback_access",
+      "status": "atomic",
+      "type_signature": "(routed_params: object) -> object",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "routed_params",
+          "type_desc": "non-routing routed_params Bunch payload",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "same object as routed_params.splitter.split"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "cd_cv_nonrouting_empty_split_params",
+      "target": "cd_cv_nonrouting_splitter_payload",
+      "kind": "fallback_context"
+    },
+    {
+      "source": "cd_cv_nonrouting_splitter_payload",
+      "target": "cd_cv_nonrouting_routed_params",
+      "kind": "fallback_context"
+    },
+    {
+      "source": "cd_cv_nonrouting_routed_params",
+      "target": "cd_cv_nonrouting_split_kwargs",
+      "kind": "fallback_access"
+    }
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 4 cross-validation and path orchestration"
+  }
+}

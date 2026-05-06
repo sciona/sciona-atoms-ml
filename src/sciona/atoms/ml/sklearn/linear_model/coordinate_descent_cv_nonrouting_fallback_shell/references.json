@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_nonrouting_fallback_shell.cd_cv_nonrouting_empty_split_params@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_nonrouting_fallback_shell/atoms.py:34": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the non-routing fallback `routed_params.splitter = Bunch(split=Bunch())` in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for LinearModelCV metadata-routing fallback behavior."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_nonrouting_fallback_shell.cd_cv_nonrouting_splitter_payload@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_nonrouting_fallback_shell/atoms.py:50": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `Bunch(split=Bunch())` splitter payload in the non-routing branch of sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for LinearModelCV fallback splitter payloads."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_nonrouting_fallback_shell.cd_cv_nonrouting_routed_params@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_nonrouting_fallback_shell/atoms.py:62": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `routed_params = Bunch(); routed_params.splitter = ...` fallback in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for LinearModelCV routed_params fallback packaging."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_nonrouting_fallback_shell.cd_cv_nonrouting_split_kwargs@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_nonrouting_fallback_shell/atoms.py:87": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the later `**routed_params.splitter.split` access in the deferred cv.split(...) call inside sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for LinearModelCV fallback split kwargs."
+          }
+        }
+      ]
+    }
+  }
+}
