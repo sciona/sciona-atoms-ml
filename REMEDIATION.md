@@ -311,6 +311,13 @@ Potential remediation path:
   materialization, candidate-count bookkeeping, the strict
   `this_best_mse < best_mse` improvement guard, and the final `alpha_`
   and `l1_ratio_` state passthroughs before refit.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_cv_refit_callback_shell` now
+  publishes the deterministic `LinearModelCV.fit` refit callback shell
+  around deferred estimator methods: `model.set_params(**common_params)`
+  kwarg packaging, set-params callback output identity, weighted
+  `model.fit(..., sample_weight=...)` kwarg packaging, and fitted-model
+  callback output identity before postfit attribute copying.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 
