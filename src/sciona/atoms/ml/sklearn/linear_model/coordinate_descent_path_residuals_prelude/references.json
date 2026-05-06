@@ -1,0 +1,145 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_prelude.cd_path_residuals_use_sample_weight_branch@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_prelude/atoms.py:24": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `if sample_weight is None` branch in sklearn.linear_model._coordinate_descent._path_residuals."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent path residuals sample-weight branching."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_prelude.cd_path_residuals_train_sample_weight@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_prelude/atoms.py:34": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `sw_train = sample_weight[train]` shell in sklearn.linear_model._coordinate_descent._path_residuals."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent path residuals training sample-weight slicing."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_prelude.cd_path_residuals_test_sample_weight@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_prelude/atoms.py:46": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `sw_test = sample_weight[test]` shell in sklearn.linear_model._coordinate_descent._path_residuals."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent path residuals test sample-weight slicing."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_prelude.cd_path_residuals_train_sample_count@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_prelude/atoms.py:58": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `n_samples = X_train.shape[0]` shell in sklearn.linear_model._coordinate_descent._path_residuals."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent path residuals training sample counting."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_prelude.cd_path_residuals_rescaled_train_sample_weight@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_prelude/atoms.py:70": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `sw_train *= n_samples / np.sum(sw_train)` shell in sklearn.linear_model._coordinate_descent._path_residuals."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent path residuals sample-weight rescaling."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_prelude.cd_path_residuals_use_gram_precompute@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_prelude/atoms.py:89": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `if y.ndim == 1` precompute branch in sklearn.linear_model._coordinate_descent._path_residuals."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent path residuals Gram-precompute branching."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_prelude.cd_path_residuals_resolved_precompute@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_prelude/atoms.py:101": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the resolved precompute shell in sklearn.linear_model._coordinate_descent._path_residuals, preserving path_params['precompute'] only for mono-output and forcing False otherwise."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent path residuals precompute resolution."
+          }
+        }
+      ]
+    }
+  }
+}

@@ -252,6 +252,13 @@ Potential remediation path:
   best-parameter selection: common-parameter filtering, selected alpha
   and l1-ratio transfer, `copy_X` transfer, `precompute='auto'` guarding
   and resolution, and sample-weight fit-call dispatch.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_path_residuals_prelude` now
+  publishes deterministic `_path_residuals` sample-weight and precompute
+  bookkeeping before `_pre_fit` and path execution: sample-weight
+  presence branching, train/test sample-weight slicing, training sample
+  counting, train sample-weight rescaling, the mono-output versus
+  multitask precompute branch, and resolved precompute selection.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 
