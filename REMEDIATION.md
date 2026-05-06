@@ -218,6 +218,12 @@ Potential remediation path:
   guard helpers before alpha-grid construction and CV orchestration: the
   ndarray-or-sparse validation branch, non-multitask and multitask target
   guards, exact error messages, and scalar sample-weight normalization.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_cv_alpha_bookkeeping` now
+  publishes deterministic `LinearModelCV.fit` alpha and l1-ratio
+  bookkeeping before grid evaluation: l1-ratio presence branching,
+  l1-ratio normalization and first-path selection, default fallback,
+  alpha-grid branching, sorted alpha tiling, and l1-ratio and alpha counts.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 

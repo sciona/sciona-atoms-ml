@@ -1,0 +1,189 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "sciona.atoms.review_bundle.ml.sklearn_linear_model_coordinate_descent_cv_alpha_bookkeeping.v1",
+  "provider_repo": "sciona-atoms-ml",
+  "family_batch": "ml_sklearn_linear_model_coordinate_descent_cv_alpha_bookkeeping",
+  "review_status": "reviewed",
+  "review_semantic_verdict": "pass_with_limits",
+  "review_developer_semantic_verdict": "pass_with_limits",
+  "trust_readiness": "reviewed_with_limits",
+  "authoritative_sources": [
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/atoms.py"},
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/witnesses.py"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/references.json"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/cdg.json"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_linear_model_coordinate_descent_cv_alpha_bookkeeping_behavior.py"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_linear_model_coordinate_descent_cv_alpha_bookkeeping_references_metadata.py"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_linear_model_coordinate_descent_cv_alpha_bookkeeping_review_bundle.py"}
+  ],
+  "limitations": [
+    "This batch covers only deterministic l1_ratio and alpha bookkeeping helpers from LinearModelCV.fit before grid evaluation and CV routing.",
+    "The helpers model l1_ratio presence branching, l1_ratio normalization and first-path selection, default l1_ratio fallback, alpha-grid branching, sorted alpha tiling, and l1_ratio and alpha counting.",
+    "Path parameter pruning, alpha-grid computation, routing, fold generation, residual evaluation, and solver-backed path fitting remain deferred."
+  ],
+  "blocking_findings": [],
+  "required_actions": [],
+  "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_cv_alpha_bookkeeping.review_bundle.json",
+  "rows": [
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_alpha_bookkeeping.cd_cv_has_l1_ratio_param",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_alpha_bookkeeping.cd_cv_has_l1_ratio_param",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_cv_alpha_bookkeeping_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_cv_alpha_bookkeeping.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_alpha_bookkeeping.cd_cv_l1_ratios",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_alpha_bookkeeping.cd_cv_l1_ratios",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_cv_alpha_bookkeeping_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_cv_alpha_bookkeeping.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_alpha_bookkeeping.cd_cv_first_path_l1_ratio",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_alpha_bookkeeping.cd_cv_first_path_l1_ratio",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_cv_alpha_bookkeeping_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_cv_alpha_bookkeeping.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_alpha_bookkeeping.cd_cv_default_l1_ratios",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_alpha_bookkeeping.cd_cv_default_l1_ratios",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_cv_alpha_bookkeeping_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_cv_alpha_bookkeeping.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_alpha_bookkeeping.cd_cv_alpha_grid_required",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_alpha_bookkeeping.cd_cv_alpha_grid_required",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_cv_alpha_bookkeeping_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_cv_alpha_bookkeeping.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_alpha_bookkeeping.cd_cv_sorted_alphas",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_alpha_bookkeeping.cd_cv_sorted_alphas",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_cv_alpha_bookkeeping_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_cv_alpha_bookkeeping.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_alpha_bookkeeping.cd_cv_n_l1_ratio",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_alpha_bookkeeping.cd_cv_n_l1_ratio",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_cv_alpha_bookkeeping_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_cv_alpha_bookkeeping.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_alpha_bookkeeping.cd_cv_n_alphas",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_alpha_bookkeeping.cd_cv_n_alphas",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_cv_alpha_bookkeeping_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_cv_alpha_bookkeeping.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    }
+  ]
+}

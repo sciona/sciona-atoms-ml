@@ -1,0 +1,157 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_cv_alpha_bookkeeping_root",
+      "name": "Sklearn Linear Model Coordinate Descent CV Alpha Bookkeeping Helper Atoms",
+      "description": "Deterministic alpha and l1_ratio bookkeeping helpers from sklearn.linear_model._coordinate_descent.LinearModelCV.fit before solver-backed grid evaluation.",
+      "status": "decomposed",
+      "children": [
+        "cd_cv_has_l1_ratio_param",
+        "cd_cv_l1_ratios",
+        "cd_cv_first_path_l1_ratio",
+        "cd_cv_default_l1_ratios",
+        "cd_cv_alpha_grid_required",
+        "cd_cv_sorted_alphas",
+        "cd_cv_n_l1_ratio",
+        "cd_cv_n_alphas"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_cv_has_l1_ratio_param",
+      "name": "cd_cv_has_l1_ratio_param",
+      "description": "Return whether LinearModelCV.fit should take the l1_ratio-specific bookkeeping branch.",
+      "concept_type": "branch_predicate",
+      "status": "atomic",
+      "type_signature": "(path_params: dict[object, object]) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "path_params", "type_desc": "path parameter dictionary", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "whether 'l1_ratio' is present in path_params"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_l1_ratios",
+      "name": "cd_cv_l1_ratios",
+      "description": "Return the l1_ratio vector assembled by np.atleast_1d.",
+      "concept_type": "shape_normalization",
+      "status": "atomic",
+      "type_signature": "(l1_ratio_value: object) -> np.ndarray",
+      "depth": 1,
+      "inputs": [
+        {"name": "l1_ratio_value", "type_desc": "scalar or array-like l1_ratio value", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "at-least-1d l1_ratio array"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_first_path_l1_ratio",
+      "name": "cd_cv_first_path_l1_ratio",
+      "description": "Return the first l1_ratio value stored back into path_params for the first path call.",
+      "concept_type": "branch_resolution",
+      "status": "atomic",
+      "type_signature": "(l1_ratios: np.ndarray) -> object",
+      "depth": 1,
+      "inputs": [
+        {"name": "l1_ratios", "type_desc": "nonempty l1_ratio array", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "first l1_ratio element"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_default_l1_ratios",
+      "name": "cd_cv_default_l1_ratios",
+      "description": "Return the default l1_ratio list used when no l1_ratio parameter exists.",
+      "concept_type": "branch_resolution",
+      "status": "atomic",
+      "type_signature": "(has_l1_ratio_param: bool) -> list[int]",
+      "depth": 1,
+      "inputs": [
+        {"name": "has_l1_ratio_param", "type_desc": "whether path_params includes l1_ratio", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "default l1_ratio list [1]"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_alpha_grid_required",
+      "name": "cd_cv_alpha_grid_required",
+      "description": "Return whether LinearModelCV.fit should compute alpha grids internally.",
+      "concept_type": "branch_predicate",
+      "status": "atomic",
+      "type_signature": "(alphas_is_none: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "alphas_is_none", "type_desc": "whether self.alphas is None", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "whether _alpha_grid should be invoked"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_sorted_alphas",
+      "name": "cd_cv_sorted_alphas",
+      "description": "Return the descending alpha grid tiled for each l1_ratio.",
+      "concept_type": "shape_normalization",
+      "status": "atomic",
+      "type_signature": "(alphas: np.ndarray, n_l1_ratio: int) -> np.ndarray",
+      "depth": 1,
+      "inputs": [
+        {"name": "alphas", "type_desc": "nonempty 1D alpha array", "required": true},
+        {"name": "n_l1_ratio", "type_desc": "positive l1_ratio count", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "descending alpha grid tiled across l1_ratio values"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_n_l1_ratio",
+      "name": "cd_cv_n_l1_ratio",
+      "description": "Return the number of l1_ratio values used by LinearModelCV.fit.",
+      "concept_type": "shape_query",
+      "status": "atomic",
+      "type_signature": "(l1_ratios: object) -> int",
+      "depth": 1,
+      "inputs": [
+        {"name": "l1_ratios", "type_desc": "l1_ratio container", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "len(l1_ratios)"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_n_alphas",
+      "name": "cd_cv_n_alphas",
+      "description": "Return the alpha count used for each l1_ratio in LinearModelCV.fit.",
+      "concept_type": "shape_query",
+      "status": "atomic",
+      "type_signature": "(alphas: object) -> int",
+      "depth": 1,
+      "inputs": [
+        {"name": "alphas", "type_desc": "alpha-grid container with at least one row", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "len(alphas[0])"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_cv_has_l1_ratio_param", "target": "cd_cv_l1_ratios", "kind": "branch_context"},
+    {"source": "cd_cv_l1_ratios", "target": "cd_cv_first_path_l1_ratio", "kind": "shape_context"},
+    {"source": "cd_cv_has_l1_ratio_param", "target": "cd_cv_default_l1_ratios", "kind": "branch_context"},
+    {"source": "cd_cv_l1_ratios", "target": "cd_cv_n_l1_ratio", "kind": "shape_context"},
+    {"source": "cd_cv_n_l1_ratio", "target": "cd_cv_sorted_alphas", "kind": "shape_context"},
+    {"source": "cd_cv_sorted_alphas", "target": "cd_cv_n_alphas", "kind": "shape_context"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 5 decomposition and matrix-factorization pipelines"
+  }
+}

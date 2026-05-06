@@ -1,0 +1,165 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_alpha_bookkeeping.cd_cv_has_l1_ratio_param@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/atoms.py:32": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `'l1_ratio' in path_params` branch in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent CV l1_ratio branching."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_alpha_bookkeeping.cd_cv_l1_ratios@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/atoms.py:44": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `np.atleast_1d(path_params['l1_ratio'])` shell in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent CV l1_ratio normalization."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_alpha_bookkeeping.cd_cv_first_path_l1_ratio@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/atoms.py:57": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `path_params['l1_ratio'] = l1_ratios[0]` shell in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent CV first-path l1_ratio bookkeeping."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_alpha_bookkeeping.cd_cv_default_l1_ratios@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/atoms.py:70": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the default `l1_ratios = [1]` shell in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent CV default l1_ratio bookkeeping."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_alpha_bookkeeping.cd_cv_alpha_grid_required@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/atoms.py:85": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `if alphas is None` branch in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent CV alpha-grid branching."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_alpha_bookkeeping.cd_cv_sorted_alphas@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/atoms.py:97": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `np.tile(np.sort(alphas)[::-1], (n_l1_ratio, 1))` shell in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent CV alpha sorting and tiling."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_alpha_bookkeeping.cd_cv_n_l1_ratio@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/atoms.py:117": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `n_l1_ratio = len(l1_ratios)` shell in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent CV l1_ratio counting."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_alpha_bookkeeping.cd_cv_n_alphas@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_bookkeeping/atoms.py:131": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `n_alphas = len(alphas[0])` shell in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for coordinate-descent CV alpha counting."
+          }
+        }
+      ]
+    }
+  }
+}
