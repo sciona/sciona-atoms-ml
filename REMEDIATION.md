@@ -291,6 +291,13 @@ Potential remediation path:
   intercept construction, residual tensor construction, the
   weighted-versus-unweighted MSE branch, per-output MSE reduction, and
   the final mean-over-outputs reduction.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_cv_parallel_setup_shell` now
+  publishes deterministic `LinearModelCV.fit` fold materialization and
+  delayed-job setup helpers before `Parallel(...)`: fold list
+  materialization, fold-count bookkeeping, one `_path_residuals` job
+  kwarg mapping, nested job-count bookkeeping, and `best_mse=np.inf`
+  initialization.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 

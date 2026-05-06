@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_parallel_setup_shell.cd_cv_folds@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_parallel_setup_shell/atoms.py:27": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `folds = list(cv.split(X, y, **routed_params.splitter.split))` materialization in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for LinearModelCV fold materialization."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_parallel_setup_shell.cd_cv_fold_count@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_parallel_setup_shell/atoms.py:40": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `len(folds)` bookkeeping used in the reshape and nested job loops inside sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for LinearModelCV fold-count bookkeeping."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_parallel_setup_shell.cd_cv_path_job_kwargs@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_parallel_setup_shell/atoms.py:50": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the delayed(_path_residuals)(..., alphas=this_alphas, l1_ratio=this_l1_ratio, X_order='F', dtype=X.dtype.type) kwarg setup in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for LinearModelCV delayed job kwarg setup."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_parallel_setup_shell.cd_cv_path_job_count@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_parallel_setup_shell/atoms.py:67": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the nested `for this_l1_ratio, this_alphas in zip(l1_ratios, alphas)` and `for train, test in folds` delayed-job shell in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for LinearModelCV nested job-count bookkeeping."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_parallel_setup_shell.cd_cv_best_mse_initial@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_parallel_setup_shell/atoms.py:80": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `best_mse = np.inf` initialization immediately before scanning CV results in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for LinearModelCV best-MSE initialization."
+          }
+        }
+      ]
+    }
+  }
+}
