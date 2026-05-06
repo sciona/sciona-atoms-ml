@@ -224,6 +224,13 @@ Potential remediation path:
   bookkeeping before grid evaluation: l1-ratio presence branching,
   l1-ratio normalization and first-path selection, default fallback,
   alpha-grid branching, sorted alpha tiling, and l1-ratio and alpha counts.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_cv_routing_guards` now publishes
+  deterministic `LinearModelCV.fit` metadata-routing and sample-weight
+  support guards before fold generation: the routing-enabled branch,
+  unsupported sample-weight guarding and exact error message, splitter
+  sample-weight forwarding, estimator sample-weight dropping, and the
+  non-routing fallback branch.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 
