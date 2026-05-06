@@ -246,6 +246,12 @@ Potential remediation path:
   best-alpha argmin selection and associated value extraction, best
   l1-ratio passthrough, and `alphas_` packaging for computed versus
   user-provided grids.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_cv_refit_setup_shell` now
+  publishes deterministic `LinearModelCV.fit` refit-setup helpers after
+  best-parameter selection: common-parameter filtering, selected alpha
+  and l1-ratio transfer, `copy_X` transfer, `precompute='auto'` guarding
+  and resolution, and sample-weight fit-call dispatch.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 
