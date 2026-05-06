@@ -267,6 +267,12 @@ Potential remediation path:
   `alphas`/`sample_weight` passthrough updates, the fixed
   `copy_X=False` assignment, and the conditional `l1_ratio` update gate
   and value passthrough.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_path_residuals_writeable_array_shell`
+  now publishes deterministic `_path_residuals` dense-only memmap
+  writeability helpers before `_pre_fit`: the dense-input guard, the
+  per-array `array.base is not array_input and not WRITEABLE` predicate,
+  and the in-place `setflags(write=True)` normalization shell.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 

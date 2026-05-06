@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "sciona.atoms.review_bundle.ml.sklearn_linear_model_coordinate_descent_path_residuals_writeable_array_shell.v1",
+  "provider_repo": "sciona-atoms-ml",
+  "family_batch": "ml_sklearn_linear_model_coordinate_descent_path_residuals_writeable_array_shell",
+  "review_status": "reviewed",
+  "review_semantic_verdict": "pass_with_limits",
+  "review_developer_semantic_verdict": "pass_with_limits",
+  "trust_readiness": "reviewed_with_limits",
+  "authoritative_sources": [
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_writeable_array_shell/atoms.py"
+    },
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_writeable_array_shell/witnesses.py"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_writeable_array_shell/references.json"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_writeable_array_shell/cdg.json"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_sklearn_linear_model_coordinate_descent_path_residuals_writeable_array_shell_behavior.py"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_sklearn_linear_model_coordinate_descent_path_residuals_writeable_array_shell_references_metadata.py"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_sklearn_linear_model_coordinate_descent_path_residuals_writeable_array_shell_review_bundle.py"
+    }
+  ],
+  "limitations": [
+    "This batch covers only the deterministic dense-only and per-array writeability shell inside _path_residuals before _pre_fit.",
+    "The helpers model the dense-input gate, the per-array memmap writeability predicate, and the in-place setflags(write=True) normalization.",
+    "The array-pair loop, _pre_fit execution, path callback, and residual/MSE math remain deferred."
+  ],
+  "blocking_findings": [],
+  "required_actions": [],
+  "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_path_residuals_writeable_array_shell.review_bundle.json",
+  "rows": [
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_writeable_array_shell.cd_path_residuals_dense_writeable_guard",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_writeable_array_shell.cd_path_residuals_dense_writeable_guard",
+      "has_references": true,
+      "overall_verdict": "pass",
+      "parity_test_status": "pass",
+      "references_status": "pass",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_path_residuals_writeable_array_shell.review_bundle.json",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_status": "reviewed",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_writeable_array_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_writeable_array_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_writeable_array_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_writeable_array_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_path_residuals_writeable_array_shell_behavior.py"
+      ],
+      "trust_readiness": "catalog_ready"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_writeable_array_shell.cd_path_residuals_array_needs_writeable_fix",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_writeable_array_shell.cd_path_residuals_array_needs_writeable_fix",
+      "has_references": true,
+      "overall_verdict": "pass",
+      "parity_test_status": "pass",
+      "references_status": "pass",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_path_residuals_writeable_array_shell.review_bundle.json",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_status": "reviewed",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_writeable_array_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_writeable_array_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_writeable_array_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_writeable_array_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_path_residuals_writeable_array_shell_behavior.py"
+      ],
+      "trust_readiness": "catalog_ready"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_writeable_array_shell.cd_path_residuals_writable_array",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_writeable_array_shell.cd_path_residuals_writable_array",
+      "has_references": true,
+      "overall_verdict": "pass",
+      "parity_test_status": "pass",
+      "references_status": "pass",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_path_residuals_writeable_array_shell.review_bundle.json",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_status": "reviewed",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_writeable_array_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_writeable_array_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_writeable_array_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_writeable_array_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_path_residuals_writeable_array_shell_behavior.py"
+      ],
+      "trust_readiness": "catalog_ready"
+    }
+  ]
+}

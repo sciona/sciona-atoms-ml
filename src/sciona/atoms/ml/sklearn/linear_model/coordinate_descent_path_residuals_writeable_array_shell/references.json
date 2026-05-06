@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_writeable_array_shell.cd_path_residuals_dense_writeable_guard@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_writeable_array_shell/atoms.py:45": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `if not sparse.issparse(X):` guard around the writeability loop in sklearn.linear_model._coordinate_descent._path_residuals."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for _path_residuals dense-only writeability guarding."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_writeable_array_shell.cd_path_residuals_array_needs_writeable_fix@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_writeable_array_shell/atoms.py:56": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `if array.base is not array_input and not array.flags[\"WRITEABLE\"]:` guard in sklearn.linear_model._coordinate_descent._path_residuals."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for _path_residuals per-array writeability guarding."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_writeable_array_shell.cd_path_residuals_writable_array@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_writeable_array_shell/atoms.py:74": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `array.setflags(write=True)` normalization shell for read-only dense slices in sklearn.linear_model._coordinate_descent._path_residuals."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for _path_residuals writeability normalization."
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_path_residuals_writeable_array_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent Path Residuals Writeable Array Shell Helper Atoms",
+      "description": "Deterministic dense-only and per-array writeability helpers from sklearn.linear_model._coordinate_descent._path_residuals before _pre_fit.",
+      "status": "decomposed",
+      "children": [
+        "cd_path_residuals_dense_writeable_guard",
+        "cd_path_residuals_array_needs_writeable_fix",
+        "cd_path_residuals_writable_array"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_path_residuals_dense_writeable_guard",
+      "name": "cd_path_residuals_dense_writeable_guard",
+      "description": "Return whether _path_residuals enters the dense writeable-array guard loop.",
+      "concept_type": "branch_predicate",
+      "status": "atomic",
+      "type_signature": "(X_is_sparse: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "X_is_sparse", "type_desc": "whether the original X input is sparse", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "whether the dense-only writeability loop runs"}
+      ]
+    },
+    {
+      "node_id": "cd_path_residuals_array_needs_writeable_fix",
+      "name": "cd_path_residuals_array_needs_writeable_fix",
+      "description": "Return whether _path_residuals calls array.setflags(write=True) for one array.",
+      "concept_type": "branch_predicate",
+      "status": "atomic",
+      "type_signature": "(array_base_matches_input: bool, array_writeable: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "array_base_matches_input", "type_desc": "whether array.base is array_input", "required": true},
+        {"name": "array_writeable", "type_desc": "whether the array is already writeable", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "whether the writeability fix is required"}
+      ]
+    },
+    {
+      "node_id": "cd_path_residuals_writable_array",
+      "name": "cd_path_residuals_writable_array",
+      "description": "Return the array after sklearn's conditional setflags(write=True) normalization.",
+      "concept_type": "state_normalization",
+      "status": "atomic",
+      "type_signature": "(array: NDArray[np.generic], array_input: object) -> NDArray[np.generic]",
+      "depth": 1,
+      "inputs": [
+        {"name": "array", "type_desc": "finite numeric rank-1 or rank-2 sliced array", "required": true},
+        {"name": "array_input", "type_desc": "original source object paired with the array in the sklearn loop", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "same array object, writeable when the guard requires it"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_path_residuals_dense_writeable_guard", "target": "cd_path_residuals_array_needs_writeable_fix", "kind": "loop_context"},
+    {"source": "cd_path_residuals_array_needs_writeable_fix", "target": "cd_path_residuals_writable_array", "kind": "branch_context"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 5 decomposition and matrix-factorization pipelines"
+  }
+}
