@@ -1,0 +1,195 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_cv_metadata_routing_callback_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent CV Metadata Routing Callback Shell Helper Atoms",
+      "description": "Deterministic metadata-routing callback-shell helpers from sklearn.linear_model._coordinate_descent.LinearModelCV.fit around deferred consumes(...) and process_routing(...) calls.",
+      "status": "decomposed",
+      "children": [
+        "cd_cv_splitter_consumes_kwargs",
+        "cd_cv_splitter_supports_sample_weight_result",
+        "cd_cv_routing_params_with_sample_weight",
+        "cd_cv_process_routing_args",
+        "cd_cv_process_routing_kwargs",
+        "cd_cv_routed_params_result"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_cv_splitter_consumes_kwargs",
+      "name": "cd_cv_splitter_consumes_kwargs",
+      "description": "Return the kwargs for querying whether the CV splitter consumes sample_weight in split.",
+      "concept_type": "callback_setup",
+      "status": "atomic",
+      "type_signature": "(cv: object) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "cv",
+          "type_desc": "checked CV splitter object used for routing lookup",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "kwargs dict with method='split' and params=['sample_weight']"
+        }
+      ]
+    },
+    {
+      "node_id": "cd_cv_splitter_supports_sample_weight_result",
+      "name": "cd_cv_splitter_supports_sample_weight_result",
+      "description": "Expose the boolean result returned by the deferred splitter consumes(...) callback.",
+      "concept_type": "callback_output",
+      "status": "atomic",
+      "type_signature": "(splitter_supports_sample_weight: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "splitter_supports_sample_weight",
+          "type_desc": "boolean result of the splitter consumes lookup",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "the same boolean support result"
+        }
+      ]
+    },
+    {
+      "node_id": "cd_cv_routing_params_with_sample_weight",
+      "name": "cd_cv_routing_params_with_sample_weight",
+      "description": "Return routing params after optionally forwarding sample_weight to the splitter.",
+      "concept_type": "routing_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(params: dict[object, object], splitter_supports_sample_weight: bool, sample_weight: object) -> dict[object, object]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "params",
+          "type_desc": "metadata routing params before splitter sample-weight forwarding",
+          "required": true
+        },
+        {
+          "name": "splitter_supports_sample_weight",
+          "type_desc": "whether the splitter consumes sample_weight",
+          "required": true
+        },
+        {
+          "name": "sample_weight",
+          "type_desc": "sample-weight payload to forward when supported",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "params copy, with sample_weight inserted only when supported"
+        }
+      ]
+    },
+    {
+      "node_id": "cd_cv_process_routing_args",
+      "name": "cd_cv_process_routing_args",
+      "description": "Return positional args for process_routing(self, 'fit', **params).",
+      "concept_type": "callback_setup",
+      "status": "atomic",
+      "type_signature": "(estimator: object) -> tuple[object, str]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "estimator",
+          "type_desc": "LinearModelCV instance passed as self",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "two-tuple preserving estimator identity and fixed method 'fit'"
+        }
+      ]
+    },
+    {
+      "node_id": "cd_cv_process_routing_kwargs",
+      "name": "cd_cv_process_routing_kwargs",
+      "description": "Return kwargs expanded into process_routing(self, 'fit', **params).",
+      "concept_type": "callback_setup",
+      "status": "atomic",
+      "type_signature": "(params: dict[object, object]) -> dict[object, object]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "params",
+          "type_desc": "metadata routing params after splitter sample-weight forwarding",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "copy of the kwargs expanded into process_routing"
+        }
+      ]
+    },
+    {
+      "node_id": "cd_cv_routed_params_result",
+      "name": "cd_cv_routed_params_result",
+      "description": "Expose the routed_params object returned by deferred process_routing(...).",
+      "concept_type": "callback_output",
+      "status": "atomic",
+      "type_signature": "(routed_params: object) -> object",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "routed_params",
+          "type_desc": "metadata-routing result returned by process_routing",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "the same routed_params object"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "cd_cv_splitter_consumes_kwargs",
+      "target": "cd_cv_splitter_supports_sample_weight_result",
+      "kind": "callback_context"
+    },
+    {
+      "source": "cd_cv_splitter_supports_sample_weight_result",
+      "target": "cd_cv_routing_params_with_sample_weight",
+      "kind": "routing_context"
+    },
+    {
+      "source": "cd_cv_routing_params_with_sample_weight",
+      "target": "cd_cv_process_routing_kwargs",
+      "kind": "callback_context"
+    },
+    {
+      "source": "cd_cv_process_routing_args",
+      "target": "cd_cv_routed_params_result",
+      "kind": "callback_context"
+    },
+    {
+      "source": "cd_cv_process_routing_kwargs",
+      "target": "cd_cv_routed_params_result",
+      "kind": "callback_context"
+    }
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 4 cross-validation and path orchestration"
+  }
+}

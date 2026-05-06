@@ -14,7 +14,7 @@ work safely.
   - specifically the deterministic decomposition of
     `sklearn.linear_model._coordinate_descent.LinearModelCV.fit`
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.coordinate_descent_cv_unweighted_refit_callback_shell`
+  - `sklearn.linear_model.coordinate_descent_cv_metadata_routing_callback_shell`
 
 ## Known Unrelated Local Modification
 
@@ -145,6 +145,7 @@ Already landed in this section:
 - `coordinate_descent_cv_refit_callback_shell`
 - `coordinate_descent_cv_splitter_callback_shell`
 - `coordinate_descent_cv_unweighted_refit_callback_shell`
+- `coordinate_descent_cv_metadata_routing_callback_shell`
 
 ## Next Likely Seams
 
@@ -154,9 +155,9 @@ The next best bounded candidates inside `LinearModelCV.fit` are:
    - if any small deterministic `self.alphas_` post-selection edge remains
      uncovered beyond the existing `coordinate_descent_cv_mse_selection_shell`
 
-2. metadata-routing callback shell
-   - explicit callback-shell atoms around deferred `process_routing(...)` if we
-     want parity with the splitter/refit callback decomposition style
+2. non-routing routed-params fallback shell
+   - if the Bunch-based fallback shape warrants a small explicit atom beyond
+     the existing `coordinate_descent_cv_routing_guards` branch predicate
 
 3. final source-region audit
    - re-read the `LinearModelCV.fit` tail and verify that postfit attribute

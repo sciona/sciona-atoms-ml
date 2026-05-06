@@ -1,0 +1,125 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_metadata_routing_callback_shell.cd_cv_splitter_consumes_kwargs@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_metadata_routing_callback_shell/atoms.py:23": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `get_routing_for_object(cv).consumes(method='split', params=['sample_weight'])` callback setup in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for LinearModelCV metadata-routing consumption lookup."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_metadata_routing_callback_shell.cd_cv_splitter_supports_sample_weight_result@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_metadata_routing_callback_shell/atoms.py:35": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `splitter_supports_sample_weight = ...consumes(...)` callback result shell in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for LinearModelCV splitter sample-weight routing support."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_metadata_routing_callback_shell.cd_cv_routing_params_with_sample_weight@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_metadata_routing_callback_shell/atoms.py:52": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `if splitter_supports_sample_weight: params['sample_weight'] = sample_weight` branch before process_routing in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for LinearModelCV metadata-routing params forwarding."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_metadata_routing_callback_shell.cd_cv_process_routing_args@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_metadata_routing_callback_shell/atoms.py:80": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `process_routing(self, 'fit', **params)` positional-argument shell in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for LinearModelCV process_routing call setup."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_metadata_routing_callback_shell.cd_cv_process_routing_kwargs@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_metadata_routing_callback_shell/atoms.py:93": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `**params` kwarg shell in `process_routing(self, 'fit', **params)` inside sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for LinearModelCV process_routing kwarg setup."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_metadata_routing_callback_shell.cd_cv_routed_params_result@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_metadata_routing_callback_shell/atoms.py:104": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `routed_params = process_routing(self, 'fit', **params)` callback result shell in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for LinearModelCV routed-params callback result."
+          }
+        }
+      ]
+    }
+  }
+}
