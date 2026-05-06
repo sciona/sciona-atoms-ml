@@ -273,6 +273,12 @@ Potential remediation path:
   writeability helpers before `_pre_fit`: the dense-input guard, the
   per-array `array.base is not array_input and not WRITEABLE` predicate,
   and the in-place `setflags(write=True)` normalization shell.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_path_residuals_callback_shell`
+  now publishes deterministic `_path_residuals` callback-adjacent shell
+  helpers: the fixed `check_array(..., accept_sparse="csc")` selector,
+  `dtype` and `order` passthrough into `check_array`, and the `alphas,
+  coefs, _ = path(...)` tuple unpack projections.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 

@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_callback_shell.cd_path_residuals_check_array_accept_sparse@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_callback_shell/atoms.py:22": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the fixed `accept_sparse=\"csc\"` kwarg in the check_array call inside sklearn.linear_model._coordinate_descent._path_residuals."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for _path_residuals check_array sparse-format setup."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_callback_shell.cd_path_residuals_check_array_dtype@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_callback_shell/atoms.py:33": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `dtype=dtype` kwarg in the check_array call inside sklearn.linear_model._coordinate_descent._path_residuals."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for _path_residuals check_array dtype passthrough."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_callback_shell.cd_path_residuals_check_array_order@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_callback_shell/atoms.py:42": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `order=X_order` kwarg in the check_array call inside sklearn.linear_model._coordinate_descent._path_residuals."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for _path_residuals check_array order passthrough."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_callback_shell.cd_path_residuals_path_result_alphas@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_callback_shell/atoms.py:51": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `alphas, coefs, _ = path(...)` tuple unpack in sklearn.linear_model._coordinate_descent._path_residuals, preserving the first callback result component."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for _path_residuals path-result alpha unpacking."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_callback_shell.cd_path_residuals_path_result_coefs@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_callback_shell/atoms.py:62": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `alphas, coefs, _ = path(...)` tuple unpack in sklearn.linear_model._coordinate_descent._path_residuals, preserving the second callback result component."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for _path_residuals path-result coefficient unpacking."
+          }
+        }
+      ]
+    }
+  }
+}

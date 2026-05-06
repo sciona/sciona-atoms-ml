@@ -1,0 +1,106 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_path_residuals_callback_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent Path Residuals Callback Shell Helper Atoms",
+      "description": "Deterministic check_array kwarg and path-result unpack helpers from sklearn.linear_model._coordinate_descent._path_residuals around the deferred path callback.",
+      "status": "decomposed",
+      "children": [
+        "cd_path_residuals_check_array_accept_sparse",
+        "cd_path_residuals_check_array_dtype",
+        "cd_path_residuals_check_array_order",
+        "cd_path_residuals_path_result_alphas",
+        "cd_path_residuals_path_result_coefs"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_path_residuals_check_array_accept_sparse",
+      "name": "cd_path_residuals_check_array_accept_sparse",
+      "description": "Return the fixed accept_sparse kwarg passed to check_array by _path_residuals.",
+      "concept_type": "constant",
+      "status": "atomic",
+      "type_signature": "(dtype: object) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "dtype", "type_desc": "_path_residuals dtype argument", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "fixed 'csc' sparse-format selector"}
+      ]
+    },
+    {
+      "node_id": "cd_path_residuals_check_array_dtype",
+      "name": "cd_path_residuals_check_array_dtype",
+      "description": "Return the dtype kwarg passed to check_array by _path_residuals.",
+      "concept_type": "passthrough",
+      "status": "atomic",
+      "type_signature": "(dtype: object) -> object",
+      "depth": 1,
+      "inputs": [
+        {"name": "dtype", "type_desc": "optional dtype object", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "same dtype object"}
+      ]
+    },
+    {
+      "node_id": "cd_path_residuals_check_array_order",
+      "name": "cd_path_residuals_check_array_order",
+      "description": "Return the order kwarg passed to check_array by _path_residuals.",
+      "concept_type": "passthrough",
+      "status": "atomic",
+      "type_signature": "(X_order: object) -> object",
+      "depth": 1,
+      "inputs": [
+        {"name": "X_order", "type_desc": "optional array-order hint", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "same order object"}
+      ]
+    },
+    {
+      "node_id": "cd_path_residuals_path_result_alphas",
+      "name": "cd_path_residuals_path_result_alphas",
+      "description": "Return the alpha grid unpacked from path(...) inside _path_residuals.",
+      "concept_type": "tuple_projection",
+      "status": "atomic",
+      "type_signature": "(path_result: Sequence[object]) -> object",
+      "depth": 1,
+      "inputs": [
+        {"name": "path_result", "type_desc": "length-3 path callback result tuple", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "first path result component"}
+      ]
+    },
+    {
+      "node_id": "cd_path_residuals_path_result_coefs",
+      "name": "cd_path_residuals_path_result_coefs",
+      "description": "Return the coefficient path unpacked from path(...) inside _path_residuals.",
+      "concept_type": "tuple_projection",
+      "status": "atomic",
+      "type_signature": "(path_result: Sequence[object]) -> object",
+      "depth": 1,
+      "inputs": [
+        {"name": "path_result", "type_desc": "length-3 path callback result tuple", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "second path result component"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_path_residuals_check_array_accept_sparse", "target": "cd_path_residuals_check_array_dtype", "kind": "call_context"},
+    {"source": "cd_path_residuals_check_array_dtype", "target": "cd_path_residuals_check_array_order", "kind": "call_context"},
+    {"source": "cd_path_residuals_check_array_order", "target": "cd_path_residuals_path_result_alphas", "kind": "callback_context"},
+    {"source": "cd_path_residuals_path_result_alphas", "target": "cd_path_residuals_path_result_coefs", "kind": "tuple_context"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 5 decomposition and matrix-factorization pipelines"
+  }
+}
