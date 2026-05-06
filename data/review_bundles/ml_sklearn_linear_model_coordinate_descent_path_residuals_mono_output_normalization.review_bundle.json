@@ -1,0 +1,130 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "sciona.atoms.review_bundle.ml.sklearn_linear_model_coordinate_descent_path_residuals_mono_output_normalization.v1",
+  "provider_repo": "sciona-atoms-ml",
+  "family_batch": "ml_sklearn_linear_model_coordinate_descent_path_residuals_mono_output_normalization",
+  "review_status": "reviewed",
+  "review_semantic_verdict": "pass_with_limits",
+  "review_developer_semantic_verdict": "pass_with_limits",
+  "trust_readiness": "reviewed_with_limits",
+  "authoritative_sources": [
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_mono_output_normalization/atoms.py"
+    },
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_mono_output_normalization/witnesses.py"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_mono_output_normalization/references.json"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_mono_output_normalization/cdg.json"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_sklearn_linear_model_coordinate_descent_path_residuals_mono_output_normalization_behavior.py"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_sklearn_linear_model_coordinate_descent_path_residuals_mono_output_normalization_references_metadata.py"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_sklearn_linear_model_coordinate_descent_path_residuals_mono_output_normalization_review_bundle.py"
+    }
+  ],
+  "limitations": [
+    "This batch covers only the deterministic mono-output normalization shell in _path_residuals after the deferred path callback.",
+    "The helpers model the y.ndim == 1 branch, coefficient axis insertion, y_offset rank-1 normalization, and y_test column-axis normalization.",
+    "The path callback, intercept/residual math, sample-weighted MSE reduction, and final mean remain deferred."
+  ],
+  "blocking_findings": [],
+  "required_actions": [],
+  "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_path_residuals_mono_output_normalization.review_bundle.json",
+  "rows": [
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_mono_output_normalization.cd_path_residuals_use_mono_output_normalization",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_mono_output_normalization.cd_path_residuals_use_mono_output_normalization",
+      "has_references": true,
+      "overall_verdict": "pass",
+      "parity_test_status": "pass",
+      "references_status": "pass",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_path_residuals_mono_output_normalization.review_bundle.json",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_status": "reviewed",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_mono_output_normalization/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_mono_output_normalization/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_mono_output_normalization/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_mono_output_normalization/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_path_residuals_mono_output_normalization_behavior.py"
+      ],
+      "trust_readiness": "catalog_ready"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_mono_output_normalization.cd_path_residuals_mono_output_coefs",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_mono_output_normalization.cd_path_residuals_mono_output_coefs",
+      "has_references": true,
+      "overall_verdict": "pass",
+      "parity_test_status": "pass",
+      "references_status": "pass",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_path_residuals_mono_output_normalization.review_bundle.json",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_status": "reviewed",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_mono_output_normalization/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_mono_output_normalization/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_mono_output_normalization/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_mono_output_normalization/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_path_residuals_mono_output_normalization_behavior.py"
+      ],
+      "trust_readiness": "catalog_ready"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_mono_output_normalization.cd_path_residuals_mono_output_y_offset",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_mono_output_normalization.cd_path_residuals_mono_output_y_offset",
+      "has_references": true,
+      "overall_verdict": "pass",
+      "parity_test_status": "pass",
+      "references_status": "pass",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_path_residuals_mono_output_normalization.review_bundle.json",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_status": "reviewed",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_mono_output_normalization/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_mono_output_normalization/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_mono_output_normalization/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_mono_output_normalization/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_path_residuals_mono_output_normalization_behavior.py"
+      ],
+      "trust_readiness": "catalog_ready"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_mono_output_normalization.cd_path_residuals_mono_output_y_test",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_mono_output_normalization.cd_path_residuals_mono_output_y_test",
+      "has_references": true,
+      "overall_verdict": "pass",
+      "parity_test_status": "pass",
+      "references_status": "pass",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_path_residuals_mono_output_normalization.review_bundle.json",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_status": "reviewed",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_mono_output_normalization/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_mono_output_normalization/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_mono_output_normalization/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_mono_output_normalization/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_path_residuals_mono_output_normalization_behavior.py"
+      ],
+      "trust_readiness": "catalog_ready"
+    }
+  ]
+}

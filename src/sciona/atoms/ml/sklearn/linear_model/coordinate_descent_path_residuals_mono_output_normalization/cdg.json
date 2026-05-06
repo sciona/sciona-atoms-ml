@@ -1,0 +1,89 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_path_residuals_mono_output_normalization_root",
+      "name": "Sklearn Linear Model Coordinate Descent Path Residuals Mono Output Normalization Helper Atoms",
+      "description": "Deterministic mono-output normalization helpers from sklearn.linear_model._coordinate_descent._path_residuals after the deferred path callback.",
+      "status": "decomposed",
+      "children": [
+        "cd_path_residuals_use_mono_output_normalization",
+        "cd_path_residuals_mono_output_coefs",
+        "cd_path_residuals_mono_output_y_offset",
+        "cd_path_residuals_mono_output_y_test"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_path_residuals_use_mono_output_normalization",
+      "name": "cd_path_residuals_use_mono_output_normalization",
+      "description": "Return whether _path_residuals applies mono-output normalization after the path callback.",
+      "concept_type": "branch_predicate",
+      "status": "atomic",
+      "type_signature": "(y_ndim: int) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "y_ndim", "type_desc": "positive target ndim", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "whether y.ndim == 1"}
+      ]
+    },
+    {
+      "node_id": "cd_path_residuals_mono_output_coefs",
+      "name": "cd_path_residuals_mono_output_coefs",
+      "description": "Return sklearn's coefs[np.newaxis, :, :] mono-output normalization.",
+      "concept_type": "shape_normalization",
+      "status": "atomic",
+      "type_signature": "(coefs: NDArray[np.floating]) -> NDArray[np.floating]",
+      "depth": 1,
+      "inputs": [
+        {"name": "coefs", "type_desc": "finite numeric rank-2 coefficient path", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "rank-3 coefficient path with one output axis"}
+      ]
+    },
+    {
+      "node_id": "cd_path_residuals_mono_output_y_offset",
+      "name": "cd_path_residuals_mono_output_y_offset",
+      "description": "Return sklearn's np.atleast_1d(y_offset) mono-output normalization.",
+      "concept_type": "shape_normalization",
+      "status": "atomic",
+      "type_signature": "(y_offset: object) -> NDArray[np.floating]",
+      "depth": 1,
+      "inputs": [
+        {"name": "y_offset", "type_desc": "finite numeric scalar or vector offset", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "rank-1 offset vector"}
+      ]
+    },
+    {
+      "node_id": "cd_path_residuals_mono_output_y_test",
+      "name": "cd_path_residuals_mono_output_y_test",
+      "description": "Return sklearn's y_test[:, np.newaxis] mono-output normalization.",
+      "concept_type": "shape_normalization",
+      "status": "atomic",
+      "type_signature": "(y_test: NDArray[np.floating]) -> NDArray[np.floating]",
+      "depth": 1,
+      "inputs": [
+        {"name": "y_test", "type_desc": "finite numeric rank-1 test target vector", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "rank-2 column vector test targets"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_path_residuals_use_mono_output_normalization", "target": "cd_path_residuals_mono_output_coefs", "kind": "branch_context"},
+    {"source": "cd_path_residuals_use_mono_output_normalization", "target": "cd_path_residuals_mono_output_y_offset", "kind": "branch_context"},
+    {"source": "cd_path_residuals_use_mono_output_normalization", "target": "cd_path_residuals_mono_output_y_test", "kind": "branch_context"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 5 decomposition and matrix-factorization pipelines"
+  }
+}

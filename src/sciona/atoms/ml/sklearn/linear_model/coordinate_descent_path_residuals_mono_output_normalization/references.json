@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_mono_output_normalization.cd_path_residuals_use_mono_output_normalization@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_mono_output_normalization/atoms.py:56": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `if y.ndim == 1:` post-path normalization branch in sklearn.linear_model._coordinate_descent._path_residuals."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for _path_residuals mono-output normalization branching."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_mono_output_normalization.cd_path_residuals_mono_output_coefs@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_mono_output_normalization/atoms.py:67": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `coefs = coefs[np.newaxis, :, :]` normalization in sklearn.linear_model._coordinate_descent._path_residuals."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for _path_residuals coefficient-axis normalization."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_mono_output_normalization.cd_path_residuals_mono_output_y_offset@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_mono_output_normalization/atoms.py:78": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `y_offset = np.atleast_1d(y_offset)` normalization in sklearn.linear_model._coordinate_descent._path_residuals."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for _path_residuals y_offset normalization."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_path_residuals_mono_output_normalization.cd_path_residuals_mono_output_y_test@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_path_residuals_mono_output_normalization/atoms.py:89": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `y_test = y_test[:, np.newaxis]` normalization in sklearn.linear_model._coordinate_descent._path_residuals."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for _path_residuals y_test column-axis normalization."
+          }
+        }
+      ]
+    }
+  }
+}
