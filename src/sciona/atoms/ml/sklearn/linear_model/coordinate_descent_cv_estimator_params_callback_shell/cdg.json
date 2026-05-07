@@ -1,0 +1,106 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_cv_estimator_params_callback_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent CV Estimator Parameter Callback Shell Helper Atoms",
+      "description": "Deterministic estimator and parameter callback-shell helpers from sklearn.linear_model._coordinate_descent.LinearModelCV.fit around deferred self._get_estimator(), self.get_params(), and model.get_params() calls.",
+      "status": "decomposed",
+      "children": [
+        "cd_cv_get_estimator_result",
+        "cd_cv_path_get_params_result",
+        "cd_cv_refit_get_params_result",
+        "cd_cv_model_get_params_result",
+        "cd_cv_model_param_names"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_cv_get_estimator_result",
+      "name": "cd_cv_get_estimator_result",
+      "description": "Expose the estimator object returned by deferred self._get_estimator().",
+      "concept_type": "callback_output",
+      "status": "atomic",
+      "type_signature": "(model: object) -> object",
+      "depth": 1,
+      "inputs": [
+        {"name": "model", "type_desc": "estimator returned by self._get_estimator()", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "same estimator object"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_path_get_params_result",
+      "name": "cd_cv_path_get_params_result",
+      "description": "Expose the self.get_params() mapping assigned to path_params before path-parameter pruning.",
+      "concept_type": "callback_output",
+      "status": "atomic",
+      "type_signature": "(self_params: dict[str, object]) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "self_params", "type_desc": "parameter mapping returned by self.get_params()", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "shallow copy with same keys and value objects"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_refit_get_params_result",
+      "name": "cd_cv_refit_get_params_result",
+      "description": "Expose the self.get_params() mapping iterated while building common refit parameters.",
+      "concept_type": "callback_output",
+      "status": "atomic",
+      "type_signature": "(self_params: dict[str, object]) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "self_params", "type_desc": "parameter mapping returned by the refit self.get_params() call", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "shallow copy with same keys and value objects"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_model_get_params_result",
+      "name": "cd_cv_model_get_params_result",
+      "description": "Expose the model.get_params() mapping used to filter common refit parameters.",
+      "concept_type": "callback_output",
+      "status": "atomic",
+      "type_signature": "(model_params: dict[str, object]) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "model_params", "type_desc": "parameter mapping returned by model.get_params()", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "shallow copy with same keys and value objects"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_model_param_names",
+      "name": "cd_cv_model_param_names",
+      "description": "Return the model parameter-name set derived from model.get_params().",
+      "concept_type": "bookkeeping",
+      "status": "atomic",
+      "type_signature": "(model_params: dict[str, object]) -> set[str]",
+      "depth": 1,
+      "inputs": [
+        {"name": "model_params", "type_desc": "parameter mapping returned by model.get_params()", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "set of model parameter names"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_cv_get_estimator_result", "target": "cd_cv_model_get_params_result", "kind": "callback_context"},
+    {"source": "cd_cv_path_get_params_result", "target": "cd_cv_model_get_params_result", "kind": "fit_context"},
+    {"source": "cd_cv_refit_get_params_result", "target": "cd_cv_model_get_params_result", "kind": "refit_context"},
+    {"source": "cd_cv_model_get_params_result", "target": "cd_cv_model_param_names", "kind": "bookkeeping"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 4 cross-validation and path orchestration"
+  }
+}

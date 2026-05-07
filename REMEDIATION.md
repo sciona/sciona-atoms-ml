@@ -375,6 +375,13 @@ Potential remediation path:
   non-multitask `column_or_1d(y, warn=True)` argument and output shells,
   and `_check_sample_weight(sample_weight, X, dtype=X.dtype)` argument,
   dtype-kwarg, and output shells.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_cv_estimator_params_callback_shell`
+  now publishes the deterministic `LinearModelCV.fit` estimator and
+  parameter callback shell: `_get_estimator()` result identity, the
+  path-setup and refit-setup `self.get_params()` mapping snapshots,
+  `model.get_params()` mapping snapshots, and the model parameter-name
+  surface used by common-parameter filtering.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 
