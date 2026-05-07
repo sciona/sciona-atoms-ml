@@ -1,0 +1,126 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_estimator_loop_tail_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent Estimator Loop Tail Helper Atoms",
+      "description": "Deterministic ElasticNet.fit per-target loop-tail helpers after the solver-backed self.path(...) callback.",
+      "status": "decomposed",
+      "children": [
+        "cd_estimator_target_coef_column",
+        "cd_estimator_coef_matrix_with_target",
+        "cd_estimator_target_dual_gap_scalar",
+        "cd_estimator_dual_gaps_with_target",
+        "cd_estimator_target_iteration_count",
+        "cd_estimator_n_iter_with_target"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_estimator_target_coef_column",
+      "name": "cd_estimator_target_coef_column",
+      "description": "Return the per-target coefficient vector from path output.",
+      "concept_type": "array_projection",
+      "status": "atomic",
+      "type_signature": "(this_coef: object) -> NDArray[np.floating]",
+      "depth": 1,
+      "inputs": [
+        {"name": "this_coef", "type_desc": "coefficient array returned by path for one target", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "first coefficient column this_coef[:, 0]"}
+      ]
+    },
+    {
+      "node_id": "cd_estimator_coef_matrix_with_target",
+      "name": "cd_estimator_coef_matrix_with_target",
+      "description": "Return a coefficient matrix with one target row updated.",
+      "concept_type": "state_update",
+      "status": "atomic",
+      "type_signature": "(coef_matrix: NDArray[np.floating], target_index: int, this_coef: object) -> NDArray[np.floating]",
+      "depth": 1,
+      "inputs": [
+        {"name": "coef_matrix", "type_desc": "coefficient matrix before target update", "required": true},
+        {"name": "target_index", "type_desc": "target-loop index", "required": true},
+        {"name": "this_coef", "type_desc": "coefficient array returned by path for one target", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "copy of coefficient matrix with row k replaced"}
+      ]
+    },
+    {
+      "node_id": "cd_estimator_target_dual_gap_scalar",
+      "name": "cd_estimator_target_dual_gap_scalar",
+      "description": "Return the per-target scalar dual gap from path output.",
+      "concept_type": "array_projection",
+      "status": "atomic",
+      "type_signature": "(this_dual_gap: object) -> float",
+      "depth": 1,
+      "inputs": [
+        {"name": "this_dual_gap", "type_desc": "dual-gap vector returned by path for one target", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "first dual-gap entry this_dual_gap[0]"}
+      ]
+    },
+    {
+      "node_id": "cd_estimator_dual_gaps_with_target",
+      "name": "cd_estimator_dual_gaps_with_target",
+      "description": "Return a dual-gap vector with one target slot updated.",
+      "concept_type": "state_update",
+      "status": "atomic",
+      "type_signature": "(dual_gaps: NDArray[np.floating], target_index: int, this_dual_gap: object) -> NDArray[np.floating]",
+      "depth": 1,
+      "inputs": [
+        {"name": "dual_gaps", "type_desc": "dual-gap vector before target update", "required": true},
+        {"name": "target_index", "type_desc": "target-loop index", "required": true},
+        {"name": "this_dual_gap", "type_desc": "dual-gap vector returned by path for one target", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "copy of dual-gap vector with slot k replaced"}
+      ]
+    },
+    {
+      "node_id": "cd_estimator_target_iteration_count",
+      "name": "cd_estimator_target_iteration_count",
+      "description": "Return the per-target iteration count from path output.",
+      "concept_type": "array_projection",
+      "status": "atomic",
+      "type_signature": "(this_iter: object) -> int",
+      "depth": 1,
+      "inputs": [
+        {"name": "this_iter", "type_desc": "iteration-count vector returned by path for one target", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "first iteration count this_iter[0]"}
+      ]
+    },
+    {
+      "node_id": "cd_estimator_n_iter_with_target",
+      "name": "cd_estimator_n_iter_with_target",
+      "description": "Return the iteration-count list after appending one target count.",
+      "concept_type": "state_update",
+      "status": "atomic",
+      "type_signature": "(n_iter_list: Sequence[int], this_iter: object) -> list[int]",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_iter_list", "type_desc": "iteration-count list before append", "required": true},
+        {"name": "this_iter", "type_desc": "iteration-count vector returned by path for one target", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "new list with this_iter[0] appended"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_estimator_target_coef_column", "target": "cd_estimator_coef_matrix_with_target", "kind": "state_update"},
+    {"source": "cd_estimator_target_dual_gap_scalar", "target": "cd_estimator_dual_gaps_with_target", "kind": "state_update"},
+    {"source": "cd_estimator_target_iteration_count", "target": "cd_estimator_n_iter_with_target", "kind": "state_update"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 1 native and compiled core boundaries"
+  }
+}

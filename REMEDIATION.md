@@ -421,6 +421,12 @@ Potential remediation path:
   warm-start coefficient initialization, dual-gap and iteration containers,
   per-target `Xy`/`y` selection, one-alpha packaging, and fixed path
   keyword payload construction.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_estimator_loop_tail_shell` now
+  publishes deterministic `ElasticNet.fit` per-target loop-tail
+  bookkeeping after the solver-backed `self.path(...)` callback:
+  coefficient-column extraction and row update, dual-gap scalar extraction
+  and vector update, iteration-count extraction, and `n_iter_` append.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 

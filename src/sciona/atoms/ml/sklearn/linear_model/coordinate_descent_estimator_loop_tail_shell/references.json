@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_loop_tail_shell.cd_estimator_target_coef_column@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_loop_tail_shell/atoms.py:71": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `coef_[k] = this_coef[:, 0]` in sklearn.linear_model._coordinate_descent.ElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for ElasticNet coordinate-descent fitting."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_loop_tail_shell.cd_estimator_coef_matrix_with_target@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_loop_tail_shell/atoms.py:108": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from assigning `this_coef[:, 0]` into `coef_[k]` after the per-target path solve in ElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for ElasticNet fitted coefficient bookkeeping."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_loop_tail_shell.cd_estimator_target_dual_gap_scalar@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_loop_tail_shell/atoms.py:124": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `dual_gaps_[k] = this_dual_gap[0]` in sklearn.linear_model._coordinate_descent.ElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for ElasticNet dual-gap reporting."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_loop_tail_shell.cd_estimator_dual_gaps_with_target@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_loop_tail_shell/atoms.py:150": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from assigning `this_dual_gap[0]` into `dual_gaps_[k]` after the per-target path solve in ElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for ElasticNet dual-gap bookkeeping."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_loop_tail_shell.cd_estimator_target_iteration_count@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_loop_tail_shell/atoms.py:166": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `self.n_iter_.append(this_iter[0])` in sklearn.linear_model._coordinate_descent.ElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for ElasticNet iteration-count reporting."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_loop_tail_shell.cd_estimator_n_iter_with_target@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_loop_tail_shell/atoms.py:183": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from appending `this_iter[0]` to `self.n_iter_` after the per-target path solve in ElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for ElasticNet iteration-count bookkeeping."}}
+      ]
+    }
+  }
+}

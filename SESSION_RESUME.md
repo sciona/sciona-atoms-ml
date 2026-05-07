@@ -14,7 +14,7 @@ work safely.
   - specifically the deterministic decomposition of
     `sklearn.linear_model._coordinate_descent.ElasticNet.fit`
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.coordinate_descent_estimator_loop_setup_shell`
+  - `sklearn.linear_model.coordinate_descent_estimator_loop_tail_shell`
 
 ## Known Unrelated Local Modification
 
@@ -158,6 +158,7 @@ Already landed in this section:
 - `coordinate_descent_estimator_validation_prelude_shell`
 - `coordinate_descent_estimator_prefit_shell`
 - `coordinate_descent_estimator_loop_setup_shell`
+- `coordinate_descent_estimator_loop_tail_shell`
 
 ## Next Likely Seams
 
@@ -172,7 +173,8 @@ The next best bounded candidates are:
    - move to the next blocked coordinate-descent source region with a small
      deterministic boundary rather than duplicating the `LinearModelCV.fit`
      shells, the CV subclass API shell, or the ElasticNet sample-weight
-     validation-prelude, pre-fit, and loop-setup shells already landed
+     validation-prelude, pre-fit, loop-setup, and loop-tail shells already
+     landed
 
 2. final duplicate-coverage check
    - before leaving `LinearModelCV.fit` permanently, verify that no new seam
