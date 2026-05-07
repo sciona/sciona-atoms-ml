@@ -444,6 +444,11 @@ Potential remediation path:
   helpers outside the solver-backed fit path: fixed `path = enet_path`,
   direct `__init__` attribute state, sparse decision branch and
   `safe_sparse_dot` payloads, intercept addition, and the sparse-input tag.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_multitask_elastic_net_api_shell`
+  now publishes deterministic `MultiTaskElasticNet` estimator API shell
+  helpers: inherited parameter-constraint pruning for `precompute` and
+  `positive`, and direct `__init__` attribute state.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 

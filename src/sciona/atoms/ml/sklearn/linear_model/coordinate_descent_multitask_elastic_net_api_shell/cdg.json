@@ -1,0 +1,63 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_multitask_elastic_net_api_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent MultiTaskElasticNet API Helper Atoms",
+      "description": "Deterministic MultiTaskElasticNet estimator API shell helpers from sklearn.linear_model._coordinate_descent around inherited constraints and direct initialization.",
+      "status": "decomposed",
+      "children": [
+        "cd_multitask_elastic_net_constraints_without_unsupported",
+        "cd_multitask_elastic_net_init_attributes"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_multitask_elastic_net_constraints_without_unsupported",
+      "name": "cd_multitask_elastic_net_constraints_without_unsupported",
+      "description": "Return inherited ElasticNet constraints without unsupported parameters.",
+      "concept_type": "api_metadata",
+      "status": "atomic",
+      "type_signature": "(parent_constraints: Mapping[str, object]) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "parent_constraints", "type_desc": "ElasticNet parameter-constraint mapping", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "copied constraint mapping without precompute and positive"}
+      ]
+    },
+    {
+      "node_id": "cd_multitask_elastic_net_init_attributes",
+      "name": "cd_multitask_elastic_net_init_attributes",
+      "description": "Return the attribute state assigned by MultiTaskElasticNet.__init__.",
+      "concept_type": "state_initialization",
+      "status": "atomic",
+      "type_signature": "(alpha: object, l1_ratio: object, fit_intercept: bool, copy_X: bool, max_iter: int, tol: object, warm_start: bool, random_state: object, selection: str) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "alpha", "type_desc": "alpha parameter", "required": true},
+        {"name": "l1_ratio", "type_desc": "l1_ratio parameter", "required": true},
+        {"name": "fit_intercept", "type_desc": "fit_intercept parameter", "required": true},
+        {"name": "copy_X", "type_desc": "copy_X parameter", "required": true},
+        {"name": "max_iter", "type_desc": "max_iter parameter", "required": true},
+        {"name": "tol", "type_desc": "tol parameter", "required": true},
+        {"name": "warm_start", "type_desc": "warm_start parameter", "required": true},
+        {"name": "random_state", "type_desc": "random_state parameter", "required": true},
+        {"name": "selection", "type_desc": "selection parameter", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "attribute mapping assigned by __init__"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_multitask_elastic_net_constraints_without_unsupported", "target": "cd_multitask_elastic_net_init_attributes", "kind": "class_context"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 1 native and compiled core boundaries"
+  }
+}
