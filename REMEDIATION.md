@@ -449,6 +449,13 @@ Potential remediation path:
   now publishes deterministic `MultiTaskElasticNet` estimator API shell
   helpers: inherited parameter-constraint pruning for `precompute` and
   `positive`, and direct `__init__` attribute state.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_multitask_validation_prelude_shell`
+  now publishes deterministic `MultiTaskElasticNet.fit` validation
+  prelude helpers before mono-output guards, preprocessing, and the
+  compiled multitask solver boundary: separate `X`/`y` validation
+  payloads, `validate_data` and `check_consistent_length` callback
+  setup, `y.astype(X.dtype)`, and shape-count extraction.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 

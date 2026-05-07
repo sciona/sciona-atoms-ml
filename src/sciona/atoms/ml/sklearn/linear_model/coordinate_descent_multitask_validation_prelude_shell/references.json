@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_multitask_validation_prelude_shell.cd_multitask_check_x_params@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_validation_prelude_shell/atoms.py:56": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the `check_X_params = dict(...)` block in sklearn.linear_model._coordinate_descent.MultiTaskElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for MultiTaskElasticNet validation."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_multitask_validation_prelude_shell.cd_multitask_check_y_params@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_validation_prelude_shell/atoms.py:72": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `check_y_params = dict(ensure_2d=False, order='F')` in sklearn.linear_model._coordinate_descent.MultiTaskElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for MultiTaskElasticNet target validation."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_multitask_validation_prelude_shell.cd_multitask_validate_data_args@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_validation_prelude_shell/atoms.py:87": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from positional arguments to `validate_data(self, X, y, ...)` in sklearn.linear_model._coordinate_descent.MultiTaskElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator input validation."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_multitask_validation_prelude_shell.cd_multitask_validate_data_kwargs@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_validation_prelude_shell/atoms.py:102": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `validate_separately=(check_X_params, check_y_params)` in sklearn.linear_model._coordinate_descent.MultiTaskElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for separate X/y validation."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_multitask_validation_prelude_shell.cd_multitask_consistent_length_args@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_validation_prelude_shell/atoms.py:117": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `check_consistent_length(X, y)` in sklearn.linear_model._coordinate_descent.MultiTaskElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for validation consistency checks."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_multitask_validation_prelude_shell.cd_multitask_y_astype_dtype@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_validation_prelude_shell/atoms.py:131": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `y = y.astype(X.dtype)` in sklearn.linear_model._coordinate_descent.MultiTaskElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for target dtype normalization."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_multitask_validation_prelude_shell.cd_multitask_shape_counts@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_validation_prelude_shell/atoms.py:148": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `n_samples, n_features = X.shape` and `n_targets = y.shape[1]` in sklearn.linear_model._coordinate_descent.MultiTaskElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for multitask shape bookkeeping."}}
+      ]
+    }
+  }
+}

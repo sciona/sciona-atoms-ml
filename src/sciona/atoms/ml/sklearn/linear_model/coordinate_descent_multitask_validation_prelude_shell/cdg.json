@@ -1,0 +1,145 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_multitask_validation_prelude_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent Multi-Output Validation Prelude Helper Atoms",
+      "description": "Deterministic MultiTaskElasticNet.fit validation prelude helpers before mono-output guards, preprocessing, and the compiled multitask solver boundary.",
+      "status": "decomposed",
+      "children": [
+        "cd_multitask_check_x_params",
+        "cd_multitask_check_y_params",
+        "cd_multitask_validate_data_args",
+        "cd_multitask_validate_data_kwargs",
+        "cd_multitask_consistent_length_args",
+        "cd_multitask_y_astype_dtype",
+        "cd_multitask_shape_counts"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_multitask_check_x_params",
+      "name": "cd_multitask_check_x_params",
+      "description": "Return check_X_params for MultiTaskElasticNet.fit validate_data.",
+      "concept_type": "callback_setup",
+      "status": "atomic",
+      "type_signature": "(copy_X: bool, fit_intercept: bool) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "copy_X", "type_desc": "copy_X setting", "required": true},
+        {"name": "fit_intercept", "type_desc": "fit_intercept setting", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "X validation parameter mapping"}
+      ]
+    },
+    {
+      "node_id": "cd_multitask_check_y_params",
+      "name": "cd_multitask_check_y_params",
+      "description": "Return check_y_params for MultiTaskElasticNet.fit validate_data.",
+      "concept_type": "callback_setup",
+      "status": "atomic",
+      "type_signature": "(y_context: object) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "y_context", "type_desc": "target payload context", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "y validation parameter mapping"}
+      ]
+    },
+    {
+      "node_id": "cd_multitask_validate_data_args",
+      "name": "cd_multitask_validate_data_args",
+      "description": "Return positional args for validate_data(self, X, y, ...).",
+      "concept_type": "callback_setup",
+      "status": "atomic",
+      "type_signature": "(estimator: object, X: object, y: object) -> tuple[object, object, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator", "type_desc": "estimator identity", "required": true},
+        {"name": "X", "type_desc": "feature matrix payload", "required": true},
+        {"name": "y", "type_desc": "target payload", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "validate_data positional arguments"}
+      ]
+    },
+    {
+      "node_id": "cd_multitask_validate_data_kwargs",
+      "name": "cd_multitask_validate_data_kwargs",
+      "description": "Return kwargs for validate_data with separate X and y params.",
+      "concept_type": "callback_setup",
+      "status": "atomic",
+      "type_signature": "(check_X_params: dict[str, object], check_y_params: dict[str, object]) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "check_X_params", "type_desc": "X validation params", "required": true},
+        {"name": "check_y_params", "type_desc": "y validation params", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "validate_data keyword arguments"}
+      ]
+    },
+    {
+      "node_id": "cd_multitask_consistent_length_args",
+      "name": "cd_multitask_consistent_length_args",
+      "description": "Return positional args for check_consistent_length(X, y).",
+      "concept_type": "callback_setup",
+      "status": "atomic",
+      "type_signature": "(X: object, y: object) -> tuple[object, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "validated feature matrix", "required": true},
+        {"name": "y", "type_desc": "validated target matrix", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "check_consistent_length positional arguments"}
+      ]
+    },
+    {
+      "node_id": "cd_multitask_y_astype_dtype",
+      "name": "cd_multitask_y_astype_dtype",
+      "description": "Return y cast to the validated X dtype.",
+      "concept_type": "array_dtype_cast",
+      "status": "atomic",
+      "type_signature": "(y: NDArray[np.generic], x_dtype: object) -> NDArray[np.generic]",
+      "depth": 1,
+      "inputs": [
+        {"name": "y", "type_desc": "validated target array", "required": true},
+        {"name": "x_dtype", "type_desc": "validated X dtype", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "target array cast to X dtype"}
+      ]
+    },
+    {
+      "node_id": "cd_multitask_shape_counts",
+      "name": "cd_multitask_shape_counts",
+      "description": "Return n_samples, n_features, and n_targets from X and y shapes.",
+      "concept_type": "shape_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(x_shape: tuple[int, int], y_shape: tuple[int, int]) -> tuple[int, int, int]",
+      "depth": 1,
+      "inputs": [
+        {"name": "x_shape", "type_desc": "validated X shape", "required": true},
+        {"name": "y_shape", "type_desc": "validated y shape", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "sample, feature, and target counts"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_multitask_check_x_params", "target": "cd_multitask_validate_data_kwargs", "kind": "callback_context"},
+    {"source": "cd_multitask_check_y_params", "target": "cd_multitask_validate_data_kwargs", "kind": "callback_context"},
+    {"source": "cd_multitask_validate_data_args", "target": "cd_multitask_validate_data_kwargs", "kind": "callback_context"},
+    {"source": "cd_multitask_y_astype_dtype", "target": "cd_multitask_shape_counts", "kind": "validated_shape_context"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 1 native and compiled core boundaries"
+  }
+}

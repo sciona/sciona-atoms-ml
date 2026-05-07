@@ -1,0 +1,169 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "sciona.atoms.review_bundle.ml.sklearn_linear_model_coordinate_descent_multitask_validation_prelude_shell.v1",
+  "provider_repo": "sciona-atoms-ml",
+  "family_batch": "ml_sklearn_linear_model_coordinate_descent_multitask_validation_prelude_shell",
+  "review_status": "reviewed",
+  "review_semantic_verdict": "pass_with_limits",
+  "review_developer_semantic_verdict": "pass_with_limits",
+  "trust_readiness": "reviewed_with_limits",
+  "authoritative_sources": [
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_validation_prelude_shell/atoms.py"},
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_validation_prelude_shell/witnesses.py"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_validation_prelude_shell/references.json"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_validation_prelude_shell/cdg.json"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_linear_model_coordinate_descent_multitask_validation_prelude_shell_behavior.py"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_linear_model_coordinate_descent_multitask_validation_prelude_shell_references_metadata.py"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_linear_model_coordinate_descent_multitask_validation_prelude_shell_review_bundle.py"}
+  ],
+  "limitations": [
+    "This batch covers only deterministic MultiTaskElasticNet.fit validation prelude helpers before mono-output guards, preprocessing, and the compiled multitask solver boundary.",
+    "The helpers model separate X and y validation payloads, validate_data and check_consistent_length callback setup, y dtype casting, and shape-count extraction.",
+    "Validation helper internals, preprocessing internals, and compiled multitask coordinate-descent kernels remain deferred or are covered by separate families."
+  ],
+  "blocking_findings": [],
+  "required_actions": [],
+  "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_multitask_validation_prelude_shell.review_bundle.json",
+  "rows": [
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_multitask_validation_prelude_shell.cd_multitask_check_x_params",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_multitask_validation_prelude_shell.cd_multitask_check_x_params",
+      "has_references": true,
+      "overall_verdict": "pass",
+      "parity_test_status": "pass",
+      "references_status": "pass",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_multitask_validation_prelude_shell.review_bundle.json",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_status": "reviewed",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_validation_prelude_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_validation_prelude_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_validation_prelude_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_validation_prelude_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_multitask_validation_prelude_shell_behavior.py"
+      ],
+      "trust_readiness": "catalog_ready"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_multitask_validation_prelude_shell.cd_multitask_check_y_params",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_multitask_validation_prelude_shell.cd_multitask_check_y_params",
+      "has_references": true,
+      "overall_verdict": "pass",
+      "parity_test_status": "pass",
+      "references_status": "pass",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_multitask_validation_prelude_shell.review_bundle.json",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_status": "reviewed",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_validation_prelude_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_validation_prelude_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_validation_prelude_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_validation_prelude_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_multitask_validation_prelude_shell_behavior.py"
+      ],
+      "trust_readiness": "catalog_ready"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_multitask_validation_prelude_shell.cd_multitask_validate_data_args",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_multitask_validation_prelude_shell.cd_multitask_validate_data_args",
+      "has_references": true,
+      "overall_verdict": "pass",
+      "parity_test_status": "pass",
+      "references_status": "pass",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_multitask_validation_prelude_shell.review_bundle.json",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_status": "reviewed",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_validation_prelude_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_validation_prelude_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_validation_prelude_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_validation_prelude_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_multitask_validation_prelude_shell_behavior.py"
+      ],
+      "trust_readiness": "catalog_ready"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_multitask_validation_prelude_shell.cd_multitask_validate_data_kwargs",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_multitask_validation_prelude_shell.cd_multitask_validate_data_kwargs",
+      "has_references": true,
+      "overall_verdict": "pass",
+      "parity_test_status": "pass",
+      "references_status": "pass",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_multitask_validation_prelude_shell.review_bundle.json",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_status": "reviewed",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_validation_prelude_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_validation_prelude_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_validation_prelude_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_validation_prelude_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_multitask_validation_prelude_shell_behavior.py"
+      ],
+      "trust_readiness": "catalog_ready"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_multitask_validation_prelude_shell.cd_multitask_consistent_length_args",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_multitask_validation_prelude_shell.cd_multitask_consistent_length_args",
+      "has_references": true,
+      "overall_verdict": "pass",
+      "parity_test_status": "pass",
+      "references_status": "pass",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_multitask_validation_prelude_shell.review_bundle.json",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_status": "reviewed",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_validation_prelude_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_validation_prelude_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_validation_prelude_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_validation_prelude_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_multitask_validation_prelude_shell_behavior.py"
+      ],
+      "trust_readiness": "catalog_ready"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_multitask_validation_prelude_shell.cd_multitask_y_astype_dtype",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_multitask_validation_prelude_shell.cd_multitask_y_astype_dtype",
+      "has_references": true,
+      "overall_verdict": "pass",
+      "parity_test_status": "pass",
+      "references_status": "pass",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_multitask_validation_prelude_shell.review_bundle.json",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_status": "reviewed",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_validation_prelude_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_validation_prelude_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_validation_prelude_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_validation_prelude_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_multitask_validation_prelude_shell_behavior.py"
+      ],
+      "trust_readiness": "catalog_ready"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_multitask_validation_prelude_shell.cd_multitask_shape_counts",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_multitask_validation_prelude_shell.cd_multitask_shape_counts",
+      "has_references": true,
+      "overall_verdict": "pass",
+      "parity_test_status": "pass",
+      "references_status": "pass",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_multitask_validation_prelude_shell.review_bundle.json",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_status": "reviewed",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_validation_prelude_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_validation_prelude_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_validation_prelude_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_validation_prelude_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_multitask_validation_prelude_shell_behavior.py"
+      ],
+      "trust_readiness": "catalog_ready"
+    }
+  ]
+}
