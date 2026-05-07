@@ -1,0 +1,141 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_cv_subclass_api_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent CV Subclass API Shell Helper Atoms",
+      "description": "Deterministic subclass API-shell helpers from sklearn.linear_model._coordinate_descent for LassoCV, ElasticNetCV, MultiTaskLassoCV, and MultiTaskElasticNetCV around path selection, estimator selection, multitask tags, and super().fit delegation.",
+      "status": "decomposed",
+      "children": [
+        "cd_cv_subclass_path_name",
+        "cd_cv_subclass_estimator_name",
+        "cd_cv_subclass_is_multitask",
+        "cd_cv_subclass_target_single_output_tag",
+        "cd_cv_subclass_fit_forwards_sample_weight",
+        "cd_cv_subclass_super_fit_args",
+        "cd_cv_subclass_super_fit_kwargs"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_cv_subclass_path_name",
+      "name": "cd_cv_subclass_path_name",
+      "description": "Return the path helper selected by a coordinate-descent CV subclass.",
+      "concept_type": "api_constant",
+      "status": "atomic",
+      "type_signature": "(cv_kind: str) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "cv_kind", "type_desc": "coordinate-descent CV subclass key", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "lasso_path or enet_path"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_subclass_estimator_name",
+      "name": "cd_cv_subclass_estimator_name",
+      "description": "Return the concrete estimator selected by a CV subclass _get_estimator method.",
+      "concept_type": "api_constant",
+      "status": "atomic",
+      "type_signature": "(cv_kind: str) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "cv_kind", "type_desc": "coordinate-descent CV subclass key", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "concrete estimator class name"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_subclass_is_multitask",
+      "name": "cd_cv_subclass_is_multitask",
+      "description": "Return the boolean _is_multitask value for a CV subclass.",
+      "concept_type": "api_constant",
+      "status": "atomic",
+      "type_signature": "(cv_kind: str) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "cv_kind", "type_desc": "coordinate-descent CV subclass key", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "true for multitask CV subclasses"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_subclass_target_single_output_tag",
+      "name": "cd_cv_subclass_target_single_output_tag",
+      "description": "Return the target_tags.single_output override used by multitask CV subclasses.",
+      "concept_type": "tag_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(multitask: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "multitask", "type_desc": "true for multitask CV subclass", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "false single-output target tag"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_subclass_fit_forwards_sample_weight",
+      "name": "cd_cv_subclass_fit_forwards_sample_weight",
+      "description": "Return whether subclass fit forwards sample_weight into LinearModelCV.fit.",
+      "concept_type": "branch_predicate",
+      "status": "atomic",
+      "type_signature": "(multitask: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "multitask", "type_desc": "whether the subclass is multitask", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "true only for mono-output CV subclasses"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_subclass_super_fit_args",
+      "name": "cd_cv_subclass_super_fit_args",
+      "description": "Return positional args for subclass super().fit(X, y, ...).",
+      "concept_type": "callback_setup",
+      "status": "atomic",
+      "type_signature": "(X: object, y: object) -> tuple[object, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "training data passed to subclass fit", "required": true},
+        {"name": "y", "type_desc": "target passed to subclass fit", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "two-tuple preserving X and y identity"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_subclass_super_fit_kwargs",
+      "name": "cd_cv_subclass_super_fit_kwargs",
+      "description": "Return keyword args for subclass super().fit(...), optionally including sample_weight.",
+      "concept_type": "callback_setup",
+      "status": "atomic",
+      "type_signature": "(params: dict[object, object], sample_weight: object, forwards_sample_weight: bool) -> dict[object, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "params", "type_desc": "metadata routing params passed to subclass fit", "required": true},
+        {"name": "sample_weight", "type_desc": "sample_weight payload available to mono-output CV subclasses", "required": true},
+        {"name": "forwards_sample_weight", "type_desc": "whether sample_weight is forwarded", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "kwargs payload for super().fit"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_cv_subclass_is_multitask", "target": "cd_cv_subclass_target_single_output_tag", "kind": "branch_context"},
+    {"source": "cd_cv_subclass_is_multitask", "target": "cd_cv_subclass_fit_forwards_sample_weight", "kind": "branch_context"},
+    {"source": "cd_cv_subclass_fit_forwards_sample_weight", "target": "cd_cv_subclass_super_fit_kwargs", "kind": "callback_context"},
+    {"source": "cd_cv_subclass_super_fit_args", "target": "cd_cv_subclass_super_fit_kwargs", "kind": "callback_context"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 8 thin wrappers and aliases"
+  }
+}

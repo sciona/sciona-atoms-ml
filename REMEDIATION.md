@@ -388,6 +388,13 @@ Potential remediation path:
   validation callback shell: the `alphas is not None` branch predicate,
   fixed `check_scalar` kwargs, per-alpha positional argument formatting,
   and the checked-alpha callback output before sorting and tiling.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_cv_subclass_api_shell` now
+  publishes deterministic subclass API shells for `LassoCV`,
+  `ElasticNetCV`, `MultiTaskLassoCV`, and `MultiTaskElasticNetCV`:
+  static path-helper selection, concrete estimator-name selection,
+  multitask flags, the multitask single-output tag override, and
+  `super().fit` argument and sample-weight keyword forwarding.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 
