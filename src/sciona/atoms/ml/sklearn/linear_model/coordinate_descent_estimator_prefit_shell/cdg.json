@@ -1,0 +1,197 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_estimator_prefit_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent Estimator Pre-Fit Shell Helper Atoms",
+      "description": "Deterministic ElasticNet.fit _pre_fit and immediate post-_pre_fit normalization helpers from sklearn.linear_model._coordinate_descent before warm-start and coordinate-descent path-loop setup.",
+      "status": "decomposed",
+      "children": [
+        "cd_estimator_should_copy",
+        "cd_estimator_pre_fit_args",
+        "cd_estimator_pre_fit_kwargs",
+        "cd_estimator_set_order_required",
+        "cd_estimator_set_order_args",
+        "cd_estimator_y_column_vector_required",
+        "cd_estimator_y_column_vector",
+        "cd_estimator_xy_column_vector_required",
+        "cd_estimator_xy_column_vector",
+        "cd_estimator_n_targets"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_estimator_should_copy",
+      "name": "cd_estimator_should_copy",
+      "description": "Return should_copy = self.copy_X and not X_copied before _pre_fit.",
+      "concept_type": "bookkeeping",
+      "status": "atomic",
+      "type_signature": "(copy_X: bool, x_copied: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "copy_X", "type_desc": "estimator copy_X setting", "required": true},
+        {"name": "x_copied", "type_desc": "whether validation already copied X", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "copy flag passed to _pre_fit"}
+      ]
+    },
+    {
+      "node_id": "cd_estimator_pre_fit_args",
+      "name": "cd_estimator_pre_fit_args",
+      "description": "Return positional args for _pre_fit(X, y, None, self.precompute, ...).",
+      "concept_type": "callback_setup",
+      "status": "atomic",
+      "type_signature": "(X: object, y: object, precompute: object) -> tuple[object, object, None, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "validated feature matrix", "required": true},
+        {"name": "y", "type_desc": "validated target array", "required": true},
+        {"name": "precompute", "type_desc": "estimator precompute setting", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "four-tuple preserving X, y, fixed None, and precompute"}
+      ]
+    },
+    {
+      "node_id": "cd_estimator_pre_fit_kwargs",
+      "name": "cd_estimator_pre_fit_kwargs",
+      "description": "Return kwargs for _pre_fit(...).",
+      "concept_type": "callback_setup",
+      "status": "atomic",
+      "type_signature": "(fit_intercept: bool, should_copy: bool, check_input: bool, sample_weight: object) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "fit_intercept", "type_desc": "estimator fit_intercept setting", "required": true},
+        {"name": "should_copy", "type_desc": "copy flag passed to _pre_fit", "required": true},
+        {"name": "check_input", "type_desc": "fit-time input validation flag", "required": true},
+        {"name": "sample_weight", "type_desc": "sample-weight payload after validation and rescaling", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "kwargs mapping for _pre_fit"}
+      ]
+    },
+    {
+      "node_id": "cd_estimator_set_order_required",
+      "name": "cd_estimator_set_order_required",
+      "description": "Return whether ElasticNet.fit calls _set_order(X, y, order='F').",
+      "concept_type": "branch_predicate",
+      "status": "atomic",
+      "type_signature": "(check_input: bool, sample_weight: object) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "check_input", "type_desc": "fit-time input validation flag", "required": true},
+        {"name": "sample_weight", "type_desc": "sample-weight payload after _pre_fit", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "true when ordering normalization runs"}
+      ]
+    },
+    {
+      "node_id": "cd_estimator_set_order_args",
+      "name": "cd_estimator_set_order_args",
+      "description": "Return positional args for _set_order(X, y, order='F').",
+      "concept_type": "callback_setup",
+      "status": "atomic",
+      "type_signature": "(X: object, y: object) -> tuple[object, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "post-_pre_fit feature matrix", "required": true},
+        {"name": "y", "type_desc": "post-_pre_fit target array", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "two-tuple preserving X and y identity"}
+      ]
+    },
+    {
+      "node_id": "cd_estimator_y_column_vector_required",
+      "name": "cd_estimator_y_column_vector_required",
+      "description": "Return whether y is expanded with y[:, np.newaxis].",
+      "concept_type": "branch_predicate",
+      "status": "atomic",
+      "type_signature": "(y_ndim: int) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "y_ndim", "type_desc": "target array ndim", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "true when y is one-dimensional"}
+      ]
+    },
+    {
+      "node_id": "cd_estimator_y_column_vector",
+      "name": "cd_estimator_y_column_vector",
+      "description": "Return y[:, np.newaxis] for mono-output estimator fitting.",
+      "concept_type": "array_shape_normalization",
+      "status": "atomic",
+      "type_signature": "(y: NDArray[np.floating]) -> NDArray[np.floating]",
+      "depth": 1,
+      "inputs": [
+        {"name": "y", "type_desc": "one-dimensional target array", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "two-dimensional column target array"}
+      ]
+    },
+    {
+      "node_id": "cd_estimator_xy_column_vector_required",
+      "name": "cd_estimator_xy_column_vector_required",
+      "description": "Return whether Xy is expanded with Xy[:, np.newaxis].",
+      "concept_type": "branch_predicate",
+      "status": "atomic",
+      "type_signature": "(Xy: object) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "Xy", "type_desc": "optional precomputed Xy payload", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "true when Xy is present and one-dimensional"}
+      ]
+    },
+    {
+      "node_id": "cd_estimator_xy_column_vector",
+      "name": "cd_estimator_xy_column_vector",
+      "description": "Return Xy[:, np.newaxis] for mono-output precomputed Xy.",
+      "concept_type": "array_shape_normalization",
+      "status": "atomic",
+      "type_signature": "(Xy: NDArray[np.floating]) -> NDArray[np.floating]",
+      "depth": 1,
+      "inputs": [
+        {"name": "Xy", "type_desc": "one-dimensional precomputed Xy array", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "two-dimensional column Xy array"}
+      ]
+    },
+    {
+      "node_id": "cd_estimator_n_targets",
+      "name": "cd_estimator_n_targets",
+      "description": "Return n_targets extracted from y.shape[1].",
+      "concept_type": "bookkeeping",
+      "status": "atomic",
+      "type_signature": "(y_shape: tuple[int, int]) -> int",
+      "depth": 1,
+      "inputs": [
+        {"name": "y_shape", "type_desc": "post-normalization target shape", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "target count"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_estimator_should_copy", "target": "cd_estimator_pre_fit_kwargs", "kind": "callback_context"},
+    {"source": "cd_estimator_pre_fit_args", "target": "cd_estimator_set_order_required", "kind": "callback_context"},
+    {"source": "cd_estimator_pre_fit_kwargs", "target": "cd_estimator_set_order_required", "kind": "callback_context"},
+    {"source": "cd_estimator_set_order_required", "target": "cd_estimator_set_order_args", "kind": "branch_context"},
+    {"source": "cd_estimator_y_column_vector_required", "target": "cd_estimator_y_column_vector", "kind": "branch_context"},
+    {"source": "cd_estimator_xy_column_vector_required", "target": "cd_estimator_xy_column_vector", "kind": "branch_context"},
+    {"source": "cd_estimator_y_column_vector", "target": "cd_estimator_n_targets", "kind": "shape_context"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 1 native and compiled core boundaries"
+  }
+}

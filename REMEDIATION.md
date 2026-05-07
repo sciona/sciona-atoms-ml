@@ -407,6 +407,13 @@ Potential remediation path:
   helpers before sample-weight handling, `_pre_fit`, and path solving:
   alpha-zero warning formatting, `X_copied` bookkeeping, `validate_data`
   and `check_array` payloads, and `n_samples`/`n_features` extraction.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_estimator_prefit_shell` now
+  publishes deterministic `ElasticNet.fit` `_pre_fit` setup and
+  immediate post-`_pre_fit` normalization before warm-start and solver-loop
+  setup: `should_copy`, `_pre_fit` argument and keyword payloads,
+  `_set_order` branch and args, `y`/`Xy` column-vector normalization,
+  and `n_targets` extraction.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 
