@@ -1,0 +1,125 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_alpha_packaging_tail.cd_cv_auto_alphas_packaging_required@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_packaging_tail/atoms.py:28": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `if self.alphas is None:` public alphas_ packaging branch in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for LinearModelCV alpha-grid packaging."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_alpha_packaging_tail.cd_cv_user_alphas_packaging_required@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_packaging_tail/atoms.py:39": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `else:` public alphas_ packaging branch for user-provided alphas in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for LinearModelCV user-alpha packaging."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_alpha_packaging_tail.cd_cv_auto_alphas_array@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_packaging_tail/atoms.py:50": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from `self.alphas_ = np.asarray(alphas)` in the computed-alpha branch of sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for LinearModelCV computed-alpha array conversion."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_alpha_packaging_tail.cd_cv_auto_alphas_single_ratio_collapse_required@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_packaging_tail/atoms.py:66": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the `if n_l1_ratio == 1:` public alphas_ collapse branch in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for LinearModelCV computed-alpha single-grid collapse."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_alpha_packaging_tail.cd_cv_auto_alphas_public@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_packaging_tail/atoms.py:77": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the computed-alpha public alphas_ packaging tail, including optional `self.alphas_ = self.alphas_[0]`, in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for LinearModelCV public computed alphas_."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_alpha_packaging_tail.cd_cv_user_alphas_public@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_packaging_tail/atoms.py:102": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from `self.alphas_ = np.asarray(alphas[0])` in the user-provided alpha branch of sklearn.linear_model._coordinate_descent.LinearModelCV.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for LinearModelCV public user alphas_."
+          }
+        }
+      ]
+    }
+  }
+}

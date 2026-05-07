@@ -347,6 +347,13 @@ Potential remediation path:
   `Bunch` construction, `Bunch(split=...)` splitter payload packaging,
   `routed_params.splitter` assignment shape, and
   `routed_params.splitter.split` extraction before CV splitting.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_cv_alpha_packaging_tail` now
+  publishes the deterministic `LinearModelCV.fit` public `alphas_`
+  packaging tail after best-parameter selection: computed-versus-user
+  branch guards, computed-grid `np.asarray(alphas)` conversion,
+  single-`l1_ratio` collapse, final computed `alphas_` passthrough, and
+  duplicate user-grid removal through `np.asarray(alphas[0])`.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 
