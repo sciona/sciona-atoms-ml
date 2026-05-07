@@ -368,6 +368,13 @@ Potential remediation path:
   argument packaging, `validate_separately` kwargs packaging, validated
   `X`/`y` tuple-unpack passthrough, and `check_consistent_length(X, y)`
   argument packaging.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_cv_target_callback_shell` now
+  publishes the deterministic `LinearModelCV.fit` target and
+  sample-weight callback shell: `_is_multitask()` result passthrough,
+  non-multitask `column_or_1d(y, warn=True)` argument and output shells,
+  and `_check_sample_weight(sample_weight, X, dtype=X.dtype)` argument,
+  dtype-kwarg, and output shells.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 

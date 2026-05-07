@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_target_callback_shell.cd_cv_is_multitask_result@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_target_callback_shell/atoms.py:23": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the deferred `self._is_multitask()` branch result in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LinearModelCV multitask branch handling."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_target_callback_shell.cd_cv_column_or_1d_args@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_target_callback_shell/atoms.py:34": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `column_or_1d(y, warn=True)` call setup in the non-multitask branch of sklearn.linear_model._coordinate_descent.LinearModelCV.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LinearModelCV target normalization."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_target_callback_shell.cd_cv_column_or_1d_result@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_target_callback_shell/atoms.py:48": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `y = column_or_1d(y, warn=True)` output handling in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LinearModelCV normalized y handling."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_target_callback_shell.cd_cv_check_sample_weight_args@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_target_callback_shell/atoms.py:58": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `_check_sample_weight(sample_weight, X, dtype=X.dtype)` call setup in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LinearModelCV sample-weight validation."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_target_callback_shell.cd_cv_check_sample_weight_kwargs@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_target_callback_shell/atoms.py:72": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the `dtype=X.dtype` kwarg in `_check_sample_weight(sample_weight, X, dtype=X.dtype)` inside sklearn.linear_model._coordinate_descent.LinearModelCV.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LinearModelCV sample-weight dtype handling."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_target_callback_shell.cd_cv_checked_sample_weight@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_target_callback_shell/atoms.py:82": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `sample_weight = _check_sample_weight(...)` output handling in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LinearModelCV checked sample-weight handling."}}
+      ]
+    }
+  }
+}
