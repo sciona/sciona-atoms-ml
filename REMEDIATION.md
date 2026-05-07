@@ -438,6 +438,12 @@ Potential remediation path:
   now publishes deterministic `MultiTaskLasso` estimator API
   specialization helpers: inherited parameter-constraint pruning for
   `l1_ratio`, fixed `l1_ratio=1.0`, and direct `__init__` attribute state.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_elastic_net_api_shell` now
+  publishes deterministic `ElasticNet` API and sparse-prediction shell
+  helpers outside the solver-backed fit path: fixed `path = enet_path`,
+  direct `__init__` attribute state, sparse decision branch and
+  `safe_sparse_dot` payloads, intercept addition, and the sparse-input tag.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 

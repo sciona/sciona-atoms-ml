@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_elastic_net_api_shell.cd_elastic_net_path_name@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_elastic_net_api_shell/atoms.py:49": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `path = staticmethod(enet_path)` in sklearn.linear_model._coordinate_descent.ElasticNet."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for ElasticNet coordinate-descent path fitting."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_elastic_net_api_shell.cd_elastic_net_init_attributes@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_elastic_net_api_shell/atoms.py:91": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from direct attribute assignments in sklearn.linear_model._coordinate_descent.ElasticNet.__init__."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for ElasticNet estimator initialization."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_elastic_net_api_shell.cd_elastic_net_sparse_decision_required@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_elastic_net_api_shell/atoms.py:126": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the `if sparse.issparse(X)` branch in sklearn.linear_model._coordinate_descent.ElasticNet._decision_function."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for sparse ElasticNet prediction support."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_elastic_net_api_shell.cd_elastic_net_sparse_dot_args@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_elastic_net_api_shell/atoms.py:140": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from positional arguments `X, self.coef_.T` passed to safe_sparse_dot in ElasticNet._decision_function."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for sparse linear model prediction."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_elastic_net_api_shell.cd_elastic_net_sparse_dot_kwargs@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_elastic_net_api_shell/atoms.py:154": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `dense_output=True` passed to safe_sparse_dot in ElasticNet._decision_function."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for sparse linear model prediction output."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_elastic_net_api_shell.cd_elastic_net_sparse_decision_output@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_elastic_net_api_shell/atoms.py:167": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from adding `self.intercept_` to safe_sparse_dot output in ElasticNet._decision_function."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for ElasticNet decision output."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_elastic_net_api_shell.cd_elastic_net_sparse_input_tag@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_elastic_net_api_shell/atoms.py:177": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `tags.input_tags.sparse = True` in sklearn.linear_model._coordinate_descent.ElasticNet.__sklearn_tags__."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for ElasticNet sparse input support."}}
+      ]
+    }
+  }
+}
