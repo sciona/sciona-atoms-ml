@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_alpha_validation_callback_shell.cd_cv_user_alpha_validation_required@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_validation_callback_shell/atoms.py:31": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the `if alphas is None: ... else:` branch around user-provided alpha validation in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LinearModelCV alpha-grid handling."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_alpha_validation_callback_shell.cd_cv_alpha_check_scalar_kwargs@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_validation_callback_shell/atoms.py:47": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the `partial(check_scalar, target_type=Real, min_val=0.0, include_boundaries='left')` setup in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LinearModelCV user-alpha validation."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_alpha_validation_callback_shell.cd_cv_alpha_check_scalar_args@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_validation_callback_shell/atoms.py:65": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `check_scalar_alpha(alpha, f'alphas[{index}]')` inside the user-alpha validation loop in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for indexed LinearModelCV alpha validation."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_alpha_validation_callback_shell.cd_cv_alpha_check_scalar_result@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_alpha_validation_callback_shell/atoms.py:75": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the deferred `check_scalar_alpha(...)` callback result before alpha sorting in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for checked user-alpha values."}}
+      ]
+    }
+  }
+}

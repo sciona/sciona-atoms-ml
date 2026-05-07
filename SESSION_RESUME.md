@@ -14,7 +14,7 @@ work safely.
   - specifically the deterministic decomposition of
     `sklearn.linear_model._coordinate_descent.LinearModelCV.fit`
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.coordinate_descent_cv_estimator_params_callback_shell`
+  - `sklearn.linear_model.coordinate_descent_cv_alpha_validation_callback_shell`
 
 ## Known Unrelated Local Modification
 
@@ -152,20 +152,26 @@ Already landed in this section:
 - `coordinate_descent_cv_validation_callback_shell`
 - `coordinate_descent_cv_target_callback_shell`
 - `coordinate_descent_cv_estimator_params_callback_shell`
+- `coordinate_descent_cv_alpha_validation_callback_shell`
 
 ## Next Likely Seams
 
-The next best bounded candidates inside `LinearModelCV.fit` are:
+The latest pass re-read `LinearModelCV.fit` end to end and found one
+remaining small deterministic callback shell around user-provided alpha
+validation. That shell is now covered by
+`coordinate_descent_cv_alpha_validation_callback_shell`.
 
-1. final source-region audit
-   - re-read `LinearModelCV.fit` end to end and verify that the remaining
-     deterministic shell is covered before moving to another coordinate-
-     descent class or helper
+The next best bounded candidates are:
 
-2. another coordinate-descent class/helper seam
-   - after the audit, move to the next blocked coordinate-descent source
-     region with a small deterministic boundary rather than duplicating the
-     `LinearModelCV.fit` shells already landed
+1. another coordinate-descent class/helper seam
+   - move to the next blocked coordinate-descent source region with a small
+     deterministic boundary rather than duplicating the `LinearModelCV.fit`
+     shells already landed
+
+2. final duplicate-coverage check
+   - before leaving `LinearModelCV.fit` permanently, verify that no new seam
+     duplicates existing alpha, validation, routing, path, parallel, MSE,
+     refit, or postfit slices
 
 Pick the next seam by re-reading the immediate source region rather than
 assuming this ordering is still optimal.

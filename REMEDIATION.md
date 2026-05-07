@@ -382,6 +382,12 @@ Potential remediation path:
   path-setup and refit-setup `self.get_params()` mapping snapshots,
   `model.get_params()` mapping snapshots, and the model parameter-name
   surface used by common-parameter filtering.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_cv_alpha_validation_callback_shell`
+  now publishes the deterministic `LinearModelCV.fit` user-alpha
+  validation callback shell: the `alphas is not None` branch predicate,
+  fixed `check_scalar` kwargs, per-alpha positional argument formatting,
+  and the checked-alpha callback output before sorting and tiling.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 
