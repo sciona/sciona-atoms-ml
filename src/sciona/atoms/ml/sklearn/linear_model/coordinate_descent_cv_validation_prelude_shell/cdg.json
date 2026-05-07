@@ -1,0 +1,144 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_cv_validation_prelude_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent CV Validation Prelude Shell Helper Atoms",
+      "description": "Deterministic validation-prelude helpers from sklearn.linear_model._coordinate_descent.LinearModelCV.fit before target guards and alpha-grid construction.",
+      "status": "decomposed",
+      "children": [
+        "cd_cv_fit_params_guard_args",
+        "cd_cv_initial_copy_x",
+        "cd_cv_check_y_params",
+        "cd_cv_reference_check_x_params",
+        "cd_cv_fortran_check_x_params",
+        "cd_cv_reference_validation_copy_x",
+        "cd_cv_non_reference_copy_x"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_cv_fit_params_guard_args",
+      "name": "cd_cv_fit_params_guard_args",
+      "description": "Return positional args for _raise_for_params(params, self, 'fit').",
+      "concept_type": "callback_setup",
+      "status": "atomic",
+      "type_signature": "(params: dict[object, object], estimator: object) -> tuple[dict[object, object], object, str]",
+      "depth": 1,
+      "inputs": [
+        {"name": "params", "type_desc": "metadata routing params passed to fit", "required": true},
+        {"name": "estimator", "type_desc": "LinearModelCV instance", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "tuple matching _raise_for_params(params, self, 'fit')"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_initial_copy_x",
+      "name": "cd_cv_initial_copy_x",
+      "description": "Return initial copy_X = self.copy_X and self.fit_intercept.",
+      "concept_type": "state_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(copy_x: bool, fit_intercept: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "copy_x", "type_desc": "self.copy_X", "required": true},
+        {"name": "fit_intercept", "type_desc": "self.fit_intercept", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "initial validation copy_X value"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_check_y_params",
+      "name": "cd_cv_check_y_params",
+      "description": "Return y-validation kwargs used by validate_data.",
+      "concept_type": "validation_setup",
+      "status": "atomic",
+      "type_signature": "(validation_required: bool) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "validation_required", "type_desc": "true when fit validation is being prepared", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "check_y_params dict"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_reference_check_x_params",
+      "name": "cd_cv_reference_check_x_params",
+      "description": "Return X-validation kwargs for ndarray or sparse inputs.",
+      "concept_type": "validation_setup",
+      "status": "atomic",
+      "type_signature": "(reference_branch_required: bool) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "reference_branch_required", "type_desc": "true for ndarray or sparse X", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "reference-preserving check_X_params dict"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_fortran_check_x_params",
+      "name": "cd_cv_fortran_check_x_params",
+      "description": "Return X-validation kwargs for non-ndarray, non-sparse inputs.",
+      "concept_type": "validation_setup",
+      "status": "atomic",
+      "type_signature": "(copy_x: bool, reference_branch_required: bool) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "copy_x", "type_desc": "current copy_X value", "required": true},
+        {"name": "reference_branch_required", "type_desc": "must be false for this branch", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "Fortran-order check_X_params dict"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_reference_validation_copy_x",
+      "name": "cd_cv_reference_validation_copy_x",
+      "description": "Return copy_X after ndarray or sparse validation copy checks.",
+      "concept_type": "state_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(copy_x: bool, x_is_sparse: bool, sparse_data_copied: bool, dense_array_copied: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "copy_x", "type_desc": "copy_X value before validation-copy checks", "required": true},
+        {"name": "x_is_sparse", "type_desc": "whether validated X is sparse", "required": true},
+        {"name": "sparse_data_copied", "type_desc": "whether sparse .data no longer shares memory", "required": true},
+        {"name": "dense_array_copied", "type_desc": "whether dense X no longer shares memory", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "copy_X after validation-copy checks"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_non_reference_copy_x",
+      "name": "cd_cv_non_reference_copy_x",
+      "description": "Return copy_X after non-reference Fortran-order validation.",
+      "concept_type": "state_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(reference_branch_required: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "reference_branch_required", "type_desc": "must be false for this branch", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "fixed false copy_X value"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_cv_initial_copy_x", "target": "cd_cv_fortran_check_x_params", "kind": "validation_context"},
+    {"source": "cd_cv_initial_copy_x", "target": "cd_cv_reference_validation_copy_x", "kind": "validation_context"},
+    {"source": "cd_cv_reference_check_x_params", "target": "cd_cv_reference_validation_copy_x", "kind": "validation_context"},
+    {"source": "cd_cv_fortran_check_x_params", "target": "cd_cv_non_reference_copy_x", "kind": "validation_context"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 4 cross-validation and path orchestration"
+  }
+}

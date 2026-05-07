@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_validation_prelude_shell.cd_cv_fit_params_guard_args@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_validation_prelude_shell/atoms.py:25": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `_raise_for_params(params, self, 'fit')` in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LinearModelCV fit parameter validation."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_validation_prelude_shell.cd_cv_initial_copy_x@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_validation_prelude_shell/atoms.py:42": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `copy_X = self.copy_X and self.fit_intercept` in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LinearModelCV validation copy_X bookkeeping."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_validation_prelude_shell.cd_cv_check_y_params@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_validation_prelude_shell/atoms.py:55": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the `check_y_params = dict(copy=False, dtype=[np.float64, np.float32], ensure_2d=False)` shell in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LinearModelCV y-validation kwargs."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_validation_prelude_shell.cd_cv_reference_check_x_params@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_validation_prelude_shell/atoms.py:72": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the ndarray-or-sparse `check_X_params` dict in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LinearModelCV reference-preserving X validation kwargs."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_validation_prelude_shell.cd_cv_fortran_check_x_params@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_validation_prelude_shell/atoms.py:100": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the non-ndarray, non-sparse `check_X_params` dict with `order='F'` in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LinearModelCV Fortran-order validation kwargs."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_validation_prelude_shell.cd_cv_reference_validation_copy_x@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_validation_prelude_shell/atoms.py:131": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the ndarray-or-sparse `np.may_share_memory` copy checks that reset copy_X after validate_data in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LinearModelCV post-validation copy_X reset."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_validation_prelude_shell.cd_cv_non_reference_copy_x@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_validation_prelude_shell/atoms.py:158": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `copy_X = False` after non-reference Fortran-order validate_data in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LinearModelCV non-reference validation copy_X reset."}}
+      ]
+    }
+  }
+}

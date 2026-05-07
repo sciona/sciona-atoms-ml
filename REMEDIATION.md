@@ -354,6 +354,13 @@ Potential remediation path:
   branch guards, computed-grid `np.asarray(alphas)` conversion,
   single-`l1_ratio` collapse, final computed `alphas_` passthrough, and
   duplicate user-grid removal through `np.asarray(alphas[0])`.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_cv_validation_prelude_shell`
+  now publishes the deterministic `LinearModelCV.fit` validation prelude
+  before target guards and alpha-grid construction: `_raise_for_params`
+  call setup, initial `copy_X` resolution, `check_y_params`,
+  reference-preserving and Fortran-order `check_X_params`, and the
+  post-validation `copy_X` reset branches.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 
