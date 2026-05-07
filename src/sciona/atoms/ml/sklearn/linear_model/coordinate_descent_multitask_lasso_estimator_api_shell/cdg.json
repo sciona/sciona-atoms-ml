@@ -1,0 +1,79 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_multitask_lasso_estimator_api_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent MultiTaskLasso Estimator API Helper Atoms",
+      "description": "Deterministic MultiTaskLasso estimator API shell helpers from sklearn.linear_model._coordinate_descent around the MultiTaskElasticNet specialization boundary.",
+      "status": "decomposed",
+      "children": [
+        "cd_multitask_lasso_constraints_without_l1_ratio",
+        "cd_multitask_lasso_fixed_l1_ratio",
+        "cd_multitask_lasso_init_attributes"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_multitask_lasso_constraints_without_l1_ratio",
+      "name": "cd_multitask_lasso_constraints_without_l1_ratio",
+      "description": "Return inherited MultiTaskElasticNet constraints without l1_ratio.",
+      "concept_type": "api_metadata",
+      "status": "atomic",
+      "type_signature": "(parent_constraints: Mapping[str, object]) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "parent_constraints", "type_desc": "MultiTaskElasticNet parameter-constraint mapping", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "copied constraint mapping without l1_ratio"}
+      ]
+    },
+    {
+      "node_id": "cd_multitask_lasso_fixed_l1_ratio",
+      "name": "cd_multitask_lasso_fixed_l1_ratio",
+      "description": "Return the fixed l1_ratio assigned by MultiTaskLasso.__init__.",
+      "concept_type": "constant_parameter",
+      "status": "atomic",
+      "type_signature": "(alpha: object) -> float",
+      "depth": 1,
+      "inputs": [
+        {"name": "alpha", "type_desc": "MultiTaskLasso alpha parameter used to anchor init context", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "fixed l1_ratio value 1.0"}
+      ]
+    },
+    {
+      "node_id": "cd_multitask_lasso_init_attributes",
+      "name": "cd_multitask_lasso_init_attributes",
+      "description": "Return the attribute state assigned by MultiTaskLasso.__init__.",
+      "concept_type": "state_initialization",
+      "status": "atomic",
+      "type_signature": "(alpha: object, fit_intercept: bool, copy_X: bool, max_iter: int, tol: object, warm_start: bool, random_state: object, selection: str) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "alpha", "type_desc": "alpha parameter", "required": true},
+        {"name": "fit_intercept", "type_desc": "fit_intercept parameter", "required": true},
+        {"name": "copy_X", "type_desc": "copy_X parameter", "required": true},
+        {"name": "max_iter", "type_desc": "max_iter parameter", "required": true},
+        {"name": "tol", "type_desc": "tol parameter", "required": true},
+        {"name": "warm_start", "type_desc": "warm_start parameter", "required": true},
+        {"name": "random_state", "type_desc": "random_state parameter", "required": true},
+        {"name": "selection", "type_desc": "selection parameter", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "attribute mapping including fixed l1_ratio"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_multitask_lasso_fixed_l1_ratio", "target": "cd_multitask_lasso_init_attributes", "kind": "init_constant"},
+    {"source": "cd_multitask_lasso_constraints_without_l1_ratio", "target": "cd_multitask_lasso_init_attributes", "kind": "class_context"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 8 thin wrappers and aliases"
+  }
+}

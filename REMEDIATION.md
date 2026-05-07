@@ -433,6 +433,11 @@ Potential remediation path:
   inherited parameter-constraint pruning for `l1_ratio`, fixed
   `path = enet_path` helper selection, fixed `l1_ratio=1.0`, and
   `ElasticNet.__init__` delegation kwargs.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_multitask_lasso_estimator_api_shell`
+  now publishes deterministic `MultiTaskLasso` estimator API
+  specialization helpers: inherited parameter-constraint pruning for
+  `l1_ratio`, fixed `l1_ratio=1.0`, and direct `__init__` attribute state.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 
