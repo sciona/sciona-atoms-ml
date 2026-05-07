@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_loop_setup_shell.cd_estimator_initial_coef_required@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_loop_setup_shell/atoms.py:113": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `if not self.warm_start or not hasattr(self, 'coef_')` in sklearn.linear_model._coordinate_descent.ElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for ElasticNet warm-start behavior."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_loop_setup_shell.cd_estimator_initial_coef_zeros@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_loop_setup_shell/atoms.py:130": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `np.zeros((n_targets, n_features), dtype=X.dtype, order='F')` in sklearn.linear_model._coordinate_descent.ElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for ElasticNet coefficient initialization."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_loop_setup_shell.cd_estimator_warm_start_coef_matrix@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_loop_setup_shell/atoms.py:148": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `coef_ = self.coef_` and `if coef_.ndim == 1: coef_ = coef_[np.newaxis, :]` in sklearn.linear_model._coordinate_descent.ElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for ElasticNet warm-start coefficient shape handling."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_loop_setup_shell.cd_estimator_dual_gaps_zeros@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_loop_setup_shell/atoms.py:163": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `dual_gaps_ = np.zeros(n_targets, dtype=X.dtype)` in sklearn.linear_model._coordinate_descent.ElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for ElasticNet dual-gap bookkeeping."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_loop_setup_shell.cd_estimator_n_iter_list_initial@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_loop_setup_shell/atoms.py:171": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `self.n_iter_ = []` before the target loop in sklearn.linear_model._coordinate_descent.ElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for ElasticNet iteration-count bookkeeping."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_loop_setup_shell.cd_estimator_loop_this_xy@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_loop_setup_shell/atoms.py:188": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the `this_Xy = Xy[:, k]` versus `this_Xy = None` branch in sklearn.linear_model._coordinate_descent.ElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for ElasticNet per-target path setup."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_loop_setup_shell.cd_estimator_single_alpha_grid@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_loop_setup_shell/atoms.py:198": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `alphas=[alpha]` in the per-target `self.path(...)` call inside sklearn.linear_model._coordinate_descent.ElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for ElasticNet single-alpha path fitting."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_loop_setup_shell.cd_estimator_path_args@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_loop_setup_shell/atoms.py:213": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from positional arguments `X, y[:, k]` in the per-target `self.path(...)` call inside sklearn.linear_model._coordinate_descent.ElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for ElasticNet per-target path callback setup."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_loop_setup_shell.cd_estimator_path_kwargs@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_loop_setup_shell/atoms.py:241": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the keyword payload of the per-target `self.path(...)` call in sklearn.linear_model._coordinate_descent.ElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for ElasticNet coordinate-descent path callback setup."}}
+      ]
+    }
+  }
+}

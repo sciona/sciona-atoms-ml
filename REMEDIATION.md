@@ -414,6 +414,13 @@ Potential remediation path:
   setup: `should_copy`, `_pre_fit` argument and keyword payloads,
   `_set_order` branch and args, `y`/`Xy` column-vector normalization,
   and `n_targets` extraction.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_estimator_loop_setup_shell` now
+  publishes deterministic `ElasticNet.fit` warm-start and per-target loop
+  setup before the solver-backed `self.path(...)` callback: fresh versus
+  warm-start coefficient initialization, dual-gap and iteration containers,
+  per-target `Xy`/`y` selection, one-alpha packaging, and fixed path
+  keyword payload construction.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 
