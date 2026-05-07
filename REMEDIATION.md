@@ -401,6 +401,12 @@ Potential remediation path:
   helpers before `_pre_fit` and path solving: scalar sample-weight
   dropping, optional `_check_sample_weight` callback setup and output
   identity, and rescaling vector sample weights to sum to `n_samples`.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_estimator_validation_prelude_shell`
+  now publishes deterministic `ElasticNet.fit` validation prelude
+  helpers before sample-weight handling, `_pre_fit`, and path solving:
+  alpha-zero warning formatting, `X_copied` bookkeeping, `validate_data`
+  and `check_array` payloads, and `n_samples`/`n_features` extraction.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 
