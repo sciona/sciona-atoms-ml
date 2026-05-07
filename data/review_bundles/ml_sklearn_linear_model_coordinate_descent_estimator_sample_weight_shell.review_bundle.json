@@ -1,0 +1,169 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "sciona.atoms.review_bundle.ml.sklearn_linear_model_coordinate_descent_estimator_sample_weight_shell.v1",
+  "provider_repo": "sciona-atoms-ml",
+  "family_batch": "ml_sklearn_linear_model_coordinate_descent_estimator_sample_weight_shell",
+  "review_status": "reviewed",
+  "review_semantic_verdict": "pass_with_limits",
+  "review_developer_semantic_verdict": "pass_with_limits",
+  "trust_readiness": "reviewed_with_limits",
+  "authoritative_sources": [
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_sample_weight_shell/atoms.py"},
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_sample_weight_shell/witnesses.py"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_sample_weight_shell/references.json"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_sample_weight_shell/cdg.json"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_linear_model_coordinate_descent_estimator_sample_weight_shell_behavior.py"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_linear_model_coordinate_descent_estimator_sample_weight_shell_references_metadata.py"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_linear_model_coordinate_descent_estimator_sample_weight_shell_review_bundle.py"}
+  ],
+  "limitations": [
+    "This batch covers only deterministic ElasticNet.fit sample-weight shell behavior before _pre_fit and coordinate-descent path execution.",
+    "The helpers model scalar sample_weight dropping, optional _check_sample_weight callback setup and output identity, and rescaling sample weights to sum to n_samples.",
+    "The internals of _check_sample_weight, _pre_fit, path solving, and compiled coordinate-descent kernels remain deferred or are covered elsewhere."
+  ],
+  "blocking_findings": [],
+  "required_actions": [],
+  "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_estimator_sample_weight_shell.review_bundle.json",
+  "rows": [
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_sample_weight_shell.cd_estimator_sample_weight_after_scalar_guard",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_sample_weight_shell.cd_estimator_sample_weight_after_scalar_guard",
+      "has_references": true,
+      "overall_verdict": "pass",
+      "parity_test_status": "pass",
+      "references_status": "pass",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_estimator_sample_weight_shell.review_bundle.json",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_status": "reviewed",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_sample_weight_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_sample_weight_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_sample_weight_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_sample_weight_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_estimator_sample_weight_shell_behavior.py"
+      ],
+      "trust_readiness": "catalog_ready"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_sample_weight_shell.cd_estimator_sample_weight_check_required",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_sample_weight_shell.cd_estimator_sample_weight_check_required",
+      "has_references": true,
+      "overall_verdict": "pass",
+      "parity_test_status": "pass",
+      "references_status": "pass",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_estimator_sample_weight_shell.review_bundle.json",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_status": "reviewed",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_sample_weight_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_sample_weight_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_sample_weight_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_sample_weight_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_estimator_sample_weight_shell_behavior.py"
+      ],
+      "trust_readiness": "catalog_ready"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_sample_weight_shell.cd_estimator_check_sample_weight_args",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_sample_weight_shell.cd_estimator_check_sample_weight_args",
+      "has_references": true,
+      "overall_verdict": "pass",
+      "parity_test_status": "pass",
+      "references_status": "pass",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_estimator_sample_weight_shell.review_bundle.json",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_status": "reviewed",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_sample_weight_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_sample_weight_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_sample_weight_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_sample_weight_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_estimator_sample_weight_shell_behavior.py"
+      ],
+      "trust_readiness": "catalog_ready"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_sample_weight_shell.cd_estimator_check_sample_weight_kwargs",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_sample_weight_shell.cd_estimator_check_sample_weight_kwargs",
+      "has_references": true,
+      "overall_verdict": "pass",
+      "parity_test_status": "pass",
+      "references_status": "pass",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_estimator_sample_weight_shell.review_bundle.json",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_status": "reviewed",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_sample_weight_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_sample_weight_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_sample_weight_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_sample_weight_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_estimator_sample_weight_shell_behavior.py"
+      ],
+      "trust_readiness": "catalog_ready"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_sample_weight_shell.cd_estimator_checked_sample_weight",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_sample_weight_shell.cd_estimator_checked_sample_weight",
+      "has_references": true,
+      "overall_verdict": "pass",
+      "parity_test_status": "pass",
+      "references_status": "pass",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_estimator_sample_weight_shell.review_bundle.json",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_status": "reviewed",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_sample_weight_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_sample_weight_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_sample_weight_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_sample_weight_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_estimator_sample_weight_shell_behavior.py"
+      ],
+      "trust_readiness": "catalog_ready"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_sample_weight_shell.cd_estimator_sample_weight_rescale_factor",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_sample_weight_shell.cd_estimator_sample_weight_rescale_factor",
+      "has_references": true,
+      "overall_verdict": "pass",
+      "parity_test_status": "pass",
+      "references_status": "pass",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_estimator_sample_weight_shell.review_bundle.json",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_status": "reviewed",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_sample_weight_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_sample_weight_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_sample_weight_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_sample_weight_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_estimator_sample_weight_shell_behavior.py"
+      ],
+      "trust_readiness": "catalog_ready"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_sample_weight_shell.cd_estimator_sample_weight_rescaled",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_sample_weight_shell.cd_estimator_sample_weight_rescaled",
+      "has_references": true,
+      "overall_verdict": "pass",
+      "parity_test_status": "pass",
+      "references_status": "pass",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_estimator_sample_weight_shell.review_bundle.json",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_status": "reviewed",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_sample_weight_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_sample_weight_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_sample_weight_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_sample_weight_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_estimator_sample_weight_shell_behavior.py"
+      ],
+      "trust_readiness": "catalog_ready"
+    }
+  ]
+}

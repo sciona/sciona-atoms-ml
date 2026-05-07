@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_sample_weight_shell.cd_estimator_sample_weight_after_scalar_guard@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_sample_weight_shell/atoms.py:47": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `if isinstance(sample_weight, numbers.Number): sample_weight = None` in sklearn.linear_model._coordinate_descent.ElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for ElasticNet sample-weight handling."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_sample_weight_shell.cd_estimator_sample_weight_check_required@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_sample_weight_shell/atoms.py:59": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the nested `if sample_weight is not None` and `if check_input` branch before `_check_sample_weight(...)` in sklearn.linear_model._coordinate_descent.ElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for ElasticNet optional input validation."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_sample_weight_shell.cd_estimator_check_sample_weight_args@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_sample_weight_shell/atoms.py:75": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `_check_sample_weight(sample_weight, X, dtype=X.dtype)` positional argument setup in sklearn.linear_model._coordinate_descent.ElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for ElasticNet sample-weight validation."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_sample_weight_shell.cd_estimator_check_sample_weight_kwargs@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_sample_weight_shell/atoms.py:85": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the `dtype=X.dtype` kwarg in `_check_sample_weight(sample_weight, X, dtype=X.dtype)` inside sklearn.linear_model._coordinate_descent.ElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for ElasticNet sample-weight dtype handling."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_sample_weight_shell.cd_estimator_checked_sample_weight@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_sample_weight_shell/atoms.py:95": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `sample_weight = _check_sample_weight(...)` output handling in sklearn.linear_model._coordinate_descent.ElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for checked ElasticNet sample weights."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_sample_weight_shell.cd_estimator_sample_weight_rescale_factor@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_sample_weight_shell/atoms.py:108": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the `n_samples / np.sum(sample_weight)` factor in sklearn.linear_model._coordinate_descent.ElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for ElasticNet sample-weight objective rescaling."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_sample_weight_shell.cd_estimator_sample_weight_rescaled@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_sample_weight_shell/atoms.py:121": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `sample_weight = sample_weight * (n_samples / np.sum(sample_weight))` in sklearn.linear_model._coordinate_descent.ElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for ElasticNet weighted objective normalization."}}
+      ]
+    }
+  }
+}

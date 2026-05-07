@@ -395,6 +395,12 @@ Potential remediation path:
   static path-helper selection, concrete estimator-name selection,
   multitask flags, the multitask single-output tag override, and
   `super().fit` argument and sample-weight keyword forwarding.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_estimator_sample_weight_shell`
+  now publishes deterministic `ElasticNet.fit` sample-weight shell
+  helpers before `_pre_fit` and path solving: scalar sample-weight
+  dropping, optional `_check_sample_weight` callback setup and output
+  identity, and rescaling vector sample weights to sum to `n_samples`.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 
