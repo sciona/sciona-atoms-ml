@@ -361,6 +361,13 @@ Potential remediation path:
   call setup, initial `copy_X` resolution, `check_y_params`,
   reference-preserving and Fortran-order `check_X_params`, and the
   post-validation `copy_X` reset branches.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_cv_validation_callback_shell`
+  now publishes the deterministic `LinearModelCV.fit` validation callback
+  shell around deferred validation helpers: `validate_data` positional
+  argument packaging, `validate_separately` kwargs packaging, validated
+  `X`/`y` tuple-unpack passthrough, and `check_consistent_length(X, y)`
+  argument packaging.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 
