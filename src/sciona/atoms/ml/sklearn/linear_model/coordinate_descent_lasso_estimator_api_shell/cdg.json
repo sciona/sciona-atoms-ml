@@ -1,0 +1,98 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_lasso_estimator_api_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent Lasso Estimator API Helper Atoms",
+      "description": "Deterministic Lasso estimator API shell helpers from sklearn.linear_model._coordinate_descent around the ElasticNet specialization boundary.",
+      "status": "decomposed",
+      "children": [
+        "cd_lasso_constraints_without_l1_ratio",
+        "cd_lasso_path_name",
+        "cd_lasso_fixed_l1_ratio",
+        "cd_lasso_super_init_kwargs"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_lasso_constraints_without_l1_ratio",
+      "name": "cd_lasso_constraints_without_l1_ratio",
+      "description": "Return inherited ElasticNet parameter constraints without l1_ratio.",
+      "concept_type": "api_metadata",
+      "status": "atomic",
+      "type_signature": "(parent_constraints: Mapping[str, object]) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "parent_constraints", "type_desc": "ElasticNet parameter-constraint mapping", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "copied constraint mapping without l1_ratio"}
+      ]
+    },
+    {
+      "node_id": "cd_lasso_path_name",
+      "name": "cd_lasso_path_name",
+      "description": "Return the path helper name selected by Lasso.",
+      "concept_type": "api_metadata",
+      "status": "atomic",
+      "type_signature": "(estimator_kind: str) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator_kind", "type_desc": "Lasso estimator kind token", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "selected path helper name"}
+      ]
+    },
+    {
+      "node_id": "cd_lasso_fixed_l1_ratio",
+      "name": "cd_lasso_fixed_l1_ratio",
+      "description": "Return the fixed l1_ratio forwarded by Lasso.__init__.",
+      "concept_type": "constant_parameter",
+      "status": "atomic",
+      "type_signature": "(alpha: object) -> float",
+      "depth": 1,
+      "inputs": [
+        {"name": "alpha", "type_desc": "Lasso alpha parameter used to anchor init context", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "fixed l1_ratio value 1.0"}
+      ]
+    },
+    {
+      "node_id": "cd_lasso_super_init_kwargs",
+      "name": "cd_lasso_super_init_kwargs",
+      "description": "Return kwargs passed from Lasso.__init__ into ElasticNet.__init__.",
+      "concept_type": "delegation_payload",
+      "status": "atomic",
+      "type_signature": "(alpha: object, fit_intercept: bool, precompute: object, copy_X: bool, max_iter: int, tol: object, warm_start: bool, positive: bool, random_state: object, selection: str) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "alpha", "type_desc": "Lasso alpha parameter", "required": true},
+        {"name": "fit_intercept", "type_desc": "fit_intercept parameter", "required": true},
+        {"name": "precompute", "type_desc": "precompute parameter", "required": true},
+        {"name": "copy_X", "type_desc": "copy_X parameter", "required": true},
+        {"name": "max_iter", "type_desc": "max_iter parameter", "required": true},
+        {"name": "tol", "type_desc": "tol parameter", "required": true},
+        {"name": "warm_start", "type_desc": "warm_start parameter", "required": true},
+        {"name": "positive", "type_desc": "positive parameter", "required": true},
+        {"name": "random_state", "type_desc": "random_state parameter", "required": true},
+        {"name": "selection", "type_desc": "selection parameter", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "ElasticNet.__init__ kwargs with fixed l1_ratio"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_lasso_fixed_l1_ratio", "target": "cd_lasso_super_init_kwargs", "kind": "delegation_constant"},
+    {"source": "cd_lasso_path_name", "target": "cd_lasso_super_init_kwargs", "kind": "class_context"},
+    {"source": "cd_lasso_constraints_without_l1_ratio", "target": "cd_lasso_super_init_kwargs", "kind": "class_context"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 8 thin wrappers and aliases"
+  }
+}

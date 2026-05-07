@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_lasso_estimator_api_shell.cd_lasso_constraints_without_l1_ratio@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_lasso_estimator_api_shell/atoms.py:42": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from copying `ElasticNet._parameter_constraints` and then calling `_parameter_constraints.pop('l1_ratio')` in sklearn.linear_model._coordinate_descent.Lasso."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for Lasso as an ElasticNet specialization."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_lasso_estimator_api_shell.cd_lasso_path_name@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_lasso_estimator_api_shell/atoms.py:54": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `path = staticmethod(enet_path)` in sklearn.linear_model._coordinate_descent.Lasso."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for Lasso coordinate-descent path fitting."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_lasso_estimator_api_shell.cd_lasso_fixed_l1_ratio@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_lasso_estimator_api_shell/atoms.py:65": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the fixed `l1_ratio=1.0` passed by Lasso.__init__ to ElasticNet.__init__ in sklearn.linear_model._coordinate_descent."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for the Lasso L1-only specialization."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_lasso_estimator_api_shell.cd_lasso_super_init_kwargs@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_lasso_estimator_api_shell/atoms.py:107": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the `super().__init__(...)` keyword payload in sklearn.linear_model._coordinate_descent.Lasso.__init__."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for Lasso estimator initialization."}}
+      ]
+    }
+  }
+}

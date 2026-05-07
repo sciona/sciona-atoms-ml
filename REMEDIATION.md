@@ -427,6 +427,12 @@ Potential remediation path:
   bookkeeping after the solver-backed `self.path(...)` callback:
   coefficient-column extraction and row update, dual-gap scalar extraction
   and vector update, iteration-count extraction, and `n_iter_` append.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_lasso_estimator_api_shell` now
+  publishes deterministic `Lasso` estimator API specialization helpers:
+  inherited parameter-constraint pruning for `l1_ratio`, fixed
+  `path = enet_path` helper selection, fixed `l1_ratio=1.0`, and
+  `ElasticNet.__init__` delegation kwargs.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 
