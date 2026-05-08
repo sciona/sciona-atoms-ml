@@ -15,7 +15,7 @@ work safely.
     coordinate-descent estimators and CV wrappers in
     `sklearn.linear_model._coordinate_descent`
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.coordinate_descent_elastic_net_cv_init_shell`
+  - `sklearn.linear_model.coordinate_descent_cv_base_init_shell`
 
 ## Known Unrelated Local Modification
 
@@ -169,13 +169,14 @@ Already landed in this section:
 - `coordinate_descent_multitask_solver_result_shell`
 - `coordinate_descent_lasso_cv_init_shell`
 - `coordinate_descent_elastic_net_cv_init_shell`
+- `coordinate_descent_cv_base_init_shell`
 
 ## Next Likely Seams
 
-The latest pass re-read `ElasticNetCV.__init__` and found a bounded
-deterministic API setup shell around class-body `l1_ratio` constraint
-injection and direct constructor attribute state. That shell is now covered
-by `coordinate_descent_elastic_net_cv_init_shell`.
+The latest pass re-read `LinearModelCV.__init__` and found a bounded
+deterministic base-constructor shell around the direct attribute state shared
+by coordinate-descent CV subclasses. That shell is now covered by
+`coordinate_descent_cv_base_init_shell`.
 
 The next best bounded candidates are:
 
@@ -194,14 +195,17 @@ The next best bounded candidates are:
      payload shell already landed, the ElasticNet post-loop intercept
      callback shell already landed, the MultiTaskElasticNet solver-result
      tail shell already landed, the LassoCV constructor-forwarding shell
-     already landed, or the ElasticNetCV constructor shell already landed
+     already landed, the ElasticNetCV constructor shell already landed, or
+     the LinearModelCV base constructor shell already landed
 
-2. adjacent CV constructor/API seam
-   - before adding more constructor atoms, verify that the target is not
-     already covered by `coordinate_descent_cv_subclass_api_shell`,
-     `coordinate_descent_lasso_cv_init_shell`,
-     `coordinate_descent_elastic_net_cv_init_shell`, or
-     `coordinate_descent_multitask_cv_api_shell`
+2. `_path_residuals` delayed-job body seams
+   - a parallel audit found two likely bounded candidates:
+     `coordinate_descent_path_residuals_split_slicing_shell` for
+     `X[train]`, `y[train]`, `X[test]`, and `y[test]`; and
+     `coordinate_descent_path_residuals_projection_shell` for the
+     `safe_sparse_dot(X_test, coefs)` projection
+   - avoid duplicating the existing sample-weight slicing, writeable-array,
+     callback, mono-output normalization, and residual aggregation families
 
 3. final duplicate-coverage check
    - before leaving `LinearModelCV.fit` permanently, verify that no new seam

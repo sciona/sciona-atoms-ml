@@ -512,6 +512,11 @@ Potential remediation path:
   now publishes deterministic `ElasticNetCV` API setup helpers: class-body
   `l1_ratio` parameter-constraint specialization over `LinearModelCV`
   constraints and direct `ElasticNetCV.__init__` attribute state.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_cv_base_init_shell` now
+  publishes deterministic `LinearModelCV.__init__` base constructor
+  attribute state shared by coordinate-descent CV subclasses before
+  subclass-specific API setup and fit orchestration.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 
