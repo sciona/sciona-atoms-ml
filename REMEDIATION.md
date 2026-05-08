@@ -157,6 +157,13 @@ Potential remediation path:
   sample-count resolution, alpha-max computation, the float64-resolution
   fallback predicate, and final alpha-grid construction.
 - Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_alpha_grid_prelude_shell` now
+  publishes deterministic `_alpha_grid` prelude helpers before the
+  alpha-grid math tail: `l1_ratio == 0` guarding and message text,
+  precomputed `Xy` passthrough, `_preprocess_data` kwargs, weighted target
+  construction, dense `Xyw` construction, and sparse mono-output centered
+  `Xyw` construction.
+- Completed helper slice:
   `sklearn.linear_model.coordinate_descent_enet_path_bookkeeping` now
   publishes the deterministic bookkeeping shell in `enet_path` around the
   compiled coordinate-descent solver calls: multi-output detection,

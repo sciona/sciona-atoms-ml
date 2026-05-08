@@ -15,7 +15,7 @@ work safely.
     coordinate-descent estimators and CV wrappers in
     `sklearn.linear_model._coordinate_descent`
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.coordinate_descent_enet_path_params_shell`
+  - `sklearn.linear_model.coordinate_descent_alpha_grid_prelude_shell`
 
 ## Known Unrelated Local Modification
 
@@ -113,6 +113,7 @@ git show --stat --oneline --name-only HEAD
 Already landed in this section:
 
 - `coordinate_descent_alpha_grid_math`
+- `coordinate_descent_alpha_grid_prelude_shell`
 - `coordinate_descent_enet_path_bookkeeping`
 - `coordinate_descent_enet_path_input_shell`
 - `coordinate_descent_enet_path_params_shell`
@@ -176,9 +177,9 @@ Already landed in this section:
 
 ## Next Likely Seams
 
-The latest pass re-read `enet_path` and found a bounded params extraction
-shell before leftover-parameter guarding and downstream solver dispatch. That
-shell is now covered by `coordinate_descent_enet_path_params_shell`.
+The latest pass re-read `_alpha_grid` and found a bounded prelude shell before
+the already-covered alpha-grid math tail. That shell is now covered by
+`coordinate_descent_alpha_grid_prelude_shell`.
 
 The next best bounded candidates are:
 
@@ -198,8 +199,9 @@ The next best bounded candidates are:
      callback shell already landed, the MultiTaskElasticNet solver-result
      tail shell already landed, the LassoCV constructor-forwarding shell
      already landed, the ElasticNetCV constructor shell already landed, or
-     the LinearModelCV base constructor shell already landed, or the
-     `enet_path` params pop/default shell already landed
+     the LinearModelCV base constructor shell already landed, the
+     `enet_path` params pop/default shell already landed, or the `_alpha_grid`
+     prelude shell already landed
 
 2. `_path_residuals` duplicate-coverage check
    - split slicing and projection are now covered alongside the existing

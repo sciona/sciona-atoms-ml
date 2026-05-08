@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_alpha_grid_prelude_shell.cd_alpha_grid_l1_ratio_zero_guard_required@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_alpha_grid_prelude_shell/atoms.py:71": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the `if l1_ratio == 0:` guard in sklearn.linear_model._coordinate_descent._alpha_grid."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for coordinate-descent alpha-grid validation."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_alpha_grid_prelude_shell.cd_alpha_grid_l1_ratio_zero_error_message@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_alpha_grid_prelude_shell/atoms.py:89": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the ValueError message emitted by sklearn.linear_model._coordinate_descent._alpha_grid for automatic alpha grids with l1_ratio=0."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for coordinate-descent alpha-grid validation."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_alpha_grid_prelude_shell.cd_alpha_grid_precomputed_Xy@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_alpha_grid_prelude_shell/atoms.py:106": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the `if Xy is not None: Xyw = Xy` branch in sklearn.linear_model._coordinate_descent._alpha_grid."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for coordinate-descent alpha-grid precomputed payload handling."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_alpha_grid_prelude_shell.cd_alpha_grid_preprocess_kwargs@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_alpha_grid_prelude_shell/atoms.py:124": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the `_preprocess_data(..., fit_intercept=fit_intercept, copy=copy_X, sample_weight=sample_weight, check_input=False)` call in sklearn.linear_model._coordinate_descent._alpha_grid."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for coordinate-descent alpha-grid preprocessing."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_alpha_grid_prelude_shell.cd_alpha_grid_yw@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_alpha_grid_prelude_shell/atoms.py:144": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the sample-weighted `yw` construction in sklearn.linear_model._coordinate_descent._alpha_grid."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for coordinate-descent alpha-grid weighted targets."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_alpha_grid_prelude_shell.cd_alpha_grid_dense_Xyw@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_alpha_grid_prelude_shell/atoms.py:158": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the dense `Xyw = np.dot(X.T, yw)` construction in sklearn.linear_model._coordinate_descent._alpha_grid."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for coordinate-descent alpha-grid dense payload construction."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_alpha_grid_prelude_shell.cd_alpha_grid_sparse_mono_output_centered_Xyw@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_alpha_grid_prelude_shell/atoms.py:176": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the sparse `safe_sparse_dot(X.T, yw, dense_output=True) - np.sum(yw) * X_offset` construction in sklearn.linear_model._coordinate_descent._alpha_grid, constrained here to the mono-output case to keep the atom small and deterministic."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for coordinate-descent alpha-grid sparse payload construction."}}
+      ]
+    }
+  }
+}
