@@ -1,0 +1,76 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_estimator_multitarget_postfit_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent Estimator Multi-Target Post-Fit Shell Atoms",
+      "description": "Deterministic ElasticNet.fit multi-target post-loop branch helpers after the solver-backed per-target path loop.",
+      "status": "decomposed",
+      "children": [
+        "cd_estimator_multitarget_branch",
+        "cd_estimator_multitarget_coef",
+        "cd_estimator_multitarget_dual_gap"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_estimator_multitarget_branch",
+      "name": "cd_estimator_multitarget_branch",
+      "description": "Return whether ElasticNet.fit keeps post-loop coefficient and dual-gap outputs as multi-target arrays.",
+      "concept_type": "branch_predicate",
+      "status": "atomic",
+      "type_signature": "(n_targets: int) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_targets", "type_desc": "number of target columns", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "whether n_targets != 1"}
+      ]
+    },
+    {
+      "node_id": "cd_estimator_multitarget_coef",
+      "name": "cd_estimator_multitarget_coef",
+      "description": "Return the coefficient matrix assigned to self.coef_ for multi-target ElasticNet.fit output.",
+      "concept_type": "state_assignment",
+      "status": "atomic",
+      "type_signature": "(coef_matrix: NDArray[np.floating], n_targets: int) -> NDArray[np.floating]",
+      "depth": 1,
+      "inputs": [
+        {"name": "coef_matrix", "type_desc": "post-loop coefficient matrix", "required": true},
+        {"name": "n_targets", "type_desc": "number of target columns", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "identity-preserving coefficient matrix"}
+      ]
+    },
+    {
+      "node_id": "cd_estimator_multitarget_dual_gap",
+      "name": "cd_estimator_multitarget_dual_gap",
+      "description": "Return the dual-gap vector assigned to self.dual_gap_ for multi-target ElasticNet.fit output.",
+      "concept_type": "state_assignment",
+      "status": "atomic",
+      "type_signature": "(dual_gaps: NDArray[np.floating], n_targets: int) -> NDArray[np.floating]",
+      "depth": 1,
+      "inputs": [
+        {"name": "dual_gaps", "type_desc": "post-loop dual-gap vector", "required": true},
+        {"name": "n_targets", "type_desc": "number of target columns", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "identity-preserving dual-gap vector"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_estimator_multitarget_branch", "target": "cd_estimator_multitarget_coef", "kind": "selects_multi_target_assignment"},
+    {"source": "cd_estimator_multitarget_branch", "target": "cd_estimator_multitarget_dual_gap", "kind": "selects_multi_target_assignment"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "source_lines": "1151-1157",
+    "sklearn_symbol": "ElasticNet.fit",
+    "remediation_case": "Case 5 decomposition and matrix-factorization pipelines"
+  }
+}

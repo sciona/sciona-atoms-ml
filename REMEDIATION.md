@@ -488,6 +488,11 @@ Potential remediation path:
   coefficient-column extraction and row update, dual-gap scalar extraction
   and vector update, iteration-count extraction, and `n_iter_` append.
 - Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_estimator_multitarget_postfit_shell`
+  now publishes deterministic `ElasticNet.fit` multi-target postfit
+  passthrough helpers for the branch where `n_targets != 1`: the branch
+  predicate, `self.coef_ = coef_`, and `self.dual_gap_ = dual_gaps_`.
+- Completed helper slice:
   `sklearn.linear_model.coordinate_descent_lasso_estimator_api_shell` now
   publishes deterministic `Lasso` estimator API specialization helpers:
   inherited parameter-constraint pruning for `l1_ratio`, fixed

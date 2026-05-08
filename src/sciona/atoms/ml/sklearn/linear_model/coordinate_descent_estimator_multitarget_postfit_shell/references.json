@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_multitarget_postfit_shell.cd_estimator_multitarget_branch@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_multitarget_postfit_shell/atoms.py:47": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the `if n_targets == 1: ... else:` branch in sklearn.linear_model._coordinate_descent.ElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for ElasticNet estimator state."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_multitarget_postfit_shell.cd_estimator_multitarget_coef@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_multitarget_postfit_shell/atoms.py:66": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `self.coef_ = coef_` in the multi-target branch of sklearn.linear_model._coordinate_descent.ElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for multi-target ElasticNet coefficients."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_estimator_multitarget_postfit_shell.cd_estimator_multitarget_dual_gap@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_estimator_multitarget_postfit_shell/atoms.py:87": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `self.dual_gap_ = dual_gaps_` in the multi-target branch of sklearn.linear_model._coordinate_descent.ElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for multi-target ElasticNet dual gaps."}}
+      ]
+    }
+  }
+}
