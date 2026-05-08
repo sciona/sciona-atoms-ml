@@ -238,6 +238,13 @@ Potential remediation path:
   l1-ratio normalization and first-path selection, default fallback,
   alpha-grid branching, sorted alpha tiling, and l1-ratio and alpha counts.
 - Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_cv_deprecation_prelude_shell`
+  now publishes deterministic `LinearModelCV.fit` deprecation prelude
+  helpers before alpha and l1-ratio bookkeeping: explicit `n_alphas`
+  warning detection and message text, `alphas="warn"` sentinel detection,
+  `alphas=None` warning detection and message text, and private `_alphas`
+  resolution.
+- Completed helper slice:
   `sklearn.linear_model.coordinate_descent_cv_routing_guards` now publishes
   deterministic `LinearModelCV.fit` metadata-routing and sample-weight
   support guards before fold generation: the routing-enabled branch,

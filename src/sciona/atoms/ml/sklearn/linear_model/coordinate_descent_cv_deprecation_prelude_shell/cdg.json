@@ -1,0 +1,126 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_cv_deprecation_prelude_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent CV Deprecation Prelude Shell Atoms",
+      "description": "Deterministic LinearModelCV.fit deprecation-prelude helpers for n_alphas and alphas sentinel handling before alpha-grid bookkeeping.",
+      "status": "decomposed",
+      "children": [
+        "cd_cv_n_alphas_deprecation_warning_required",
+        "cd_cv_n_alphas_deprecation_message",
+        "cd_cv_alphas_warn_sentinel",
+        "cd_cv_alphas_none_deprecation_warning_required",
+        "cd_cv_alphas_none_deprecation_message",
+        "cd_cv_resolved_alphas"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_cv_n_alphas_deprecation_warning_required",
+      "name": "cd_cv_n_alphas_deprecation_warning_required",
+      "description": "Return whether LinearModelCV.fit emits the n_alphas FutureWarning.",
+      "concept_type": "deprecation_guard",
+      "status": "atomic",
+      "type_signature": "(n_alphas: object) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_alphas", "type_desc": "n_alphas constructor value or deprecated sentinel", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "true when n_alphas is not the deprecated sentinel"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_n_alphas_deprecation_message",
+      "name": "cd_cv_n_alphas_deprecation_message",
+      "description": "Return the exact n_alphas deprecation FutureWarning message.",
+      "concept_type": "deprecation_message",
+      "status": "atomic",
+      "type_signature": "(warning_required: bool) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "warning_required", "type_desc": "true n_alphas warning branch predicate", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "sklearn 1.8.0 n_alphas FutureWarning text"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_alphas_warn_sentinel",
+      "name": "cd_cv_alphas_warn_sentinel",
+      "description": "Return whether alphas is sklearn's internal warn sentinel.",
+      "concept_type": "sentinel_guard",
+      "status": "atomic",
+      "type_signature": "(alphas: object) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "alphas", "type_desc": "alphas constructor value", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "true when alphas is the warn sentinel"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_alphas_none_deprecation_warning_required",
+      "name": "cd_cv_alphas_none_deprecation_warning_required",
+      "description": "Return whether LinearModelCV.fit emits the alphas=None FutureWarning.",
+      "concept_type": "deprecation_guard",
+      "status": "atomic",
+      "type_signature": "(alphas: object) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "alphas", "type_desc": "alphas constructor value", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "true when alphas is None"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_alphas_none_deprecation_message",
+      "name": "cd_cv_alphas_none_deprecation_message",
+      "description": "Return the exact alphas=None deprecation FutureWarning message.",
+      "concept_type": "deprecation_message",
+      "status": "atomic",
+      "type_signature": "(warning_required: bool) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "warning_required", "type_desc": "true alphas=None warning branch predicate", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "sklearn 1.8.0 alphas=None FutureWarning text"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_resolved_alphas",
+      "name": "cd_cv_resolved_alphas",
+      "description": "Return private _alphas after LinearModelCV.fit n_alphas and alphas sentinel resolution.",
+      "concept_type": "state_resolution",
+      "status": "atomic",
+      "type_signature": "(n_alphas: object, alphas: object) -> object",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_alphas", "type_desc": "n_alphas constructor value or deprecated sentinel", "required": true},
+        {"name": "alphas", "type_desc": "alphas constructor value", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "private _alphas value used by subsequent alpha-grid bookkeeping"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_cv_n_alphas_deprecation_warning_required", "target": "cd_cv_n_alphas_deprecation_message", "kind": "branch_context"},
+    {"source": "cd_cv_alphas_warn_sentinel", "target": "cd_cv_alphas_none_deprecation_warning_required", "kind": "sentinel_alternative"},
+    {"source": "cd_cv_alphas_none_deprecation_warning_required", "target": "cd_cv_alphas_none_deprecation_message", "kind": "branch_context"},
+    {"source": "cd_cv_n_alphas_deprecation_warning_required", "target": "cd_cv_resolved_alphas", "kind": "state_context"},
+    {"source": "cd_cv_alphas_warn_sentinel", "target": "cd_cv_resolved_alphas", "kind": "state_context"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "source_lines": "1657-1689",
+    "sklearn_symbol": "LinearModelCV.fit",
+    "remediation_case": "Case 5 decomposition and matrix-factorization pipelines"
+  }
+}

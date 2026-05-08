@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_deprecation_prelude_shell.cd_cv_n_alphas_deprecation_warning_required@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_deprecation_prelude_shell/atoms.py:54": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the `if self.n_alphas == \"deprecated\": ... else: warnings.warn(...)` branch in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for coordinate-descent CV estimator behavior."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_deprecation_prelude_shell.cd_cv_n_alphas_deprecation_message@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_deprecation_prelude_shell/atoms.py:65": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the n_alphas FutureWarning text in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for coordinate-descent CV estimator behavior."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_deprecation_prelude_shell.cd_cv_alphas_warn_sentinel@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_deprecation_prelude_shell/atoms.py:76": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `if isinstance(self.alphas, str) and self.alphas == \"warn\": pass` in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for coordinate-descent CV estimator behavior."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_deprecation_prelude_shell.cd_cv_alphas_none_deprecation_warning_required@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_deprecation_prelude_shell/atoms.py:86": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the `elif self.alphas is None: warnings.warn(...)` branch in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for coordinate-descent CV estimator behavior."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_deprecation_prelude_shell.cd_cv_alphas_none_deprecation_message@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_deprecation_prelude_shell/atoms.py:97": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the alphas=None FutureWarning text in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for coordinate-descent CV estimator behavior."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_cv_deprecation_prelude_shell.cd_cv_resolved_alphas@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_cv_deprecation_prelude_shell/atoms.py:120": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from private `self._alphas` assignment across the n_alphas and alphas sentinel/deprecation branches in sklearn.linear_model._coordinate_descent.LinearModelCV.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for coordinate-descent CV estimator behavior."}}
+      ]
+    }
+  }
+}

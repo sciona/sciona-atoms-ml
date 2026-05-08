@@ -15,7 +15,7 @@ work safely.
     coordinate-descent estimators and CV wrappers in
     `sklearn.linear_model._coordinate_descent`
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.coordinate_descent_elastic_net_class_api_shell`
+  - `sklearn.linear_model.coordinate_descent_cv_deprecation_prelude_shell`
 
 ## Known Unrelated Local Modification
 
@@ -127,6 +127,7 @@ Already landed in this section:
 - `coordinate_descent_multitask_estimator_shell`
 - `coordinate_descent_cv_target_guards`
 - `coordinate_descent_cv_alpha_bookkeeping`
+- `coordinate_descent_cv_deprecation_prelude_shell`
 - `coordinate_descent_cv_routing_guards`
 - `coordinate_descent_cv_path_params_shell`
 - `coordinate_descent_cv_mse_selection_shell`
@@ -178,9 +179,10 @@ Already landed in this section:
 
 ## Next Likely Seams
 
-The latest pass added a bounded `ElasticNet` class-level API shell for the
-fit metadata request and base `_parameter_constraints` declaration. That
-shell is now covered by `coordinate_descent_elastic_net_class_api_shell`.
+The latest pass added a bounded `LinearModelCV.fit` deprecation prelude shell
+for `n_alphas` and `alphas` sentinel and warning handling before the existing
+alpha-bookkeeping family. That shell is now covered by
+`coordinate_descent_cv_deprecation_prelude_shell`.
 
 The next best bounded candidates are:
 
@@ -203,9 +205,19 @@ The next best bounded candidates are:
      the LinearModelCV base constructor shell already landed, the
      `enet_path` params pop/default shell already landed, the `_alpha_grid`
      prelude shell already landed, or the `ElasticNet` class-level fit
-     metadata and base parameter-constraint shell already landed
+     metadata and base parameter-constraint shell already landed, or the
+     `LinearModelCV.fit` n_alphas/alphas deprecation prelude already landed
 
-2. `_path_residuals` duplicate-coverage check
+2. path-helper deprecation prelude
+   - a worker audit identified a likely next bounded family:
+     `coordinate_descent_path_deprecation_prelude_shell`
+   - review `/tmp/sciona-worker-coordinate-next-after-cv-deprecation/coordinate_descent_path_deprecation_prelude_shell`
+     before copying anything into the repo
+   - duplicate-risk check should confirm this remains separate from
+     `coordinate_descent_lasso_path_wrapper`, `coordinate_descent_enet_path_input_shell`,
+     and `coordinate_descent_enet_path_params_shell`
+
+3. `_path_residuals` duplicate-coverage check
    - split slicing and projection are now covered alongside the existing
      sample-weight slicing, writeable-array, callback, mono-output
      normalization, path-params, and residual aggregation families
@@ -213,7 +225,7 @@ The next best bounded candidates are:
      family, because the obvious deterministic body seams are now likely
      exhausted
 
-3. final duplicate-coverage check
+4. final duplicate-coverage check
    - before leaving `LinearModelCV.fit` permanently, verify that no new seam
      duplicates existing alpha, validation, routing, path, parallel, MSE,
      refit, or postfit slices
