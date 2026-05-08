@@ -1,0 +1,155 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_enet_path_validation_callback_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent enet_path Validation Callback Atoms",
+      "description": "Deterministic check_array callback payload helpers from sklearn.linear_model._coordinate_descent.enet_path validation branches.",
+      "status": "decomposed",
+      "children": [
+        "cd_enet_path_check_array_X_args",
+        "cd_enet_path_check_array_X_kwargs",
+        "cd_enet_path_check_array_y_args",
+        "cd_enet_path_check_array_y_kwargs",
+        "cd_enet_path_check_array_Xy_args",
+        "cd_enet_path_check_array_Xy_kwargs",
+        "cd_enet_path_check_array_gram_args",
+        "cd_enet_path_check_array_gram_kwargs"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_enet_path_check_array_X_args",
+      "name": "cd_enet_path_check_array_X_args",
+      "description": "Return positional args for check_array(X, ...).",
+      "concept_type": "callback_setup",
+      "status": "atomic",
+      "type_signature": "(X: object) -> tuple[object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "feature matrix payload", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "check_array positional arguments for X"}
+      ]
+    },
+    {
+      "node_id": "cd_enet_path_check_array_X_kwargs",
+      "name": "cd_enet_path_check_array_X_kwargs",
+      "description": "Return kwargs for enet_path check_array(X, ...).",
+      "concept_type": "callback_kwargs",
+      "status": "atomic",
+      "type_signature": "(copy_X: bool) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "copy_X", "type_desc": "copy_X setting", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "check_array keyword arguments for X"}
+      ]
+    },
+    {
+      "node_id": "cd_enet_path_check_array_y_args",
+      "name": "cd_enet_path_check_array_y_args",
+      "description": "Return positional args for check_array(y, ...).",
+      "concept_type": "callback_setup",
+      "status": "atomic",
+      "type_signature": "(y: object) -> tuple[object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "y", "type_desc": "target payload", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "check_array positional arguments for y"}
+      ]
+    },
+    {
+      "node_id": "cd_enet_path_check_array_y_kwargs",
+      "name": "cd_enet_path_check_array_y_kwargs",
+      "description": "Return kwargs for enet_path check_array(y, ...).",
+      "concept_type": "callback_kwargs",
+      "status": "atomic",
+      "type_signature": "(x_dtype_type: object) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "x_dtype_type", "type_desc": "validated X dtype type", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "check_array keyword arguments for y"}
+      ]
+    },
+    {
+      "node_id": "cd_enet_path_check_array_Xy_args",
+      "name": "cd_enet_path_check_array_Xy_args",
+      "description": "Return positional args for check_array(Xy, ...).",
+      "concept_type": "callback_setup",
+      "status": "atomic",
+      "type_signature": "(Xy: object) -> tuple[object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "Xy", "type_desc": "optional precomputed X transpose y payload", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "check_array positional arguments for Xy"}
+      ]
+    },
+    {
+      "node_id": "cd_enet_path_check_array_Xy_kwargs",
+      "name": "cd_enet_path_check_array_Xy_kwargs",
+      "description": "Return kwargs for enet_path check_array(Xy, ...).",
+      "concept_type": "callback_kwargs",
+      "status": "atomic",
+      "type_signature": "(x_dtype_type: object) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "x_dtype_type", "type_desc": "validated X dtype type", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "check_array keyword arguments for Xy"}
+      ]
+    },
+    {
+      "node_id": "cd_enet_path_check_array_gram_args",
+      "name": "cd_enet_path_check_array_gram_args",
+      "description": "Return positional args for check_array(precompute, ...).",
+      "concept_type": "callback_setup",
+      "status": "atomic",
+      "type_signature": "(precompute: object) -> tuple[object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "precompute", "type_desc": "Gram precompute payload", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "check_array positional arguments for Gram validation"}
+      ]
+    },
+    {
+      "node_id": "cd_enet_path_check_array_gram_kwargs",
+      "name": "cd_enet_path_check_array_gram_kwargs",
+      "description": "Return kwargs for enet_path check_array(precompute, ...).",
+      "concept_type": "callback_kwargs",
+      "status": "atomic",
+      "type_signature": "(x_dtype_type: object) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "x_dtype_type", "type_desc": "validated X dtype type", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "check_array keyword arguments for Gram validation"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_enet_path_check_array_X_args", "target": "cd_enet_path_check_array_X_kwargs", "kind": "validation_callback"},
+    {"source": "cd_enet_path_check_array_X_kwargs", "target": "cd_enet_path_check_array_y_kwargs", "kind": "validated_dtype_context"},
+    {"source": "cd_enet_path_check_array_y_args", "target": "cd_enet_path_check_array_y_kwargs", "kind": "validation_callback"},
+    {"source": "cd_enet_path_check_array_Xy_args", "target": "cd_enet_path_check_array_Xy_kwargs", "kind": "validation_callback"},
+    {"source": "cd_enet_path_check_array_gram_args", "target": "cd_enet_path_check_array_gram_kwargs", "kind": "validation_callback"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 1 native and compiled core boundaries"
+  }
+}

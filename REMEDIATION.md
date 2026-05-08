@@ -476,6 +476,12 @@ Potential remediation path:
   selection, dense `np.asarray(..., order=...)` outputs, sparse
   `asformat(...)` outputs, and identity-preserving `(X, y)` return when
   `order is None`.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_enet_path_validation_callback_shell`
+  now publishes deterministic `enet_path` validation callback payloads:
+  positional args and kwargs for `check_array` on `X`, `y`, optional
+  `Xy`, and Gram `precompute` validation while leaving branch predicates
+  and callback execution to separate families.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 
