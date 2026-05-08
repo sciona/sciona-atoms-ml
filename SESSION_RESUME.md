@@ -15,7 +15,7 @@ work safely.
     coordinate-descent estimators and CV wrappers in
     `sklearn.linear_model._coordinate_descent`
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.coordinate_descent_multitask_solver_result_shell`
+  - `sklearn.linear_model.coordinate_descent_lasso_cv_init_shell`
 
 ## Known Unrelated Local Modification
 
@@ -167,14 +167,14 @@ Already landed in this section:
 - `coordinate_descent_enet_path_solver_payload_shell`
 - `coordinate_descent_estimator_intercept_callback_shell`
 - `coordinate_descent_multitask_solver_result_shell`
+- `coordinate_descent_lasso_cv_init_shell`
 
 ## Next Likely Seams
 
-The latest pass re-read the `MultiTaskElasticNet.fit` compiled-solver tail
-and found a bounded deterministic shell around the four-item solver result
-unpack and the following `self._set_intercept(X_offset, y_offset, X_scale)`
-callback. That shell is now covered by
-`coordinate_descent_multitask_solver_result_shell`.
+The latest pass re-read `LassoCV.__init__` and found a bounded deterministic
+constructor-forwarding shell around the kwargs passed into
+`LinearModelCV.__init__`. That shell is now covered by
+`coordinate_descent_lasso_cv_init_shell`.
 
 The next best bounded candidates are:
 
@@ -191,13 +191,14 @@ The next best bounded candidates are:
      `_set_order` helper shell already landed, or the `enet_path`
      validation callback shell already landed, the `enet_path` solver
      payload shell already landed, the ElasticNet post-loop intercept
-     callback shell already landed, or the MultiTaskElasticNet solver-result
-     tail shell already landed
+     callback shell already landed, the MultiTaskElasticNet solver-result
+     tail shell already landed, or the LassoCV constructor-forwarding shell
+     already landed
 
-2. LassoCV constructor-forwarding shell
-   - a parallel audit found `LassoCV.__init__` kwargs forwarding into
-     `LinearModelCV.__init__` as a small likely next seam:
-     `coordinate_descent_lasso_cv_init_shell`
+2. ElasticNetCV constructor shell
+   - a parallel audit found `ElasticNetCV.__init__` direct attribute
+     assignment as a small likely next seam:
+     `coordinate_descent_elastic_net_cv_init_shell`
 
 3. final duplicate-coverage check
    - before leaving `LinearModelCV.fit` permanently, verify that no new seam

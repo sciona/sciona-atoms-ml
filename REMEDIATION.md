@@ -501,6 +501,12 @@ Potential remediation path:
   `coef_`, raw `dual_gap_`, `eps_`, and `n_iter_`, plus the following
   `_set_intercept(X_offset, y_offset, X_scale)` positional callback
   payload before the already-covered dual-gap scaling and final return.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_lasso_cv_init_shell` now
+  publishes the deterministic `LassoCV.__init__` constructor delegation
+  payload into `LinearModelCV.__init__`, including the mono-output CV
+  `precompute` and `positive` parameters alongside the shared CV path
+  configuration.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 
