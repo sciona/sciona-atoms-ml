@@ -1,0 +1,80 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_estimator_prefit_callback_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent Estimator Pre-Fit Callback Shell Atoms",
+      "description": "Deterministic ElasticNet.fit callback-output helpers around _pre_fit and _set_order before target-count and warm-start setup.",
+      "status": "decomposed",
+      "children": [
+        "cd_estimator_prefit_result_unpack",
+        "cd_estimator_set_order_result_unpack",
+        "cd_estimator_prefit_xy_payload"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_estimator_prefit_result_unpack",
+      "name": "cd_estimator_prefit_result_unpack",
+      "description": "Return X, y, X_offset, y_offset, X_scale, precompute, and Xy from the seven-item _pre_fit return assigned by ElasticNet.fit.",
+      "concept_type": "callback_output",
+      "status": "atomic",
+      "type_signature": "(prefit_result: Sequence[object]) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "prefit_result", "type_desc": "seven-item _pre_fit return", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "mapping of assigned _pre_fit fields"}
+      ]
+    },
+    {
+      "node_id": "cd_estimator_set_order_result_unpack",
+      "name": "cd_estimator_set_order_result_unpack",
+      "description": "Return X and y from the two-item _set_order return assigned by ElasticNet.fit.",
+      "concept_type": "callback_output",
+      "status": "atomic",
+      "type_signature": "(order_result: Sequence[object]) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "order_result", "type_desc": "two-item _set_order return", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "mapping of assigned ordered X and y fields"}
+      ]
+    },
+    {
+      "node_id": "cd_estimator_prefit_xy_payload",
+      "name": "cd_estimator_prefit_xy_payload",
+      "description": "Return the named post-_pre_fit payload consumed by later ElasticNet.fit stages.",
+      "concept_type": "bookkeeping",
+      "status": "atomic",
+      "type_signature": "(X: object, y: object, X_offset: object, y_offset: object, X_scale: object, precompute: object, Xy: object) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "post-prefit feature matrix", "required": true},
+        {"name": "y", "type_desc": "post-prefit target array", "required": true},
+        {"name": "X_offset", "type_desc": "feature offset from _pre_fit", "required": true},
+        {"name": "y_offset", "type_desc": "target offset from _pre_fit", "required": true},
+        {"name": "X_scale", "type_desc": "feature scale from _pre_fit", "required": true},
+        {"name": "precompute", "type_desc": "post-prefit precompute payload", "required": true},
+        {"name": "Xy", "type_desc": "post-prefit Xy payload", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "identity-preserving named payload"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_estimator_prefit_result_unpack", "target": "cd_estimator_prefit_xy_payload", "kind": "provides_prefit_fields"},
+    {"source": "cd_estimator_set_order_result_unpack", "target": "cd_estimator_prefit_xy_payload", "kind": "updates_ordered_X_y"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "source_lines": "1087-1104",
+    "sklearn_symbol": "ElasticNet.fit",
+    "remediation_case": "Case 5 decomposition and matrix-factorization pipelines"
+  }
+}

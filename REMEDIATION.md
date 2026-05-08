@@ -469,6 +469,12 @@ Potential remediation path:
   `_set_order` branch and args, `y`/`Xy` column-vector normalization,
   and `n_targets` extraction.
 - Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_estimator_prefit_callback_shell`
+  now publishes deterministic `ElasticNet.fit` callback-output helpers
+  after `_pre_fit` and optional `_set_order`: unpacking the seven-field
+  `_pre_fit` result, unpacking ordered `X`/`y`, and preserving the named
+  post-prefit payload consumed by later fit stages.
+- Completed helper slice:
   `sklearn.linear_model.coordinate_descent_estimator_loop_setup_shell` now
   publishes deterministic `ElasticNet.fit` warm-start and per-target loop
   setup before the solver-backed `self.path(...)` callback: fresh versus

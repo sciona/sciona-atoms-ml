@@ -15,7 +15,7 @@ work safely.
     coordinate-descent estimators and CV wrappers in
     `sklearn.linear_model._coordinate_descent`
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.coordinate_descent_enet_path_prefit_grid_callback_shell`
+  - `sklearn.linear_model.coordinate_descent_estimator_prefit_callback_shell`
 
 ## Known Unrelated Local Modification
 
@@ -162,6 +162,7 @@ Already landed in this section:
 - `coordinate_descent_estimator_sample_weight_shell`
 - `coordinate_descent_estimator_validation_prelude_shell`
 - `coordinate_descent_estimator_prefit_shell`
+- `coordinate_descent_estimator_prefit_callback_shell`
 - `coordinate_descent_estimator_loop_setup_shell`
 - `coordinate_descent_estimator_loop_tail_shell`
 - `coordinate_descent_lasso_estimator_api_shell`
@@ -183,10 +184,10 @@ Already landed in this section:
 
 ## Next Likely Seams
 
-The latest pass added a bounded sklearn 1.8 `enet_path` prefit/grid callback
-shell for `_pre_fit` result unpacking and `_alpha_grid` result passthrough.
-That shell is now covered by
-`coordinate_descent_enet_path_prefit_grid_callback_shell`.
+The latest pass added a bounded `ElasticNet.fit` prefit callback-output shell
+for `_pre_fit` result unpacking, `_set_order` result unpacking, and the
+named post-prefit payload. That shell is now covered by
+`coordinate_descent_estimator_prefit_callback_shell`.
 
 The next best bounded candidates are:
 
@@ -215,12 +216,17 @@ The next best bounded candidates are:
      the `enet_path` do_screening parameter and payload delta already landed,
      the sklearn 1.8 `enet_path` prefit/grid payload delta already landed,
      or the sklearn 1.8 `enet_path` prefit/grid callback output delta
+     already landed, or the `ElasticNet.fit` prefit callback output delta
      already landed
 
-2. next worker-audited seam
-   - worker audit is in progress under
-     `/tmp/sciona-worker-coordinate-next-after-prefit-grid-callback/`
-   - review its duplicate-risk notes before copying anything into the repo
+2. estimator multi-target postfit passthrough
+   - a worker audit identified a likely next bounded family:
+     `coordinate_descent_estimator_multitarget_postfit_shell`
+   - review `/tmp/sciona-worker-coordinate-next-after-estimator-prefit-callback/coordinate_descent_estimator_multitarget_postfit_shell`
+     before copying anything into the repo
+   - duplicate-risk check should confirm this remains separate from
+     `coordinate_descent_estimator_postfit_shell` and the estimator
+     loop setup/tail families
 
 3. `_path_residuals` duplicate-coverage check
    - split slicing and projection are now covered alongside the existing
