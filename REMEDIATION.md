@@ -201,6 +201,12 @@ Potential remediation path:
   `check_gram=True` and the `_alpha_grid` kwargs payload, without
   executing either callback or duplicating alpha-grid internals.
 - Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_enet_path_prefit_grid_callback_shell`
+  now publishes deterministic sklearn 1.8 `enet_path` callback-output
+  helpers: unpacking the `_pre_fit` result into `X`, `y`, `precompute`,
+  and `Xy`, plus passthrough of the automatic `_alpha_grid` result before
+  later alpha-count and state setup.
+- Completed helper slice:
   `sklearn.linear_model.coordinate_descent_enet_path_solver_dispatch` now
   publishes the deterministic `enet_path` solver-dispatch shell around the
   compiled coordinate-descent family: Gram-validation gating, sparse,
