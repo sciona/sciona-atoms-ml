@@ -1,0 +1,37 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_enet_path_params_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent Enet Path Params Shell Atom",
+      "description": "Deterministic solver-only params extraction from sklearn.linear_model._coordinate_descent.enet_path before the leftover-parameter guard.",
+      "status": "decomposed",
+      "children": [
+        "cd_enet_path_popped_params"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_enet_path_popped_params",
+      "name": "cd_enet_path_popped_params",
+      "description": "Return enet_path solver-only params after sklearn's pop/default shell.",
+      "concept_type": "parameter_extraction",
+      "status": "atomic",
+      "type_signature": "(params: Mapping[str, object]) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "params", "type_desc": "keyword params mapping passed through enet_path", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "mapping with popped solver params, defaults, and remaining params"}
+      ]
+    }
+  ],
+  "edges": [],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 5 decomposition and matrix-factorization pipelines"
+  }
+}

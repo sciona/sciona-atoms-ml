@@ -169,6 +169,12 @@ Potential remediation path:
   `check_input` and `Xy` validation branching, sparse scaling construction,
   fixed `_pre_fit` kwargs, and the `alphas is None` alpha-grid predicate.
 - Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_enet_path_params_shell` now
+  publishes deterministic `enet_path` solver-parameter extraction before
+  leftover-parameter guarding: `X_offset`, `X_scale`, `sample_weight`,
+  `tol`, `max_iter`, `random_state`, and `selection` pop/default handling
+  plus the remaining-params mapping.
+- Completed helper slice:
   `sklearn.linear_model.coordinate_descent_enet_path_solver_dispatch` now
   publishes the deterministic `enet_path` solver-dispatch shell around the
   compiled coordinate-descent family: Gram-validation gating, sparse,
