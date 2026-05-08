@@ -260,6 +260,11 @@ Potential remediation path:
   counting, train sample-weight rescaling, the mono-output versus
   multitask precompute branch, and resolved precompute selection.
 - Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_path_residuals_split_slicing_shell`
+  now publishes deterministic `_path_residuals` split slicing before
+  sample-weight handling and path execution: `X[train]`, `y[train]`,
+  `X[test]`, and `y[test]`.
+- Completed helper slice:
   `sklearn.linear_model.coordinate_descent_path_residuals_path_params_shell`
   now publishes deterministic `_path_residuals` `_pre_fit` kwarg and
   `path_params` update helpers before path execution: the fixed

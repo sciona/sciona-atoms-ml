@@ -1,0 +1,94 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_path_residuals_split_slicing_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent Path Residuals Split Slicing Shell Atoms",
+      "description": "Deterministic train/test feature and target slicing helpers from sklearn.linear_model._coordinate_descent._path_residuals before sample-weight handling and path execution.",
+      "status": "decomposed",
+      "children": [
+        "cd_path_residuals_X_train_slice",
+        "cd_path_residuals_y_train_slice",
+        "cd_path_residuals_X_test_slice",
+        "cd_path_residuals_y_test_slice"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_path_residuals_X_train_slice",
+      "name": "cd_path_residuals_X_train_slice",
+      "description": "Return the training feature slice used by _path_residuals.",
+      "concept_type": "indexing",
+      "status": "atomic",
+      "type_signature": "(X: object, train: object) -> object",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "feature matrix or array-like supporting indexing", "required": true},
+        {"name": "train", "type_desc": "training index slice or iterable", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "feature payload equal to X[train]"}
+      ]
+    },
+    {
+      "node_id": "cd_path_residuals_y_train_slice",
+      "name": "cd_path_residuals_y_train_slice",
+      "description": "Return the training target slice used by _path_residuals.",
+      "concept_type": "indexing",
+      "status": "atomic",
+      "type_signature": "(y: object, train: object) -> object",
+      "depth": 1,
+      "inputs": [
+        {"name": "y", "type_desc": "target array-like supporting indexing", "required": true},
+        {"name": "train", "type_desc": "training index slice or iterable", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "target payload equal to y[train]"}
+      ]
+    },
+    {
+      "node_id": "cd_path_residuals_X_test_slice",
+      "name": "cd_path_residuals_X_test_slice",
+      "description": "Return the test feature slice used by _path_residuals.",
+      "concept_type": "indexing",
+      "status": "atomic",
+      "type_signature": "(X: object, test: object) -> object",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "feature matrix or array-like supporting indexing", "required": true},
+        {"name": "test", "type_desc": "test index slice or iterable", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "feature payload equal to X[test]"}
+      ]
+    },
+    {
+      "node_id": "cd_path_residuals_y_test_slice",
+      "name": "cd_path_residuals_y_test_slice",
+      "description": "Return the test target slice used by _path_residuals.",
+      "concept_type": "indexing",
+      "status": "atomic",
+      "type_signature": "(y: object, test: object) -> object",
+      "depth": 1,
+      "inputs": [
+        {"name": "y", "type_desc": "target array-like supporting indexing", "required": true},
+        {"name": "test", "type_desc": "test index slice or iterable", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "target payload equal to y[test]"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_path_residuals_X_train_slice", "target": "cd_path_residuals_y_train_slice", "kind": "same_train_split"},
+    {"source": "cd_path_residuals_X_test_slice", "target": "cd_path_residuals_y_test_slice", "kind": "same_test_split"},
+    {"source": "cd_path_residuals_X_train_slice", "target": "cd_path_residuals_X_test_slice", "kind": "complementary_split_shell"},
+    {"source": "cd_path_residuals_y_train_slice", "target": "cd_path_residuals_y_test_slice", "kind": "complementary_split_shell"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 5 decomposition and matrix-factorization pipelines"
+  }
+}

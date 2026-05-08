@@ -130,6 +130,7 @@ Already landed in this section:
 - `coordinate_descent_cv_mse_selection_shell`
 - `coordinate_descent_cv_refit_setup_shell`
 - `coordinate_descent_path_residuals_prelude`
+- `coordinate_descent_path_residuals_split_slicing_shell`
 - `coordinate_descent_path_residuals_path_params_shell`
 - `coordinate_descent_path_residuals_writeable_array_shell`
 - `coordinate_descent_path_residuals_callback_shell`
@@ -173,10 +174,9 @@ Already landed in this section:
 
 ## Next Likely Seams
 
-The latest pass re-read `LinearModelCV.__init__` and found a bounded
-deterministic base-constructor shell around the direct attribute state shared
-by coordinate-descent CV subclasses. That shell is now covered by
-`coordinate_descent_cv_base_init_shell`.
+The latest pass re-read `_path_residuals` and found a bounded split-slicing
+shell before sample-weight handling and path execution. That shell is now
+covered by `coordinate_descent_path_residuals_split_slicing_shell`.
 
 The next best bounded candidates are:
 
@@ -199,9 +199,7 @@ The next best bounded candidates are:
      the LinearModelCV base constructor shell already landed
 
 2. `_path_residuals` delayed-job body seams
-   - a parallel audit found two likely bounded candidates:
-     `coordinate_descent_path_residuals_split_slicing_shell` for
-     `X[train]`, `y[train]`, `X[test]`, and `y[test]`; and
+   - a parallel audit found one remaining likely bounded candidate:
      `coordinate_descent_path_residuals_projection_shell` for the
      `safe_sparse_dot(X_test, coefs)` projection
    - avoid duplicating the existing sample-weight slicing, writeable-array,
