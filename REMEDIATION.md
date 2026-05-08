@@ -189,6 +189,12 @@ Potential remediation path:
   text, `alphas=None` warning detection and message text, and effective
   `_alphas` resolution before the existing path body.
 - Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_enet_path_screening_shell`
+  now publishes deterministic `enet_path` screening-parameter helpers:
+  the `do_screening` pop/default delta, sparse solver keyword handoff,
+  and multitask, Gram, and dense solver positional tail updates without
+  duplicating the existing full solver-payload shell.
+- Completed helper slice:
   `sklearn.linear_model.coordinate_descent_enet_path_solver_dispatch` now
   publishes the deterministic `enet_path` solver-dispatch shell around the
   compiled coordinate-descent family: Gram-validation gating, sparse,

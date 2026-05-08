@@ -1,0 +1,111 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_enet_path_screening_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent enet_path Screening Shell Atoms",
+      "description": "Deterministic enet_path helpers for the do_screening parameter and compiled solver payload handoff.",
+      "status": "decomposed",
+      "children": [
+        "cd_enet_path_do_screening_param",
+        "cd_enet_path_sparse_screening_kwarg",
+        "cd_enet_path_multitask_screening_args",
+        "cd_enet_path_gram_screening_args",
+        "cd_enet_path_dense_screening_args"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_enet_path_do_screening_param",
+      "name": "cd_enet_path_do_screening_param",
+      "description": "Return do_screening and params remaining after sklearn's pop shell.",
+      "concept_type": "parameter_bookkeeping",
+      "status": "atomic",
+      "type_signature": "(params: Mapping[str, object]) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "params", "type_desc": "enet_path extra parameter mapping", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "do_screening boolean and remaining params mapping"}
+      ]
+    },
+    {
+      "node_id": "cd_enet_path_sparse_screening_kwarg",
+      "name": "cd_enet_path_sparse_screening_kwarg",
+      "description": "Return the do_screening keyword payload for sparse_enet_coordinate_descent.",
+      "concept_type": "compiled_solver_payload_delta",
+      "status": "atomic",
+      "type_signature": "(do_screening: bool) -> dict[str, bool]",
+      "depth": 1,
+      "inputs": [
+        {"name": "do_screening", "type_desc": "screening toggle", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "keyword payload containing do_screening"}
+      ]
+    },
+    {
+      "node_id": "cd_enet_path_multitask_screening_args",
+      "name": "cd_enet_path_multitask_screening_args",
+      "description": "Append do_screening to the multitask solver positional payload.",
+      "concept_type": "compiled_solver_payload_delta",
+      "status": "atomic",
+      "type_signature": "(base_args: Sequence[object], do_screening: bool) -> tuple[object, ...]",
+      "depth": 1,
+      "inputs": [
+        {"name": "base_args", "type_desc": "pre-existing multitask solver positional payload", "required": true},
+        {"name": "do_screening", "type_desc": "screening toggle", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "base_args with do_screening appended"}
+      ]
+    },
+    {
+      "node_id": "cd_enet_path_gram_screening_args",
+      "name": "cd_enet_path_gram_screening_args",
+      "description": "Append do_screening to the Gram solver positional payload.",
+      "concept_type": "compiled_solver_payload_delta",
+      "status": "atomic",
+      "type_signature": "(base_args: Sequence[object], do_screening: bool) -> tuple[object, ...]",
+      "depth": 1,
+      "inputs": [
+        {"name": "base_args", "type_desc": "pre-existing Gram solver positional payload", "required": true},
+        {"name": "do_screening", "type_desc": "screening toggle", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "base_args with do_screening appended"}
+      ]
+    },
+    {
+      "node_id": "cd_enet_path_dense_screening_args",
+      "name": "cd_enet_path_dense_screening_args",
+      "description": "Append do_screening to the dense solver positional payload.",
+      "concept_type": "compiled_solver_payload_delta",
+      "status": "atomic",
+      "type_signature": "(base_args: Sequence[object], do_screening: bool) -> tuple[object, ...]",
+      "depth": 1,
+      "inputs": [
+        {"name": "base_args", "type_desc": "pre-existing dense solver positional payload", "required": true},
+        {"name": "do_screening", "type_desc": "screening toggle", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "base_args with do_screening appended"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_enet_path_do_screening_param", "target": "cd_enet_path_sparse_screening_kwarg", "kind": "payload_context"},
+    {"source": "cd_enet_path_do_screening_param", "target": "cd_enet_path_multitask_screening_args", "kind": "payload_context"},
+    {"source": "cd_enet_path_do_screening_param", "target": "cd_enet_path_gram_screening_args", "kind": "payload_context"},
+    {"source": "cd_enet_path_do_screening_param", "target": "cd_enet_path_dense_screening_args", "kind": "payload_context"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "main as checked out 2026-05-08",
+    "source_license": "BSD-3-Clause",
+    "source_lines": "params 579-589; solver payloads 686-740",
+    "sklearn_symbol": "enet_path",
+    "remediation_case": "Case 5 decomposition and matrix-factorization pipelines"
+  }
+}
