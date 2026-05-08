@@ -291,6 +291,10 @@ Potential remediation path:
   branch, `coefs[np.newaxis, :, :]`, `np.atleast_1d(y_offset)`, and
   `y_test[:, np.newaxis]`.
 - Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_path_residuals_projection_shell`
+  now publishes deterministic `_path_residuals` held-out projection
+  through `safe_sparse_dot(X_test, coefs)` before residual construction.
+- Completed helper slice:
   `sklearn.linear_model.coordinate_descent_path_residuals_error_aggregation`
   now publishes deterministic `_path_residuals` numeric tail helpers:
   intercept construction, residual tensor construction, the

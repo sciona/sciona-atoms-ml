@@ -135,6 +135,7 @@ Already landed in this section:
 - `coordinate_descent_path_residuals_writeable_array_shell`
 - `coordinate_descent_path_residuals_callback_shell`
 - `coordinate_descent_path_residuals_mono_output_normalization`
+- `coordinate_descent_path_residuals_projection_shell`
 - `coordinate_descent_path_residuals_error_aggregation`
 - `coordinate_descent_cv_parallel_setup_shell`
 - `coordinate_descent_cv_parallel_callback_shell`
@@ -174,9 +175,10 @@ Already landed in this section:
 
 ## Next Likely Seams
 
-The latest pass re-read `_path_residuals` and found a bounded split-slicing
-shell before sample-weight handling and path execution. That shell is now
-covered by `coordinate_descent_path_residuals_split_slicing_shell`.
+The latest pass re-read `_path_residuals` and found a bounded
+`safe_sparse_dot(X_test, coefs)` projection shell before residual
+construction. That shell is now covered by
+`coordinate_descent_path_residuals_projection_shell`.
 
 The next best bounded candidates are:
 
@@ -198,12 +200,13 @@ The next best bounded candidates are:
      already landed, the ElasticNetCV constructor shell already landed, or
      the LinearModelCV base constructor shell already landed
 
-2. `_path_residuals` delayed-job body seams
-   - a parallel audit found one remaining likely bounded candidate:
-     `coordinate_descent_path_residuals_projection_shell` for the
-     `safe_sparse_dot(X_test, coefs)` projection
-   - avoid duplicating the existing sample-weight slicing, writeable-array,
-     callback, mono-output normalization, and residual aggregation families
+2. `_path_residuals` duplicate-coverage check
+   - split slicing and projection are now covered alongside the existing
+     sample-weight slicing, writeable-array, callback, mono-output
+     normalization, path-params, and residual aggregation families
+   - re-read the whole helper before adding any further `_path_residuals`
+     family, because the obvious deterministic body seams are now likely
+     exhausted
 
 3. final duplicate-coverage check
    - before leaving `LinearModelCV.fit` permanently, verify that no new seam

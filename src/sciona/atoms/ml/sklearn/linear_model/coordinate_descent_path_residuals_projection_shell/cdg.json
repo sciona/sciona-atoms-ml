@@ -1,0 +1,38 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_path_residuals_projection_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent Path Residuals Projection Shell Atom",
+      "description": "Deterministic held-out coefficient-path projection helper from sklearn.linear_model._coordinate_descent._path_residuals at the safe_sparse_dot seam.",
+      "status": "decomposed",
+      "children": [
+        "cd_path_residuals_project_test_coefs"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_path_residuals_project_test_coefs",
+      "name": "cd_path_residuals_project_test_coefs",
+      "description": "Return sklearn's held-out coefficient-path projection in _path_residuals.",
+      "concept_type": "projection",
+      "status": "atomic",
+      "type_signature": "(X_test: NDArray[np.floating] | sparse.spmatrix, coefs: NDArray[np.floating]) -> NDArray[np.floating]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X_test", "type_desc": "finite rank-2 held-out dense or sparse design matrix", "required": true},
+        {"name": "coefs", "type_desc": "finite rank-3 output-by-feature-by-alpha coefficient tensor", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "sample-by-output-by-alpha held-out projection tensor"}
+      ]
+    }
+  ],
+  "edges": [],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 5 decomposition and matrix-factorization pipelines"
+  }
+}
