@@ -507,6 +507,11 @@ Potential remediation path:
   payload into `LinearModelCV.__init__`, including the mono-output CV
   `precompute` and `positive` parameters alongside the shared CV path
   configuration.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_elastic_net_cv_init_shell`
+  now publishes deterministic `ElasticNetCV` API setup helpers: class-body
+  `l1_ratio` parameter-constraint specialization over `LinearModelCV`
+  constraints and direct `ElasticNetCV.__init__` attribute state.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 

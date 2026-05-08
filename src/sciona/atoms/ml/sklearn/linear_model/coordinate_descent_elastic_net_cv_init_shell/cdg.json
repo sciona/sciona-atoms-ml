@@ -1,0 +1,70 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_elastic_net_cv_init_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent ElasticNetCV Init Atoms",
+      "description": "Deterministic constructor and parameter-constraint helpers from sklearn.linear_model._coordinate_descent.ElasticNetCV.",
+      "status": "decomposed",
+      "children": [
+        "cd_elastic_net_cv_constraints",
+        "cd_elastic_net_cv_init_attributes"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_elastic_net_cv_constraints",
+      "name": "cd_elastic_net_cv_constraints",
+      "description": "Return ElasticNetCV parameter constraints.",
+      "concept_type": "constructor_contract",
+      "status": "atomic",
+      "type_signature": "(parent_constraints: Mapping[str, object], l1_ratio_constraint: object) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "parent_constraints", "type_desc": "LinearModelCV parameter constraints", "required": true},
+        {"name": "l1_ratio_constraint", "type_desc": "ElasticNetCV l1_ratio constraint payload", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "copied constraint mapping with l1_ratio"}
+      ]
+    },
+    {
+      "node_id": "cd_elastic_net_cv_init_attributes",
+      "name": "cd_elastic_net_cv_init_attributes",
+      "description": "Return the attribute state assigned by ElasticNetCV.__init__.",
+      "concept_type": "constructor_state",
+      "status": "atomic",
+      "type_signature": "(l1_ratio: object, eps: object, n_alphas: int, alphas: object, fit_intercept: bool, precompute: object, max_iter: int, tol: object, cv: object, copy_X: bool, verbose: object, n_jobs: object, positive: bool, random_state: object, selection: str) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "l1_ratio", "type_desc": "elastic-net mixing payload", "required": true},
+        {"name": "eps", "type_desc": "path length parameter", "required": true},
+        {"name": "n_alphas", "type_desc": "positive alpha-count parameter", "required": true},
+        {"name": "alphas", "type_desc": "optional alpha grid payload", "required": true},
+        {"name": "fit_intercept", "type_desc": "fit-intercept flag", "required": true},
+        {"name": "precompute", "type_desc": "Gram precompute setting", "required": true},
+        {"name": "max_iter", "type_desc": "positive iteration limit", "required": true},
+        {"name": "tol", "type_desc": "solver tolerance", "required": true},
+        {"name": "cv", "type_desc": "cross-validation splitter payload", "required": true},
+        {"name": "copy_X", "type_desc": "copy-X flag", "required": true},
+        {"name": "verbose", "type_desc": "verbosity payload", "required": true},
+        {"name": "n_jobs", "type_desc": "parallelism payload", "required": true},
+        {"name": "positive", "type_desc": "positive-coefficient flag", "required": true},
+        {"name": "random_state", "type_desc": "random-state payload", "required": true},
+        {"name": "selection", "type_desc": "coordinate-selection mode", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "ElasticNetCV constructor attribute mapping"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_elastic_net_cv_constraints", "target": "cd_elastic_net_cv_init_attributes", "kind": "class_api_context"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 4 cross-validation and path orchestration"
+  }
+}

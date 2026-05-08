@@ -15,7 +15,7 @@ work safely.
     coordinate-descent estimators and CV wrappers in
     `sklearn.linear_model._coordinate_descent`
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.coordinate_descent_lasso_cv_init_shell`
+  - `sklearn.linear_model.coordinate_descent_elastic_net_cv_init_shell`
 
 ## Known Unrelated Local Modification
 
@@ -168,13 +168,14 @@ Already landed in this section:
 - `coordinate_descent_estimator_intercept_callback_shell`
 - `coordinate_descent_multitask_solver_result_shell`
 - `coordinate_descent_lasso_cv_init_shell`
+- `coordinate_descent_elastic_net_cv_init_shell`
 
 ## Next Likely Seams
 
-The latest pass re-read `LassoCV.__init__` and found a bounded deterministic
-constructor-forwarding shell around the kwargs passed into
-`LinearModelCV.__init__`. That shell is now covered by
-`coordinate_descent_lasso_cv_init_shell`.
+The latest pass re-read `ElasticNetCV.__init__` and found a bounded
+deterministic API setup shell around class-body `l1_ratio` constraint
+injection and direct constructor attribute state. That shell is now covered
+by `coordinate_descent_elastic_net_cv_init_shell`.
 
 The next best bounded candidates are:
 
@@ -192,13 +193,15 @@ The next best bounded candidates are:
      validation callback shell already landed, the `enet_path` solver
      payload shell already landed, the ElasticNet post-loop intercept
      callback shell already landed, the MultiTaskElasticNet solver-result
-     tail shell already landed, or the LassoCV constructor-forwarding shell
-     already landed
+     tail shell already landed, the LassoCV constructor-forwarding shell
+     already landed, or the ElasticNetCV constructor shell already landed
 
-2. ElasticNetCV constructor shell
-   - a parallel audit found `ElasticNetCV.__init__` direct attribute
-     assignment as a small likely next seam:
-     `coordinate_descent_elastic_net_cv_init_shell`
+2. adjacent CV constructor/API seam
+   - before adding more constructor atoms, verify that the target is not
+     already covered by `coordinate_descent_cv_subclass_api_shell`,
+     `coordinate_descent_lasso_cv_init_shell`,
+     `coordinate_descent_elastic_net_cv_init_shell`, or
+     `coordinate_descent_multitask_cv_api_shell`
 
 3. final duplicate-coverage check
    - before leaving `LinearModelCV.fit` permanently, verify that no new seam
