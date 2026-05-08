@@ -182,6 +182,13 @@ Potential remediation path:
   `tol`, `max_iter`, `random_state`, and `selection` pop/default handling
   plus the remaining-params mapping.
 - Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_path_deprecation_prelude_shell`
+  now publishes deterministic path-helper deprecation prelude helpers
+  shared by upstream `lasso_path` and `enet_path`: hidden `n_alphas`
+  sentinel resolution, explicit `n_alphas` warning detection and message
+  text, `alphas=None` warning detection and message text, and effective
+  `_alphas` resolution before the existing path body.
+- Completed helper slice:
   `sklearn.linear_model.coordinate_descent_enet_path_solver_dispatch` now
   publishes the deterministic `enet_path` solver-dispatch shell around the
   compiled coordinate-descent family: Gram-validation gating, sparse,

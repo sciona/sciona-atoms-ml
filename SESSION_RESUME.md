@@ -15,7 +15,7 @@ work safely.
     coordinate-descent estimators and CV wrappers in
     `sklearn.linear_model._coordinate_descent`
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.coordinate_descent_cv_deprecation_prelude_shell`
+  - `sklearn.linear_model.coordinate_descent_path_deprecation_prelude_shell`
 
 ## Known Unrelated Local Modification
 
@@ -117,6 +117,7 @@ Already landed in this section:
 - `coordinate_descent_enet_path_bookkeeping`
 - `coordinate_descent_enet_path_input_shell`
 - `coordinate_descent_enet_path_params_shell`
+- `coordinate_descent_path_deprecation_prelude_shell`
 - `coordinate_descent_enet_path_solver_dispatch`
 - `coordinate_descent_enet_path_state_setup`
 - `coordinate_descent_enet_path_loop_tail`
@@ -179,10 +180,10 @@ Already landed in this section:
 
 ## Next Likely Seams
 
-The latest pass added a bounded `LinearModelCV.fit` deprecation prelude shell
-for `n_alphas` and `alphas` sentinel and warning handling before the existing
-alpha-bookkeeping family. That shell is now covered by
-`coordinate_descent_cv_deprecation_prelude_shell`.
+The latest pass added a bounded path-helper deprecation prelude shell shared
+by upstream `lasso_path` and `enet_path` for `n_alphas` and `alphas` sentinel
+and warning handling. That shell is now covered by
+`coordinate_descent_path_deprecation_prelude_shell`.
 
 The next best bounded candidates are:
 
@@ -205,17 +206,18 @@ The next best bounded candidates are:
      the LinearModelCV base constructor shell already landed, the
      `enet_path` params pop/default shell already landed, the `_alpha_grid`
      prelude shell already landed, or the `ElasticNet` class-level fit
-     metadata and base parameter-constraint shell already landed, or the
-     `LinearModelCV.fit` n_alphas/alphas deprecation prelude already landed
+     metadata and base parameter-constraint shell already landed, the
+     `LinearModelCV.fit` n_alphas/alphas deprecation prelude already landed,
+     or the path-helper n_alphas/alphas deprecation prelude already landed
 
-2. path-helper deprecation prelude
+2. enet_path screening parameter delta
    - a worker audit identified a likely next bounded family:
-     `coordinate_descent_path_deprecation_prelude_shell`
-   - review `/tmp/sciona-worker-coordinate-next-after-cv-deprecation/coordinate_descent_path_deprecation_prelude_shell`
+     `coordinate_descent_enet_path_screening_shell`
+   - review `/tmp/sciona-worker-coordinate-next-after-path-deprecation/coordinate_descent_enet_path_screening_shell`
      before copying anything into the repo
    - duplicate-risk check should confirm this remains separate from
-     `coordinate_descent_lasso_path_wrapper`, `coordinate_descent_enet_path_input_shell`,
-     and `coordinate_descent_enet_path_params_shell`
+     `coordinate_descent_enet_path_params_shell` and
+     `coordinate_descent_enet_path_solver_payload_shell`
 
 3. `_path_residuals` duplicate-coverage check
    - split slicing and projection are now covered alongside the existing
