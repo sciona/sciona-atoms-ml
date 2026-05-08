@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_multitask_solver_result_shell.cd_multitask_solver_result_coef@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_solver_result_shell/atoms.py:22": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the `self.coef_, self.dual_gap_, self.eps_, self.n_iter_ = cd_fast.enet_coordinate_descent_multi_task(...)` tuple unpacking in sklearn.linear_model._coordinate_descent.MultiTaskElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for multitask coordinate-descent fitted-state extraction."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_multitask_solver_result_shell.cd_multitask_solver_result_dual_gap@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_solver_result_shell/atoms.py:33": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the raw `self.dual_gap_` element of the multitask compiled solver result before the later `self.dual_gap_ /= n_samples` scaling shell."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for multitask coordinate-descent fitted-state extraction."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_multitask_solver_result_shell.cd_multitask_solver_result_eps@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_solver_result_shell/atoms.py:44": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the `self.eps_` element of the compiled multitask solver result in sklearn.linear_model._coordinate_descent.MultiTaskElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for multitask coordinate-descent fitted-state extraction."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_multitask_solver_result_shell.cd_multitask_solver_result_n_iter@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_solver_result_shell/atoms.py:55": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the `self.n_iter_` element of the compiled multitask solver result in sklearn.linear_model._coordinate_descent.MultiTaskElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for multitask coordinate-descent fitted-state extraction."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_multitask_solver_result_shell.cd_multitask_set_intercept_args@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_solver_result_shell/atoms.py:66": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the `self._set_intercept(X_offset, y_offset, X_scale)` callback in sklearn.linear_model._coordinate_descent.MultiTaskElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for multitask coordinate-descent post-fit intercept handling."}}
+      ]
+    }
+  }
+}

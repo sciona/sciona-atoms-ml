@@ -15,7 +15,7 @@ work safely.
     coordinate-descent estimators and CV wrappers in
     `sklearn.linear_model._coordinate_descent`
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.coordinate_descent_estimator_intercept_callback_shell`
+  - `sklearn.linear_model.coordinate_descent_multitask_solver_result_shell`
 
 ## Known Unrelated Local Modification
 
@@ -166,14 +166,15 @@ Already landed in this section:
 - `coordinate_descent_enet_path_validation_callback_shell`
 - `coordinate_descent_enet_path_solver_payload_shell`
 - `coordinate_descent_estimator_intercept_callback_shell`
+- `coordinate_descent_multitask_solver_result_shell`
 
 ## Next Likely Seams
 
-The latest pass re-read the `ElasticNet.fit` post-loop tail and found one
-remaining small deterministic callback shell around
-`self._set_intercept(X_offset, y_offset, X_scale)` and final `return self`.
-That shell is now covered by
-`coordinate_descent_estimator_intercept_callback_shell`.
+The latest pass re-read the `MultiTaskElasticNet.fit` compiled-solver tail
+and found a bounded deterministic shell around the four-item solver result
+unpack and the following `self._set_intercept(X_offset, y_offset, X_scale)`
+callback. That shell is now covered by
+`coordinate_descent_multitask_solver_result_shell`.
 
 The next best bounded candidates are:
 
@@ -189,10 +190,16 @@ The next best bounded candidates are:
      landed, or the multitask CV API shell already landed, or the
      `_set_order` helper shell already landed, or the `enet_path`
      validation callback shell already landed, the `enet_path` solver
-     payload shell already landed, or the ElasticNet post-loop intercept
-     callback shell already landed
+     payload shell already landed, the ElasticNet post-loop intercept
+     callback shell already landed, or the MultiTaskElasticNet solver-result
+     tail shell already landed
 
-2. final duplicate-coverage check
+2. LassoCV constructor-forwarding shell
+   - a parallel audit found `LassoCV.__init__` kwargs forwarding into
+     `LinearModelCV.__init__` as a small likely next seam:
+     `coordinate_descent_lasso_cv_init_shell`
+
+3. final duplicate-coverage check
    - before leaving `LinearModelCV.fit` permanently, verify that no new seam
      duplicates existing alpha, validation, routing, path, parallel, MSE,
      refit, or postfit slices

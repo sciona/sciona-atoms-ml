@@ -1,0 +1,108 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_multitask_solver_result_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent Multitask Solver Result Atoms",
+      "description": "Deterministic compiled-solver result unpacking and intercept callback payload helpers from sklearn.linear_model._coordinate_descent.MultiTaskElasticNet.fit.",
+      "status": "decomposed",
+      "children": [
+        "cd_multitask_solver_result_coef",
+        "cd_multitask_solver_result_dual_gap",
+        "cd_multitask_solver_result_eps",
+        "cd_multitask_solver_result_n_iter",
+        "cd_multitask_set_intercept_args"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_multitask_solver_result_coef",
+      "name": "cd_multitask_solver_result_coef",
+      "description": "Return the fitted coefficient payload from the multitask solver result.",
+      "concept_type": "compiled_solver_boundary",
+      "status": "atomic",
+      "type_signature": "(solver_result: tuple[object, object, object, object]) -> object",
+      "depth": 1,
+      "inputs": [
+        {"name": "solver_result", "type_desc": "four-item compiled multitask solver result", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "solver_result item 0 assigned to self.coef_"}
+      ]
+    },
+    {
+      "node_id": "cd_multitask_solver_result_dual_gap",
+      "name": "cd_multitask_solver_result_dual_gap",
+      "description": "Return the raw dual-gap payload from the multitask solver result.",
+      "concept_type": "compiled_solver_boundary",
+      "status": "atomic",
+      "type_signature": "(solver_result: tuple[object, object, object, object]) -> object",
+      "depth": 1,
+      "inputs": [
+        {"name": "solver_result", "type_desc": "four-item compiled multitask solver result", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "solver_result item 1 assigned to self.dual_gap_ before public scaling"}
+      ]
+    },
+    {
+      "node_id": "cd_multitask_solver_result_eps",
+      "name": "cd_multitask_solver_result_eps",
+      "description": "Return the eps payload from the multitask solver result.",
+      "concept_type": "compiled_solver_boundary",
+      "status": "atomic",
+      "type_signature": "(solver_result: tuple[object, object, object, object]) -> object",
+      "depth": 1,
+      "inputs": [
+        {"name": "solver_result", "type_desc": "four-item compiled multitask solver result", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "solver_result item 2 assigned to self.eps_"}
+      ]
+    },
+    {
+      "node_id": "cd_multitask_solver_result_n_iter",
+      "name": "cd_multitask_solver_result_n_iter",
+      "description": "Return the n_iter payload from the multitask solver result.",
+      "concept_type": "compiled_solver_boundary",
+      "status": "atomic",
+      "type_signature": "(solver_result: tuple[object, object, object, object]) -> object",
+      "depth": 1,
+      "inputs": [
+        {"name": "solver_result", "type_desc": "four-item compiled multitask solver result", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "solver_result item 3 assigned to self.n_iter_"}
+      ]
+    },
+    {
+      "node_id": "cd_multitask_set_intercept_args",
+      "name": "cd_multitask_set_intercept_args",
+      "description": "Return the positional payload for MultiTaskElasticNet.fit `_set_intercept`.",
+      "concept_type": "postfit_callback_boundary",
+      "status": "atomic",
+      "type_signature": "(X_offset: object, y_offset: object, X_scale: object) -> tuple[object, object, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X_offset", "type_desc": "feature offset payload from _preprocess_data", "required": true},
+        {"name": "y_offset", "type_desc": "target offset payload from _preprocess_data", "required": true},
+        {"name": "X_scale", "type_desc": "feature scale payload from _preprocess_data", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "set-intercept positional payload"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_multitask_solver_result_coef", "target": "cd_multitask_solver_result_dual_gap", "kind": "tuple_unpack_peer"},
+    {"source": "cd_multitask_solver_result_dual_gap", "target": "cd_multitask_solver_result_eps", "kind": "tuple_unpack_peer"},
+    {"source": "cd_multitask_solver_result_eps", "target": "cd_multitask_solver_result_n_iter", "kind": "tuple_unpack_peer"},
+    {"source": "cd_multitask_solver_result_n_iter", "target": "cd_multitask_set_intercept_args", "kind": "post_solver_tail_order"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 1 native and compiled core boundaries"
+  }
+}

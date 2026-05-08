@@ -494,6 +494,13 @@ Potential remediation path:
   the `_set_intercept(X_offset, y_offset, X_scale)` positional callback
   payload and the final identity-preserving `return self` after the
   already-covered finite-parameter guard.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_multitask_solver_result_shell`
+  now publishes deterministic `MultiTaskElasticNet.fit` compiled-solver
+  result-tail helpers: the four-item solver result unpack into
+  `coef_`, raw `dual_gap_`, `eps_`, and `n_iter_`, plus the following
+  `_set_intercept(X_offset, y_offset, X_scale)` positional callback
+  payload before the already-covered dual-gap scaling and final return.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 
