@@ -488,6 +488,12 @@ Potential remediation path:
   sparse solver keyword payloads and multitask, Gram, and dense solver
   positional payloads from already-selected dispatch branches and
   already-scaled regularization values.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_estimator_intercept_callback_shell`
+  now publishes deterministic `ElasticNet.fit` post-loop tail helpers:
+  the `_set_intercept(X_offset, y_offset, X_scale)` positional callback
+  payload and the final identity-preserving `return self` after the
+  already-covered finite-parameter guard.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 

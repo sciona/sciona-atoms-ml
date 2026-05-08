@@ -15,7 +15,7 @@ work safely.
     coordinate-descent estimators and CV wrappers in
     `sklearn.linear_model._coordinate_descent`
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.coordinate_descent_enet_path_solver_payload_shell`
+  - `sklearn.linear_model.coordinate_descent_estimator_intercept_callback_shell`
 
 ## Known Unrelated Local Modification
 
@@ -165,13 +165,15 @@ Already landed in this section:
 - `coordinate_descent_set_order_helper_shell`
 - `coordinate_descent_enet_path_validation_callback_shell`
 - `coordinate_descent_enet_path_solver_payload_shell`
+- `coordinate_descent_estimator_intercept_callback_shell`
 
 ## Next Likely Seams
 
-The latest pass re-read `LinearModelCV.fit` end to end and found one
-remaining small deterministic callback shell around user-provided alpha
-validation. That shell is now covered by
-`coordinate_descent_cv_alpha_validation_callback_shell`.
+The latest pass re-read the `ElasticNet.fit` post-loop tail and found one
+remaining small deterministic callback shell around
+`self._set_intercept(X_offset, y_offset, X_scale)` and final `return self`.
+That shell is now covered by
+`coordinate_descent_estimator_intercept_callback_shell`.
 
 The next best bounded candidates are:
 
@@ -186,8 +188,9 @@ The next best bounded candidates are:
      already landed, or the MultiTaskElasticNet solver-setup shell already
      landed, or the multitask CV API shell already landed, or the
      `_set_order` helper shell already landed, or the `enet_path`
-     validation callback shell already landed, or the `enet_path` solver
-     payload shell already landed
+     validation callback shell already landed, the `enet_path` solver
+     payload shell already landed, or the ElasticNet post-loop intercept
+     callback shell already landed
 
 2. final duplicate-coverage check
    - before leaving `LinearModelCV.fit` permanently, verify that no new seam

@@ -1,0 +1,57 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_estimator_intercept_callback_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent Estimator Intercept Callback Atoms",
+      "description": "Deterministic post-loop callback and final-return helpers from sklearn.linear_model._coordinate_descent.ElasticNet.fit.",
+      "status": "decomposed",
+      "children": [
+        "cd_estimator_set_intercept_args",
+        "cd_estimator_fit_return_self"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_estimator_set_intercept_args",
+      "name": "cd_estimator_set_intercept_args",
+      "description": "Return the positional payload for ElasticNet.fit `_set_intercept`.",
+      "concept_type": "postfit_callback_boundary",
+      "status": "atomic",
+      "type_signature": "(X_offset: object, y_offset: object, X_scale: object) -> tuple[object, object, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X_offset", "type_desc": "feature offset payload from _pre_fit", "required": true},
+        {"name": "y_offset", "type_desc": "target offset payload from _pre_fit", "required": true},
+        {"name": "X_scale", "type_desc": "feature scale payload from _pre_fit", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "set-intercept positional payload"}
+      ]
+    },
+    {
+      "node_id": "cd_estimator_fit_return_self",
+      "name": "cd_estimator_fit_return_self",
+      "description": "Return self from ElasticNet.fit after the intercept callback and finite-parameter guard.",
+      "concept_type": "postfit_return",
+      "status": "atomic",
+      "type_signature": "(estimator_identity: object) -> object",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator_identity", "type_desc": "fitted estimator identity", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "same estimator identity"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_estimator_set_intercept_args", "target": "cd_estimator_fit_return_self", "kind": "postfit_tail_order"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 1 native and compiled core boundaries"
+  }
+}
