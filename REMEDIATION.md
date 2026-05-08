@@ -482,6 +482,12 @@ Potential remediation path:
   positional args and kwargs for `check_array` on `X`, `y`, optional
   `Xy`, and Gram `precompute` validation while leaving branch predicates
   and callback execution to separate families.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_enet_path_solver_payload_shell`
+  now publishes deterministic `enet_path` compiled solver payloads:
+  sparse solver keyword payloads and multitask, Gram, and dense solver
+  positional payloads from already-selected dispatch branches and
+  already-scaled regularization values.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 

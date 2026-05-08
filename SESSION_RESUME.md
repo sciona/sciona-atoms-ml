@@ -15,7 +15,7 @@ work safely.
     coordinate-descent estimators and CV wrappers in
     `sklearn.linear_model._coordinate_descent`
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.coordinate_descent_enet_path_validation_callback_shell`
+  - `sklearn.linear_model.coordinate_descent_enet_path_solver_payload_shell`
 
 ## Known Unrelated Local Modification
 
@@ -164,6 +164,7 @@ Already landed in this section:
 - `coordinate_descent_multitask_cv_api_shell`
 - `coordinate_descent_set_order_helper_shell`
 - `coordinate_descent_enet_path_validation_callback_shell`
+- `coordinate_descent_enet_path_solver_payload_shell`
 
 ## Next Likely Seams
 
@@ -185,7 +186,8 @@ The next best bounded candidates are:
      already landed, or the MultiTaskElasticNet solver-setup shell already
      landed, or the multitask CV API shell already landed, or the
      `_set_order` helper shell already landed, or the `enet_path`
-     validation callback shell already landed
+     validation callback shell already landed, or the `enet_path` solver
+     payload shell already landed
 
 2. final duplicate-coverage check
    - before leaving `LinearModelCV.fit` permanently, verify that no new seam

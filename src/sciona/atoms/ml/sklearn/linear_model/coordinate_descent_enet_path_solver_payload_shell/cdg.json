@@ -1,0 +1,129 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_enet_path_solver_payload_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent enet_path Solver Payload Atoms",
+      "description": "Deterministic compiled solver payload helpers from sklearn.linear_model._coordinate_descent.enet_path.",
+      "status": "decomposed",
+      "children": [
+        "cd_enet_path_sparse_solver_kwargs",
+        "cd_enet_path_multitask_solver_args",
+        "cd_enet_path_gram_solver_args",
+        "cd_enet_path_dense_solver_args"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_enet_path_sparse_solver_kwargs",
+      "name": "cd_enet_path_sparse_solver_kwargs",
+      "description": "Return keyword payload for sparse_enet_coordinate_descent.",
+      "concept_type": "compiled_solver_boundary",
+      "status": "atomic",
+      "type_signature": "(coef: object, l1_reg: object, l2_reg: object, X_data: object, X_indices: object, X_indptr: object, y: object, sample_weight: object, X_sparse_scaling: object, max_iter: int, tol: object, rng: object, random: bool, positive: bool) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "coef", "type_desc": "coefficient buffer", "required": true},
+        {"name": "l1_reg", "type_desc": "scaled l1 regularization", "required": true},
+        {"name": "l2_reg", "type_desc": "scaled l2 regularization", "required": true},
+        {"name": "X_data", "type_desc": "sparse X data array", "required": true},
+        {"name": "X_indices", "type_desc": "sparse X indices array", "required": true},
+        {"name": "X_indptr", "type_desc": "sparse X index-pointer array", "required": true},
+        {"name": "y", "type_desc": "target payload", "required": true},
+        {"name": "sample_weight", "type_desc": "sample-weight payload", "required": true},
+        {"name": "X_sparse_scaling", "type_desc": "sparse centering-scaling vector", "required": true},
+        {"name": "max_iter", "type_desc": "positive iteration limit", "required": true},
+        {"name": "tol", "type_desc": "solver tolerance", "required": true},
+        {"name": "rng", "type_desc": "checked random state", "required": true},
+        {"name": "random", "type_desc": "random selection flag", "required": true},
+        {"name": "positive", "type_desc": "positive coefficient flag", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "sparse solver keyword payload"}
+      ]
+    },
+    {
+      "node_id": "cd_enet_path_multitask_solver_args",
+      "name": "cd_enet_path_multitask_solver_args",
+      "description": "Return positional payload for enet_coordinate_descent_multi_task.",
+      "concept_type": "compiled_solver_boundary",
+      "status": "atomic",
+      "type_signature": "(coef: object, l1_reg: object, l2_reg: object, X: object, y: object, max_iter: int, tol: object, rng: object, random: bool) -> tuple[object, object, object, object, object, int, object, object, bool]",
+      "depth": 1,
+      "inputs": [
+        {"name": "coef", "type_desc": "coefficient buffer", "required": true},
+        {"name": "l1_reg", "type_desc": "scaled l1 regularization", "required": true},
+        {"name": "l2_reg", "type_desc": "scaled l2 regularization", "required": true},
+        {"name": "X", "type_desc": "feature matrix payload", "required": true},
+        {"name": "y", "type_desc": "target payload", "required": true},
+        {"name": "max_iter", "type_desc": "positive iteration limit", "required": true},
+        {"name": "tol", "type_desc": "solver tolerance", "required": true},
+        {"name": "rng", "type_desc": "checked random state", "required": true},
+        {"name": "random", "type_desc": "random selection flag", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "multitask solver positional payload"}
+      ]
+    },
+    {
+      "node_id": "cd_enet_path_gram_solver_args",
+      "name": "cd_enet_path_gram_solver_args",
+      "description": "Return positional payload for enet_coordinate_descent_gram.",
+      "concept_type": "compiled_solver_boundary",
+      "status": "atomic",
+      "type_signature": "(coef: object, l1_reg: object, l2_reg: object, precompute: object, Xy: object, y: object, max_iter: int, tol: object, rng: object, random: bool, positive: bool) -> tuple[object, object, object, object, object, object, int, object, object, bool, bool]",
+      "depth": 1,
+      "inputs": [
+        {"name": "coef", "type_desc": "coefficient buffer", "required": true},
+        {"name": "l1_reg", "type_desc": "scaled l1 regularization", "required": true},
+        {"name": "l2_reg", "type_desc": "scaled l2 regularization", "required": true},
+        {"name": "precompute", "type_desc": "Gram matrix payload", "required": true},
+        {"name": "Xy", "type_desc": "X transpose y payload", "required": true},
+        {"name": "y", "type_desc": "target payload", "required": true},
+        {"name": "max_iter", "type_desc": "positive iteration limit", "required": true},
+        {"name": "tol", "type_desc": "solver tolerance", "required": true},
+        {"name": "rng", "type_desc": "checked random state", "required": true},
+        {"name": "random", "type_desc": "random selection flag", "required": true},
+        {"name": "positive", "type_desc": "positive coefficient flag", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "Gram solver positional payload"}
+      ]
+    },
+    {
+      "node_id": "cd_enet_path_dense_solver_args",
+      "name": "cd_enet_path_dense_solver_args",
+      "description": "Return positional payload for enet_coordinate_descent.",
+      "concept_type": "compiled_solver_boundary",
+      "status": "atomic",
+      "type_signature": "(coef: object, l1_reg: object, l2_reg: object, X: object, y: object, max_iter: int, tol: object, rng: object, random: bool, positive: bool) -> tuple[object, object, object, object, object, int, object, object, bool, bool]",
+      "depth": 1,
+      "inputs": [
+        {"name": "coef", "type_desc": "coefficient buffer", "required": true},
+        {"name": "l1_reg", "type_desc": "scaled l1 regularization", "required": true},
+        {"name": "l2_reg", "type_desc": "scaled l2 regularization", "required": true},
+        {"name": "X", "type_desc": "feature matrix payload", "required": true},
+        {"name": "y", "type_desc": "target payload", "required": true},
+        {"name": "max_iter", "type_desc": "positive iteration limit", "required": true},
+        {"name": "tol", "type_desc": "solver tolerance", "required": true},
+        {"name": "rng", "type_desc": "checked random state", "required": true},
+        {"name": "random", "type_desc": "random selection flag", "required": true},
+        {"name": "positive", "type_desc": "positive coefficient flag", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "dense solver positional payload"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_enet_path_sparse_solver_kwargs", "target": "cd_enet_path_multitask_solver_args", "kind": "dispatch_alternative"},
+    {"source": "cd_enet_path_multitask_solver_args", "target": "cd_enet_path_gram_solver_args", "kind": "dispatch_alternative"},
+    {"source": "cd_enet_path_gram_solver_args", "target": "cd_enet_path_dense_solver_args", "kind": "dispatch_alternative"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 1 native and compiled core boundaries"
+  }
+}
