@@ -9,14 +9,6 @@ import numpy as np
 import scipy.sparse as sp
 from numpy.typing import NDArray
 from scipy import sparse
-from sklearn.base import clone
-from sklearn.exceptions import ConvergenceWarning
-from sklearn.metrics.pairwise import rbf_kernel
-from sklearn.neighbors import NearestNeighbors
-from sklearn.utils import check_array, check_consistent_length, safe_mask
-from sklearn.utils.extmath import safe_sparse_dot
-from sklearn.utils.fixes import laplacian as csgraph_laplacian
-from sklearn.utils.multiclass import check_classification_targets
 
 from sciona.ghost.registry import register_atom
 
@@ -37,62 +29,47 @@ from .witnesses import (
 LabelVector = NDArray[np.object_] | NDArray[np.int_] | list[object] | tuple[object, ...]
 SelfTrainingSelection = NDArray[np.bool_] | NDArray[np.int_]
 
-
 def _is_2d(X: MatrixLike) -> bool:
     return bool(getattr(X, "ndim", 0) == 2)
-
 
 def _sample_count(X: MatrixLike) -> int:
     return int(X.shape[0])
 
-
 def _feature_count(X: MatrixLike) -> int:
     return int(X.shape[1])
-
 
 def _is_label_vector(y: LabelVector) -> bool:
     return bool(np.asarray(y).ndim == 1)
 
-
 def _same_sample_count(X: MatrixLike, y: LabelVector) -> bool:
     return _sample_count(X) == int(np.asarray(y).shape[0])
-
 
 def _kernel_valid(kernel: GraphKernel) -> bool:
     return kernel in {"rbf", "knn"} if isinstance(kernel, str) else callable(kernel)
 
-
 def _n_neighbors_valid(n_neighbors: int) -> bool:
     return isinstance(n_neighbors, int) and n_neighbors > 0
-
 
 def _positive_int(value: int) -> bool:
     return isinstance(value, int) and value > 0
 
-
 def _nonnegative_float(value: float) -> bool:
     return float(value) >= 0.0
-
 
 def _alpha_valid(alpha: float) -> bool:
     return 0.0 < float(alpha) < 1.0
 
-
 def _threshold_valid(threshold: float) -> bool:
     return 0.0 <= float(threshold) < 1.0
-
 
 def _self_training_criterion_valid(criterion: str) -> bool:
     return criterion in {"threshold", "k_best"}
 
-
 def _nonnegative_int_or_none(value: int | None) -> bool:
     return value is None or (isinstance(value, int) and value >= 0)
 
-
 def _estimator_has_fit(estimator: object) -> bool:
     return callable(getattr(estimator, "fit", None))
-
 
 def _state_valid(state: LabelPropagationState) -> bool:
     return bool(
@@ -109,7 +86,6 @@ def _state_valid(state: LabelPropagationState) -> bool:
         and np.all(np.isfinite(state.label_distributions))
     )
 
-
 def _proba_valid(result: NDArray[np.float64], X: MatrixLike, state: LabelPropagationState) -> bool:
     row_sums = np.sum(result, axis=1)
     return bool(
@@ -119,10 +95,8 @@ def _proba_valid(result: NDArray[np.float64], X: MatrixLike, state: LabelPropaga
         and np.allclose(row_sums, np.ones_like(row_sums))
     )
 
-
 def _prediction_valid(result: NDArray[np.object_], X: MatrixLike, state: LabelPropagationState) -> bool:
     return bool(result.shape == (_sample_count(X),) and np.isin(result, state.classes).all())
-
 
 def _self_training_selection_valid(result: SelfTrainingSelection, max_proba: NDArray[np.float64], criterion: str, k_best: int) -> bool:
     values = np.asarray(result)
@@ -130,7 +104,6 @@ def _self_training_selection_valid(result: SelfTrainingSelection, max_proba: NDA
     if criterion == "threshold" or k_best >= n_samples:
         return bool(values.dtype == np.bool_ and values.shape == (n_samples,))
     return bool(np.issubdtype(values.dtype, np.integer) and values.ndim == 1 and values.shape[0] == min(k_best, n_samples))
-
 
 def _self_training_state_valid(state: SelfTrainingClassifierState) -> bool:
     return bool(
@@ -147,10 +120,8 @@ def _self_training_state_valid(state: SelfTrainingClassifierState) -> bool:
         and state.n_features_in > 0
     )
 
-
 def _self_training_prediction_valid(result: NDArray[np.object_], X: MatrixLike) -> bool:
     return bool(np.asarray(result).shape == (_sample_count(X),))
-
 
 def _self_training_proba_valid(result: NDArray[np.float64], X: MatrixLike, state: SelfTrainingClassifierState) -> bool:
     row_sums = np.sum(result, axis=1)
@@ -161,7 +132,6 @@ def _self_training_proba_valid(result: NDArray[np.float64], X: MatrixLike, state
         and np.allclose(row_sums, np.ones_like(row_sums))
     )
 
-
 def _get_kernel(
     X_fit: MatrixLike,
     X_query: MatrixLike | None,
@@ -171,6 +141,8 @@ def _get_kernel(
     n_neighbors: int,
     n_jobs: int | None,
 ) -> MatrixLike | NDArray[np.int_]:
+    from sklearn.metrics.pairwise import rbf_kernel
+    from sklearn.neighbors import NearestNeighbors
     if kernel == "rbf":
         return rbf_kernel(X_fit, X_fit if X_query is None else X_query, gamma=gamma)
     if kernel == "knn":
@@ -181,7 +153,6 @@ def _get_kernel(
     assert callable(kernel)
     return kernel(X_fit, X_fit if X_query is None else X_query)
 
-
 def _build_graph(
     X: MatrixLike,
     *,
@@ -191,6 +162,7 @@ def _build_graph(
     n_neighbors: int,
     n_jobs: int | None,
 ) -> MatrixLike:
+    from sklearn.utils.fixes import laplacian as csgraph_laplacian
     affinity_matrix = _get_kernel(
         X,
         None,
@@ -215,7 +187,6 @@ def _build_graph(
         laplacian.flat[:: X.shape[0] + 1] = 0.0
     return laplacian
 
-
 def _fit_graph_labels(
     X: MatrixLike,
     y: LabelVector,
@@ -229,6 +200,10 @@ def _fit_graph_labels(
     tol: float,
     n_jobs: int | None,
 ) -> LabelPropagationState:
+    from sklearn.exceptions import ConvergenceWarning
+    from sklearn.utils import check_array, check_consistent_length, safe_mask
+    from sklearn.utils.extmath import safe_sparse_dot
+    from sklearn.utils.multiclass import check_classification_targets
     checked_x = check_array(X, accept_sparse=["csr", "csc"])
     checked_y = np.asarray(y)
     check_consistent_length(checked_x, checked_y)
@@ -300,8 +275,9 @@ def _fit_graph_labels(
         n_features_in=int(checked_x.shape[1]),
     )
 
-
 def _predict_proba_from_state(X: MatrixLike, state: LabelPropagationState) -> NDArray[np.float64]:
+    from sklearn.utils import check_array, check_consistent_length, safe_mask
+    from sklearn.utils.extmath import safe_sparse_dot
     checked_x = check_array(X, accept_sparse=["csc", "csr", "coo", "dok", "bsr", "lil", "dia"])
     if checked_x.shape[1] != state.n_features_in:
         raise ValueError("X feature count must match fitted state")
@@ -321,7 +297,6 @@ def _predict_proba_from_state(X: MatrixLike, state: LabelPropagationState) -> ND
     normalizer = np.atleast_2d(np.sum(probabilities, axis=1)).T
     probabilities /= normalizer
     return probabilities
-
 
 @register_atom(witness_label_propagation_fit)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D feature matrix")
@@ -357,7 +332,6 @@ def label_propagation_fit(
         n_jobs=n_jobs,
     )
 
-
 @register_atom(witness_label_propagation_predict_proba)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D feature matrix")
 @icontract.require(lambda state: _state_valid(state), "state must contain fitted propagation distributions")
@@ -369,7 +343,6 @@ def label_propagation_predict_proba(
 ) -> NDArray[np.float64]:
     """Predict class probabilities from a fitted label-propagation state."""
     return _predict_proba_from_state(X, state)
-
 
 @register_atom(witness_label_propagation_predict)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D feature matrix")
@@ -383,7 +356,6 @@ def label_propagation_predict(
     """Predict class labels from a fitted label-propagation state."""
     probabilities = label_propagation_predict_proba(X, state)
     return np.asarray(state.classes[np.argmax(probabilities, axis=1)].ravel(), dtype=object)
-
 
 @register_atom(witness_label_spreading_fit)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D feature matrix")
@@ -421,7 +393,6 @@ def label_spreading_fit(
         n_jobs=n_jobs,
     )
 
-
 @register_atom(witness_label_spreading_predict_proba)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D feature matrix")
 @icontract.require(lambda state: _state_valid(state), "state must contain fitted spreading distributions")
@@ -433,7 +404,6 @@ def label_spreading_predict_proba(
 ) -> NDArray[np.float64]:
     """Predict class probabilities from a fitted label-spreading state."""
     return _predict_proba_from_state(X, state)
-
 
 @register_atom(witness_label_spreading_predict)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D feature matrix")
@@ -447,7 +417,6 @@ def label_spreading_predict(
     """Predict class labels from a fitted label-spreading state."""
     probabilities = label_spreading_predict_proba(X, state)
     return np.asarray(state.classes[np.argmax(probabilities, axis=1)].ravel(), dtype=object)
-
 
 @register_atom(witness_self_training_select_pseudo_labels)
 @icontract.require(lambda max_proba: bool(np.asarray(max_proba).ndim == 1), "max_proba must be a 1D vector")
@@ -471,7 +440,6 @@ def self_training_select_pseudo_labels(
         return np.ones_like(checked_proba, dtype=bool)
     return np.argpartition(-checked_proba, n_to_select)[:n_to_select].astype(np.int_, copy=False)
 
-
 @register_atom(witness_self_training_fit)
 @icontract.require(lambda estimator: _estimator_has_fit(estimator), "estimator must implement fit")
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D feature matrix")
@@ -493,6 +461,8 @@ def self_training_fit(
     max_iter: int | None = 10,
     verbose: bool = False,
 ) -> SelfTrainingClassifierState:
+    from sklearn.base import clone
+    from sklearn.utils import check_array, check_consistent_length, safe_mask
     """Fit a self-training classifier and record pseudo-label history."""
     estimator_ = clone(estimator)
     checked_x = check_array(X, accept_sparse=["csr", "csc", "lil", "dok"], ensure_all_finite=False)
@@ -555,7 +525,6 @@ def self_training_fit(
         n_features_in=int(checked_x.shape[1]),
     )
 
-
 @register_atom(witness_self_training_predict)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D feature matrix")
 @icontract.require(lambda state: _self_training_state_valid(state), "state must contain fitted self-training estimator")
@@ -565,12 +534,12 @@ def self_training_predict(
     X: MatrixLike,
     state: SelfTrainingClassifierState,
 ) -> NDArray[np.object_]:
+    from sklearn.utils import check_array, check_consistent_length, safe_mask
     """Predict labels by delegating to the fitted self-training estimator."""
     checked_x = check_array(X, accept_sparse=True, ensure_all_finite=False)
     if checked_x.shape[1] != state.n_features_in:
         raise ValueError("X feature count must match fitted state")
     return np.asarray(state.estimator.predict(checked_x), dtype=object)
-
 
 @register_atom(witness_self_training_predict_proba)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D feature matrix")
@@ -581,6 +550,7 @@ def self_training_predict_proba(
     X: MatrixLike,
     state: SelfTrainingClassifierState,
 ) -> NDArray[np.float64]:
+    from sklearn.utils import check_array, check_consistent_length, safe_mask
     """Predict probabilities by delegating to the fitted self-training estimator."""
     checked_x = check_array(X, accept_sparse=True, ensure_all_finite=False)
     if checked_x.shape[1] != state.n_features_in:

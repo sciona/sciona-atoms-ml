@@ -5,7 +5,6 @@ from __future__ import annotations
 import icontract
 import numpy as np
 from numpy.typing import NDArray
-from sklearn.metrics import accuracy_score, r2_score
 
 from sciona.ghost.registry import register_atom
 
@@ -15,7 +14,6 @@ from .witnesses import (
     witness_forest_regressor_oob_prediction,
     witness_forest_regressor_oob_r2,
 )
-
 
 def _averaged_classifier_predictions_valid(values: object) -> bool:
     try:
@@ -32,7 +30,6 @@ def _averaged_classifier_predictions_valid(values: object) -> bool:
         and np.all(array >= 0.0)
         and np.all(np.isclose(row_sums, 1.0) | np.isclose(row_sums, 0.0))
     )
-
 
 def _classifier_decision_function_valid(
     decision_function: object,
@@ -71,14 +68,12 @@ def _classifier_decision_function_valid(
         and np.all(targets < decision.shape[1])
     )
 
-
 def _classifier_decision_result_valid(result: object, averaged_predictions: object) -> bool:
     values = np.asarray(result, dtype=np.float64)
     averaged = np.asarray(averaged_predictions, dtype=np.float64)
     if averaged.shape[2] == 1:
         return bool(values.shape == (averaged.shape[0], averaged.shape[1]) and np.all(np.isfinite(values)))
     return bool(values.shape == averaged.shape and np.all(np.isfinite(values)))
-
 
 def _averaged_regressor_predictions_valid(values: object) -> bool:
     try:
@@ -93,14 +88,12 @@ def _averaged_regressor_predictions_valid(values: object) -> bool:
         and np.all(np.isfinite(array))
     )
 
-
 def _regressor_prediction_result_valid(result: object, averaged_predictions: object) -> bool:
     values = np.asarray(result, dtype=np.float64)
     averaged = np.asarray(averaged_predictions, dtype=np.float64)
     if averaged.shape[2] == 1:
         return bool(values.shape == (averaged.shape[0],) and np.all(np.isfinite(values)))
     return bool(values.shape == (averaged.shape[0], averaged.shape[2]) and np.all(np.isfinite(values)))
-
 
 def _aligned_regression_arrays(y_true: object, prediction: object) -> bool:
     try:
@@ -116,7 +109,6 @@ def _aligned_regression_arrays(y_true: object, prediction: object) -> bool:
         and np.all(np.isfinite(truth))
         and np.all(np.isfinite(preds))
     )
-
 
 @register_atom(witness_forest_classifier_oob_decision_function)
 @icontract.require(
@@ -136,7 +128,6 @@ def forest_classifier_oob_decision_function(
         decision = decision.squeeze(axis=-1)
     return np.asarray(decision, dtype=np.float64)
 
-
 @register_atom(witness_forest_classifier_oob_accuracy)
 @icontract.require(
     lambda y_true, decision_function: _classifier_decision_function_valid(decision_function, y_true),
@@ -150,11 +141,11 @@ def forest_classifier_oob_accuracy(
     y_true: NDArray[np.int64],
     decision_function: NDArray[np.float64],
 ) -> float:
+    from sklearn.metrics import accuracy_score, r2_score
     """Score classifier OOB predictions the way sklearn does after public-shape conversion."""
     targets = np.asarray(y_true, dtype=np.int64)
     decision = np.asarray(decision_function, dtype=np.float64)
     return float(accuracy_score(targets, np.argmax(decision, axis=1)))
-
 
 @register_atom(witness_forest_regressor_oob_prediction)
 @icontract.require(
@@ -174,7 +165,6 @@ def forest_regressor_oob_prediction(
         prediction = prediction.squeeze(axis=-1)
     return np.asarray(prediction, dtype=np.float64)
 
-
 @register_atom(witness_forest_regressor_oob_r2)
 @icontract.require(
     lambda y_true, prediction: _aligned_regression_arrays(y_true, prediction),
@@ -188,5 +178,6 @@ def forest_regressor_oob_r2(
     y_true: NDArray[np.float64],
     prediction: NDArray[np.float64],
 ) -> float:
+    from sklearn.metrics import accuracy_score, r2_score
     """Score regressor OOB predictions the way sklearn does after public-shape conversion."""
     return float(r2_score(np.asarray(y_true, dtype=np.float64), np.asarray(prediction, dtype=np.float64)))

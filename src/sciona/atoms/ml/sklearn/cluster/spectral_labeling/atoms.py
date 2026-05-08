@@ -7,7 +7,6 @@ import numpy as np
 from numpy.typing import NDArray
 from scipy.linalg import LinAlgError, qr, svd
 from scipy.sparse import csc_matrix
-from sklearn.utils import check_random_state
 
 from sciona.ghost.registry import register_atom
 
@@ -15,7 +14,6 @@ from .witnesses import (
     witness_spectral_cluster_qr_labels,
     witness_spectral_discretize_labels,
 )
-
 
 def _embedding_valid(vectors: NDArray[np.float64]) -> bool:
     try:
@@ -25,7 +23,6 @@ def _embedding_valid(vectors: NDArray[np.float64]) -> bool:
     if values.ndim != 2 or values.shape[0] < 1 or values.shape[1] < 1 or values.shape[0] < values.shape[1]:
         return False
     return bool(np.all(np.isfinite(values)))
-
 
 def _discretize_embedding_valid(vectors: NDArray[np.float64]) -> bool:
     if not _embedding_valid(vectors):
@@ -41,14 +38,11 @@ def _discretize_embedding_valid(vectors: NDArray[np.float64]) -> bool:
             normalized[:, i] = -1.0 * normalized[:, i] * np.sign(normalized[0, i])
     return bool(np.all(np.linalg.norm(normalized, axis=1) > 0.0))
 
-
 def _positive_int(value: int) -> bool:
     return bool(isinstance(value, int) and not isinstance(value, bool) and value >= 1)
 
-
 def _random_state_valid(value: int | None) -> bool:
     return value is None or (isinstance(value, int) and not isinstance(value, bool) and value >= 0)
-
 
 def _labels_valid(result: NDArray[np.int64], vectors: NDArray[np.float64]) -> bool:
     labels = np.asarray(result)
@@ -59,7 +53,6 @@ def _labels_valid(result: NDArray[np.int64], vectors: NDArray[np.float64]) -> bo
         and np.all(labels >= 0)
         and np.all(labels < values.shape[1])
     )
-
 
 @register_atom(witness_spectral_cluster_qr_labels)
 @icontract.require(lambda vectors: _embedding_valid(vectors), "vectors must be a finite nonempty embedding with samples >= components")
@@ -72,7 +65,6 @@ def spectral_cluster_qr_labels(vectors: NDArray[np.float64]) -> NDArray[np.int64
     u_t, _, v_h = svd(values[pivots[:n_components], :].T)
     aligned = np.abs(np.dot(values, np.dot(u_t, v_h.conj())))
     return np.asarray(aligned.argmax(axis=1), dtype=np.int64)
-
 
 @register_atom(witness_spectral_discretize_labels)
 @icontract.require(lambda vectors: _discretize_embedding_valid(vectors), "vectors must be finite with nonzero columns and rows")
@@ -87,6 +79,7 @@ def spectral_discretize_labels(
     n_iter_max: int = 20,
     random_state: int | None = None,
 ) -> NDArray[np.int64]:
+    from sklearn.utils import check_random_state
     """Assign spectral-clustering labels with sklearn's Yu-Shi discretization."""
     rng = check_random_state(random_state)
     values = np.asarray(vectors, dtype=np.float64).copy()

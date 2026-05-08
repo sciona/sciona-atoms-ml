@@ -6,38 +6,30 @@ import icontract
 import numpy as np
 from numpy.typing import NDArray
 from scipy.linalg import pinv, svd
-from sklearn.utils import check_array, check_consistent_length
-from sklearn.utils.extmath import svd_flip
 
 from sciona.ghost.registry import register_atom
 
 from .state_models import PLSState, PLSSVDState
 from .witnesses import witness_cca_fit, witness_pls_canonical_fit, witness_pls_regression_fit, witness_plssvd_fit
 
-
 def _matrix_2d(X: NDArray[np.float64]) -> bool:
     return bool(np.asarray(X).ndim == 2)
-
 
 def _target_1d_or_2d(y: NDArray[np.float64]) -> bool:
     return bool(np.asarray(y).ndim in {1, 2})
 
-
 def _sample_counts_match(X: NDArray[np.float64], y: NDArray[np.float64]) -> bool:
     return bool(np.asarray(X).shape[0] == np.asarray(y).shape[0])
-
 
 def _target_count(y: NDArray[np.float64]) -> int:
     values = np.asarray(y)
     return 1 if values.ndim == 1 else int(values.shape[1])
-
 
 def _plssvd_components_valid(n_components: int, X: NDArray[np.float64], y: NDArray[np.float64]) -> bool:
     if not isinstance(n_components, int) or n_components < 1:
         return False
     n_samples, n_features = np.asarray(X).shape
     return bool(n_components <= min(n_samples, n_features, _target_count(y)))
-
 
 def _center_scale_xy(
     X: NDArray[np.float64],
@@ -62,7 +54,6 @@ def _center_scale_xy(
         y_std = np.ones(centered_y.shape[1], dtype=np.float64)
     return centered_x, centered_y, x_mean, y_mean, x_std, y_std
 
-
 def _plssvd_state_valid(state: PLSSVDState) -> bool:
     return bool(
         state.x_weights.shape == (state.n_features_in, state.n_components)
@@ -81,7 +72,6 @@ def _plssvd_state_valid(state: PLSSVDState) -> bool:
         and np.all(state.y_std > 0.0)
     )
 
-
 @register_atom(witness_plssvd_fit)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
 @icontract.require(lambda y: _target_1d_or_2d(y), "y must be 1D or 2D")
@@ -96,6 +86,8 @@ def plssvd_fit(
     scale: bool = True,
     copy: bool = True,
 ) -> PLSSVDState:
+    from sklearn.utils import check_array, check_consistent_length
+    from sklearn.utils.extmath import svd_flip
     """Fit PLS-SVD weights from the cross-covariance of X and y."""
     del copy
     check_consistent_length(X, y)
@@ -130,18 +122,14 @@ def plssvd_fit(
         n_targets=int(checked_y.shape[1]),
     )
 
-
 def _positive_int(value: int) -> bool:
     return isinstance(value, int) and value >= 1
-
 
 def _positive_float(value: float) -> bool:
     return bool(float(value) > 0.0)
 
-
 def _pls_algorithm_valid(algorithm: str) -> bool:
     return algorithm in {"nipals", "svd"}
-
 
 def _pls_components_valid(
     n_components: int,
@@ -157,7 +145,6 @@ def _pls_components_valid(
     upper_bound = min(n_samples, n_features) if deflation_mode == "regression" else min(n_samples, n_features, n_targets)
     return bool(n_components <= upper_bound)
 
-
 def _pinv2_old(a: NDArray[np.float64]) -> NDArray[np.float64]:
     u, singular_values, vh = svd(a, full_matrices=False, check_finite=False)
     dtype_char = u.dtype.char.lower()
@@ -167,7 +154,6 @@ def _pinv2_old(a: NDArray[np.float64]) -> NDArray[np.float64]:
     u = u[:, :rank]
     u /= singular_values[:rank]
     return np.transpose(np.conjugate(np.dot(u, vh[:rank])))
-
 
 def _first_singular_vectors_power_method(
     X: NDArray[np.float64],
@@ -208,7 +194,6 @@ def _first_singular_vectors_power_method(
         x_weights_old = x_weights
     return x_weights, y_weights, iteration + 1
 
-
 def _first_singular_vectors_svd(
     X: NDArray[np.float64],
     y: NDArray[np.float64],
@@ -216,13 +201,11 @@ def _first_singular_vectors_svd(
     u, _, vt = svd(np.dot(X.T, y), full_matrices=False)
     return u[:, 0], vt[0, :]
 
-
 def _svd_flip_1d(u: NDArray[np.float64], v: NDArray[np.float64]) -> None:
     biggest_abs_val_idx = np.argmax(np.abs(u))
     sign = np.sign(u[biggest_abs_val_idx])
     u *= sign
     v *= sign
-
 
 def _pls_state_valid(state: PLSState) -> bool:
     return bool(
@@ -255,7 +238,6 @@ def _pls_state_valid(state: PLSState) -> bool:
         and np.all(state.y_std > 0.0)
     )
 
-
 def _pls_fit(
     X: NDArray[np.float64],
     y: NDArray[np.float64],
@@ -268,6 +250,7 @@ def _pls_fit(
     mode: str,
     algorithm: str,
 ) -> PLSState:
+    from sklearn.utils import check_array, check_consistent_length
     check_consistent_length(X, y)
     checked_x = check_array(X, dtype=np.float64, ensure_min_samples=2)
     checked_y = check_array(y, input_name="y", dtype=np.float64, ensure_2d=False)
@@ -365,7 +348,6 @@ def _pls_fit(
         predict_1d=bool(predict_1d),
     )
 
-
 @register_atom(witness_pls_regression_fit)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
 @icontract.require(lambda y: _target_1d_or_2d(y), "y must be 1D or 2D")
@@ -397,7 +379,6 @@ def pls_regression_fit(
         mode="A",
         algorithm="nipals",
     )
-
 
 @register_atom(witness_pls_canonical_fit)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
@@ -432,7 +413,6 @@ def pls_canonical_fit(
         mode="A",
         algorithm=algorithm,
     )
-
 
 @register_atom(witness_cca_fit)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")

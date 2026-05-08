@@ -8,7 +8,6 @@ import icontract
 import numpy as np
 from numpy.typing import NDArray
 from scipy.stats.mstats import mquantiles
-from sklearn.utils.extmath import cartesian
 
 from sciona.ghost.registry import register_atom
 
@@ -20,7 +19,6 @@ from .witnesses import (
 
 GridResult = tuple[NDArray[np.float64], tuple[NDArray[np.float64], ...]]
 
-
 def _finite_matrix(values: object) -> bool:
     try:
         array = np.asarray(values, dtype=np.float64)
@@ -28,14 +26,12 @@ def _finite_matrix(values: object) -> bool:
         return False
     return bool(array.ndim == 2 and array.shape[0] >= 1 and array.shape[1] >= 1 and np.all(np.isfinite(array)))
 
-
 def _finite_vector(values: object) -> bool:
     try:
         array = np.asarray(values, dtype=np.float64)
     except (TypeError, ValueError):
         return False
     return bool(array.ndim == 1 and array.shape[0] >= 1 and np.all(np.isfinite(array)))
-
 
 def _percentiles_valid(percentiles: tuple[float, float]) -> bool:
     return bool(
@@ -45,15 +41,12 @@ def _percentiles_valid(percentiles: tuple[float, float]) -> bool:
         and float(tuple(percentiles)[0]) < float(tuple(percentiles)[1])
     )
 
-
 def _grid_resolution_valid(grid_resolution: int) -> bool:
     return bool(isinstance(grid_resolution, int) and not isinstance(grid_resolution, bool) and grid_resolution > 1)
-
 
 def _axis_result_valid(result: NDArray[np.float64]) -> bool:
     values = np.asarray(result, dtype=np.float64)
     return bool(values.ndim == 1 and values.shape[0] >= 1 and np.all(np.isfinite(values)))
-
 
 def _grid_result_valid(result: GridResult, X: NDArray[np.float64]) -> bool:
     if not isinstance(result, tuple) or len(result) != 2:
@@ -73,7 +66,6 @@ def _grid_result_valid(result: GridResult, X: NDArray[np.float64]) -> bool:
         axis_lengths.append(axis_values.shape[0])
     return bool(grid_values.shape[0] == int(np.prod(axis_lengths)))
 
-
 @register_atom(witness_partial_dependence_grid_parameters)
 @icontract.require(lambda percentiles: _percentiles_valid(percentiles), "percentiles must be two finite values in [0, 1] with percentiles[0] < percentiles[1]")
 @icontract.require(lambda grid_resolution: _grid_resolution_valid(grid_resolution), "grid_resolution must be an integer greater than 1")
@@ -86,7 +78,6 @@ def partial_dependence_grid_parameters(
     """Validate the partial-dependence grid parameters sklearn checks upfront."""
     del grid_resolution
     return float(percentiles[0]), float(percentiles[1])
-
 
 @register_atom(witness_partial_dependence_feature_axis)
 @icontract.require(lambda feature_values: _finite_vector(feature_values), "feature_values must be a nonempty finite vector")
@@ -117,7 +108,6 @@ def partial_dependence_feature_axis(
         dtype=np.float64,
     )
 
-
 @register_atom(witness_partial_dependence_grid)
 @icontract.require(lambda X: _finite_matrix(X), "X must be a nonempty finite matrix")
 @icontract.require(lambda percentiles: _percentiles_valid(percentiles), "percentiles must be valid")
@@ -134,6 +124,7 @@ def partial_dependence_grid(
     is_categorical: tuple[bool, ...],
     grid_resolution: int = 100,
 ) -> GridResult:
+    from sklearn.utils.extmath import cartesian
     """Build the dense partial-dependence grid for supplied numeric feature columns."""
     validated_percentiles = partial_dependence_grid_parameters(percentiles, grid_resolution=grid_resolution)
     values = np.asarray(X, dtype=np.float64)

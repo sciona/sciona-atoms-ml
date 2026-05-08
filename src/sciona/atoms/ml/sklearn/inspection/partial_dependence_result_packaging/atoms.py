@@ -8,7 +8,6 @@ from typing import Literal
 import icontract
 import numpy as np
 from numpy.typing import NDArray
-from sklearn.utils import Bunch
 
 from sciona.ghost.registry import register_atom
 
@@ -22,7 +21,6 @@ from .witnesses import (
 Kind = Literal["average", "individual", "both"]
 GridValues = tuple[NDArray[np.float64], ...]
 
-
 def _finite_vector(values: object) -> bool:
     try:
         array = np.asarray(values, dtype=np.float64)
@@ -30,12 +28,10 @@ def _finite_vector(values: object) -> bool:
         return False
     return bool(array.ndim == 1 and array.shape[0] >= 1 and np.all(np.isfinite(array)))
 
-
 def _grid_values_valid(grid_values: object) -> bool:
     if not isinstance(grid_values, tuple) or len(grid_values) < 1:
         return False
     return all(_finite_vector(values) for values in grid_values)
-
 
 def _grid_lengths_valid(result: object, grid_values: GridValues) -> bool:
     return bool(
@@ -45,7 +41,6 @@ def _grid_lengths_valid(result: object, grid_values: GridValues) -> bool:
         and result == tuple(int(np.asarray(values).shape[0]) for values in grid_values)
     )
 
-
 def _positive_grid_lengths(grid_value_lengths: object) -> bool:
     return bool(
         isinstance(grid_value_lengths, tuple)
@@ -53,14 +48,12 @@ def _positive_grid_lengths(grid_value_lengths: object) -> bool:
         and all(isinstance(length, int) and not isinstance(length, bool) and length >= 1 for length in grid_value_lengths)
     )
 
-
 def _finite_2d(values: object) -> bool:
     try:
         array = np.asarray(values, dtype=np.float64)
     except (TypeError, ValueError):
         return False
     return bool(array.ndim == 2 and array.shape[0] >= 1 and array.shape[1] >= 1 and np.all(np.isfinite(array)))
-
 
 def _finite_3d(values: object) -> bool:
     try:
@@ -75,13 +68,11 @@ def _finite_3d(values: object) -> bool:
         and np.all(np.isfinite(array))
     )
 
-
 def _flattened_point_count(grid_value_lengths: tuple[int, ...]) -> int:
     total = 1
     for length in grid_value_lengths:
         total *= int(length)
     return total
-
 
 def _grid_shaped_averages_valid(result: object, averaged_predictions: object, grid_value_lengths: tuple[int, ...]) -> bool:
     if not (_finite_2d(averaged_predictions) and _positive_grid_lengths(grid_value_lengths)):
@@ -94,7 +85,6 @@ def _grid_shaped_averages_valid(result: object, averaged_predictions: object, gr
         and np.all(np.isfinite(values))
     )
 
-
 def _grid_shaped_individual_valid(result: object, individual_predictions: object, grid_value_lengths: tuple[int, ...]) -> bool:
     if not (_finite_3d(individual_predictions) and _positive_grid_lengths(grid_value_lengths)):
         return False
@@ -106,10 +96,8 @@ def _grid_shaped_individual_valid(result: object, individual_predictions: object
         and np.all(np.isfinite(values))
     )
 
-
 def _kind_valid(kind: object) -> bool:
     return kind in {"average", "individual", "both"}
-
 
 def _result_bunch_valid(
     result: object,
@@ -118,6 +106,7 @@ def _result_bunch_valid(
     average: object | None,
     individual: object | None,
 ) -> bool:
+    from sklearn.utils import Bunch
     if not isinstance(result, Bunch):
         return False
     if result.get("grid_values", None) != grid_values:
@@ -133,14 +122,12 @@ def _result_bunch_valid(
         and np.array_equal(np.asarray(result["individual"]), np.asarray(individual))
     )
 
-
 @register_atom(witness_partial_dependence_grid_value_lengths)
 @icontract.require(lambda grid_values: _grid_values_valid(grid_values), "grid_values must be a nonempty tuple of finite nonempty vectors")
 @icontract.ensure(lambda result, grid_values: _grid_lengths_valid(result, grid_values), "grid lengths must match the grid value vectors")
 def partial_dependence_grid_value_lengths(grid_values: GridValues) -> tuple[int, ...]:
     """Return sklearn's per-feature grid lengths from the grid_values tuple."""
     return tuple(int(np.asarray(values, dtype=np.float64).shape[0]) for values in grid_values)
-
 
 @register_atom(witness_partial_dependence_grid_shaped_averages)
 @icontract.require(lambda averaged_predictions: _finite_2d(averaged_predictions), "averaged_predictions must be a finite 2D array")
@@ -155,7 +142,6 @@ def partial_dependence_grid_shaped_averages(
     averages = np.asarray(averaged_predictions, dtype=np.float64)
     return np.asarray(averages.reshape(-1, *grid_value_lengths), dtype=np.float64)
 
-
 @register_atom(witness_partial_dependence_grid_shaped_individual)
 @icontract.require(lambda individual_predictions: _finite_3d(individual_predictions), "individual_predictions must be a finite 3D array")
 @icontract.require(lambda grid_value_lengths: _positive_grid_lengths(grid_value_lengths), "grid_value_lengths must be a nonempty tuple of positive integers")
@@ -169,7 +155,6 @@ def partial_dependence_grid_shaped_individual(
     individual = np.asarray(individual_predictions, dtype=np.float64)
     return np.asarray(individual.reshape(individual.shape[0], individual.shape[1], *grid_value_lengths), dtype=np.float64)
 
-
 @register_atom(witness_partial_dependence_result_bunch)
 @icontract.require(lambda kind: _kind_valid(kind), "kind must be 'average', 'individual', or 'both'")
 @icontract.require(lambda grid_values: _grid_values_valid(grid_values), "grid_values must be a nonempty tuple of finite nonempty vectors")
@@ -182,6 +167,7 @@ def partial_dependence_result_bunch(
     average: NDArray[np.float64] | None = None,
     individual: NDArray[np.float64] | None = None,
 ) -> Bunch:
+    from sklearn.utils import Bunch
     """Build sklearn's final partial_dependence Bunch from packaged outputs."""
     result = Bunch(grid_values=grid_values)
     if kind in {"average", "both"}:

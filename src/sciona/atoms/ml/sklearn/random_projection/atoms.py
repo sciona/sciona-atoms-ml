@@ -9,10 +9,6 @@ import numpy as np
 import scipy.sparse as sp
 from numpy.typing import NDArray
 from scipy import linalg
-from sklearn.exceptions import DataDimensionalityWarning
-from sklearn.random_projection import sample_without_replacement
-from sklearn.utils import check_array, check_random_state
-from sklearn.utils.extmath import safe_sparse_dot
 
 from sciona.ghost.registry import register_atom
 
@@ -25,42 +21,33 @@ from .witnesses import (
     witness_sparse_random_projection_transform,
 )
 
-
 def _is_2d(X: MatrixLike) -> bool:
     return bool(getattr(X, "ndim", 0) == 2)
-
 
 def _feature_count(X: MatrixLike) -> int:
     return int(X.shape[1])
 
-
 def _row_count(X: MatrixLike) -> int:
     return int(X.shape[0])
 
-
 def _valid_n_components(n_components: int | str) -> bool:
     return n_components == "auto" or (isinstance(n_components, int) and n_components >= 1)
-
 
 def _valid_fit_eps(n_components: int | str, eps: float) -> bool:
     if n_components == "auto":
         return 0.0 < eps < 1.0
     return eps > 0.0
 
-
 def _valid_density(density: float | str) -> bool:
     return density == "auto" or (isinstance(density, (float, int)) and 0.0 < float(density) <= 1.0)
 
-
 def _components_shape_matches(state: RandomProjectionState) -> bool:
     return tuple(state.components.shape) == (state.n_components, state.n_features_in)
-
 
 def _inverse_shape_matches(state: RandomProjectionState) -> bool:
     if state.inverse_components is None:
         return not state.compute_inverse_components
     return tuple(state.inverse_components.shape) == (state.n_features_in, state.n_components)
-
 
 def _johnson_lindenstrauss_min_dim(n_samples: int, eps: float) -> int:
     if eps <= 0.0 or eps >= 1.0:
@@ -70,8 +57,8 @@ def _johnson_lindenstrauss_min_dim(n_samples: int, eps: float) -> int:
     denominator = (eps**2 / 2) - (eps**3 / 3)
     return int(np.asarray(4 * np.log(n_samples) / denominator).astype(np.int64))
 
-
 def _resolve_n_components(n_components: int | str, eps: float, n_samples: int, n_features: int) -> int:
+    from sklearn.exceptions import DataDimensionalityWarning
     if n_components == "auto":
         resolved = _johnson_lindenstrauss_min_dim(n_samples=n_samples, eps=eps)
         if resolved <= 0:
@@ -94,13 +81,11 @@ def _resolve_n_components(n_components: int | str, eps: float, n_samples: int, n
         )
     return int(n_components)
 
-
 def _check_input_size(n_components: int, n_features: int) -> None:
     if n_components <= 0:
         raise ValueError("n_components must be strictly positive, got %d" % n_components)
     if n_features <= 0:
         raise ValueError("n_features must be strictly positive, got %d" % n_features)
-
 
 def _check_density(density: float | str, n_features: int) -> float:
     if density == "auto":
@@ -109,12 +94,11 @@ def _check_density(density: float | str, n_features: int) -> float:
         raise ValueError("Expected density in range ]0, 1], got: %r" % density)
     return float(density)
 
-
 def _gaussian_random_matrix(n_components: int, n_features: int, random_state: object | None = None) -> NDArray[np.float64]:
+    from sklearn.utils import check_array, check_random_state
     _check_input_size(n_components, n_features)
     rng = check_random_state(random_state)
     return rng.normal(loc=0.0, scale=1.0 / np.sqrt(n_components), size=(n_components, n_features))
-
 
 def _sparse_random_matrix(
     n_components: int,
@@ -122,6 +106,8 @@ def _sparse_random_matrix(
     density: float | str = "auto",
     random_state: object | None = None,
 ) -> MatrixLike:
+    from sklearn.random_projection import sample_without_replacement
+    from sklearn.utils import check_array, check_random_state
     _check_input_size(n_components, n_features)
     density = _check_density(density, n_features)
     rng = check_random_state(random_state)
@@ -144,11 +130,9 @@ def _sparse_random_matrix(
     components = sp.csr_matrix((data, np.concatenate(indices), indptr), shape=(n_components, n_features))
     return np.sqrt(1 / density) / np.sqrt(n_components) * components
 
-
 def _compute_inverse_components(components: MatrixLike) -> NDArray[np.float64]:
     dense_components = components.toarray() if sp.issparse(components) else components
     return linalg.pinv(dense_components, check_finite=False)
-
 
 @register_atom(witness_gaussian_random_projection_fit)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
@@ -165,6 +149,7 @@ def gaussian_random_projection_fit(
     compute_inverse_components: bool = False,
     random_state: object | None = None,
 ) -> RandomProjectionState:
+    from sklearn.utils import check_array, check_random_state
     """Fit Gaussian random projection state from a training matrix shape."""
     checked_x = check_array(X, accept_sparse=("csr", "csc"), dtype=[np.float64, np.float32])
     n_samples, n_features = checked_x.shape
@@ -183,7 +168,6 @@ def gaussian_random_projection_fit(
         inverse_components=inverse_components,
     )
 
-
 @register_atom(witness_gaussian_random_projection_transform)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
 @icontract.require(lambda state: state.projection_kind == "gaussian", "state must be Gaussian projection state")
@@ -193,12 +177,12 @@ def gaussian_random_projection_transform(
     X: MatrixLike,
     state: RandomProjectionState,
 ) -> NDArray[np.float64]:
+    from sklearn.utils import check_array, check_random_state
     """Project data with a fitted Gaussian random projection state."""
     checked_x = check_array(X, accept_sparse=("csr", "csc"), dtype=[np.float64, np.float32])
     if checked_x.shape[1] != state.n_features_in:
         raise ValueError("X feature count does not match fitted state")
     return checked_x @ state.components.T
-
 
 @register_atom(witness_sparse_random_projection_fit)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
@@ -219,6 +203,7 @@ def sparse_random_projection_fit(
     compute_inverse_components: bool = False,
     random_state: object | None = None,
 ) -> RandomProjectionState:
+    from sklearn.utils import check_array, check_random_state
     """Fit sparse random projection state from a training matrix shape."""
     checked_x = check_array(X, accept_sparse=("csr", "csc"), dtype=[np.float64, np.float32])
     n_samples, n_features = checked_x.shape
@@ -242,7 +227,6 @@ def sparse_random_projection_fit(
         dense_output=bool(dense_output),
     )
 
-
 @register_atom(witness_sparse_random_projection_transform)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
 @icontract.require(lambda state: state.projection_kind == "sparse", "state must be sparse projection state")
@@ -252,12 +236,13 @@ def sparse_random_projection_transform(
     X: MatrixLike,
     state: RandomProjectionState,
 ) -> MatrixLike:
+    from sklearn.utils import check_array, check_random_state
+    from sklearn.utils.extmath import safe_sparse_dot
     """Project data with a fitted sparse random projection state."""
     checked_x = check_array(X, accept_sparse=("csr", "csc"), dtype=[np.float64, np.float32])
     if checked_x.shape[1] != state.n_features_in:
         raise ValueError("X feature count does not match fitted state")
     return safe_sparse_dot(checked_x, state.components.T, dense_output=state.dense_output)
-
 
 @register_atom(witness_random_projection_inverse_transform)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
@@ -268,6 +253,7 @@ def random_projection_inverse_transform(
     X: MatrixLike,
     state: RandomProjectionState,
 ) -> NDArray[np.float64]:
+    from sklearn.utils import check_array, check_random_state
     """Project coordinates from random projection space back to input space."""
     checked_x = check_array(X, accept_sparse=("csr", "csc"), dtype=[np.float64, np.float32])
     if checked_x.shape[1] != state.n_components:

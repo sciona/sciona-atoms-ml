@@ -6,8 +6,6 @@ import icontract
 import numpy as np
 from numpy.typing import NDArray
 from scipy import linalg
-from sklearn.utils import check_array
-from sklearn.utils.validation import check_X_y
 
 from sciona.ghost.registry import register_atom
 
@@ -26,30 +24,24 @@ from .witnesses import (
     witness_qda_predict_proba,
 )
 
-
 def _matrix_2d(X: NDArray[np.float64]) -> bool:
     return bool(np.asarray(X).ndim == 2)
 
-
 def _target_1d(y: NDArray[np.float64]) -> bool:
     return bool(np.asarray(y).ndim == 1)
-
 
 def _sample_counts_match(X: NDArray[np.float64], y: NDArray[np.float64]) -> bool:
     values_x = np.asarray(X)
     values_y = np.asarray(y)
     return bool(values_x.ndim == 2 and values_y.ndim == 1 and values_x.shape[0] == values_y.shape[0])
 
-
 def _finite_inputs(X: NDArray[np.float64], y: NDArray[np.float64]) -> bool:
     values_x = np.asarray(X, dtype=np.float64)
     values_y = np.asarray(y, dtype=np.float64)
     return bool(np.all(np.isfinite(values_x)) and np.all(np.isfinite(values_y)))
 
-
 def _at_least_two_classes(y: NDArray[np.float64]) -> bool:
     return bool(np.unique(np.asarray(y)).shape[0] >= 2)
-
 
 def _class_counts_exceed_features(X: NDArray[np.float64], y: NDArray[np.float64]) -> bool:
     values_x = np.asarray(X)
@@ -59,13 +51,11 @@ def _class_counts_exceed_features(X: NDArray[np.float64], y: NDArray[np.float64]
     _, counts = np.unique(values_y, return_counts=True)
     return bool(np.all(counts > values_x.shape[1]))
 
-
 def _priors_valid(priors: tuple[float, ...] | None, y: NDArray[np.float64]) -> bool:
     if priors is None:
         return True
     values = np.asarray(priors, dtype=np.float64)
     return bool(values.ndim == 1 and values.shape[0] == np.unique(y).shape[0] and np.all(values >= 0.0) and np.isclose(np.sum(values), 1.0))
-
 
 def _lda_components_valid(n_components: int | None, X: NDArray[np.float64], y: NDArray[np.float64]) -> bool:
     if n_components is None:
@@ -75,7 +65,6 @@ def _lda_components_valid(n_components: int | None, X: NDArray[np.float64], y: N
     n_features = np.asarray(X).shape[1]
     n_classes = np.unique(y).shape[0]
     return 1 <= n_components <= min(n_features, n_classes - 1)
-
 
 def _state_valid(state: QDAState) -> bool:
     n_classes = state.classes.shape[0]
@@ -105,15 +94,12 @@ def _state_valid(state: QDAState) -> bool:
         and state.store_covariance == (state.covariance is not None)
     )
 
-
 def _feature_count_matches(X: NDArray[np.float64], state: QDAState) -> bool:
     return bool(np.asarray(X).ndim == 2 and np.asarray(X).shape[1] == state.n_features_in)
-
 
 def _scores_valid(result: NDArray[np.float64], state: QDAState) -> bool:
     values = np.asarray(result)
     return bool(values.ndim == 2 and values.shape[1] == state.classes.shape[0] and np.all(np.isfinite(values)))
-
 
 def _proba_valid(result: NDArray[np.float64], state: QDAState) -> bool:
     values = np.asarray(result)
@@ -125,11 +111,9 @@ def _proba_valid(result: NDArray[np.float64], state: QDAState) -> bool:
         and np.allclose(values.sum(axis=1), 1.0)
     )
 
-
 def _prediction_valid(result: NDArray[np.float64]) -> bool:
     values = np.asarray(result)
     return bool(values.ndim == 1 and np.all(np.isfinite(values)))
-
 
 def _lda_state_valid(state: LDAState) -> bool:
     n_classes = state.classes.shape[0]
@@ -163,17 +147,14 @@ def _lda_state_valid(state: LDAState) -> bool:
         and (state.covariance is None or np.all(np.isfinite(state.covariance)))
     )
 
-
 def _lda_feature_count_matches(X: NDArray[np.float64], state: LDAState) -> bool:
     return bool(np.asarray(X).ndim == 2 and np.asarray(X).shape[1] == state.n_features_in)
-
 
 def _lda_scores_valid(result: NDArray[np.float64], state: LDAState) -> bool:
     values = np.asarray(result)
     if state.classes.shape[0] == 2:
         return bool(values.ndim == 1 and np.all(np.isfinite(values)))
     return bool(values.ndim == 2 and values.shape[1] == state.classes.shape[0] and np.all(np.isfinite(values)))
-
 
 def _lda_proba_valid(result: NDArray[np.float64], state: LDAState) -> bool:
     values = np.asarray(result)
@@ -185,7 +166,6 @@ def _lda_proba_valid(result: NDArray[np.float64], state: LDAState) -> bool:
         and np.allclose(values.sum(axis=1), 1.0)
     )
 
-
 def _lda_log_proba_valid(result: NDArray[np.float64], state: LDAState) -> bool:
     values = np.asarray(result)
     return bool(
@@ -195,20 +175,16 @@ def _lda_log_proba_valid(result: NDArray[np.float64], state: LDAState) -> bool:
         and np.allclose(np.exp(values).sum(axis=1), 1.0)
     )
 
-
 def _lda_transform_valid(result: NDArray[np.float64], state: LDAState) -> bool:
     values = np.asarray(result)
     return bool(values.ndim == 2 and values.shape[1] <= state.n_components and np.all(np.isfinite(values)))
 
-
 def _class_means(X: NDArray[np.float64], y: NDArray[np.float64], classes: NDArray[np.float64]) -> NDArray[np.float64]:
     return np.asarray([np.mean(X[y == class_label], axis=0) for class_label in classes], dtype=np.float64)
-
 
 def _empirical_covariance(X: NDArray[np.float64]) -> NDArray[np.float64]:
     centered = X - np.mean(X, axis=0)
     return np.asarray(np.dot(centered.T, centered) / X.shape[0], dtype=np.float64)
-
 
 def _class_covariance(
     X: NDArray[np.float64],
@@ -221,12 +197,10 @@ def _class_covariance(
         covariance += priors[class_index] * _empirical_covariance(X[y == class_label, :])
     return covariance
 
-
 def _softmax(scores: NDArray[np.float64]) -> NDArray[np.float64]:
     shifted = scores - np.max(scores, axis=1)[:, np.newaxis]
     exponent = np.exp(shifted)
     return exponent / exponent.sum(axis=1)[:, np.newaxis]
-
 
 @register_atom(witness_lda_fit)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
@@ -248,6 +222,7 @@ def lda_fit(
     store_covariance: bool = False,
     tol: float = 1e-4,
 ) -> LDAState:
+    from sklearn.utils.validation import check_X_y
     """Fit dense SVD-based linear discriminant state."""
     checked_x, checked_y = check_X_y(X, y, dtype=np.float64)
     classes = np.unique(checked_y)
@@ -310,7 +285,6 @@ def lda_fit(
         tol=float(tol),
     )
 
-
 @register_atom(witness_lda_decision_function)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
 @icontract.require(lambda X, state: _lda_feature_count_matches(X, state), "X feature count must match fitted linear discriminant state")
@@ -320,13 +294,13 @@ def lda_decision_function(
     X: NDArray[np.float64],
     state: LDAState,
 ) -> NDArray[np.float64]:
+    from sklearn.utils import check_array
     """Compute linear discriminant confidence scores."""
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     scores = np.dot(checked_x, state.coef.T) + state.intercept
     if scores.ndim > 1 and scores.shape[1] == 1:
         return np.ravel(scores).astype(np.float64)
     return np.asarray(scores, dtype=np.float64)
-
 
 @register_atom(witness_lda_predict_proba)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
@@ -344,7 +318,6 @@ def lda_predict_proba(
         return np.stack([1.0 - positive, positive], axis=1).astype(np.float64)
     return _softmax(np.asarray(decision, dtype=np.float64))
 
-
 @register_atom(witness_lda_predict_log_proba)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
 @icontract.require(lambda X, state: _lda_feature_count_matches(X, state), "X feature count must match fitted linear discriminant state")
@@ -358,7 +331,6 @@ def lda_predict_log_proba(
     probabilities = lda_predict_proba(X, state)
     probabilities[probabilities == 0.0] += np.finfo(probabilities.dtype).smallest_normal
     return np.log(probabilities)
-
 
 @register_atom(witness_lda_predict)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
@@ -377,7 +349,6 @@ def lda_predict(
         indices = np.argmax(scores, axis=1)
     return np.asarray(state.classes.take(indices, axis=0), dtype=np.float64)
 
-
 @register_atom(witness_lda_transform)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
 @icontract.require(lambda X, state: _lda_feature_count_matches(X, state), "X feature count must match fitted linear discriminant state")
@@ -387,11 +358,11 @@ def lda_transform(
     X: NDArray[np.float64],
     state: LDAState,
 ) -> NDArray[np.float64]:
+    from sklearn.utils import check_array
     """Project samples onto fitted class-separation axes."""
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     projected = np.dot(checked_x - state.xbar, state.scalings)
     return np.asarray(projected[:, : state.n_components], dtype=np.float64)
-
 
 @register_atom(witness_qda_fit)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
@@ -413,6 +384,7 @@ def qda_fit(
     store_covariance: bool = False,
     tol: float = 1e-4,
 ) -> QDAState:
+    from sklearn.utils.validation import check_X_y
     """Fit dense SVD-based Quadratic Discriminant Analysis state."""
     checked_x, checked_y = check_X_y(X, y, dtype=np.float64)
     classes = np.unique(checked_y)
@@ -456,7 +428,6 @@ def qda_fit(
         n_features_in=int(n_features),
     )
 
-
 @register_atom(witness_qda_decision_function)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
 @icontract.require(lambda X, state: _feature_count_matches(X, state), "X feature count must match fitted QDA state")
@@ -466,6 +437,7 @@ def qda_decision_function(
     X: NDArray[np.float64],
     state: QDAState,
 ) -> NDArray[np.float64]:
+    from sklearn.utils import check_array
     """Compute QDA log posterior scores before probability normalization."""
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     norm2 = []
@@ -478,7 +450,6 @@ def qda_decision_function(
     norm2_matrix = np.asarray(norm2, dtype=np.float64).T
     log_det = np.asarray([np.sum(np.log(scaling)) for scaling in state.scalings], dtype=np.float64)
     return -0.5 * (norm2_matrix + log_det) + np.log(state.priors)
-
 
 @register_atom(witness_qda_predict_log_proba)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
@@ -494,7 +465,6 @@ def qda_predict_log_proba(
     log_likelihood = scores - scores.max(axis=1)[:, np.newaxis]
     return log_likelihood - np.log(np.exp(log_likelihood).sum(axis=1)[:, np.newaxis])
 
-
 @register_atom(witness_qda_predict_proba)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
 @icontract.require(lambda X, state: _feature_count_matches(X, state), "X feature count must match fitted QDA state")
@@ -506,7 +476,6 @@ def qda_predict_proba(
 ) -> NDArray[np.float64]:
     """Compute normalized QDA class probabilities for each row."""
     return np.exp(qda_predict_log_proba(X, state))
-
 
 @register_atom(witness_qda_predict)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")

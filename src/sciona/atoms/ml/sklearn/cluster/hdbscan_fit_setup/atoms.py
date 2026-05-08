@@ -3,8 +3,6 @@
 from __future__ import annotations
 
 import icontract
-from sklearn.cluster._hdbscan.hdbscan import FAST_METRICS
-from sklearn.neighbors import BallTree, KDTree
 
 from sciona.ghost.registry import register_atom
 
@@ -20,36 +18,28 @@ from .witnesses import (
     witness_hdbscan_tree_metric_compatibility_guard,
 )
 
-
 _VALID_ALGORITHMS = {"auto", "brute", "kd_tree", "ball_tree"}
 _BACKEND_NAMES = {"brute", "kd_tree", "ball_tree"}
-
 
 def _string_value(value: object) -> bool:
     return isinstance(value, str) and len(value) >= 1
 
-
 def _bool_value(value: object) -> bool:
     return isinstance(value, bool)
-
 
 def _positive_int(value: object) -> bool:
     return isinstance(value, int) and not isinstance(value, bool) and value >= 1
 
-
 def _algorithm_value(value: object) -> bool:
     return isinstance(value, str) and value in _VALID_ALGORITHMS
 
-
 def _backend_name_value(value: object) -> bool:
     return isinstance(value, str) and value in _BACKEND_NAMES
-
 
 def _optional_leaf_size_valid(result: object, backend_name: str, leaf_size: int) -> bool:
     if backend_name == "brute":
         return result is None
     return result == int(leaf_size)
-
 
 @register_atom(witness_hdbscan_store_centers_precomputed_guard)
 @icontract.require(lambda metric: _string_value(metric), "metric must be a nonempty string")
@@ -63,7 +53,6 @@ def hdbscan_store_centers_precomputed_guard(
         raise ValueError("Cannot store centers when using a precomputed distance matrix.")
     return True
 
-
 @register_atom(witness_hdbscan_resolved_min_samples)
 @icontract.require(lambda min_cluster_size: _positive_int(min_cluster_size), "min_cluster_size must be positive")
 @icontract.require(lambda min_samples: min_samples is None or _positive_int(min_samples), "min_samples must be positive or None")
@@ -75,7 +64,6 @@ def hdbscan_resolved_min_samples(
     """Resolve HDBSCAN's internal _min_samples value."""
     return int(min_cluster_size if min_samples is None else min_samples)
 
-
 @register_atom(witness_hdbscan_require_multiple_samples)
 @icontract.require(lambda n_samples: _positive_int(n_samples), "n_samples must be positive")
 @icontract.ensure(lambda result: _bool_value(result), "guard result must be boolean")
@@ -86,7 +74,6 @@ def hdbscan_require_multiple_samples(
     if int(n_samples) == 1:
         raise ValueError("n_samples=1 while HDBSCAN requires more than one sample")
     return True
-
 
 @register_atom(witness_hdbscan_require_min_samples_within_sample_count)
 @icontract.require(lambda resolved_min_samples: _positive_int(resolved_min_samples), "resolved_min_samples must be positive")
@@ -103,7 +90,6 @@ def hdbscan_require_min_samples_within_sample_count(
         )
     return True
 
-
 @register_atom(witness_hdbscan_tree_metric_compatibility_guard)
 @icontract.require(lambda algorithm: _algorithm_value(algorithm), "algorithm must be one of HDBSCAN's supported algorithm strings")
 @icontract.require(lambda metric: _string_value(metric), "metric must be a nonempty string")
@@ -112,6 +98,7 @@ def hdbscan_tree_metric_compatibility_guard(
     algorithm: str,
     metric: str,
 ) -> bool:
+    from sklearn.neighbors import BallTree, KDTree
     """Apply HDBSCAN's explicit KDTree and BallTree metric compatibility guard."""
     if algorithm == "kd_tree" and metric not in KDTree.valid_metrics:
         raise ValueError(
@@ -122,7 +109,6 @@ def hdbscan_tree_metric_compatibility_guard(
             f"{metric} is not a valid metric for a BallTree-based algorithm. Please select a different metric."
         )
     return True
-
 
 @register_atom(witness_hdbscan_sparse_forced_algorithm_guard)
 @icontract.require(lambda metric: _string_value(metric), "metric must be a nonempty string")
@@ -139,7 +125,6 @@ def hdbscan_sparse_forced_algorithm_guard(
         raise ValueError("Sparse data matrices only support algorithm `brute`.")
     return True
 
-
 @register_atom(witness_hdbscan_backend_name)
 @icontract.require(lambda metric: _string_value(metric), "metric must be a nonempty string")
 @icontract.require(lambda is_sparse: _bool_value(is_sparse), "is_sparse must be boolean")
@@ -150,6 +135,8 @@ def hdbscan_backend_name(
     is_sparse: bool,
     algorithm: str,
 ) -> str:
+    from sklearn.cluster._hdbscan.hdbscan import FAST_METRICS
+    from sklearn.neighbors import BallTree, KDTree
     """Resolve HDBSCAN's MST backend name before native execution."""
     if algorithm != "auto":
         if algorithm == "brute":
@@ -164,7 +151,6 @@ def hdbscan_backend_name(
         return "kd_tree"
     return "ball_tree"
 
-
 @register_atom(witness_hdbscan_backend_uses_copy)
 @icontract.require(lambda backend_name: _backend_name_value(backend_name), "backend_name must be brute, kd_tree, or ball_tree")
 @icontract.ensure(lambda result: _bool_value(result), "copy-usage flag must be boolean")
@@ -173,7 +159,6 @@ def hdbscan_backend_uses_copy(
 ) -> bool:
     """Return whether the selected HDBSCAN backend passes the copy kwarg."""
     return backend_name == "brute"
-
 
 @register_atom(witness_hdbscan_backend_leaf_size)
 @icontract.require(lambda backend_name: _backend_name_value(backend_name), "backend_name must be brute, kd_tree, or ball_tree")

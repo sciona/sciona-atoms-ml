@@ -7,8 +7,6 @@ from collections.abc import Mapping, Sequence
 import icontract
 import numpy as np
 from numpy.typing import NDArray
-from sklearn.utils.class_weight import compute_sample_weight
-from sklearn.utils.multiclass import check_classification_targets
 
 from sciona.ghost.registry import register_atom
 
@@ -23,14 +21,12 @@ from .witnesses import (
 
 FitTargetsResult = tuple[ForestClassifierTargetState, NDArray[np.int64]]
 
-
 def _target_matrix_valid(y: object) -> bool:
     try:
         values = np.asarray(y)
     except (TypeError, ValueError):
         return False
     return bool(values.ndim == 2 and values.shape[0] >= 1 and values.shape[1] >= 1)
-
 
 def _state_valid(state: ForestClassifierTargetState, n_outputs: int) -> bool:
     return bool(
@@ -52,7 +48,6 @@ def _state_valid(state: ForestClassifierTargetState, n_outputs: int) -> bool:
         )
     )
 
-
 def _fit_targets_result_valid(result: FitTargetsResult, y: object) -> bool:
     state, encoded = result
     matrix = np.asarray(y)
@@ -66,14 +61,11 @@ def _fit_targets_result_valid(result: FitTargetsResult, y: object) -> bool:
         return False
     return all(np.all(values[:, column] < state.n_classes[column]) for column in range(values.shape[1]))
 
-
 def _preset_input_valid(class_weight: object) -> bool:
     return class_weight is None or isinstance(class_weight, str)
 
-
 def _preset_output_valid(result: object) -> bool:
     return result is None or result in {"balanced", "balanced_subsample"}
-
 
 def _class_weight_object_valid(class_weight: object, n_outputs: int) -> bool:
     if class_weight is None:
@@ -86,7 +78,6 @@ def _class_weight_object_valid(class_weight: object, n_outputs: int) -> bool:
         return len(class_weight) == n_outputs and all(isinstance(item, Mapping) for item in class_weight)
     return False
 
-
 def _target_output_count(y: object) -> int:
     try:
         values = np.asarray(y)
@@ -95,7 +86,6 @@ def _target_output_count(y: object) -> int:
     if values.ndim != 2:
         return 0
     return int(values.shape[1])
-
 
 def _expanded_class_weight_valid(result: object, y_original: object) -> bool:
     if result is None:
@@ -111,7 +101,6 @@ def _expanded_class_weight_valid(result: object, y_original: object) -> bool:
         and np.all(values > 0.0)
     )
 
-
 @register_atom(witness_forest_classifier_fit_targets)
 @icontract.require(
     lambda y: _target_matrix_valid(y),
@@ -124,6 +113,7 @@ def _expanded_class_weight_valid(result: object, y_original: object) -> bool:
 def forest_classifier_fit_targets(
     y: NDArray[np.object_] | NDArray[np.int64] | NDArray[np.float64] | NDArray[np.bool_],
 ) -> FitTargetsResult:
+    from sklearn.utils.multiclass import check_classification_targets
     """Resolve forest classifier classes, class counts, and encoded targets."""
     matrix = np.asarray(y).copy()
     check_classification_targets(matrix)
@@ -141,7 +131,6 @@ def forest_classifier_fit_targets(
         n_classes=tuple(n_classes),
     )
     return state, np.asarray(encoded, dtype=np.int64)
-
 
 @register_atom(witness_forest_classifier_validate_class_weight_preset)
 @icontract.require(
@@ -166,7 +155,6 @@ def forest_classifier_validate_class_weight_preset(
         )
     return class_weight
 
-
 @register_atom(witness_forest_classifier_class_weight_warning_required)
 @icontract.require(
     lambda class_weight: _preset_input_valid(class_weight),
@@ -180,7 +168,6 @@ def forest_classifier_class_weight_warning_required(
     """Return whether sklearn would issue the warm-start class-weight warning."""
     preset = forest_classifier_validate_class_weight_preset(class_weight)
     return bool(preset is not None and warm_start)
-
 
 @register_atom(witness_forest_classifier_expanded_class_weight)
 @icontract.require(
@@ -201,6 +188,7 @@ def forest_classifier_expanded_class_weight(
     *,
     bootstrap: bool,
 ) -> NDArray[np.float64] | None:
+    from sklearn.utils.class_weight import compute_sample_weight
     """Resolve forest classifier expanded sample weights from original targets."""
     matrix = np.asarray(y_original).copy()
     preset = class_weight if isinstance(class_weight, str) else None

@@ -5,7 +5,6 @@ from __future__ import annotations
 import icontract
 import numpy as np
 from numpy.typing import NDArray
-from sklearn.utils import check_random_state
 
 from sciona.ghost.registry import register_atom
 
@@ -16,7 +15,6 @@ from .witnesses import (
 )
 
 RandomStateLike = int | np.random.RandomState | None
-
 
 def _real_bounds_matrix(values: object) -> bool:
     try:
@@ -30,10 +28,8 @@ def _real_bounds_matrix(values: object) -> bool:
         and not np.isnan(array).any()
     )
 
-
 def _finite_bounds_matrix(values: object) -> bool:
     return _real_bounds_matrix(values) and bool(np.isfinite(np.asarray(values, dtype=np.float64)).all())
-
 
 def _finite_vector(values: object) -> bool:
     try:
@@ -42,7 +38,6 @@ def _finite_vector(values: object) -> bool:
         return False
     return bool(array.ndim == 1 and array.shape[0] >= 1 and np.all(np.isfinite(array)))
 
-
 def _finite_matrix(values: object) -> bool:
     try:
         array = np.asarray(values, dtype=np.float64)
@@ -50,16 +45,13 @@ def _finite_matrix(values: object) -> bool:
         return False
     return bool(array.ndim == 2 and array.shape[0] >= 1 and array.shape[1] >= 1 and np.all(np.isfinite(array)))
 
-
 def _nonnegative_int(value: int) -> bool:
     return bool(isinstance(value, int) and not isinstance(value, bool) and value >= 0)
-
 
 def _restart_bounds_valid(result: NDArray[np.float64], bounds: NDArray[np.float64]) -> bool:
     values = np.asarray(result, dtype=np.float64)
     source = np.asarray(bounds, dtype=np.float64)
     return bool(values.shape == source.shape and np.array_equal(values, source))
-
 
 def _restart_thetas_valid(
     result: NDArray[np.float64],
@@ -74,7 +66,6 @@ def _restart_thetas_valid(
         and np.all(values > 0.0)
     )
 
-
 def _objective_selection_inputs_valid(
     candidate_thetas: NDArray[np.float64],
     objective_values: NDArray[np.float64],
@@ -86,7 +77,6 @@ def _objective_selection_inputs_valid(
         and _finite_vector(objectives)
         and thetas.shape[0] == objectives.shape[0]
     )
-
 
 def _selected_optimum_valid(
     result: tuple[NDArray[np.float64], float],
@@ -107,7 +97,6 @@ def _selected_optimum_valid(
         and np.isfinite(float(log_marginal_likelihood_value))
         and float(log_marginal_likelihood_value) == float(-np.min(objectives))
     )
-
 
 @register_atom(witness_gpc_restart_bounds)
 @icontract.require(
@@ -136,7 +125,6 @@ def gpc_restart_bounds(
         )
     return np.asarray(values, dtype=np.float64)
 
-
 @register_atom(witness_gpc_restart_thetas)
 @icontract.require(
     lambda bounds: _finite_bounds_matrix(bounds),
@@ -156,6 +144,7 @@ def gpc_restart_thetas(
     n_restarts_optimizer: int,
     random_state: RandomStateLike = 0,
 ) -> NDArray[np.float64]:
+    from sklearn.utils import check_random_state
     """Draw binary GPC optimizer restart thetas by exponentiating log-space uniform draws."""
     values = np.asarray(bounds, dtype=np.float64)
     restart_count = int(n_restarts_optimizer)
@@ -164,7 +153,6 @@ def gpc_restart_thetas(
     rng = check_random_state(random_state)
     draws = [np.exp(rng.uniform(values[:, 0], values[:, 1])) for _ in range(restart_count)]
     return np.asarray(draws, dtype=np.float64)
-
 
 @register_atom(witness_gpc_select_best_optimum)
 @icontract.require(

@@ -5,7 +5,6 @@ from __future__ import annotations
 import icontract
 import numpy as np
 from numpy.typing import NDArray
-from sklearn.utils import check_random_state
 
 from sciona.ghost.registry import register_atom
 
@@ -20,7 +19,6 @@ from .witnesses import (
 CandidatePotentials = tuple[NDArray[np.float64], NDArray[np.float64]]
 KMeansPlusPlusInit = tuple[NDArray[np.float64], NDArray[np.int64]]
 
-
 def _dense_matrix(X: NDArray[np.float64]) -> NDArray[np.float64] | None:
     try:
         values = np.asarray(X, dtype=np.float64)
@@ -30,14 +28,11 @@ def _dense_matrix(X: NDArray[np.float64]) -> NDArray[np.float64] | None:
         return None
     return values
 
-
 def _positive_int(value: int) -> bool:
     return bool(isinstance(value, int) and not isinstance(value, bool) and value >= 1)
 
-
 def _random_state_valid(value: int | None) -> bool:
     return value is None or (isinstance(value, int) and not isinstance(value, bool) and value >= 0)
-
 
 def _weight_vector(values: NDArray[np.float64], n_samples: int) -> NDArray[np.float64] | None:
     try:
@@ -50,10 +45,8 @@ def _weight_vector(values: NDArray[np.float64], n_samples: int) -> NDArray[np.fl
         return None
     return weights
 
-
 def _sample_weight_valid(sample_weight: NDArray[np.float64], n_samples: int) -> bool:
     return _weight_vector(sample_weight, n_samples) is not None
-
 
 def _distance_vector(values: NDArray[np.float64], n_samples: int) -> NDArray[np.float64] | None:
     try:
@@ -64,22 +57,18 @@ def _distance_vector(values: NDArray[np.float64], n_samples: int) -> NDArray[np.
         return None
     return distances
 
-
 def _closest_dist_sq_valid(closest_dist_sq: NDArray[np.float64], sample_weight: NDArray[np.float64]) -> bool:
     weights = np.asarray(sample_weight, dtype=np.float64)
     distances = _distance_vector(closest_dist_sq, weights.shape[0])
     return distances is not None
 
-
 def _nonnegative_scalar(value: float) -> bool:
     return bool(isinstance(value, (int, float)) and not isinstance(value, bool) and np.isfinite(float(value)) and float(value) >= 0.0)
-
 
 def _x_squared_norms_valid(x_squared_norms: NDArray[np.float64], X: NDArray[np.float64]) -> bool:
     values = np.asarray(X, dtype=np.float64)
     distances = _distance_vector(x_squared_norms, values.shape[0])
     return bool(distances is not None)
-
 
 def _candidate_ids_valid(result: NDArray[np.int64], closest_dist_sq: NDArray[np.float64], n_local_trials: int) -> bool:
     ids = np.asarray(result)
@@ -90,7 +79,6 @@ def _candidate_ids_valid(result: NDArray[np.int64], closest_dist_sq: NDArray[np.
         and np.all(ids >= 0)
         and np.all(ids < n_samples)
     )
-
 
 def _candidate_input_valid(
     X: NDArray[np.float64],
@@ -115,7 +103,6 @@ def _candidate_input_valid(
         return False
     return bool(ids.ndim == 1 and ids.shape[0] >= 1 and np.all(ids >= 0) and np.all(ids < n_samples))
 
-
 def _candidate_potentials_valid(result: CandidatePotentials, X: NDArray[np.float64], candidate_ids: NDArray[np.int64]) -> bool:
     if not isinstance(result, tuple) or len(result) != 2:
         return False
@@ -132,7 +119,6 @@ def _candidate_potentials_valid(result: CandidatePotentials, X: NDArray[np.float
         and np.all(distances >= 0.0)
         and np.all(potentials >= 0.0)
     )
-
 
 def _init_inputs_valid(
     X: NDArray[np.float64],
@@ -156,7 +142,6 @@ def _init_inputs_valid(
         return False
     return True
 
-
 def _init_result_valid(result: KMeansPlusPlusInit, X: NDArray[np.float64], n_clusters: int) -> bool:
     if not isinstance(result, tuple) or len(result) != 2:
         return False
@@ -174,15 +159,12 @@ def _init_result_valid(result: KMeansPlusPlusInit, X: NDArray[np.float64], n_clu
         and np.allclose(center_values, values[index_values])
     )
 
-
 def _row_squared_norms(X: NDArray[np.float64]) -> NDArray[np.float64]:
     values = np.asarray(X, dtype=np.float64)
     return np.asarray(np.einsum("ij,ij->i", values, values), dtype=np.float64)
 
-
 def _stable_cumsum(values: NDArray[np.float64]) -> NDArray[np.float64]:
     return np.asarray(np.cumsum(np.asarray(values, dtype=np.float64), dtype=np.float64), dtype=np.float64)
-
 
 def _pairwise_squared_distances_from_candidates(
     X: NDArray[np.float64],
@@ -200,14 +182,12 @@ def _pairwise_squared_distances_from_candidates(
     )
     return np.asarray(np.maximum(distances, 0.0), dtype=np.float64)
 
-
 @register_atom(witness_kmeans_plusplus_default_local_trials)
 @icontract.require(lambda n_clusters: _positive_int(n_clusters), "n_clusters must be a positive integer")
 @icontract.ensure(lambda result: _positive_int(result), "default local trial count must be positive")
 def kmeans_plusplus_default_local_trials(n_clusters: int) -> int:
     """Compute sklearn's default greedy-local-trial count for k-means++ seeding."""
     return int(2 + np.log(int(n_clusters)))
-
 
 @register_atom(witness_kmeans_plusplus_first_center_index)
 @icontract.require(lambda sample_weight: _sample_weight_valid(sample_weight, np.asarray(sample_weight, dtype=np.float64).shape[0]), "sample_weight must be a finite nonnegative vector with positive sum")
@@ -218,11 +198,11 @@ def kmeans_plusplus_first_center_index(
     *,
     random_state: int | None = None,
 ) -> int:
+    from sklearn.utils import check_random_state
     """Choose the first k-means++ center index by weighted random sampling."""
     weights = np.asarray(sample_weight, dtype=np.float64)
     rng = check_random_state(random_state)
     return int(rng.choice(weights.shape[0], p=weights / weights.sum()))
-
 
 @register_atom(witness_kmeans_plusplus_candidate_ids)
 @icontract.require(lambda closest_dist_sq, sample_weight: _closest_dist_sq_valid(closest_dist_sq, sample_weight), "closest_dist_sq must be a finite nonnegative vector matching sample_weight")
@@ -239,6 +219,7 @@ def kmeans_plusplus_candidate_ids(
     n_local_trials: int,
     random_state: int | None = None,
 ) -> NDArray[np.int64]:
+    from sklearn.utils import check_random_state
     """Sample candidate center indices for one greedy k-means++ expansion step."""
     distances = np.asarray(closest_dist_sq, dtype=np.float64)
     weights = np.asarray(sample_weight, dtype=np.float64)
@@ -248,7 +229,6 @@ def kmeans_plusplus_candidate_ids(
     candidate_ids = np.asarray(candidate_ids, dtype=np.int64)
     np.clip(candidate_ids, None, distances.size - 1, out=candidate_ids)
     return candidate_ids
-
 
 @register_atom(witness_kmeans_plusplus_candidate_potentials)
 @icontract.require(lambda X, x_squared_norms, sample_weight, closest_dist_sq, candidate_ids: _candidate_input_valid(X, x_squared_norms, sample_weight, closest_dist_sq, candidate_ids), "X, norms, weights, distances, and candidate ids must be finite and shape-compatible")
@@ -266,7 +246,6 @@ def kmeans_plusplus_candidate_potentials(
     candidates_pot = np.asarray(distance_to_candidates @ np.asarray(sample_weight, dtype=np.float64).reshape(-1, 1), dtype=np.float64).ravel()
     return np.asarray(distance_to_candidates, dtype=np.float64), candidates_pot
 
-
 @register_atom(witness_kmeans_plusplus_initialize_dense)
 @icontract.require(lambda X, n_clusters, sample_weight, x_squared_norms, random_state, n_local_trials: _init_inputs_valid(X, n_clusters, sample_weight, x_squared_norms, random_state, n_local_trials), "inputs must describe a finite dense dataset with valid k-means++ parameters")
 @icontract.ensure(lambda result, X, n_clusters: _init_result_valid(result, X, n_clusters), "initialized centers and indices must be finite, shape-compatible, and sourced from X")
@@ -279,6 +258,7 @@ def kmeans_plusplus_initialize_dense(
     random_state: int | None = None,
     n_local_trials: int | None = None,
 ) -> KMeansPlusPlusInit:
+    from sklearn.utils import check_random_state
     """Initialize dense k-means++ centers and source indices with sklearn's greedy seeding rule."""
     values = np.asarray(X, dtype=np.float64)
     n_samples, n_features = values.shape

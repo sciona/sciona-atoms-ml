@@ -7,17 +7,13 @@ from collections.abc import Mapping
 import icontract
 import numpy as np
 from numpy.typing import NDArray
-from sklearn.base import clone
-from sklearn.utils import Bunch
 
 from sciona.ghost.registry import register_atom
 
 from .witnesses import witness_tree_pruning_path_estimator, witness_tree_pruning_path_result
 
-
 def _supports_ccp_alpha(value: object) -> bool:
     return bool(hasattr(value, "get_params") and hasattr(value, "set_params"))
-
 
 def _float_vector(values: object) -> bool:
     try:
@@ -25,7 +21,6 @@ def _float_vector(values: object) -> bool:
     except (TypeError, ValueError):
         return False
     return bool(vector.ndim == 1 and vector.shape[0] >= 1 and np.all(np.isfinite(vector)))
-
 
 def _pruning_path_mapping(values: object) -> bool:
     if not isinstance(values, Mapping):
@@ -40,7 +35,6 @@ def _pruning_path_mapping(values: object) -> bool:
         and np.asarray(alphas, dtype=np.float64).shape == np.asarray(impurities, dtype=np.float64).shape
     )
 
-
 @register_atom(witness_tree_pruning_path_estimator)
 @icontract.require(
     lambda estimator: _supports_ccp_alpha(estimator),
@@ -54,9 +48,9 @@ def _pruning_path_mapping(values: object) -> bool:
     "pruning-path estimator must be a cloned estimator with ccp_alpha reset to 0.0",
 )
 def tree_pruning_path_estimator(estimator: object) -> object:
+    from sklearn.base import clone
     """Return the cloned zero-alpha estimator used by cost_complexity_pruning_path."""
     return clone(estimator).set_params(ccp_alpha=0.0)
-
 
 @register_atom(witness_tree_pruning_path_result)
 @icontract.require(
@@ -74,5 +68,6 @@ def tree_pruning_path_estimator(estimator: object) -> object:
 def tree_pruning_path_result(
     pruning_path: Mapping[str, NDArray[np.float64]],
 ) -> Bunch:
+    from sklearn.utils import Bunch
     """Return the Bunch packaging used by cost_complexity_pruning_path."""
     return Bunch(**pruning_path)

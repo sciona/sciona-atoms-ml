@@ -8,14 +8,7 @@ from collections import defaultdict
 import icontract
 import numpy as np
 import scipy.sparse as sp
-from joblib import Parallel, delayed
 from numpy.typing import NDArray
-from sklearn.exceptions import ConvergenceWarning
-from sklearn.metrics import euclidean_distances, pairwise_distances, pairwise_distances_argmin
-from sklearn.neighbors import NearestNeighbors
-from sklearn.utils import check_array, check_random_state, gen_batches
-from sklearn.utils.extmath import row_norms
-from sklearn.utils.validation import _check_sample_weight
 
 from sciona.ghost.registry import register_atom
 
@@ -46,20 +39,16 @@ KMeansPlusPlusResult = tuple[NDArray[np.float64], NDArray[np.int_]]
 OpticsXiResult = tuple[NDArray[np.int_], NDArray[np.int_]]
 OpticsGraphResult = tuple[NDArray[np.int_], NDArray[np.float64], NDArray[np.float64], NDArray[np.int_]]
 
-
 def _is_2d_matrix(X: MatrixLike) -> bool:
     if sp.issparse(X):
         return bool(X.ndim == 2)
     return bool(np.asarray(X).ndim == 2)
 
-
 def _sample_count(X: MatrixLike) -> int:
     return int(X.shape[0]) if sp.issparse(X) else int(np.asarray(X).shape[0])
 
-
 def _feature_count(X: MatrixLike) -> int:
     return int(X.shape[1]) if sp.issparse(X) else int(np.asarray(X).shape[1])
-
 
 def _is_square_matrix(X: MatrixLike) -> bool:
     if not _is_2d_matrix(X):
@@ -67,42 +56,32 @@ def _is_square_matrix(X: MatrixLike) -> bool:
     shape = X.shape if sp.issparse(X) else np.asarray(X).shape
     return bool(shape[0] == shape[1])
 
-
 def _damping_valid(damping: float) -> bool:
     return bool(0.5 <= float(damping) < 1.0)
-
 
 def _positive_int(value: int) -> bool:
     return isinstance(value, int) and value >= 1
 
-
 def _nonnegative_int(value: int) -> bool:
     return isinstance(value, int) and value >= 0
-
 
 def _positive_int_or_none(value: int | None) -> bool:
     return value is None or (isinstance(value, int) and value >= 1)
 
-
 def _quantile_valid(quantile: float) -> bool:
     return bool(0.0 <= float(quantile) <= 1.0)
-
 
 def _bandwidth_valid(bandwidth: float | None) -> bool:
     return bandwidth is None or float(bandwidth) > 0.0
 
-
 def _n_jobs_valid(n_jobs: int | None) -> bool:
     return n_jobs is None or isinstance(n_jobs, int)
-
 
 def _neighbor_algorithm_valid(algorithm: str) -> bool:
     return algorithm in {"auto", "brute", "ball_tree", "kd_tree"}
 
-
 def _affinity_valid(affinity: str) -> bool:
     return affinity in {"euclidean", "precomputed"}
-
 
 def _preference_valid(preference: PreferenceLike) -> bool:
     if preference is None:
@@ -110,31 +89,25 @@ def _preference_valid(preference: PreferenceLike) -> bool:
     values = np.asarray(preference, dtype=np.float64)
     return bool(values.ndim <= 1 and np.all(np.isfinite(values)))
 
-
 def _preference_matches_samples(preference: PreferenceLike, X: MatrixLike) -> bool:
     if preference is None:
         return True
     values = np.asarray(preference, dtype=np.float64)
     return bool(values.ndim == 0 or values.shape == (_sample_count(X),))
 
-
 def _seeds_valid(seeds: MatrixLike | None) -> bool:
     return seeds is None or _is_2d_matrix(seeds)
-
 
 def _seeds_match_features(seeds: MatrixLike | None, X: MatrixLike) -> bool:
     return seeds is None or _feature_count(seeds) == _feature_count(X)
 
-
 def _clusters_within_samples(n_clusters: int, X: MatrixLike) -> bool:
     return _positive_int(n_clusters) and n_clusters <= _sample_count(X)
-
 
 def _vector_matches_samples(vector: NDArray[np.float64] | list[float] | None, X: MatrixLike) -> bool:
     if vector is None:
         return True
     return bool(np.asarray(vector).ndim == 1 and np.asarray(vector).shape[0] == _sample_count(X))
-
 
 def _sample_weight_valid(sample_weight: NDArray[np.float64] | list[float] | None, X: MatrixLike) -> bool:
     if sample_weight is None:
@@ -142,10 +115,8 @@ def _sample_weight_valid(sample_weight: NDArray[np.float64] | list[float] | None
     values = np.asarray(sample_weight, dtype=np.float64)
     return bool(values.ndim == 1 and values.shape[0] == _sample_count(X) and np.all(values >= 0.0) and values.sum() > 0.0)
 
-
 def _is_1d_numeric(vector: NDArray[np.float64] | NDArray[np.int_]) -> bool:
     return bool(np.asarray(vector).ndim == 1)
-
 
 def _same_length_1d(
     reachability: NDArray[np.float64],
@@ -157,7 +128,6 @@ def _same_length_1d(
         and np.asarray(reachability).shape == np.asarray(ordering).shape
     )
 
-
 def _ordering_permutation(ordering: NDArray[np.int_]) -> bool:
     values = np.asarray(ordering)
     if values.ndim != 1 or values.dtype.kind not in {"i", "u"}:
@@ -165,24 +135,19 @@ def _ordering_permutation(ordering: NDArray[np.int_]) -> bool:
     n_samples = values.shape[0]
     return bool(np.array_equal(np.sort(values), np.arange(n_samples)))
 
-
 def _nonnegative_float(value: float) -> bool:
     return bool(float(value) >= 0.0)
-
 
 def _xi_valid(xi: float) -> bool:
     return bool(0.0 <= float(xi) <= 1.0)
 
-
 def _optics_cluster_method_valid(cluster_method: str) -> bool:
     return cluster_method in {"xi", "dbscan"}
-
 
 def _optics_dbscan_eps_valid(max_eps: float, cluster_method: str, eps: float | None) -> bool:
     if eps is not None and float(eps) < 0.0:
         return False
     return bool(cluster_method != "dbscan" or eps is None or float(eps) <= float(max_eps))
-
 
 def _optics_size_valid(size: int | float | None, n_samples: int, *, allow_none: bool) -> bool:
     if size is None:
@@ -193,18 +158,14 @@ def _optics_size_valid(size: int | float | None, n_samples: int, *, allow_none: 
         return 0.0 <= size <= 1.0
     return False
 
-
 def _positive_float_or_none(value: float | None) -> bool:
     return value is None or float(value) > 0.0
-
 
 def _metric_params_valid(metric_params: dict[str, float] | None) -> bool:
     return metric_params is None or isinstance(metric_params, dict)
 
-
 def _equal_similarities_and_preferences(S: NDArray[np.float64], preference: NDArray[np.float64]) -> bool:
     return bool(np.all(S == S.flat[0]) and np.all(preference == preference.flat[0]))
-
 
 def _prepare_preference(preference: PreferenceLike, affinity_matrix: NDArray[np.float64]) -> NDArray[np.float64]:
     if preference is None:
@@ -216,12 +177,10 @@ def _prepare_preference(preference: PreferenceLike, affinity_matrix: NDArray[np.
         raise ValueError("preference length must equal the sample count")
     return values
 
-
 def _stored_preference(preference: NDArray[np.float64]) -> float | NDArray[np.float64]:
     if preference.ndim == 0:
         return float(preference)
     return np.asarray(preference, dtype=np.float64).copy()
-
 
 def _indices_and_labels_valid(centers: NDArray[np.int_], labels: NDArray[np.int_], n_samples: int) -> bool:
     if centers.ndim != 1 or labels.shape != (n_samples,):
@@ -229,7 +188,6 @@ def _indices_and_labels_valid(centers: NDArray[np.int_], labels: NDArray[np.int_
     if centers.size > 0 and (centers.min() < 0 or centers.max() >= n_samples):
         return False
     return bool(np.all((labels == -1) | ((labels >= 0) & (labels < max(centers.size, 1)))))
-
 
 def _affinity_result_valid(result: AffinityPropagationOutput, S: MatrixLike, return_n_iter: bool) -> bool:
     expected_len = 3 if return_n_iter else 2
@@ -242,7 +200,6 @@ def _affinity_result_valid(result: AffinityPropagationOutput, S: MatrixLike, ret
     if return_n_iter and (not isinstance(result[2], int) or result[2] < 0):
         return False
     return _indices_and_labels_valid(centers.astype(np.int_), labels.astype(np.int_), _sample_count(S))
-
 
 def _state_valid(state: AffinityPropagationState) -> bool:
     n_samples = state.affinity_matrix.shape[0]
@@ -264,15 +221,12 @@ def _state_valid(state: AffinityPropagationState) -> bool:
         and centers_shape_ok
     )
 
-
 def _prediction_valid(result: NDArray[np.int_], X: MatrixLike) -> bool:
     labels = np.asarray(result)
     return bool(labels.shape == (_sample_count(X),) and labels.dtype.kind in {"i", "u"} and np.all(labels >= -1))
 
-
 def _bandwidth_result_valid(result: float | np.float64) -> bool:
     return bool(np.isfinite(result) and float(result) >= 0.0)
-
 
 def _mean_shift_result_valid(result: MeanShiftResult, X: MatrixLike) -> bool:
     centers, labels = result
@@ -284,7 +238,6 @@ def _mean_shift_result_valid(result: MeanShiftResult, X: MatrixLike) -> bool:
         and labels.dtype.kind in {"i", "u"}
         and np.all(labels >= -1)
     )
-
 
 def _mean_shift_state_valid(state: MeanShiftState) -> bool:
     return bool(
@@ -302,7 +255,6 @@ def _mean_shift_state_valid(state: MeanShiftState) -> bool:
         and np.all(state.labels >= -1)
     )
 
-
 def _kmeans_plusplus_result_valid(result: KMeansPlusPlusResult, X: MatrixLike, n_clusters: int) -> bool:
     centers, indices = result
     n_samples = _sample_count(X)
@@ -315,7 +267,6 @@ def _kmeans_plusplus_result_valid(result: KMeansPlusPlusResult, X: MatrixLike, n
         and np.all(indices < n_samples)
     )
 
-
 def _optics_labels_valid(result: NDArray[np.int_], reachability: NDArray[np.float64]) -> bool:
     labels = np.asarray(result)
     return bool(
@@ -324,7 +275,6 @@ def _optics_labels_valid(result: NDArray[np.int_], reachability: NDArray[np.floa
         and np.all(labels >= -1)
     )
 
-
 def _optics_xi_result_valid(result: OpticsXiResult, reachability: NDArray[np.float64]) -> bool:
     labels, clusters = result
     n_samples = np.asarray(reachability).shape[0]
@@ -332,7 +282,6 @@ def _optics_xi_result_valid(result: OpticsXiResult, reachability: NDArray[np.flo
     if clusters.size:
         clusters_ok = bool(clusters_ok and np.all(clusters >= 0) and np.all(clusters[:, 0] <= clusters[:, 1]) and np.all(clusters < n_samples))
     return bool(_optics_labels_valid(labels, reachability) and clusters_ok)
-
 
 def _optics_graph_result_valid(result: OpticsGraphResult, X: MatrixLike) -> bool:
     ordering, core_distances, reachability, predecessor = result
@@ -351,7 +300,6 @@ def _optics_graph_result_valid(result: OpticsGraphResult, X: MatrixLike) -> bool
         and predecessor.dtype.kind in {"i", "u"}
         and np.all((predecessor >= -1) & (predecessor < n_samples))
     )
-
 
 def _optics_state_valid(state: OpticsState) -> bool:
     n_samples = state.ordering.shape[0]
@@ -390,12 +338,10 @@ def _optics_state_valid(state: OpticsState) -> bool:
         and state.n_features_in >= 1
     )
 
-
 def _as_dense_float_matrix(X: MatrixLike) -> NDArray[np.float64]:
     if sp.issparse(X):
         return np.asarray(X.toarray(), dtype=np.float64)
     return np.asarray(X, dtype=np.float64)
-
 
 def _get_bin_seeds(X: NDArray[np.float64], bin_size: float, min_bin_freq: int = 1) -> NDArray[np.float64]:
     if bin_size == 0:
@@ -417,13 +363,13 @@ def _get_bin_seeds(X: NDArray[np.float64], bin_size: float, min_bin_freq: int = 
         return X
     return np.asarray(bin_seeds * bin_size, dtype=np.float64)
 
-
 def _mean_shift_single_seed(
     my_mean: NDArray[np.float64],
     X: NDArray[np.float64],
     nbrs: NearestNeighbors,
     max_iter: int,
 ) -> tuple[tuple[float, ...], int, int]:
+    from sklearn.neighbors import NearestNeighbors
     bandwidth = float(nbrs.get_params()["radius"])
     stop_thresh = 1e-3 * bandwidth
     completed_iterations = 0
@@ -439,7 +385,6 @@ def _mean_shift_single_seed(
         completed_iterations += 1
     return tuple(float(value) for value in my_mean), len(points_within), completed_iterations
 
-
 def _mean_shift_fit_core(
     X: MatrixLike,
     *,
@@ -451,6 +396,9 @@ def _mean_shift_fit_core(
     max_iter: int,
     n_jobs: int | None,
 ) -> MeanShiftState:
+    from joblib import Parallel, delayed
+    from sklearn.neighbors import NearestNeighbors
+    from sklearn.utils import check_array, check_random_state, gen_batches
     checked_x = np.asarray(check_array(X, dtype=[np.float64, np.float32]), dtype=np.float64)
     fitted_bandwidth = float(bandwidth) if bandwidth is not None else float(estimate_bandwidth(checked_x, n_jobs=n_jobs))
 
@@ -516,7 +464,6 @@ def _mean_shift_fit_core(
         n_features_in=int(n_features),
     )
 
-
 def _kmeans_plusplus_core(
     X: MatrixLike,
     n_clusters: int,
@@ -526,6 +473,10 @@ def _kmeans_plusplus_core(
     random_state: RandomStateLike,
     n_local_trials: int | None,
 ) -> KMeansPlusPlusResult:
+    from sklearn.metrics import euclidean_distances, pairwise_distances, pairwise_distances_argmin
+    from sklearn.utils import check_array, check_random_state, gen_batches
+    from sklearn.utils.extmath import row_norms
+    from sklearn.utils.validation import _check_sample_weight
     checked_x = check_array(X, accept_sparse="csr", dtype=np.float64)
     checked_weight = _check_sample_weight(sample_weight, checked_x, dtype=np.float64)
     if x_squared_norms is None:
@@ -584,7 +535,6 @@ def _kmeans_plusplus_core(
 
     return centers, indices
 
-
 def _affinity_propagation_core(
     S: NDArray[np.float64],
     *,
@@ -596,6 +546,7 @@ def _affinity_propagation_core(
     return_n_iter: bool,
     random_state: np.random.RandomState,
 ) -> AffinityPropagationOutput:
+    from sklearn.exceptions import ConvergenceWarning
     n_samples = S.shape[0]
     if n_samples == 1 or _equal_similarities_and_preferences(S, preference):
         warnings.warn(
@@ -702,7 +653,6 @@ def _affinity_propagation_core(
         return cluster_centers_indices, labels, iteration + 1
     return cluster_centers_indices, labels
 
-
 @register_atom(witness_affinity_propagation)
 @icontract.require(lambda S: _is_square_matrix(S), "S must be a square similarity matrix")
 @icontract.require(lambda preference: _preference_valid(preference), "preference must be finite scalar or vector")
@@ -723,6 +673,7 @@ def affinity_propagation(
     return_n_iter: bool = False,
     random_state: RandomStateLike = None,
 ) -> AffinityPropagationOutput:
+    from sklearn.utils import check_array, check_random_state, gen_batches
     """Run affinity propagation on a square similarity matrix."""
     affinity_matrix = np.asarray(
         check_array(S, dtype=[np.float64, np.float32], copy=copy, force_writeable=True),
@@ -741,7 +692,6 @@ def affinity_propagation(
         return_n_iter=return_n_iter,
         random_state=check_random_state(random_state),
     )
-
 
 @register_atom(witness_affinity_propagation_fit)
 @icontract.require(lambda X: _is_2d_matrix(X), "X must be a 2D matrix")
@@ -765,6 +715,8 @@ def affinity_propagation_fit(
     verbose: bool = False,
     random_state: RandomStateLike = None,
 ) -> AffinityPropagationState:
+    from sklearn.metrics import euclidean_distances, pairwise_distances, pairwise_distances_argmin
+    from sklearn.utils import check_array, check_random_state, gen_batches
     """Fit affinity propagation and return immutable clustering state."""
     if affinity == "precomputed":
         affinity_matrix = np.asarray(
@@ -811,7 +763,6 @@ def affinity_propagation_fit(
         n_features_in=n_features_in,
     )
 
-
 @register_atom(witness_affinity_propagation_predict)
 @icontract.require(lambda X: _is_2d_matrix(X), "X must be a 2D matrix")
 @icontract.require(lambda state: _state_valid(state), "affinity propagation state must be fitted")
@@ -821,6 +772,9 @@ def affinity_propagation_predict(
     X: MatrixLike,
     state: AffinityPropagationState,
 ) -> NDArray[np.int_]:
+    from sklearn.exceptions import ConvergenceWarning
+    from sklearn.metrics import euclidean_distances, pairwise_distances, pairwise_distances_argmin
+    from sklearn.utils import check_array, check_random_state, gen_batches
     """Assign samples to the nearest fitted affinity-propagation center."""
     if state.affinity == "precomputed":
         raise ValueError("Predict method is not supported when affinity='precomputed'.")
@@ -834,7 +788,6 @@ def affinity_propagation_predict(
         ConvergenceWarning,
     )
     return np.array([-1] * checked_x.shape[0], dtype=np.int_)
-
 
 @register_atom(witness_estimate_bandwidth)
 @icontract.require(lambda X: _is_2d_matrix(X), "X must be a 2D matrix")
@@ -850,6 +803,8 @@ def estimate_bandwidth(
     random_state: RandomStateLike = 0,
     n_jobs: int | None = None,
 ) -> float:
+    from sklearn.neighbors import NearestNeighbors
+    from sklearn.utils import check_array, check_random_state, gen_batches
     """Estimate the flat-kernel bandwidth used by mean-shift clustering."""
     checked_x = np.asarray(check_array(X, dtype=[np.float64, np.float32]), dtype=np.float64)
     rng = check_random_state(random_state)
@@ -867,7 +822,6 @@ def estimate_bandwidth(
         distances, _ = nbrs.kneighbors(checked_x[batch, :], return_distance=True)
         bandwidth += np.max(distances, axis=1).sum()
     return float(bandwidth / checked_x.shape[0])
-
 
 @register_atom(witness_mean_shift)
 @icontract.require(lambda X: _is_2d_matrix(X), "X must be a 2D matrix")
@@ -902,7 +856,6 @@ def mean_shift(
     )
     return state.cluster_centers, state.labels
 
-
 @register_atom(witness_mean_shift_fit)
 @icontract.require(lambda X: _is_2d_matrix(X), "X must be a 2D matrix")
 @icontract.require(lambda bandwidth: _bandwidth_valid(bandwidth), "bandwidth must be positive or None")
@@ -935,7 +888,6 @@ def mean_shift_fit(
         n_jobs=n_jobs,
     )
 
-
 @register_atom(witness_mean_shift_predict)
 @icontract.require(lambda X: _is_2d_matrix(X), "X must be a 2D matrix")
 @icontract.require(lambda state: _mean_shift_state_valid(state), "mean-shift state must contain fitted centers")
@@ -945,10 +897,11 @@ def mean_shift_predict(
     X: MatrixLike,
     state: MeanShiftState,
 ) -> NDArray[np.int_]:
+    from sklearn.metrics import euclidean_distances, pairwise_distances, pairwise_distances_argmin
+    from sklearn.utils import check_array, check_random_state, gen_batches
     """Assign samples to the nearest fitted mean-shift center."""
     checked_x = np.asarray(check_array(X, dtype=[np.float64, np.float32]), dtype=np.float64)
     return np.asarray(pairwise_distances_argmin(checked_x, state.cluster_centers), dtype=np.int_)
-
 
 @register_atom(witness_kmeans_plusplus)
 @icontract.require(lambda X: _is_2d_matrix(X), "X must be a 2D matrix")
@@ -976,7 +929,6 @@ def kmeans_plusplus(
         n_local_trials=n_local_trials,
     )
 
-
 @register_atom(witness_cluster_optics_dbscan)
 @icontract.require(lambda reachability: _is_1d_numeric(reachability), "reachability must be a 1D vector")
 @icontract.require(lambda core_distances: _is_1d_numeric(core_distances), "core_distances must be a 1D vector")
@@ -1002,14 +954,12 @@ def cluster_optics_dbscan(
     labels[far_reach & ~near_core] = -1
     return labels
 
-
 def _resolve_optics_size(size: int | float, n_samples: int, name: str) -> int:
     if size > n_samples:
         raise ValueError(f"{name} must be no greater than the number of samples ({n_samples}). Got {size}")
     if size <= 1:
         return max(2, int(size * n_samples))
     return int(size)
-
 
 def _extend_region(steep_point: NDArray[np.bool_], xward_point: NDArray[np.bool_], start: int, min_samples: int) -> int:
     n_samples = len(steep_point)
@@ -1029,7 +979,6 @@ def _extend_region(steep_point: NDArray[np.bool_], xward_point: NDArray[np.bool_
         index += 1
     return end
 
-
 def _update_filter_sdas(
     sdas: list[tuple[int, int, float]],
     mib: float,
@@ -1043,7 +992,6 @@ def _update_filter_sdas(
         for start, end, stored_mib in sdas
         if mib <= reachability_plot[start] * xi_complement
     ]
-
 
 def _correct_predecessor(
     reachability_plot: NDArray[np.float64],
@@ -1061,7 +1009,6 @@ def _correct_predecessor(
                 return start, end
         end -= 1
     return None, None
-
 
 def _xi_cluster(
     reachability_plot_input: NDArray[np.float64],
@@ -1148,7 +1095,6 @@ def _xi_cluster(
 
     return np.asarray(clusters, dtype=np.int_)
 
-
 def _extract_xi_labels(ordering: NDArray[np.int_], clusters: NDArray[np.int_]) -> NDArray[np.int_]:
     labels = np.full(len(ordering), -1, dtype=np.int_)
     label = 0
@@ -1158,7 +1104,6 @@ def _extract_xi_labels(ordering: NDArray[np.int_], clusters: NDArray[np.int_]) -
             label += 1
     labels[ordering] = labels.copy()
     return labels
-
 
 @register_atom(witness_cluster_optics_xi)
 @icontract.require(lambda reachability: _is_1d_numeric(reachability), "reachability must be a 1D vector")
@@ -1202,19 +1147,19 @@ def cluster_optics_xi(
     labels = _extract_xi_labels(np.asarray(ordering, dtype=np.int_), clusters)
     return labels, clusters
 
-
 def _compute_core_distances(
     X: MatrixLike,
     neighbors: NearestNeighbors,
     min_samples: int,
 ) -> NDArray[np.float64]:
+    from sklearn.neighbors import NearestNeighbors
+    from sklearn.utils import check_array, check_random_state, gen_batches
     n_samples = _sample_count(X)
     core_distances = np.empty(n_samples, dtype=np.float64)
     core_distances.fill(np.nan)
     for batch in gen_batches(n_samples, 500):
         core_distances[batch] = neighbors.kneighbors(X[batch], min_samples)[0][:, -1]
     return core_distances
-
 
 def _set_reach_dist(
     *,
@@ -1230,6 +1175,8 @@ def _set_reach_dist(
     p: float | None,
     max_eps: float,
 ) -> None:
+    from sklearn.metrics import euclidean_distances, pairwise_distances, pairwise_distances_argmin
+    from sklearn.neighbors import NearestNeighbors
     point = X[point_index : point_index + 1]
     indices = neighbors.radius_neighbors(point, radius=max_eps, return_distance=False)[0]
     unprocessed = np.compress(~np.take(processed, indices), indices)
@@ -1257,7 +1204,6 @@ def _set_reach_dist(
     reachability[unprocessed[improved]] = reachability_distances[improved]
     predecessor[unprocessed[improved]] = point_index
 
-
 @register_atom(witness_compute_optics_graph)
 @icontract.require(lambda X: _is_2d_matrix(X), "X must be a 2D matrix")
 @icontract.require(lambda X, min_samples: _optics_size_valid(min_samples, _sample_count(X), allow_none=False), "min_samples must be valid for sample count")
@@ -1280,6 +1226,8 @@ def compute_optics_graph(
     leaf_size: int,
     n_jobs: int | None,
 ) -> OpticsGraphResult:
+    from sklearn.neighbors import NearestNeighbors
+    from sklearn.utils import check_array, check_random_state, gen_batches
     """Compute ordered reachability arrays for density clustering."""
     checked_x = check_array(X, accept_sparse="csr", dtype=np.float64)
     n_samples = checked_x.shape[0]
@@ -1336,7 +1284,6 @@ def compute_optics_graph(
             UserWarning,
         )
     return ordering, core_distances, reachability, predecessor
-
 
 @register_atom(witness_optics_fit)
 @icontract.require(lambda X: _is_2d_matrix(X), "X must be a 2D matrix")

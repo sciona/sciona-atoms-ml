@@ -5,7 +5,6 @@ from __future__ import annotations
 import icontract
 import numpy as np
 from numpy.typing import NDArray
-from sklearn.utils.validation import check_array
 
 from sciona.ghost.registry import register_atom
 
@@ -16,7 +15,6 @@ from .witnesses import (
 )
 
 Matrix = NDArray[np.floating]
-
 
 def _finite_matrix(value: object) -> bool:
     try:
@@ -31,22 +29,17 @@ def _finite_matrix(value: object) -> bool:
         and np.all(np.isfinite(array))
     )
 
-
 def _optional_matrix(value: object) -> bool:
     return value is None or _finite_matrix(value)
-
 
 def _exactly_one_matrix(dict_init: object, svd_dictionary: object) -> bool:
     return (dict_init is None) ^ (svd_dictionary is None)
 
-
 def _positive_int(value: object) -> bool:
     return bool(isinstance(value, int) and not isinstance(value, bool) and value >= 1)
 
-
 def _dtype_name_valid(value: object) -> bool:
     return value in {"float32", "float64"}
-
 
 def _selected_dictionary_valid(result: object, dict_init: object, svd_dictionary: object) -> bool:
     if not _finite_matrix(result):
@@ -54,7 +47,6 @@ def _selected_dictionary_valid(result: object, dict_init: object, svd_dictionary
     if dict_init is not None:
         return np.array_equal(np.asarray(result), np.asarray(dict_init))
     return np.array_equal(np.asarray(result), np.asarray(svd_dictionary))
-
 
 def _resized_dictionary_valid(result: object, dictionary: object, n_components: int) -> bool:
     if not (_finite_matrix(result) and _finite_matrix(dictionary)):
@@ -73,7 +65,6 @@ def _resized_dictionary_valid(result: object, dictionary: object, n_components: 
         and result_values.dtype == dictionary_values.dtype
     )
 
-
 def _buffer_valid(result: object, dictionary: object, dtype_name: str) -> bool:
     if not (_finite_matrix(result) and _finite_matrix(dictionary) and _dtype_name_valid(dtype_name)):
         return False
@@ -86,7 +77,6 @@ def _buffer_valid(result: object, dictionary: object, dtype_name: str) -> bool:
         and result_values.flags["WRITEABLE"]
         and np.array_equal(result_values, dictionary_values)
     )
-
 
 @register_atom(witness_dictionary_learning_minibatch_initial_dictionary)
 @icontract.require(lambda dict_init: _optional_matrix(dict_init), "dict_init must be None or a finite numeric matrix")
@@ -105,7 +95,6 @@ def dictionary_learning_minibatch_initial_dictionary(
         return np.asarray(dict_init)
     assert svd_dictionary is not None
     return np.asarray(svd_dictionary)
-
 
 @register_atom(witness_dictionary_learning_minibatch_resize_dictionary)
 @icontract.require(lambda dictionary: _finite_matrix(dictionary), "dictionary must be a finite numeric matrix")
@@ -133,7 +122,6 @@ def dictionary_learning_minibatch_resize_dictionary(
         )
     )
 
-
 @register_atom(witness_dictionary_learning_minibatch_dictionary_buffer)
 @icontract.require(lambda dictionary: _finite_matrix(dictionary), "dictionary must be a finite numeric matrix")
 @icontract.require(lambda dtype_name: _dtype_name_valid(dtype_name), "dtype_name must be 'float32' or 'float64'")
@@ -145,6 +133,7 @@ def dictionary_learning_minibatch_dictionary_buffer(
     dictionary: Matrix,
     dtype_name: str,
 ) -> Matrix:
+    from sklearn.utils.validation import check_array
     """Normalize dictionary storage like sklearn's check_array(..., order='F') plus np.require(..., 'W')."""
     checked = check_array(
         dictionary,

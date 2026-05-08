@@ -8,8 +8,6 @@ import icontract
 import numpy as np
 import scipy.sparse as sp
 from numpy.typing import NDArray
-from sklearn.cluster import _agglomerative as sklearn_agglomerative
-from sklearn.utils.validation import check_array
 
 from sciona.ghost.registry import register_atom
 
@@ -21,7 +19,6 @@ from .witnesses import (
 MatrixLike = NDArray[np.float64] | sp.spmatrix | list[list[float]]
 ConnectivityInput = MatrixLike | Callable[[MatrixLike], MatrixLike] | None
 
-
 def _is_2d_matrix(values: MatrixLike) -> bool:
     if sp.issparse(values):
         return bool(values.ndim == 2 and values.shape[0] >= 1 and values.shape[1] >= 1)
@@ -31,14 +28,12 @@ def _is_2d_matrix(values: MatrixLike) -> bool:
         return False
     return bool(array.ndim == 2 and array.shape[0] >= 1 and array.shape[1] >= 1)
 
-
 def _sample_count(values: MatrixLike) -> int:
     return int(values.shape[0]) if sp.issparse(values) else int(np.asarray(values).shape[0])
 
-
 def _linkage_valid(linkage: str) -> bool:
+    from sklearn.cluster import _agglomerative as sklearn_agglomerative
     return bool(isinstance(linkage, str) and linkage in sklearn_agglomerative._TREE_BUILDERS)
-
 
 def _prepared_connectivity_valid(result: object, X: MatrixLike) -> bool:
     if result is None:
@@ -60,16 +55,15 @@ def _prepared_connectivity_valid(result: object, X: MatrixLike) -> bool:
         and np.all(np.isfinite(array))
     )
 
-
 @register_atom(witness_agglomerative_fit_select_tree_builder)
 @icontract.require(lambda linkage: _linkage_valid(linkage), "linkage must map to a known sklearn agglomerative tree builder")
 @icontract.ensure(lambda result: callable(result), "tree builder must be callable")
 def agglomerative_fit_select_tree_builder(
     linkage: str,
 ) -> Callable[..., object]:
+    from sklearn.cluster import _agglomerative as sklearn_agglomerative
     """Select sklearn's agglomerative tree builder for the given linkage."""
     return sklearn_agglomerative._TREE_BUILDERS[linkage]
-
 
 @register_atom(witness_agglomerative_fit_prepare_connectivity)
 @icontract.require(lambda X: _is_2d_matrix(X), "X must be a nonempty 2D feature or distance matrix")
@@ -78,6 +72,7 @@ def agglomerative_fit_prepare_connectivity(
     X: MatrixLike,
     connectivity: ConnectivityInput,
 ) -> MatrixLike | None:
+    from sklearn.utils.validation import check_array
     """Resolve optional agglomerative connectivity input through callable execution and check_array normalization."""
     if connectivity is None:
         return None

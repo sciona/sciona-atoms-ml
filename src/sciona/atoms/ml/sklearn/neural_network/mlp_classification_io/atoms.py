@@ -6,8 +6,6 @@ import icontract
 import numpy as np
 import scipy.sparse as sp
 from numpy.typing import NDArray
-from sklearn.preprocessing._label import _inverse_binarize_multiclass, _inverse_binarize_thresholding
-from sklearn.utils.multiclass import type_of_target, unique_labels
 
 from sciona.ghost.registry import register_atom
 
@@ -27,7 +25,6 @@ DecodedLabels = NDArray[np.object_] | sp.csr_matrix
 
 _LABEL_TYPES = {"binary", "multiclass", "multilabel-indicator"}
 
-
 def _label_input_valid(y: LabelArray) -> bool:
     try:
         array = np.asarray(y)
@@ -35,14 +32,12 @@ def _label_input_valid(y: LabelArray) -> bool:
         return False
     return bool(array.ndim in {1, 2} and array.shape[0] >= 1 and (array.ndim == 1 or array.shape[1] >= 1))
 
-
 def _output_valid(outputs: NDArray[np.float64]) -> bool:
     try:
         values = np.asarray(outputs, dtype=np.float64)
     except (TypeError, ValueError):
         return False
     return bool(values.ndim in {1, 2} and values.shape[0] >= 1 and np.all(np.isfinite(values)))
-
 
 def _state_valid(state: LabelBinarizerState | None) -> bool:
     if state is None:
@@ -60,18 +55,14 @@ def _state_valid(state: LabelBinarizerState | None) -> bool:
         and isinstance(state.sparse_output, bool)
     )
 
-
 def _fitted_state_valid(state: LabelBinarizerState) -> bool:
     return bool(_state_valid(state) and state is not None)
-
 
 def _positive_int(value: int) -> bool:
     return bool(isinstance(value, int) and not isinstance(value, bool) and value >= 1)
 
-
 def _fit_combo_valid(existing_state: LabelBinarizerState | None, incremental: bool) -> bool:
     return bool(not incremental or existing_state is not None)
-
 
 def _encoded_targets_valid(result: NDArray[np.bool_], y: LabelArray, state: LabelBinarizerState) -> bool:
     values = np.asarray(result)
@@ -79,14 +70,12 @@ def _encoded_targets_valid(result: NDArray[np.bool_], y: LabelArray, state: Labe
     width = np.asarray(state.classes).shape[0] if np.asarray(state.classes).shape[0] > 2 else 1
     return bool(values.shape == (rows, width) and values.dtype == np.bool_)
 
-
 def _decoded_labels_valid(result: DecodedLabels, outputs: NDArray[np.float64]) -> bool:
     rows = np.asarray(outputs).shape[0]
     if sp.issparse(result):
         values = result.tocsr()
         return bool(values.shape[0] == rows)
     return bool(np.asarray(result).shape[0] == rows)
-
 
 def _probabilities_valid(result: NDArray[np.float64], outputs: NDArray[np.float64], n_outputs: int) -> bool:
     values = np.asarray(result, dtype=np.float64)
@@ -99,8 +88,8 @@ def _probabilities_valid(result: NDArray[np.float64], outputs: NDArray[np.float6
         return bool(values.shape[1] == 2 and np.allclose(values.sum(axis=1), 1.0))
     return bool(source.ndim == 2 and values.shape == source.shape)
 
-
 def _inverse_from_state(outputs: NDArray[np.float64], state: LabelBinarizerState) -> DecodedLabels:
+    from sklearn.preprocessing._label import _inverse_binarize_multiclass, _inverse_binarize_thresholding
     threshold = (state.pos_label + state.neg_label) / 2.0
     if state.y_type == "multiclass":
         decoded = _inverse_binarize_multiclass(outputs, state.classes)
@@ -111,7 +100,6 @@ def _inverse_from_state(outputs: NDArray[np.float64], state: LabelBinarizerState
     if sp.issparse(decoded):
         return decoded.toarray()
     return np.asarray(decoded, dtype=object)
-
 
 @register_atom(witness_mlp_classifier_fit_target_state)
 @icontract.require(lambda y: _label_input_valid(y), "y must be a nonempty 1D label vector or 2D multilabel indicator")
@@ -125,6 +113,7 @@ def mlp_classifier_fit_target_state(
     warm_start: bool = False,
     incremental: bool = False,
 ) -> LabelBinarizerState:
+    from sklearn.utils.multiclass import type_of_target, unique_labels
     """Resolve the fitted label-binarizer state sklearn's MLPClassifier uses during fit."""
     if existing_state is None or (not warm_start and not incremental):
         return label_binarizer_fit(y)
@@ -143,7 +132,6 @@ def mlp_classifier_fit_target_state(
         )
     return existing_state
 
-
 @register_atom(witness_mlp_classifier_partial_fit_target_state)
 @icontract.require(lambda y: _label_input_valid(y), "y must be a nonempty 1D label vector or 2D multilabel indicator")
 @icontract.require(lambda classes: _label_input_valid(classes) and np.asarray(classes).ndim == 1, "classes must be a nonempty 1D class vector")
@@ -152,11 +140,11 @@ def mlp_classifier_partial_fit_target_state(
     y: LabelArray,
     classes: LabelArray,
 ) -> LabelBinarizerState:
+    from sklearn.utils.multiclass import type_of_target, unique_labels
     """Build the first-call label-binarizer state sklearn's MLPClassifier.partial_fit uses."""
     if type_of_target(y).startswith("multilabel"):
         return label_binarizer_fit(y)
     return label_binarizer_fit(classes)
-
 
 @register_atom(witness_mlp_classifier_encode_targets)
 @icontract.require(lambda y: _label_input_valid(y), "y must be a nonempty 1D label vector or 2D multilabel indicator")
@@ -171,7 +159,6 @@ def mlp_classifier_encode_targets(
     if sp.issparse(encoded):
         encoded = encoded.toarray()
     return np.asarray(encoded, dtype=np.bool_)
-
 
 @register_atom(witness_mlp_classifier_labels_from_outputs)
 @icontract.require(lambda outputs: _output_valid(outputs), "outputs must be finite 1D or 2D classifier output scores")
@@ -189,7 +176,6 @@ def mlp_classifier_labels_from_outputs(
     if n_outputs == 1:
         return _inverse_from_state(values.ravel(), state)
     return _inverse_from_state(values, state)
-
 
 @register_atom(witness_mlp_classifier_probabilities_from_outputs)
 @icontract.require(lambda outputs: _output_valid(outputs), "outputs must be finite 1D or 2D classifier output probabilities")

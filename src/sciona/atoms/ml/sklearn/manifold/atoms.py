@@ -9,13 +9,6 @@ from scipy import linalg
 from scipy.sparse.csgraph import connected_components, laplacian as csgraph_laplacian
 from scipy.sparse.csgraph import shortest_path
 from scipy.sparse.linalg import eigsh
-from sklearn.metrics import pairwise_distances
-from sklearn.metrics.pairwise import rbf_kernel
-from sklearn.neighbors import NearestNeighbors, kneighbors_graph
-from sklearn.utils import check_symmetric
-from sklearn.utils._arpack import _init_arpack_v0
-from sklearn.utils.extmath import _deterministic_vector_sign_flip, svd_flip
-from sklearn.utils.validation import _check_psd_eigenvalues, check_array
 
 from sciona.ghost.registry import register_atom
 
@@ -48,16 +41,13 @@ from .witnesses import (
     witness_spectral_embedding_fit,
 )
 
-
 def _matrix_2d(X: NDArray[np.float64]) -> bool:
     values = np.asarray(X)
     return bool(values.ndim == 2)
 
-
 def _square_matrix(matrix: NDArray[np.float64]) -> bool:
     values = np.asarray(matrix)
     return bool(values.ndim == 2 and values.shape[0] == values.shape[1])
-
 
 def _finite_matrix(matrix: NDArray[np.float64]) -> bool:
     try:
@@ -66,35 +56,27 @@ def _finite_matrix(matrix: NDArray[np.float64]) -> bool:
         return False
     return bool(np.all(np.isfinite(values)))
 
-
 def _metric_valid(metric: str) -> bool:
     return metric in {"euclidean", "precomputed"}
-
 
 def _metric_params_valid(metric_params: None) -> bool:
     return metric_params is None
 
-
 def _precomputed_shape_valid(X: NDArray[np.float64], metric: str) -> bool:
     return bool(metric != "precomputed" or _square_matrix(X))
-
 
 def _n_components_valid(n_components: int, X: NDArray[np.float64]) -> bool:
     values = np.asarray(X)
     return bool(isinstance(n_components, int) and not isinstance(n_components, bool) and values.ndim == 2 and 1 <= n_components <= values.shape[0])
 
-
 def _positive_int(value: int) -> bool:
     return bool(isinstance(value, int) and not isinstance(value, bool) and value >= 1)
-
 
 def _positive_finite(value: float) -> bool:
     return bool(isinstance(value, (int, float)) and not isinstance(value, bool) and np.isfinite(float(value)) and float(value) > 0.0)
 
-
 def _random_state_valid(random_state: int | None) -> bool:
     return bool(random_state is None or (isinstance(random_state, int) and not isinstance(random_state, bool)))
-
 
 def _init_shape_valid(init: NDArray[np.float64] | None, n_samples: int, n_components: int) -> bool:
     if init is None:
@@ -102,41 +84,32 @@ def _init_shape_valid(init: NDArray[np.float64] | None, n_samples: int, n_compon
     values = np.asarray(init)
     return bool(values.ndim == 2 and values.shape == (n_samples, n_components) and np.all(np.isfinite(values)))
 
-
 def _normalized_stress_valid(normalized_stress: bool | str) -> bool:
     return bool(isinstance(normalized_stress, bool) or normalized_stress == "auto")
-
 
 def _eigen_solver_valid(eigen_solver: str | None) -> bool:
     return bool(eigen_solver in {None, "arpack"})
 
-
 def _eigen_tol_valid(eigen_tol: float | str) -> bool:
     return bool(eigen_tol == "auto" or (isinstance(eigen_tol, (int, float)) and not isinstance(eigen_tol, bool) and np.isfinite(float(eigen_tol)) and float(eigen_tol) >= 0.0))
-
 
 def _spectral_components_valid(n_components: int, adjacency: NDArray[np.float64]) -> bool:
     values = np.asarray(adjacency)
     return bool(isinstance(n_components, int) and not isinstance(n_components, bool) and values.ndim == 2 and 1 <= n_components < values.shape[0])
 
-
 def _spectral_affinity_valid(affinity: str) -> bool:
     return affinity in {"rbf", "precomputed"}
-
 
 def _spectral_gamma_valid(gamma: float | None) -> bool:
     return bool(gamma is None or _positive_finite(gamma))
 
-
 def _spectral_optional_none(value: None) -> bool:
     return value is None
-
 
 def _dissimilarity_valid(result: NDArray[np.float64], X: NDArray[np.float64]) -> bool:
     values = np.asarray(result, dtype=np.float64)
     n_samples = np.asarray(X).shape[0]
     return bool(values.shape == (n_samples, n_samples) and np.all(np.isfinite(values)) and np.allclose(values, values.T))
-
 
 def _centered_matrix_valid(result: NDArray[np.float64], dissimilarity_matrix: NDArray[np.float64]) -> bool:
     values = np.asarray(result, dtype=np.float64)
@@ -148,7 +121,6 @@ def _centered_matrix_valid(result: NDArray[np.float64], dissimilarity_matrix: ND
         and np.allclose(np.mean(values, axis=0), 0.0)
         and np.allclose(np.mean(values, axis=1), 0.0)
     )
-
 
 def _classical_mds_state_valid(state: ClassicalMDSState) -> bool:
     n_samples = state.dissimilarity_matrix.shape[0]
@@ -166,7 +138,6 @@ def _classical_mds_state_valid(state: ClassicalMDSState) -> bool:
         and np.all(state.eigenvalues >= -1e-10)
     )
 
-
 def _smacof_state_valid(state: SMACOFState) -> bool:
     n_samples = state.dissimilarity_matrix.shape[0]
     return bool(
@@ -180,7 +151,6 @@ def _smacof_state_valid(state: SMACOFState) -> bool:
         and np.all(np.isfinite(state.dissimilarity_matrix))
         and np.allclose(state.dissimilarity_matrix, state.dissimilarity_matrix.T)
     )
-
 
 def _mds_state_valid(state: MDSState) -> bool:
     n_samples = state.dissimilarity_matrix.shape[0]
@@ -199,12 +169,10 @@ def _mds_state_valid(state: MDSState) -> bool:
         and np.allclose(state.dissimilarity_matrix, state.dissimilarity_matrix.T)
     )
 
-
 def _spectral_embedding_valid(result: NDArray[np.float64], adjacency: NDArray[np.float64], n_components: int) -> bool:
     values = np.asarray(result, dtype=np.float64)
     source = np.asarray(adjacency)
     return bool(values.shape == (source.shape[0], n_components) and np.all(np.isfinite(values)))
-
 
 def _spectral_state_valid(state: SpectralEmbeddingState) -> bool:
     n_samples = state.affinity_matrix.shape[0]
@@ -220,7 +188,6 @@ def _spectral_state_valid(state: SpectralEmbeddingState) -> bool:
         and np.allclose(state.affinity_matrix, state.affinity_matrix.T)
     )
 
-
 def _isomap_neighbors_valid(n_neighbors: int, X: NDArray[np.float64]) -> bool:
     values = np.asarray(X)
     return bool(
@@ -230,7 +197,6 @@ def _isomap_neighbors_valid(n_neighbors: int, X: NDArray[np.float64]) -> bool:
         and 1 <= n_neighbors < values.shape[0]
     )
 
-
 def _isomap_components_valid(n_components: int, X: NDArray[np.float64]) -> bool:
     values = np.asarray(X)
     return bool(
@@ -239,7 +205,6 @@ def _isomap_components_valid(n_components: int, X: NDArray[np.float64]) -> bool:
         and values.ndim == 2
         and 1 <= n_components <= values.shape[0]
     )
-
 
 def _isomap_options_valid(
     radius: None,
@@ -270,7 +235,6 @@ def _isomap_options_valid(
         and metric_params is None
     )
 
-
 def _isomap_neighbor_options_valid(
     radius: None,
     neighbors_algorithm: str,
@@ -290,7 +254,6 @@ def _isomap_neighbor_options_valid(
         and metric_params is None
     )
 
-
 def _isomap_graph_valid(result: NDArray[np.float64], X: NDArray[np.float64]) -> bool:
     graph = np.asarray(result, dtype=np.float64)
     n_samples = np.asarray(X).shape[0]
@@ -299,7 +262,6 @@ def _isomap_graph_valid(result: NDArray[np.float64], X: NDArray[np.float64]) -> 
         and np.all(np.isfinite(graph))
         and np.all(graph >= 0.0)
     )
-
 
 def _isomap_distances_valid(result: NDArray[np.float64], neighbors_graph: NDArray[np.float64]) -> bool:
     distances = np.asarray(result, dtype=np.float64)
@@ -311,7 +273,6 @@ def _isomap_distances_valid(result: NDArray[np.float64], neighbors_graph: NDArra
         and np.allclose(distances, distances.T)
         and np.all(distances >= 0.0)
     )
-
 
 def _isomap_state_valid(state: IsomapState) -> bool:
     n_samples = state.training_data.shape[0]
@@ -337,25 +298,20 @@ def _isomap_state_valid(state: IsomapState) -> bool:
         and np.allclose(state.dist_matrix, state.dist_matrix.T)
     )
 
-
 def _isomap_feature_count_matches(X: NDArray[np.float64], state: IsomapState) -> bool:
     values = np.asarray(X)
     return bool(values.ndim == 2 and values.shape[1] == state.n_features_in)
-
 
 def _isomap_transform_valid(result: NDArray[np.float64], X: NDArray[np.float64], state: IsomapState) -> bool:
     values = np.asarray(result, dtype=np.float64)
     return bool(values.shape == (np.asarray(X).shape[0], state.n_components) and np.all(np.isfinite(values)))
 
-
 def _nonnegative_finite_scalar(value: float) -> bool:
     return bool(np.isfinite(float(value)) and float(value) >= 0.0)
-
 
 def _integer_index_matrix(indices: NDArray[np.int64]) -> bool:
     values = np.asarray(indices)
     return bool(values.ndim == 2 and np.issubdtype(values.dtype, np.integer))
-
 
 def _lle_indices_valid(X: NDArray[np.float64], Y: NDArray[np.float64], indices: NDArray[np.int64]) -> bool:
     x_values = np.asarray(X)
@@ -373,10 +329,8 @@ def _lle_indices_valid(X: NDArray[np.float64], Y: NDArray[np.float64], indices: 
         and np.all(idx < y_values.shape[0])
     )
 
-
 def _lle_reg_valid(reg: float) -> bool:
     return bool(isinstance(reg, (int, float)) and not isinstance(reg, bool) and np.isfinite(float(reg)) and float(reg) >= 0.0)
-
 
 def _lle_neighbors_valid(n_neighbors: int, X: NDArray[np.float64]) -> bool:
     values = np.asarray(X)
@@ -387,7 +341,6 @@ def _lle_neighbors_valid(n_neighbors: int, X: NDArray[np.float64]) -> bool:
         and 1 <= n_neighbors < values.shape[0]
     )
 
-
 def _lle_components_valid(n_components: int, X: NDArray[np.float64]) -> bool:
     values = np.asarray(X)
     return bool(
@@ -396,7 +349,6 @@ def _lle_components_valid(n_components: int, X: NDArray[np.float64]) -> bool:
         and values.ndim == 2
         and 1 <= n_components <= values.shape[1]
     )
-
 
 def _lle_options_valid(
     eigen_solver: str,
@@ -430,7 +382,6 @@ def _lle_options_valid(
         and n_jobs is None
     )
 
-
 def _lle_fit_options_valid(
     eigen_solver: str,
     tol: float,
@@ -456,7 +407,6 @@ def _lle_fit_options_valid(
         )
     )
 
-
 def _lle_weights_valid(result: NDArray[np.float64], indices: NDArray[np.int64]) -> bool:
     values = np.asarray(result, dtype=np.float64)
     idx = np.asarray(indices)
@@ -465,7 +415,6 @@ def _lle_weights_valid(result: NDArray[np.float64], indices: NDArray[np.int64]) 
         and np.all(np.isfinite(values))
         and np.allclose(np.sum(values, axis=1), 1.0)
     )
-
 
 def _lle_graph_valid(result: NDArray[np.float64], X: NDArray[np.float64]) -> bool:
     values = np.asarray(result, dtype=np.float64)
@@ -476,7 +425,6 @@ def _lle_graph_valid(result: NDArray[np.float64], X: NDArray[np.float64]) -> boo
         and np.allclose(np.sum(values, axis=1), 1.0)
     )
 
-
 def _lle_matrix_valid(result: NDArray[np.float64], weights: NDArray[np.float64]) -> bool:
     values = np.asarray(result, dtype=np.float64)
     source = np.asarray(weights)
@@ -486,7 +434,6 @@ def _lle_matrix_valid(result: NDArray[np.float64], weights: NDArray[np.float64])
         and np.all(np.isfinite(values))
         and np.allclose(values, values.T)
     )
-
 
 def _lle_state_valid(state: LocallyLinearEmbeddingState) -> bool:
     n_samples = state.training_data.shape[0]
@@ -510,16 +457,13 @@ def _lle_state_valid(state: LocallyLinearEmbeddingState) -> bool:
         and np.allclose(state.reconstruction_matrix, state.reconstruction_matrix.T)
     )
 
-
 def _lle_feature_count_matches(X: NDArray[np.float64], state: LocallyLinearEmbeddingState) -> bool:
     values = np.asarray(X)
     return bool(values.ndim == 2 and values.shape[1] == state.n_features_in)
 
-
 def _lle_transform_valid(result: NDArray[np.float64], X: NDArray[np.float64], state: LocallyLinearEmbeddingState) -> bool:
     values = np.asarray(result, dtype=np.float64)
     return bool(values.shape == (np.asarray(X).shape[0], state.n_components) and np.all(np.isfinite(values)))
-
 
 @register_atom(witness_classical_mds_dissimilarity_matrix)
 @icontract.require(lambda X: _matrix_2d(X), "X must be a two-dimensional matrix")
@@ -534,6 +478,9 @@ def classical_mds_dissimilarity_matrix(
     metric: str = "euclidean",
     metric_params: None = None,
 ) -> NDArray[np.float64]:
+    from sklearn.metrics import pairwise_distances
+    from sklearn.utils import check_symmetric
+    from sklearn.utils.validation import _check_psd_eigenvalues, check_array
     """Compute the dense dissimilarity matrix used by classical MDS."""
     del metric_params
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
@@ -541,12 +488,12 @@ def classical_mds_dissimilarity_matrix(
         return np.asarray(check_symmetric(checked_x, raise_exception=True), dtype=np.float64)
     return np.asarray(pairwise_distances(checked_x, metric="euclidean"), dtype=np.float64)
 
-
 @register_atom(witness_classical_mds_double_center)
 @icontract.require(lambda dissimilarity_matrix: _square_matrix(dissimilarity_matrix), "dissimilarity_matrix must be square")
 @icontract.require(lambda dissimilarity_matrix: _finite_matrix(dissimilarity_matrix), "dissimilarity_matrix must contain only finite values")
 @icontract.ensure(lambda result, dissimilarity_matrix: _centered_matrix_valid(result, dissimilarity_matrix), "double-centered matrix must be finite and mean centered")
 def classical_mds_double_center(dissimilarity_matrix: NDArray[np.float64]) -> NDArray[np.float64]:
+    from sklearn.utils.validation import _check_psd_eigenvalues, check_array
     """Center squared distances so each row and column has mean zero."""
     checked = check_array(dissimilarity_matrix, dtype=np.float64, ensure_2d=True)
     B = checked**2
@@ -555,7 +502,6 @@ def classical_mds_double_center(dissimilarity_matrix: NDArray[np.float64]) -> ND
     B -= np.mean(B, axis=1, keepdims=True)
     B *= -0.5
     return B
-
 
 @register_atom(witness_classical_mds_fit)
 @icontract.require(lambda X: _matrix_2d(X), "X must be a two-dimensional matrix")
@@ -572,6 +518,7 @@ def classical_mds_fit(
     metric: str = "euclidean",
     metric_params: None = None,
 ) -> ClassicalMDSState:
+    from sklearn.utils.extmath import _deterministic_vector_sign_flip, svd_flip
     """Fit low-dimensional coordinates from centered pairwise distances."""
     dissimilarity_matrix = classical_mds_dissimilarity_matrix(X, metric=metric, metric_params=metric_params)
     centered = classical_mds_double_center(dissimilarity_matrix)
@@ -591,7 +538,6 @@ def classical_mds_fit(
         n_features_in=int(np.asarray(X).shape[1]),
     )
 
-
 def _metric_smacof_single(
     dissimilarities: NDArray[np.float64],
     *,
@@ -602,6 +548,8 @@ def _metric_smacof_single(
     random_state: int | None,
     normalized_stress: bool,
 ) -> SMACOFState:
+    from sklearn.metrics import pairwise_distances
+    from sklearn.utils import check_symmetric
     checked = np.asarray(check_symmetric(dissimilarities, raise_exception=True), dtype=np.float64)
     n_samples = checked.shape[0]
     if init is None:
@@ -643,7 +591,6 @@ def _metric_smacof_single(
         normalized_stress=normalized_stress,
     )
 
-
 @register_atom(witness_smacof)
 @icontract.require(lambda dissimilarities: _square_matrix(dissimilarities), "dissimilarities must be square")
 @icontract.require(lambda dissimilarities: _finite_matrix(dissimilarities), "dissimilarities must contain only finite values")
@@ -674,6 +621,8 @@ def smacof(
     return_n_iter: bool = False,
     normalized_stress: bool | str = "auto",
 ) -> SMACOFState:
+    from sklearn.utils import check_symmetric
+    from sklearn.utils.validation import _check_psd_eigenvalues, check_array
     """Fit a dense metric SMACOF embedding from dissimilarities."""
     del metric, n_init, n_jobs, verbose, return_n_iter
     checked = check_array(dissimilarities, dtype=np.float64, ensure_2d=True)
@@ -688,7 +637,6 @@ def smacof(
         random_state=random_state,
         normalized_stress=norm_stress,
     )
-
 
 @register_atom(witness_mds_fit)
 @icontract.require(lambda X: _matrix_2d(X), "X must be a two-dimensional matrix")
@@ -748,13 +696,11 @@ def mds_fit(
         n_features_in=n_features_in,
     )
 
-
 def _spectral_set_diag(laplacian: NDArray[np.float64], value: float, norm_laplacian: bool) -> NDArray[np.float64]:
     result = np.asarray(laplacian, dtype=np.float64).copy()
     if norm_laplacian:
         result.flat[:: result.shape[0] + 1] = value
     return result
-
 
 @register_atom(witness_spectral_embedding)
 @icontract.require(lambda adjacency: _square_matrix(adjacency), "adjacency must be square")
@@ -776,6 +722,10 @@ def spectral_embedding(
     norm_laplacian: bool = True,
     drop_first: bool = True,
 ) -> NDArray[np.float64]:
+    from sklearn.utils import check_symmetric
+    from sklearn.utils._arpack import _init_arpack_v0
+    from sklearn.utils.extmath import _deterministic_vector_sign_flip, svd_flip
+    from sklearn.utils.validation import _check_psd_eigenvalues, check_array
     """Project a dense affinity graph onto Laplacian eigenvectors."""
     del eigen_solver
     checked = check_array(adjacency, dtype=np.float64, ensure_2d=True)
@@ -795,7 +745,6 @@ def spectral_embedding(
     if drop_first:
         return np.asarray(embedding[1:effective_components].T, dtype=np.float64)
     return np.asarray(embedding[:effective_components].T, dtype=np.float64)
-
 
 @register_atom(witness_spectral_embedding_fit)
 @icontract.require(lambda X: _matrix_2d(X), "X must be a two-dimensional matrix")
@@ -822,6 +771,9 @@ def spectral_embedding_fit(
     n_neighbors: None = None,
     n_jobs: None = None,
 ) -> SpectralEmbeddingState:
+    from sklearn.metrics.pairwise import rbf_kernel
+    from sklearn.utils import check_symmetric
+    from sklearn.utils.validation import _check_psd_eigenvalues, check_array
     """Fit dense spectral embedding coordinates from rbf or precomputed affinity."""
     del n_neighbors, n_jobs
     checked = check_array(X, dtype=np.float64, ensure_2d=True)
@@ -852,7 +804,6 @@ def spectral_embedding_fit(
         n_features_in=n_features_in,
     )
 
-
 def _center_precomputed_kernel(kernel_matrix: NDArray[np.float64]) -> tuple[NDArray[np.float64], NDArray[np.float64], float]:
     checked = np.asarray(kernel_matrix, dtype=np.float64)
     n_samples = checked.shape[0]
@@ -865,11 +816,12 @@ def _center_precomputed_kernel(kernel_matrix: NDArray[np.float64]) -> tuple[NDAr
     centered += all_mean
     return np.asarray(centered, dtype=np.float64), np.asarray(rows, dtype=np.float64), all_mean
 
-
 def _fit_precomputed_kernel_pca(
     kernel_matrix: NDArray[np.float64],
     n_components: int,
 ) -> tuple[NDArray[np.float64], NDArray[np.float64], NDArray[np.float64], NDArray[np.float64], float]:
+    from sklearn.utils.extmath import _deterministic_vector_sign_flip, svd_flip
+    from sklearn.utils.validation import _check_psd_eigenvalues, check_array
     centered, rows, all_mean = _center_precomputed_kernel(kernel_matrix)
     n_samples = centered.shape[0]
     resolved_components = min(n_samples, int(n_components))
@@ -884,7 +836,6 @@ def _fit_precomputed_kernel_pca(
     ordered_vectors = np.asarray(eigenvectors[:, indices], dtype=np.float64)
     embedding = np.asarray(ordered_vectors * np.sqrt(ordered_values), dtype=np.float64)
     return embedding, ordered_values, ordered_vectors, rows, all_mean
-
 
 @register_atom(witness_isomap_neighbors_graph)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
@@ -913,6 +864,8 @@ def isomap_neighbors_graph(
     metric_params: None = None,
     n_jobs: None = None,
 ) -> NDArray[np.float64]:
+    from sklearn.neighbors import NearestNeighbors, kneighbors_graph
+    from sklearn.utils.validation import _check_psd_eigenvalues, check_array
     """Build the dense distance graph used by the n-neighbor Isomap path."""
     del radius
     checked = check_array(X, dtype=np.float64, ensure_2d=True, ensure_min_samples=2)
@@ -936,7 +889,6 @@ def isomap_neighbors_graph(
     )
     return np.asarray(graph.toarray(), dtype=np.float64)
 
-
 @register_atom(witness_isomap_geodesic_distances)
 @icontract.require(lambda neighbors_graph: _square_matrix(neighbors_graph), "neighbors_graph must be square")
 @icontract.require(lambda neighbors_graph: _finite_matrix(neighbors_graph), "neighbors_graph must contain finite values")
@@ -947,13 +899,13 @@ def isomap_geodesic_distances(
     *,
     path_method: str = "auto",
 ) -> NDArray[np.float64]:
+    from sklearn.utils.validation import _check_psd_eigenvalues, check_array
     """Compute all-pairs geodesic distances from an Isomap neighbor graph."""
     graph = check_array(neighbors_graph, dtype=np.float64, ensure_2d=True)
     n_components, _ = connected_components(graph)
     if n_components != 1:
         raise ValueError("Isomap neighbor graph must be connected in this atom scope")
     return np.asarray(shortest_path(graph, method=path_method, directed=False), dtype=np.float64)
-
 
 @register_atom(witness_isomap_fit)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
@@ -992,6 +944,7 @@ def isomap_fit(
     p: float = 2.0,
     metric_params: None = None,
 ) -> IsomapState:
+    from sklearn.utils.validation import _check_psd_eigenvalues, check_array
     """Fit dense n-neighbor Isomap coordinates and reusable transform state."""
     del radius, eigen_solver, tol, max_iter
     checked = check_array(X, dtype=np.float64, ensure_2d=True, ensure_min_samples=2)
@@ -1027,7 +980,6 @@ def isomap_fit(
         n_features_in=int(checked.shape[1]),
     )
 
-
 @register_atom(witness_isomap_transform)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
 @icontract.require(lambda X: _finite_matrix(X), "X must contain only finite values")
@@ -1035,6 +987,8 @@ def isomap_fit(
 @icontract.require(lambda X, state: _isomap_feature_count_matches(X, state), "X feature count must match fitted Isomap state")
 @icontract.ensure(lambda result, X, state: _isomap_transform_valid(result, X, state), "Isomap transform must contain finite coordinates")
 def isomap_transform(X: NDArray[np.float64], state: IsomapState) -> NDArray[np.float64]:
+    from sklearn.neighbors import NearestNeighbors, kneighbors_graph
+    from sklearn.utils.validation import _check_psd_eigenvalues, check_array
     """Project query samples through a fitted dense Isomap state."""
     checked = check_array(X, dtype=np.float64, ensure_2d=True)
     nbrs = NearestNeighbors(
@@ -1065,7 +1019,6 @@ def isomap_transform(X: NDArray[np.float64], state: IsomapState) -> NDArray[np.f
     )
     return np.asarray(np.dot(query_kernel, scaled_eigenvectors), dtype=np.float64)
 
-
 @register_atom(witness_isomap_reconstruction_error)
 @icontract.require(lambda state: _isomap_state_valid(state), "state must be a fitted dense Isomap state")
 @icontract.ensure(lambda result: _nonnegative_finite_scalar(result), "reconstruction error must be finite and nonnegative")
@@ -1075,7 +1028,6 @@ def isomap_reconstruction_error(state: IsomapState) -> float:
     centered_kernel, _, _ = _center_precomputed_kernel(kernel_matrix)
     residual = float(np.sum(centered_kernel**2) - np.sum(state.eigenvalues**2))
     return float(np.sqrt(max(residual, 0.0)) / state.dist_matrix.shape[0])
-
 
 @register_atom(witness_lle_barycenter_weights)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
@@ -1093,6 +1045,7 @@ def lle_barycenter_weights(
     *,
     reg: float = 1e-3,
 ) -> NDArray[np.float64]:
+    from sklearn.utils.validation import _check_psd_eigenvalues, check_array
     """Compute row-normalized local reconstruction weights for LLE."""
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     checked_y = check_array(Y, dtype=np.float64, ensure_2d=True)
@@ -1110,7 +1063,6 @@ def lle_barycenter_weights(
         weights[row, :] = raw_weights / np.sum(raw_weights)
     return np.asarray(weights, dtype=np.float64)
 
-
 @register_atom(witness_lle_barycenter_graph)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
 @icontract.require(lambda X: _finite_matrix(X), "X must contain only finite values")
@@ -1125,6 +1077,8 @@ def lle_barycenter_graph(
     reg: float = 1e-3,
     n_jobs: None = None,
 ) -> NDArray[np.float64]:
+    from sklearn.neighbors import NearestNeighbors, kneighbors_graph
+    from sklearn.utils.validation import _check_psd_eigenvalues, check_array
     """Build the dense barycenter-weight matrix for standard LLE."""
     checked = check_array(X, dtype=np.float64, ensure_2d=True, ensure_min_samples=2)
     nbrs = NearestNeighbors(n_neighbors=n_neighbors + 1, n_jobs=n_jobs)
@@ -1136,18 +1090,17 @@ def lle_barycenter_graph(
         graph[row, neighbor_indices] = local_weights[row]
     return graph
 
-
 @register_atom(witness_lle_standard_reconstruction_matrix)
 @icontract.require(lambda weights: _square_matrix(weights), "weights must be square")
 @icontract.require(lambda weights: _finite_matrix(weights), "weights must contain only finite values")
 @icontract.ensure(lambda result, weights: _lle_matrix_valid(result, weights), "reconstruction matrix must be finite and symmetric")
 def lle_standard_reconstruction_matrix(weights: NDArray[np.float64]) -> NDArray[np.float64]:
+    from sklearn.utils.validation import _check_psd_eigenvalues, check_array
     """Compute the dense standard LLE matrix (I - W)'(I - W)."""
     checked = check_array(weights, dtype=np.float64, ensure_2d=True)
     matrix = np.asarray(checked.T @ checked - checked.T - checked, dtype=np.float64)
     matrix.flat[:: matrix.shape[0] + 1] += 1.0
     return matrix
-
 
 @register_atom(witness_locally_linear_embedding)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
@@ -1184,6 +1137,7 @@ def locally_linear_embedding(
     random_state: int | None = None,
     n_jobs: None = None,
 ) -> LocallyLinearEmbeddingState:
+    from sklearn.utils.validation import _check_psd_eigenvalues, check_array
     """Fit standard dense locally linear embedding coordinates."""
     del eigen_solver, tol, max_iter, method, hessian_tol, modified_tol, random_state
     checked = check_array(X, dtype=np.float64, ensure_2d=True, ensure_min_samples=2)
@@ -1210,7 +1164,6 @@ def locally_linear_embedding(
         method="standard",
         n_features_in=int(checked.shape[1]),
     )
-
 
 @register_atom(witness_locally_linear_embedding_fit)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
@@ -1266,7 +1219,6 @@ def locally_linear_embedding_fit(
         n_jobs=n_jobs,
     )
 
-
 @register_atom(witness_locally_linear_embedding_transform)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
 @icontract.require(lambda X: _finite_matrix(X), "X must contain only finite values")
@@ -1277,6 +1229,8 @@ def locally_linear_embedding_transform(
     X: NDArray[np.float64],
     state: LocallyLinearEmbeddingState,
 ) -> NDArray[np.float64]:
+    from sklearn.neighbors import NearestNeighbors, kneighbors_graph
+    from sklearn.utils.validation import _check_psd_eigenvalues, check_array
     """Transform samples with a fitted standard dense LLE state."""
     checked = check_array(X, dtype=np.float64, ensure_2d=True)
     nbrs = NearestNeighbors(n_neighbors=state.n_neighbors)

@@ -6,9 +6,6 @@ import icontract
 import numpy as np
 import scipy.sparse as sp
 from numpy.typing import NDArray
-from sklearn.preprocessing import LabelBinarizer
-from sklearn.utils import check_array, check_consistent_length
-from sklearn.utils.extmath import safe_sparse_dot
 
 from sciona.ghost.registry import register_atom
 
@@ -16,22 +13,17 @@ from .witnesses import witness_l1_min_c
 
 MatrixLike = NDArray[np.float64] | sp.spmatrix
 
-
 def _is_2d(X: MatrixLike) -> bool:
     return bool(getattr(X, "ndim", 0) == 2)
-
 
 def _is_1d(y: NDArray[np.float64]) -> bool:
     return bool(getattr(y, "ndim", 0) == 1)
 
-
 def _sample_count(X: MatrixLike) -> int:
     return int(X.shape[0])
 
-
 def _valid_loss(loss: str) -> bool:
     return loss in {"squared_hinge", "log"}
-
 
 @register_atom(witness_l1_min_c)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
@@ -48,6 +40,9 @@ def l1_min_c(
     fit_intercept: bool = True,
     intercept_scaling: float = 1.0,
 ) -> float:
+    from sklearn.preprocessing import LabelBinarizer
+    from sklearn.utils import check_array, check_consistent_length
+    from sklearn.utils.extmath import safe_sparse_dot
     """Compute the minimum useful C value for l1-penalized classifiers."""
     checked_x = check_array(X, accept_sparse="csc")
     checked_y = np.asarray(y)

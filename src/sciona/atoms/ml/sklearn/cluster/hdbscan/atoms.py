@@ -5,7 +5,6 @@ from __future__ import annotations
 import icontract
 import numpy as np
 from numpy.typing import NDArray
-from sklearn.cluster import HDBSCAN as SklearnHDBSCAN
 
 from sciona.ghost.registry import register_atom
 
@@ -19,7 +18,6 @@ _VALID_ALGORITHMS = {"auto", "brute", "kd_tree", "ball_tree"}
 _VALID_SELECTION_METHODS = {"eom", "leaf"}
 _TREE_FIELDS = ("left_node", "right_node", "value", "cluster_size")
 
-
 def _is_dense_finite_matrix(X: MatrixLike) -> bool:
     try:
         values = np.asarray(X, dtype=np.float64)
@@ -27,34 +25,26 @@ def _is_dense_finite_matrix(X: MatrixLike) -> bool:
         return False
     return bool(values.ndim == 2 and values.shape[0] >= 2 and values.shape[1] >= 1 and np.all(np.isfinite(values)))
 
-
 def _positive_int(value: int) -> bool:
     return bool(isinstance(value, int) and not isinstance(value, bool) and value >= 1)
-
 
 def _min_cluster_size_valid(value: int, X: MatrixLike) -> bool:
     return bool(isinstance(value, int) and not isinstance(value, bool) and 2 <= value <= np.asarray(X).shape[0])
 
-
 def _min_samples_valid(value: int | None, X: MatrixLike) -> bool:
     return bool(value is None or (_positive_int(value) and value <= np.asarray(X).shape[0]))
-
 
 def _nonnegative_float(value: float) -> bool:
     return bool(isinstance(value, (int, float)) and not isinstance(value, bool) and np.isfinite(float(value)) and float(value) >= 0.0)
 
-
 def _positive_float(value: float) -> bool:
     return bool(isinstance(value, (int, float)) and not isinstance(value, bool) and np.isfinite(float(value)) and float(value) > 0.0)
-
 
 def _max_cluster_size_valid(value: int | None) -> bool:
     return bool(value is None or (isinstance(value, int) and not isinstance(value, bool) and value >= 0))
 
-
 def _metric_valid(metric: str) -> bool:
     return bool(isinstance(metric, str) and metric in _VALID_METRICS)
-
 
 def _metric_params_valid(metric_params: dict[str, float] | None) -> bool:
     if metric_params is None:
@@ -64,22 +54,17 @@ def _metric_params_valid(metric_params: dict[str, float] | None) -> bool:
         and all(isinstance(key, str) and isinstance(value, (int, float)) and np.isfinite(float(value)) for key, value in metric_params.items())
     )
 
-
 def _algorithm_valid(algorithm: str) -> bool:
     return bool(isinstance(algorithm, str) and algorithm in _VALID_ALGORITHMS)
-
 
 def _cluster_selection_method_valid(method: str) -> bool:
     return bool(isinstance(method, str) and method in _VALID_SELECTION_METHODS)
 
-
 def _bool_value(value: bool) -> bool:
     return bool(isinstance(value, bool))
 
-
 def _n_jobs_valid(n_jobs: int | None) -> bool:
     return bool(n_jobs is None or (isinstance(n_jobs, int) and not isinstance(n_jobs, bool) and n_jobs != 0))
-
 
 def _labels_valid(labels: NDArray[np.int_], X: MatrixLike) -> bool:
     values = np.asarray(labels)
@@ -91,7 +76,6 @@ def _labels_valid(labels: NDArray[np.int_], X: MatrixLike) -> bool:
         and np.all(values < n_samples)
     )
 
-
 def _probabilities_valid(probabilities: NDArray[np.float64], labels: NDArray[np.int_]) -> bool:
     values = np.asarray(probabilities)
     return bool(
@@ -101,7 +85,6 @@ def _probabilities_valid(probabilities: NDArray[np.float64], labels: NDArray[np.
         and np.all(values >= 0.0)
         and np.all(values <= 1.0)
     )
-
 
 def _single_linkage_tree_valid(tree: NDArray[np.generic], n_samples: int) -> bool:
     values = np.asarray(tree)
@@ -114,7 +97,6 @@ def _single_linkage_tree_valid(tree: NDArray[np.generic], n_samples: int) -> boo
         and np.all(values["value"] >= 0.0)
         and np.all(values["cluster_size"] >= 2)
     )
-
 
 def _state_valid(state: HDBSCANState) -> bool:
     return bool(
@@ -137,7 +119,6 @@ def _state_valid(state: HDBSCANState) -> bool:
         and _positive_int(state.n_features_in)
     )
 
-
 def _fit_model(
     X: MatrixLike,
     *,
@@ -155,6 +136,7 @@ def _fit_model(
     allow_single_cluster: bool,
     copy: bool,
 ) -> SklearnHDBSCAN:
+    from sklearn.cluster import HDBSCAN as SklearnHDBSCAN
     checked_x = np.asarray(X, dtype=np.float64)
     model = SklearnHDBSCAN(
         min_cluster_size=int(min_cluster_size),
@@ -173,7 +155,6 @@ def _fit_model(
         copy=bool(copy),
     )
     return model.fit(checked_x)
-
 
 @register_atom(witness_hdbscan_fit)
 @icontract.require(lambda X: _is_dense_finite_matrix(X), "X must be a dense finite matrix with at least two samples")
@@ -241,7 +222,6 @@ def hdbscan_fit(
         allow_single_cluster=bool(allow_single_cluster),
         n_features_in=int(model.n_features_in_),
     )
-
 
 @register_atom(witness_hdbscan_fit_predict)
 @icontract.require(lambda X: _is_dense_finite_matrix(X), "X must be a dense finite matrix with at least two samples")

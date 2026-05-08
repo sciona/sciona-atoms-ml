@@ -5,10 +5,6 @@ from __future__ import annotations
 import icontract
 import numpy as np
 from numpy.typing import NDArray
-from sklearn.cluster import Birch as SklearnBirch
-from sklearn.metrics import pairwise_distances_argmin
-from sklearn.metrics.pairwise import euclidean_distances
-from sklearn.utils.validation import check_array
 
 from sciona.ghost.registry import register_atom
 
@@ -21,7 +17,6 @@ from .witnesses import (
 
 MatrixLike = NDArray[np.float64] | list[list[float]]
 
-
 def _is_2d_finite_matrix(X: MatrixLike) -> bool:
     try:
         values = np.asarray(X, dtype=np.float64)
@@ -29,24 +24,19 @@ def _is_2d_finite_matrix(X: MatrixLike) -> bool:
         return False
     return bool(values.ndim == 2 and values.shape[0] >= 1 and values.shape[1] >= 1 and np.all(np.isfinite(values)))
 
-
 def _positive_float(value: float) -> bool:
     return bool(isinstance(value, (int, float)) and not isinstance(value, bool) and np.isfinite(float(value)) and float(value) > 0.0)
-
 
 def _branching_factor_valid(value: int) -> bool:
     return bool(isinstance(value, int) and not isinstance(value, bool) and value >= 2)
 
-
 def _bool_value(value: bool) -> bool:
     return bool(isinstance(value, bool))
-
 
 def _labels_valid(labels: NDArray[np.int_], X: MatrixLike) -> bool:
     values = np.asarray(labels)
     n_samples = np.asarray(X).shape[0]
     return bool(values.shape == (n_samples,) and np.issubdtype(values.dtype, np.integer) and np.all(values >= 0))
-
 
 def _centers_valid(centers: NDArray[np.float64], n_features: int) -> bool:
     values = np.asarray(centers)
@@ -57,7 +47,6 @@ def _centers_valid(centers: NDArray[np.float64], n_features: int) -> bool:
         and np.issubdtype(values.dtype, np.floating)
         and np.all(np.isfinite(values))
     )
-
 
 def _state_valid(state: BirchNoGlobalState) -> bool:
     labels_ok = state.labels is None or (
@@ -78,10 +67,8 @@ def _state_valid(state: BirchNoGlobalState) -> bool:
         and state.n_features_out == state.subcluster_centers.shape[0]
     )
 
-
 def _feature_count_matches(X: MatrixLike, state: BirchNoGlobalState) -> bool:
     return bool(_is_2d_finite_matrix(X) and _state_valid(state) and np.asarray(X).shape[1] == state.n_features_in)
-
 
 def _transform_valid(result: NDArray[np.float64], X: MatrixLike, state: BirchNoGlobalState) -> bool:
     values = np.asarray(result)
@@ -91,7 +78,6 @@ def _transform_valid(result: NDArray[np.float64], X: MatrixLike, state: BirchNoG
         and np.all(np.isfinite(values))
         and np.all(values >= 0.0)
     )
-
 
 @register_atom(witness_birch_fit_no_global)
 @icontract.require(lambda X: _is_2d_finite_matrix(X), "X must be a finite 2D matrix")
@@ -106,6 +92,8 @@ def birch_fit_no_global(
     branching_factor: int = 50,
     compute_labels: bool = True,
 ) -> BirchNoGlobalState:
+    from sklearn.cluster import Birch as SklearnBirch
+    from sklearn.utils.validation import check_array
     """Fit BIRCH with n_clusters=None and return immutable CF-tree summaries."""
     checked_x = np.asarray(check_array(X, dtype=np.float64, ensure_2d=True), dtype=np.float64)
     model = SklearnBirch(
@@ -126,7 +114,6 @@ def birch_fit_no_global(
         n_features_out=int(model._n_features_out),
     )
 
-
 @register_atom(witness_birch_predict_no_global)
 @icontract.require(lambda X: _is_2d_finite_matrix(X), "X must be a finite 2D matrix")
 @icontract.require(lambda X, state: _feature_count_matches(X, state), "X feature count must match BIRCH state")
@@ -135,11 +122,12 @@ def birch_predict_no_global(
     X: MatrixLike,
     state: BirchNoGlobalState,
 ) -> NDArray[np.int_]:
+    from sklearn.metrics import pairwise_distances_argmin
+    from sklearn.utils.validation import check_array
     """Predict labels by nearest BIRCH subcluster center without global clustering."""
     checked_x = np.asarray(check_array(X, dtype=np.float64, ensure_2d=True), dtype=np.float64)
     argmin = pairwise_distances_argmin(checked_x, state.subcluster_centers)
     return np.asarray(state.subcluster_labels[argmin], dtype=np.int_)
-
 
 @register_atom(witness_birch_transform_no_global)
 @icontract.require(lambda X: _is_2d_finite_matrix(X), "X must be a finite 2D matrix")
@@ -149,6 +137,8 @@ def birch_transform_no_global(
     X: MatrixLike,
     state: BirchNoGlobalState,
 ) -> NDArray[np.float64]:
+    from sklearn.metrics.pairwise import euclidean_distances
+    from sklearn.utils.validation import check_array
     """Return distances from samples to BIRCH no-global subcluster centers."""
     checked_x = np.asarray(check_array(X, dtype=np.float64, ensure_2d=True), dtype=np.float64)
     return np.asarray(euclidean_distances(checked_x, state.subcluster_centers), dtype=np.float64)

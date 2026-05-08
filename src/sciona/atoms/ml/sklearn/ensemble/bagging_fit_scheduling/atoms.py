@@ -4,9 +4,7 @@ from __future__ import annotations
 
 import icontract
 import numpy as np
-from joblib import effective_n_jobs
 from numpy.typing import NDArray
-from sklearn.utils import check_random_state
 
 from sciona.ghost.registry import register_atom
 
@@ -19,14 +17,11 @@ MAX_INT = np.iinfo(np.int32).max
 RandomStateLike = int | np.random.RandomState | None
 PartitionResult = tuple[int, NDArray[np.int64], NDArray[np.int64]]
 
-
 def _positive_int(value: int) -> bool:
     return bool(isinstance(value, int) and not isinstance(value, bool) and value >= 1)
 
-
 def _n_jobs_valid(value: int | None) -> bool:
     return bool(value is None or (isinstance(value, int) and not isinstance(value, bool) and value != 0))
-
 
 def _partition_result_valid(result: PartitionResult, n_estimators: int) -> bool:
     n_jobs, n_estimators_per_job, starts = result
@@ -45,7 +40,6 @@ def _partition_result_valid(result: PartitionResult, n_estimators: int) -> bool:
         and int(np.max(counts) - np.min(counts)) <= 1
     )
 
-
 def _seed_vector_valid(result: NDArray[np.int64], n_more_estimators: int) -> bool:
     values = np.asarray(result)
     return bool(
@@ -54,7 +48,6 @@ def _seed_vector_valid(result: NDArray[np.int64], n_more_estimators: int) -> boo
         and np.all(values >= 0)
         and np.all(values < MAX_INT)
     )
-
 
 @register_atom(witness_bagging_partition_estimators)
 @icontract.require(lambda n_estimators: _positive_int(n_estimators), "n_estimators must be a positive integer")
@@ -67,6 +60,7 @@ def bagging_partition_estimators(
     n_estimators: int,
     n_jobs: int | None,
 ) -> PartitionResult:
+    from joblib import effective_n_jobs
     """Partition sklearn bagging's estimator count across effective parallel jobs."""
     resolved_n_jobs = min(effective_n_jobs(n_jobs), n_estimators)
     n_estimators_per_job = np.full(resolved_n_jobs, n_estimators // resolved_n_jobs, dtype=np.int64)
@@ -77,7 +71,6 @@ def bagging_partition_estimators(
         np.asarray(n_estimators_per_job, dtype=np.int64),
         np.asarray([0, *starts.tolist()], dtype=np.int64),
     )
-
 
 @register_atom(witness_bagging_fit_seeds)
 @icontract.require(lambda n_more_estimators: _positive_int(n_more_estimators), "n_more_estimators must be a positive integer")
@@ -95,6 +88,7 @@ def bagging_fit_seeds(
     *,
     random_state: RandomStateLike = None,
 ) -> NDArray[np.int64]:
+    from sklearn.utils import check_random_state
     """Generate sklearn bagging's per-estimator seeds after warm-start advancement."""
     rng = check_random_state(random_state)
     if previous_estimators > 0:

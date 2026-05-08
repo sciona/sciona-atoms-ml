@@ -6,7 +6,6 @@ import icontract
 import numpy as np
 from numpy.typing import NDArray
 from scipy import linalg
-from sklearn.utils.extmath import svd_flip
 
 from sciona.ghost.registry import register_atom
 
@@ -20,7 +19,6 @@ from .witnesses import (
 
 FactorPair = tuple[NDArray[np.float64], NDArray[np.float64]]
 
-
 def _finite_matrix(values: object) -> bool:
     try:
         matrix = np.asarray(values, dtype=np.float64)
@@ -28,26 +26,20 @@ def _finite_matrix(values: object) -> bool:
         return False
     return bool(matrix.ndim == 2 and matrix.shape[0] >= 1 and matrix.shape[1] >= 1 and np.all(np.isfinite(matrix)))
 
-
 def _compatible_factors(code: object, dictionary: object) -> bool:
     return bool(_finite_matrix(code) and _finite_matrix(dictionary) and np.asarray(code).shape[1] == np.asarray(dictionary).shape[0])
-
 
 def _positive_int(value: int) -> bool:
     return bool(isinstance(value, int) and not isinstance(value, bool) and value >= 1)
 
-
 def _nonnegative_int(value: int) -> bool:
     return bool(isinstance(value, int) and not isinstance(value, bool) and value >= 0)
-
 
 def _finite_scalar(value: float | int) -> bool:
     return bool(not isinstance(value, bool) and np.isscalar(value) and np.isfinite(float(value)))
 
-
 def _nonnegative_finite_scalar(value: float | int) -> bool:
     return bool(_finite_scalar(value) and float(value) >= 0.0)
-
 
 def _svd_result_valid(result: FactorPair, X: NDArray[np.float64]) -> bool:
     if not isinstance(result, tuple) or len(result) != 2:
@@ -62,7 +54,6 @@ def _svd_result_valid(result: FactorPair, X: NDArray[np.float64]) -> bool:
         and np.asarray(dictionary).shape == (rank, values.shape[1])
     )
 
-
 def _resize_result_valid(result: FactorPair, code: NDArray[np.float64], dictionary: NDArray[np.float64], n_components: int) -> bool:
     if not isinstance(result, tuple) or len(result) != 2:
         return False
@@ -76,18 +67,17 @@ def _resize_result_valid(result: FactorPair, code: NDArray[np.float64], dictiona
         and np.asarray(next_dictionary).shape == (int(n_components), dictionary_values.shape[1])
     )
 
-
 @register_atom(witness_dictionary_learning_svd_initialize)
 @icontract.require(lambda X: _finite_matrix(X), "X must be a nonempty finite matrix")
 @icontract.ensure(lambda result, X: _svd_result_valid(result, X), "SVD initialization must return finite code and dictionary factors with rank-compatible shapes")
 def dictionary_learning_svd_initialize(X: NDArray[np.float64]) -> FactorPair:
+    from sklearn.utils.extmath import svd_flip
     """Initialize dictionary-learning factors from a deterministic SVD."""
     values = np.asarray(X, dtype=np.float64)
     code, singular_values, dictionary = linalg.svd(values, full_matrices=False)
     code, dictionary = svd_flip(code, dictionary)
     scaled_dictionary = singular_values[:, np.newaxis] * dictionary
     return np.asarray(code, dtype=np.float64), np.asarray(scaled_dictionary, dtype=np.float64)
-
 
 @register_atom(witness_dictionary_learning_resize_factors)
 @icontract.require(lambda code, dictionary: _compatible_factors(code, dictionary), "code and dictionary must be finite compatible factors")
@@ -112,7 +102,6 @@ def dictionary_learning_resize_factors(
     padded_dictionary = np.r_[dictionary_values, np.zeros((n_components - rank, dictionary_values.shape[1]), dtype=np.float64)]
     return np.asarray(padded_code, dtype=np.float64), np.asarray(padded_dictionary, dtype=np.float64)
 
-
 @register_atom(witness_dictionary_learning_cost)
 @icontract.require(lambda X: _finite_matrix(X), "X must be a nonempty finite matrix")
 @icontract.require(lambda code, dictionary: _compatible_factors(code, dictionary), "code and dictionary must be finite compatible factors")
@@ -130,7 +119,6 @@ def dictionary_learning_cost(
     residual = np.asarray(X, dtype=np.float64) - np.asarray(code, dtype=np.float64) @ np.asarray(dictionary, dtype=np.float64)
     return float(0.5 * np.sum(residual**2) + float(alpha) * np.sum(np.abs(np.asarray(code, dtype=np.float64))))
 
-
 @register_atom(witness_dictionary_learning_converged)
 @icontract.require(lambda previous_cost: _finite_scalar(previous_cost), "previous_cost must be finite")
 @icontract.require(lambda current_cost: _finite_scalar(current_cost), "current_cost must be finite")
@@ -141,7 +129,6 @@ def dictionary_learning_converged(previous_cost: float, current_cost: float, *, 
     """Apply sklearn's cost-delta stopping rule for dictionary learning."""
     delta = float(previous_cost) - float(current_cost)
     return bool(delta < float(tol) * float(current_cost))
-
 
 @register_atom(witness_dictionary_learning_callback_due)
 @icontract.require(lambda iteration: _nonnegative_int(iteration), "iteration must be a nonnegative integer")

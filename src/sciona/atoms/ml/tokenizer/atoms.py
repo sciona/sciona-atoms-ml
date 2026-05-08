@@ -5,12 +5,10 @@ from __future__ import annotations
 from pathlib import Path
 
 import icontract
-from tokenizers import Tokenizer
 
 from sciona.ghost.registry import register_atom
 
 from .witnesses import witness_tokenize
-
 
 def _tokenizer_path_valid(tokenizer_path: Path) -> bool:
     return (
@@ -18,7 +16,6 @@ def _tokenizer_path_valid(tokenizer_path: Path) -> bool:
         and tokenizer_path.name.endswith(".json")
         and tokenizer_path.is_file()
     )
-
 
 def _tokenize_result_valid(result: dict[str, list[int]]) -> bool:
     required_keys = {"input_ids", "attention_mask", "token_type_ids"}
@@ -31,7 +28,6 @@ def _tokenize_result_valid(result: dict[str, list[int]]) -> bool:
         and len(result["attention_mask"]) == len(result["input_ids"])
         and len(result["token_type_ids"]) == len(result["input_ids"])
     )
-
 
 @register_atom(witness_tokenize)
 @icontract.require(
@@ -47,6 +43,7 @@ def _tokenize_result_valid(result: dict[str, list[int]]) -> bool:
     "tokenizer output must contain aligned integer ID, mask, and type-ID lists",
 )
 def tokenize(text: str, tokenizer_path: Path) -> dict[str, list[int]]:
+    from tokenizers import Tokenizer
     """Tokenize text with a local Hugging Face fast tokenizer JSON artifact."""
     tokenizer = Tokenizer.from_file(str(tokenizer_path))
     encoding = tokenizer.encode(text)

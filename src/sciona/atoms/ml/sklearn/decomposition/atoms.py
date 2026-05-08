@@ -6,9 +6,6 @@ import icontract
 import numpy as np
 from numpy.typing import NDArray
 from scipy import linalg
-from sklearn.utils import check_array, check_random_state
-from sklearn.utils.extmath import _incremental_mean_and_var, fast_logdet, randomized_svd, squared_norm, svd_flip
-from sklearn.utils.validation import _check_psd_eigenvalues
 
 from sciona.ghost.registry import register_atom
 
@@ -37,15 +34,12 @@ from .witnesses import (
     witness_truncated_svd_transform,
 )
 
-
 def _matrix_2d(X: NDArray[np.float64]) -> bool:
     return bool(np.asarray(X).ndim == 2)
-
 
 def _has_enough_samples(X: NDArray[np.float64]) -> bool:
     values = np.asarray(X)
     return bool(values.ndim == 2 and values.shape[0] >= 2)
-
 
 def _has_positive_centered_variance(X: NDArray[np.float64]) -> bool:
     values = np.asarray(X, dtype=np.float64)
@@ -54,13 +48,11 @@ def _has_positive_centered_variance(X: NDArray[np.float64]) -> bool:
     centered = values - values.mean(axis=0)
     return bool(np.isfinite(centered).all() and np.sum(centered**2) > 0.0)
 
-
 def _has_positive_feature_variance(X: NDArray[np.float64]) -> bool:
     values = np.asarray(X, dtype=np.float64)
     if values.ndim != 2 or values.shape[0] < 2:
         return False
     return bool(np.isfinite(values).all() and float(np.sum(np.var(values, axis=0))) > 0.0)
-
 
 def _pca_components_valid(n_components: int | float | None, X: NDArray[np.float64]) -> bool:
     n_samples, n_features = np.asarray(X).shape
@@ -75,7 +67,6 @@ def _pca_components_valid(n_components: int | float | None, X: NDArray[np.float6
         return 0.0 < n_components < 1.0
     return False
 
-
 def _resolve_n_components(
     n_components: int | float | None,
     explained_variance_ratio: NDArray[np.float64],
@@ -89,7 +80,6 @@ def _resolve_n_components(
         return int(n_components)
     ratio_cumsum = np.cumsum(explained_variance_ratio)
     return int(np.searchsorted(ratio_cumsum, float(n_components), side="right") + 1)
-
 
 def _pca_state_valid(state: PCAState) -> bool:
     return bool(
@@ -109,7 +99,6 @@ def _pca_state_valid(state: PCAState) -> bool:
         and np.isfinite(state.noise_variance)
         and 0.0 <= float(np.sum(state.explained_variance_ratio)) <= 1.0 + 1e-12
     )
-
 
 def _incremental_components_valid(
     n_components: int | None,
@@ -134,10 +123,8 @@ def _incremental_components_valid(
         return True
     return bool(isinstance(n_components, int) and not isinstance(n_components, bool) and n_components == state.n_components)
 
-
 def _incremental_batch_size_valid(batch_size: int | None) -> bool:
     return bool(batch_size is None or (isinstance(batch_size, int) and not isinstance(batch_size, bool) and batch_size >= 1))
-
 
 def _incremental_state_valid(state: IncrementalPCAState) -> bool:
     return bool(
@@ -164,7 +151,6 @@ def _incremental_state_valid(state: IncrementalPCAState) -> bool:
         and 0.0 <= float(np.sum(state.explained_variance_ratio)) <= 1.0 + 1e-12
     )
 
-
 def _truncated_svd_components_valid(n_components: int, X: NDArray[np.float64]) -> bool:
     if not isinstance(n_components, int) or isinstance(n_components, bool):
         return False
@@ -172,7 +158,6 @@ def _truncated_svd_components_valid(n_components: int, X: NDArray[np.float64]) -
     if values.ndim != 2:
         return False
     return bool(1 <= n_components <= min(values.shape))
-
 
 def _truncated_svd_options_valid(
     algorithm: str,
@@ -194,7 +179,6 @@ def _truncated_svd_options_valid(
         and (random_state is None or (isinstance(random_state, int) and not isinstance(random_state, bool)))
         and tol >= 0.0
     )
-
 
 def _truncated_svd_state_valid(state: TruncatedSVDState) -> bool:
     return bool(
@@ -220,12 +204,10 @@ def _truncated_svd_state_valid(state: TruncatedSVDState) -> bool:
         and 0.0 <= float(np.sum(state.explained_variance_ratio)) <= 1.0 + 1e-12
     )
 
-
 def _kernel_pca_components_valid(n_components: int, X: NDArray[np.float64]) -> bool:
     if not isinstance(n_components, int) or isinstance(n_components, bool):
         return False
     return bool(n_components >= 1 and np.asarray(X).ndim == 2)
-
 
 def _kernel_pca_options_valid(
     kernel: str,
@@ -263,7 +245,6 @@ def _kernel_pca_options_valid(
         and (n_jobs is None or (isinstance(n_jobs, int) and not isinstance(n_jobs, bool)))
     )
 
-
 def _kernel_pca_state_valid(state: KernelPCAState) -> bool:
     return bool(
         state.eigenvalues.shape == (state.n_components,)
@@ -285,7 +266,6 @@ def _kernel_pca_state_valid(state: KernelPCAState) -> bool:
         and np.isfinite(state.kernel_centerer_all)
     )
 
-
 def _factor_components_valid(n_components: int | None, X: NDArray[np.float64]) -> bool:
     if n_components is None:
         return True
@@ -296,14 +276,12 @@ def _factor_components_valid(n_components: int | None, X: NDArray[np.float64]) -
         return False
     return bool(0 <= n_components <= values.shape[1])
 
-
 def _factor_noise_init_valid(noise_variance_init: tuple[float, ...] | None, X: NDArray[np.float64]) -> bool:
     if noise_variance_init is None:
         return True
     values = np.asarray(noise_variance_init, dtype=np.float64)
     n_features = np.asarray(X).shape[1]
     return bool(values.ndim == 1 and values.shape[0] == n_features and np.all(np.isfinite(values)) and np.all(values > 0.0))
-
 
 def _factor_options_valid(
     tol: float,
@@ -326,7 +304,6 @@ def _factor_options_valid(
         and (random_state is None or (isinstance(random_state, int) and not isinstance(random_state, bool)))
     )
 
-
 def _factor_state_valid(state: FactorAnalysisState) -> bool:
     return bool(
         state.components.shape == (state.n_components, state.n_features_in)
@@ -347,60 +324,47 @@ def _factor_state_valid(state: FactorAnalysisState) -> bool:
         and np.all(np.isfinite(state.loglike))
     )
 
-
 def _feature_count_matches(X: NDArray[np.float64], state: TruncatedSVDState) -> bool:
     return bool(np.asarray(X).ndim == 2 and np.asarray(X).shape[1] == state.n_features_in)
 
-
 def _component_count_matches(X: NDArray[np.float64], state: TruncatedSVDState) -> bool:
     return bool(np.asarray(X).ndim == 2 and np.asarray(X).shape[1] == state.n_components)
-
 
 def _transformed_valid(result: NDArray[np.float64], state: TruncatedSVDState) -> bool:
     values = np.asarray(result)
     return bool(values.ndim == 2 and values.shape[1] == state.n_components and np.all(np.isfinite(values)))
 
-
 def _inverse_transformed_valid(result: NDArray[np.float64], state: TruncatedSVDState) -> bool:
     values = np.asarray(result)
     return bool(values.ndim == 2 and values.shape[1] == state.n_features_in and np.all(np.isfinite(values)))
 
-
 def _incremental_feature_count_matches(X: NDArray[np.float64], state: IncrementalPCAState) -> bool:
     return bool(np.asarray(X).ndim == 2 and np.asarray(X).shape[1] == state.n_features_in)
 
-
 def _incremental_component_count_matches(X: NDArray[np.float64], state: IncrementalPCAState) -> bool:
     return bool(np.asarray(X).ndim == 2 and np.asarray(X).shape[1] == state.n_components)
-
 
 def _incremental_transformed_valid(result: NDArray[np.float64], state: IncrementalPCAState) -> bool:
     values = np.asarray(result)
     return bool(values.ndim == 2 and values.shape[1] == state.n_components and np.all(np.isfinite(values)))
 
-
 def _incremental_inverse_valid(result: NDArray[np.float64], state: IncrementalPCAState) -> bool:
     values = np.asarray(result)
     return bool(values.ndim == 2 and values.shape[1] == state.n_features_in and np.all(np.isfinite(values)))
 
-
 def _kernel_pca_feature_count_matches(X: NDArray[np.float64], state: KernelPCAState) -> bool:
     return bool(np.asarray(X).ndim == 2 and np.asarray(X).shape[1] == state.n_features_in)
-
 
 def _kernel_pca_transform_valid(result: NDArray[np.float64], state: KernelPCAState) -> bool:
     values = np.asarray(result)
     return bool(values.ndim == 2 and values.shape[1] == state.n_components and np.all(np.isfinite(values)))
 
-
 def _factor_feature_count_matches(X: NDArray[np.float64], state: FactorAnalysisState) -> bool:
     return bool(np.asarray(X).ndim == 2 and np.asarray(X).shape[1] == state.n_features_in)
-
 
 def _factor_transform_valid(result: NDArray[np.float64], state: FactorAnalysisState) -> bool:
     values = np.asarray(result)
     return bool(values.ndim == 2 and values.shape[1] == state.n_components and np.all(np.isfinite(values)))
-
 
 def _factor_square_matrix_valid(result: NDArray[np.float64], state: FactorAnalysisState) -> bool:
     values = np.asarray(result)
@@ -410,11 +374,9 @@ def _factor_square_matrix_valid(result: NDArray[np.float64], state: FactorAnalys
         and np.allclose(values, values.T)
     )
 
-
 def _factor_score_samples_valid(result: NDArray[np.float64], X: NDArray[np.float64]) -> bool:
     values = np.asarray(result)
     return bool(values.ndim == 1 and values.shape[0] == np.asarray(X).shape[0] and np.all(np.isfinite(values)))
-
 
 def _fastica_components_valid(n_components: int | None, X: NDArray[np.float64], whiten: str | bool) -> bool:
     values = np.asarray(X)
@@ -427,7 +389,6 @@ def _fastica_components_valid(n_components: int | None, X: NDArray[np.float64], 
         and not isinstance(n_components, bool)
         and 1 <= n_components <= min(values.shape)
     )
-
 
 def _fastica_options_valid(
     algorithm: str,
@@ -454,7 +415,6 @@ def _fastica_options_valid(
         and whiten_solver in {"svd", "eigh"}
         and (random_state is None or (isinstance(random_state, int) and not isinstance(random_state, bool)))
     )
-
 
 def _fastica_state_valid(state: FastICAState) -> bool:
     whitened = state.whiten in {"unit-variance", "arbitrary-variance"}
@@ -483,35 +443,28 @@ def _fastica_state_valid(state: FastICAState) -> bool:
         and (state.mean is None or np.all(np.isfinite(state.mean)))
     )
 
-
 def _fastica_feature_count_matches(X: NDArray[np.float64], state: FastICAState) -> bool:
     return bool(np.asarray(X).ndim == 2 and np.asarray(X).shape[1] == state.n_features_in)
 
-
 def _fastica_component_count_matches(X: NDArray[np.float64], state: FastICAState) -> bool:
     return bool(np.asarray(X).ndim == 2 and np.asarray(X).shape[1] == state.n_components)
-
 
 def _fastica_transform_valid(result: NDArray[np.float64], X: NDArray[np.float64], state: FastICAState) -> bool:
     values = np.asarray(result)
     return bool(values.shape == (np.asarray(X).shape[0], state.n_components) and np.all(np.isfinite(values)))
 
-
 def _fastica_inverse_valid(result: NDArray[np.float64], X: NDArray[np.float64], state: FastICAState) -> bool:
     values = np.asarray(result)
     return bool(values.shape == (np.asarray(X).shape[0], state.n_features_in) and np.all(np.isfinite(values)))
-
 
 def _fastica_gs_decorrelation(w: NDArray[np.float64], W: NDArray[np.float64], j: int) -> NDArray[np.float64]:
     w -= np.linalg.multi_dot([w, W[:j].T, W[:j]])
     return w
 
-
 def _fastica_sym_decorrelation(W: NDArray[np.float64]) -> NDArray[np.float64]:
     eigenvalues, eigenvectors = linalg.eigh(np.dot(W, W.T))
     eigenvalues = np.clip(eigenvalues, a_min=np.finfo(W.dtype).tiny, a_max=None)
     return np.linalg.multi_dot([eigenvectors * (1.0 / np.sqrt(eigenvalues)), eigenvectors.T, W])
-
 
 def _fastica_logcosh(x: NDArray[np.float64], alpha: float) -> tuple[NDArray[np.float64], NDArray[np.float64]]:
     gx = np.asarray(x, dtype=np.float64).copy()
@@ -522,17 +475,14 @@ def _fastica_logcosh(x: NDArray[np.float64], alpha: float) -> tuple[NDArray[np.f
         g_x[i] = (alpha * (1.0 - gx_i**2)).mean()
     return gx, g_x
 
-
 def _fastica_exp(x: NDArray[np.float64]) -> tuple[NDArray[np.float64], NDArray[np.float64]]:
     exp = np.exp(-(x**2) / 2.0)
     gx = x * exp
     g_x = (1.0 - x**2) * exp
     return gx, g_x.mean(axis=-1)
 
-
 def _fastica_cube(x: NDArray[np.float64]) -> tuple[NDArray[np.float64], NDArray[np.float64]]:
     return x**3, (3.0 * x**2).mean(axis=-1)
-
 
 def _fastica_g(x: NDArray[np.float64], fun: str, alpha: float) -> tuple[NDArray[np.float64], NDArray[np.float64]]:
     if fun == "logcosh":
@@ -540,7 +490,6 @@ def _fastica_g(x: NDArray[np.float64], fun: str, alpha: float) -> tuple[NDArray[
     if fun == "exp":
         return _fastica_exp(x)
     return _fastica_cube(x)
-
 
 def _fastica_ica_def(
     X: NDArray[np.float64],
@@ -569,7 +518,6 @@ def _fastica_ica_def(
         W[j, :] = w
     return W, max(n_iter)
 
-
 def _fastica_ica_par(
     X: NDArray[np.float64],
     tol: float,
@@ -588,7 +536,6 @@ def _fastica_ica_par(
         if lim < tol:
             break
     return W, ii + 1
-
 
 @register_atom(witness_fastica_fit)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
@@ -624,6 +571,7 @@ def fastica_fit(
     whiten_solver: str = "svd",
     random_state: int | None = None,
 ) -> FastICAState:
+    from sklearn.utils import check_array, check_random_state
     """Fit dense FastICA state with sklearn-compatible fixed-point updates."""
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True, ensure_min_samples=2, copy=bool(whiten))
     XT = checked_x.T
@@ -705,19 +653,18 @@ def fastica_fit(
         random_state=random_state,
     )
 
-
 @register_atom(witness_fastica_transform)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
 @icontract.require(lambda X, state: _fastica_feature_count_matches(X, state), "X feature count must match fitted FastICA state")
 @icontract.require(lambda state: _fastica_state_valid(state), "state must be a fitted FastICA state")
 @icontract.ensure(lambda result, X, state: _fastica_transform_valid(result, X, state), "sources must be a finite component matrix")
 def fastica_transform(X: NDArray[np.float64], state: FastICAState) -> NDArray[np.float64]:
+    from sklearn.utils import check_array, check_random_state
     """Recover independent source coordinates from samples."""
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True, copy=bool(state.whiten))
     if state.mean is not None:
         checked_x = checked_x - state.mean
     return np.asarray(np.dot(checked_x, state.components.T), dtype=np.float64)
-
 
 @register_atom(witness_fastica_inverse_transform)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
@@ -725,13 +672,13 @@ def fastica_transform(X: NDArray[np.float64], state: FastICAState) -> NDArray[np
 @icontract.require(lambda state: _fastica_state_valid(state), "state must be a fitted FastICA state")
 @icontract.ensure(lambda result, X, state: _fastica_inverse_valid(result, X, state), "reconstruction must be a finite feature matrix")
 def fastica_inverse_transform(X: NDArray[np.float64], state: FastICAState) -> NDArray[np.float64]:
+    from sklearn.utils import check_array, check_random_state
     """Map FastICA source coordinates back to the original feature space."""
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True, copy=bool(state.whiten))
     reconstructed = np.dot(checked_x, state.mixing.T)
     if state.mean is not None:
         reconstructed = reconstructed + state.mean
     return np.asarray(reconstructed, dtype=np.float64)
-
 
 @register_atom(witness_pca_fit)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
@@ -748,6 +695,8 @@ def pca_fit(
     copy: bool = True,
     svd_solver: str = "full",
 ) -> PCAState:
+    from sklearn.utils import check_array, check_random_state
+    from sklearn.utils.extmath import _incremental_mean_and_var, fast_logdet, randomized_svd, squared_norm, svd_flip
     """Fit dense full-SVD PCA state from a sample-by-feature matrix."""
     del copy
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True, ensure_min_samples=2)
@@ -787,7 +736,6 @@ def pca_fit(
         svd_solver=svd_solver,
     )
 
-
 @register_atom(witness_incremental_pca_partial_fit)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
 @icontract.require(lambda X: _has_positive_feature_variance(X), "X must have positive feature variance")
@@ -803,6 +751,8 @@ def incremental_pca_partial_fit(
     copy: bool = True,
     batch_size: int | None = None,
 ) -> IncrementalPCAState:
+    from sklearn.utils import check_array, check_random_state
+    from sklearn.utils.extmath import _incremental_mean_and_var, fast_logdet, randomized_svd, squared_norm, svd_flip
     """Update dense incremental PCA state from one sample batch."""
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True, copy=copy)
     n_samples, n_features = checked_x.shape
@@ -866,7 +816,6 @@ def incremental_pca_partial_fit(
         batch_size=batch_size,
     )
 
-
 @register_atom(witness_incremental_pca_transform)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
 @icontract.require(lambda X, state: _incremental_feature_count_matches(X, state), "X feature count must match fitted incremental PCA state")
@@ -876,6 +825,7 @@ def incremental_pca_transform(
     X: NDArray[np.float64],
     state: IncrementalPCAState,
 ) -> NDArray[np.float64]:
+    from sklearn.utils import check_array, check_random_state
     """Project samples onto fitted incremental PCA components."""
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     transformed = np.dot(checked_x, state.components.T)
@@ -887,7 +837,6 @@ def incremental_pca_transform(
         transformed /= scale
     return np.asarray(transformed, dtype=np.float64)
 
-
 @register_atom(witness_incremental_pca_inverse_transform)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
 @icontract.require(lambda X, state: _incremental_component_count_matches(X, state), "X width must match fitted component count")
@@ -897,13 +846,13 @@ def incremental_pca_inverse_transform(
     X: NDArray[np.float64],
     state: IncrementalPCAState,
 ) -> NDArray[np.float64]:
+    from sklearn.utils import check_array, check_random_state
     """Map incremental PCA coordinates back to feature space."""
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     if state.whiten:
         scaled_components = np.sqrt(state.explained_variance[:, np.newaxis]) * state.components
         return np.asarray(np.dot(checked_x, scaled_components) + state.mean, dtype=np.float64)
     return np.asarray(np.dot(checked_x, state.components) + state.mean, dtype=np.float64)
-
 
 @register_atom(witness_truncated_svd_fit)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
@@ -934,6 +883,8 @@ def truncated_svd_fit(
     random_state: int | None = None,
     tol: float = 0.0,
 ) -> TruncatedSVDState:
+    from sklearn.utils import check_array, check_random_state
+    from sklearn.utils.extmath import _incremental_mean_and_var, fast_logdet, randomized_svd, squared_norm, svd_flip
     """Fit dense randomized truncated SVD state without centering inputs."""
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True, ensure_min_samples=2, ensure_min_features=2)
     # sklearn's TruncatedSVD accepts the legacy "OR" token and passes it through
@@ -969,7 +920,6 @@ def truncated_svd_fit(
         tol=float(tol),
     )
 
-
 @register_atom(witness_truncated_svd_transform)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
 @icontract.require(lambda X, state: _feature_count_matches(X, state), "X feature count must match fitted truncated SVD state")
@@ -979,10 +929,10 @@ def truncated_svd_transform(
     X: NDArray[np.float64],
     state: TruncatedSVDState,
 ) -> NDArray[np.float64]:
+    from sklearn.utils import check_array, check_random_state
     """Project samples onto fitted truncated SVD components."""
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     return np.asarray(np.dot(checked_x, state.components.T), dtype=np.float64)
-
 
 @register_atom(witness_truncated_svd_inverse_transform)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
@@ -993,10 +943,10 @@ def truncated_svd_inverse_transform(
     X: NDArray[np.float64],
     state: TruncatedSVDState,
 ) -> NDArray[np.float64]:
+    from sklearn.utils import check_array, check_random_state
     """Map truncated SVD component coordinates back to feature space."""
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     return np.asarray(np.dot(checked_x, state.components), dtype=np.float64)
-
 
 @register_atom(witness_kernel_pca_fit)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
@@ -1042,6 +992,9 @@ def kernel_pca_fit(
     copy_X: bool = True,
     n_jobs: int | None = None,
 ) -> KernelPCAState:
+    from sklearn.utils import check_array, check_random_state
+    from sklearn.utils.extmath import _incremental_mean_and_var, fast_logdet, randomized_svd, squared_norm, svd_flip
+    from sklearn.utils.validation import _check_psd_eigenvalues
     """Fit dense linear KernelPCA state from a sample-by-feature matrix."""
     del degree, coef0, alpha, fit_inverse_transform, tol, max_iter, iterated_power, random_state, n_jobs
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True, ensure_min_samples=2, copy=copy_X)
@@ -1081,7 +1034,6 @@ def kernel_pca_fit(
         fit_inverse_transform=False,
     )
 
-
 @register_atom(witness_kernel_pca_transform)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
 @icontract.require(lambda X, state: _kernel_pca_feature_count_matches(X, state), "X feature count must match fitted KernelPCA state")
@@ -1091,6 +1043,7 @@ def kernel_pca_transform(
     X: NDArray[np.float64],
     state: KernelPCAState,
 ) -> NDArray[np.float64]:
+    from sklearn.utils import check_array, check_random_state
     """Project samples with a fitted dense linear KernelPCA state."""
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     kernel_matrix = np.asarray(np.dot(checked_x, state.X_fit.T), dtype=np.float64)
@@ -1105,7 +1058,6 @@ def kernel_pca_transform(
         state.eigenvectors[:, non_zero_indices] / np.sqrt(state.eigenvalues[non_zero_indices])
     )
     return np.asarray(np.dot(kernel_matrix, scaled_eigenvectors), dtype=np.float64)
-
 
 @register_atom(witness_factor_analysis_fit)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
@@ -1139,6 +1091,8 @@ def factor_analysis_fit(
     rotation: None = None,
     random_state: int | None = 0,
 ) -> FactorAnalysisState:
+    from sklearn.utils import check_array, check_random_state
+    from sklearn.utils.extmath import _incremental_mean_and_var, fast_logdet, randomized_svd, squared_norm, svd_flip
     """Fit dense Lapack factor analysis loading and noise state."""
     del copy, iterated_power, random_state
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True, ensure_min_samples=2, copy=True)
@@ -1194,7 +1148,6 @@ def factor_analysis_fit(
         rotation=rotation,
     )
 
-
 @register_atom(witness_factor_analysis_transform)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
 @icontract.require(lambda X, state: _factor_feature_count_matches(X, state), "X feature count must match fitted factor analysis state")
@@ -1204,6 +1157,7 @@ def factor_analysis_transform(
     X: NDArray[np.float64],
     state: FactorAnalysisState,
 ) -> NDArray[np.float64]:
+    from sklearn.utils import check_array, check_random_state
     """Compute expected latent factor means for samples."""
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     identity = np.eye(state.n_components)
@@ -1213,7 +1167,6 @@ def factor_analysis_transform(
     projected = np.dot(centered_x, weighted_components.T)
     return np.asarray(np.dot(projected, latent_covariance), dtype=np.float64)
 
-
 @register_atom(witness_factor_analysis_covariance)
 @icontract.require(lambda state: _factor_state_valid(state), "state must be a fitted factor analysis state")
 @icontract.ensure(lambda result, state: _factor_square_matrix_valid(result, state), "covariance must be a finite symmetric feature matrix")
@@ -1222,7 +1175,6 @@ def factor_analysis_covariance(state: FactorAnalysisState) -> NDArray[np.float64
     covariance = np.dot(state.components.T, state.components)
     covariance.flat[:: len(covariance) + 1] += state.noise_variance
     return np.asarray(covariance, dtype=np.float64)
-
 
 @register_atom(witness_factor_analysis_precision)
 @icontract.require(lambda state: _factor_state_valid(state), "state must be a fitted factor analysis state")
@@ -1243,7 +1195,6 @@ def factor_analysis_precision(state: FactorAnalysisState) -> NDArray[np.float64]
     precision.flat[:: len(precision) + 1] += 1.0 / state.noise_variance
     return np.asarray(precision, dtype=np.float64)
 
-
 @register_atom(witness_factor_analysis_score_samples)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
 @icontract.require(lambda X, state: _factor_feature_count_matches(X, state), "X feature count must match fitted factor analysis state")
@@ -1253,6 +1204,8 @@ def factor_analysis_score_samples(
     X: NDArray[np.float64],
     state: FactorAnalysisState,
 ) -> NDArray[np.float64]:
+    from sklearn.utils import check_array, check_random_state
+    from sklearn.utils.extmath import _incremental_mean_and_var, fast_logdet, randomized_svd, squared_norm, svd_flip
     """Compute per-sample log likelihood under fitted factor state."""
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     centered_x = checked_x - state.mean
@@ -1261,7 +1214,6 @@ def factor_analysis_score_samples(
     log_like = -0.5 * (centered_x * np.dot(centered_x, precision)).sum(axis=1)
     log_like -= 0.5 * (n_features * np.log(2.0 * np.pi) - fast_logdet(precision))
     return np.asarray(log_like, dtype=np.float64)
-
 
 @register_atom(witness_factor_analysis_score)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
@@ -1275,11 +1227,9 @@ def factor_analysis_score(
     """Compute average sample log likelihood under fitted factor state."""
     return float(np.mean(factor_analysis_score_samples(X, state)))
 
-
 # ---------------------------------------------------------------------------
 # PCA state-query atoms
 # ---------------------------------------------------------------------------
-
 
 @register_atom(witness_pca_get_precision)
 @icontract.require(lambda state: _pca_state_valid(state), "state must be a fitted PCA state")
@@ -1318,7 +1268,6 @@ def pca_get_precision(state: PCAState) -> NDArray[np.float64]:
 
     return np.asarray(precision, dtype=np.float64)
 
-
 @register_atom(witness_pca_components)
 @icontract.require(lambda state: _pca_state_valid(state), "state must be a fitted PCA state")
 @icontract.ensure(lambda result: bool(np.all(np.isfinite(result))), "components must be finite")
@@ -1336,7 +1285,6 @@ def pca_components(state: PCAState) -> NDArray[np.float64]:
         Components matrix of shape (n_components, n_features).
     """
     return np.asarray(state.components, dtype=np.float64)
-
 
 @register_atom(witness_pca_explained_variance_ratio)
 @icontract.require(lambda state: _pca_state_valid(state), "state must be a fitted PCA state")

@@ -6,8 +6,6 @@ import icontract
 import numpy as np
 import scipy.sparse as sp
 from numpy.typing import NDArray
-from sklearn.utils import check_array
-from sklearn.utils.sparsefuncs import mean_variance_axis, min_max_axis
 
 from sciona.ghost.registry import register_atom
 
@@ -20,18 +18,14 @@ from .witnesses import (
 
 MatrixLike = NDArray[np.float64] | sp.spmatrix
 
-
 def _is_2d(X: MatrixLike) -> bool:
     return bool(getattr(X, "ndim", 0) == 2)
-
 
 def _feature_count(X: MatrixLike) -> int:
     return int(X.shape[1])
 
-
 def _row_count(X: MatrixLike) -> int:
     return int(X.shape[0])
-
 
 @register_atom(witness_variance_threshold_fit)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
@@ -44,6 +38,8 @@ def variance_threshold_fit(
     X: MatrixLike,
     threshold: float = 0.0,
 ) -> VarianceThresholdState:
+    from sklearn.utils import check_array
+    from sklearn.utils.sparsefuncs import mean_variance_axis, min_max_axis
     """Learn per-feature variances for a VarianceThreshold selector."""
     checked_x = check_array(
         X,
@@ -79,7 +75,6 @@ def variance_threshold_fit(
         n_features_in=int(checked_x.shape[1]),
     )
 
-
 @register_atom(witness_variance_threshold_support_mask)
 @icontract.require(lambda state: state.n_features_in == state.variances.shape[0], "state feature count must match variances")
 @icontract.ensure(lambda result, state: result.shape == (state.n_features_in,), "mask must match fitted feature count")
@@ -90,7 +85,6 @@ def variance_threshold_support_mask(
     """Return the fitted feature mask whose variances exceed the threshold."""
     return np.asarray(state.variances > state.threshold, dtype=np.bool_)
 
-
 @register_atom(witness_variance_threshold_transform)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
 @icontract.require(lambda X, state: _feature_count(X) == state.n_features_in, "X feature count must match fitted state")
@@ -99,6 +93,7 @@ def variance_threshold_transform(
     X: MatrixLike,
     state: VarianceThresholdState,
 ) -> MatrixLike:
+    from sklearn.utils import check_array
     """Select columns whose fitted variances exceed the threshold."""
     checked_x = check_array(
         X,

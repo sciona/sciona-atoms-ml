@@ -12,15 +12,6 @@ import scipy.special as special
 import scipy.stats as stats
 from scipy.interpolate import BSpline
 from numpy.typing import NDArray
-from sklearn.preprocessing._data import BOUNDS_THRESHOLD, _handle_zeros_in_scale, _is_constant_feature
-from sklearn.preprocessing._target_encoder_fast import _fit_encoding_fast, _fit_encoding_fast_auto_smooth
-from sklearn.utils import check_array, check_random_state, resample
-from sklearn.utils.extmath import _incremental_mean_and_var, row_norms
-from sklearn.utils.multiclass import type_of_target
-from sklearn.utils.sparsefuncs import incr_mean_variance_axis, inplace_column_scale, mean_variance_axis, min_max_axis
-from sklearn.utils.sparsefuncs_fast import inplace_csr_row_normalize_l1, inplace_csr_row_normalize_l2
-from sklearn.utils.stats import _weighted_percentile
-from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
 
 from sciona.ghost.registry import register_atom
 
@@ -68,40 +59,31 @@ from .witnesses import (
 MatrixLike = NDArray[np.float64] | sp.spmatrix
 NormalizeResult = MatrixLike | tuple[MatrixLike, NDArray[np.float64]]
 
-
 def _is_2d(X: MatrixLike) -> bool:
     return bool(getattr(X, "ndim", 0) == 2)
-
 
 def _is_1d_or_2d(X: MatrixLike) -> bool:
     return bool(getattr(X, "ndim", 0) in {1, 2})
 
-
 def _row_count(X: MatrixLike) -> int:
     return int(X.shape[0])
-
 
 def _feature_count(X: MatrixLike) -> int:
     return int(X.shape[1])
 
-
 def _valid_norm(norm: str) -> bool:
     return norm in {"l1", "l2", "max"}
 
-
 def _valid_axis(axis: int) -> bool:
     return axis in {0, 1}
-
 
 def _is_binary_matrix(X: MatrixLike) -> bool:
     values = X.data if sp.issparse(X) else np.asarray(X)
     return bool(np.all((values == 0) | (values == 1)))
 
-
 def _leading_column_matches(X: MatrixLike, value: float) -> bool:
     column = X.getcol(0).toarray().ravel() if sp.issparse(X) else X[:, 0]
     return bool(np.all(column == value))
-
 
 def _normalize_shape_matches(result: NormalizeResult, X: MatrixLike, axis: int, return_norm: bool) -> bool:
     if return_norm:
@@ -112,10 +94,8 @@ def _normalize_shape_matches(result: NormalizeResult, X: MatrixLike, axis: int, 
         return normalized.shape == X.shape and norms.shape == (norm_count,)
     return not isinstance(result, tuple) and result.shape == X.shape
 
-
 def _kernel_state_valid(state: KernelCentererState) -> bool:
     return bool(state.k_fit_rows.ndim == 1 and state.k_fit_rows.shape[0] == state.n_features_in)
-
 
 def _maxabs_state_valid(state: MaxAbsScalerState) -> bool:
     return bool(
@@ -126,10 +106,8 @@ def _maxabs_state_valid(state: MaxAbsScalerState) -> bool:
         and state.n_samples_seen >= 1
     )
 
-
 def _valid_feature_range(feature_range: tuple[float, float]) -> bool:
     return bool(feature_range[0] < feature_range[1])
-
 
 def _minmax_state_valid(state: MinMaxScalerState) -> bool:
     shape = state.scale.shape
@@ -148,7 +126,6 @@ def _minmax_state_valid(state: MinMaxScalerState) -> bool:
         and _valid_feature_range(state.feature_range)
     )
 
-
 def _robust_state_valid(state: RobustScalerState) -> bool:
     center_ok = state.center is None or (state.center.ndim == 1 and state.center.shape[0] == state.n_features_in)
     scale_ok = state.scale is None or (state.scale.ndim == 1 and state.scale.shape[0] == state.n_features_in)
@@ -159,7 +136,6 @@ def _robust_state_valid(state: RobustScalerState) -> bool:
         and (state.scale is not None) == state.with_scaling
         and _valid_quantile_range(state.quantile_range)
     )
-
 
 def _standard_state_valid(state: StandardScalerState) -> bool:
     shape = (state.n_features_in,)
@@ -178,10 +154,8 @@ def _standard_state_valid(state: StandardScalerState) -> bool:
         and (state.mean is not None) == (state.with_mean or state.with_std)
     )
 
-
 def _sample_weight_valid(sample_weight: NDArray[np.float64] | None, X: MatrixLike) -> bool:
     return sample_weight is None or tuple(sample_weight.shape) == (_row_count(X),)
-
 
 @register_atom(witness_add_dummy_feature)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
@@ -191,6 +165,8 @@ def add_dummy_feature(
     X: MatrixLike,
     value: float = 1.0,
 ) -> MatrixLike:
+    from sklearn.utils import check_array, check_random_state, resample
+    from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
     """Add a leading constant feature column to a dense or sparse matrix."""
     checked_x = check_array(X, accept_sparse=["csc", "csr", "coo"], dtype=FLOAT_DTYPES)
     n_samples, n_features = checked_x.shape
@@ -210,7 +186,6 @@ def add_dummy_feature(
         return klass(add_dummy_feature(checked_x.tocoo(), value))
     return np.hstack((np.full((n_samples, 1), value), checked_x))
 
-
 @register_atom(witness_binarize)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
 @icontract.ensure(lambda result, X: result.shape == X.shape, "binarized output must preserve shape")
@@ -221,6 +196,7 @@ def binarize(
     threshold: float = 0.0,
     copy: bool = True,
 ) -> MatrixLike:
+    from sklearn.utils import check_array, check_random_state, resample
     """Threshold each matrix entry to 0 or 1."""
     checked_x = check_array(X, accept_sparse=["csr", "csc"], force_writeable=True, copy=copy)
     if sp.issparse(checked_x):
@@ -236,7 +212,6 @@ def binarize(
         checked_x[np.logical_not(cond)] = 0
     return checked_x
 
-
 @register_atom(witness_binarizer_transform)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
 @icontract.ensure(lambda result, X: result.shape == X.shape, "binarizer output must preserve shape")
@@ -247,10 +222,10 @@ def binarizer_transform(
     threshold: float = 0.0,
     copy: bool = True,
 ) -> MatrixLike:
+    from sklearn.utils import check_array, check_random_state, resample
     """Apply stateless Binarizer.transform semantics to a matrix."""
     checked_x = check_array(X, accept_sparse=["csr", "csc"], force_writeable=True, copy=copy)
     return binarize(checked_x, threshold=threshold, copy=False)
-
 
 @register_atom(witness_normalize)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
@@ -265,6 +240,12 @@ def normalize(
     copy: bool = True,
     return_norm: bool = False,
 ) -> NormalizeResult:
+    from sklearn.preprocessing._data import BOUNDS_THRESHOLD, _handle_zeros_in_scale, _is_constant_feature
+    from sklearn.utils import check_array, check_random_state, resample
+    from sklearn.utils.extmath import _incremental_mean_and_var, row_norms
+    from sklearn.utils.sparsefuncs import incr_mean_variance_axis, inplace_column_scale, mean_variance_axis, min_max_axis
+    from sklearn.utils.sparsefuncs_fast import inplace_csr_row_normalize_l1, inplace_csr_row_normalize_l2
+    from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
     """Scale rows or columns of a matrix to unit l1, l2, or max norm."""
     sparse_format = "csc" if axis == 0 else "csr"
     checked_x = check_array(
@@ -310,7 +291,6 @@ def normalize(
         return checked_x, np.asarray(norms)
     return checked_x
 
-
 @register_atom(witness_normalizer_transform)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
 @icontract.require(lambda norm: _valid_norm(norm), "norm must be 'l1', 'l2', or 'max'")
@@ -321,13 +301,13 @@ def normalizer_transform(
     *,
     copy: bool = True,
 ) -> MatrixLike:
+    from sklearn.utils import check_array, check_random_state, resample
     """Apply stateless Normalizer.transform semantics row-wise."""
     checked_x = check_array(X, accept_sparse="csr", force_writeable=True, copy=copy)
     result = normalize(checked_x, norm=norm, axis=1, copy=False, return_norm=False)
     if isinstance(result, tuple):
         return result[0]
     return result
-
 
 @register_atom(witness_kernel_centerer_fit)
 @icontract.require(lambda K: _is_2d(K), "K must be a 2D kernel matrix")
@@ -338,6 +318,8 @@ def normalizer_transform(
 def kernel_centerer_fit(
     K: NDArray[np.float64],
 ) -> KernelCentererState:
+    from sklearn.utils import check_array, check_random_state, resample
+    from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
     """Learn column and global means from a square training kernel matrix."""
     checked_k = check_array(K, dtype=FLOAT_DTYPES)
     if checked_k.shape[0] != checked_k.shape[1]:
@@ -356,7 +338,6 @@ def kernel_centerer_fit(
         n_features_in=int(checked_k.shape[1]),
     )
 
-
 @register_atom(witness_kernel_centerer_transform)
 @icontract.require(lambda K: _is_2d(K), "K must be a 2D kernel matrix")
 @icontract.require(lambda state: _kernel_state_valid(state), "state means must match fitted feature count")
@@ -367,6 +348,8 @@ def kernel_centerer_transform(
     state: KernelCentererState,
     copy: bool = True,
 ) -> NDArray[np.float64]:
+    from sklearn.utils import check_array, check_random_state, resample
+    from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
     """Center a kernel matrix block using fitted training-kernel means."""
     checked_k = check_array(K, copy=copy, force_writeable=True, dtype=FLOAT_DTYPES)
     if checked_k.shape[1] != state.n_features_in:
@@ -377,18 +360,14 @@ def kernel_centerer_transform(
     checked_k += state.k_fit_all
     return checked_k
 
-
 BinsLike = int | NDArray[np.int_] | list[int] | tuple[int, ...]
 KBinsDiscretizerFitTransformResult = tuple[KBinsDiscretizerState, MatrixLike]
-
 
 def _kbins_encode_valid(encode: str) -> bool:
     return encode in {"onehot", "onehot-dense", "ordinal"}
 
-
 def _kbins_strategy_valid(strategy: str) -> bool:
     return strategy in {"uniform", "quantile", "kmeans"}
-
 
 def _kbins_quantile_method_valid(quantile_method: str) -> bool:
     return quantile_method in {
@@ -404,17 +383,14 @@ def _kbins_quantile_method_valid(quantile_method: str) -> bool:
         "normal_unbiased",
     }
 
-
 def _kbins_dtype_valid(dtype: type | None) -> bool:
     return dtype is None or dtype in {np.float32, np.float64}
-
 
 def _kbins_n_bins_valid(n_bins: BinsLike) -> bool:
     if isinstance(n_bins, Integral):
         return int(n_bins) >= 2
     array = np.asarray(n_bins)
     return bool(array.ndim == 1 and len(array) > 0 and np.all(array >= 2) and np.all(array == array.astype(int)))
-
 
 def _kbins_state_valid(state: KBinsDiscretizerState) -> bool:
     if not (
@@ -432,25 +408,21 @@ def _kbins_state_valid(state: KBinsDiscretizerState) -> bool:
         all(np.asarray(edges).ndim == 1 and len(edges) == int(n_bins) + 1 for edges, n_bins in zip(state.bin_edges, state.n_bins))
     )
 
-
 def _kbins_encoded_feature_count(state: KBinsDiscretizerState) -> int:
     return state.n_features_in if state.encode == "ordinal" else int(np.sum(state.n_bins))
-
 
 def _kbins_transform_shape_matches(result: MatrixLike, X: MatrixLike, state: KBinsDiscretizerState) -> bool:
     return bool(result.shape == (X.shape[0], _kbins_encoded_feature_count(state)))
 
-
 def _kbins_inverse_shape_matches(result: NDArray[np.float64], X: MatrixLike, state: KBinsDiscretizerState) -> bool:
     return bool(result.shape == (X.shape[0], state.n_features_in))
-
 
 def _kbins_fit_transform_valid(result: KBinsDiscretizerFitTransformResult, X: MatrixLike) -> bool:
     state, transformed = result
     return bool(_kbins_state_valid(state) and _kbins_transform_shape_matches(transformed, X, state))
 
-
 def _kbins_validate_n_bins(n_bins: BinsLike, n_features: int) -> NDArray[np.int_]:
+    from sklearn.utils import check_array, check_random_state, resample
     if isinstance(n_bins, Integral):
         if int(n_bins) < 2:
             raise ValueError("KBinsDiscretizer received an invalid number of bins. Number of bins must be at least 2.")
@@ -470,12 +442,10 @@ def _kbins_validate_n_bins(n_bins: BinsLike, n_features: int) -> NDArray[np.int_
         )
     return np.asarray(bins, dtype=int)
 
-
 def _kbins_output_dtype(dtype: type | None, X: NDArray[np.float64]) -> type:
     if dtype in (np.float64, np.float32):
         return dtype
     return np.float32 if X.dtype == np.float32 else np.float64
-
 
 def _kbins_ordinal_transform(X: NDArray[np.float64], state: KBinsDiscretizerState) -> NDArray[np.float64]:
     output_dtype = _kbins_output_dtype(state.dtype, X)
@@ -488,7 +458,6 @@ def _kbins_ordinal_transform(X: NDArray[np.float64], state: KBinsDiscretizerStat
         )
     return transformed
 
-
 def _kbins_onehot_encode(ordinal: NDArray[np.float64], state: KBinsDiscretizerState) -> MatrixLike:
     n_samples = ordinal.shape[0]
     offsets = np.r_[0, np.cumsum(state.n_bins[:-1])]
@@ -499,7 +468,6 @@ def _kbins_onehot_encode(ordinal: NDArray[np.float64], state: KBinsDiscretizerSt
     if state.encode == "onehot-dense":
         return encoded.toarray()
     return encoded
-
 
 def _kbins_decode_onehot(X: MatrixLike, state: KBinsDiscretizerState) -> NDArray[np.float64]:
     if X.shape[1] != int(np.sum(state.n_bins)):
@@ -512,7 +480,6 @@ def _kbins_decode_onehot(X: MatrixLike, state: KBinsDiscretizerState) -> NDArray
         decoded[:, feature_idx] = np.argmax(dense[:, start:stop], axis=1)
         start = stop
     return decoded
-
 
 @register_atom(witness_kbins_discretizer_fit)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
@@ -537,6 +504,9 @@ def kbins_discretizer_fit(
     random_state: RandomStateLike = None,
     sample_weight: NDArray[np.float64] | None = None,
 ) -> KBinsDiscretizerState:
+    from sklearn.utils import check_array, check_random_state, resample
+    from sklearn.utils.stats import _weighted_percentile
+    from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
     """Learn per-feature bin edges for continuous-feature discretization."""
     checked_x = check_array(X, dtype="numeric")
     output_dtype = _kbins_output_dtype(dtype, checked_x)
@@ -632,7 +602,6 @@ def kbins_discretizer_fit(
         n_features_in=int(n_features),
     )
 
-
 @register_atom(witness_kbins_discretizer_transform)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
 @icontract.require(lambda state: _kbins_state_valid(state), "discretizer state must contain valid per-feature bin edges")
@@ -642,6 +611,7 @@ def kbins_discretizer_transform(
     X: MatrixLike,
     state: KBinsDiscretizerState,
 ) -> MatrixLike:
+    from sklearn.utils import check_array, check_random_state, resample
     """Discretize continuous features into fitted ordinal or one-hot bins."""
     dtype = (np.float64, np.float32) if state.dtype is None else state.dtype
     checked_x = check_array(X, copy=True, dtype=dtype)
@@ -652,7 +622,6 @@ def kbins_discretizer_transform(
         return ordinal
     return _kbins_onehot_encode(ordinal, state)
 
-
 @register_atom(witness_kbins_discretizer_inverse_transform)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
 @icontract.require(lambda X, state: X.shape[1] == _kbins_encoded_feature_count(state), "X encoded width must match fitted state")
@@ -662,6 +631,7 @@ def kbins_discretizer_inverse_transform(
     X: MatrixLike,
     state: KBinsDiscretizerState,
 ) -> NDArray[np.float64]:
+    from sklearn.utils import check_array, check_random_state, resample
     """Map ordinal or one-hot bin indicators back to fitted bin centers."""
     ordinal = _kbins_decode_onehot(X, state) if "onehot" in state.encode else check_array(X, copy=True, dtype=(np.float64, np.float32))
     if ordinal.shape[1] != state.n_features_in:
@@ -673,7 +643,6 @@ def kbins_discretizer_inverse_transform(
         centers = (edges[1:] + edges[:-1]) * 0.5
         inverse[:, feature_idx] = centers[ordinal[:, feature_idx].astype(np.int64)]
     return inverse
-
 
 @register_atom(witness_kbins_discretizer_fit_transform)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
@@ -711,7 +680,6 @@ def kbins_discretizer_fit_transform(
     )
     return state, kbins_discretizer_transform(X, state)
 
-
 @register_atom(witness_scale)
 @icontract.require(lambda X: _is_1d_or_2d(X), "X must be a 1D or 2D array")
 @icontract.require(lambda axis: _valid_axis(axis), "axis must be 0 or 1")
@@ -724,6 +692,10 @@ def scale(
     with_std: bool = True,
     copy: bool = True,
 ) -> MatrixLike:
+    from sklearn.preprocessing._data import BOUNDS_THRESHOLD, _handle_zeros_in_scale, _is_constant_feature
+    from sklearn.utils import check_array, check_random_state, resample
+    from sklearn.utils.sparsefuncs import incr_mean_variance_axis, inplace_column_scale, mean_variance_axis, min_max_axis
+    from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
     """Center and scale a dense or sparse dataset along an axis."""
     checked_x = check_array(
         X,
@@ -779,7 +751,6 @@ def scale(
                     Xr -= mean_2
     return checked_x
 
-
 @register_atom(witness_standard_scaler_partial_fit)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
 @icontract.require(lambda X: _row_count(X) >= 1, "X must contain at least one sample")
@@ -795,6 +766,11 @@ def standard_scaler_partial_fit(
     with_std: bool = True,
     sample_weight: NDArray[np.float64] | None = None,
 ) -> StandardScalerState:
+    from sklearn.preprocessing._data import BOUNDS_THRESHOLD, _handle_zeros_in_scale, _is_constant_feature
+    from sklearn.utils import check_array, check_random_state, resample
+    from sklearn.utils.extmath import _incremental_mean_and_var, row_norms
+    from sklearn.utils.sparsefuncs import incr_mean_variance_axis, inplace_column_scale, mean_variance_axis, min_max_axis
+    from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
     """Update StandardScaler mean and variance state from one batch."""
     checked_x = check_array(
         X,
@@ -896,7 +872,6 @@ def standard_scaler_partial_fit(
         n_features_in=n_features,
     )
 
-
 @register_atom(witness_standard_scaler_fit)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
 @icontract.require(lambda X: _row_count(X) >= 1, "X must contain at least one sample")
@@ -919,7 +894,6 @@ def standard_scaler_fit(
         sample_weight=sample_weight,
     )
 
-
 @register_atom(witness_standard_scaler_transform)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
 @icontract.require(lambda state: _standard_state_valid(state), "state arrays must match fitted feature count")
@@ -930,6 +904,9 @@ def standard_scaler_transform(
     state: StandardScalerState,
     copy: bool = True,
 ) -> MatrixLike:
+    from sklearn.utils import check_array, check_random_state, resample
+    from sklearn.utils.sparsefuncs import incr_mean_variance_axis, inplace_column_scale, mean_variance_axis, min_max_axis
+    from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
     """Center and scale data with fitted standard mean and variance statistics."""
     checked_x = check_array(
         X,
@@ -955,7 +932,6 @@ def standard_scaler_transform(
             checked_x /= state.scale.astype(checked_x.dtype, copy=False)
     return checked_x
 
-
 @register_atom(witness_standard_scaler_inverse_transform)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
 @icontract.require(lambda state: _standard_state_valid(state), "state arrays must match fitted feature count")
@@ -966,6 +942,9 @@ def standard_scaler_inverse_transform(
     state: StandardScalerState,
     copy: bool = True,
 ) -> MatrixLike:
+    from sklearn.utils import check_array, check_random_state, resample
+    from sklearn.utils.sparsefuncs import incr_mean_variance_axis, inplace_column_scale, mean_variance_axis, min_max_axis
+    from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
     """Undo fitted standard centering and variance scaling."""
     checked_x = check_array(
         X,
@@ -991,8 +970,9 @@ def standard_scaler_inverse_transform(
             checked_x += state.mean.astype(checked_x.dtype, copy=False)
     return checked_x
 
-
 def _maxabs_scale_axis0(X: MatrixLike) -> MatrixLike:
+    from sklearn.preprocessing._data import BOUNDS_THRESHOLD, _handle_zeros_in_scale, _is_constant_feature
+    from sklearn.utils.sparsefuncs import incr_mean_variance_axis, inplace_column_scale, mean_variance_axis, min_max_axis
     if sp.issparse(X):
         mins, maxes = min_max_axis(X, axis=0, ignore_nan=True)
         max_abs = np.maximum(np.abs(mins), np.abs(maxes))
@@ -1002,7 +982,6 @@ def _maxabs_scale_axis0(X: MatrixLike) -> MatrixLike:
         scale_ = _handle_zeros_in_scale(np.nanmax(np.abs(X), axis=0), copy=True)
         X /= scale_
     return X
-
 
 @register_atom(witness_maxabs_scaler_partial_fit)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
@@ -1014,6 +993,10 @@ def maxabs_scaler_partial_fit(
     X: MatrixLike,
     state: MaxAbsScalerState | None = None,
 ) -> MaxAbsScalerState:
+    from sklearn.preprocessing._data import BOUNDS_THRESHOLD, _handle_zeros_in_scale, _is_constant_feature
+    from sklearn.utils import check_array, check_random_state, resample
+    from sklearn.utils.sparsefuncs import incr_mean_variance_axis, inplace_column_scale, mean_variance_axis, min_max_axis
+    from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
     """Update MaxAbsScaler state from one batch of training samples."""
     checked_x = check_array(
         X,
@@ -1044,7 +1027,6 @@ def maxabs_scaler_partial_fit(
         n_samples_seen=n_samples_seen,
     )
 
-
 @register_atom(witness_maxabs_scaler_fit)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
 @icontract.require(lambda X: _row_count(X) >= 1, "X must contain at least one sample")
@@ -1055,7 +1037,6 @@ def maxabs_scaler_fit(
 ) -> MaxAbsScalerState:
     """Fit MaxAbsScaler state from a complete training matrix."""
     return maxabs_scaler_partial_fit(X, state=None)
-
 
 @register_atom(witness_maxabs_scaler_transform)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
@@ -1068,6 +1049,9 @@ def maxabs_scaler_transform(
     copy: bool = True,
     clip: bool = False,
 ) -> MatrixLike:
+    from sklearn.utils import check_array, check_random_state, resample
+    from sklearn.utils.sparsefuncs import incr_mean_variance_axis, inplace_column_scale, mean_variance_axis, min_max_axis
+    from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
     """Scale features by fitted maximum absolute values."""
     checked_x = check_array(
         X,
@@ -1089,7 +1073,6 @@ def maxabs_scaler_transform(
             np.clip(checked_x, -1.0, 1.0, out=checked_x)
     return checked_x
 
-
 @register_atom(witness_maxabs_scaler_inverse_transform)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
 @icontract.require(lambda state: _maxabs_state_valid(state), "state arrays must match fitted feature count")
@@ -1100,6 +1083,9 @@ def maxabs_scaler_inverse_transform(
     state: MaxAbsScalerState,
     copy: bool = True,
 ) -> MatrixLike:
+    from sklearn.utils import check_array, check_random_state, resample
+    from sklearn.utils.sparsefuncs import incr_mean_variance_axis, inplace_column_scale, mean_variance_axis, min_max_axis
+    from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
     """Undo scaling by fitted maximum absolute values."""
     checked_x = check_array(
         X,
@@ -1117,7 +1103,6 @@ def maxabs_scaler_inverse_transform(
         checked_x *= state.scale
     return checked_x
 
-
 @register_atom(witness_maxabs_scale)
 @icontract.require(lambda X: _is_1d_or_2d(X), "X must be a 1D or 2D array")
 @icontract.require(lambda axis: _valid_axis(axis), "axis must be 0 or 1")
@@ -1128,6 +1113,8 @@ def maxabs_scale(
     axis: int = 0,
     copy: bool = True,
 ) -> MatrixLike:
+    from sklearn.utils import check_array, check_random_state, resample
+    from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
     """Scale rows or columns by their maximum absolute values."""
     checked_x = check_array(
         X,
@@ -1152,7 +1139,6 @@ def maxabs_scale(
         scaled = scaled.ravel()
     return scaled
 
-
 @register_atom(witness_minmax_scaler_partial_fit)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
 @icontract.require(lambda X: _row_count(X) >= 1, "X must contain at least one sample")
@@ -1165,6 +1151,9 @@ def minmax_scaler_partial_fit(
     feature_range: tuple[float, float] = (0, 1),
     state: MinMaxScalerState | None = None,
 ) -> MinMaxScalerState:
+    from sklearn.preprocessing._data import BOUNDS_THRESHOLD, _handle_zeros_in_scale, _is_constant_feature
+    from sklearn.utils import check_array, check_random_state, resample
+    from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
     """Update MinMaxScaler state from one dense training batch."""
     if sp.issparse(X):
         raise TypeError("MinMaxScaler does not support sparse input. Consider using MaxAbsScaler instead.")
@@ -1196,7 +1185,6 @@ def minmax_scaler_partial_fit(
         n_samples_seen=n_samples_seen,
     )
 
-
 @register_atom(witness_minmax_scaler_fit)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
 @icontract.require(lambda X: _row_count(X) >= 1, "X must contain at least one sample")
@@ -1210,7 +1198,6 @@ def minmax_scaler_fit(
     """Fit MinMaxScaler state from a complete dense training matrix."""
     return minmax_scaler_partial_fit(X, feature_range=feature_range, state=None)
 
-
 @register_atom(witness_minmax_scaler_transform)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
 @icontract.require(lambda state: _minmax_state_valid(state), "state arrays must match fitted feature count")
@@ -1222,6 +1209,8 @@ def minmax_scaler_transform(
     copy: bool = True,
     clip: bool = False,
 ) -> NDArray[np.float64]:
+    from sklearn.utils import check_array, check_random_state, resample
+    from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
     """Scale dense features into the fitted MinMaxScaler feature range."""
     checked_x = check_array(
         X,
@@ -1238,7 +1227,6 @@ def minmax_scaler_transform(
         np.clip(checked_x, state.feature_range[0], state.feature_range[1], out=checked_x)
     return checked_x
 
-
 @register_atom(witness_minmax_scaler_inverse_transform)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
 @icontract.require(lambda state: _minmax_state_valid(state), "state arrays must match fitted feature count")
@@ -1249,6 +1237,8 @@ def minmax_scaler_inverse_transform(
     state: MinMaxScalerState,
     copy: bool = True,
 ) -> NDArray[np.float64]:
+    from sklearn.utils import check_array, check_random_state, resample
+    from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
     """Undo fitted MinMaxScaler feature-range scaling."""
     checked_x = check_array(
         X,
@@ -1263,7 +1253,6 @@ def minmax_scaler_inverse_transform(
     checked_x /= state.scale
     return checked_x
 
-
 @register_atom(witness_minmax_scale)
 @icontract.require(lambda X: _is_1d_or_2d(X), "X must be a 1D or 2D array")
 @icontract.require(lambda feature_range: feature_range[0] < feature_range[1], "feature_range minimum must be smaller than maximum")
@@ -1276,6 +1265,9 @@ def minmax_scale(
     axis: int = 0,
     copy: bool = True,
 ) -> NDArray[np.float64]:
+    from sklearn.preprocessing._data import BOUNDS_THRESHOLD, _handle_zeros_in_scale, _is_constant_feature
+    from sklearn.utils import check_array, check_random_state, resample
+    from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
     """Scale rows or columns into a fixed feature range."""
     checked_x = check_array(
         X,
@@ -1303,11 +1295,9 @@ def minmax_scale(
         scaled = scaled.ravel()
     return scaled
 
-
 def _valid_quantile_range(quantile_range: tuple[float, float]) -> bool:
     q_min, q_max = quantile_range
     return bool(0 <= q_min <= q_max <= 100)
-
 
 def _robust_scale_axis0(
     X: MatrixLike,
@@ -1317,6 +1307,8 @@ def _robust_scale_axis0(
     quantile_range: tuple[float, float],
     unit_variance: bool,
 ) -> MatrixLike:
+    from sklearn.preprocessing._data import BOUNDS_THRESHOLD, _handle_zeros_in_scale, _is_constant_feature
+    from sklearn.utils.sparsefuncs import incr_mean_variance_axis, inplace_column_scale, mean_variance_axis, min_max_axis
     if sp.issparse(X):
         if with_centering:
             raise ValueError(
@@ -1350,7 +1342,6 @@ def _robust_scale_axis0(
             X /= scale_
     return X
 
-
 @register_atom(witness_robust_scaler_fit)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
 @icontract.require(lambda X: _row_count(X) >= 1, "X must contain at least one sample")
@@ -1365,6 +1356,9 @@ def robust_scaler_fit(
     quantile_range: tuple[float, float] = (25.0, 75.0),
     unit_variance: bool = False,
 ) -> RobustScalerState:
+    from sklearn.preprocessing._data import BOUNDS_THRESHOLD, _handle_zeros_in_scale, _is_constant_feature
+    from sklearn.utils import check_array, check_random_state, resample
+    from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
     """Fit robust per-feature medians and quantile-range scales."""
     checked_x = check_array(
         X,
@@ -1415,7 +1409,6 @@ def robust_scaler_fit(
         n_features_in=int(checked_x.shape[1]),
     )
 
-
 @register_atom(witness_robust_scaler_transform)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
 @icontract.require(lambda state: _robust_state_valid(state), "state arrays must match fitted feature count")
@@ -1426,6 +1419,9 @@ def robust_scaler_transform(
     state: RobustScalerState,
     copy: bool = True,
 ) -> MatrixLike:
+    from sklearn.utils import check_array, check_random_state, resample
+    from sklearn.utils.sparsefuncs import incr_mean_variance_axis, inplace_column_scale, mean_variance_axis, min_max_axis
+    from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
     """Center and scale data with fitted robust per-feature statistics."""
     checked_x = check_array(
         X,
@@ -1447,7 +1443,6 @@ def robust_scaler_transform(
             checked_x /= state.scale
     return checked_x
 
-
 @register_atom(witness_robust_scaler_inverse_transform)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
 @icontract.require(lambda state: _robust_state_valid(state), "state arrays must match fitted feature count")
@@ -1458,6 +1453,9 @@ def robust_scaler_inverse_transform(
     state: RobustScalerState,
     copy: bool = True,
 ) -> MatrixLike:
+    from sklearn.utils import check_array, check_random_state, resample
+    from sklearn.utils.sparsefuncs import incr_mean_variance_axis, inplace_column_scale, mean_variance_axis, min_max_axis
+    from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
     """Undo fitted robust per-feature centering and scaling."""
     checked_x = check_array(
         X,
@@ -1479,7 +1477,6 @@ def robust_scaler_inverse_transform(
             checked_x += state.center
     return checked_x
 
-
 @register_atom(witness_robust_scale)
 @icontract.require(lambda X: _is_1d_or_2d(X), "X must be a 1D or 2D array")
 @icontract.require(lambda axis: _valid_axis(axis), "axis must be 0 or 1")
@@ -1495,6 +1492,8 @@ def robust_scale(
     copy: bool = True,
     unit_variance: bool = False,
 ) -> MatrixLike:
+    from sklearn.utils import check_array, check_random_state, resample
+    from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
     """Center by median and scale by a quantile range along rows or columns."""
     checked_x = check_array(
         X,
@@ -1531,7 +1530,6 @@ def robust_scale(
         scaled = scaled.ravel()
     return scaled
 
-
 from .state_models import (
     LabelBinarizerState,
     LabelEncoderState,
@@ -1555,20 +1553,16 @@ LabelInput = NDArray[np.object_] | list[object] | tuple[object, ...]
 EncodedLabelInput = NDArray[np.int_] | list[int] | tuple[int, ...]
 LabelEncoderFitTransformResult = tuple[LabelEncoderState, NDArray[np.int_]]
 
-
 def _label_input_is_vector_like(y: LabelInput | EncodedLabelInput) -> bool:
     array = np.asarray(y, dtype=object)
     return bool(array.ndim == 1 or (array.ndim == 2 and 1 in array.shape))
-
 
 def _label_sample_count(y: LabelInput | EncodedLabelInput) -> int:
     array = np.asarray(y, dtype=object)
     return int(array.shape[0]) if array.ndim > 0 else 0
 
-
 def _label_encoder_state_valid(state: LabelEncoderState) -> bool:
     return bool(state.classes.ndim == 1)
-
 
 def _encoded_labels_valid(result: NDArray[np.int_], state: LabelEncoderState) -> bool:
     if result.ndim != 1:
@@ -1576,7 +1570,6 @@ def _encoded_labels_valid(result: NDArray[np.int_], state: LabelEncoderState) ->
     if result.size == 0:
         return True
     return bool(np.all(result >= 0) and np.all(result < state.classes.shape[0]))
-
 
 def _label_encoder_fit_transform_valid(result: LabelEncoderFitTransformResult, y: LabelInput) -> bool:
     state, encoded = result
@@ -1586,7 +1579,6 @@ def _label_encoder_fit_transform_valid(result: LabelEncoderFitTransformResult, y
         and encoded.shape == (_label_sample_count(y),)
         and _encoded_labels_valid(encoded, state)
     )
-
 
 @register_atom(witness_label_encoder_fit)
 @icontract.require(lambda y: _label_input_is_vector_like(y), "y must be 1D or a column vector")
@@ -1600,7 +1592,6 @@ def label_encoder_fit(y: LabelInput) -> LabelEncoderState:
     classes = _unique(y_checked)
     return LabelEncoderState(classes=np.asarray(classes))
 
-
 @register_atom(witness_label_encoder_fit_transform)
 @icontract.require(lambda y: _label_input_is_vector_like(y), "y must be 1D or a column vector")
 @icontract.ensure(lambda result, y: _label_encoder_fit_transform_valid(result, y), "encoded labels must match learned classes")
@@ -1613,7 +1604,6 @@ def label_encoder_fit_transform(y: LabelInput) -> LabelEncoderFitTransformResult
     classes, encoded = _unique(y_checked, return_inverse=True)
     state = LabelEncoderState(classes=np.asarray(classes))
     return state, np.asarray(encoded, dtype=np.int_)
-
 
 @register_atom(witness_label_encoder_transform)
 @icontract.require(lambda y: _label_input_is_vector_like(y), "y must be 1D or a column vector")
@@ -1630,7 +1620,6 @@ def label_encoder_transform(y: LabelInput, state: LabelEncoderState) -> NDArray[
     if _num_samples(y_checked) == 0:
         return np.asarray([], dtype=np.int_)
     return np.asarray(_encode(y_checked, uniques=state.classes), dtype=np.int_)
-
 
 @register_atom(witness_label_encoder_inverse_transform)
 @icontract.require(lambda y: _label_input_is_vector_like(y), "y must be 1D or a column vector")
@@ -1656,12 +1645,10 @@ def label_encoder_inverse_transform(y: EncodedLabelInput, state: LabelEncoderSta
     decoded = xp.take(state.classes, xp.asarray(y_checked), axis=0)
     return np.asarray(decoded)
 
-
 from .witnesses import witness_label_binarize
 
 LabelBinarizeInput = LabelInput | MatrixLike
 LabelBinarizeResult = NDArray[np.int_] | sp.csr_matrix
-
 
 def _label_binarize_input_valid(y: LabelBinarizeInput) -> bool:
     if sp.issparse(y):
@@ -1669,20 +1656,16 @@ def _label_binarize_input_valid(y: LabelBinarizeInput) -> bool:
     array = np.asarray(y, dtype=object)
     return bool(array.ndim in {1, 2})
 
-
 def _classes_input_valid(classes: LabelInput) -> bool:
     return bool(np.asarray(classes, dtype=object).ndim == 1)
 
-
 def _label_binarize_sample_count(y: LabelBinarizeInput) -> int:
     return int(y.shape[0]) if hasattr(y, "shape") else len(y)
-
 
 def _label_binarize_shape_matches(result: LabelBinarizeResult, y: LabelBinarizeInput, classes: LabelInput) -> bool:
     n_classes = int(np.asarray(classes, dtype=object).shape[0])
     n_outputs = 1 if n_classes == 2 else n_classes
     return bool(result.shape == (_label_binarize_sample_count(y), n_outputs))
-
 
 @register_atom(witness_label_binarize)
 @icontract.require(lambda y: _label_binarize_input_valid(y), "y must be a 1D label vector or 2D multilabel indicator")
@@ -1696,6 +1679,8 @@ def label_binarize(
     pos_label: int = 1,
     sparse_output: bool = False,
 ) -> LabelBinarizeResult:
+    from sklearn.utils import check_array, check_random_state, resample
+    from sklearn.utils.multiclass import type_of_target
     """Encode labels as one-vs-all indicator columns for fixed classes."""
     from sklearn.utils import check_array, column_or_1d
     from sklearn.utils.multiclass import type_of_target, unique_labels
@@ -1802,7 +1787,6 @@ def label_binarize(
 
     return Y
 
-
 from .witnesses import (
     witness_label_binarizer_fit,
     witness_label_binarizer_fit_transform,
@@ -1813,10 +1797,8 @@ from .witnesses import (
 LabelBinarizerFitTransformResult = tuple[LabelBinarizerState, LabelBinarizeResult]
 LabelBinarizerInverseResult = NDArray[np.object_] | sp.csr_matrix
 
-
 def _label_binarizer_y_type_valid(y_type: str) -> bool:
     return y_type in {"binary", "multiclass", "multilabel-indicator"}
-
 
 def _label_binarizer_state_valid(state: LabelBinarizerState) -> bool:
     return bool(
@@ -1826,7 +1808,6 @@ def _label_binarizer_state_valid(state: LabelBinarizerState) -> bool:
         and (not state.sparse_output or (state.pos_label != 0 and state.neg_label == 0))
     )
 
-
 def _label_binarizer_fit_transform_valid(result: LabelBinarizerFitTransformResult, y: LabelBinarizeInput) -> bool:
     state, transformed = result
     return bool(
@@ -1834,10 +1815,8 @@ def _label_binarizer_fit_transform_valid(result: LabelBinarizerFitTransformResul
         and _label_binarize_shape_matches(transformed, y, state.classes)
     )
 
-
 def _label_binarizer_inverse_sample_count(result: LabelBinarizerInverseResult, Y: MatrixLike) -> bool:
     return bool(result.shape[0] == Y.shape[0])
-
 
 @register_atom(witness_label_binarizer_fit)
 @icontract.require(lambda y: _label_binarize_input_valid(y), "y must be a 1D label vector or 2D multilabel indicator")
@@ -1849,6 +1828,7 @@ def label_binarizer_fit(
     pos_label: int = 1,
     sparse_output: bool = False,
 ) -> LabelBinarizerState:
+    from sklearn.utils.multiclass import type_of_target
     """Learn classes, target type, and sparse-input mode for label binarization."""
     from sklearn.utils.multiclass import type_of_target, unique_labels
     from sklearn.utils.validation import _num_samples
@@ -1875,7 +1855,6 @@ def label_binarizer_fit(
         sparse_output=bool(sparse_output),
     )
 
-
 @register_atom(witness_label_binarizer_fit_transform)
 @icontract.require(lambda y: _label_binarize_input_valid(y), "y must be a 1D label vector or 2D multilabel indicator")
 @icontract.ensure(lambda result, y: _label_binarizer_fit_transform_valid(result, y), "fit-transform output must match fitted classes")
@@ -1896,12 +1875,12 @@ def label_binarizer_fit_transform(
     transformed = label_binarizer_transform(y, state)
     return state, transformed
 
-
 @register_atom(witness_label_binarizer_transform)
 @icontract.require(lambda y: _label_binarize_input_valid(y), "y must be a 1D label vector or 2D multilabel indicator")
 @icontract.require(lambda state: _label_binarizer_state_valid(state), "state must contain fitted classes and valid labels")
 @icontract.ensure(lambda result, y, state: _label_binarize_shape_matches(result, y, state.classes), "transformed labels must have fitted class shape")
 def label_binarizer_transform(y: LabelBinarizeInput, state: LabelBinarizerState) -> LabelBinarizeResult:
+    from sklearn.utils.multiclass import type_of_target
     """Transform labels to one-vs-all columns with fitted binarizer state."""
     from sklearn.utils.multiclass import type_of_target
 
@@ -1915,7 +1894,6 @@ def label_binarizer_transform(y: LabelBinarizeInput, state: LabelBinarizerState)
         neg_label=state.neg_label,
         sparse_output=state.sparse_output,
     )
-
 
 @register_atom(witness_label_binarizer_inverse_transform)
 @icontract.require(lambda Y: _is_2d(Y), "Y must be a 2D matrix")
@@ -1946,7 +1924,6 @@ def label_binarizer_inverse_transform(
         return y_inv.toarray()
     return np.asarray(y_inv)
 
-
 from collections.abc import Iterable
 import array
 import itertools
@@ -1965,31 +1942,24 @@ MultiLabelBinarizeResult = NDArray[np.int_] | sp.csr_matrix
 MultiLabelBinarizerFitTransformResult = tuple[MultiLabelBinarizerState, MultiLabelBinarizeResult]
 MultiLabelInverseResult = list[tuple[object, ...]]
 
-
 def _multi_label_classes_valid(classes: MultiLabelClassesInput) -> bool:
     return classes is None or np.asarray(classes, dtype=object).ndim == 1
-
 
 def _multi_label_state_valid(state: MultiLabelBinarizerState) -> bool:
     return bool(state.classes.ndim == 1)
 
-
 def _multi_label_result_width_matches(result: MultiLabelBinarizeResult, state: MultiLabelBinarizerState) -> bool:
     return bool(result.ndim == 2 and result.shape[1] == state.classes.shape[0])
-
 
 def _multi_label_fit_transform_valid(result: MultiLabelBinarizerFitTransformResult) -> bool:
     state, transformed = result
     return bool(_multi_label_state_valid(state) and _multi_label_result_width_matches(transformed, state))
 
-
 def _multi_label_indicator_valid(yt: MatrixLike, state: MultiLabelBinarizerState) -> bool:
     return bool(getattr(yt, "ndim", 0) == 2 and yt.shape[1] == state.classes.shape[0])
 
-
 def _materialize_label_sets(y: MultiLabelInput) -> list[LabelSet]:
     return list(y)
-
 
 def _multi_label_classes_array(classes: Iterable[object]) -> NDArray[np.object_]:
     class_list = list(classes)
@@ -1997,7 +1967,6 @@ def _multi_label_classes_array(classes: Iterable[object]) -> NDArray[np.object_]
     result = np.empty(len(class_list), dtype=dtype)
     result[:] = class_list
     return np.asarray(result)
-
 
 def _multi_label_transform_csr(y: MultiLabelInput, class_mapping: dict[object, int]) -> sp.csr_matrix:
     indices = array.array("i")
@@ -2019,7 +1988,6 @@ def _multi_label_transform_csr(y: MultiLabelInput, class_mapping: dict[object, i
         )
     data = np.ones(len(indices), dtype=int)
     return sp.csr_matrix((data, indices, indptr), shape=(len(indptr) - 1, len(class_mapping)))
-
 
 @register_atom(witness_multi_label_binarizer_fit)
 @icontract.require(lambda classes: _multi_label_classes_valid(classes), "classes must be a 1D label vector when provided")
@@ -2044,7 +2012,6 @@ def multi_label_binarizer_fit(
         sparse_output=bool(sparse_output),
     )
 
-
 @register_atom(witness_multi_label_binarizer_fit_transform)
 @icontract.require(lambda classes: _multi_label_classes_valid(classes), "classes must be a 1D label vector when provided")
 @icontract.ensure(lambda result: _multi_label_fit_transform_valid(result), "fit-transform output must match fitted classes")
@@ -2060,7 +2027,6 @@ def multi_label_binarizer_fit_transform(
     transformed = multi_label_binarizer_transform(y_list, state)
     return state, transformed
 
-
 @register_atom(witness_multi_label_binarizer_transform)
 @icontract.require(lambda state: _multi_label_state_valid(state), "state classes must be one-dimensional")
 @icontract.ensure(lambda result, state: _multi_label_result_width_matches(result, state), "indicator matrix width must match fitted classes")
@@ -2074,7 +2040,6 @@ def multi_label_binarizer_transform(
     if state.sparse_output:
         return indicator
     return indicator.toarray()
-
 
 @register_atom(witness_multi_label_binarizer_inverse_transform)
 @icontract.require(lambda yt, state: _multi_label_indicator_valid(yt, state), "indicator width must match fitted classes")
@@ -2102,7 +2067,6 @@ def multi_label_binarizer_inverse_transform(
         raise ValueError("Expected only 0s and 1s in label indicator. Also got {0}".format(unexpected))
     return [tuple(state.classes.compress(indicators)) for indicators in dense_yt]
 
-
 from .witnesses import (
     witness_ordinal_encoder_fit,
     witness_ordinal_encoder_fit_transform,
@@ -2114,18 +2078,14 @@ OrdinalInput = NDArray[np.object_] | list[list[object]] | tuple[tuple[object, ..
 OrdinalCategories = str | list[list[object]] | tuple[tuple[object, ...], ...]
 OrdinalEncoderFitTransformResult = tuple[OrdinalEncoderState, NDArray[np.float64]]
 
-
 def _ordinal_input_is_2d(X: OrdinalInput | MatrixLike) -> bool:
     return bool(np.asarray(X, dtype=object).ndim == 2)
-
 
 def _ordinal_feature_count(X: OrdinalInput | MatrixLike) -> int:
     return int(np.asarray(X, dtype=object).shape[1])
 
-
 def _ordinal_handle_unknown_valid(handle_unknown: str) -> bool:
     return handle_unknown in {"error", "use_encoded_value"}
-
 
 def _ordinal_is_nan(value: object) -> bool:
     try:
@@ -2133,14 +2093,12 @@ def _ordinal_is_nan(value: object) -> bool:
     except TypeError:
         return False
 
-
 def _ordinal_dtype_valid(dtype: type) -> bool:
     try:
         np.dtype(dtype)
     except TypeError:
         return False
     return True
-
 
 def _ordinal_state_valid(state: OrdinalEncoderState) -> bool:
     return bool(
@@ -2151,22 +2109,18 @@ def _ordinal_state_valid(state: OrdinalEncoderState) -> bool:
         and all(categories.ndim == 1 and len(categories) >= 1 for categories in state.categories)
     )
 
-
 def _ordinal_transform_shape_matches(result: NDArray[np.float64], X: OrdinalInput | MatrixLike) -> bool:
     array = np.asarray(X, dtype=object)
     return bool(result.shape == array.shape)
-
 
 def _ordinal_fit_transform_valid(result: OrdinalEncoderFitTransformResult, X: OrdinalInput | MatrixLike) -> bool:
     state, transformed = result
     return bool(_ordinal_state_valid(state) and _ordinal_transform_shape_matches(transformed, X))
 
-
 def _ordinal_unique(values: NDArray[np.object_]) -> NDArray[np.object_]:
     from sklearn.utils._encode import _unique
 
     return np.asarray(_unique(values), dtype=object)
-
 
 def _ordinal_check_unknown(values: NDArray[np.object_], categories: NDArray[np.object_]) -> tuple[list[object], NDArray[np.bool_]]:
     from sklearn.utils._encode import _check_unknown
@@ -2174,12 +2128,10 @@ def _ordinal_check_unknown(values: NDArray[np.object_], categories: NDArray[np.o
     diff, valid = _check_unknown(values, categories, return_mask=True)
     return list(diff), np.asarray(valid, dtype=bool)
 
-
 def _ordinal_encode_known(values: NDArray[np.object_], categories: NDArray[np.object_]) -> NDArray[np.int_]:
     from sklearn.utils._encode import _encode
 
     return np.asarray(_encode(values, uniques=categories, check_unknown=False), dtype=np.int_)
-
 
 def _ordinal_categories_valid(categories: OrdinalCategories, n_features: int | None = None) -> bool:
     if categories == "auto":
@@ -2189,7 +2141,6 @@ def _ordinal_categories_valid(categories: OrdinalCategories, n_features: int | N
     if n_features is not None and len(categories) != n_features:
         return False
     return bool(len(categories) > 0)
-
 
 @register_atom(witness_ordinal_encoder_fit)
 @icontract.require(lambda X: _ordinal_input_is_2d(X), "X must be a 2D categorical matrix")
@@ -2207,6 +2158,7 @@ def ordinal_encoder_fit(
     unknown_value: int | float | None = None,
     encoded_missing_value: int | float = np.nan,
 ) -> OrdinalEncoderState:
+    from sklearn.utils import check_array, check_random_state, resample
     """Learn per-feature categories for sklearn-style ordinal encoding."""
     checked_x = check_array(X, dtype=None, ensure_all_finite="allow-nan")
     if checked_x.ndim != 2:
@@ -2278,7 +2230,6 @@ def ordinal_encoder_fit(
         n_features_in=n_features,
     )
 
-
 @register_atom(witness_ordinal_encoder_transform)
 @icontract.require(lambda X: _ordinal_input_is_2d(X), "X must be a 2D categorical matrix")
 @icontract.require(lambda state: _ordinal_state_valid(state), "ordinal state must contain one category vector per feature")
@@ -2288,6 +2239,7 @@ def ordinal_encoder_transform(
     X: OrdinalInput,
     state: OrdinalEncoderState,
 ) -> NDArray[np.float64]:
+    from sklearn.utils import check_array, check_random_state, resample
     """Map categorical feature values to fitted ordinal codes."""
     checked_x = check_array(X, dtype=None, ensure_all_finite="allow-nan")
     if checked_x.shape[1] != state.n_features_in:
@@ -2314,7 +2266,6 @@ def ordinal_encoder_transform(
         encoded[~mask] = state.unknown_value
     return encoded
 
-
 @register_atom(witness_ordinal_encoder_inverse_transform)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D encoded matrix")
 @icontract.require(lambda state: _ordinal_state_valid(state), "ordinal state must contain one category vector per feature")
@@ -2324,6 +2275,7 @@ def ordinal_encoder_inverse_transform(
     X: MatrixLike,
     state: OrdinalEncoderState,
 ) -> NDArray[np.object_]:
+    from sklearn.utils import check_array, check_random_state, resample
     """Map fitted ordinal codes back to categorical feature values."""
     checked_x = check_array(X, ensure_all_finite="allow-nan")
     if checked_x.shape[1] != state.n_features_in:
@@ -2342,7 +2294,6 @@ def ordinal_encoder_inverse_transform(
         decoded[known_mask, feature_idx] = categories[labels[known_mask].astype(np.int64)]
         decoded[unknown_mask, feature_idx] = None
     return decoded
-
 
 @register_atom(witness_ordinal_encoder_fit_transform)
 @icontract.require(lambda X: _ordinal_input_is_2d(X), "X must be a 2D categorical matrix")
@@ -2370,7 +2321,6 @@ def ordinal_encoder_fit_transform(
     )
     return state, ordinal_encoder_transform(X, state)
 
-
 from .witnesses import (
     witness_onehot_encoder_fit,
     witness_onehot_encoder_fit_transform,
@@ -2381,14 +2331,11 @@ from .witnesses import (
 OneHotDrop = str | list[object] | tuple[object, ...] | NDArray[np.object_] | None
 OneHotEncoderFitTransformResult = tuple[OneHotEncoderState, MatrixLike]
 
-
 def _onehot_handle_unknown_valid(handle_unknown: str) -> bool:
     return handle_unknown in {"error", "ignore", "infrequent_if_exist", "warn"}
 
-
 def _onehot_drop_valid(drop: OneHotDrop) -> bool:
     return drop is None or (isinstance(drop, str) and drop in {"first", "if_binary"}) or not isinstance(drop, str)
-
 
 def _onehot_state_valid(state: OneHotEncoderState) -> bool:
     drop_ok = state.drop_idx is None or state.drop_idx.shape == (state.n_features_in,)
@@ -2402,19 +2349,15 @@ def _onehot_state_valid(state: OneHotEncoderState) -> bool:
         and all(categories.ndim == 1 and len(categories) >= 1 for categories in state.categories)
     )
 
-
 def _onehot_output_width(state: OneHotEncoderState) -> int:
     return int(np.sum(state.n_features_outs))
-
 
 def _onehot_transform_shape_matches(result: MatrixLike, X: OrdinalInput | MatrixLike, state: OneHotEncoderState) -> bool:
     return bool(result.shape == (np.asarray(X, dtype=object).shape[0], _onehot_output_width(state)))
 
-
 def _onehot_fit_transform_valid(result: OneHotEncoderFitTransformResult, X: OrdinalInput | MatrixLike) -> bool:
     state, transformed = result
     return bool(_onehot_state_valid(state) and _onehot_transform_shape_matches(transformed, X, state))
-
 
 def _onehot_compute_drop_idx(categories: list[NDArray[np.object_]], drop: OneHotDrop) -> NDArray[np.object_] | None:
     if drop is None:
@@ -2445,7 +2388,6 @@ def _onehot_compute_drop_idx(categories: list[NDArray[np.object_]], drop: OneHot
         raise ValueError("The following categories were supposed to be dropped, but were not found in the training data.")
     return np.asarray(drop_indices, dtype=object)
 
-
 def _onehot_features_out(categories: list[NDArray[np.object_]], drop_idx: NDArray[np.object_] | None) -> NDArray[np.int_]:
     widths = np.asarray([len(cats) for cats in categories], dtype=np.int_)
     if drop_idx is not None:
@@ -2453,7 +2395,6 @@ def _onehot_features_out(categories: list[NDArray[np.object_]], drop_idx: NDArra
             if drop_value is not None:
                 widths[feature_idx] -= 1
     return widths
-
 
 @register_atom(witness_onehot_encoder_fit)
 @icontract.require(lambda X: _ordinal_input_is_2d(X), "X must be a 2D categorical matrix")
@@ -2472,6 +2413,7 @@ def onehot_encoder_fit(
     dtype: type = np.float64,
     handle_unknown: str = "error",
 ) -> OneHotEncoderState:
+    from sklearn.utils import check_array, check_random_state, resample
     """Learn per-feature categories and output layout for one-hot encoding."""
     checked_x = check_array(X, dtype=None, ensure_all_finite="allow-nan")
     n_features = int(checked_x.shape[1])
@@ -2514,7 +2456,6 @@ def onehot_encoder_fit(
         n_features_in=n_features,
     )
 
-
 @register_atom(witness_onehot_encoder_transform)
 @icontract.require(lambda X: _ordinal_input_is_2d(X), "X must be a 2D categorical matrix")
 @icontract.require(lambda state: _onehot_state_valid(state), "one-hot state must contain categories and output widths")
@@ -2524,6 +2465,7 @@ def onehot_encoder_transform(
     X: OrdinalInput,
     state: OneHotEncoderState,
 ) -> MatrixLike:
+    from sklearn.utils import check_array, check_random_state, resample
     """Map categorical feature values to fitted one-hot indicator columns."""
     checked_x = check_array(X, dtype=None, ensure_all_finite="allow-nan")
     n_samples = checked_x.shape[0]
@@ -2574,7 +2516,6 @@ def onehot_encoder_transform(
         return encoded_matrix
     return encoded_matrix.toarray()
 
-
 @register_atom(witness_onehot_encoder_inverse_transform)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D encoded matrix")
 @icontract.require(lambda state: _onehot_state_valid(state), "one-hot state must contain categories and output widths")
@@ -2584,6 +2525,7 @@ def onehot_encoder_inverse_transform(
     X: MatrixLike,
     state: OneHotEncoderState,
 ) -> NDArray[np.object_]:
+    from sklearn.utils import check_array, check_random_state, resample
     """Map fitted one-hot indicator columns back to categorical values."""
     checked_x = check_array(X, accept_sparse="csr")
     if checked_x.shape[1] != _onehot_output_width(state):
@@ -2610,7 +2552,6 @@ def onehot_encoder_inverse_transform(
                 raise ValueError("Samples {0} can not be inverted when drop=None and handle_unknown='error' because they contain all zeros".format(samples))
         start += width
     return decoded
-
 
 @register_atom(witness_onehot_encoder_fit_transform)
 @icontract.require(lambda X: _ordinal_input_is_2d(X), "X must be a 2D categorical matrix")
@@ -2639,7 +2580,6 @@ def onehot_encoder_fit_transform(
     )
     return state, onehot_encoder_transform(X, state)
 
-
 from .witnesses import (
     witness_target_encoder_fit,
     witness_target_encoder_fit_transform,
@@ -2649,22 +2589,17 @@ from .witnesses import (
 TargetInput = NDArray[np.object_] | list[object] | tuple[object, ...]
 TargetEncoderFitTransformResult = tuple[TargetEncoderState, NDArray[np.float64]]
 
-
 def _target_type_valid(target_type: str) -> bool:
     return target_type in {"auto", "continuous", "binary", "multiclass"}
-
 
 def _target_resolved_type_valid(target_type: str) -> bool:
     return target_type in {"continuous", "binary", "multiclass"}
 
-
 def _target_smooth_valid(smooth: str | float) -> bool:
     return smooth == "auto" or (isinstance(smooth, (int, float)) and float(smooth) >= 0)
 
-
 def _target_cv_valid(cv: int) -> bool:
     return cv >= 2
-
 
 def _target_state_valid(state: TargetEncoderState) -> bool:
     expected = state.n_features_in if state.target_type != "multiclass" else state.n_features_in * (0 if state.classes is None else len(state.classes))
@@ -2677,19 +2612,15 @@ def _target_state_valid(state: TargetEncoderState) -> bool:
         and all(encoding.ndim == 1 for encoding in state.encodings)
     )
 
-
 def _target_output_width(state: TargetEncoderState) -> int:
     return state.n_features_in if state.target_type != "multiclass" else state.n_features_in * (0 if state.classes is None else len(state.classes))
-
 
 def _target_transform_shape_matches(result: NDArray[np.float64], X: OrdinalInput | MatrixLike, state: TargetEncoderState) -> bool:
     return bool(result.shape == (np.asarray(X, dtype=object).shape[0], _target_output_width(state)))
 
-
 def _target_fit_transform_valid(result: TargetEncoderFitTransformResult, X: OrdinalInput | MatrixLike) -> bool:
     state, transformed = result
     return bool(_target_state_valid(state) and _target_transform_shape_matches(transformed, X, state))
-
 
 def _target_categories_from_X(X: NDArray[np.object_], categories: OrdinalCategories) -> list[NDArray[np.object_]]:
     n_features = int(X.shape[1])
@@ -2717,11 +2648,11 @@ def _target_categories_from_X(X: NDArray[np.object_], categories: OrdinalCategor
         learned.append(np.asarray(cats, dtype=object))
     return learned
 
-
 def _target_transform_ordinal(
     X: OrdinalInput,
     categories: list[NDArray[np.object_]],
 ) -> tuple[NDArray[np.int64], NDArray[np.bool_]]:
+    from sklearn.utils import check_array, check_random_state, resample
     checked_x = check_array(X, dtype=None, ensure_all_finite="allow-nan")
     if checked_x.shape[1] != len(categories):
         raise ValueError("Input data has a different number of features than fitting data.")
@@ -2736,8 +2667,9 @@ def _target_transform_ordinal(
         known_mask[:, feature_idx] = valid
     return x_ordinal, known_mask
 
-
 def _target_encode_y(y: TargetInput, target_type: str) -> tuple[str, NDArray[np.float64], float | NDArray[np.float64], NDArray[np.object_] | None]:
+    from sklearn.utils.multiclass import type_of_target
+    from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
     from sklearn.preprocessing import LabelBinarizer, LabelEncoder
 
     if target_type == "auto":
@@ -2761,7 +2693,6 @@ def _target_encode_y(y: TargetInput, target_type: str) -> tuple[str, NDArray[np.
         classes = None
     return resolved, encoded, np.mean(encoded, axis=0), classes
 
-
 def _target_fit_encodings(
     X_ordinal: NDArray[np.int64],
     y: NDArray[np.float64],
@@ -2771,6 +2702,7 @@ def _target_fit_encodings(
     classes: NDArray[np.object_] | None,
     smooth: str | float,
 ) -> list[NDArray[np.float64]]:
+    from sklearn.preprocessing._target_encoder_fast import _fit_encoding_fast, _fit_encoding_fast_auto_smooth
     def fit_one(y_one: NDArray[np.float64], mean_one: float) -> list[NDArray[np.float64]]:
         if smooth == "auto":
             return [
@@ -2804,7 +2736,6 @@ def _target_fit_encodings(
     n_classes = len(classes)
     return [per_class[idx] for start in range(n_features) for idx in range(start, n_classes * n_features, n_features)]
 
-
 def _target_apply_encodings(
     X_ordinal: NDArray[np.int64],
     known_mask: NDArray[np.bool_],
@@ -2828,7 +2759,6 @@ def _target_apply_encodings(
             output[~known_mask[:, feature_idx], feature_idx] = float(target_mean)
     return output
 
-
 def _target_fit_state_and_arrays(
     X: OrdinalInput,
     y: TargetInput,
@@ -2837,6 +2767,8 @@ def _target_fit_state_and_arrays(
     target_type: str,
     smooth: str | float,
 ) -> tuple[TargetEncoderState, NDArray[np.int64], NDArray[np.bool_], NDArray[np.float64], NDArray[np.int64]]:
+    from sklearn.utils import check_array, check_random_state, resample
+    from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
     check_consistent_length(X, y)
     checked_x = check_array(X, dtype=None, ensure_all_finite="allow-nan")
     learned_categories = _target_categories_from_X(np.asarray(checked_x, dtype=object), categories)
@@ -2854,7 +2786,6 @@ def _target_fit_state_and_arrays(
         n_features_in=int(checked_x.shape[1]),
     )
     return state, x_ordinal, known_mask, encoded_y, n_categories
-
 
 @register_atom(witness_target_encoder_fit)
 @icontract.require(lambda X: _ordinal_input_is_2d(X), "X must be a 2D categorical matrix")
@@ -2881,7 +2812,6 @@ def target_encoder_fit(
     )
     return state
 
-
 @register_atom(witness_target_encoder_transform)
 @icontract.require(lambda X: _ordinal_input_is_2d(X), "X must be a 2D categorical matrix")
 @icontract.require(lambda state: _target_state_valid(state), "target encoder state must contain fitted category encodings")
@@ -2894,7 +2824,6 @@ def target_encoder_transform(
     """Apply fitted target-conditioned encodings to categorical features."""
     x_ordinal, known_mask = _target_transform_ordinal(X, state.categories)
     return _target_apply_encodings(x_ordinal, known_mask, state, slice(None), state.encodings, state.target_mean)
-
 
 @register_atom(witness_target_encoder_fit_transform)
 @icontract.require(lambda X: _ordinal_input_is_2d(X), "X must be a 2D categorical matrix")
@@ -2952,7 +2881,6 @@ def target_encoder_fit_transform(
         output[test_idx, :] = fold_values[test_idx, :]
     return state, output
 
-
 import math
 
 from .witnesses import (
@@ -2965,10 +2893,8 @@ PolynomialDegree = int | tuple[int, int]
 PolynomialFeaturesResult = MatrixLike
 PolynomialFeaturesFitTransformResult = tuple[PolynomialFeaturesState, PolynomialFeaturesResult]
 
-
 def _polynomial_order_valid(order: str) -> bool:
     return order in {"C", "F"}
-
 
 def _polynomial_degree_bounds(degree: PolynomialDegree, include_bias: bool) -> tuple[int, int]:
     if isinstance(degree, int):
@@ -2994,7 +2920,6 @@ def _polynomial_degree_bounds(degree: PolynomialDegree, include_bias: bool) -> t
         raise ValueError("Setting both min_degree and max_degree to zero and include_bias to False would result in an empty output array.")
     return int(min_degree), int(max_degree)
 
-
 def _polynomial_output_count(
     n_features: int,
     min_degree: int,
@@ -3016,7 +2941,6 @@ def _polynomial_output_count(
         total += 1
     return int(total)
 
-
 def _polynomial_combinations(
     n_features: int,
     min_degree: int,
@@ -3033,7 +2957,6 @@ def _polynomial_combinations(
     if include_bias:
         combinations.insert(0, ())
     return combinations
-
 
 def _polynomial_powers(
     n_features: int,
@@ -3053,7 +2976,6 @@ def _polynomial_powers(
         return np.zeros((0, n_features), dtype=np.int_)
     return np.asarray([np.bincount(item, minlength=n_features) for item in combinations], dtype=np.int_)
 
-
 def _polynomial_state_valid(state: PolynomialFeaturesState) -> bool:
     return bool(
         state.powers.ndim == 2
@@ -3063,15 +2985,12 @@ def _polynomial_state_valid(state: PolynomialFeaturesState) -> bool:
         and state.order in {"C", "F"}
     )
 
-
 def _polynomial_transform_shape_matches(result: PolynomialFeaturesResult, X: MatrixLike, state: PolynomialFeaturesState) -> bool:
     return bool(result.shape == (X.shape[0], state.n_output_features))
-
 
 def _polynomial_fit_transform_valid(result: PolynomialFeaturesFitTransformResult, X: MatrixLike) -> bool:
     state, transformed = result
     return bool(_polynomial_state_valid(state) and _polynomial_transform_shape_matches(transformed, X, state))
-
 
 @register_atom(witness_polynomial_features_fit)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
@@ -3086,6 +3005,8 @@ def polynomial_features_fit(
     include_bias: bool = True,
     order: str = "C",
 ) -> PolynomialFeaturesState:
+    from sklearn.utils import check_array, check_random_state, resample
+    from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
     """Learn polynomial expansion powers for a fitted feature count."""
     checked_x = check_array(X, accept_sparse=True, dtype=FLOAT_DTYPES)
     n_features = int(checked_x.shape[1])
@@ -3117,7 +3038,6 @@ def polynomial_features_fit(
         order=order,
     )
 
-
 @register_atom(witness_polynomial_features_transform)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
 @icontract.require(lambda state: _polynomial_state_valid(state), "polynomial state must contain one power row per output feature")
@@ -3127,6 +3047,8 @@ def polynomial_features_transform(
     X: MatrixLike,
     state: PolynomialFeaturesState,
 ) -> PolynomialFeaturesResult:
+    from sklearn.utils import check_array, check_random_state, resample
+    from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
     """Expand rows to polynomial and interaction feature columns."""
     checked_x = check_array(X, accept_sparse=("csr", "csc"), dtype=FLOAT_DTYPES)
     if checked_x.shape[1] != state.n_features_in:
@@ -3172,7 +3094,6 @@ def polynomial_features_transform(
         result = np.vstack(columns_dense).T
     return np.asfortranarray(result) if state.order == "F" else np.ascontiguousarray(result)
 
-
 @register_atom(witness_polynomial_features_fit_transform)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
 @icontract.require(lambda order: _polynomial_order_valid(order), "order must be 'C' or 'F'")
@@ -3195,7 +3116,6 @@ def polynomial_features_fit_transform(
     )
     return state, polynomial_features_transform(X, state)
 
-
 from .witnesses import (
     witness_spline_transformer_fit,
     witness_spline_transformer_fit_transform,
@@ -3205,22 +3125,17 @@ from .witnesses import (
 SplineKnots = str | NDArray[np.float64]
 SplineTransformerFitTransformResult = tuple[SplineTransformerState, MatrixLike]
 
-
 def _spline_extrapolation_valid(extrapolation: str) -> bool:
     return extrapolation in {"error", "constant", "linear", "continue", "periodic"}
-
 
 def _spline_knots_valid(knots: SplineKnots) -> bool:
     return bool(isinstance(knots, str) and knots in {"uniform", "quantile"} or not isinstance(knots, str))
 
-
 def _spline_order_valid(order: str) -> bool:
     return order in {"C", "F"}
 
-
 def _spline_missing_valid(handle_missing: str) -> bool:
     return handle_missing in {"error", "zeros"}
-
 
 def _spline_state_valid(state: SplineTransformerState) -> bool:
     return bool(
@@ -3234,15 +3149,12 @@ def _spline_state_valid(state: SplineTransformerState) -> bool:
         and state.n_features_out == state.n_features_in * (state.n_splines if state.include_bias else state.n_splines - 1)
     )
 
-
 def _spline_transform_shape_matches(result: MatrixLike, X: MatrixLike, state: SplineTransformerState) -> bool:
     return bool(result.shape == (X.shape[0], state.n_features_out))
-
 
 def _spline_fit_transform_valid(result: SplineTransformerFitTransformResult, X: MatrixLike) -> bool:
     state, transformed = result
     return bool(_spline_state_valid(state) and _spline_transform_shape_matches(transformed, X, state))
-
 
 def _spline_base_knot_positions(
     X: NDArray[np.float64],
@@ -3250,6 +3162,7 @@ def _spline_base_knot_positions(
     knots: str,
     sample_weight: NDArray[np.float64] | None,
 ) -> NDArray[np.float64]:
+    from sklearn.utils.stats import _weighted_percentile
     if knots == "quantile":
         ranks = 100 * np.linspace(start=0, stop=1, num=n_knots, dtype=np.float64)
         if sample_weight is None:
@@ -3266,7 +3179,6 @@ def _spline_base_knot_positions(
             x_max[feature_idx] = np.nanmax(column)
     return np.linspace(start=x_min, stop=x_max, num=n_knots, endpoint=True, dtype=np.float64)
 
-
 def _spline_build_objects(state: SplineTransformerState) -> list[BSpline]:
     coef = np.eye(state.n_splines, dtype=np.float64)
     if state.extrapolation == "periodic":
@@ -3276,7 +3188,6 @@ def _spline_build_objects(state: SplineTransformerState) -> list[BSpline]:
         BSpline.construct_fast(state.knots[:, feature_idx], coef, state.degree, extrapolate=extrapolate)
         for feature_idx in range(state.n_features_in)
     ]
-
 
 @register_atom(witness_spline_transformer_fit)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
@@ -3303,6 +3214,8 @@ def spline_transformer_fit(
     sparse_output: bool = False,
     sample_weight: NDArray[np.float64] | None = None,
 ) -> SplineTransformerState:
+    from sklearn.utils import check_array, check_random_state, resample
+    from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
     """Learn per-feature B-spline knots for basis expansion."""
     try:
         checked_x = check_array(
@@ -3364,7 +3277,6 @@ def spline_transformer_fit(
         n_features_out=int(n_features_out),
     )
 
-
 @register_atom(witness_spline_transformer_transform)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
 @icontract.require(lambda state: _spline_state_valid(state), "spline state must contain valid knots and output shape")
@@ -3374,6 +3286,8 @@ def spline_transformer_transform(
     X: MatrixLike,
     state: SplineTransformerState,
 ) -> MatrixLike:
+    from sklearn.utils import check_array, check_random_state, resample
+    from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
     """Expand each feature into fitted univariate B-spline basis values."""
     checked_x = check_array(
         X,
@@ -3497,7 +3411,6 @@ def spline_transformer_transform(
     indices = [idx for idx in range(result.shape[1]) if (idx + 1) % n_splines != 0]
     return result[:, indices]
 
-
 @register_atom(witness_spline_transformer_fit_transform)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
 @icontract.require(lambda X: _row_count(X) >= 2, "X must contain at least two samples")
@@ -3537,7 +3450,6 @@ def spline_transformer_fit_transform(
     )
     return state, spline_transformer_transform(X, state)
 
-
 from .witnesses import (
     witness_power_transform,
     witness_power_transformer_fit,
@@ -3548,10 +3460,8 @@ from .witnesses import (
 
 PowerTransformerFitTransformResult = tuple[PowerTransformerState, NDArray[np.float64]]
 
-
 def _power_method_valid(method: str) -> bool:
     return method in {"yeo-johnson", "box-cox"}
-
 
 def _power_state_valid(state: PowerTransformerState) -> bool:
     shape = (state.n_features_in,)
@@ -3565,15 +3475,12 @@ def _power_state_valid(state: PowerTransformerState) -> bool:
         and (state.scale is not None) == state.standardize
     )
 
-
 def _power_transform_shape_matches(result: NDArray[np.float64], X: MatrixLike) -> bool:
     return bool(result.shape == X.shape)
-
 
 def _power_fit_transform_valid(result: PowerTransformerFitTransformResult, X: MatrixLike) -> bool:
     state, transformed = result
     return bool(_power_state_valid(state) and _power_transform_shape_matches(transformed, X))
-
 
 def _yeo_johnson_transform_array(x: NDArray[np.float64], lmbda: float) -> NDArray[np.float64]:
     out = np.zeros_like(x)
@@ -3588,7 +3495,6 @@ def _yeo_johnson_transform_array(x: NDArray[np.float64], lmbda: float) -> NDArra
         out[~pos] = -np.log1p(-x[~pos])
     return out
 
-
 def _yeo_johnson_inverse_array(x: NDArray[np.float64], lmbda: float) -> NDArray[np.float64]:
     out = np.zeros_like(x)
     pos = x >= 0
@@ -3602,7 +3508,6 @@ def _yeo_johnson_inverse_array(x: NDArray[np.float64], lmbda: float) -> NDArray[
         out[~pos] = 1 - np.exp(-x[~pos])
     return out
 
-
 def _power_transform_columns(X: NDArray[np.float64], state: PowerTransformerState) -> NDArray[np.float64]:
     transformed = X.copy()
     for i, lmbda in enumerate(state.lambdas):
@@ -3612,7 +3517,6 @@ def _power_transform_columns(X: NDArray[np.float64], state: PowerTransformerStat
             else:
                 transformed[:, i] = _yeo_johnson_transform_array(transformed[:, i], float(lmbda))
     return transformed
-
 
 def _power_inverse_columns(X: NDArray[np.float64], state: PowerTransformerState) -> NDArray[np.float64]:
     restored = X.copy()
@@ -3631,7 +3535,6 @@ def _power_inverse_columns(X: NDArray[np.float64], state: PowerTransformerState)
             )
     return restored
 
-
 @register_atom(witness_power_transformer_fit)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
 @icontract.require(lambda method: _power_method_valid(method), "method must be 'yeo-johnson' or 'box-cox'")
@@ -3643,6 +3546,9 @@ def power_transformer_fit(
     *,
     standardize: bool = True,
 ) -> PowerTransformerState:
+    from sklearn.preprocessing._data import BOUNDS_THRESHOLD, _handle_zeros_in_scale, _is_constant_feature
+    from sklearn.utils import check_array, check_random_state, resample
+    from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
     """Estimate per-feature power-transform lambdas and optional scaling state."""
     checked_x = check_array(
         X,
@@ -3696,7 +3602,6 @@ def power_transformer_fit(
         n_features_in=int(checked_x.shape[1]),
     )
 
-
 @register_atom(witness_power_transformer_transform)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
 @icontract.require(lambda state: _power_state_valid(state), "power-transform state must match fitted feature count")
@@ -3707,6 +3612,8 @@ def power_transformer_transform(
     state: PowerTransformerState,
     copy: bool = True,
 ) -> NDArray[np.float64]:
+    from sklearn.utils import check_array, check_random_state, resample
+    from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
     """Apply fitted power-transform lambdas and optional standardization."""
     checked_x = check_array(
         X,
@@ -3730,7 +3637,6 @@ def power_transformer_transform(
         transformed /= state.scale
     return transformed
 
-
 @register_atom(witness_power_transformer_inverse_transform)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
 @icontract.require(lambda state: _power_state_valid(state), "power-transform state must match fitted feature count")
@@ -3741,6 +3647,8 @@ def power_transformer_inverse_transform(
     state: PowerTransformerState,
     copy: bool = True,
 ) -> NDArray[np.float64]:
+    from sklearn.utils import check_array, check_random_state, resample
+    from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
     """Undo fitted power transformation and optional standardization."""
     checked_x = check_array(
         X,
@@ -3759,7 +3667,6 @@ def power_transformer_inverse_transform(
         restored += state.mean
     return _power_inverse_columns(restored, state)
 
-
 @register_atom(witness_power_transformer_fit_transform)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
 @icontract.require(lambda method: _power_method_valid(method), "method must be 'yeo-johnson' or 'box-cox'")
@@ -3775,7 +3682,6 @@ def power_transformer_fit_transform(
     del copy
     state = power_transformer_fit(X, method=method, standardize=standardize)
     return state, power_transformer_transform(X, state, copy=True)
-
 
 @register_atom(witness_power_transform)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
@@ -3797,7 +3703,6 @@ def power_transform(
     )
     return transformed
 
-
 from .witnesses import (
     witness_quantile_transform,
     witness_quantile_transformer_fit,
@@ -3809,14 +3714,11 @@ from .witnesses import (
 RandomStateLike = int | np.random.RandomState | None
 QuantileTransformerFitTransformResult = tuple[QuantileTransformerState, MatrixLike]
 
-
 def _quantile_distribution_valid(output_distribution: str) -> bool:
     return output_distribution in {"uniform", "normal"}
 
-
 def _subsample_valid(subsample: int | None) -> bool:
     return subsample is None or subsample >= 1
-
 
 def _quantile_state_valid(state: QuantileTransformerState) -> bool:
     expected_shape = (state.n_quantiles, state.n_features_in)
@@ -3829,15 +3731,12 @@ def _quantile_state_valid(state: QuantileTransformerState) -> bool:
         and state.references.shape == (state.n_quantiles,)
     )
 
-
 def _quantile_transform_shape_matches(result: MatrixLike, X: MatrixLike) -> bool:
     return bool(result.shape == X.shape)
-
 
 def _quantile_fit_transform_valid(result: QuantileTransformerFitTransformResult, X: MatrixLike) -> bool:
     state, transformed = result
     return bool(_quantile_state_valid(state) and _quantile_transform_shape_matches(transformed, X))
-
 
 def _quantile_check_inputs(
     X: MatrixLike,
@@ -3847,6 +3746,8 @@ def _quantile_check_inputs(
     accept_sparse_negative: bool = False,
     copy: bool = False,
 ) -> MatrixLike:
+    from sklearn.utils import check_array, check_random_state, resample
+    from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
     checked_x = check_array(
         X,
         accept_sparse="csc",
@@ -3865,7 +3766,6 @@ def _quantile_check_inputs(
             raise ValueError("QuantileTransformer only accepts non-negative sparse matrices.")
     return checked_x
 
-
 def _quantile_dense_fit(
     X: NDArray[np.float64],
     references: NDArray[np.float64],
@@ -3874,6 +3774,7 @@ def _quantile_dense_fit(
     subsample: int | None,
     random_state: np.random.RandomState,
 ) -> NDArray[np.float64]:
+    from sklearn.utils import check_array, check_random_state, resample
     if ignore_implicit_zeros:
         warnings.warn(
             "'ignore_implicit_zeros' takes effect only with sparse matrix. This parameter has no effect.",
@@ -3884,7 +3785,6 @@ def _quantile_dense_fit(
     if subsample is not None and subsample < X.shape[0]:
         fitting_x = resample(X, replace=False, n_samples=subsample, random_state=random_state)
     return np.asarray(np.nanpercentile(fitting_x, references * 100, axis=0), dtype=np.float64)
-
 
 def _quantile_sparse_fit(
     X: sp.spmatrix,
@@ -3923,7 +3823,6 @@ def _quantile_sparse_fit(
             quantiles.append(np.nanpercentile(column_data, references * 100))
     return np.asarray(quantiles, dtype=np.float64).T
 
-
 def _quantile_transform_col(
     X_col: NDArray[np.float64],
     quantiles: NDArray[np.float64],
@@ -3932,6 +3831,7 @@ def _quantile_transform_col(
     *,
     inverse: bool,
 ) -> NDArray[np.float64]:
+    from sklearn.preprocessing._data import BOUNDS_THRESHOLD, _handle_zeros_in_scale, _is_constant_feature
     if not inverse:
         lower_bound_x = quantiles[0]
         upper_bound_x = quantiles[-1]
@@ -3975,7 +3875,6 @@ def _quantile_transform_col(
                 X_col = np.clip(X_col, clip_min, clip_max)
     return X_col
 
-
 def _quantile_transform_matrix(
     X: MatrixLike,
     state: QuantileTransformerState,
@@ -4006,7 +3905,6 @@ def _quantile_transform_matrix(
         )
     return dense
 
-
 @register_atom(witness_quantile_transformer_fit)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
 @icontract.require(lambda n_quantiles: n_quantiles >= 1, "n_quantiles must be at least one")
@@ -4023,6 +3921,7 @@ def quantile_transformer_fit(
     subsample: int | None = 10_000,
     random_state: RandomStateLike = None,
 ) -> QuantileTransformerState:
+    from sklearn.utils import check_array, check_random_state, resample
     """Estimate empirical per-feature quantiles for distribution mapping."""
     if subsample is not None and n_quantiles > subsample:
         raise ValueError(
@@ -4073,7 +3972,6 @@ def quantile_transformer_fit(
         n_features_in=int(checked_x.shape[1]),
     )
 
-
 @register_atom(witness_quantile_transformer_transform)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
 @icontract.require(lambda state: _quantile_state_valid(state), "quantile state must contain fitted feature quantiles")
@@ -4094,7 +3992,6 @@ def quantile_transformer_transform(
     if checked_x.shape[1] != state.n_features_in:
         raise ValueError("Input data has a different number of features than fitting data.")
     return _quantile_transform_matrix(checked_x, state, inverse=False)
-
 
 @register_atom(witness_quantile_transformer_inverse_transform)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
@@ -4117,7 +4014,6 @@ def quantile_transformer_inverse_transform(
     if checked_x.shape[1] != state.n_features_in:
         raise ValueError("Input data has a different number of features than fitting data.")
     return _quantile_transform_matrix(checked_x, state, inverse=True)
-
 
 @register_atom(witness_quantile_transformer_fit_transform)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")
@@ -4145,7 +4041,6 @@ def quantile_transformer_fit_transform(
         random_state=random_state,
     )
     return state, quantile_transformer_transform(X, state, copy=copy)
-
 
 @register_atom(witness_quantile_transform)
 @icontract.require(lambda X: _is_2d(X), "X must be a 2D matrix")

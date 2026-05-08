@@ -5,7 +5,6 @@ from __future__ import annotations
 import icontract
 import numpy as np
 from numpy.typing import NDArray
-from sklearn.utils.stats import _weighted_percentile
 
 from sciona.ghost.registry import register_atom
 
@@ -14,10 +13,8 @@ from .witnesses import (
     witness_gradient_boosting_safe_divide,
 )
 
-
 def _finite_scalar(value: float) -> bool:
     return bool(isinstance(value, (int, float)) and not isinstance(value, bool) and np.isfinite(float(value)))
-
 
 def _finite_vector(values: NDArray[np.float64]) -> bool:
     try:
@@ -25,7 +22,6 @@ def _finite_vector(values: NDArray[np.float64]) -> bool:
     except (TypeError, ValueError):
         return False
     return bool(array.ndim == 1 and array.shape[0] >= 1 and np.all(np.isfinite(array)))
-
 
 def _sample_weight_valid(sample_weight: NDArray[np.float64], y_true: NDArray[np.float64]) -> bool:
     try:
@@ -42,26 +38,21 @@ def _sample_weight_valid(sample_weight: NDArray[np.float64], y_true: NDArray[np.
         and np.sum(weights) > 0.0
     )
 
-
 def _quantile_valid(quantile: float) -> bool:
     return bool(_finite_scalar(quantile) and 0.0 < float(quantile) < 1.0)
-
 
 def _shapes_align(y_true: NDArray[np.float64], raw_prediction: NDArray[np.float64]) -> bool:
     y_values = np.asarray(y_true)
     raw_values = np.asarray(raw_prediction)
     return bool(y_values.ndim == 1 and raw_values.ndim in {1, 2} and raw_values.shape[0] == y_values.shape[0] and (raw_values.ndim == 1 or raw_values.shape[1] == 1))
 
-
 def _safe_divide_result_valid(result: float, numerator: float, denominator: float) -> bool:
     if abs(float(denominator)) < 1e-150:
         return bool(float(result) == 0.0)
     return bool(np.isfinite(float(result)) == np.isfinite(float(numerator) / float(denominator)) and float(result) == float(numerator) / float(denominator))
 
-
 def _huber_delta_result_valid(result: float) -> bool:
     return bool(np.isfinite(float(result)) and float(result) >= 0.0)
-
 
 @register_atom(witness_gradient_boosting_safe_divide)
 @icontract.require(lambda numerator: _finite_scalar(numerator), "numerator must be finite")
@@ -75,7 +66,6 @@ def gradient_boosting_safe_divide(
     if abs(float(denominator)) < 1e-150:
         return 0.0
     return float(float(numerator) / float(denominator))
-
 
 @register_atom(witness_gradient_boosting_huber_delta)
 @icontract.require(lambda y_true: _finite_vector(y_true), "y_true must be a finite vector")
@@ -91,6 +81,7 @@ def gradient_boosting_huber_delta(
     *,
     quantile: float = 0.9,
 ) -> float:
+    from sklearn.utils.stats import _weighted_percentile
     """Compute the weighted Huber delta that sklearn gradient boosting stores for a regression stage."""
     target = np.asarray(y_true, dtype=np.float64)
     raw = np.asarray(raw_prediction, dtype=np.float64).reshape(-1)

@@ -8,13 +8,11 @@ import icontract
 import numpy as np
 from numpy.typing import NDArray
 from scipy import linalg
-from sklearn.utils import check_array
 
 from sciona.ghost.registry import register_atom
 
 from .state_models import CovarianceState
 from .witnesses import witness_empirical_covariance, witness_empirical_covariance_fit, witness_ledoit_wolf, witness_ledoit_wolf_fit, witness_ledoit_wolf_shrinkage, witness_oas, witness_oas_fit, witness_shrunk_covariance, witness_shrunk_covariance_fit
-
 
 @register_atom(witness_empirical_covariance)
 @icontract.require(lambda X: X.ndim in {1, 2}, "X must be 1D or 2D")
@@ -27,6 +25,7 @@ def empirical_covariance(
     *,
     assume_centered: bool = False,
 ) -> NDArray[np.float64]:
+    from sklearn.utils import check_array
     """Compute the maximum-likelihood empirical covariance matrix."""
     checked_x = check_array(X, ensure_2d=False, ensure_all_finite=False)
     if checked_x.ndim == 1:
@@ -45,7 +44,6 @@ def empirical_covariance(
         covariance = np.array([[covariance]])
     return np.asarray(covariance, dtype=np.float64)
 
-
 @register_atom(witness_shrunk_covariance)
 @icontract.require(lambda emp_cov: emp_cov.ndim >= 2, "emp_cov must be at least 2D")
 @icontract.require(lambda emp_cov: emp_cov.shape[-1] == emp_cov.shape[-2], "last two dimensions must be square")
@@ -56,6 +54,7 @@ def shrunk_covariance(
     emp_cov: NDArray[np.float64],
     shrinkage: float = 0.1,
 ) -> NDArray[np.float64]:
+    from sklearn.utils import check_array
     """Shrink covariance matrices toward their average diagonal variance."""
     checked_cov = check_array(emp_cov, allow_nd=True)
     n_features = checked_cov.shape[-1]
@@ -64,7 +63,6 @@ def shrunk_covariance(
     mu = np.expand_dims(mu, axis=tuple(range(mu.ndim, checked_cov.ndim)))
     shrunk_cov += shrinkage * mu * np.eye(n_features)
     return np.asarray(shrunk_cov, dtype=np.float64)
-
 
 @register_atom(witness_ledoit_wolf_shrinkage)
 @icontract.require(lambda X: X.ndim == 2, "X must be 2D")
@@ -78,6 +76,7 @@ def ledoit_wolf_shrinkage(
     assume_centered: bool = False,
     block_size: int = 1000,
 ) -> float:
+    from sklearn.utils import check_array
     """Estimate the Ledoit-Wolf shrinkage coefficient from samples."""
     checked_x = check_array(X)
     if len(checked_x.shape) == 2 and checked_x.shape[1] == 1:
@@ -129,7 +128,6 @@ def ledoit_wolf_shrinkage(
     beta = min(beta, delta)
     return float(0.0 if beta == 0 else beta / delta)
 
-
 @register_atom(witness_ledoit_wolf)
 @icontract.require(lambda X: X.ndim == 2, "X must be 2D")
 @icontract.require(lambda X: X.size > 0, "X must contain at least one value")
@@ -143,6 +141,7 @@ def ledoit_wolf(
     assume_centered: bool = False,
     block_size: int = 1000,
 ) -> tuple[NDArray[np.float64], float]:
+    from sklearn.utils import check_array
     """Estimate a covariance matrix with the Ledoit-Wolf shrinkage rule."""
     checked_x = check_array(X)
     if len(checked_x.shape) == 2 and checked_x.shape[1] == 1:
@@ -158,7 +157,6 @@ def ledoit_wolf(
     emp_cov = empirical_covariance(checked_x, assume_centered=assume_centered)
     return shrunk_covariance(emp_cov, shrinkage), shrinkage
 
-
 @register_atom(witness_oas)
 @icontract.require(lambda X: X.ndim == 2, "X must be 2D")
 @icontract.require(lambda X: X.size > 0, "X must contain at least one value")
@@ -170,6 +168,7 @@ def oas(
     *,
     assume_centered: bool = False,
 ) -> tuple[NDArray[np.float64], float]:
+    from sklearn.utils import check_array
     """Estimate covariance with the Oracle Approximating Shrinkage formula."""
     checked_x = check_array(X)
     if len(checked_x.shape) == 2 and checked_x.shape[1] == 1:
@@ -186,7 +185,6 @@ def oas(
     denominator = (n_samples + 1) * (alpha - mu_squared / n_features)
     shrinkage = 1.0 if denominator == 0 else min(numerator / denominator, 1.0)
     return shrunk_covariance(emp_cov, shrinkage), float(shrinkage)
-
 
 def _covariance_state_valid(state: CovarianceState) -> bool:
     covariance = np.asarray(state.covariance)
@@ -207,7 +205,6 @@ def _covariance_state_valid(state: CovarianceState) -> bool:
         and state.n_features_in == covariance.shape[0]
     )
 
-
 def _covariance_state(
     *,
     covariance: NDArray[np.float64],
@@ -217,6 +214,7 @@ def _covariance_state(
     estimator: str,
     shrinkage: float | None,
 ) -> CovarianceState:
+    from sklearn.utils import check_array
     checked_covariance = np.asarray(check_array(covariance), dtype=np.float64)
     precision = linalg.pinvh(checked_covariance, check_finite=False) if store_precision else None
     return CovarianceState(
@@ -230,12 +228,10 @@ def _covariance_state(
         n_features_in=int(checked_covariance.shape[0]),
     )
 
-
 def _fit_location(X: NDArray[np.float64], assume_centered: bool) -> NDArray[np.float64]:
     if assume_centered:
         return np.zeros(X.shape[1], dtype=np.float64)
     return np.asarray(X.mean(0), dtype=np.float64)
-
 
 @register_atom(witness_empirical_covariance_fit)
 @icontract.require(lambda X: X.ndim == 2, "X must be 2D")
@@ -247,6 +243,7 @@ def empirical_covariance_fit(
     store_precision: bool = True,
     assume_centered: bool = False,
 ) -> CovarianceState:
+    from sklearn.utils import check_array
     """Fit maximum-likelihood empirical covariance and return immutable state."""
     checked_x = check_array(X)
     covariance = empirical_covariance(checked_x, assume_centered=assume_centered)
@@ -258,7 +255,6 @@ def empirical_covariance_fit(
         estimator="empirical_covariance",
         shrinkage=None,
     )
-
 
 @register_atom(witness_shrunk_covariance_fit)
 @icontract.require(lambda X: X.ndim == 2, "X must be 2D")
@@ -272,6 +268,7 @@ def shrunk_covariance_fit(
     assume_centered: bool = False,
     shrinkage: float = 0.1,
 ) -> CovarianceState:
+    from sklearn.utils import check_array
     """Fit fixed-shrinkage covariance and return immutable state."""
     checked_x = check_array(X)
     emp_cov = empirical_covariance(checked_x, assume_centered=assume_centered)
@@ -285,7 +282,6 @@ def shrunk_covariance_fit(
         shrinkage=shrinkage,
     )
 
-
 @register_atom(witness_ledoit_wolf_fit)
 @icontract.require(lambda X: X.ndim == 2, "X must be 2D")
 @icontract.require(lambda X: X.size > 0, "X must contain at least one value")
@@ -298,6 +294,7 @@ def ledoit_wolf_fit(
     assume_centered: bool = False,
     block_size: int = 1000,
 ) -> CovarianceState:
+    from sklearn.utils import check_array
     """Fit Ledoit-Wolf covariance and return immutable state."""
     checked_x = check_array(X)
     covariance, shrinkage = ledoit_wolf(
@@ -314,7 +311,6 @@ def ledoit_wolf_fit(
         shrinkage=shrinkage,
     )
 
-
 @register_atom(witness_oas_fit)
 @icontract.require(lambda X: X.ndim == 2, "X must be 2D")
 @icontract.require(lambda X: X.size > 0, "X must contain at least one value")
@@ -325,6 +321,7 @@ def oas_fit(
     store_precision: bool = True,
     assume_centered: bool = False,
 ) -> CovarianceState:
+    from sklearn.utils import check_array
     """Fit Oracle Approximating Shrinkage covariance and return immutable state."""
     checked_x = check_array(X)
     covariance, shrinkage = oas(checked_x, assume_centered=assume_centered)

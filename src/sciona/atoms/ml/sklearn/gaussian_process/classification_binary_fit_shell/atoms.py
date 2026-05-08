@@ -5,9 +5,6 @@ from __future__ import annotations
 import icontract
 import numpy as np
 from numpy.typing import NDArray
-from sklearn.base import clone
-from sklearn.gaussian_process.kernels import ConstantKernel as C
-from sklearn.gaussian_process.kernels import Kernel, RBF
 
 from sciona.ghost.registry import register_atom
 
@@ -20,26 +17,22 @@ from .witnesses import (
     witness_gpc_binary_fit_use_optimizer_branch,
 )
 
-
 def _bool(value: object) -> bool:
     return isinstance(value, bool)
-
 
 def _nonnegative_int(value: object) -> bool:
     return bool(isinstance(value, int) and not isinstance(value, bool) and value >= 0)
 
-
 def _nonempty_string(value: object) -> bool:
     return bool(isinstance(value, str) and value != "")
 
-
 def _kernel_or_none(value: object) -> bool:
+    from sklearn.gaussian_process.kernels import Kernel, RBF
     return value is None or isinstance(value, Kernel)
 
-
 def _kernel(value: object) -> bool:
+    from sklearn.gaussian_process.kernels import Kernel, RBF
     return isinstance(value, Kernel)
-
 
 def _nonempty_1d(values: object) -> bool:
     try:
@@ -47,7 +40,6 @@ def _nonempty_1d(values: object) -> bool:
     except (TypeError, ValueError):
         return False
     return bool(array.ndim == 1 and array.shape[0] >= 1)
-
 
 def _same_shape_and_values(result: object, source: object) -> bool:
     try:
@@ -57,7 +49,6 @@ def _same_shape_and_values(result: object, source: object) -> bool:
         return False
     return bool(left.shape == right.shape and np.array_equal(left, right))
 
-
 def _classes_valid(result: object, y: object) -> bool:
     try:
         observed = np.asarray(result)
@@ -65,7 +56,6 @@ def _classes_valid(result: object, y: object) -> bool:
     except (TypeError, ValueError):
         return False
     return bool(observed.ndim == 1 and observed.shape[0] >= 1 and np.array_equal(observed, np.unique(source)))
-
 
 def _binary_codes_valid(result: object, y: object) -> bool:
     try:
@@ -78,20 +68,21 @@ def _binary_codes_valid(result: object, y: object) -> bool:
     classes, inverse = np.unique(source, return_inverse=True)
     return bool(classes.shape[0] >= 1 and np.array_equal(encoded, inverse))
 
-
 @register_atom(witness_gpc_binary_fit_kernel)
 @icontract.require(lambda kernel: _kernel_or_none(kernel), "kernel must be a sklearn Kernel or None")
 @icontract.ensure(lambda result: _kernel(result), "result must be a sklearn Kernel")
 def gpc_binary_fit_kernel(
     kernel: Kernel | None,
 ) -> Kernel:
+    from sklearn.base import clone
+    from sklearn.gaussian_process.kernels import ConstantKernel as C
+    from sklearn.gaussian_process.kernels import Kernel, RBF
     """Resolve _BinaryGaussianProcessClassifierLaplace.fit's default-or-cloned kernel."""
     if kernel is None:
         return C(1.0, constant_value_bounds="fixed") * RBF(
             1.0, length_scale_bounds="fixed"
         )
     return clone(kernel)
-
 
 @register_atom(witness_gpc_binary_fit_stored_train_inputs)
 @icontract.require(lambda X: _nonempty_1d(X) or (hasattr(np.asarray(X), "ndim") and np.asarray(X).ndim >= 1), "X must be a nonempty array-like")
@@ -110,7 +101,6 @@ def gpc_binary_fit_stored_train_inputs(
         return np.copy(values)
     return values
 
-
 @register_atom(witness_gpc_binary_fit_classes)
 @icontract.require(lambda y: _nonempty_1d(y), "y must be a nonempty 1D label vector")
 @icontract.ensure(lambda result, y: _classes_valid(result, y), "classes must equal np.unique(y)")
@@ -121,7 +111,6 @@ def gpc_binary_fit_classes(
     values = np.asarray(y)
     return np.asarray(np.unique(values), dtype=values.dtype)
 
-
 @register_atom(witness_gpc_binary_fit_encoded_targets)
 @icontract.require(lambda y: _nonempty_1d(y), "y must be a nonempty 1D label vector")
 @icontract.ensure(lambda result, y: _binary_codes_valid(result, y), "encoded targets must match LabelEncoder.fit_transform(y)")
@@ -131,7 +120,6 @@ def gpc_binary_fit_encoded_targets(
     """Compute _BinaryGaussianProcessClassifierLaplace.fit's LabelEncoder-style target codes."""
     _, inverse = np.unique(np.asarray(y), return_inverse=True)
     return np.asarray(inverse, dtype=np.int64)
-
 
 @register_atom(witness_gpc_binary_fit_require_binary_classes)
 @icontract.require(lambda classes: _nonempty_1d(classes), "classes must be a nonempty 1D class vector")
@@ -159,7 +147,6 @@ def gpc_binary_fit_require_binary_classes(
             )
         )
     return n_classes
-
 
 @register_atom(witness_gpc_binary_fit_use_optimizer_branch)
 @icontract.require(

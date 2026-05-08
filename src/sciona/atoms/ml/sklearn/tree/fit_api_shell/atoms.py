@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import icontract
-from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
 
 from sciona.ghost.registry import register_atom
 
@@ -12,14 +11,13 @@ from .witnesses import (
     witness_tree_regressor_fit_return_self,
 )
 
-
 def _fitted_classifier(estimator: object) -> bool:
+    from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
     return isinstance(estimator, DecisionTreeClassifier) and hasattr(estimator, "tree_")
 
-
 def _fitted_regressor(estimator: object) -> bool:
+    from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
     return isinstance(estimator, DecisionTreeRegressor) and hasattr(estimator, "tree_")
-
 
 @register_atom(witness_tree_classifier_fit_return_self)
 @icontract.require(
@@ -33,9 +31,9 @@ def _fitted_regressor(estimator: object) -> bool:
 def tree_classifier_fit_return_self(
     estimator: DecisionTreeClassifier,
 ) -> DecisionTreeClassifier:
+    from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
     """Return the fitted DecisionTreeClassifier from the public fit shell."""
     return estimator
-
 
 @register_atom(witness_tree_regressor_fit_return_self)
 @icontract.require(
@@ -49,5 +47,6 @@ def tree_classifier_fit_return_self(
 def tree_regressor_fit_return_self(
     estimator: DecisionTreeRegressor,
 ) -> DecisionTreeRegressor:
+    from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
     """Return the fitted DecisionTreeRegressor from the public fit shell."""
     return estimator

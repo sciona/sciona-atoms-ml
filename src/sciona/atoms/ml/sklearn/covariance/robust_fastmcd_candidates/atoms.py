@@ -5,7 +5,6 @@ from __future__ import annotations
 import icontract
 import numpy as np
 from numpy.typing import NDArray
-from sklearn.utils import check_random_state
 
 from sciona.atoms.ml.sklearn.covariance.robust_fastmcd_c_step import fast_mcd_c_step
 from sciona.ghost.registry import register_atom
@@ -18,14 +17,12 @@ from .witnesses import (
 RandomStateLike = int | np.random.RandomState | None
 CandidatePool = tuple[NDArray[np.float64], NDArray[np.float64], NDArray[np.float64], NDArray[np.bool_], NDArray[np.float64]]
 
-
 def _finite_matrix(values: object) -> bool:
     try:
         array = np.asarray(values, dtype=np.float64)
     except (TypeError, ValueError):
         return False
     return bool(array.ndim == 2 and array.shape[0] >= 2 and array.shape[1] >= 1 and np.all(np.isfinite(array)))
-
 
 def _finite_covariance_stack(values: object) -> bool:
     try:
@@ -40,18 +37,14 @@ def _finite_covariance_stack(values: object) -> bool:
         and np.all(np.isfinite(array))
     )
 
-
 def _positive_int(value: int) -> bool:
     return bool(isinstance(value, int) and not isinstance(value, bool) and value >= 1)
-
 
 def _n_iter_valid(value: int) -> bool:
     return bool(isinstance(value, int) and not isinstance(value, bool) and value >= 0)
 
-
 def _support_size_valid(n_support: int, X: NDArray[np.float64]) -> bool:
     return bool(_positive_int(n_support) and n_support <= np.asarray(X, dtype=np.float64).shape[0])
-
 
 def _estimate_stacks_valid(X: NDArray[np.float64], initial_locations: NDArray[np.float64], initial_covariances: NDArray[np.float64], n_support: int) -> bool:
     X_values = np.asarray(X, dtype=np.float64)
@@ -66,7 +59,6 @@ def _estimate_stacks_valid(X: NDArray[np.float64], initial_locations: NDArray[np
         and cov_values.shape[1:] == (X_values.shape[1], X_values.shape[1])
         and _support_size_valid(n_support, X_values)
     )
-
 
 def _candidate_pool_valid(result: CandidatePool, X: NDArray[np.float64], trial_count: int) -> bool:
     if not (isinstance(result, tuple) and len(result) == 5):
@@ -85,7 +77,6 @@ def _candidate_pool_valid(result: CandidatePool, X: NDArray[np.float64], trial_c
         and np.all(np.asarray(distances, dtype=np.float64) >= 0.0)
     )
 
-
 def _stack_estimates(estimates: list[tuple[NDArray[np.float64], NDArray[np.float64], float, NDArray[np.bool_], NDArray[np.float64]]]) -> CandidatePool:
     locations, covariances, determinants, supports, distances = zip(*estimates)
     return (
@@ -95,7 +86,6 @@ def _stack_estimates(estimates: list[tuple[NDArray[np.float64], NDArray[np.float
         np.asarray(supports, dtype=np.bool_),
         np.asarray(distances, dtype=np.float64),
     )
-
 
 @register_atom(witness_fast_mcd_candidate_pool_from_random_starts)
 @icontract.require(lambda X: _finite_matrix(X), "X must be a finite 2D sample matrix")
@@ -111,6 +101,7 @@ def fast_mcd_candidate_pool_from_random_starts(
     n_iter: int = 30,
     random_state: RandomStateLike = None,
 ) -> CandidatePool:
+    from sklearn.utils import check_random_state
     """Run FastMCD c-step from random starts to build a candidate pool."""
     rng = check_random_state(random_state)
     estimates = [
@@ -123,7 +114,6 @@ def fast_mcd_candidate_pool_from_random_starts(
         for _ in range(int(n_trials))
     ]
     return _stack_estimates(estimates)
-
 
 @register_atom(witness_fast_mcd_candidate_pool_from_estimates)
 @icontract.require(lambda X, initial_locations, initial_covariances, n_support: _estimate_stacks_valid(X, initial_locations, initial_covariances, n_support), "X and initial estimate stacks must align on trial and feature axes")

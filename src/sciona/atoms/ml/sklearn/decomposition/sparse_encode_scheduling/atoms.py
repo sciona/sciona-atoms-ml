@@ -5,7 +5,6 @@ from __future__ import annotations
 import icontract
 import numpy as np
 from numpy.typing import NDArray
-from sklearn.utils import gen_even_slices
 
 from sciona.ghost.registry import register_atom
 
@@ -15,18 +14,14 @@ from .witnesses import (
     witness_sparse_encode_sample_bounds,
 )
 
-
 def _algorithm_valid(value: object) -> bool:
     return value in {"lasso_lars", "lasso_cd", "lars", "omp", "threshold"}
-
 
 def _positive_int(value: object) -> bool:
     return bool(isinstance(value, int) and not isinstance(value, bool) and value >= 1)
 
-
 def _bool_result(value: object) -> bool:
     return isinstance(value, bool)
-
 
 def _bounds_valid(result: object, n_samples: int, effective_job_count: int) -> bool:
     values = np.asarray(result)
@@ -47,7 +42,6 @@ def _bounds_valid(result: object, n_samples: int, effective_job_count: int) -> b
         return False
     widths = stops - starts
     return bool(widths.max() - widths.min() <= 1)
-
 
 def _code_views_valid(code_views: object, bounds: object, n_components: int) -> bool:
     bounds_values = np.asarray(bounds, dtype=np.int64)
@@ -72,7 +66,6 @@ def _code_views_valid(code_views: object, bounds: object, n_components: int) -> 
             return False
     return True
 
-
 def _assembled_code_valid(result: object, code_views: object, bounds: object, n_samples: int, n_components: int) -> bool:
     if not _code_views_valid(code_views, bounds, n_components):
         return False
@@ -85,7 +78,6 @@ def _assembled_code_valid(result: object, code_views: object, bounds: object, n_
             return False
     return True
 
-
 @register_atom(witness_sparse_encode_parallel_required)
 @icontract.require(lambda effective_job_count: _positive_int(effective_job_count), "effective_job_count must be a positive integer")
 @icontract.require(lambda algorithm: isinstance(algorithm, str) and _algorithm_valid(algorithm), "algorithm must be one of sklearn's sparse-encode modes")
@@ -97,7 +89,6 @@ def sparse_encode_parallel_required(
     """Decide whether sparse_encode enters the parallel precomputed-solver branch."""
     return int(effective_job_count) != 1 and algorithm != "threshold"
 
-
 @register_atom(witness_sparse_encode_sample_bounds)
 @icontract.require(lambda n_samples: _positive_int(n_samples), "n_samples must be a positive integer")
 @icontract.require(lambda effective_job_count: _positive_int(effective_job_count), "effective_job_count must be a positive integer")
@@ -106,10 +97,10 @@ def sparse_encode_sample_bounds(
     n_samples: int,
     effective_job_count: int,
 ) -> NDArray[np.int64]:
+    from sklearn.utils import gen_even_slices
     """Build sklearn's even sample slices for parallel sparse_encode blocks."""
     bounds = [(sl.start or 0, sl.stop or 0) for sl in gen_even_slices(int(n_samples), int(effective_job_count))]
     return np.asarray(bounds, dtype=np.int64)
-
 
 @register_atom(witness_sparse_encode_code_from_views)
 @icontract.require(lambda n_samples: _positive_int(n_samples), "n_samples must be a positive integer")

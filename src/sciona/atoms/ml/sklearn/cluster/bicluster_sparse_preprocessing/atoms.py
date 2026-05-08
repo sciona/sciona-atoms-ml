@@ -7,7 +7,6 @@ import numpy as np
 import scipy.sparse as sp
 from scipy.linalg import norm
 from numpy.typing import NDArray
-from sklearn.utils.extmath import make_nonnegative
 
 from sciona.ghost.registry import register_atom
 
@@ -19,7 +18,6 @@ from .witnesses import (
 
 SparseScaleNormalization = tuple[sp.spmatrix, NDArray[np.float64], NDArray[np.float64]]
 
-
 def _finite_sparse_matrix(X: object) -> bool:
     return bool(
         sp.issparse(X)
@@ -29,8 +27,8 @@ def _finite_sparse_matrix(X: object) -> bool:
         and np.all(np.isfinite(X.data))
     )
 
-
 def _positive_shifted_margins(X: object) -> bool:
+    from sklearn.utils.extmath import make_nonnegative
     if not _finite_sparse_matrix(X):
         return False
     shifted = make_nonnegative(X.copy())
@@ -38,10 +36,8 @@ def _positive_shifted_margins(X: object) -> bool:
     col_sums = np.asarray(shifted.sum(axis=0), dtype=np.float64).ravel()
     return bool(np.all(np.isfinite(row_sums)) and np.all(np.isfinite(col_sums)) and np.all(row_sums > 0.0) and np.all(col_sums > 0.0))
 
-
 def _positive_int(value: object) -> bool:
     return bool(isinstance(value, int) and not isinstance(value, bool) and value >= 1)
-
 
 def _positive_float(value: object) -> bool:
     return bool(
@@ -50,7 +46,6 @@ def _positive_float(value: object) -> bool:
         and np.isfinite(float(value))
         and float(value) > 0.0
     )
-
 
 def _scale_result_valid(result: object, X: object) -> bool:
     if not isinstance(result, tuple) or len(result) != 3:
@@ -72,7 +67,6 @@ def _scale_result_valid(result: object, X: object) -> bool:
         and np.all(cols > 0.0)
     )
 
-
 def _distance_inputs_valid(current: object, original: object) -> bool:
     return bool(
         _finite_sparse_matrix(current)
@@ -81,10 +75,8 @@ def _distance_inputs_valid(current: object, original: object) -> bool:
         and np.asarray(current.data).shape == np.asarray(original.data).shape
     )
 
-
 def _nonnegative_float(result: object) -> bool:
     return bool(isinstance(result, (int, float)) and np.isfinite(float(result)) and float(result) >= 0.0)
-
 
 def _normalized_sparse_valid(result: object, X: object) -> bool:
     return bool(
@@ -94,13 +86,13 @@ def _normalized_sparse_valid(result: object, X: object) -> bool:
         and np.all(result.data >= 0.0)
     )
 
-
 @register_atom(witness_bicluster_sparse_scale_normalize)
 @icontract.require(lambda X: _positive_shifted_margins(X), "X must be a finite sparse matrix whose nonnegative-shifted row and column sums are strictly positive")
 @icontract.ensure(lambda result, X: _scale_result_valid(result, X), "result must contain a nonnegative sparse normalized matrix and positive row and column factors")
 def bicluster_sparse_scale_normalize(
     X: sp.spmatrix,
 ) -> SparseScaleNormalization:
+    from sklearn.utils.extmath import make_nonnegative
     """Scale sparse rows and columns for spectral biclustering preprocessing."""
     values = make_nonnegative(X.copy())
     row_diag = np.asarray(1.0 / np.sqrt(values.sum(axis=1))).squeeze()
@@ -112,7 +104,6 @@ def bicluster_sparse_scale_normalize(
     c = sp.dia_matrix((col_diag, [0]), shape=(n_cols, n_cols))
     normalized = r * values * c
     return normalized, np.asarray(row_diag, dtype=np.float64), np.asarray(col_diag, dtype=np.float64)
-
 
 @register_atom(witness_bicluster_sparse_bistochastic_distance)
 @icontract.require(lambda current, original: _distance_inputs_valid(current, original), "current and original must be finite sparse matrices with matching shapes and stored-value counts")
@@ -126,7 +117,6 @@ def bicluster_sparse_bistochastic_distance(
     original_data = np.asarray(original.data, dtype=np.float64)
     return float(norm(current_data - original_data))
 
-
 @register_atom(witness_bicluster_sparse_bistochastic_normalize)
 @icontract.require(lambda X: _positive_shifted_margins(X), "X must be a finite sparse matrix whose nonnegative-shifted row and column sums are strictly positive")
 @icontract.require(lambda max_iter: _positive_int(max_iter), "max_iter must be a positive integer")
@@ -138,6 +128,7 @@ def bicluster_sparse_bistochastic_normalize(
     max_iter: int = 1000,
     tol: float = 1e-5,
 ) -> sp.spmatrix:
+    from sklearn.utils.extmath import make_nonnegative
     """Iteratively normalize sparse biclustering data toward balanced margins."""
     original = make_nonnegative(X.copy())
     scaled = original

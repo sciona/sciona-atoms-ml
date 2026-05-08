@@ -8,8 +8,6 @@ import icontract
 import numpy as np
 import scipy.sparse as sp
 from numpy.typing import NDArray
-from sklearn.utils.extmath import squared_norm
-from sklearn.utils.validation import check_array, check_non_negative, check_random_state
 
 from sciona.ghost.registry import register_atom
 
@@ -31,7 +29,6 @@ ShapeSpec = tuple[ShapeDim, ShapeDim]
 NmfFactors = tuple[NDArray[np.float64], NDArray[np.float64]]
 EPSILON = np.finfo(np.float64).eps
 
-
 def _finite_matrix(values: MatrixLike) -> bool:
     if sp.issparse(values):
         return bool(values.ndim == 2 and values.shape[0] >= 1 and values.shape[1] >= 1 and np.all(np.isfinite(values.data)))
@@ -41,7 +38,6 @@ def _finite_matrix(values: MatrixLike) -> bool:
         return False
     return bool(array.ndim == 2 and array.shape[0] >= 1 and array.shape[1] >= 1 and np.all(np.isfinite(array)))
 
-
 def _nonnegative_matrix(values: MatrixLike) -> bool:
     if not _finite_matrix(values):
         return False
@@ -49,14 +45,11 @@ def _nonnegative_matrix(values: MatrixLike) -> bool:
         return bool(np.all(values.data >= 0.0))
     return bool(np.all(np.asarray(values, dtype=np.float64) >= 0.0))
 
-
 def _dense_nonnegative_matrix(values: MatrixLike) -> bool:
     return bool(not sp.issparse(values) and _nonnegative_matrix(values))
 
-
 def _same_shape(X: MatrixLike, Y: MatrixLike) -> bool:
     return bool(_finite_matrix(X) and _finite_matrix(Y) and X.shape == Y.shape)
-
 
 def _factor_shapes_valid(X: MatrixLike, W: MatrixLike, H: MatrixLike) -> bool:
     return bool(
@@ -67,7 +60,6 @@ def _factor_shapes_valid(X: MatrixLike, W: MatrixLike, H: MatrixLike) -> bool:
         and X.shape[1] == H.shape[1]
         and W.shape[1] == H.shape[0]
     )
-
 
 def _beta_loss_valid(beta_loss: BetaLoss) -> bool:
     if isinstance(beta_loss, str):
@@ -80,7 +72,6 @@ def _beta_loss_valid(beta_loss: BetaLoss) -> bool:
         return False
     return bool(np.isfinite(value))
 
-
 def _beta_divergence_input_valid(X: MatrixLike, W: MatrixLike, H: MatrixLike, beta: BetaLoss) -> bool:
     if not (_factor_shapes_valid(X, W, H) and _beta_loss_valid(beta)):
         return False
@@ -91,22 +82,17 @@ def _beta_divergence_input_valid(X: MatrixLike, W: MatrixLike, H: MatrixLike, be
         return bool(np.all(np.asarray(X, dtype=np.float64) > 0.0))
     return True
 
-
 def _finite_scalar(value: float) -> bool:
     return bool(np.isscalar(value) and np.isfinite(float(value)))
-
 
 def _nonnegative_finite_scalar(value: float) -> bool:
     return bool(_finite_scalar(value) and float(value) >= 0.0)
 
-
 def _positive_int(value: int) -> bool:
     return bool(isinstance(value, int) and not isinstance(value, bool) and value >= 1)
 
-
 def _nndsvd_init_valid(init: str) -> bool:
     return init in {"nndsvd", "nndsvda", "nndsvdar"}
-
 
 def _dense_matrix(values: object) -> bool:
     if sp.issparse(values):
@@ -117,7 +103,6 @@ def _dense_matrix(values: object) -> bool:
         return False
     return bool(array.ndim == 2 and array.shape[0] >= 1 and array.shape[1] >= 1 and np.all(np.isfinite(array)))
 
-
 def _dense_vector(values: object) -> bool:
     try:
         array = np.asarray(values, dtype=np.float64)
@@ -125,20 +110,16 @@ def _dense_vector(values: object) -> bool:
         return False
     return bool(array.ndim == 1 and array.shape[0] >= 1 and np.all(np.isfinite(array)))
 
-
 def _nonnegative_vector(values: object) -> bool:
     return bool(_dense_vector(values) and np.all(np.asarray(values, dtype=np.float64) >= 0.0))
-
 
 def _shape_spec_valid(shape: ShapeSpec) -> bool:
     if not isinstance(shape, tuple) or len(shape) != 2:
         return False
     return all(value == "auto" or _positive_int(value) for value in shape)
 
-
 def _matching_or_auto(actual: int, expected: ShapeDim) -> bool:
     return bool(expected == "auto" or actual == expected)
-
 
 def _checked_matrix_matches_shape(result: NDArray[np.float64], shape: ShapeSpec) -> bool:
     return bool(
@@ -151,7 +132,6 @@ def _checked_matrix_matches_shape(result: NDArray[np.float64], shape: ShapeSpec)
         and _matching_or_auto(result.shape[1], shape[1])
     )
 
-
 def _factor_pair_valid(result: NmfFactors, n_samples: int, n_features: int, n_components: int) -> bool:
     W, H = result
     return bool(
@@ -163,7 +143,6 @@ def _factor_pair_valid(result: NmfFactors, n_samples: int, n_features: int, n_co
         and np.all(H >= 0.0)
     )
 
-
 def _svd_triplet_valid(U: NDArray[np.float64], S: NDArray[np.float64], V: NDArray[np.float64]) -> bool:
     return bool(
         _dense_matrix(U)
@@ -172,13 +151,11 @@ def _svd_triplet_valid(U: NDArray[np.float64], S: NDArray[np.float64], V: NDArra
         and U.shape[1] == S.shape[0] == V.shape[0]
     )
 
-
 def _beta_loss_to_float_unchecked(beta_loss: BetaLoss) -> float:
     beta_loss_map = {"frobenius": 2.0, "kullback-leibler": 1.0, "itakura-saito": 0.0}
     if isinstance(beta_loss, str):
         return float(beta_loss_map[beta_loss])
     return float(beta_loss)
-
 
 def _special_sparse_dot(W: NDArray[np.float64], H: NDArray[np.float64], X: sp.spmatrix) -> sp.csr_matrix:
     ii, jj = X.nonzero()
@@ -191,12 +168,12 @@ def _special_sparse_dot(W: NDArray[np.float64], H: NDArray[np.float64], X: sp.sp
         dot_vals[batch] = np.multiply(W[ii[batch], :], H.T[jj[batch], :]).sum(axis=1)
     return sp.coo_matrix((dot_vals, (ii, jj)), shape=X.shape).tocsr()
 
-
 def _nndsvd_checked_inputs(
     U: NDArray[np.float64],
     S: NDArray[np.float64],
     V: NDArray[np.float64],
 ) -> tuple[NDArray[np.float64], NDArray[np.float64], NDArray[np.float64]]:
+    from sklearn.utils.validation import check_array, check_non_negative, check_random_state
     left = np.asarray(check_array(U, dtype=np.float64, ensure_2d=True), dtype=np.float64)
     singular_values = np.asarray(check_array(S, dtype=np.float64, ensure_2d=False), dtype=np.float64)
     right = np.asarray(check_array(V, dtype=np.float64, ensure_2d=True), dtype=np.float64)
@@ -208,14 +185,12 @@ def _nndsvd_checked_inputs(
         raise ValueError("S must be nonnegative")
     return left, singular_values, right
 
-
 @register_atom(witness_nmf_beta_loss_to_float)
 @icontract.require(lambda beta_loss: _beta_loss_valid(beta_loss), "beta_loss must be finite or one of sklearn's named beta losses")
 @icontract.ensure(lambda result: _finite_scalar(result), "numeric beta loss must be finite")
 def nmf_beta_loss_to_float(beta_loss: BetaLoss) -> float:
     """Convert sklearn's named beta-loss options to numeric values."""
     return _beta_loss_to_float_unchecked(beta_loss)
-
 
 @register_atom(witness_nmf_trace_dot)
 @icontract.require(lambda X, Y: _same_shape(X, Y), "X and Y must be finite matrices with the same shape")
@@ -232,7 +207,6 @@ def nmf_trace_dot(X: MatrixLike, Y: MatrixLike) -> float:
         y_values = np.asarray(Y, dtype=np.float64)
     return float(np.dot(x_values.ravel(), y_values.ravel()))
 
-
 @register_atom(witness_nmf_beta_divergence)
 @icontract.require(lambda X, W, H, beta: _beta_divergence_input_valid(X, W, H, beta), "X, W, and H must be compatible nonnegative matrices")
 @icontract.ensure(lambda result: _nonnegative_finite_scalar(result), "beta divergence must be finite and nonnegative")
@@ -244,6 +218,7 @@ def nmf_beta_divergence(
     *,
     square_root: bool = False,
 ) -> float:
+    from sklearn.utils.extmath import squared_norm
     """Compute sklearn's beta-divergence between X and the product W H."""
     beta_value = nmf_beta_loss_to_float(beta)
     w_values = np.asarray(W, dtype=np.float64)
@@ -302,7 +277,6 @@ def nmf_beta_divergence(
         return float(np.sqrt(2.0 * result))
     return float(result)
 
-
 @register_atom(witness_nmf_random_initialize)
 @icontract.require(lambda X: _dense_nonnegative_matrix(X), "X must be a dense finite nonnegative matrix")
 @icontract.require(lambda n_components: _positive_int(n_components), "n_components must be a positive integer")
@@ -316,6 +290,7 @@ def nmf_random_initialize(
     *,
     random_state: RandomStateLike = None,
 ) -> NmfFactors:
+    from sklearn.utils.validation import check_array, check_non_negative, check_random_state
     """Initialize dense nonnegative NMF factors with sklearn's random scaling rule."""
     checked_x = np.asarray(check_array(X, dtype=np.float64, ensure_2d=True), dtype=np.float64)
     check_non_negative(checked_x, "NMF initialization")
@@ -327,7 +302,6 @@ def nmf_random_initialize(
     np.abs(H, out=H)
     np.abs(W, out=W)
     return W, H
-
 
 @register_atom(witness_nmf_nndsvd_from_svd)
 @icontract.require(lambda U, S, V: _svd_triplet_valid(U, S, V), "U, S, and V must form a finite compatible SVD triplet")
@@ -348,6 +322,7 @@ def nmf_nndsvd_from_svd(
     eps: float = 1e-6,
     random_state: RandomStateLike = None,
 ) -> NmfFactors:
+    from sklearn.utils.validation import check_array, check_non_negative, check_random_state
     """Build sklearn's NNDSVD-style initial factors from a supplied dense SVD triplet."""
     left, singular_values, right = _nndsvd_checked_inputs(U, S, V)
     W = np.zeros_like(left)
@@ -399,7 +374,6 @@ def nmf_nndsvd_from_svd(
 
     return W, H
 
-
 @register_atom(witness_nmf_check_init_matrix)
 @icontract.require(lambda A: _dense_nonnegative_matrix(A), "A must be a dense finite nonnegative matrix")
 @icontract.require(lambda shape: _shape_spec_valid(shape), "shape must be a pair of positive integers or 'auto'")
@@ -413,6 +387,7 @@ def nmf_check_init_matrix(
     shape: ShapeSpec,
     whom: str,
 ) -> NDArray[np.float64]:
+    from sklearn.utils.validation import check_array, check_non_negative, check_random_state
     """Validate and return a dense nonnegative matrix used to initialize nonnegative matrix factorization."""
     checked = np.asarray(check_array(A, dtype=np.float64, ensure_2d=True), dtype=np.float64)
 

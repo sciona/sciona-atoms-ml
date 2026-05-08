@@ -5,7 +5,6 @@ from __future__ import annotations
 import icontract
 import numpy as np
 from numpy.typing import NDArray
-from sklearn.utils import check_random_state
 
 from sciona.atoms.ml.sklearn.ensemble.bagging_sampling import bagging_generate_indices
 from sciona.ghost.registry import register_atom
@@ -19,10 +18,8 @@ from .witnesses import (
 
 MatrixLike = NDArray[np.float64] | list[list[float]]
 
-
 def _positive_int(value: object) -> bool:
     return bool(isinstance(value, int) and not isinstance(value, bool) and value >= 1)
-
 
 def _max_samples_value_valid(max_samples: object, n_samples: int) -> bool:
     if not _positive_int(n_samples):
@@ -33,10 +30,8 @@ def _max_samples_value_valid(max_samples: object, n_samples: int) -> bool:
         return np.isfinite(max_samples) and 0.0 < max_samples <= 1.0
     return False
 
-
 def _effective_max_samples_valid(result: object, n_samples: int) -> bool:
     return bool(isinstance(result, int) and 1 <= result <= n_samples)
-
 
 def _row_indices_valid(result: object, n_population: int, n_samples: int) -> bool:
     values = np.asarray(result)
@@ -48,14 +43,12 @@ def _row_indices_valid(result: object, n_population: int, n_samples: int) -> boo
         and np.unique(values).shape[0] == n_samples
     )
 
-
 def _finite_2d_matrix(values: object) -> bool:
     try:
         array = np.asarray(values, dtype=np.float64)
     except (TypeError, ValueError):
         return False
     return bool(array.ndim == 2 and array.shape[0] >= 1 and array.shape[1] >= 1 and np.all(np.isfinite(array)))
-
 
 def _shuffle_indices_valid(result: object, n_samples: int, n_repeats: int) -> bool:
     values = np.asarray(result)
@@ -68,7 +61,6 @@ def _shuffle_indices_valid(result: object, n_samples: int, n_repeats: int) -> bo
         return False
     expected = np.arange(n_samples)
     return all(np.array_equal(np.sort(row), expected) for row in values)
-
 
 def _shuffle_inputs_valid(X: object, col_idx: int, shuffle_indices: object) -> bool:
     if not _finite_2d_matrix(X):
@@ -86,7 +78,6 @@ def _shuffle_inputs_valid(X: object, col_idx: int, shuffle_indices: object) -> b
         and np.all(indices < x_values.shape[0])
     )
 
-
 def _permuted_dense_valid(result: object, X: object, shuffle_indices: object) -> bool:
     values = np.asarray(result, dtype=np.float64)
     x_values = np.asarray(X, dtype=np.float64)
@@ -96,7 +87,6 @@ def _permuted_dense_valid(result: object, X: object, shuffle_indices: object) ->
         and np.all(np.isfinite(values))
     )
 
-
 @register_atom(witness_permutation_importance_max_sample_count)
 @icontract.require(lambda max_samples, n_samples: _max_samples_value_valid(max_samples, n_samples), "max_samples must be a positive int within sample count or a float in (0, 1]")
 @icontract.ensure(lambda result, n_samples: _effective_max_samples_valid(result, n_samples), "effective max_samples must lie in [1, n_samples]")
@@ -105,7 +95,6 @@ def permutation_importance_max_sample_count(max_samples: int | float, n_samples:
     if isinstance(max_samples, int) and not isinstance(max_samples, bool):
         return int(max_samples)
     return int(float(max_samples) * n_samples)
-
 
 @register_atom(witness_permutation_importance_row_indices)
 @icontract.require(lambda n_population: _positive_int(n_population), "n_population must be positive")
@@ -123,7 +112,6 @@ def permutation_importance_row_indices(
         dtype=np.int64,
     )
 
-
 @register_atom(witness_permutation_importance_shuffle_indices)
 @icontract.require(lambda n_samples: _positive_int(n_samples), "n_samples must be positive")
 @icontract.require(lambda n_repeats: _positive_int(n_repeats), "n_repeats must be positive")
@@ -134,6 +122,7 @@ def permutation_importance_shuffle_indices(
     *,
     random_state: int = 0,
 ) -> NDArray[np.int64]:
+    from sklearn.utils import check_random_state
     """Generate sklearn's repeated in-place shuffle index states for one feature."""
     rng = check_random_state(int(random_state))
     shuffling_idx = np.arange(int(n_samples), dtype=np.int64)
@@ -142,7 +131,6 @@ def permutation_importance_shuffle_indices(
         rng.shuffle(shuffling_idx)
         permutations.append(np.asarray(shuffling_idx.copy(), dtype=np.int64))
     return np.asarray(permutations, dtype=np.int64)
-
 
 @register_atom(witness_permutation_importance_dense_permuted_columns)
 @icontract.require(lambda X: _finite_2d_matrix(X), "X must be a finite nonempty 2D dense matrix")

@@ -5,7 +5,6 @@ from __future__ import annotations
 import icontract
 import numpy as np
 from numpy.typing import NDArray
-from sklearn.utils import check_array
 
 from sciona.ghost.registry import register_atom
 
@@ -18,29 +17,23 @@ from .witnesses import (
     witness_dummy_regressor_predict,
 )
 
-
 def _target_1d_or_2d(y: NDArray[np.float64]) -> bool:
     return bool(np.asarray(y).ndim in {1, 2})
-
 
 def _nonempty_target(y: NDArray[np.float64]) -> bool:
     values = np.asarray(y)
     return bool(values.ndim in {1, 2} and values.shape[0] > 0 and values.size > 0)
 
-
 def _strategy_valid(strategy: str) -> bool:
     return strategy in {"mean", "median", "quantile", "constant"}
-
 
 def _quantile_valid(strategy: str, quantile: float | None) -> bool:
     if strategy != "quantile":
         return True
     return quantile is not None and 0.0 <= quantile <= 1.0
 
-
 def _constant_valid(strategy: str, constant: float | tuple[float, ...] | None) -> bool:
     return strategy != "constant" or constant is not None
-
 
 def _state_valid(state: DummyRegressorState) -> bool:
     return bool(
@@ -51,7 +44,6 @@ def _state_valid(state: DummyRegressorState) -> bool:
         and (state.quantile is None or 0.0 <= state.quantile <= 1.0)
     )
 
-
 def _prediction_valid(result: NDArray[np.float64], state: DummyRegressorState) -> bool:
     values = np.asarray(result)
     expected_ndim = 1 if state.n_outputs == 1 else 2
@@ -61,19 +53,15 @@ def _prediction_valid(result: NDArray[np.float64], state: DummyRegressorState) -
         and np.all(np.isfinite(values))
     )
 
-
 def _classifier_strategy_valid(strategy: str) -> bool:
     return strategy in {"prior", "most_frequent", "constant"}
-
 
 def _finite_target(y: NDArray[np.float64]) -> bool:
     values = np.asarray(y, dtype=np.float64)
     return bool(values.ndim in {1, 2} and values.size > 0 and np.all(np.isfinite(values)))
 
-
 def _classifier_constant_valid(strategy: str, constant: float | tuple[float, ...] | None) -> bool:
     return strategy != "constant" or constant is not None
-
 
 def _classifier_state_valid(state: DummyClassifierState) -> bool:
     return bool(
@@ -90,7 +78,6 @@ def _classifier_state_valid(state: DummyClassifierState) -> bool:
         and (state.constant is None or all(np.isfinite(value) for value in state.constant))
     )
 
-
 def _classifier_prediction_valid(result: NDArray[np.float64], state: DummyClassifierState) -> bool:
     values = np.asarray(result)
     expected_ndim = 1 if state.n_outputs == 1 else 2
@@ -100,7 +87,6 @@ def _classifier_prediction_valid(result: NDArray[np.float64], state: DummyClassi
         and np.all(np.isfinite(values))
     )
 
-
 def _classifier_proba_valid(result: NDArray[np.float64] | tuple[NDArray[np.float64], ...], state: DummyClassifierState) -> bool:
     arrays = (result,) if isinstance(result, np.ndarray) else result
     return bool(
@@ -109,7 +95,6 @@ def _classifier_proba_valid(result: NDArray[np.float64] | tuple[NDArray[np.float
         and all(array.shape[1] == state.n_classes[index] for index, array in enumerate(arrays))
         and all(np.all(np.isfinite(array)) and np.all(array >= 0.0) and np.allclose(array.sum(axis=1), 1.0) for array in arrays)
     )
-
 
 @register_atom(witness_dummy_regressor_fit)
 @icontract.require(lambda y: _target_1d_or_2d(y), "y must be 1D or 2D")
@@ -125,6 +110,7 @@ def dummy_regressor_fit(
     constant: float | tuple[float, ...] | None = None,
     quantile: float | None = None,
 ) -> DummyRegressorState:
+    from sklearn.utils import check_array
     """Fit the constant target value used by sklearn's dummy regressor."""
     checked_y = check_array(y, dtype=np.float64, ensure_2d=False, input_name="y")
     if checked_y.ndim == 1:
@@ -156,7 +142,6 @@ def dummy_regressor_fit(
         quantile=fitted_quantile,
     )
 
-
 @register_atom(witness_dummy_regressor_predict)
 @icontract.require(lambda X: np.asarray(X).ndim == 2, "X must be 2D")
 @icontract.require(lambda state: _state_valid(state), "state must be a fitted dummy regressor state")
@@ -165,6 +150,7 @@ def dummy_regressor_predict(
     X: NDArray[np.float64],
     state: DummyRegressorState,
 ) -> NDArray[np.float64]:
+    from sklearn.utils import check_array
     """Predict by repeating the fitted dummy-regressor constant for each row."""
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     predictions = np.full(
@@ -175,7 +161,6 @@ def dummy_regressor_predict(
     if state.n_outputs == 1:
         return np.ravel(predictions).astype(np.float64)
     return np.asarray(predictions, dtype=np.float64)
-
 
 @register_atom(witness_dummy_classifier_fit)
 @icontract.require(lambda y: _target_1d_or_2d(y), "y must be 1D or 2D")
@@ -190,6 +175,7 @@ def dummy_classifier_fit(
     strategy: str = "prior",
     constant: float | tuple[float, ...] | None = None,
 ) -> DummyClassifierState:
+    from sklearn.utils import check_array
     """Fit deterministic class priors used by sklearn's dummy classifier."""
     checked_y = check_array(y, dtype=np.float64, ensure_2d=False, input_name="y")
     if checked_y.ndim == 1:
@@ -225,7 +211,6 @@ def dummy_classifier_fit(
         constant=constant_values,
     )
 
-
 @register_atom(witness_dummy_classifier_predict)
 @icontract.require(lambda X: np.asarray(X).ndim == 2, "X must be 2D")
 @icontract.require(lambda state: _classifier_state_valid(state), "state must be a fitted dummy classifier state")
@@ -234,6 +219,7 @@ def dummy_classifier_predict(
     X: NDArray[np.float64],
     state: DummyClassifierState,
 ) -> NDArray[np.float64]:
+    from sklearn.utils import check_array
     """Predict deterministic dummy-classifier labels for each row."""
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     per_output: list[float] = []
@@ -250,7 +236,6 @@ def dummy_classifier_predict(
         return np.ravel(predictions).astype(np.float64)
     return np.asarray(predictions, dtype=np.float64)
 
-
 @register_atom(witness_dummy_classifier_predict_proba)
 @icontract.require(lambda X: np.asarray(X).ndim == 2, "X must be 2D")
 @icontract.require(lambda state: _classifier_state_valid(state), "state must be a fitted dummy classifier state")
@@ -259,6 +244,7 @@ def dummy_classifier_predict_proba(
     X: NDArray[np.float64],
     state: DummyClassifierState,
 ) -> NDArray[np.float64] | tuple[NDArray[np.float64], ...]:
+    from sklearn.utils import check_array
     """Predict deterministic dummy-classifier class probabilities for each row."""
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     outputs: list[NDArray[np.float64]] = []

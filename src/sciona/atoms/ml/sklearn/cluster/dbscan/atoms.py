@@ -5,9 +5,6 @@ from __future__ import annotations
 import icontract
 import numpy as np
 from numpy.typing import NDArray
-from sklearn.cluster import DBSCAN as SklearnDBSCAN
-from sklearn.cluster import dbscan as sklearn_dbscan
-from sklearn.utils.validation import check_array
 
 from sciona.ghost.registry import register_atom
 
@@ -20,14 +17,12 @@ VectorLike = NDArray[np.float64] | list[float]
 _VALID_METRICS = {"euclidean", "minkowski", "manhattan", "precomputed"}
 _VALID_ALGORITHMS = {"auto", "ball_tree", "kd_tree", "brute"}
 
-
 def _is_2d_matrix(X: MatrixLike) -> bool:
     try:
         values = np.asarray(X, dtype=np.float64)
     except (TypeError, ValueError):
         return False
     return bool(values.ndim == 2 and values.shape[0] >= 1 and values.shape[1] >= 1 and np.all(np.isfinite(values)))
-
 
 def _dbscan_input_valid(X: MatrixLike, metric: str) -> bool:
     if not _is_2d_matrix(X):
@@ -37,18 +32,14 @@ def _dbscan_input_valid(X: MatrixLike, metric: str) -> bool:
         return bool(values.shape[0] == values.shape[1] and np.all(values >= 0.0))
     return True
 
-
 def _positive_float(value: float) -> bool:
     return bool(isinstance(value, (int, float)) and not isinstance(value, bool) and np.isfinite(float(value)) and float(value) > 0.0)
-
 
 def _positive_int(value: int) -> bool:
     return bool(isinstance(value, int) and not isinstance(value, bool) and value >= 1)
 
-
 def _metric_valid(metric: str) -> bool:
     return bool(isinstance(metric, str) and metric in _VALID_METRICS)
-
 
 def _metric_params_valid(metric_params: dict[str, float] | None) -> bool:
     if metric_params is None:
@@ -58,18 +49,14 @@ def _metric_params_valid(metric_params: dict[str, float] | None) -> bool:
         and all(isinstance(key, str) and isinstance(value, (int, float)) and np.isfinite(float(value)) for key, value in metric_params.items())
     )
 
-
 def _algorithm_valid(algorithm: str) -> bool:
     return bool(isinstance(algorithm, str) and algorithm in _VALID_ALGORITHMS)
-
 
 def _positive_float_or_none(value: float | None) -> bool:
     return bool(value is None or _positive_float(value))
 
-
 def _n_jobs_valid(n_jobs: int | None) -> bool:
     return bool(n_jobs is None or (isinstance(n_jobs, int) and not isinstance(n_jobs, bool) and n_jobs != 0))
-
 
 def _sample_weight_valid(sample_weight: VectorLike | None, X: MatrixLike) -> bool:
     if sample_weight is None:
@@ -79,7 +66,6 @@ def _sample_weight_valid(sample_weight: VectorLike | None, X: MatrixLike) -> boo
     except (TypeError, ValueError):
         return False
     return bool(weights.ndim == 1 and weights.shape[0] == np.asarray(X).shape[0] and np.all(np.isfinite(weights)))
-
 
 def _labels_valid(labels: NDArray[np.int_], X: MatrixLike) -> bool:
     values = np.asarray(labels)
@@ -91,7 +77,6 @@ def _labels_valid(labels: NDArray[np.int_], X: MatrixLike) -> bool:
         and np.all(values < n_samples)
     )
 
-
 def _core_indices_valid(indices: NDArray[np.int_], X: MatrixLike) -> bool:
     values = np.asarray(indices)
     n_samples = np.asarray(X).shape[0]
@@ -102,7 +87,6 @@ def _core_indices_valid(indices: NDArray[np.int_], X: MatrixLike) -> bool:
         and np.all(values < n_samples)
         and np.unique(values).shape[0] == values.shape[0]
     )
-
 
 def _state_valid(state: DBSCANState) -> bool:
     return bool(
@@ -122,7 +106,6 @@ def _state_valid(state: DBSCANState) -> bool:
         and _positive_int(state.n_features_in)
     )
 
-
 def _fit_model(
     X: MatrixLike,
     *,
@@ -136,6 +119,8 @@ def _fit_model(
     sample_weight: VectorLike | None,
     n_jobs: int | None,
 ) -> SklearnDBSCAN:
+    from sklearn.cluster import DBSCAN as SklearnDBSCAN
+    from sklearn.utils.validation import check_array
     checked_x = np.asarray(check_array(X, dtype=np.float64), dtype=np.float64)
     weights = None if sample_weight is None else np.asarray(sample_weight, dtype=np.float64)
     model = SklearnDBSCAN(
@@ -149,7 +134,6 @@ def _fit_model(
         n_jobs=n_jobs,
     )
     return model.fit(checked_x, sample_weight=weights)
-
 
 @register_atom(witness_dbscan_fit)
 @icontract.require(lambda metric: _metric_valid(metric), "metric must be one of the supported DBSCAN metrics")
@@ -202,7 +186,6 @@ def dbscan_fit(
         n_features_in=int(model.n_features_in_),
     )
 
-
 @register_atom(witness_dbscan_core_labels)
 @icontract.require(lambda metric: _metric_valid(metric), "metric must be one of the supported DBSCAN metrics")
 @icontract.require(lambda X, metric: _dbscan_input_valid(X, metric), "X must be finite and compatible with the metric")
@@ -228,6 +211,8 @@ def dbscan_core_labels(
     sample_weight: VectorLike | None = None,
     n_jobs: int | None = None,
 ) -> tuple[NDArray[np.int_], NDArray[np.int_]]:
+    from sklearn.cluster import dbscan as sklearn_dbscan
+    from sklearn.utils.validation import check_array
     """Return sklearn DBSCAN public-helper core sample indices and labels."""
     checked_x = np.asarray(check_array(X, dtype=np.float64), dtype=np.float64)
     weights = None if sample_weight is None else np.asarray(sample_weight, dtype=np.float64)

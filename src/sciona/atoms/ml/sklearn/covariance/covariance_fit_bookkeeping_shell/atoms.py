@@ -6,7 +6,6 @@ import icontract
 import numpy as np
 from numpy.typing import NDArray
 from scipy import linalg
-from sklearn.utils import check_array
 
 from sciona.ghost.registry import register_atom
 
@@ -17,10 +16,8 @@ from .witnesses import (
     witness_covariance_set_precision_required,
 )
 
-
 Matrix = NDArray[np.float64]
 Vector = NDArray[np.float64]
-
 
 def _finite_matrix(values: object) -> bool:
     try:
@@ -29,14 +26,12 @@ def _finite_matrix(values: object) -> bool:
         return False
     return bool(array.ndim == 2 and array.shape[0] >= 1 and array.shape[1] >= 1 and np.all(np.isfinite(array)))
 
-
 def _finite_square_matrix(values: object) -> bool:
     try:
         array = np.asarray(values, dtype=np.float64)
     except (TypeError, ValueError):
         return False
     return bool(array.ndim == 2 and array.shape[0] >= 1 and array.shape[0] == array.shape[1] and np.all(np.isfinite(array)))
-
 
 def _finite_vector(values: object) -> bool:
     try:
@@ -45,10 +40,8 @@ def _finite_vector(values: object) -> bool:
         return False
     return bool(array.ndim == 1 and array.shape[0] >= 1 and np.all(np.isfinite(array)))
 
-
 def _bool_scalar(value: object) -> bool:
     return isinstance(value, bool)
-
 
 def _location_matches_X(result: object, X: object) -> bool:
     return bool(
@@ -56,7 +49,6 @@ def _location_matches_X(result: object, X: object) -> bool:
         and _finite_matrix(X)
         and np.asarray(result, dtype=np.float64).shape == (np.asarray(X, dtype=np.float64).shape[1],)
     )
-
 
 @register_atom(witness_covariance_fit_location)
 @icontract.require(lambda X: _finite_matrix(X), "X must be a finite nonempty 2D matrix")
@@ -73,7 +65,6 @@ def covariance_fit_location(
         return np.zeros(values.shape[1], dtype=np.float64)
     return np.asarray(values.mean(axis=0), dtype=np.float64)
 
-
 @register_atom(witness_covariance_set_covariance_matrix)
 @icontract.require(lambda covariance: _finite_square_matrix(covariance), "covariance must be a finite nonempty square matrix")
 @icontract.ensure(
@@ -83,9 +74,9 @@ def covariance_fit_location(
 def covariance_set_covariance_matrix(
     covariance: Matrix,
 ) -> Matrix:
+    from sklearn.utils import check_array
     """Model sklearn's validated covariance_ assignment inside `_set_covariance`."""
     return np.asarray(check_array(covariance), dtype=np.float64)
-
 
 @register_atom(witness_covariance_set_precision_required)
 @icontract.require(lambda store_precision: _bool_scalar(store_precision), "store_precision must be boolean")
@@ -95,7 +86,6 @@ def covariance_set_precision_required(
 ) -> bool:
     """Decide whether sklearn stores a fitted precision matrix."""
     return bool(store_precision)
-
 
 @register_atom(witness_covariance_set_precision_matrix)
 @icontract.require(lambda covariance: _finite_square_matrix(covariance), "covariance must be a finite nonempty square matrix")

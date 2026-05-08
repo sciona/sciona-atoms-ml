@@ -2,11 +2,8 @@
 
 from __future__ import annotations
 
-import bisect
-import html
 import math
 import re
-import unicodedata
 from collections.abc import Callable
 
 import icontract
@@ -38,7 +35,6 @@ _WHITESPACE_RE = re.compile(r"\s+")
 _ALLOWED_CLEAN_OPS = {"html", "url", "unicode", "lower", "spell"}
 _VALID_TAG_PREFIXES = {"O", "B", "I", "L", "U", "S", "E"}
 
-
 def _operations_valid(operations: list[str]) -> bool:
     return bool(
         isinstance(operations, list)
@@ -46,7 +42,6 @@ def _operations_valid(operations: list[str]) -> bool:
         and all(isinstance(operation, str) for operation in operations)
         and set(operations).issubset(_ALLOWED_CLEAN_OPS)
     )
-
 
 def _vocab_freq_valid(vocab_freq: dict[str, int] | None) -> bool:
     return bool(
@@ -59,14 +54,11 @@ def _vocab_freq_valid(vocab_freq: dict[str, int] | None) -> bool:
         )
     )
 
-
 def _printable_text(text: str) -> bool:
     return all(character.isprintable() or character.isspace() for character in text)
 
-
 def _known(words: set[str], vocab_freq: dict[str, int]) -> set[str]:
     return {word for word in words if word in vocab_freq}
-
 
 def _edits1(word: str) -> set[str]:
     letters = "abcdefghijklmnopqrstuvwxyz"
@@ -76,7 +68,6 @@ def _edits1(word: str) -> set[str]:
     replaces = {left + letter + right[1:] for left, right in splits if right for letter in letters}
     inserts = {left + letter + right for left, right in splits for letter in letters}
     return deletes | transposes | replaces | inserts
-
 
 def _spell_candidate(word: str, vocab_freq: dict[str, int]) -> str:
     lowered = word.lower()
@@ -88,10 +79,8 @@ def _spell_candidate(word: str, vocab_freq: dict[str, int]) -> str:
     )
     return max(candidates, key=lambda candidate: (vocab_freq.get(candidate, 0), -len(candidate), candidate))
 
-
 def _clean_text_result_valid(result: str) -> bool:
     return isinstance(result, str) and _printable_text(result)
-
 
 @register_atom(witness_clean_text)
 @icontract.require(lambda text: isinstance(text, str), "text must be a string")
@@ -100,6 +89,8 @@ def _clean_text_result_valid(result: str) -> bool:
 @icontract.require(lambda operations, vocab_freq: "spell" not in operations or vocab_freq is not None, "spell correction requires vocab_freq")
 @icontract.ensure(lambda result: _clean_text_result_valid(result), "cleaned text must remain printable")
 def clean_text(text: str, operations: list[str], vocab_freq: dict[str, int] | None = None) -> str:
+    import html
+    import unicodedata
     """Normalize one text string with explicit cleaning operations."""
     cleaned = text
     if "html" in operations:
@@ -116,7 +107,6 @@ def clean_text(text: str, operations: list[str], vocab_freq: dict[str, int] | No
         cleaned = _WORD_RE.sub(lambda match: _spell_candidate(match.group(0), vocab_freq), cleaned)
     cleaned = "".join(character for character in cleaned if character.isprintable() or character.isspace())
     return _WHITESPACE_RE.sub(" ", cleaned).strip()
-
 
 @register_atom(witness_levenshtein)
 @icontract.require(lambda s1: isinstance(s1, str), "s1 must be a string")
@@ -139,7 +129,6 @@ def levenshtein(s1: str, s2: str) -> int:
             current.append(min(insert_cost, delete_cost, replace_cost))
         previous = current
     return int(previous[-1])
-
 
 def _jaro_similarity(s1: str, s2: str) -> float:
     if s1 == s2:
@@ -167,7 +156,6 @@ def _jaro_similarity(s1: str, s2: str) -> float:
     transpositions = sum(char1 != char2 for char1, char2 in zip(s1_matched, s2_matched, strict=True)) / 2.0
     return (matches / len(s1) + matches / len(s2) + (matches - transpositions) / matches) / 3.0
 
-
 @register_atom(witness_jaro_winkler)
 @icontract.require(lambda s1: isinstance(s1, str), "s1 must be a string")
 @icontract.require(lambda s2: isinstance(s2, str), "s2 must be a string")
@@ -184,7 +172,6 @@ def jaro_winkler(s1: str, s2: str, prefix_weight: float = 0.1) -> float:
     score = jaro + prefix * float(prefix_weight) * (1.0 - jaro)
     return float(min(1.0, max(0.0, score)))
 
-
 def _tag_valid(tag: str) -> bool:
     if tag == "O":
         return True
@@ -192,7 +179,6 @@ def _tag_valid(tag: str) -> bool:
         return False
     prefix, label = tag.split("-", 1)
     return bool(prefix in _VALID_TAG_PREFIXES and label)
-
 
 def _tags_valid(tags: list[str], tokens: list[str]) -> bool:
     return bool(
@@ -203,7 +189,6 @@ def _tags_valid(tags: list[str], tokens: list[str]) -> bool:
         and all(isinstance(token, str) for token in tokens)
     )
 
-
 def _spans_ordered(spans: list[tuple[str, int, int]], token_count: int) -> bool:
     previous_start = -1
     for label, start, end in spans:
@@ -213,7 +198,6 @@ def _spans_ordered(spans: list[tuple[str, int, int]], token_count: int) -> bool:
             return False
         previous_start = start
     return True
-
 
 @register_atom(witness_bio_decode)
 @icontract.require(lambda tags, tokens: _tags_valid(tags, tokens), "tags and tokens must be aligned BIO/BILOU-style strings")
@@ -253,7 +237,6 @@ def bio_decode(tags: list[str], tokens: list[str]) -> list[tuple[str, int, int]]
         spans.append((active_label, active_start, len(tags) - 1))
     return spans
 
-
 def _offset_mapping_valid(offset_mapping: list[tuple[int, int]]) -> bool:
     if not isinstance(offset_mapping, list) or len(offset_mapping) == 0:
         return False
@@ -268,8 +251,8 @@ def _offset_mapping_valid(offset_mapping: list[tuple[int, int]]) -> bool:
         previous_end = end
     return True
 
-
 def _char_spans_valid(char_spans: list[tuple[int, int]], offset_mapping: list[tuple[int, int]]) -> bool:
+    import bisect
     if not isinstance(char_spans, list) or not _offset_mapping_valid(offset_mapping):
         return False
     starts = [start for start, _ in offset_mapping]
@@ -283,12 +266,12 @@ def _char_spans_valid(char_spans: list[tuple[int, int]], offset_mapping: list[tu
             return False
     return True
 
-
 @register_atom(witness_char_to_token_offsets)
 @icontract.require(lambda char_spans, offset_mapping: _char_spans_valid(char_spans, offset_mapping), "character spans must overlap monotone token offsets")
 @icontract.ensure(lambda result, char_spans: len(result) == len(char_spans), "one token span is returned for each character span")
 @icontract.ensure(lambda result, offset_mapping: all(0 <= start <= end < len(offset_mapping) for start, end in result), "token spans must be valid indices")
 def char_to_token_offsets(char_spans: list[tuple[int, int]], offset_mapping: list[tuple[int, int]]) -> list[tuple[int, int]]:
+    import bisect
     """Map half-open character spans to inclusive token-index spans."""
     starts = [start for start, _ in offset_mapping]
     ends = [end for _, end in offset_mapping]
@@ -298,7 +281,6 @@ def char_to_token_offsets(char_spans: list[tuple[int, int]], offset_mapping: lis
         token_end = bisect.bisect_left(starts, char_end) - 1
         mapped.append((token_start, token_end))
     return mapped
-
 
 def _beam_config_valid(start_token: int, end_token: int, beam_width: int, max_length: int, alpha: float) -> bool:
     return bool(
@@ -318,14 +300,11 @@ def _beam_config_valid(start_token: int, end_token: int, beam_width: int, max_le
         and float(alpha) >= 0.0
     )
 
-
 def _length_penalty(length: int, alpha: float) -> float:
     return ((5.0 + float(length)) / 6.0) ** float(alpha)
 
-
 def _normalized_score(sequence: tuple[int, ...], score: float, alpha: float) -> float:
     return float(score / _length_penalty(max(1, len(sequence)), alpha))
-
 
 def _beam_result_valid(result: list[tuple[list[int], float]], beam_width: int, max_length: int) -> bool:
     if len(result) > beam_width:
@@ -342,7 +321,6 @@ def _beam_result_valid(result: list[tuple[list[int], float]], beam_width: int, m
             return False
         previous = score
     return True
-
 
 @register_atom(witness_beam_search)
 @icontract.require(lambda start_token, end_token, beam_width, max_length, alpha: _beam_config_valid(start_token, end_token, beam_width, max_length, alpha), "beam-search configuration must be finite and positive where required")
@@ -384,10 +362,8 @@ def beam_search(
     )[:beam_width]
     return [(list(sequence), float(score)) for score, sequence in ranked]
 
-
 def _tokens_valid(tokens: list[str]) -> bool:
     return isinstance(tokens, list) and all(isinstance(token, str) and token for token in tokens)
-
 
 @register_atom(witness_feature_hash)
 @icontract.require(lambda tokens: _tokens_valid(tokens), "tokens must be non-empty strings")
@@ -402,7 +378,6 @@ def feature_hash(tokens: list[str], n_features: int) -> dict[int, float]:
         counts[column] = counts.get(column, 0.0) + 1.0
     return counts
 
-
 @register_atom(witness_word_ngrams)
 @icontract.require(lambda tokens: isinstance(tokens, list) and all(isinstance(token, str) for token in tokens), "tokens must be a list of strings")
 @icontract.require(lambda n: isinstance(n, int) and not isinstance(n, bool) and n > 0, "n must be positive")
@@ -411,7 +386,6 @@ def feature_hash(tokens: list[str], n_features: int) -> dict[int, float]:
 def word_ngrams(tokens: list[str], n: int) -> list[tuple[str, ...]]:
     """Generate contiguous token n-grams."""
     return [tuple(tokens[index : index + n]) for index in range(max(0, len(tokens) - n + 1))]
-
 
 @register_atom(witness_char_ngrams)
 @icontract.require(lambda text: isinstance(text, str), "text must be a string")
@@ -422,13 +396,11 @@ def char_ngrams(text: str, n: int) -> list[str]:
     """Generate contiguous character n-grams."""
     return [text[index : index + n] for index in range(max(0, len(text) - n + 1))]
 
-
 def _spans_valid(spans: list[tuple[str, int, int]]) -> bool:
     return bool(
         isinstance(spans, list)
         and all(isinstance(label, str) and label and isinstance(start, int) and isinstance(end, int) and start <= end for label, start, end in spans)
     )
-
 
 def _min_lengths_valid(min_lengths: dict[str, int]) -> bool:
     return bool(
@@ -436,7 +408,6 @@ def _min_lengths_valid(min_lengths: dict[str, int]) -> bool:
         and all(isinstance(label, str) and label for label in min_lengths)
         and all(isinstance(length, int) and not isinstance(length, bool) and length > 0 for length in min_lengths.values())
     )
-
 
 @register_atom(witness_filter_spans_by_length)
 @icontract.require(lambda spans: _spans_valid(spans), "spans must be labeled start/end tuples")
@@ -446,7 +417,6 @@ def _min_lengths_valid(min_lengths: dict[str, int]) -> bool:
 def filter_spans_by_length(spans: list[tuple[str, int, int]], min_lengths: dict[str, int]) -> list[tuple[str, int, int]]:
     """Keep spans whose end-start length meets the class threshold."""
     return [span for span in spans if span[2] - span[1] >= min_lengths.get(span[0], 0)]
-
 
 def _count_syllables(word: str) -> int:
     """Estimate syllable count for an English word."""
@@ -459,7 +429,6 @@ def _count_syllables(word: str) -> int:
     # Count vowel groups
     count = len(re.findall(r"[aeiouy]+", word))
     return max(count, 1)
-
 
 @register_atom(witness_readability_scores)
 @icontract.require(lambda text: isinstance(text, str) and len(text.strip()) > 0, "text must be a non-empty string")
@@ -503,7 +472,6 @@ def readability_scores(text: str) -> dict[str, float]:
     smog = 3.0 + math.sqrt(n_polysyllabic * 30.0 / n_sentences)
 
     return {"flesch_kincaid": fk, "smog": smog}
-
 
 @register_atom(witness_qa_span_selector)
 @icontract.require(lambda start_logits, end_logits: len(start_logits) == len(end_logits), "start_logits and end_logits must have equal length")

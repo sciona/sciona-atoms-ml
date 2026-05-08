@@ -5,7 +5,6 @@ from __future__ import annotations
 import icontract
 import numpy as np
 from numpy.typing import NDArray
-from sklearn.utils import check_random_state
 
 from sciona.ghost.registry import register_atom
 
@@ -18,10 +17,8 @@ from .witnesses import (
 RandomStateLike = int | np.random.RandomState | None
 MaxSamplesLike = int | float | None
 
-
 def _positive_int(value: int) -> bool:
     return bool(isinstance(value, int) and not isinstance(value, bool) and value >= 1)
-
 
 def _max_samples_valid(n_samples: int, max_samples: MaxSamplesLike) -> bool:
     if not _positive_int(n_samples):
@@ -36,7 +33,6 @@ def _max_samples_valid(n_samples: int, max_samples: MaxSamplesLike) -> bool:
         return bool(np.isfinite(max_samples) and 0.0 < max_samples <= 1.0)
     return False
 
-
 def _bootstrap_count_valid(result: int, n_samples: int, max_samples: MaxSamplesLike) -> bool:
     if not _positive_int(result) or result > n_samples:
         return False
@@ -48,10 +44,8 @@ def _bootstrap_count_valid(result: int, n_samples: int, max_samples: MaxSamplesL
         return result == max(round(n_samples * max_samples), 1)
     return False
 
-
 def _sample_draw_valid(n_samples: int, n_samples_bootstrap: int) -> bool:
     return bool(_positive_int(n_samples) and _positive_int(n_samples_bootstrap))
-
 
 def _sample_indices_valid(
     result: NDArray[np.int64],
@@ -66,7 +60,6 @@ def _sample_indices_valid(
         and np.all(values < n_samples)
     )
 
-
 def _unsampled_indices_valid(result: NDArray[np.int64], n_samples: int) -> bool:
     values = np.asarray(result)
     return bool(
@@ -77,7 +70,6 @@ def _unsampled_indices_valid(result: NDArray[np.int64], n_samples: int) -> bool:
         and np.all(values < n_samples)
         and np.array_equal(values, np.unique(values))
     )
-
 
 @register_atom(witness_forest_resolve_bootstrap_sample_count)
 @icontract.require(
@@ -99,7 +91,6 @@ def forest_resolve_bootstrap_sample_count(
         return int(max_samples)
     return int(max(round(n_samples * max_samples), 1))
 
-
 @register_atom(witness_forest_generate_sample_indices)
 @icontract.require(
     lambda n_samples, n_samples_bootstrap: _sample_draw_valid(n_samples, n_samples_bootstrap),
@@ -115,13 +106,13 @@ def forest_generate_sample_indices(
     *,
     random_state: RandomStateLike = None,
 ) -> NDArray[np.int64]:
+    from sklearn.utils import check_random_state
     """Draw bootstrap sample indices for one sklearn forest tree."""
     rng = check_random_state(random_state)
     return np.asarray(
         rng.randint(0, n_samples, n_samples_bootstrap, dtype=np.int32),
         dtype=np.int64,
     )
-
 
 @register_atom(witness_forest_generate_unsampled_indices)
 @icontract.require(

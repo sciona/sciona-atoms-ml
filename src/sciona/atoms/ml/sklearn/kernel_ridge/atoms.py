@@ -9,43 +9,34 @@ import numpy as np
 from numpy.typing import NDArray
 from scipy import linalg
 from sklearn.metrics.pairwise import PAIRWISE_KERNEL_FUNCTIONS, pairwise_kernels
-from sklearn.utils import check_array
 
 from sciona.ghost.registry import register_atom
 
 from .state_models import KernelRidgeState
 from .witnesses import witness_kernel_ridge_fit, witness_kernel_ridge_predict
 
-
 _SUPPORTED_KERNELS = frozenset(PAIRWISE_KERNEL_FUNCTIONS)
 _NONNEGATIVE_KERNELS = {"additive_chi2", "chi2"}
-
 
 def _matrix_2d(X: NDArray[np.float64]) -> bool:
     return bool(np.asarray(X).ndim == 2)
 
-
 def _target_1d_or_2d(y: NDArray[np.float64]) -> bool:
     return bool(np.asarray(y).ndim in {1, 2})
-
 
 def _same_sample_count(X: NDArray[np.float64], y: NDArray[np.float64]) -> bool:
     return bool(np.asarray(X).ndim == 2 and np.asarray(y).ndim in {1, 2} and np.asarray(X).shape[0] == np.asarray(y).shape[0])
 
-
 def _finite_real(value: float) -> bool:
     return bool(isinstance(value, (int, float)) and not isinstance(value, bool) and np.isfinite(float(value)))
-
 
 def _alpha_valid(alpha: float | tuple[float, ...] | NDArray[np.float64], y: NDArray[np.float64]) -> bool:
     values = np.atleast_1d(np.asarray(alpha, dtype=np.float64))
     n_outputs = 1 if np.asarray(y).ndim == 1 else np.asarray(y).shape[1]
     return bool(values.ndim == 1 and values.shape[0] in {1, n_outputs} and np.all(np.isfinite(values)) and np.all(values >= 0.0))
 
-
 def _kernel_valid(kernel: str) -> bool:
     return bool(isinstance(kernel, str) and kernel in _SUPPORTED_KERNELS)
-
 
 def _kernel_params_valid(kernel_params: dict[str, float] | None) -> bool:
     if kernel_params is None:
@@ -55,11 +46,9 @@ def _kernel_params_valid(kernel_params: dict[str, float] | None) -> bool:
         and all(isinstance(key, str) and _finite_real(value) for key, value in kernel_params.items())
     )
 
-
 def _values_valid_for_kernel(X: NDArray[np.float64], kernel: str) -> bool:
     values = np.asarray(X)
     return bool(values.ndim == 2 and (kernel not in _NONNEGATIVE_KERNELS or np.all(values >= 0.0)))
-
 
 def _sample_weight_valid(sample_weight: float | tuple[float, ...] | NDArray[np.float64] | None, X: NDArray[np.float64]) -> bool:
     if sample_weight is None:
@@ -71,7 +60,6 @@ def _sample_weight_valid(sample_weight: float | tuple[float, ...] | NDArray[np.f
         and np.all(np.isfinite(values))
         and np.all(values >= 0.0)
     )
-
 
 def _state_valid(state: KernelRidgeState) -> bool:
     outputs = 1 if state.dual_coef.ndim == 1 else state.dual_coef.shape[1]
@@ -92,20 +80,16 @@ def _state_valid(state: KernelRidgeState) -> bool:
         and np.all(state.alpha >= 0.0)
     )
 
-
 def _feature_count_matches(X: NDArray[np.float64], state: KernelRidgeState) -> bool:
     return bool(np.asarray(X).ndim == 2 and np.asarray(X).shape[1] == state.n_features_in)
-
 
 def _prediction_valid(result: NDArray[np.float64], X: NDArray[np.float64], state: KernelRidgeState) -> bool:
     values = np.asarray(result)
     expected_shape = (np.asarray(X).shape[0],) if state.dual_coef.ndim == 1 else (np.asarray(X).shape[0], state.dual_coef.shape[1])
     return bool(values.shape == expected_shape and np.all(np.isfinite(values)))
 
-
 def _kernel_params(gamma: float | None, degree: float, coef0: float) -> dict[str, float | None]:
     return {"gamma": gamma, "degree": float(degree), "coef0": float(coef0)}
-
 
 def _solve_kernel_ridge(K: NDArray[np.float64], y: NDArray[np.float64], alpha: NDArray[np.float64], sample_weight: NDArray[np.float64] | None) -> NDArray[np.float64]:
     n_samples = K.shape[0]
@@ -138,7 +122,6 @@ def _solve_kernel_ridge(K: NDArray[np.float64], y: NDArray[np.float64], alpha: N
         dual_coefs *= weights[np.newaxis, :]
     return np.asarray(dual_coefs.T, dtype=np.float64)
 
-
 @register_atom(witness_kernel_ridge_fit)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
 @icontract.require(lambda y: _target_1d_or_2d(y), "y must be 1D or 2D")
@@ -164,6 +147,7 @@ def kernel_ridge_fit(
     kernel_params: dict[str, float] | None = None,
     sample_weight: float | tuple[float, ...] | NDArray[np.float64] | None = None,
 ) -> KernelRidgeState:
+    from sklearn.utils import check_array
     """Fit dense kernel ridge dual coefficients for built-in pairwise kernels."""
     del kernel_params
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
@@ -190,7 +174,6 @@ def kernel_ridge_fit(
         n_features_in=int(checked_x.shape[1]),
     )
 
-
 @register_atom(witness_kernel_ridge_predict)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
 @icontract.require(lambda X, state: _feature_count_matches(X, state), "X feature count must match fitted kernel ridge state")
@@ -198,6 +181,7 @@ def kernel_ridge_fit(
 @icontract.require(lambda state: _state_valid(state), "state must be a fitted kernel ridge state")
 @icontract.ensure(lambda result, X, state: _prediction_valid(result, X, state), "predictions must match fitted output width")
 def kernel_ridge_predict(X: NDArray[np.float64], state: KernelRidgeState) -> NDArray[np.float64]:
+    from sklearn.utils import check_array
     """Predict dense outputs from fitted kernel ridge dual coefficients."""
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     kernel_matrix = pairwise_kernels(

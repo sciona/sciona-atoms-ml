@@ -5,7 +5,6 @@ from __future__ import annotations
 import icontract
 import numpy as np
 from numpy.typing import NDArray
-from sklearn.covariance._graph_lasso import alpha_max
 
 from sciona.ghost.registry import register_atom
 
@@ -17,7 +16,6 @@ from .witnesses import (
     witness_graphical_lasso_cv_refinement_bounds,
     witness_graphical_lasso_cv_results,
 )
-
 
 def _finite_square_matrix(values: object) -> bool:
     try:
@@ -31,14 +29,11 @@ def _finite_square_matrix(values: object) -> bool:
         and np.all(np.isfinite(array))
     )
 
-
 def _positive_int(value: object) -> bool:
     return isinstance(value, int) and not isinstance(value, bool) and value >= 1
 
-
 def _alpha_count_valid(value: object) -> bool:
     return _positive_int(value) and int(value) >= 2
-
 
 def _finite_vector(values: object) -> bool:
     try:
@@ -47,10 +42,8 @@ def _finite_vector(values: object) -> bool:
         return False
     return bool(array.ndim == 1 and array.shape[0] >= 1 and np.all(np.isfinite(array)))
 
-
 def _strictly_positive_vector(values: object) -> bool:
     return bool(_finite_vector(values) and np.all(np.asarray(values, dtype=np.float64) > 0.0))
-
 
 def _descending_unique_vector(values: object) -> bool:
     if not _strictly_positive_vector(values):
@@ -58,13 +51,11 @@ def _descending_unique_vector(values: object) -> bool:
     array = np.asarray(values, dtype=np.float64)
     return bool(np.all(array[:-1] > array[1:]))
 
-
 def _descending_nonnegative_unique_vector(values: object) -> bool:
     if not _finite_vector(values):
         return False
     array = np.asarray(values, dtype=np.float64)
     return bool(np.all(array >= 0.0) and np.all(array[:-1] > array[1:]))
-
 
 def _score_matrix_valid(values: object) -> bool:
     try:
@@ -72,7 +63,6 @@ def _score_matrix_valid(values: object) -> bool:
     except (TypeError, ValueError):
         return False
     return bool(array.ndim == 2 and array.shape[0] >= 1 and array.shape[1] >= 1 and np.all(np.isfinite(array)))
-
 
 def _score_rows_match_alphas(alphas: object, grid_scores: object) -> bool:
     return bool(
@@ -82,7 +72,6 @@ def _score_rows_match_alphas(alphas: object, grid_scores: object) -> bool:
         == np.asarray(grid_scores, dtype=np.float64).shape[0]
     )
 
-
 def _finite_or_nan_vector(values: object) -> bool:
     try:
         array = np.asarray(values, dtype=np.float64)
@@ -90,23 +79,19 @@ def _finite_or_nan_vector(values: object) -> bool:
         return False
     return bool(array.ndim == 1 and array.shape[0] >= 1 and np.all(np.isnan(array) | np.isfinite(array)))
 
-
 def _mean_scores_match(result: object, grid_scores: object) -> bool:
     values = np.asarray(result, dtype=np.float64)
     scores = np.asarray(grid_scores, dtype=np.float64)
     return bool(values.shape == (scores.shape[0],) and _finite_or_nan_vector(result))
 
-
 def _index_valid(result: object, mean_scores: object) -> bool:
     return isinstance(result, int) and 0 <= result < np.asarray(mean_scores, dtype=np.float64).shape[0]
-
 
 def _bounds_valid(result: object, alphas: object) -> bool:
     if not (isinstance(result, tuple) and len(result) == 2):
         return False
     upper, lower = result
     return bool(np.isfinite(float(upper)) and np.isfinite(float(lower)) and float(upper) > float(lower) > 0.0 and float(upper) <= np.asarray(alphas, dtype=np.float64)[0])
-
 
 def _results_valid(result: object, alphas: object, grid_scores: object) -> bool:
     if not isinstance(result, dict):
@@ -128,7 +113,6 @@ def _results_valid(result: object, alphas: object, grid_scores: object) -> bool:
         for i in range(score_values.shape[1])
     )
 
-
 @register_atom(witness_graphical_lasso_cv_alpha_grid)
 @icontract.require(lambda emp_cov: _finite_square_matrix(emp_cov), "emp_cov must be a finite square covariance matrix with at least two features")
 @icontract.require(lambda n_alphas: _alpha_count_valid(n_alphas), "n_alphas must be an integer >= 2")
@@ -140,12 +124,12 @@ def graphical_lasso_cv_alpha_grid(
     n_alphas: int,
     alpha_min_ratio: float = 1e-2,
 ) -> NDArray[np.float64]:
+    from sklearn.covariance._graph_lasso import alpha_max
     """Build GraphicalLassoCV's initial descending logarithmic alpha grid."""
     emp_cov_values = np.asarray(emp_cov, dtype=np.float64)
     alpha_upper = float(alpha_max(emp_cov_values))
     alpha_lower = float(alpha_min_ratio) * alpha_upper
     return np.asarray(np.logspace(np.log10(alpha_lower), np.log10(alpha_upper), int(n_alphas))[::-1], dtype=np.float64)
-
 
 @register_atom(witness_graphical_lasso_cv_mean_test_scores)
 @icontract.require(lambda grid_scores: _score_matrix_valid(grid_scores), "grid_scores must be a finite alpha-by-fold score matrix")
@@ -163,7 +147,6 @@ def graphical_lasso_cv_mean_test_scores(
     means[means >= float(score_overflow_threshold)] = np.nan
     return means
 
-
 @register_atom(witness_graphical_lasso_cv_best_index)
 @icontract.require(lambda mean_test_scores: _finite_or_nan_vector(mean_test_scores), "mean_test_scores must be a 1D finite-or-NaN score vector")
 @icontract.require(lambda mean_test_scores: np.any(np.isfinite(np.asarray(mean_test_scores, dtype=np.float64))), "mean_test_scores must contain at least one finite value")
@@ -180,7 +163,6 @@ def graphical_lasso_cv_best_index(
             best_score = float(score)
             best_index = index
     return int(best_index)
-
 
 @register_atom(witness_graphical_lasso_cv_refinement_bounds)
 @icontract.require(lambda alphas, mean_test_scores: _descending_unique_vector(alphas), "alphas must be a strictly decreasing positive vector")
@@ -213,7 +195,6 @@ def graphical_lasso_cv_refinement_bounds(
 
     return float(alpha_upper), float(alpha_lower)
 
-
 @register_atom(witness_graphical_lasso_cv_refined_alpha_grid)
 @icontract.require(lambda alpha_upper: isinstance(alpha_upper, (int, float)) and not isinstance(alpha_upper, bool) and np.isfinite(float(alpha_upper)) and float(alpha_upper) > 0.0, "alpha_upper must be a positive finite scalar")
 @icontract.require(lambda alpha_lower: isinstance(alpha_lower, (int, float)) and not isinstance(alpha_lower, bool) and np.isfinite(float(alpha_lower)) and float(alpha_lower) > 0.0, "alpha_lower must be a positive finite scalar")
@@ -229,7 +210,6 @@ def graphical_lasso_cv_refined_alpha_grid(
     """Build GraphicalLassoCV's interior refinement grid between two alpha bounds."""
     values = np.logspace(np.log10(float(alpha_upper)), np.log10(float(alpha_lower)), int(n_alphas) + 2)
     return np.asarray(values[1:-1], dtype=np.float64)
-
 
 @register_atom(witness_graphical_lasso_cv_results)
 @icontract.require(lambda alphas, grid_scores: _score_rows_match_alphas(alphas, grid_scores), "alphas and grid_scores must align by alpha rows")

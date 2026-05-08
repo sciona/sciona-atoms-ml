@@ -5,7 +5,6 @@ from __future__ import annotations
 import icontract
 import numpy as np
 from numpy.typing import NDArray
-from sklearn.utils.extmath import row_norms
 
 from sciona.ghost.registry import register_atom
 
@@ -16,10 +15,8 @@ from .witnesses import (
     witness_sparse_encode_writable_init,
 )
 
-
 def _positive_int(value: object) -> bool:
     return bool(isinstance(value, int) and not isinstance(value, bool) and value >= 1)
-
 
 def _finite_nonnegative_scalar(value: object) -> bool:
     try:
@@ -27,7 +24,6 @@ def _finite_nonnegative_scalar(value: object) -> bool:
     except (TypeError, ValueError):
         return False
     return bool(np.isfinite(scalar) and scalar >= 0.0)
-
 
 def _matrix_valid(value: object) -> bool:
     try:
@@ -40,7 +36,6 @@ def _matrix_valid(value: object) -> bool:
         and np.all(np.isfinite(array))
     )
 
-
 def _writable_matrix_valid(value: object, template: object) -> bool:
     if not _matrix_valid(value) or not _matrix_valid(template):
         return False
@@ -52,7 +47,6 @@ def _writable_matrix_valid(value: object, template: object) -> bool:
         and result.flags["WRITEABLE"]
     )
 
-
 def _norm_vector_valid(result: object, X: object) -> bool:
     if not _matrix_valid(X):
         return False
@@ -63,7 +57,6 @@ def _norm_vector_valid(result: object, X: object) -> bool:
         and np.all(np.isfinite(values))
         and np.all(values >= 0.0)
     )
-
 
 def _reshaped_output_valid(result: object, new_code: object, n_samples: int, n_components: int) -> bool:
     try:
@@ -78,7 +71,6 @@ def _reshaped_output_valid(result: object, new_code: object, n_samples: int, n_c
         and np.array_equal(values, flat_input.reshape(int(n_samples), int(n_components)))
     )
 
-
 @register_atom(witness_sparse_encode_lasso_alpha)
 @icontract.require(lambda regularization: _finite_nonnegative_scalar(regularization), "regularization must be a finite nonnegative scalar")
 @icontract.require(lambda n_features: _positive_int(n_features), "n_features must be a positive integer")
@@ -89,7 +81,6 @@ def sparse_encode_lasso_alpha(
 ) -> float:
     """Scale sklearn's lasso regularization by the feature count."""
     return float(regularization) / int(n_features)
-
 
 @register_atom(witness_sparse_encode_writable_init)
 @icontract.require(lambda init: _matrix_valid(init), "init must be a finite numeric rank-2 array")
@@ -102,16 +93,15 @@ def sparse_encode_writable_init(
         return np.array(init)
     return init
 
-
 @register_atom(witness_sparse_encode_omp_norms_squared)
 @icontract.require(lambda X: _matrix_valid(X), "X must be a finite numeric rank-2 array")
 @icontract.ensure(lambda result, X: _norm_vector_valid(result, X), "result must be one squared norm per sample")
 def sparse_encode_omp_norms_squared(
     X: NDArray[np.floating],
 ) -> NDArray[np.float64]:
+    from sklearn.utils.extmath import row_norms
     """Compute sklearn's squared sample norms for the OMP branch."""
     return np.asarray(row_norms(X, squared=True), dtype=np.float64)
-
 
 @register_atom(witness_sparse_encode_precomputed_output)
 @icontract.require(lambda n_samples: _positive_int(n_samples), "n_samples must be a positive integer")

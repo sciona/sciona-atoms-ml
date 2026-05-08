@@ -6,11 +6,6 @@ import icontract
 import numpy as np
 from numpy.typing import NDArray
 from scipy.special import expit, softmax
-from sklearn.calibration import CalibratedClassifierCV, _sigmoid_calibration
-from sklearn.calibration import _TemperatureScaling as SklearnTemperatureScaling
-from sklearn.utils import check_array
-from sklearn.utils import check_consistent_length, column_or_1d
-from sklearn.utils.validation import _check_pos_label_consistency
 
 from sciona.ghost.registry import register_atom
 
@@ -29,23 +24,18 @@ from .witnesses import (
 CurveResult = tuple[NDArray[np.float64], NDArray[np.float64]]
 ArrayLike = NDArray[np.float64] | list[float] | list[list[float]]
 
-
 def _is_1d(x: NDArray[np.float64]) -> bool:
     return bool(np.asarray(x).ndim == 1)
-
 
 def _same_length(y_true: NDArray[np.float64], y_prob: NDArray[np.float64]) -> bool:
     return int(np.asarray(y_true).shape[0]) == int(np.asarray(y_prob).shape[0])
 
-
 def _valid_strategy(strategy: str) -> bool:
     return strategy in {"uniform", "quantile"}
-
 
 def _probabilities_in_unit_interval(y_prob: NDArray[np.float64]) -> bool:
     values = np.asarray(y_prob)
     return bool(values.size > 0 and values.min() >= 0.0 and values.max() <= 1.0)
-
 
 def _curve_result_valid(result: CurveResult, n_bins: int) -> bool:
     prob_true, prob_pred = result
@@ -58,34 +48,26 @@ def _curve_result_valid(result: CurveResult, n_bins: int) -> bool:
         and np.all((prob_pred >= 0.0) & (prob_pred <= 1.0))
     )
 
-
 def _sigmoid_state_valid(state: SigmoidCalibrationState) -> bool:
     return bool(np.isfinite(state.a) and np.isfinite(state.b))
-
 
 def _temperature_state_valid(state: TemperatureScalingState) -> bool:
     return bool(np.isfinite(state.beta) and state.beta > 0.0)
 
-
 def _is_1d_or_2d(x: ArrayLike) -> bool:
     return bool(np.asarray(x).ndim in {1, 2})
-
 
 def _same_first_dim(X: ArrayLike, y: NDArray[np.float64]) -> bool:
     return int(np.asarray(X).shape[0]) == int(np.asarray(y).shape[0])
 
-
 def _calibration_method_valid(method: str) -> bool:
     return method in {"sigmoid", "isotonic", "temperature"}
-
 
 def _ensemble_valid(ensemble: bool | str) -> bool:
     return isinstance(ensemble, bool) or ensemble == "auto"
 
-
 def _cv_valid(cv: int | None) -> bool:
     return cv is None or cv >= 2
-
 
 def _calibrated_state_valid(state: CalibratedClassifierCVState) -> bool:
     return bool(
@@ -96,21 +78,18 @@ def _calibrated_state_valid(state: CalibratedClassifierCVState) -> bool:
         and _ensemble_valid(state.ensemble)
     )
 
-
 def _probability_rows_valid(result: NDArray[np.float64]) -> bool:
     row_sums = np.sum(result, axis=1)
     return bool(np.all(np.isfinite(result)) and np.all(result >= 0.0) and np.allclose(row_sums, np.ones_like(row_sums)))
 
-
 def _calibrated_proba_valid(result: NDArray[np.float64], X: ArrayLike, state: CalibratedClassifierCVState) -> bool:
     return bool(result.shape == (np.asarray(X).shape[0], state.classes.shape[0]) and _probability_rows_valid(result))
-
 
 def _calibrated_predict_valid(result: NDArray[np.object_], X: ArrayLike, state: CalibratedClassifierCVState) -> bool:
     return bool(result.shape == (np.asarray(X).shape[0],) and np.isin(result, state.classes).all())
 
-
 def _convert_to_logits_np(X: ArrayLike, eps: float = 1e-12) -> NDArray[np.float64]:
+    from sklearn.utils import check_array
     values = np.asarray(check_array(X, dtype=[np.float64, np.float32], ensure_2d=False), dtype=np.float64)
     if values.ndim == 2 and values.shape[1] > 1:
         if np.all((values >= 0.0) & (values <= 1.0)) and np.allclose(np.sum(values, axis=1), 1.0):
@@ -121,7 +100,6 @@ def _convert_to_logits_np(X: ArrayLike, eps: float = 1e-12) -> NDArray[np.float6
     if values.ndim == 1:
         return np.column_stack([-values, values])
     raise ValueError("X must be 1D or 2D")
-
 
 @register_atom(witness_calibration_curve)
 @icontract.require(lambda y_true: _is_1d(y_true), "y_true must be a 1D vector")
@@ -139,6 +117,8 @@ def calibration_curve(
     n_bins: int = 5,
     strategy: str = "uniform",
 ) -> CurveResult:
+    from sklearn.utils import check_consistent_length, column_or_1d
+    from sklearn.utils.validation import _check_pos_label_consistency
     """Compute positive rate and mean predicted probability by calibration bin."""
     checked_y_true = column_or_1d(y_true)
     checked_y_prob = column_or_1d(y_prob)
@@ -171,7 +151,6 @@ def calibration_curve(
     prob_pred = bin_sums[nonzero] / bin_total[nonzero]
     return np.asarray(prob_true, dtype=np.float64), np.asarray(prob_pred, dtype=np.float64)
 
-
 @register_atom(witness_sigmoid_calibration_fit)
 @icontract.require(lambda predictions: _is_1d(predictions), "predictions must be a 1D vector")
 @icontract.require(lambda y: _is_1d(y), "y must be a 1D vector")
@@ -183,10 +162,10 @@ def sigmoid_calibration_fit(
     *,
     sample_weight: NDArray[np.float64] | None = None,
 ) -> SigmoidCalibrationState:
+    from sklearn.calibration import CalibratedClassifierCV, _sigmoid_calibration
     """Fit Platt sigmoid calibration slope and intercept."""
     a, b = _sigmoid_calibration(predictions, y, sample_weight=sample_weight)
     return SigmoidCalibrationState(a=float(a), b=float(b))
-
 
 @register_atom(witness_sigmoid_calibration_predict)
 @icontract.require(lambda predictions: _is_1d(predictions), "predictions must be a 1D vector")
@@ -197,10 +176,10 @@ def sigmoid_calibration_predict(
     predictions: NDArray[np.float64],
     state: SigmoidCalibrationState,
 ) -> NDArray[np.float64]:
+    from sklearn.utils import check_consistent_length, column_or_1d
     """Apply fitted Platt sigmoid calibration to raw predictions."""
     checked = column_or_1d(predictions)
     return np.asarray(expit(-(state.a * checked + state.b)), dtype=np.float64)
-
 
 @register_atom(witness_temperature_scaling_fit)
 @icontract.require(lambda X: _is_1d_or_2d(X), "X must be a 1D or 2D score array")
@@ -213,10 +192,10 @@ def temperature_scaling_fit(
     *,
     sample_weight: NDArray[np.float64] | None = None,
 ) -> TemperatureScalingState:
+    from sklearn.calibration import _TemperatureScaling as SklearnTemperatureScaling
     """Fit the inverse temperature for softmax probability calibration."""
     calibrator = SklearnTemperatureScaling().fit(X, y, sample_weight=sample_weight)
     return TemperatureScalingState(beta=float(calibrator.beta_))
-
 
 @register_atom(witness_temperature_scaling_predict)
 @icontract.require(lambda X: _is_1d_or_2d(X), "X must be a 1D or 2D score array")
@@ -229,7 +208,6 @@ def temperature_scaling_predict(
     """Apply fitted inverse temperature scaling to logits or probabilities."""
     logits = _convert_to_logits_np(X)
     return np.asarray(softmax(state.beta * logits, axis=1), dtype=np.float64)
-
 
 @register_atom(witness_calibrated_classifier_cv_fit)
 @icontract.require(lambda estimator: estimator is None or hasattr(estimator, "fit"), "estimator must implement fit or be None")
@@ -250,6 +228,7 @@ def calibrated_classifier_cv_fit(
     n_jobs: int | None = None,
     ensemble: bool | str = "auto",
 ) -> CalibratedClassifierCVState:
+    from sklearn.calibration import CalibratedClassifierCV, _sigmoid_calibration
     """Fit a calibrated classifier CV meta-estimator and return immutable state."""
     fitted = CalibratedClassifierCV(estimator=estimator, method=method, cv=cv, n_jobs=n_jobs, ensemble=ensemble).fit(X, y)
     n_features = getattr(fitted, "n_features_in_", None)
@@ -261,7 +240,6 @@ def calibrated_classifier_cv_fit(
         n_features_in=None if n_features is None else int(n_features),
     )
 
-
 @register_atom(witness_calibrated_classifier_cv_predict_proba)
 @icontract.require(lambda X: bool(np.asarray(X).ndim == 2), "X must be a 2D feature matrix")
 @icontract.require(lambda state: _calibrated_state_valid(state), "calibrated classifier state must be fitted")
@@ -272,7 +250,6 @@ def calibrated_classifier_cv_predict_proba(
 ) -> NDArray[np.float64]:
     """Predict calibrated class probabilities from fitted CV state."""
     return np.asarray(state.estimator.predict_proba(X), dtype=np.float64)
-
 
 @register_atom(witness_calibrated_classifier_cv_predict)
 @icontract.require(lambda X: bool(np.asarray(X).ndim == 2), "X must be a 2D feature matrix")

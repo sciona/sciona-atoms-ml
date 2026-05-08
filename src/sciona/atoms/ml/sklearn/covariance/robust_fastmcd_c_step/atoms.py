@@ -8,8 +8,6 @@ import icontract
 import numpy as np
 from numpy.typing import NDArray
 from scipy import linalg
-from sklearn.utils import check_random_state
-from sklearn.utils.extmath import fast_logdet
 
 from sciona.atoms.ml.sklearn.covariance import empirical_covariance
 from sciona.ghost.registry import register_atom
@@ -25,14 +23,12 @@ RandomStateLike = int | np.random.RandomState | None
 SupportStats = tuple[NDArray[np.float64], NDArray[np.float64], float]
 CStepResult = tuple[NDArray[np.float64], NDArray[np.float64], float, NDArray[np.bool_], NDArray[np.float64]]
 
-
 def _finite_matrix(values: object) -> bool:
     try:
         array = np.asarray(values, dtype=np.float64)
     except (TypeError, ValueError):
         return False
     return bool(array.ndim == 2 and array.shape[0] >= 2 and array.shape[1] >= 1 and np.all(np.isfinite(array)))
-
 
 def _finite_vector(values: object) -> bool:
     try:
@@ -41,18 +37,14 @@ def _finite_vector(values: object) -> bool:
         return False
     return bool(array.ndim == 1 and array.shape[0] >= 1 and np.all(np.isfinite(array)))
 
-
 def _finite_square_matrix(values: object) -> bool:
     return bool(_finite_matrix(values) and np.asarray(values, dtype=np.float64).shape[0] == np.asarray(values, dtype=np.float64).shape[1])
-
 
 def _positive_int(value: int) -> bool:
     return bool(isinstance(value, int) and not isinstance(value, bool) and value >= 1)
 
-
 def _support_size_valid(n_support: int, n_samples: int) -> bool:
     return bool(_positive_int(n_support) and n_support <= n_samples)
-
 
 def _support_indices_valid(support_indices: object, n_samples: int, n_support: int | None = None) -> bool:
     array = np.asarray(support_indices)
@@ -66,7 +58,6 @@ def _support_indices_valid(support_indices: object, n_samples: int, n_support: i
         and np.unique(array).shape[0] == array.shape[0]
     )
 
-
 def _estimates_valid(X: NDArray[np.float64], location: NDArray[np.float64], covariance: NDArray[np.float64], n_support: int) -> bool:
     X_values = np.asarray(X, dtype=np.float64)
     n_samples, n_features = X_values.shape
@@ -79,10 +70,8 @@ def _estimates_valid(X: NDArray[np.float64], location: NDArray[np.float64], cova
         and _support_size_valid(n_support, n_samples)
     )
 
-
 def _det_valid(det: float) -> bool:
     return bool(isinstance(det, (int, float, np.floating)) and (np.isfinite(float(det)) or np.isinf(float(det))))
-
 
 def _support_stats_valid(result: SupportStats, X: NDArray[np.float64], support_indices: NDArray[np.int64]) -> bool:
     if not (isinstance(result, tuple) and len(result) == 3):
@@ -99,7 +88,6 @@ def _support_stats_valid(result: SupportStats, X: NDArray[np.float64], support_i
         and _det_valid(det)
         and support_values.shape[0] >= 1
     )
-
 
 def _c_step_result_valid(result: CStepResult, X: NDArray[np.float64]) -> bool:
     if not (isinstance(result, tuple) and len(result) == 5):
@@ -119,7 +107,6 @@ def _c_step_result_valid(result: CStepResult, X: NDArray[np.float64]) -> bool:
         and np.all(np.asarray(dist, dtype=np.float64) >= 0.0)
     )
 
-
 @register_atom(witness_fast_mcd_initial_random_support_indices)
 @icontract.require(lambda n_samples: _positive_int(n_samples) and n_samples >= 2, "n_samples must be at least 2")
 @icontract.require(lambda n_support, n_samples: _support_size_valid(n_support, n_samples), "n_support must lie in [1, n_samples]")
@@ -130,10 +117,10 @@ def fast_mcd_initial_random_support_indices(
     *,
     random_state: RandomStateLike = None,
 ) -> NDArray[np.int64]:
+    from sklearn.utils import check_random_state
     """Draw sklearn's initial random FastMCD support indices."""
     rng = check_random_state(random_state)
     return np.asarray(rng.permutation(int(n_samples))[: int(n_support)], dtype=np.int64)
-
 
 @register_atom(witness_fast_mcd_support_indices_from_estimates)
 @icontract.require(lambda X, location, covariance, n_support: _estimates_valid(X, location, covariance, n_support), "X, location, covariance, and n_support must be compatible")
@@ -154,7 +141,6 @@ def fast_mcd_support_indices_from_estimates(
     dist = np.asarray(np.sum(np.dot(centered, precision) * centered, axis=1), dtype=np.float64)
     return np.asarray(np.argpartition(dist, int(n_support) - 1)[: int(n_support)], dtype=np.int64)
 
-
 @register_atom(witness_fast_mcd_support_statistics)
 @icontract.require(lambda X: _finite_matrix(X), "X must be a finite 2D sample matrix")
 @icontract.require(lambda X, support_indices: _support_indices_valid(support_indices, np.asarray(X, dtype=np.float64).shape[0]), "support_indices must be unique integers inside the sample range")
@@ -163,6 +149,7 @@ def fast_mcd_support_statistics(
     X: NDArray[np.float64],
     support_indices: NDArray[np.int64],
 ) -> SupportStats:
+    from sklearn.utils.extmath import fast_logdet
     """Compute FastMCD location, covariance, and log-determinant from a support set."""
     X_values = np.asarray(X, dtype=np.float64)
     indices = np.asarray(support_indices, dtype=np.int64)
@@ -171,7 +158,6 @@ def fast_mcd_support_statistics(
     covariance = np.asarray(empirical_covariance(X_support), dtype=np.float64)
     det = float(fast_logdet(covariance))
     return location, covariance, det
-
 
 @register_atom(witness_fast_mcd_c_step)
 @icontract.require(lambda X: _finite_matrix(X), "X must be a finite 2D sample matrix")

@@ -16,7 +16,6 @@ import numpy.typing as npt
 import scipy.sparse as sp
 from numpy.lib.stride_tricks import as_strided
 from numpy.typing import NDArray
-from sklearn.utils import check_array, check_random_state
 
 from sciona.ghost.registry import register_atom
 
@@ -34,7 +33,6 @@ RandomStateArg = int | np.random.RandomState | None
 SparseReturn = type[sp.spmatrix] | type[np.ndarray]
 GraphResult = sp.spmatrix | NDArray[np.float64]
 
-
 def _valid_max_patches(max_patches: int | float | None) -> bool:
     if max_patches is None:
         return True
@@ -43,7 +41,6 @@ def _valid_max_patches(max_patches: int | float | None) -> bool:
     if isinstance(max_patches, Real):
         return 0.0 < float(max_patches) < 1.0
     return False
-
 
 def _valid_patch_size_for_images(X: NDArray[np.float64], patch_size: PatchSize | None) -> bool:
     values = np.asarray(X)
@@ -57,7 +54,6 @@ def _valid_patch_size_for_images(X: NDArray[np.float64], patch_size: PatchSize |
             return False
         patch_height, patch_width = patch_size
     return bool(0 < patch_height <= image_height and 0 < patch_width <= image_width)
-
 
 def _compute_n_patches(
     image_height: int,
@@ -80,7 +76,6 @@ def _compute_n_patches(
         raise ValueError(f"Invalid value for max_patches: {max_patches!r}")
     return int(all_patches)
 
-
 def _extract_patches(
     array: NDArray[np.float64],
     patch_shape: tuple[int, ...],
@@ -98,14 +93,12 @@ def _extract_patches(
     strides = tuple(list(indexing_strides) + list(patch_strides))
     return as_strided(array, shape=shape, strides=strides)
 
-
 def _make_edges_3d(n_x: int, n_y: int, n_z: int = 1) -> NDArray[np.int64]:
     vertices = np.arange(n_x * n_y * n_z).reshape((n_x, n_y, n_z))
     edges_deep = np.vstack((vertices[:, :, :-1].ravel(), vertices[:, :, 1:].ravel()))
     edges_right = np.vstack((vertices[:, :-1].ravel(), vertices[:, 1:].ravel()))
     edges_down = np.vstack((vertices[:-1].ravel(), vertices[1:].ravel()))
     return np.hstack((edges_deep, edges_right, edges_down)).astype(np.int64)
-
 
 def _compute_gradient_3d(
     edges: NDArray[np.int64],
@@ -126,7 +119,6 @@ def _compute_gradient_3d(
     )
     return np.asarray(gradient)
 
-
 def _mask_edges(
     mask: NDArray[np.bool_],
     edges: NDArray[np.int64],
@@ -141,7 +133,6 @@ def _mask_edges(
     max_value = int(masked_edges.max()) if len(masked_edges.ravel()) else 0
     order = np.searchsorted(np.flatnonzero(mask), np.arange(max_value + 1))
     return np.asarray(order[masked_edges], dtype=np.int64)
-
 
 def _mask_edges_and_weights(
     mask: NDArray[np.bool_],
@@ -160,7 +151,6 @@ def _mask_edges_and_weights(
     order = np.searchsorted(np.flatnonzero(mask), np.arange(max_value + 1))
     return np.asarray(order[masked_edges], dtype=np.int64), np.asarray(masked_weights)
 
-
 def _coo_or_dense(
     graph: sp.coo_matrix,
     return_as: SparseReturn,
@@ -168,7 +158,6 @@ def _coo_or_dense(
     if return_as is np.ndarray:
         return np.asarray(graph.toarray())
     return return_as(graph)
-
 
 def _to_graph(
     n_x: int,
@@ -217,7 +206,6 @@ def _to_graph(
     )
     return _coo_or_dense(graph, return_as)
 
-
 def _patch_extractor_result_valid(
     result: NDArray[np.float64],
     X: NDArray[np.float64],
@@ -237,7 +225,6 @@ def _patch_extractor_result_valid(
         return bool(patches.shape == expected_prefix + (values.shape[3],) and np.all(np.isfinite(patches)))
     return bool(patches.shape == expected_prefix and np.all(np.isfinite(patches)))
 
-
 @register_atom(witness_extract_patches_2d)
 @icontract.require(lambda image: image.ndim in {2, 3}, "image must be 2D or 3D")
 @icontract.require(lambda patch_size: len(patch_size) == 2, "patch_size must have two entries")
@@ -254,6 +241,7 @@ def extract_patches_2d(
     max_patches: int | float | None = None,
     random_state: RandomStateArg = None,
 ) -> NDArray[np.float64]:
+    from sklearn.utils import check_array, check_random_state
     """Return all sliding 2D image patches, or a random subset of them."""
     image_height, image_width = image.shape[:2]
     patch_height, patch_width = patch_size
@@ -286,7 +274,6 @@ def extract_patches_2d(
         return np.asarray(patch_array.reshape((n_patches, patch_height, patch_width)))
     return np.asarray(patch_array)
 
-
 @register_atom(witness_reconstruct_from_patches_2d)
 @icontract.require(lambda patches: patches.ndim in {3, 4}, "patches must be 3D or 4D")
 @icontract.require(lambda image_size: len(image_size) in {2, 3}, "image_size must have two or three entries")
@@ -315,7 +302,6 @@ def reconstruct_from_patches_2d(
                 * min(col + 1, patch_width, image_width - col)
             )
     return np.asarray(image)
-
 
 @register_atom(witness_img_to_graph)
 @icontract.require(lambda img: img.ndim in {2, 3}, "img must be a 2D or 3D image")
@@ -348,7 +334,6 @@ def img_to_graph(
         dtype=dtype,
     )
 
-
 @register_atom(witness_grid_to_graph)
 @icontract.require(lambda n_x: n_x >= 1, "n_x must be positive")
 @icontract.require(lambda n_y: n_y >= 1, "n_y must be positive")
@@ -375,7 +360,6 @@ def grid_to_graph(
         dtype=dtype,
     )
 
-
 @register_atom(witness_patch_extractor_transform)
 @icontract.require(lambda X: X.ndim in {3, 4}, "X must contain grayscale or multichannel images")
 @icontract.require(lambda X: X.shape[0] >= 1, "X must contain at least one image")
@@ -390,6 +374,7 @@ def patch_extractor_transform(
     max_patches: int | float | None = None,
     random_state: RandomStateArg = None,
 ) -> NDArray[np.float64]:
+    from sklearn.utils import check_array, check_random_state
     """Extract patch tensors from a batch of grayscale or multichannel images."""
     checked_x = check_array(
         X,

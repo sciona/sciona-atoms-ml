@@ -8,8 +8,6 @@ from scipy.fft import fft, ifft
 from scipy.linalg import svd
 from numpy.typing import NDArray
 from sklearn.metrics.pairwise import KERNEL_PARAMS, PAIRWISE_KERNEL_FUNCTIONS, pairwise_kernels
-from sklearn.utils import check_array, check_random_state
-from sklearn.utils.extmath import safe_sparse_dot
 
 from sciona.ghost.registry import register_atom
 
@@ -26,46 +24,35 @@ from .witnesses import (
     witness_skewed_chi2_sampler_transform,
 )
 
-
 _SUPPORTED_NYSTROEM_KERNELS = frozenset(PAIRWISE_KERNEL_FUNCTIONS)
 _NONNEGATIVE_NYSTROEM_KERNELS = {"additive_chi2", "chi2"}
-
 
 def _matrix_2d(X: NDArray[np.float64]) -> bool:
     return bool(np.asarray(X).ndim == 2)
 
-
 def _gamma_valid(gamma: float | str) -> bool:
     return bool(gamma == "scale" or (isinstance(gamma, (int, float)) and not isinstance(gamma, bool) and gamma > 0.0))
-
 
 def _n_components_valid(n_components: int) -> bool:
     return bool(isinstance(n_components, int) and not isinstance(n_components, bool) and n_components >= 1)
 
-
 def _random_state_valid(random_state: int | None) -> bool:
     return bool(random_state is None or (isinstance(random_state, int) and not isinstance(random_state, bool)))
-
 
 def _finite_real(value: float) -> bool:
     return bool(isinstance(value, (int, float)) and not isinstance(value, bool) and np.isfinite(float(value)))
 
-
 def _nonnegative_real(value: float) -> bool:
     return bool(_finite_real(value) and float(value) >= 0.0)
-
 
 def _degree_valid(degree: int) -> bool:
     return bool(isinstance(degree, int) and not isinstance(degree, bool) and degree >= 1)
 
-
 def _nystroem_degree_valid(degree: float | None) -> bool:
     return bool(degree is None or (_finite_real(degree) and float(degree) >= 1.0))
 
-
 def _nystroem_kernel_valid(kernel: str) -> bool:
     return bool(isinstance(kernel, str) and kernel in _SUPPORTED_NYSTROEM_KERNELS)
-
 
 def _kernel_params_valid(kernel_params: dict[str, float] | None) -> bool:
     if kernel_params is None:
@@ -75,24 +62,19 @@ def _kernel_params_valid(kernel_params: dict[str, float] | None) -> bool:
         and all(isinstance(key, str) and _finite_real(value) for key, value in kernel_params.items())
     )
 
-
 def _n_jobs_valid(n_jobs: int | None) -> bool:
     return bool(n_jobs is None or (isinstance(n_jobs, int) and not isinstance(n_jobs, bool)))
-
 
 def _positive_values(X: NDArray[np.float64]) -> bool:
     values = np.asarray(X)
     return bool(values.ndim == 2 and np.all(values >= 0.0))
 
-
 def _skewed_values_valid(X: NDArray[np.float64], state: SkewedChi2SamplerState) -> bool:
     values = np.asarray(X)
     return bool(values.ndim == 2 and np.all(values > -state.skewedness))
 
-
 def _sample_steps_valid(sample_steps: int) -> bool:
     return bool(isinstance(sample_steps, int) and not isinstance(sample_steps, bool) and sample_steps >= 1)
-
 
 def _sample_interval_valid(sample_steps: int, sample_interval: float | None) -> bool:
     return bool(
@@ -104,7 +86,6 @@ def _sample_interval_valid(sample_steps: int, sample_interval: float | None) -> 
             and float(sample_interval) > 0.0
         )
     )
-
 
 def _rbf_state_valid(state: RBFSamplerState) -> bool:
     return bool(
@@ -118,7 +99,6 @@ def _rbf_state_valid(state: RBFSamplerState) -> bool:
         and np.all(np.isfinite(state.random_offset))
     )
 
-
 def _skewed_state_valid(state: SkewedChi2SamplerState) -> bool:
     return bool(
         state.random_weights.shape == (state.n_features_in, state.n_components)
@@ -130,7 +110,6 @@ def _skewed_state_valid(state: SkewedChi2SamplerState) -> bool:
         and np.all(np.isfinite(state.random_weights))
         and np.all(np.isfinite(state.random_offset))
     )
-
 
 def _polynomial_state_valid(state: PolynomialCountSketchState) -> bool:
     hashed_features = state.n_features_in + (1 if state.coef0 != 0.0 else 0)
@@ -148,7 +127,6 @@ def _polynomial_state_valid(state: PolynomialCountSketchState) -> bool:
         and np.all((state.index_hash >= 0) & (state.index_hash < state.n_components))
         and np.all(np.isin(state.bit_hash, [-1, 1]))
     )
-
 
 def _nystroem_state_valid(state: NystroemState) -> bool:
     return bool(
@@ -169,57 +147,45 @@ def _nystroem_state_valid(state: NystroemState) -> bool:
         and np.all(np.isfinite(state.normalization))
     )
 
-
 def _feature_count_matches(X: NDArray[np.float64], state: RBFSamplerState) -> bool:
     return bool(np.asarray(X).ndim == 2 and np.asarray(X).shape[1] == state.n_features_in)
-
 
 def _transformed_valid(result: NDArray[np.float64], X: NDArray[np.float64], state: RBFSamplerState) -> bool:
     values = np.asarray(result)
     return bool(values.shape == (np.asarray(X).shape[0], state.n_components) and np.all(np.isfinite(values)))
 
-
 def _skewed_feature_count_matches(X: NDArray[np.float64], state: SkewedChi2SamplerState) -> bool:
     return bool(np.asarray(X).ndim == 2 and np.asarray(X).shape[1] == state.n_features_in)
-
 
 def _skewed_transformed_valid(result: NDArray[np.float64], X: NDArray[np.float64], state: SkewedChi2SamplerState) -> bool:
     values = np.asarray(result)
     return bool(values.shape == (np.asarray(X).shape[0], state.n_components) and np.all(np.isfinite(values)))
 
-
 def _polynomial_feature_count_matches(X: NDArray[np.float64], state: PolynomialCountSketchState) -> bool:
     return bool(np.asarray(X).ndim == 2 and np.asarray(X).shape[1] == state.n_features_in)
-
 
 def _polynomial_transformed_valid(result: NDArray[np.float64], X: NDArray[np.float64], state: PolynomialCountSketchState) -> bool:
     values = np.asarray(result)
     return bool(values.shape == (np.asarray(X).shape[0], state.n_components) and np.all(np.isfinite(values)))
 
-
 def _nystroem_feature_count_matches(X: NDArray[np.float64], state: NystroemState) -> bool:
     return bool(np.asarray(X).ndim == 2 and np.asarray(X).shape[1] == state.n_features_in)
-
 
 def _nystroem_values_valid(X: NDArray[np.float64], kernel: str) -> bool:
     values = np.asarray(X)
     return bool(values.ndim == 2 and (kernel not in _NONNEGATIVE_NYSTROEM_KERNELS or np.all(values >= 0.0)))
 
-
 def _nystroem_state_values_valid(X: NDArray[np.float64], state: NystroemState) -> bool:
     return _nystroem_values_valid(X, state.kernel)
-
 
 def _nystroem_transformed_valid(result: NDArray[np.float64], X: NDArray[np.float64], state: NystroemState) -> bool:
     values = np.asarray(result)
     return bool(values.shape == (np.asarray(X).shape[0], state.n_components) and np.all(np.isfinite(values)))
 
-
 def _additive_transformed_valid(result: NDArray[np.float64], X: NDArray[np.float64], sample_steps: int) -> bool:
     values = np.asarray(result)
     expected_shape = (np.asarray(X).shape[0], np.asarray(X).shape[1] * (2 * sample_steps - 1))
     return bool(values.shape == expected_shape and np.all(np.isfinite(values)))
-
 
 def _resolve_sample_interval(sample_steps: int, sample_interval: float | None) -> float:
     if sample_interval is not None:
@@ -231,7 +197,6 @@ def _resolve_sample_interval(sample_steps: int, sample_interval: float | None) -
     if sample_steps == 3:
         return 0.4
     raise ValueError("sample_interval is required for sample_steps outside {1, 2, 3}")
-
 
 def _resolve_nystroem_kernel_params(
     kernel: str,
@@ -248,7 +213,6 @@ def _resolve_nystroem_kernel_params(
             params[param] = float(value)
     return params
 
-
 @register_atom(witness_rbf_sampler_fit)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
 @icontract.require(lambda gamma: _gamma_valid(gamma), "gamma must be positive or 'scale'")
@@ -262,6 +226,7 @@ def rbf_sampler_fit(
     n_components: int = 100,
     random_state: int | None = None,
 ) -> RBFSamplerState:
+    from sklearn.utils import check_array, check_random_state
     """Fit random Fourier weights for a dense RBF kernel approximation."""
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     rng = check_random_state(random_state)
@@ -282,7 +247,6 @@ def rbf_sampler_fit(
         random_state=random_state,
     )
 
-
 @register_atom(witness_rbf_sampler_transform)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
 @icontract.require(lambda X, state: _feature_count_matches(X, state), "X feature count must match fitted RBF sampler state")
@@ -292,6 +256,8 @@ def rbf_sampler_transform(
     X: NDArray[np.float64],
     state: RBFSamplerState,
 ) -> NDArray[np.float64]:
+    from sklearn.utils import check_array, check_random_state
+    from sklearn.utils.extmath import safe_sparse_dot
     """Project samples into fitted RBF random Fourier features."""
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     projection = safe_sparse_dot(checked_x, state.random_weights)
@@ -299,7 +265,6 @@ def rbf_sampler_transform(
     np.cos(projection, projection)
     projection *= np.sqrt(2.0 / state.n_components)
     return np.asarray(projection, dtype=np.float64)
-
 
 @register_atom(witness_skewed_chi2_sampler_fit)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
@@ -314,6 +279,7 @@ def skewed_chi2_sampler_fit(
     n_components: int = 100,
     random_state: int | None = None,
 ) -> SkewedChi2SamplerState:
+    from sklearn.utils import check_array, check_random_state
     """Fit random Fourier weights for a dense skewed chi-square approximation."""
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     rng = check_random_state(random_state)
@@ -330,7 +296,6 @@ def skewed_chi2_sampler_fit(
         random_state=random_state,
     )
 
-
 @register_atom(witness_skewed_chi2_sampler_transform)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
 @icontract.require(lambda X, state: _skewed_feature_count_matches(X, state), "X feature count must match fitted skewed chi-square state")
@@ -341,6 +306,8 @@ def skewed_chi2_sampler_transform(
     X: NDArray[np.float64],
     state: SkewedChi2SamplerState,
 ) -> NDArray[np.float64]:
+    from sklearn.utils import check_array, check_random_state
+    from sklearn.utils.extmath import safe_sparse_dot
     """Project samples into fitted skewed chi-square random Fourier features."""
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True, copy=True)
     checked_x += state.skewedness
@@ -350,7 +317,6 @@ def skewed_chi2_sampler_transform(
     np.cos(projection, projection)
     projection *= np.sqrt(2.0 / state.n_components)
     return np.asarray(projection, dtype=np.float64)
-
 
 @register_atom(witness_additive_chi2_sampler_transform)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
@@ -364,6 +330,7 @@ def additive_chi2_sampler_transform(
     sample_steps: int = 2,
     sample_interval: float | None = None,
 ) -> NDArray[np.float64]:
+    from sklearn.utils import check_array, check_random_state
     """Compute dense explicit additive chi-square kernel features."""
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     interval = _resolve_sample_interval(sample_steps, sample_interval)
@@ -388,7 +355,6 @@ def additive_chi2_sampler_transform(
 
     return np.asarray(np.hstack(transformed), dtype=np.float64)
 
-
 @register_atom(witness_polynomial_count_sketch_fit)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
 @icontract.require(lambda gamma: _finite_real(gamma) and gamma > 0.0, "gamma must be positive")
@@ -406,6 +372,7 @@ def polynomial_count_sketch_fit(
     n_components: int = 100,
     random_state: int | None = None,
 ) -> PolynomialCountSketchState:
+    from sklearn.utils import check_array, check_random_state
     """Fit Tensor Sketch hash tables for dense polynomial kernel features."""
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     rng = check_random_state(random_state)
@@ -423,7 +390,6 @@ def polynomial_count_sketch_fit(
         random_state=random_state,
     )
 
-
 @register_atom(witness_polynomial_count_sketch_transform)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
 @icontract.require(lambda X, state: _polynomial_feature_count_matches(X, state), "X feature count must match fitted polynomial sketch state")
@@ -433,6 +399,7 @@ def polynomial_count_sketch_transform(
     X: NDArray[np.float64],
     state: PolynomialCountSketchState,
 ) -> NDArray[np.float64]:
+    from sklearn.utils import check_array, check_random_state
     """Project samples into fitted polynomial Tensor Sketch features."""
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     scaled_x = np.sqrt(state.gamma) * checked_x
@@ -450,7 +417,6 @@ def polynomial_count_sketch_transform(
     product_fft = np.prod(sketches_fft, axis=1)
     data_sketch = np.real(ifft(product_fft, overwrite_x=True))
     return np.asarray(data_sketch, dtype=np.float64)
-
 
 @register_atom(witness_nystroem_fit)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
@@ -476,6 +442,7 @@ def nystroem_fit(
     random_state: int | None = None,
     n_jobs: int | None = None,
 ) -> NystroemState:
+    from sklearn.utils import check_array, check_random_state
     """Fit dense Nystroem basis components and normalization matrix."""
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     rng = check_random_state(random_state)
@@ -505,7 +472,6 @@ def nystroem_fit(
         n_jobs=n_jobs,
     )
 
-
 @register_atom(witness_nystroem_transform)
 @icontract.require(lambda X: _matrix_2d(X), "X must be 2D")
 @icontract.require(lambda X, state: _nystroem_feature_count_matches(X, state), "X feature count must match fitted Nystroem state")
@@ -516,6 +482,7 @@ def nystroem_transform(
     X: NDArray[np.float64],
     state: NystroemState,
 ) -> NDArray[np.float64]:
+    from sklearn.utils import check_array, check_random_state
     """Project samples with a fitted dense Nystroem kernel map."""
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     embedded = pairwise_kernels(

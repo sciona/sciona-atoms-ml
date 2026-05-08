@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import icontract
-from sklearn.utils import Bunch
 
 from sciona.ghost.registry import register_atom
 
@@ -14,14 +13,12 @@ from .witnesses import (
     witness_cd_cv_nonrouting_splitter_payload,
 )
 
-
 def _bool(value: object) -> bool:
     return isinstance(value, bool)
 
-
 def _empty_bunch(value: object) -> bool:
+    from sklearn.utils import Bunch
     return isinstance(value, Bunch) and dict(value) == {}
-
 
 def _has_splitter_split(value: object) -> bool:
     try:
@@ -29,7 +26,6 @@ def _has_splitter_split(value: object) -> bool:
     except AttributeError:
         return False
     return hasattr(splitter, "split")
-
 
 @register_atom(witness_cd_cv_nonrouting_empty_split_params)
 @icontract.require(
@@ -42,10 +38,10 @@ def _has_splitter_split(value: object) -> bool:
     "non-routing split params must be an empty Bunch",
 )
 def cd_cv_nonrouting_empty_split_params(default_routed_params_required: bool) -> Bunch:
+    from sklearn.utils import Bunch
     """Return sklearn's empty split-params Bunch for the non-routing branch."""
     del default_routed_params_required
     return Bunch()
-
 
 @register_atom(witness_cd_cv_nonrouting_splitter_payload)
 @icontract.require(lambda split_params: isinstance(split_params, Bunch), "split_params must be a Bunch")
@@ -55,9 +51,9 @@ def cd_cv_nonrouting_empty_split_params(default_routed_params_required: bool) ->
     "splitter fallback must expose the split Bunch by identity",
 )
 def cd_cv_nonrouting_splitter_payload(split_params: Bunch) -> Bunch:
+    from sklearn.utils import Bunch
     """Return sklearn's Bunch(split=Bunch()) splitter fallback payload."""
     return Bunch(split=split_params)
-
 
 @register_atom(witness_cd_cv_nonrouting_routed_params)
 @icontract.require(
@@ -77,12 +73,12 @@ def cd_cv_nonrouting_splitter_payload(split_params: Bunch) -> Bunch:
 def cd_cv_nonrouting_routed_params(
     default_routed_params_required: bool, splitter_payload: Bunch
 ) -> Bunch:
+    from sklearn.utils import Bunch
     """Return sklearn's non-routing routed_params Bunch payload."""
     del default_routed_params_required
     routed_params = Bunch()
     routed_params.splitter = splitter_payload
     return routed_params
-
 
 @register_atom(witness_cd_cv_nonrouting_split_kwargs)
 @icontract.require(

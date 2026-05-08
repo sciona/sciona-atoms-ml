@@ -5,8 +5,6 @@ from __future__ import annotations
 import icontract
 import numpy as np
 from numpy.typing import NDArray
-from sklearn.utils import check_random_state
-from sklearn.utils.random import sample_without_replacement
 
 from sciona.ghost.registry import register_atom
 
@@ -19,14 +17,11 @@ RandomStateLike = int | np.random.RandomState | None
 SampleWeightLike = NDArray[np.float64] | None
 IndexPair = tuple[NDArray[np.int64], NDArray[np.int64]]
 
-
 def _positive_int(value: int) -> bool:
     return bool(isinstance(value, int) and not isinstance(value, bool) and value >= 1)
 
-
 def _draw_count_valid(bootstrap: bool, n_population: int, n_draws: int) -> bool:
     return bool(_positive_int(n_population) and _positive_int(n_draws) and (bootstrap or n_draws <= n_population))
-
 
 def _indices_valid(result: NDArray[np.int64], n_population: int, n_draws: int, bootstrap: bool) -> bool:
     values = np.asarray(result)
@@ -37,7 +32,6 @@ def _indices_valid(result: NDArray[np.int64], n_population: int, n_draws: int, b
         and np.all(values < n_population)
         and (bootstrap or np.unique(values).shape[0] == n_draws)
     )
-
 
 def _bagging_draws_valid(
     bootstrap_features: bool,
@@ -54,7 +48,6 @@ def _bagging_draws_valid(
         and _sample_weight_valid(sample_weight, n_samples)
     )
 
-
 def _sample_weight_valid(sample_weight: SampleWeightLike, n_samples: int) -> bool:
     if sample_weight is None:
         return True
@@ -66,7 +59,6 @@ def _sample_weight_valid(sample_weight: SampleWeightLike, n_samples: int) -> boo
         and np.all(values >= 0.0)
         and np.sum(values) > 0.0
     )
-
 
 def _index_pair_valid(
     result: IndexPair,
@@ -82,7 +74,6 @@ def _index_pair_valid(
         _indices_valid(feature_indices, n_features, max_features, bootstrap_features)
         and _indices_valid(sample_indices, n_samples, max_samples, bootstrap_samples)
     )
-
 
 @register_atom(witness_bagging_generate_indices)
 @icontract.require(
@@ -100,12 +91,13 @@ def bagging_generate_indices(
     *,
     random_state: RandomStateLike = None,
 ) -> NDArray[np.int64]:
+    from sklearn.utils import check_random_state
+    from sklearn.utils.random import sample_without_replacement
     """Draw sample or feature indices the way sklearn bagging does for one axis."""
     rng = check_random_state(random_state)
     if bootstrap:
         return np.asarray(rng.randint(0, n_population, n_draws), dtype=np.int64)
     return np.asarray(sample_without_replacement(n_population, n_draws, random_state=rng), dtype=np.int64)
-
 
 @register_atom(witness_bagging_generate_bagging_indices)
 @icontract.require(
@@ -143,6 +135,7 @@ def bagging_generate_bagging_indices(
     random_state: RandomStateLike = None,
     sample_weight: SampleWeightLike = None,
 ) -> IndexPair:
+    from sklearn.utils import check_random_state
     """Draw feature and sample indices for one sklearn bagging estimator."""
     rng = check_random_state(random_state)
     feature_indices = bagging_generate_indices(

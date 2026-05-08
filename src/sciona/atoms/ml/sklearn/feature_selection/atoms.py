@@ -10,13 +10,6 @@ import scipy.stats as stats
 from numpy.typing import NDArray
 from scipy import special
 from scipy.sparse import issparse
-from sklearn.metrics.cluster import mutual_info_score
-from sklearn.neighbors import KDTree, NearestNeighbors
-from sklearn.preprocessing import LabelBinarizer
-from sklearn.preprocessing import scale
-from sklearn.utils import as_float_array, check_array, check_random_state, check_X_y, safe_mask, safe_sqr
-from sklearn.utils.extmath import row_norms, safe_sparse_dot
-from sklearn.utils.multiclass import check_classification_targets
 
 from sciona.ghost.registry import register_atom
 
@@ -46,8 +39,8 @@ SupportedScoreFunc = str
 SelectorParam = int | float | str
 DiscreteFeatureSpec = str | bool | tuple[int, ...] | tuple[bool, ...]
 
-
 def _f_oneway(*arrays: NDArray[np.float64]) -> ScoreResult:
+    from sklearn.utils import as_float_array, check_array, check_random_state, check_X_y, safe_mask, safe_sqr
     n_classes = len(arrays)
     class_arrays = [as_float_array(array) for array in arrays]
     n_samples_per_class = np.array([array.shape[0] for array in class_arrays])
@@ -73,7 +66,6 @@ def _f_oneway(*arrays: NDArray[np.float64]) -> ScoreResult:
     p_values = special.fdtrc(dfbn, dfwn, f_statistic)
     return np.asarray(f_statistic, dtype=np.float64), np.asarray(p_values, dtype=np.float64)
 
-
 def _chisquare(
     observed: NDArray[np.float64],
     expected: NDArray[np.float64],
@@ -89,16 +81,13 @@ def _chisquare(
     p_values = special.chdtrc(k - 1, chi2_stats)
     return np.asarray(chi2_stats, dtype=np.float64), np.asarray(p_values, dtype=np.float64)
 
-
 def _finite_p_values(result: ScoreResult) -> bool:
     p_values = result[1]
     finite = np.isfinite(p_values)
     return bool(np.all((p_values[finite] >= 0.0) & (p_values[finite] <= 1.0)))
 
-
 def _selector_score_func_valid(score_func: SupportedScoreFunc) -> bool:
     return score_func in {"f_classif", "chi2", "f_regression"}
-
 
 def _selector_scores(
     X: NDArray[np.float64],
@@ -113,11 +102,9 @@ def _selector_scores(
         return f_regression(X, y)
     raise ValueError(f"unsupported score_func: {score_func!r}")
 
-
 def _mi_vector_valid(values: NDArray[np.float64]) -> bool:
     array = np.asarray(values)
     return bool(array.ndim == 1 and array.shape[0] >= 2)
-
 
 def _mi_xy_valid(x: NDArray[np.float64], y: NDArray[np.float64], n_neighbors: int) -> bool:
     x_values = np.asarray(x)
@@ -129,7 +116,6 @@ def _mi_xy_valid(x: NDArray[np.float64], y: NDArray[np.float64], n_neighbors: in
         and x_values.shape == y_values.shape
         and x_values.shape[0] >= n_neighbors
     )
-
 
 def _mi_matrix_target_valid(X: NDArray[np.float64], y: NDArray[np.float64], n_neighbors: int) -> bool:
     x_values = np.asarray(X)
@@ -143,10 +129,8 @@ def _mi_matrix_target_valid(X: NDArray[np.float64], y: NDArray[np.float64], n_ne
         and x_values.shape[1] >= 1
     )
 
-
 def _mi_n_neighbors_valid(n_neighbors: int) -> bool:
     return bool(isinstance(n_neighbors, int) and not isinstance(n_neighbors, bool) and n_neighbors >= 1)
-
 
 def _mi_discrete_features_valid(discrete_features: DiscreteFeatureSpec, n_features: int) -> bool:
     if discrete_features == "auto" or isinstance(discrete_features, bool):
@@ -160,15 +144,12 @@ def _mi_discrete_features_valid(discrete_features: DiscreteFeatureSpec, n_featur
         )
     return False
 
-
 def _mi_result_valid(result: NDArray[np.float64], X: NDArray[np.float64]) -> bool:
     values = np.asarray(result, dtype=np.float64)
     return bool(values.shape == (np.asarray(X).shape[1],) and np.all(np.isfinite(values)) and np.all(values >= 0.0))
 
-
 def _mi_score_valid(result: float) -> bool:
     return bool(isinstance(result, float) and np.isfinite(result) and result >= 0.0)
-
 
 def _mi_discrete_mask(discrete_features: DiscreteFeatureSpec, n_features: int) -> NDArray[np.bool_]:
     if isinstance(discrete_features, str):
@@ -183,7 +164,6 @@ def _mi_discrete_mask(discrete_features: DiscreteFeatureSpec, n_features: int) -
     mask[list(discrete_features)] = True
     return mask
 
-
 def _prepare_mi_inputs(
     X: NDArray[np.float64],
     y: NDArray[np.float64],
@@ -193,6 +173,8 @@ def _prepare_mi_inputs(
     copy: bool,
     random_state: int | None,
 ) -> tuple[NDArray[np.float64], NDArray[np.float64], NDArray[np.bool_]]:
+    from sklearn.preprocessing import scale
+    from sklearn.utils import as_float_array, check_array, check_random_state, check_X_y, safe_mask, safe_sqr
     checked_x, checked_y = check_X_y(X, y, accept_sparse=False, y_numeric=not discrete_target)
     x_values = np.asarray(checked_x)
     y_values = np.asarray(checked_y)
@@ -214,25 +196,21 @@ def _prepare_mi_inputs(
         y_values += 1e-10 * np.maximum(1.0, np.mean(np.abs(y_values))) * rng.standard_normal(size=n_samples)
     return np.asarray(x_values, dtype=np.float64), np.asarray(y_values), discrete_mask
 
-
 def _clean_nans(scores: NDArray[np.float64]) -> NDArray[np.float64]:
+    from sklearn.utils import as_float_array, check_array, check_random_state, check_X_y, safe_mask, safe_sqr
     cleaned = as_float_array(scores, copy=True)
     cleaned[np.isnan(cleaned)] = np.finfo(cleaned.dtype).min
     return np.asarray(cleaned, dtype=np.float64)
-
 
 def _k_best_valid(k: int | str, X: NDArray[np.float64]) -> bool:
     del X
     return bool(k == "all" or (isinstance(k, int) and not isinstance(k, bool) and k >= 0))
 
-
 def _percentile_valid(percentile: float) -> bool:
     return bool(isinstance(percentile, (int, float)) and not isinstance(percentile, bool) and 0.0 <= float(percentile) <= 100.0)
 
-
 def _alpha_valid(alpha: float) -> bool:
     return bool(isinstance(alpha, (int, float)) and not isinstance(alpha, bool) and 0.0 <= float(alpha) <= 1.0)
-
 
 def _generic_mode_param_valid(mode: str, param: SelectorParam) -> bool:
     if mode == "k_best":
@@ -243,7 +221,6 @@ def _generic_mode_param_valid(mode: str, param: SelectorParam) -> bool:
         return _alpha_valid(float(param)) if isinstance(param, (int, float)) and not isinstance(param, bool) else False
     return False
 
-
 def _support_k_best(scores: NDArray[np.float64], k: int | str) -> NDArray[np.bool_]:
     if k == "all":
         return np.ones(scores.shape, dtype=bool)
@@ -253,7 +230,6 @@ def _support_k_best(scores: NDArray[np.float64], k: int | str) -> NDArray[np.boo
     mask = np.zeros(clean_scores.shape, dtype=bool)
     mask[np.argsort(clean_scores, kind="mergesort")[-int(k) :]] = True
     return np.asarray(mask, dtype=np.bool_)
-
 
 def _support_percentile(scores: NDArray[np.float64], percentile: float) -> NDArray[np.bool_]:
     if percentile == 100:
@@ -270,10 +246,8 @@ def _support_percentile(scores: NDArray[np.float64], percentile: float) -> NDArr
         mask[kept_ties] = True
     return np.asarray(mask, dtype=np.bool_)
 
-
 def _support_fpr(pvalues: NDArray[np.float64], alpha: float) -> NDArray[np.bool_]:
     return np.asarray(pvalues < float(alpha), dtype=np.bool_)
-
 
 def _support_fdr(pvalues: NDArray[np.float64], alpha: float) -> NDArray[np.bool_]:
     n_features = len(pvalues)
@@ -283,10 +257,8 @@ def _support_fdr(pvalues: NDArray[np.float64], alpha: float) -> NDArray[np.bool_
         return np.zeros_like(pvalues, dtype=bool)
     return np.asarray(pvalues <= selected.max(), dtype=np.bool_)
 
-
 def _support_fwe(pvalues: NDArray[np.float64], alpha: float) -> NDArray[np.bool_]:
     return np.asarray(pvalues < float(alpha) / len(pvalues), dtype=np.bool_)
-
 
 def _selection_state_valid(state: UnivariateSelectionState) -> bool:
     pvalues_valid = state.pvalues is None or (
@@ -305,15 +277,12 @@ def _selection_state_valid(state: UnivariateSelectionState) -> bool:
         and pvalues_valid
     )
 
-
 def _selection_transform_valid(result: NDArray[np.float64], X: NDArray[np.float64], state: UnivariateSelectionState) -> bool:
     values = np.asarray(result)
     return bool(values.ndim == 2 and values.shape == (np.asarray(X).shape[0], int(state.support_mask.sum())))
 
-
 def _feature_count_matches(X: NDArray[np.float64], state: UnivariateSelectionState) -> bool:
     return bool(np.asarray(X).ndim == 2 and np.asarray(X).shape[1] == state.n_features_in)
-
 
 def _build_selection_state(
     X: NDArray[np.float64],
@@ -335,7 +304,6 @@ def _build_selection_state(
         selector_param=selector_param,
     )
 
-
 @register_atom(witness_mutual_info_continuous_continuous)
 @icontract.require(lambda x, y, n_neighbors: _mi_xy_valid(x, y, n_neighbors), "x and y must be equal-length vectors with enough samples")
 @icontract.ensure(lambda result: _mi_score_valid(result), "mutual information must be finite and nonnegative")
@@ -345,6 +313,7 @@ def mutual_info_continuous_continuous(
     *,
     n_neighbors: int = 3,
 ) -> float:
+    from sklearn.neighbors import KDTree, NearestNeighbors
     """Estimate mutual information between two continuous variables."""
     x_values = np.asarray(x, dtype=np.float64).reshape((-1, 1))
     y_values = np.asarray(y, dtype=np.float64).reshape((-1, 1))
@@ -370,7 +339,6 @@ def mutual_info_continuous_continuous(
     )
     return float(max(0.0, score))
 
-
 @register_atom(witness_mutual_info_continuous_discrete)
 @icontract.require(lambda continuous, discrete: _mi_vector_valid(continuous) and np.asarray(continuous).shape == np.asarray(discrete).shape, "variables must be equal-length vectors")
 @icontract.require(lambda n_neighbors: _mi_n_neighbors_valid(n_neighbors), "n_neighbors must be positive")
@@ -381,6 +349,7 @@ def mutual_info_continuous_discrete(
     *,
     n_neighbors: int = 3,
 ) -> float:
+    from sklearn.neighbors import KDTree, NearestNeighbors
     """Estimate mutual information between continuous and discrete variables."""
     continuous_values = np.asarray(continuous, dtype=np.float64).reshape((-1, 1))
     discrete_values = np.asarray(discrete)
@@ -421,7 +390,6 @@ def mutual_info_continuous_discrete(
     )
     return float(max(0.0, score))
 
-
 @register_atom(witness_mutual_info_pair)
 @icontract.require(lambda x, y: _mi_vector_valid(x) and np.asarray(x).shape == np.asarray(y).shape, "variables must be equal-length vectors")
 @icontract.require(lambda n_neighbors: _mi_n_neighbors_valid(n_neighbors), "n_neighbors must be positive")
@@ -434,6 +402,7 @@ def mutual_info_pair(
     y_discrete: bool,
     n_neighbors: int = 3,
 ) -> float:
+    from sklearn.metrics.cluster import mutual_info_score
     """Estimate mutual information for one feature-target pair."""
     if x_discrete and y_discrete:
         return float(max(0.0, mutual_info_score(x, y)))
@@ -442,7 +411,6 @@ def mutual_info_pair(
     if not x_discrete and y_discrete:
         return mutual_info_continuous_discrete(x, y, n_neighbors=n_neighbors)
     return mutual_info_continuous_continuous(x, y, n_neighbors=n_neighbors)
-
 
 @register_atom(witness_mutual_info_regression)
 @icontract.require(lambda X, y, n_neighbors: _mi_matrix_target_valid(X, y, n_neighbors), "X and y must have compatible shapes and enough samples")
@@ -474,7 +442,6 @@ def mutual_info_regression(
     ]
     return np.asarray(scores, dtype=np.float64)
 
-
 @register_atom(witness_mutual_info_classif)
 @icontract.require(lambda X, y, n_neighbors: _mi_matrix_target_valid(X, y, n_neighbors), "X and y must have compatible shapes and enough samples")
 @icontract.require(lambda discrete_features, X: _mi_discrete_features_valid(discrete_features, np.asarray(X).shape[1]), "discrete_features must match feature count")
@@ -489,6 +456,7 @@ def mutual_info_classif(
     random_state: int | None = None,
     n_jobs: int | None = None,
 ) -> NDArray[np.float64]:
+    from sklearn.utils.multiclass import check_classification_targets
     """Estimate mutual information between each feature and a discrete target."""
     del n_jobs
     check_classification_targets(y)
@@ -506,7 +474,6 @@ def mutual_info_classif(
     ]
     return np.asarray(scores, dtype=np.float64)
 
-
 @register_atom(witness_f_classif)
 @icontract.require(lambda X: X.ndim == 2, "X must be 2D")
 @icontract.require(lambda X, y: X.shape[0] == y.shape[0], "X and y must have equal sample count")
@@ -516,11 +483,11 @@ def mutual_info_classif(
 @icontract.ensure(lambda result, X: result[1].shape == (X.shape[1],), "p-values must match feature count")
 @icontract.ensure(lambda result: _finite_p_values(result), "finite p-values must be probabilities")
 def f_classif(X: NDArray[np.float64], y: NDArray[np.float64]) -> ScoreResult:
+    from sklearn.utils import as_float_array, check_array, check_random_state, check_X_y, safe_mask, safe_sqr
     """Compute one-way ANOVA F statistics for each feature by class label."""
     checked_x, checked_y = check_X_y(X, y, accept_sparse=["csr", "csc", "coo"])
     class_arrays = [checked_x[safe_mask(checked_x, checked_y == label)] for label in np.unique(checked_y)]
     return _f_oneway(*class_arrays)
-
 
 @register_atom(witness_chi2)
 @icontract.require(lambda X: X.ndim == 2, "X must be 2D")
@@ -531,6 +498,9 @@ def f_classif(X: NDArray[np.float64], y: NDArray[np.float64]) -> ScoreResult:
 @icontract.ensure(lambda result, X: result[1].shape == (X.shape[1],), "p-values must match feature count")
 @icontract.ensure(lambda result: _finite_p_values(result), "finite p-values must be probabilities")
 def chi2(X: NDArray[np.float64], y: NDArray[np.float64]) -> ScoreResult:
+    from sklearn.preprocessing import LabelBinarizer
+    from sklearn.utils import as_float_array, check_array, check_random_state, check_X_y, safe_mask, safe_sqr
+    from sklearn.utils.extmath import row_norms, safe_sparse_dot
     """Compute chi-square dependence statistics between features and classes."""
     checked_x = check_X_y(X, y, accept_sparse="csr", dtype=(np.float64, np.float32))[0]
     if np.any((checked_x.data if issparse(checked_x) else checked_x) < 0):
@@ -549,7 +519,6 @@ def chi2(X: NDArray[np.float64], y: NDArray[np.float64]) -> ScoreResult:
     expected = np.dot(class_prob.T, feature_count)
     return _chisquare(np.asarray(observed, dtype=np.float64), np.asarray(expected, dtype=np.float64))
 
-
 @register_atom(witness_r_regression)
 @icontract.require(lambda X: X.ndim == 2, "X must be 2D")
 @icontract.require(lambda X, y: X.shape[0] == y.shape[0], "X and y must have equal sample count")
@@ -563,6 +532,8 @@ def r_regression(
     center: bool = True,
     force_finite: bool = True,
 ) -> NDArray[np.float64]:
+    from sklearn.utils import as_float_array, check_array, check_random_state, check_X_y, safe_mask, safe_sqr
+    from sklearn.utils.extmath import row_norms, safe_sparse_dot
     """Compute Pearson correlation between each feature and a numeric target."""
     checked_x, checked_y = check_X_y(X, y, accept_sparse=["csr", "csc", "coo"], dtype=np.float64)
     n_samples = checked_x.shape[0]
@@ -586,7 +557,6 @@ def r_regression(
         nan_mask = np.isnan(result)
         result[nan_mask] = 0.0
     return result
-
 
 @register_atom(witness_f_regression)
 @icontract.require(lambda X: X.ndim == 2, "X must be 2D")
@@ -627,7 +597,6 @@ def f_regression(
         p_result[mask_nan] = 1.0
     return f_result, p_result
 
-
 @register_atom(witness_select_k_best_fit)
 @icontract.require(lambda X: X.ndim == 2, "X must be 2D")
 @icontract.require(lambda X, y: X.shape[0] == y.shape[0], "X and y must have equal sample count")
@@ -641,6 +610,7 @@ def select_k_best_fit(
     score_func: SupportedScoreFunc = "f_classif",
     k: int | str = 10,
 ) -> UnivariateSelectionState:
+    from sklearn.utils import as_float_array, check_array, check_random_state, check_X_y, safe_mask, safe_sqr
     """Fit a selector that keeps the k highest univariate feature scores."""
     checked_x, checked_y = check_X_y(X, y, accept_sparse=False, dtype=np.float64)
     scores, pvalues = _selector_scores(checked_x, checked_y, score_func)
@@ -655,7 +625,6 @@ def select_k_best_fit(
         support_mask=support_mask,
     )
 
-
 @register_atom(witness_select_percentile_fit)
 @icontract.require(lambda X: X.ndim == 2, "X must be 2D")
 @icontract.require(lambda X, y: X.shape[0] == y.shape[0], "X and y must have equal sample count")
@@ -669,6 +638,7 @@ def select_percentile_fit(
     score_func: SupportedScoreFunc = "f_classif",
     percentile: float = 10.0,
 ) -> UnivariateSelectionState:
+    from sklearn.utils import as_float_array, check_array, check_random_state, check_X_y, safe_mask, safe_sqr
     """Fit a selector that keeps a percentile of the highest feature scores."""
     checked_x, checked_y = check_X_y(X, y, accept_sparse=False, dtype=np.float64)
     scores, pvalues = _selector_scores(checked_x, checked_y, score_func)
@@ -683,7 +653,6 @@ def select_percentile_fit(
         support_mask=support_mask,
     )
 
-
 @register_atom(witness_select_fpr_fit)
 @icontract.require(lambda X: X.ndim == 2, "X must be 2D")
 @icontract.require(lambda X, y: X.shape[0] == y.shape[0], "X and y must have equal sample count")
@@ -697,6 +666,7 @@ def select_fpr_fit(
     score_func: SupportedScoreFunc = "f_classif",
     alpha: float = 0.05,
 ) -> UnivariateSelectionState:
+    from sklearn.utils import as_float_array, check_array, check_random_state, check_X_y, safe_mask, safe_sqr
     """Fit a selector that keeps features whose p-values are below alpha."""
     checked_x, checked_y = check_X_y(X, y, accept_sparse=False, dtype=np.float64)
     scores, pvalues = _selector_scores(checked_x, checked_y, score_func)
@@ -711,7 +681,6 @@ def select_fpr_fit(
         support_mask=support_mask,
     )
 
-
 @register_atom(witness_select_fdr_fit)
 @icontract.require(lambda X: X.ndim == 2, "X must be 2D")
 @icontract.require(lambda X, y: X.shape[0] == y.shape[0], "X and y must have equal sample count")
@@ -725,6 +694,7 @@ def select_fdr_fit(
     score_func: SupportedScoreFunc = "f_classif",
     alpha: float = 0.05,
 ) -> UnivariateSelectionState:
+    from sklearn.utils import as_float_array, check_array, check_random_state, check_X_y, safe_mask, safe_sqr
     """Fit a Benjamini-Hochberg false-discovery-rate selector."""
     checked_x, checked_y = check_X_y(X, y, accept_sparse=False, dtype=np.float64)
     scores, pvalues = _selector_scores(checked_x, checked_y, score_func)
@@ -739,7 +709,6 @@ def select_fdr_fit(
         support_mask=support_mask,
     )
 
-
 @register_atom(witness_select_fwe_fit)
 @icontract.require(lambda X: X.ndim == 2, "X must be 2D")
 @icontract.require(lambda X, y: X.shape[0] == y.shape[0], "X and y must have equal sample count")
@@ -753,6 +722,7 @@ def select_fwe_fit(
     score_func: SupportedScoreFunc = "f_classif",
     alpha: float = 0.05,
 ) -> UnivariateSelectionState:
+    from sklearn.utils import as_float_array, check_array, check_random_state, check_X_y, safe_mask, safe_sqr
     """Fit a family-wise-error selector using Bonferroni correction."""
     checked_x, checked_y = check_X_y(X, y, accept_sparse=False, dtype=np.float64)
     scores, pvalues = _selector_scores(checked_x, checked_y, score_func)
@@ -766,7 +736,6 @@ def select_fwe_fit(
         selector_param=float(alpha),
         support_mask=support_mask,
     )
-
 
 @register_atom(witness_generic_univariate_select_fit)
 @icontract.require(lambda X: X.ndim == 2, "X must be 2D")
@@ -783,6 +752,7 @@ def generic_univariate_select_fit(
     mode: str = "percentile",
     param: SelectorParam = 1e-5,
 ) -> UnivariateSelectionState:
+    from sklearn.utils import as_float_array, check_array, check_random_state, check_X_y, safe_mask, safe_sqr
     """Fit a univariate selector using a runtime-selected selection strategy."""
     checked_x, checked_y = check_X_y(X, y, accept_sparse=False, dtype=np.float64)
     scores, pvalues = _selector_scores(checked_x, checked_y, score_func)
@@ -806,7 +776,6 @@ def generic_univariate_select_fit(
         support_mask=support_mask,
     )
 
-
 @register_atom(witness_univariate_selection_transform)
 @icontract.require(lambda X: X.ndim == 2, "X must be 2D")
 @icontract.require(lambda X, state: _feature_count_matches(X, state), "X feature count must match fitted selector state")
@@ -816,6 +785,7 @@ def univariate_selection_transform(
     X: NDArray[np.float64],
     state: UnivariateSelectionState,
 ) -> NDArray[np.float64]:
+    from sklearn.utils import as_float_array, check_array, check_random_state, check_X_y, safe_mask, safe_sqr
     """Retain the columns selected by a fitted univariate selector state."""
     checked_x = check_array(X, accept_sparse=False, dtype=np.float64)
     if not state.support_mask.any():
