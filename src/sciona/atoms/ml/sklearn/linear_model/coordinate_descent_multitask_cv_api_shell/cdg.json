@@ -1,0 +1,112 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_multitask_cv_api_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent Multitask CV API Shell Helper Atoms",
+      "description": "Deterministic API-shell helpers for MultiTaskElasticNetCV and MultiTaskLassoCV constructor and parameter-constraint specialization.",
+      "status": "decomposed",
+      "children": [
+        "cd_multitask_elastic_net_cv_constraints",
+        "cd_multitask_elastic_net_cv_init_attributes",
+        "cd_multitask_lasso_cv_constraints_without_unsupported",
+        "cd_multitask_lasso_cv_super_init_kwargs"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_multitask_elastic_net_cv_constraints",
+      "name": "cd_multitask_elastic_net_cv_constraints",
+      "description": "Return MultiTaskElasticNetCV parameter constraints.",
+      "concept_type": "api_parameter_constraints",
+      "status": "atomic",
+      "type_signature": "(parent_constraints: Mapping[str, object], l1_ratio_constraint: object) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "parent_constraints", "type_desc": "LinearModelCV parameter constraints", "required": true},
+        {"name": "l1_ratio_constraint", "type_desc": "MultiTaskElasticNetCV l1_ratio constraint entry", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "constraints with l1_ratio added and unsupported parameters removed"}
+      ]
+    },
+    {
+      "node_id": "cd_multitask_elastic_net_cv_init_attributes",
+      "name": "cd_multitask_elastic_net_cv_init_attributes",
+      "description": "Return the attribute state assigned by MultiTaskElasticNetCV.__init__.",
+      "concept_type": "api_init_state",
+      "status": "atomic",
+      "type_signature": "(l1_ratio: object, eps: object, n_alphas: int, alphas: object, fit_intercept: bool, max_iter: int, tol: object, cv: object, copy_X: bool, verbose: object, n_jobs: object, random_state: object, selection: str) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "l1_ratio", "type_desc": "l1_ratio constructor argument", "required": true},
+        {"name": "eps", "type_desc": "eps constructor argument", "required": true},
+        {"name": "n_alphas", "type_desc": "positive alpha-grid count", "required": true},
+        {"name": "alphas", "type_desc": "optional alpha grid", "required": true},
+        {"name": "fit_intercept", "type_desc": "fit_intercept setting", "required": true},
+        {"name": "max_iter", "type_desc": "positive iteration limit", "required": true},
+        {"name": "tol", "type_desc": "tolerance setting", "required": true},
+        {"name": "cv", "type_desc": "cross-validation splitter setting", "required": true},
+        {"name": "copy_X", "type_desc": "copy_X setting", "required": true},
+        {"name": "verbose", "type_desc": "verbosity setting", "required": true},
+        {"name": "n_jobs", "type_desc": "parallel job count setting", "required": true},
+        {"name": "random_state", "type_desc": "random_state setting", "required": true},
+        {"name": "selection", "type_desc": "coordinate selection setting", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "direct constructor attribute mapping"}
+      ]
+    },
+    {
+      "node_id": "cd_multitask_lasso_cv_constraints_without_unsupported",
+      "name": "cd_multitask_lasso_cv_constraints_without_unsupported",
+      "description": "Return MultiTaskLassoCV parameter constraints without unsupported parameters.",
+      "concept_type": "api_parameter_constraints",
+      "status": "atomic",
+      "type_signature": "(parent_constraints: Mapping[str, object]) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "parent_constraints", "type_desc": "LinearModelCV parameter constraints", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "constraints with precompute and positive removed"}
+      ]
+    },
+    {
+      "node_id": "cd_multitask_lasso_cv_super_init_kwargs",
+      "name": "cd_multitask_lasso_cv_super_init_kwargs",
+      "description": "Return kwargs passed by MultiTaskLassoCV.__init__ into LinearModelCV.__init__.",
+      "concept_type": "api_init_delegation",
+      "status": "atomic",
+      "type_signature": "(eps: object, n_alphas: int, alphas: object, fit_intercept: bool, max_iter: int, tol: object, copy_X: bool, cv: object, verbose: object, n_jobs: object, random_state: object, selection: str) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "eps", "type_desc": "eps constructor argument", "required": true},
+        {"name": "n_alphas", "type_desc": "positive alpha-grid count", "required": true},
+        {"name": "alphas", "type_desc": "optional alpha grid", "required": true},
+        {"name": "fit_intercept", "type_desc": "fit_intercept setting", "required": true},
+        {"name": "max_iter", "type_desc": "positive iteration limit", "required": true},
+        {"name": "tol", "type_desc": "tolerance setting", "required": true},
+        {"name": "copy_X", "type_desc": "copy_X setting", "required": true},
+        {"name": "cv", "type_desc": "cross-validation splitter setting", "required": true},
+        {"name": "verbose", "type_desc": "verbosity setting", "required": true},
+        {"name": "n_jobs", "type_desc": "parallel job count setting", "required": true},
+        {"name": "random_state", "type_desc": "random_state setting", "required": true},
+        {"name": "selection", "type_desc": "coordinate selection setting", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "LinearModelCV super-init keyword payload"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_multitask_elastic_net_cv_constraints", "target": "cd_multitask_elastic_net_cv_init_attributes", "kind": "class_api_context"},
+    {"source": "cd_multitask_lasso_cv_constraints_without_unsupported", "target": "cd_multitask_lasso_cv_super_init_kwargs", "kind": "class_api_context"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 5 decomposition and matrix-factorization pipelines"
+  }
+}

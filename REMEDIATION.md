@@ -463,6 +463,12 @@ Potential remediation path:
   `_preprocess_data` args/kwargs, fresh coefficient allocation, l1/l2
   regularization scaling, Fortran coefficient normalization,
   `check_random_state` args, and the compiled solver positional payload.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_multitask_cv_api_shell` now
+  publishes deterministic `MultiTaskElasticNetCV` and `MultiTaskLassoCV`
+  API-shell helpers: CV parameter-constraint specialization and pruning,
+  direct `MultiTaskElasticNetCV.__init__` attribute state, and
+  `MultiTaskLassoCV.__init__` delegation kwargs into `LinearModelCV`.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 
