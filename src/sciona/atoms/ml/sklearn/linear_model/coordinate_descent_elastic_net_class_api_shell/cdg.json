@@ -1,0 +1,71 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_elastic_net_class_api_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent ElasticNet Class API Shell Atoms",
+      "description": "Deterministic class-level metadata and parameter-constraint helpers from sklearn.linear_model._coordinate_descent.ElasticNet outside fit/path execution.",
+      "status": "decomposed",
+      "children": [
+        "cd_elastic_net_fit_metadata_request",
+        "cd_elastic_net_parameter_constraint_names",
+        "cd_elastic_net_parameter_constraint_descriptors"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_elastic_net_fit_metadata_request",
+      "name": "cd_elastic_net_fit_metadata_request",
+      "description": "Return the class-level fit metadata request for ElasticNet.",
+      "concept_type": "metadata_request",
+      "status": "atomic",
+      "type_signature": "(estimator_kind: str) -> dict[str, str]",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator_kind", "type_desc": "must be elastic_net", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "fit metadata request marking check_input as UNUSED"}
+      ]
+    },
+    {
+      "node_id": "cd_elastic_net_parameter_constraint_names",
+      "name": "cd_elastic_net_parameter_constraint_names",
+      "description": "Return ElasticNet._parameter_constraints names in declaration order.",
+      "concept_type": "parameter_constraints",
+      "status": "atomic",
+      "type_signature": "(estimator_kind: str) -> tuple[str, ...]",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator_kind", "type_desc": "must be elastic_net", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "ordered ElasticNet parameter names"}
+      ]
+    },
+    {
+      "node_id": "cd_elastic_net_parameter_constraint_descriptors",
+      "name": "cd_elastic_net_parameter_constraint_descriptors",
+      "description": "Return compact descriptors for ElasticNet._parameter_constraints.",
+      "concept_type": "parameter_constraints",
+      "status": "atomic",
+      "type_signature": "(estimator_kind: str) -> dict[str, tuple[object, ...]]",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator_kind", "type_desc": "must be elastic_net", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "compact descriptor mapping for ElasticNet parameter constraints"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_elastic_net_parameter_constraint_names", "target": "cd_elastic_net_parameter_constraint_descriptors", "kind": "schema_context"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 5 decomposition and matrix-factorization pipelines"
+  }
+}

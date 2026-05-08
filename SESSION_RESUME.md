@@ -15,7 +15,7 @@ work safely.
     coordinate-descent estimators and CV wrappers in
     `sklearn.linear_model._coordinate_descent`
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.coordinate_descent_alpha_grid_prelude_shell`
+  - `sklearn.linear_model.coordinate_descent_elastic_net_class_api_shell`
 
 ## Known Unrelated Local Modification
 
@@ -162,6 +162,7 @@ Already landed in this section:
 - `coordinate_descent_lasso_estimator_api_shell`
 - `coordinate_descent_multitask_lasso_estimator_api_shell`
 - `coordinate_descent_elastic_net_api_shell`
+- `coordinate_descent_elastic_net_class_api_shell`
 - `coordinate_descent_multitask_elastic_net_api_shell`
 - `coordinate_descent_multitask_validation_prelude_shell`
 - `coordinate_descent_multitask_solver_setup_shell`
@@ -177,9 +178,9 @@ Already landed in this section:
 
 ## Next Likely Seams
 
-The latest pass re-read `_alpha_grid` and found a bounded prelude shell before
-the already-covered alpha-grid math tail. That shell is now covered by
-`coordinate_descent_alpha_grid_prelude_shell`.
+The latest pass added a bounded `ElasticNet` class-level API shell for the
+fit metadata request and base `_parameter_constraints` declaration. That
+shell is now covered by `coordinate_descent_elastic_net_class_api_shell`.
 
 The next best bounded candidates are:
 
@@ -200,8 +201,9 @@ The next best bounded candidates are:
      tail shell already landed, the LassoCV constructor-forwarding shell
      already landed, the ElasticNetCV constructor shell already landed, or
      the LinearModelCV base constructor shell already landed, the
-     `enet_path` params pop/default shell already landed, or the `_alpha_grid`
-     prelude shell already landed
+     `enet_path` params pop/default shell already landed, the `_alpha_grid`
+     prelude shell already landed, or the `ElasticNet` class-level fit
+     metadata and base parameter-constraint shell already landed
 
 2. `_path_residuals` duplicate-coverage check
    - split slicing and projection are now covered alongside the existing

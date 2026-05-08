@@ -467,6 +467,12 @@ Potential remediation path:
   direct `__init__` attribute state, sparse decision branch and
   `safe_sparse_dot` payloads, intercept addition, and the sparse-input tag.
 - Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_elastic_net_class_api_shell`
+  now publishes deterministic `ElasticNet` class-level API helpers
+  outside path, constructor, sparse prediction, and fit-loop behavior:
+  the fit metadata request for `check_input` and compact descriptors for
+  the base `_parameter_constraints` declaration.
+- Completed helper slice:
   `sklearn.linear_model.coordinate_descent_multitask_elastic_net_api_shell`
   now publishes deterministic `MultiTaskElasticNet` estimator API shell
   helpers: inherited parameter-constraint pruning for `precompute` and
