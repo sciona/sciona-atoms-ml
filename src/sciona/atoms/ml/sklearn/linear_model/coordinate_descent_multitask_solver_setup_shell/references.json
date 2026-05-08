@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_multitask_solver_setup_shell.cd_multitask_preprocess_data_args@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_solver_setup_shell/atoms.py:55": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from positional arguments to `_preprocess_data(X, y, ...)` in sklearn.linear_model._coordinate_descent.MultiTaskElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for multitask coordinate-descent preprocessing setup."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_multitask_solver_setup_shell.cd_multitask_preprocess_data_kwargs@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_solver_setup_shell/atoms.py:67": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `_preprocess_data(..., fit_intercept=self.fit_intercept, copy=False)` in sklearn.linear_model._coordinate_descent.MultiTaskElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for multitask coordinate-descent preprocessing kwargs."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_multitask_solver_setup_shell.cd_multitask_fresh_coef_required@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_solver_setup_shell/atoms.py:80": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `if not self.warm_start or not hasattr(self, \"coef_\")` in sklearn.linear_model._coordinate_descent.MultiTaskElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for multitask coordinate-descent warm-start coefficient allocation."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_multitask_solver_setup_shell.cd_multitask_initial_coef_zeros@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_solver_setup_shell/atoms.py:97": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `np.zeros((n_targets, n_features), dtype=X.dtype.type, order=\"F\")` in sklearn.linear_model._coordinate_descent.MultiTaskElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for multitask coordinate-descent coefficient initialization."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_multitask_solver_setup_shell.cd_multitask_regularization@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_solver_setup_shell/atoms.py:113": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `l1_reg = self.alpha * self.l1_ratio * n_samples` and `l2_reg = self.alpha * (1.0 - self.l1_ratio) * n_samples` in sklearn.linear_model._coordinate_descent.MultiTaskElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for multitask coordinate-descent regularization scaling."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_multitask_solver_setup_shell.cd_multitask_coef_fortran_array@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_solver_setup_shell/atoms.py:131": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `self.coef_ = np.asfortranarray(self.coef_)` in sklearn.linear_model._coordinate_descent.MultiTaskElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for multitask coordinate-descent coefficient memory layout."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_multitask_solver_setup_shell.cd_multitask_random_state_args@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_solver_setup_shell/atoms.py:143": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `check_random_state(self.random_state)` in the compiled solver call in sklearn.linear_model._coordinate_descent.MultiTaskElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for multitask coordinate-descent random-state validation."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_multitask_solver_setup_shell.cd_multitask_solver_args@sciona/atoms/ml/sklearn/linear_model/coordinate_descent_multitask_solver_setup_shell/atoms.py:165": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from positional arguments passed to `cd_fast.enet_coordinate_descent_multi_task(...)` in sklearn.linear_model._coordinate_descent.MultiTaskElasticNet.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for the multitask coordinate-descent compiled solver boundary."}}
+      ]
+    }
+  }
+}

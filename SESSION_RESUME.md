@@ -14,16 +14,11 @@ work safely.
   - specifically the deterministic decomposition of
     `sklearn.linear_model._coordinate_descent.MultiTaskElasticNet.fit`
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.coordinate_descent_multitask_validation_prelude_shell`
+  - `sklearn.linear_model.coordinate_descent_multitask_solver_setup_shell`
 
 ## Known Unrelated Local Modification
 
-Do not touch this unless the user explicitly asks:
-
-- `data/expansions/ml_model_selection.json`
-
-It is currently a local modification outside the remediation slices being
-landed.
+No unrelated local modifications were observed at the time of writing.
 
 ## Hard Constraints
 
@@ -164,6 +159,7 @@ Already landed in this section:
 - `coordinate_descent_elastic_net_api_shell`
 - `coordinate_descent_multitask_elastic_net_api_shell`
 - `coordinate_descent_multitask_validation_prelude_shell`
+- `coordinate_descent_multitask_solver_setup_shell`
 
 ## Next Likely Seams
 
@@ -182,7 +178,8 @@ The next best bounded candidates are:
      landed, or the Lasso and MultiTaskLasso estimator API shells already
      landed, or the ElasticNet API and sparse-prediction shell already
      landed, or the MultiTaskElasticNet API and validation-prelude shells
-     already landed
+     already landed, or the MultiTaskElasticNet solver-setup shell already
+     landed
 
 2. final duplicate-coverage check
    - before leaving `LinearModelCV.fit` permanently, verify that no new seam

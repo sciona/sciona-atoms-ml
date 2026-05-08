@@ -456,6 +456,13 @@ Potential remediation path:
   compiled multitask solver boundary: separate `X`/`y` validation
   payloads, `validate_data` and `check_consistent_length` callback
   setup, `y.astype(X.dtype)`, and shape-count extraction.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_multitask_solver_setup_shell`
+  now publishes deterministic `MultiTaskElasticNet.fit` preprocessing and
+  solver setup before the compiled multitask coordinate-descent boundary:
+  `_preprocess_data` args/kwargs, fresh coefficient allocation, l1/l2
+  regularization scaling, Fortran coefficient normalization,
+  `check_random_state` args, and the compiled solver positional payload.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 

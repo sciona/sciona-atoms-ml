@@ -1,0 +1,170 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_multitask_solver_setup_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent Multi-Output Solver Setup Helper Atoms",
+      "description": "Deterministic MultiTaskElasticNet.fit preprocessing and solver setup helpers before the compiled multitask coordinate-descent boundary.",
+      "status": "decomposed",
+      "children": [
+        "cd_multitask_preprocess_data_args",
+        "cd_multitask_preprocess_data_kwargs",
+        "cd_multitask_fresh_coef_required",
+        "cd_multitask_initial_coef_zeros",
+        "cd_multitask_regularization",
+        "cd_multitask_coef_fortran_array",
+        "cd_multitask_random_state_args",
+        "cd_multitask_solver_args"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_multitask_preprocess_data_args",
+      "name": "cd_multitask_preprocess_data_args",
+      "description": "Return positional args for _preprocess_data(X, y, ...).",
+      "concept_type": "callback_setup",
+      "status": "atomic",
+      "type_signature": "(X: object, y: object) -> tuple[object, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "validated feature matrix", "required": true},
+        {"name": "y", "type_desc": "validated target matrix", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "_preprocess_data positional arguments"}
+      ]
+    },
+    {
+      "node_id": "cd_multitask_preprocess_data_kwargs",
+      "name": "cd_multitask_preprocess_data_kwargs",
+      "description": "Return keyword args for _preprocess_data in MultiTaskElasticNet.fit.",
+      "concept_type": "callback_setup",
+      "status": "atomic",
+      "type_signature": "(fit_intercept: bool) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "fit_intercept", "type_desc": "fit_intercept setting", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "_preprocess_data keyword arguments"}
+      ]
+    },
+    {
+      "node_id": "cd_multitask_fresh_coef_required",
+      "name": "cd_multitask_fresh_coef_required",
+      "description": "Return whether MultiTaskElasticNet.fit allocates fresh coefficients.",
+      "concept_type": "branch_predicate",
+      "status": "atomic",
+      "type_signature": "(warm_start: bool, has_coef_attr: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "warm_start", "type_desc": "warm_start setting", "required": true},
+        {"name": "has_coef_attr", "type_desc": "whether coef_ already exists", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "whether a fresh coefficient matrix is required"}
+      ]
+    },
+    {
+      "node_id": "cd_multitask_initial_coef_zeros",
+      "name": "cd_multitask_initial_coef_zeros",
+      "description": "Return the fresh coefficient matrix allocated before the multitask solver.",
+      "concept_type": "array_allocation",
+      "status": "atomic",
+      "type_signature": "(n_targets: int, n_features: int, dtype: object) -> NDArray[np.floating]",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_targets", "type_desc": "positive target count", "required": true},
+        {"name": "n_features", "type_desc": "positive feature count", "required": true},
+        {"name": "dtype", "type_desc": "NumPy dtype for coefficients", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "F-contiguous zero coefficient matrix"}
+      ]
+    },
+    {
+      "node_id": "cd_multitask_regularization",
+      "name": "cd_multitask_regularization",
+      "description": "Return l1_reg and l2_reg passed to the compiled multitask solver.",
+      "concept_type": "numeric_scaling",
+      "status": "atomic",
+      "type_signature": "(alpha: object, l1_ratio: object, n_samples: int) -> tuple[float, float]",
+      "depth": 1,
+      "inputs": [
+        {"name": "alpha", "type_desc": "regularization strength", "required": true},
+        {"name": "l1_ratio", "type_desc": "l1/l2 mixing ratio", "required": true},
+        {"name": "n_samples", "type_desc": "positive sample count", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "l1_reg and l2_reg scaled by n_samples"}
+      ]
+    },
+    {
+      "node_id": "cd_multitask_coef_fortran_array",
+      "name": "cd_multitask_coef_fortran_array",
+      "description": "Return coef normalized with np.asfortranarray.",
+      "concept_type": "array_memory_layout",
+      "status": "atomic",
+      "type_signature": "(coef: object) -> NDArray[np.generic]",
+      "depth": 1,
+      "inputs": [
+        {"name": "coef", "type_desc": "finite numeric coefficient array", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "Fortran-contiguous coefficient array"}
+      ]
+    },
+    {
+      "node_id": "cd_multitask_random_state_args",
+      "name": "cd_multitask_random_state_args",
+      "description": "Return positional args for check_random_state(random_state).",
+      "concept_type": "callback_setup",
+      "status": "atomic",
+      "type_signature": "(random_state: object) -> tuple[object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "random_state", "type_desc": "random_state payload", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "check_random_state positional arguments"}
+      ]
+    },
+    {
+      "node_id": "cd_multitask_solver_args",
+      "name": "cd_multitask_solver_args",
+      "description": "Return positional args for enet_coordinate_descent_multi_task.",
+      "concept_type": "compiled_solver_boundary",
+      "status": "atomic",
+      "type_signature": "(coef: object, l1_reg: object, l2_reg: object, X: object, y: object, max_iter: int, tol: object, checked_random_state: object, random: bool) -> tuple[object, object, object, object, object, int, object, object, bool]",
+      "depth": 1,
+      "inputs": [
+        {"name": "coef", "type_desc": "Fortran-contiguous coefficient matrix", "required": true},
+        {"name": "l1_reg", "type_desc": "scaled l1 regularization", "required": true},
+        {"name": "l2_reg", "type_desc": "scaled l2 regularization", "required": true},
+        {"name": "X", "type_desc": "preprocessed feature matrix", "required": true},
+        {"name": "y", "type_desc": "preprocessed target matrix", "required": true},
+        {"name": "max_iter", "type_desc": "positive iteration limit", "required": true},
+        {"name": "tol", "type_desc": "solver tolerance", "required": true},
+        {"name": "checked_random_state", "type_desc": "validated random state", "required": true},
+        {"name": "random", "type_desc": "random coordinate selection flag", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "compiled solver positional payload"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_multitask_preprocess_data_args", "target": "cd_multitask_preprocess_data_kwargs", "kind": "callback_context"},
+    {"source": "cd_multitask_fresh_coef_required", "target": "cd_multitask_initial_coef_zeros", "kind": "allocation_guard"},
+    {"source": "cd_multitask_initial_coef_zeros", "target": "cd_multitask_coef_fortran_array", "kind": "solver_state"},
+    {"source": "cd_multitask_regularization", "target": "cd_multitask_solver_args", "kind": "solver_argument"},
+    {"source": "cd_multitask_coef_fortran_array", "target": "cd_multitask_solver_args", "kind": "solver_argument"},
+    {"source": "cd_multitask_random_state_args", "target": "cd_multitask_solver_args", "kind": "solver_argument"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 1 native and compiled core boundaries"
+  }
+}
