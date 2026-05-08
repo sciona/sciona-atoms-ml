@@ -1,0 +1,107 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_set_order_helper_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent Set Order Helper Atoms",
+      "description": "Deterministic helper atoms for sklearn.linear_model._coordinate_descent._set_order dense and sparse ordering behavior.",
+      "status": "decomposed",
+      "children": [
+        "cd_set_order_invalid_order_required",
+        "cd_set_order_invalid_order_message",
+        "cd_set_order_conversion_required",
+        "cd_set_order_sparse_format",
+        "cd_set_order_outputs"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_set_order_invalid_order_required",
+      "name": "cd_set_order_invalid_order_required",
+      "description": "Return whether _set_order should raise for an invalid order.",
+      "concept_type": "branch_predicate",
+      "status": "atomic",
+      "type_signature": "(order: object) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "order", "type_desc": "requested order value", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "whether order is outside None, C, or F"}
+      ]
+    },
+    {
+      "node_id": "cd_set_order_invalid_order_message",
+      "name": "cd_set_order_invalid_order_message",
+      "description": "Return the invalid-order ValueError text used by _set_order.",
+      "concept_type": "error_formatting",
+      "status": "atomic",
+      "type_signature": "(order: object) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "order", "type_desc": "invalid requested order value", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "formatted invalid-order error message"}
+      ]
+    },
+    {
+      "node_id": "cd_set_order_conversion_required",
+      "name": "cd_set_order_conversion_required",
+      "description": "Return whether _set_order converts X and y.",
+      "concept_type": "branch_predicate",
+      "status": "atomic",
+      "type_signature": "(order: str | None) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "order", "type_desc": "valid requested order value", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "whether order is not None"}
+      ]
+    },
+    {
+      "node_id": "cd_set_order_sparse_format",
+      "name": "cd_set_order_sparse_format",
+      "description": "Return the sparse format selected by _set_order.",
+      "concept_type": "sparse_format_selection",
+      "status": "atomic",
+      "type_signature": "(order: str) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "order", "type_desc": "C or F order", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "csr for C order or csc for F order"}
+      ]
+    },
+    {
+      "node_id": "cd_set_order_outputs",
+      "name": "cd_set_order_outputs",
+      "description": "Return the X and y outputs produced by _set_order.",
+      "concept_type": "array_memory_layout",
+      "status": "atomic",
+      "type_signature": "(X: object, y: object, order: str | None = \"C\") -> tuple[object, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "array-like or sparse feature matrix", "required": true},
+        {"name": "y", "type_desc": "array-like or sparse target values", "required": true},
+        {"name": "order", "type_desc": "valid requested order value", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "ordered X and y payloads"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_set_order_invalid_order_required", "target": "cd_set_order_invalid_order_message", "kind": "guard_message"},
+    {"source": "cd_set_order_conversion_required", "target": "cd_set_order_sparse_format", "kind": "conversion_context"},
+    {"source": "cd_set_order_sparse_format", "target": "cd_set_order_outputs", "kind": "sparse_conversion_context"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 1 native and compiled core boundaries"
+  }
+}

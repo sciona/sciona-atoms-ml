@@ -469,6 +469,13 @@ Potential remediation path:
   API-shell helpers: CV parameter-constraint specialization and pruning,
   direct `MultiTaskElasticNetCV.__init__` attribute state, and
   `MultiTaskLassoCV.__init__` delegation kwargs into `LinearModelCV`.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_set_order_helper_shell` now
+  publishes deterministic `_set_order` helper internals: invalid-order
+  guard and message formatting, conversion gating, C/F sparse-format
+  selection, dense `np.asarray(..., order=...)` outputs, sparse
+  `asformat(...)` outputs, and identity-preserving `(X, y)` return when
+  `order is None`.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 

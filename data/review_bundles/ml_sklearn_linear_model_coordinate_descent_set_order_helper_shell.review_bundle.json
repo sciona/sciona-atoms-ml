@@ -1,0 +1,129 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "sciona.atoms.review_bundle.ml.sklearn_linear_model_coordinate_descent_set_order_helper_shell.v1",
+  "provider_repo": "sciona-atoms-ml",
+  "family_batch": "ml_sklearn_linear_model_coordinate_descent_set_order_helper_shell",
+  "review_status": "reviewed",
+  "review_semantic_verdict": "pass_with_limits",
+  "review_developer_semantic_verdict": "pass_with_limits",
+  "trust_readiness": "reviewed_with_limits",
+  "authoritative_sources": [
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_set_order_helper_shell/atoms.py"},
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_set_order_helper_shell/witnesses.py"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_set_order_helper_shell/references.json"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_set_order_helper_shell/cdg.json"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_linear_model_coordinate_descent_set_order_helper_shell_behavior.py"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_linear_model_coordinate_descent_set_order_helper_shell_references_metadata.py"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_linear_model_coordinate_descent_set_order_helper_shell_review_bundle.py"}
+  ],
+  "limitations": [
+    "This batch covers only deterministic _set_order helper behavior in sklearn.linear_model._coordinate_descent.",
+    "The helpers model invalid order guarding and message formatting, conversion gating, C/F sparse format selection, dense np.asarray ordering, sparse asformat conversion, and identity-preserving output when order is None.",
+    "Caller-specific _set_order branch selection and argument setup are covered by separate estimator prefit atoms."
+  ],
+  "blocking_findings": [],
+  "required_actions": [],
+  "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_set_order_helper_shell.review_bundle.json",
+  "rows": [
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_set_order_helper_shell.cd_set_order_invalid_order_required",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_set_order_helper_shell.cd_set_order_invalid_order_required",
+      "has_references": true,
+      "overall_verdict": "pass",
+      "parity_test_status": "pass",
+      "references_status": "pass",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_set_order_helper_shell.review_bundle.json",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_status": "reviewed",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_set_order_helper_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_set_order_helper_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_set_order_helper_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_set_order_helper_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_set_order_helper_shell_behavior.py"
+      ],
+      "trust_readiness": "catalog_ready"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_set_order_helper_shell.cd_set_order_invalid_order_message",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_set_order_helper_shell.cd_set_order_invalid_order_message",
+      "has_references": true,
+      "overall_verdict": "pass",
+      "parity_test_status": "pass",
+      "references_status": "pass",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_set_order_helper_shell.review_bundle.json",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_status": "reviewed",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_set_order_helper_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_set_order_helper_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_set_order_helper_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_set_order_helper_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_set_order_helper_shell_behavior.py"
+      ],
+      "trust_readiness": "catalog_ready"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_set_order_helper_shell.cd_set_order_conversion_required",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_set_order_helper_shell.cd_set_order_conversion_required",
+      "has_references": true,
+      "overall_verdict": "pass",
+      "parity_test_status": "pass",
+      "references_status": "pass",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_set_order_helper_shell.review_bundle.json",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_status": "reviewed",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_set_order_helper_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_set_order_helper_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_set_order_helper_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_set_order_helper_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_set_order_helper_shell_behavior.py"
+      ],
+      "trust_readiness": "catalog_ready"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_set_order_helper_shell.cd_set_order_sparse_format",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_set_order_helper_shell.cd_set_order_sparse_format",
+      "has_references": true,
+      "overall_verdict": "pass",
+      "parity_test_status": "pass",
+      "references_status": "pass",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_set_order_helper_shell.review_bundle.json",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_status": "reviewed",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_set_order_helper_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_set_order_helper_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_set_order_helper_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_set_order_helper_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_set_order_helper_shell_behavior.py"
+      ],
+      "trust_readiness": "catalog_ready"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_set_order_helper_shell.cd_set_order_outputs",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.coordinate_descent_set_order_helper_shell.cd_set_order_outputs",
+      "has_references": true,
+      "overall_verdict": "pass",
+      "parity_test_status": "pass",
+      "references_status": "pass",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_coordinate_descent_set_order_helper_shell.review_bundle.json",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_status": "reviewed",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_set_order_helper_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_set_order_helper_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_set_order_helper_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/coordinate_descent_set_order_helper_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_coordinate_descent_set_order_helper_shell_behavior.py"
+      ],
+      "trust_readiness": "catalog_ready"
+    }
+  ]
+}
