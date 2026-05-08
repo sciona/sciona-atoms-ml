@@ -15,7 +15,7 @@ work safely.
     coordinate-descent estimators and CV wrappers in
     `sklearn.linear_model._coordinate_descent`
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.coordinate_descent_enet_path_screening_shell`
+  - `sklearn.linear_model.coordinate_descent_enet_path_prefit_grid_payload_shell`
 
 ## Known Unrelated Local Modification
 
@@ -119,6 +119,7 @@ Already landed in this section:
 - `coordinate_descent_enet_path_params_shell`
 - `coordinate_descent_path_deprecation_prelude_shell`
 - `coordinate_descent_enet_path_screening_shell`
+- `coordinate_descent_enet_path_prefit_grid_payload_shell`
 - `coordinate_descent_enet_path_solver_dispatch`
 - `coordinate_descent_enet_path_state_setup`
 - `coordinate_descent_enet_path_loop_tail`
@@ -181,9 +182,10 @@ Already landed in this section:
 
 ## Next Likely Seams
 
-The latest pass added a bounded `enet_path` screening-parameter shell for
-the `do_screening` pop/default delta and solver payload handoff. That shell
-is now covered by `coordinate_descent_enet_path_screening_shell`.
+The latest pass added a bounded sklearn 1.8 `enet_path` prefit/grid payload
+shell for the fixed `_pre_fit` kwargs and `_alpha_grid` kwargs payload.
+That shell is now covered by
+`coordinate_descent_enet_path_prefit_grid_payload_shell`.
 
 The next best bounded candidates are:
 
@@ -209,15 +211,17 @@ The next best bounded candidates are:
      metadata and base parameter-constraint shell already landed, the
      `LinearModelCV.fit` n_alphas/alphas deprecation prelude already landed,
      the path-helper n_alphas/alphas deprecation prelude already landed, or
-     the `enet_path` do_screening parameter and payload delta already landed
+     the `enet_path` do_screening parameter and payload delta already landed,
+     or the sklearn 1.8 `enet_path` prefit/grid payload delta already landed
 
-2. enet_path prefit and alpha-grid payload delta
+2. enet_path prefit and alpha-grid callback output delta
    - a worker audit identified a likely next bounded family:
-     `coordinate_descent_enet_path_prefit_grid_payload_shell`
-   - review `/tmp/sciona-worker-coordinate-next-after-screening/coordinate_descent_enet_path_prefit_grid_payload_shell`
+     `coordinate_descent_enet_path_prefit_grid_callback_shell`
+   - review `/tmp/sciona-worker-coordinate-next-after-prefit-grid/coordinate_descent_enet_path_prefit_grid_callback_shell`
      before copying anything into the repo
    - duplicate-risk check should confirm this remains separate from
-     `coordinate_descent_enet_path_input_shell` and the
+     `coordinate_descent_enet_path_prefit_grid_payload_shell`,
+     `coordinate_descent_enet_path_input_shell`, and the
      `coordinate_descent_alpha_grid_*` internals
 
 3. `_path_residuals` duplicate-coverage check
