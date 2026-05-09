@@ -605,6 +605,11 @@ Potential remediation path:
   publishes deterministic `LinearModelCV` abstract API contract helpers:
   declared abstract method names, compact semantic roles for the abstract
   methods, and the `path(X, y, **kwargs)` payload shape.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_cv_base_fit_context_shell` now
+  publishes deterministic `LinearModelCV.fit` decorator-context helpers:
+  `_fit_context(prefer_skip_nested_validation=True)` kwargs and the
+  decorated `fit` method name.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 
