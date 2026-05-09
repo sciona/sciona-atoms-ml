@@ -600,6 +600,11 @@ Potential remediation path:
   publishes deterministic `LinearModelCV` class-level parameter-constraint
   helpers outside constructor and fit orchestration: declaration-order
   constraint names and compact descriptors for the shared CV base schema.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_cv_base_abstract_api_shell` now
+  publishes deterministic `LinearModelCV` abstract API contract helpers:
+  declared abstract method names, compact semantic roles for the abstract
+  methods, and the `path(X, y, **kwargs)` payload shape.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 

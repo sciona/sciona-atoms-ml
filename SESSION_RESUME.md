@@ -15,7 +15,7 @@ work safely.
     coordinate-descent estimators and CV wrappers in
     `sklearn.linear_model._coordinate_descent`
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.coordinate_descent_cv_base_constraints_shell`
+  - `sklearn.linear_model.coordinate_descent_cv_base_abstract_api_shell`
 
 ## Known Unrelated Local Modification
 
@@ -185,12 +185,13 @@ Already landed in this section:
 - `coordinate_descent_elastic_net_cv_init_shell`
 - `coordinate_descent_cv_base_init_shell`
 - `coordinate_descent_cv_base_constraints_shell`
+- `coordinate_descent_cv_base_abstract_api_shell`
 
 ## Next Likely Seams
 
-The latest pass added a bounded `LinearModelCV` class-level
-parameter-constraint shell outside constructor and fit orchestration. That
-shell is now covered by `coordinate_descent_cv_base_constraints_shell`.
+The latest pass added a bounded `LinearModelCV` abstract API contract shell
+outside constructor and fit orchestration. That shell is now covered by
+`coordinate_descent_cv_base_abstract_api_shell`.
 
 The next best bounded candidates are:
 
@@ -223,11 +224,12 @@ The next best bounded candidates are:
      already landed, or the `ElasticNet.fit` multi-target postfit
      passthrough already landed, or the `ElasticNet._decision_function`
      dense fallback already landed, or the `LinearModelCV` base
-     parameter-constraint schema already landed
+     parameter-constraint schema already landed, or the `LinearModelCV`
+     abstract base API contract already landed
 
-2. next coordinate-descent seam after CV base constraints
+2. next coordinate-descent seam after CV base abstract API
    - a worker audit is scouting ahead under
-     `/tmp/sciona-worker-coordinate-next-after-cv-base-constraints`
+     `/tmp/sciona-worker-coordinate-next-after-cv-base-abstract-api`
    - if present, review its recommended family before copying anything into
      the repo
    - duplicate-risk check should confirm the candidate is separate from the
