@@ -1,0 +1,56 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_cv_base_constraints_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent LinearModelCV Constraint Shell Atoms",
+      "description": "Deterministic class-level parameter-constraint helpers from sklearn.linear_model._coordinate_descent.LinearModelCV.",
+      "status": "decomposed",
+      "children": [
+        "cd_cv_base_parameter_constraint_names",
+        "cd_cv_base_parameter_constraint_descriptors"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_cv_base_parameter_constraint_names",
+      "name": "cd_cv_base_parameter_constraint_names",
+      "description": "Return LinearModelCV._parameter_constraints names in declaration order.",
+      "concept_type": "parameter_constraints",
+      "status": "atomic",
+      "type_signature": "(estimator_kind: str) -> tuple[str, ...]",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator_kind", "type_desc": "must be linear_model_cv", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "ordered LinearModelCV parameter names"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_base_parameter_constraint_descriptors",
+      "name": "cd_cv_base_parameter_constraint_descriptors",
+      "description": "Return compact descriptors for LinearModelCV._parameter_constraints.",
+      "concept_type": "parameter_constraints",
+      "status": "atomic",
+      "type_signature": "(estimator_kind: str) -> dict[str, tuple[object, ...]]",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator_kind", "type_desc": "must be linear_model_cv", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "compact descriptor mapping for LinearModelCV parameter constraints"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_cv_base_parameter_constraint_names", "target": "cd_cv_base_parameter_constraint_descriptors", "kind": "schema_context"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "source_lines": "1496-1511",
+    "remediation_case": "Case 5 decomposition and matrix-factorization pipelines"
+  }
+}

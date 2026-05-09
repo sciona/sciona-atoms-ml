@@ -595,6 +595,11 @@ Potential remediation path:
   publishes deterministic `LinearModelCV.__init__` base constructor
   attribute state shared by coordinate-descent CV subclasses before
   subclass-specific API setup and fit orchestration.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_cv_base_constraints_shell` now
+  publishes deterministic `LinearModelCV` class-level parameter-constraint
+  helpers outside constructor and fit orchestration: declaration-order
+  constraint names and compact descriptors for the shared CV base schema.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 

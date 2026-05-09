@@ -15,7 +15,7 @@ work safely.
     coordinate-descent estimators and CV wrappers in
     `sklearn.linear_model._coordinate_descent`
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.coordinate_descent_elastic_net_dense_decision_callback_shell`
+  - `sklearn.linear_model.coordinate_descent_cv_base_constraints_shell`
 
 ## Known Unrelated Local Modification
 
@@ -184,12 +184,13 @@ Already landed in this section:
 - `coordinate_descent_lasso_cv_init_shell`
 - `coordinate_descent_elastic_net_cv_init_shell`
 - `coordinate_descent_cv_base_init_shell`
+- `coordinate_descent_cv_base_constraints_shell`
 
 ## Next Likely Seams
 
-The latest pass added a bounded `ElasticNet._decision_function` dense
-fallback shell outside the sparse branch. That shell is now covered by
-`coordinate_descent_elastic_net_dense_decision_callback_shell`.
+The latest pass added a bounded `LinearModelCV` class-level
+parameter-constraint shell outside constructor and fit orchestration. That
+shell is now covered by `coordinate_descent_cv_base_constraints_shell`.
 
 The next best bounded candidates are:
 
@@ -221,18 +222,17 @@ The next best bounded candidates are:
      already landed, or the `ElasticNet.fit` prefit callback output delta
      already landed, or the `ElasticNet.fit` multi-target postfit
      passthrough already landed, or the `ElasticNet._decision_function`
-     dense fallback already landed
+     dense fallback already landed, or the `LinearModelCV` base
+     parameter-constraint schema already landed
 
-2. LinearModelCV base parameter constraints
-   - a worker audit identified a likely next bounded family:
-     `coordinate_descent_cv_base_constraints_shell`
-   - review `/tmp/sciona-worker-coordinate-next-after-dense-decision/coordinate_descent_cv_base_constraints_shell`
-     before copying anything into the repo
-   - proposed atoms: `cd_cv_base_parameter_constraint_names` and
-     `cd_cv_base_parameter_constraint_descriptors`
-   - duplicate-risk check should confirm this remains separate from
-     `coordinate_descent_cv_base_init_shell` and
-     `coordinate_descent_cv_api_shell`
+2. next coordinate-descent seam after CV base constraints
+   - a worker audit is scouting ahead under
+     `/tmp/sciona-worker-coordinate-next-after-cv-base-constraints`
+   - if present, review its recommended family before copying anything into
+     the repo
+   - duplicate-risk check should confirm the candidate is separate from the
+     landed constructor, class-API, validation, path, callback, and solver
+     payload shells listed above
 
 3. `_path_residuals` duplicate-coverage check
    - split slicing and projection are now covered alongside the existing
