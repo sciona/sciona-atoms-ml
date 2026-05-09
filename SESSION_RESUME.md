@@ -15,7 +15,7 @@ work safely.
     coordinate-descent estimators and CV wrappers in
     `sklearn.linear_model._coordinate_descent`
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.coordinate_descent_estimator_multitarget_postfit_shell`
+  - `sklearn.linear_model.coordinate_descent_elastic_net_dense_decision_callback_shell`
 
 ## Known Unrelated Local Modification
 
@@ -89,6 +89,7 @@ Ledger update:
    - its 3 tests
    - its review bundle
    - `REMEDIATION.md`
+   - `SESSION_RESUME.md`
 3. Commit with a message of the form:
 
 ```bash
@@ -169,6 +170,7 @@ Already landed in this section:
 - `coordinate_descent_lasso_estimator_api_shell`
 - `coordinate_descent_multitask_lasso_estimator_api_shell`
 - `coordinate_descent_elastic_net_api_shell`
+- `coordinate_descent_elastic_net_dense_decision_callback_shell`
 - `coordinate_descent_elastic_net_class_api_shell`
 - `coordinate_descent_multitask_elastic_net_api_shell`
 - `coordinate_descent_multitask_validation_prelude_shell`
@@ -185,9 +187,9 @@ Already landed in this section:
 
 ## Next Likely Seams
 
-The latest pass added a bounded `ElasticNet.fit` multi-target postfit
-passthrough shell for the `n_targets != 1` branch. That shell is now covered
-by `coordinate_descent_estimator_multitarget_postfit_shell`.
+The latest pass added a bounded `ElasticNet._decision_function` dense
+fallback shell outside the sparse branch. That shell is now covered by
+`coordinate_descent_elastic_net_dense_decision_callback_shell`.
 
 The next best bounded candidates are:
 
@@ -218,15 +220,19 @@ The next best bounded candidates are:
      or the sklearn 1.8 `enet_path` prefit/grid callback output delta
      already landed, or the `ElasticNet.fit` prefit callback output delta
      already landed, or the `ElasticNet.fit` multi-target postfit
-     passthrough already landed
+     passthrough already landed, or the `ElasticNet._decision_function`
+     dense fallback already landed
 
-2. ElasticNet dense decision callback fallback
+2. LinearModelCV base parameter constraints
    - a worker audit identified a likely next bounded family:
-     `coordinate_descent_elastic_net_dense_decision_callback_shell`
-   - review `/tmp/sciona-worker-coordinate-next-after-multitarget-postfit/coordinate_descent_elastic_net_dense_decision_callback_shell`
+     `coordinate_descent_cv_base_constraints_shell`
+   - review `/tmp/sciona-worker-coordinate-next-after-dense-decision/coordinate_descent_cv_base_constraints_shell`
      before copying anything into the repo
+   - proposed atoms: `cd_cv_base_parameter_constraint_names` and
+     `cd_cv_base_parameter_constraint_descriptors`
    - duplicate-risk check should confirm this remains separate from
-     `coordinate_descent_elastic_net_api_shell`
+     `coordinate_descent_cv_base_init_shell` and
+     `coordinate_descent_cv_api_shell`
 
 3. `_path_residuals` duplicate-coverage check
    - split slicing and projection are now covered alongside the existing

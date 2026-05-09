@@ -510,6 +510,13 @@ Potential remediation path:
   direct `__init__` attribute state, sparse decision branch and
   `safe_sparse_dot` payloads, intercept addition, and the sparse-input tag.
 - Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_elastic_net_dense_decision_callback_shell`
+  now publishes deterministic `ElasticNet._decision_function` dense
+  fallback helpers outside the sparse branch: `check_is_fitted(self)`
+  payload, dense branch selection as the complement of sparse input,
+  `super()._decision_function(X)` payload, and dense callback result
+  passthrough.
+- Completed helper slice:
   `sklearn.linear_model.coordinate_descent_elastic_net_class_api_shell`
   now publishes deterministic `ElasticNet` class-level API helpers
   outside path, constructor, sparse prediction, and fit-loop behavior:

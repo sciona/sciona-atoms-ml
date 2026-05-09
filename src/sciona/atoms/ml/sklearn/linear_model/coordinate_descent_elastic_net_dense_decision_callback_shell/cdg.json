@@ -1,0 +1,92 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_elastic_net_dense_decision_callback_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent ElasticNet Dense Decision Callback Shell Atoms",
+      "description": "Deterministic ElasticNet._decision_function dense callback shell helpers around fitted-state checking and the superclass dense fallback.",
+      "status": "decomposed",
+      "children": [
+        "cd_elastic_net_check_is_fitted_args",
+        "cd_elastic_net_dense_decision_required",
+        "cd_elastic_net_dense_super_decision_args",
+        "cd_elastic_net_dense_super_decision_result"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_elastic_net_check_is_fitted_args",
+      "name": "cd_elastic_net_check_is_fitted_args",
+      "description": "Return the positional payload for check_is_fitted(self).",
+      "concept_type": "callback_payload",
+      "status": "atomic",
+      "type_signature": "(estimator: object) -> tuple[object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator", "type_desc": "ElasticNet estimator instance", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "check_is_fitted positional payload"}
+      ]
+    },
+    {
+      "node_id": "cd_elastic_net_dense_decision_required",
+      "name": "cd_elastic_net_dense_decision_required",
+      "description": "Return whether the dense superclass decision branch is selected.",
+      "concept_type": "branch_predicate",
+      "status": "atomic",
+      "type_signature": "(is_sparse: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "is_sparse", "type_desc": "result of sparse.issparse(X)", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "whether to call the dense superclass decision function"}
+      ]
+    },
+    {
+      "node_id": "cd_elastic_net_dense_super_decision_args",
+      "name": "cd_elastic_net_dense_super_decision_args",
+      "description": "Return the conceptual self/X payload for super()._decision_function(X).",
+      "concept_type": "callback_payload",
+      "status": "atomic",
+      "type_signature": "(estimator: object, X: object) -> tuple[object, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator", "type_desc": "ElasticNet estimator instance", "required": true},
+        {"name": "X", "type_desc": "dense decision input", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "superclass decision payload"}
+      ]
+    },
+    {
+      "node_id": "cd_elastic_net_dense_super_decision_result",
+      "name": "cd_elastic_net_dense_super_decision_result",
+      "description": "Return the dense superclass decision callback result unchanged.",
+      "concept_type": "callback_result",
+      "status": "atomic",
+      "type_signature": "(decision_result: object) -> object",
+      "depth": 1,
+      "inputs": [
+        {"name": "decision_result", "type_desc": "dense superclass decision result", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "unchanged dense decision result"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_elastic_net_check_is_fitted_args", "target": "cd_elastic_net_dense_decision_required", "kind": "source_order"},
+    {"source": "cd_elastic_net_dense_decision_required", "target": "cd_elastic_net_dense_super_decision_args", "kind": "selects_dense_branch"},
+    {"source": "cd_elastic_net_dense_super_decision_args", "target": "cd_elastic_net_dense_super_decision_result", "kind": "callback_context"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "source_lines": "1189-1205",
+    "sklearn_symbol": "ElasticNet._decision_function",
+    "remediation_case": "Case 5 decomposition and matrix-factorization pipelines"
+  }
+}
