@@ -15,7 +15,7 @@ work safely.
     coordinate-descent estimators and CV wrappers in
     `sklearn.linear_model._coordinate_descent`
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.coordinate_descent_multitask_fit_context_shell`
+  - `sklearn.linear_model.coordinate_descent_multitask_cv_sample_weight_absence_shell`
 
 ## Known Unrelated Local Modification
 
@@ -188,12 +188,13 @@ Already landed in this section:
 - `coordinate_descent_cv_base_abstract_api_shell`
 - `coordinate_descent_cv_base_fit_context_shell`
 - `coordinate_descent_multitask_fit_context_shell`
+- `coordinate_descent_multitask_cv_sample_weight_absence_shell`
 
 ## Next Likely Seams
 
-The latest pass added a bounded `MultiTaskElasticNet.fit`
-decorator-context shell outside the fit body. That shell is now covered by
-`coordinate_descent_multitask_fit_context_shell`.
+The latest pass added a bounded signature-level sample-weight absence shell
+for `MultiTaskElasticNetCV.fit` and `MultiTaskLassoCV.fit`. That shell is
+now covered by `coordinate_descent_multitask_cv_sample_weight_absence_shell`.
 
 The next best bounded candidates are:
 
@@ -229,11 +230,12 @@ The next best bounded candidates are:
      parameter-constraint schema already landed, or the `LinearModelCV`
      abstract base API contract already landed, or the `LinearModelCV.fit`
      decorator context already landed, or the `MultiTaskElasticNet.fit`
-     decorator context already landed
+     decorator context already landed, or the multitask CV signature-level
+     sample-weight absence seam already landed
 
-2. next coordinate-descent seam after multitask fit context
+2. next coordinate-descent seam after multitask CV sample-weight absence
    - a worker audit is scouting ahead under
-     `/tmp/sciona-worker-coordinate-next-after-multitask-fit-context`
+     `/tmp/sciona-worker-coordinate-next-after-multitask-cv-sample-weight-absence`
    - if present, review its recommended family before copying anything into
      the repo
    - duplicate-risk check should confirm the candidate is separate from the
@@ -242,6 +244,8 @@ The next best bounded candidates are:
    - do not copy
      `/tmp/sciona-worker-coordinate-next-after-cv-base-fit-context/coordinate_descent_cv_base_metadata_tags_shell`
      without redesign; it duplicates `coordinate_descent_cv_api_shell`
+   - treat signature-only seams as low priority unless they add source-level
+     evidence that is not already expressed by callback payload families
 
 3. `_path_residuals` duplicate-coverage check
    - split slicing and projection are now covered alongside the existing

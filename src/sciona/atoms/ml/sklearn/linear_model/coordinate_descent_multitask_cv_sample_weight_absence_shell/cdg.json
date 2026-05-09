@@ -1,0 +1,90 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_multitask_cv_sample_weight_absence_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent Multitask CV Sample Weight Absence Shell Atoms",
+      "description": "Deterministic signature-level sample-weight absence helpers from sklearn.linear_model._coordinate_descent multitask CV wrappers.",
+      "status": "decomposed",
+      "children": [
+        "cd_multitask_cv_fit_signature",
+        "cd_multitask_cv_fit_params_name",
+        "cd_multitask_cv_sample_weight_absent",
+        "cd_multitask_cv_fit_signature_classes"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_multitask_cv_fit_signature",
+      "name": "cd_multitask_cv_fit_signature",
+      "description": "Return the parameter names in the multitask CV fit signature.",
+      "concept_type": "fit_signature",
+      "status": "atomic",
+      "type_signature": "(class_name: str) -> tuple[str, str, str, str]",
+      "depth": 1,
+      "inputs": [
+        {"name": "class_name", "type_desc": "multitask coordinate-descent CV class name", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "fit parameter names self, X, y, params"}
+      ]
+    },
+    {
+      "node_id": "cd_multitask_cv_fit_params_name",
+      "name": "cd_multitask_cv_fit_params_name",
+      "description": "Return whether the variadic keyword parameter is named params.",
+      "concept_type": "fit_signature",
+      "status": "atomic",
+      "type_signature": "(params_name: str) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "params_name", "type_desc": "variadic keyword parameter name", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "whether the variadic keyword parameter is params"}
+      ]
+    },
+    {
+      "node_id": "cd_multitask_cv_sample_weight_absent",
+      "name": "cd_multitask_cv_sample_weight_absent",
+      "description": "Return whether sample_weight is absent from a fit signature.",
+      "concept_type": "fit_signature",
+      "status": "atomic",
+      "type_signature": "(parameter_names: Iterable[str]) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "parameter_names", "type_desc": "fit parameter names", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "whether sample_weight is absent"}
+      ]
+    },
+    {
+      "node_id": "cd_multitask_cv_fit_signature_classes",
+      "name": "cd_multitask_cv_fit_signature_classes",
+      "description": "Return the multitask CV classes sharing the sample-weight absence seam.",
+      "concept_type": "fit_signature",
+      "status": "atomic",
+      "type_signature": "(class_names: Iterable[str]) -> tuple[str, str]",
+      "depth": 1,
+      "inputs": [
+        {"name": "class_names", "type_desc": "available class names", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "MultiTaskElasticNetCV and MultiTaskLassoCV"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_multitask_cv_fit_signature_classes", "target": "cd_multitask_cv_fit_signature", "kind": "class_context"},
+    {"source": "cd_multitask_cv_fit_signature", "target": "cd_multitask_cv_fit_params_name", "kind": "signature_context"},
+    {"source": "cd_multitask_cv_fit_signature", "target": "cd_multitask_cv_sample_weight_absent", "kind": "signature_context"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "source_lines": "3033-3035,3273-3275",
+    "remediation_case": "Case 5 decomposition and matrix-factorization pipelines"
+  }
+}

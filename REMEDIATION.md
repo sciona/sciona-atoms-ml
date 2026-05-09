@@ -615,6 +615,12 @@ Potential remediation path:
   publishes deterministic `MultiTaskElasticNet.fit` decorator-context
   helpers outside the fit body: `_fit_context(prefer_skip_nested_validation=True)`
   kwargs and the decorated `fit` method name.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_multitask_cv_sample_weight_absence_shell`
+  now publishes deterministic signature-level helpers for the multitask CV
+  wrappers that intentionally omit `sample_weight`: shared
+  `fit(self, X, y, **params)` parameter names, `**params` naming, absence
+  of `sample_weight`, and the two classes sharing this seam.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 
