@@ -1,0 +1,57 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_multitask_fit_context_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent MultiTaskElasticNet Fit Context Shell Atoms",
+      "description": "Deterministic fit-context decorator helpers from sklearn.linear_model._coordinate_descent.MultiTaskElasticNet.fit.",
+      "status": "decomposed",
+      "children": [
+        "cd_multitask_fit_context_kwargs",
+        "cd_multitask_fit_context_method_name"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_multitask_fit_context_kwargs",
+      "name": "cd_multitask_fit_context_kwargs",
+      "description": "Return kwargs passed to `_fit_context` for MultiTaskElasticNet.fit.",
+      "concept_type": "decorator_context",
+      "status": "atomic",
+      "type_signature": "(class_name: str) -> dict[str, bool]",
+      "depth": 1,
+      "inputs": [
+        {"name": "class_name", "type_desc": "must be MultiTaskElasticNet", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "fit-context decorator kwargs"}
+      ]
+    },
+    {
+      "node_id": "cd_multitask_fit_context_method_name",
+      "name": "cd_multitask_fit_context_method_name",
+      "description": "Return the method name receiving the MultiTaskElasticNet `_fit_context` wrapper.",
+      "concept_type": "decorator_context",
+      "status": "atomic",
+      "type_signature": "(class_name: str, decorated_callable_name: str) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "class_name", "type_desc": "must be MultiTaskElasticNet", "required": true},
+        {"name": "decorated_callable_name", "type_desc": "decorated callable name", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "fit method name"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_multitask_fit_context_method_name", "target": "cd_multitask_fit_context_kwargs", "kind": "decorator_context"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "source_lines": "2566-2567",
+    "remediation_case": "Case 5 decomposition and matrix-factorization pipelines"
+  }
+}

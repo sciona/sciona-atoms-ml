@@ -610,6 +610,11 @@ Potential remediation path:
   publishes deterministic `LinearModelCV.fit` decorator-context helpers:
   `_fit_context(prefer_skip_nested_validation=True)` kwargs and the
   decorated `fit` method name.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_multitask_fit_context_shell` now
+  publishes deterministic `MultiTaskElasticNet.fit` decorator-context
+  helpers outside the fit body: `_fit_context(prefer_skip_nested_validation=True)`
+  kwargs and the decorated `fit` method name.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 
