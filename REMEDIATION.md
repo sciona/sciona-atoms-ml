@@ -621,6 +621,12 @@ Potential remediation path:
   wrappers that intentionally omit `sample_weight`: shared
   `fit(self, X, y, **params)` parameter names, `**params` naming, absence
   of `sample_weight`, and the two classes sharing this seam.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_path_validation_decorator_shell`
+  now publishes deterministic `validate_params` decorator schema helpers
+  for `lasso_path` and `enet_path`: ordered validation parameter names,
+  compact descriptors, and the shared `prefer_skip_nested_validation=True`
+  flag.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 

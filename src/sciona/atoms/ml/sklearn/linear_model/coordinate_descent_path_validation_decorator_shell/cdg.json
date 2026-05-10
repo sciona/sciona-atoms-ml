@@ -1,0 +1,90 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_path_validation_decorator_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent Path Validation Decorator Shell Atoms",
+      "description": "Deterministic validate_params decorator schema helpers for sklearn.linear_model._coordinate_descent lasso_path and enet_path.",
+      "status": "decomposed",
+      "children": [
+        "cd_lasso_path_validation_param_names",
+        "cd_enet_path_validation_param_names",
+        "cd_path_validation_param_descriptors",
+        "cd_path_validation_prefers_skip_nested"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_lasso_path_validation_param_names",
+      "name": "cd_lasso_path_validation_param_names",
+      "description": "Return lasso_path validate_params keys in declaration order.",
+      "concept_type": "api_parameter_constraints",
+      "status": "atomic",
+      "type_signature": "(path_name: str) -> tuple[str, ...]",
+      "depth": 1,
+      "inputs": [
+        {"name": "path_name", "type_desc": "must be lasso_path", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "ordered validate_params keys for lasso_path"}
+      ]
+    },
+    {
+      "node_id": "cd_enet_path_validation_param_names",
+      "name": "cd_enet_path_validation_param_names",
+      "description": "Return enet_path validate_params keys in declaration order.",
+      "concept_type": "api_parameter_constraints",
+      "status": "atomic",
+      "type_signature": "(path_name: str) -> tuple[str, ...]",
+      "depth": 1,
+      "inputs": [
+        {"name": "path_name", "type_desc": "must be enet_path", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "ordered validate_params keys for enet_path"}
+      ]
+    },
+    {
+      "node_id": "cd_path_validation_param_descriptors",
+      "name": "cd_path_validation_param_descriptors",
+      "description": "Return compact descriptors for a path helper validate_params schema.",
+      "concept_type": "api_parameter_constraints",
+      "status": "atomic",
+      "type_signature": "(path_name: str) -> dict[str, tuple[object, ...]]",
+      "depth": 1,
+      "inputs": [
+        {"name": "path_name", "type_desc": "lasso_path or enet_path", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "compact validation descriptors"}
+      ]
+    },
+    {
+      "node_id": "cd_path_validation_prefers_skip_nested",
+      "name": "cd_path_validation_prefers_skip_nested",
+      "description": "Return the shared prefer_skip_nested_validation flag for path helpers.",
+      "concept_type": "validation_decorator",
+      "status": "atomic",
+      "type_signature": "(path_name: str) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "path_name", "type_desc": "lasso_path or enet_path", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "true when nested validation is skipped"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_lasso_path_validation_param_names", "target": "cd_path_validation_param_descriptors", "kind": "schema_order"},
+    {"source": "cd_enet_path_validation_param_names", "target": "cd_path_validation_param_descriptors", "kind": "schema_order"},
+    {"source": "cd_path_validation_param_descriptors", "target": "cd_path_validation_prefers_skip_nested", "kind": "decorator_context"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "source_lines": "186-202,377-395",
+    "remediation_case": "Case 5 decomposition and matrix-factorization pipelines"
+  }
+}
