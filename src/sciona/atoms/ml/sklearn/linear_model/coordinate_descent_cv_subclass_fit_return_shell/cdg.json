@@ -1,0 +1,61 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_cv_subclass_fit_return_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent CV Subclass Fit Return Shell Atoms",
+      "description": "Deterministic final return passthrough helpers from coordinate-descent CV subclass fit wrappers.",
+      "status": "decomposed",
+      "children": [
+        "cd_cv_subclass_return_passthrough_required",
+        "cd_cv_subclass_fit_returns_super_result"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_cv_subclass_return_passthrough_required",
+      "name": "cd_cv_subclass_return_passthrough_required",
+      "description": "Return whether a coordinate-descent CV subclass fit wrapper returns the delegated super-fit result.",
+      "concept_type": "return_passthrough",
+      "status": "atomic",
+      "type_signature": "(cv_kind: str) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "cv_kind", "type_desc": "coordinate-descent CV subclass kind", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "true when the wrapper must return the delegated super-fit result"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_subclass_fit_returns_super_result",
+      "name": "cd_cv_subclass_fit_returns_super_result",
+      "description": "Return the exact object produced by the subclass super().fit call.",
+      "concept_type": "return_identity",
+      "status": "atomic",
+      "type_signature": "(cv_kind: str, super_fit_result: object) -> object",
+      "depth": 1,
+      "inputs": [
+        {"name": "cv_kind", "type_desc": "coordinate-descent CV subclass kind", "required": true},
+        {"name": "super_fit_result", "type_desc": "object returned by delegated super().fit", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "the exact delegated super-fit result object"}
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "cd_cv_subclass_return_passthrough_required",
+      "target": "cd_cv_subclass_fit_returns_super_result",
+      "kind": "return_identity_context"
+    }
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "source_lines": "2091-2129,2367-2405,3035-3062,3275-3302",
+    "remediation_case": "Case 5 decomposition and matrix-factorization pipelines"
+  }
+}

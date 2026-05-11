@@ -632,6 +632,12 @@ Potential remediation path:
   publishes deterministic final public `enet_path` return-branch helpers:
   tuple arity from `return_n_iter` and identity-preserving result tuple
   assembly with or without `n_iters`.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_cv_subclass_fit_return_shell` now
+  publishes deterministic final return passthrough helpers for
+  coordinate-descent CV subclass `fit` wrappers: whether the wrapper returns
+  the `super().fit(...)` result, and identity-preserving return of that
+  result.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 
