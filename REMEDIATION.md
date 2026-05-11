@@ -638,6 +638,11 @@ Potential remediation path:
   coordinate-descent CV subclass `fit` wrappers: whether the wrapper returns
   the `super().fit(...)` result, and identity-preserving return of that
   result.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_cv_metadata_router_payload_shell`
+  now publishes deterministic `LinearModelCV.get_metadata_routing` payload
+  helpers not already covered by the CV API shell: self-request identity,
+  splitter/method-mapping payload identity, and final router return identity.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 

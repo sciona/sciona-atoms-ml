@@ -15,7 +15,7 @@ work safely.
     coordinate-descent estimators and CV wrappers in
     `sklearn.linear_model._coordinate_descent`
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.coordinate_descent_cv_subclass_fit_return_shell`
+  - `sklearn.linear_model.coordinate_descent_cv_metadata_router_payload_shell`
 
 ## Known Unrelated Local Modification
 
@@ -192,12 +192,13 @@ Already landed in this section:
 - `coordinate_descent_path_validation_decorator_shell`
 - `coordinate_descent_enet_path_return_shell`
 - `coordinate_descent_cv_subclass_fit_return_shell`
+- `coordinate_descent_cv_metadata_router_payload_shell`
 
 ## Next Likely Seams
 
-The latest pass added a bounded final return passthrough shell for
-coordinate-descent CV subclass `fit` wrappers. That shell is now covered by
-`coordinate_descent_cv_subclass_fit_return_shell`.
+The latest pass added a bounded metadata-router payload shell for
+`LinearModelCV.get_metadata_routing`. That shell is now covered by
+`coordinate_descent_cv_metadata_router_payload_shell`.
 
 The next best bounded candidates are:
 
@@ -237,11 +238,13 @@ The next best bounded candidates are:
      sample-weight absence seam already landed, or the `lasso_path` and
      `enet_path` validate_params decorator schemas already landed, or the
      final public `enet_path` return tuple branch already landed, or the
-     coordinate-descent CV subclass fit return passthrough already landed
+     coordinate-descent CV subclass fit return passthrough already landed, or
+     the `LinearModelCV.get_metadata_routing` owner/caller/callee spec and
+     payload/return identities already landed
 
-2. next coordinate-descent seam after CV subclass fit return shell
+2. next coordinate-descent seam after CV metadata-router payload shell
    - a worker audit is scouting ahead under
-     `/tmp/sciona-worker-coordinate-next-after-cv-subclass-fit-return`
+     `/tmp/sciona-worker-coordinate-next-after-cv-metadata-router`
    - if present, review its recommended family before copying anything into
      the repo
    - duplicate-risk check should confirm the candidate is separate from the

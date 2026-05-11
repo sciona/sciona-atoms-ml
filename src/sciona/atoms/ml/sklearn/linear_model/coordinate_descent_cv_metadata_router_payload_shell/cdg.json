@@ -1,0 +1,74 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_cv_metadata_router_payload_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent CV Metadata Router Payload Shell Atoms",
+      "description": "Deterministic payload and final-return helpers from sklearn.linear_model._coordinate_descent.LinearModelCV.get_metadata_routing.",
+      "status": "decomposed",
+      "children": [
+        "cd_cv_metadata_router_self_request",
+        "cd_cv_metadata_router_splitter_payload",
+        "cd_cv_metadata_router_result"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_cv_metadata_router_self_request",
+      "name": "cd_cv_metadata_router_self_request",
+      "description": "Return the estimator passed to MetadataRouter.add_self_request(...).",
+      "concept_type": "metadata_routing",
+      "status": "atomic",
+      "type_signature": "(estimator: object) -> object",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator", "type_desc": "LinearModelCV instance", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "same estimator object"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_metadata_router_splitter_payload",
+      "name": "cd_cv_metadata_router_splitter_payload",
+      "description": "Return the named splitter payload passed to MetadataRouter.add(...).",
+      "concept_type": "metadata_routing",
+      "status": "atomic",
+      "type_signature": "(splitter: object, method_mapping: Mapping[str, str]) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "splitter", "type_desc": "checked CV splitter", "required": true},
+        {"name": "method_mapping", "type_desc": "fit-to-split method mapping", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "MetadataRouter.add keyword payload"}
+      ]
+    },
+    {
+      "node_id": "cd_cv_metadata_router_result",
+      "name": "cd_cv_metadata_router_result",
+      "description": "Return the constructed router from get_metadata_routing.",
+      "concept_type": "return_identity",
+      "status": "atomic",
+      "type_signature": "(router: object) -> object",
+      "depth": 1,
+      "inputs": [
+        {"name": "router", "type_desc": "constructed MetadataRouter", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "same router object"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_cv_metadata_router_self_request", "target": "cd_cv_metadata_router_result", "kind": "router_construction"},
+    {"source": "cd_cv_metadata_router_splitter_payload", "target": "cd_cv_metadata_router_result", "kind": "router_construction"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "source_lines": "1848-1870",
+    "remediation_case": "Case 5 decomposition and matrix-factorization pipelines"
+  }
+}
