@@ -627,6 +627,11 @@ Potential remediation path:
   for `lasso_path` and `enet_path`: ordered validation parameter names,
   compact descriptors, and the shared `prefer_skip_nested_validation=True`
   flag.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_enet_path_return_shell` now
+  publishes deterministic final public `enet_path` return-branch helpers:
+  tuple arity from `return_n_iter` and identity-preserving result tuple
+  assembly with or without `n_iters`.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 

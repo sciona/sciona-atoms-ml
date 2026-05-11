@@ -15,7 +15,7 @@ work safely.
     coordinate-descent estimators and CV wrappers in
     `sklearn.linear_model._coordinate_descent`
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.coordinate_descent_path_validation_decorator_shell`
+  - `sklearn.linear_model.coordinate_descent_enet_path_return_shell`
 
 ## Known Unrelated Local Modification
 
@@ -190,12 +190,13 @@ Already landed in this section:
 - `coordinate_descent_multitask_fit_context_shell`
 - `coordinate_descent_multitask_cv_sample_weight_absence_shell`
 - `coordinate_descent_path_validation_decorator_shell`
+- `coordinate_descent_enet_path_return_shell`
 
 ## Next Likely Seams
 
-The latest pass added a bounded path-helper validation decorator shell for
-`lasso_path` and `enet_path`. That shell is now covered by
-`coordinate_descent_path_validation_decorator_shell`.
+The latest pass added a bounded final public return branch shell for
+`enet_path`. That shell is now covered by
+`coordinate_descent_enet_path_return_shell`.
 
 The next best bounded candidates are:
 
@@ -233,11 +234,12 @@ The next best bounded candidates are:
      decorator context already landed, or the `MultiTaskElasticNet.fit`
      decorator context already landed, or the multitask CV signature-level
      sample-weight absence seam already landed, or the `lasso_path` and
-     `enet_path` validate_params decorator schemas already landed
+     `enet_path` validate_params decorator schemas already landed, or the
+     final public `enet_path` return tuple branch already landed
 
-2. next coordinate-descent seam after path validation decorator
+2. next coordinate-descent seam after enet_path return shell
    - a worker audit is scouting ahead under
-     `/tmp/sciona-worker-coordinate-next-after-path-validation-decorator`
+     `/tmp/sciona-worker-coordinate-next-after-enet-path-return`
    - if present, review its recommended family before copying anything into
      the repo
    - duplicate-risk check should confirm the candidate is separate from the

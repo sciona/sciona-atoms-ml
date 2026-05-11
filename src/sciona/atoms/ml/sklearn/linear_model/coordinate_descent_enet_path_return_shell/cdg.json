@@ -1,0 +1,60 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_enet_path_return_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent Enet Path Return Shell Atoms",
+      "description": "Deterministic final public return tuple helpers from sklearn.linear_model._coordinate_descent.enet_path.",
+      "status": "decomposed",
+      "children": [
+        "cd_enet_path_return_arity",
+        "cd_enet_path_result_tuple"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_enet_path_return_arity",
+      "name": "cd_enet_path_return_arity",
+      "description": "Return the final enet_path tuple arity selected by return_n_iter.",
+      "concept_type": "return_shape",
+      "status": "atomic",
+      "type_signature": "(return_n_iter: bool) -> int",
+      "depth": 1,
+      "inputs": [
+        {"name": "return_n_iter", "type_desc": "whether to include n_iters", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "3 without n_iters, 4 with n_iters"}
+      ]
+    },
+    {
+      "node_id": "cd_enet_path_result_tuple",
+      "name": "cd_enet_path_result_tuple",
+      "description": "Return the final public enet_path result tuple.",
+      "concept_type": "return_shape",
+      "status": "atomic",
+      "type_signature": "(alphas: object, coefs: object, dual_gaps: object, n_iters: Sequence[object], return_n_iter: bool) -> tuple[object, ...]",
+      "depth": 1,
+      "inputs": [
+        {"name": "alphas", "type_desc": "alpha grid result", "required": true},
+        {"name": "coefs", "type_desc": "coefficient path result", "required": true},
+        {"name": "dual_gaps", "type_desc": "dual-gap path result", "required": true},
+        {"name": "n_iters", "type_desc": "iteration-count path result", "required": true},
+        {"name": "return_n_iter", "type_desc": "whether to include n_iters", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "public enet_path return tuple"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "cd_enet_path_return_arity", "target": "cd_enet_path_result_tuple", "kind": "return_branch_context"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "source_lines": "718-720",
+    "remediation_case": "Case 5 decomposition and matrix-factorization pipelines"
+  }
+}
