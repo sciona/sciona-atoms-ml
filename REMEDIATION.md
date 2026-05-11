@@ -643,6 +643,11 @@ Potential remediation path:
   now publishes deterministic `LinearModelCV.get_metadata_routing` payload
   helpers not already covered by the CV API shell: self-request identity,
   splitter/method-mapping payload identity, and final router return identity.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_cv_metadata_router_check_cv_callback_shell`
+  now publishes deterministic `LinearModelCV.get_metadata_routing`
+  `check_cv(self.cv)` callback-boundary helpers: positional argument identity
+  for `self.cv` and identity-preserving return of the checked splitter.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 
