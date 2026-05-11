@@ -648,6 +648,12 @@ Potential remediation path:
   now publishes deterministic `LinearModelCV.get_metadata_routing`
   `check_cv(self.cv)` callback-boundary helpers: positional argument identity
   for `self.cv` and identity-preserving return of the checked splitter.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_cv_metadata_router_method_mapping_callback_shell`
+  now publishes deterministic `LinearModelCV.get_metadata_routing`
+  `MethodMapping().add(caller="fit", callee="split")` callback-boundary
+  helpers: fixed add kwargs and identity-preserving return of the method
+  mapping object.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 

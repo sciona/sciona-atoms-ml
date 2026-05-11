@@ -15,7 +15,7 @@ work safely.
     coordinate-descent estimators and CV wrappers in
     `sklearn.linear_model._coordinate_descent`
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.coordinate_descent_cv_metadata_router_check_cv_callback_shell`
+  - `sklearn.linear_model.coordinate_descent_cv_metadata_router_method_mapping_callback_shell`
 
 ## Known Unrelated Local Modification
 
@@ -194,12 +194,14 @@ Already landed in this section:
 - `coordinate_descent_cv_subclass_fit_return_shell`
 - `coordinate_descent_cv_metadata_router_payload_shell`
 - `coordinate_descent_cv_metadata_router_check_cv_callback_shell`
+- `coordinate_descent_cv_metadata_router_method_mapping_callback_shell`
 
 ## Next Likely Seams
 
-The latest pass added a bounded `check_cv(self.cv)` callback-boundary shell for
+The latest pass added a bounded `MethodMapping().add(caller="fit",
+callee="split")` callback-boundary shell for
 `LinearModelCV.get_metadata_routing`. That shell is now covered by
-`coordinate_descent_cv_metadata_router_check_cv_callback_shell`.
+`coordinate_descent_cv_metadata_router_method_mapping_callback_shell`.
 
 The next best bounded candidates are:
 
@@ -243,11 +245,13 @@ The next best bounded candidates are:
      the `LinearModelCV.get_metadata_routing` owner/caller/callee spec and
      payload/return identities already landed, or the
      `LinearModelCV.get_metadata_routing` `check_cv(self.cv)` callback
-     boundary already landed
+     boundary already landed, or the `LinearModelCV.get_metadata_routing`
+     `MethodMapping().add(caller="fit", callee="split")` callback boundary
+     already landed
 
-2. next coordinate-descent seam after CV metadata-router check_cv callback shell
+2. next coordinate-descent seam after CV metadata-router MethodMapping callback shell
    - a worker audit is scouting ahead under
-     `/tmp/sciona-worker-coordinate-next-after-cv-metadata-router-check-cv`
+     `/tmp/sciona-worker-coordinate-next-after-cv-metadata-router-method-mapping`
    - if present, review its recommended family before copying anything into
      the repo
    - duplicate-risk check should confirm the candidate is separate from the
