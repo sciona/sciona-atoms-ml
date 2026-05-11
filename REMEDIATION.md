@@ -654,6 +654,11 @@ Potential remediation path:
   `MethodMapping().add(caller="fit", callee="split")` callback-boundary
   helpers: fixed add kwargs and identity-preserving return of the method
   mapping object.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_cv_metadata_router_add_callback_shell`
+  now publishes a deterministic `LinearModelCV.get_metadata_routing`
+  `MetadataRouter.add(...)` callback-boundary helper: identity-preserving
+  return of the router object produced by the add callback.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 

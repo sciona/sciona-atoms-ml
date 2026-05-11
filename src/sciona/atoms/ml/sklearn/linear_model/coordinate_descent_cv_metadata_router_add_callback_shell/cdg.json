@@ -1,0 +1,40 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_coordinate_descent_cv_metadata_router_add_callback_shell_root",
+      "name": "Sklearn Linear Model Coordinate Descent CV MetadataRouter Add Callback Shell Atoms",
+      "description": "Deterministic callback-boundary result helper for MetadataRouter.add(splitter=..., method_mapping=...) inside sklearn.linear_model._coordinate_descent.LinearModelCV.get_metadata_routing.",
+      "status": "decomposed",
+      "children": [
+        "cd_cv_metadata_router_add_result"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "cd_cv_metadata_router_add_result",
+      "name": "cd_cv_metadata_router_add_result",
+      "description": "Return the MetadataRouter.add(...) callback result before final return.",
+      "concept_type": "callback_result",
+      "status": "atomic",
+      "type_signature": "(router_after_add: object, splitter: object, method_mapping: Mapping[str, str]) -> object",
+      "depth": 1,
+      "inputs": [
+        {"name": "router_after_add", "type_desc": "MetadataRouter.add callback output", "required": true},
+        {"name": "splitter", "type_desc": "checked CV splitter supplied to MetadataRouter.add", "required": true},
+        {"name": "method_mapping", "type_desc": "fit-to-split MethodMapping supplied to MetadataRouter.add", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "same MetadataRouter.add callback output"}
+      ]
+    }
+  ],
+  "edges": [],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._coordinate_descent",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "source_lines": "1865-1869",
+    "remediation_case": "Case 5 decomposition and matrix-factorization pipelines"
+  }
+}
