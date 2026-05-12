@@ -659,6 +659,11 @@ Potential remediation path:
   now publishes a deterministic `LinearModelCV.get_metadata_routing`
   `MetadataRouter.add(...)` callback-boundary helper: identity-preserving
   return of the router object produced by the add callback.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_cv_tags_super_callback_shell` now
+  publishes deterministic `LinearModelCV.__sklearn_tags__`
+  callback-boundary helpers: identity-preserving return of the
+  `super().__sklearn_tags__()` tags object and final returned-tags identity.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 

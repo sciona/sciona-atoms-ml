@@ -15,7 +15,7 @@ work safely.
     coordinate-descent estimators and CV wrappers in
     `sklearn.linear_model._coordinate_descent`
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.coordinate_descent_cv_metadata_router_add_callback_shell`
+  - `sklearn.linear_model.coordinate_descent_cv_tags_super_callback_shell`
 
 ## Known Unrelated Local Modification
 
@@ -196,12 +196,13 @@ Already landed in this section:
 - `coordinate_descent_cv_metadata_router_check_cv_callback_shell`
 - `coordinate_descent_cv_metadata_router_method_mapping_callback_shell`
 - `coordinate_descent_cv_metadata_router_add_callback_shell`
+- `coordinate_descent_cv_tags_super_callback_shell`
 
 ## Next Likely Seams
 
-The latest pass added a bounded `MetadataRouter.add(...)` callback-boundary
-shell for `LinearModelCV.get_metadata_routing`. That shell is now covered by
-`coordinate_descent_cv_metadata_router_add_callback_shell`.
+The latest pass added a bounded `super().__sklearn_tags__()` callback and
+returned-tags identity shell for `LinearModelCV.__sklearn_tags__`. That shell
+is now covered by `coordinate_descent_cv_tags_super_callback_shell`.
 
 The next best bounded candidates are:
 
@@ -248,11 +249,13 @@ The next best bounded candidates are:
      boundary already landed, or the `LinearModelCV.get_metadata_routing`
      `MethodMapping().add(caller="fit", callee="split")` callback boundary
      already landed, or the `LinearModelCV.get_metadata_routing`
-     `MetadataRouter.add(...)` callback output identity already landed
+     `MetadataRouter.add(...)` callback output identity already landed, or
+     the `LinearModelCV.__sklearn_tags__` super-callback and final returned-tags
+     identity already landed
 
-2. next coordinate-descent seam after CV metadata-router add callback shell
-   - a worker audit is scouting ahead under
-     `/tmp/sciona-worker-coordinate-next-after-cv-metadata-router-add`
+2. next coordinate-descent seam after CV tags super-callback shell
+   - no worker audit was started for the next seam because the subagent thread
+     limit was reached during this wave
    - if present, review its recommended family before copying anything into
      the repo
    - duplicate-risk check should confirm the candidate is separate from the
