@@ -216,20 +216,31 @@ Already landed in this section:
 
 ## Next Likely Seams
 
-The latest RANSAC passes added callback-orchestration helpers and a narrow
-prelude/termination shell. Those shells are now covered by
-`ransac_callback_orchestration_shell` and `ransac_fit_prelude_termination_shell`;
-threshold, loss, inlier-mask, consensus-comparison, and dynamic-trial math stay
-in the existing `sklearn.linear_model.ransac` family.
+Coordinate-descent remediation is closed for the audited sklearn 1.6.1 source.
+The final duplicate-coverage audit found no remaining deterministic, bounded,
+non-duplicative coordinate-descent seam. A tiny multitask tag-super package was
+identified as possible but intentionally skipped because tag-only seams are
+low value and tag values are already represented elsewhere.
 
-The next best bounded candidate is:
+The next best bounded candidates should come from non-coordinate
+`sklearn.linear_model` optimizer and callback boundaries:
 
-1. final coordinate-descent duplicate-coverage check
-   - before leaving `LinearModelCV.fit` permanently, verify that no new seam
-     duplicates existing alpha, validation, routing, path, parallel, MSE,
-     refit, or postfit slices
+1. Re-read the non-coordinate deferred-target ledger before choosing a seam
+   - prioritize non-tag optimizer/callback shells with clear source-local
+     behavior
+   - avoid broad estimator wrappers that hide SciPy, native, or Cython solver
+     boundaries
+   - avoid tag-only families unless they unblock a larger non-tag remediation
 
 Completed current wave:
+
+- Final coordinate-descent duplicate audit
+  - source-side and coverage-matrix audits both rejected a broad final
+    coordinate-descent atom wave
+  - no new atoms were added because remaining coordinate-descent text is
+    compiled solver boundary or duplicate of existing validation, routing,
+    path, parallel, MSE, refit, postfit, metadata-routing, callback, or tag
+    slices
 
 - `coordinate_descent_path_residuals_copy_isolation_shell`
   - publishes the single remaining narrow `_path_residuals` seam:

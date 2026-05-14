@@ -684,6 +684,16 @@ Potential remediation path:
   and final returned-tags identity. It intentionally excludes
   `target_tags.single_output = False` because multitask tag values are already
   represented by `coordinate_descent_multitask_estimator_shell`.
+- Final coordinate-descent duplicate audit complete:
+  existing coordinate-descent helper slices now cover deterministic shells for
+  `_alpha_grid`, `enet_path`, `lasso_path`, `_path_residuals`,
+  `ElasticNet`/`Lasso`, `LinearModelCV` and CV subclasses,
+  `MultiTaskElasticNet`/`MultiTaskLasso`, metadata routing, refit/postfit
+  transfer, and tag callback boundaries. Remaining coordinate-descent source
+  text is either compiled solver boundary, already-owned callback/tag/update
+  behavior, or duplicate of existing validation/routing/path/refit/postfit
+  slices. No further coordinate-descent atoms are recommended from the audited
+  sklearn 1.6.1 source.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 
