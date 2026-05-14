@@ -138,6 +138,7 @@ Already landed in this section:
 - `coordinate_descent_cv_mse_selection_shell`
 - `coordinate_descent_cv_refit_setup_shell`
 - `coordinate_descent_path_residuals_prelude`
+- `coordinate_descent_path_residuals_copy_isolation_shell`
 - `coordinate_descent_path_residuals_split_slicing_shell`
 - `coordinate_descent_path_residuals_path_params_shell`
 - `coordinate_descent_path_residuals_writeable_array_shell`
@@ -221,19 +222,21 @@ prelude/termination shell. Those shells are now covered by
 threshold, loss, inlier-mask, consensus-comparison, and dynamic-trial math stay
 in the existing `sklearn.linear_model.ransac` family.
 
-The next best bounded candidates are:
+The next best bounded candidate is:
 
-1. `_path_residuals` no-go unless only copy isolation is needed
-   - a parallel audit found the meaningful deterministic `_path_residuals`
-     behavior already covered by existing residuals families
-   - the only clean remaining seam is narrow `path_params.copy()` isolation
-
-2. final coordinate-descent duplicate-coverage check
+1. final coordinate-descent duplicate-coverage check
    - before leaving `LinearModelCV.fit` permanently, verify that no new seam
      duplicates existing alpha, validation, routing, path, parallel, MSE,
      refit, or postfit slices
 
 Completed current wave:
+
+- `coordinate_descent_path_residuals_copy_isolation_shell`
+  - publishes the single remaining narrow `_path_residuals` seam:
+    shallow `path_params.copy()` isolation before local per-fold mutation
+  - leaves subsequent `Xy`, `X_offset`, `X_scale`, `precompute`, `copy_X`,
+    `alphas`, `sample_weight`, and `l1_ratio` updates with the existing
+    `coordinate_descent_path_residuals_path_params_shell`
 
 - `ransac_fit_prelude_termination_shell`
   - publishes deterministic `RANSACRegressor.fit` helpers for `min_samples`

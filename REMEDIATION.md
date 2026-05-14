@@ -318,6 +318,13 @@ Potential remediation path:
   `copy_X=False` assignment, and the conditional `l1_ratio` update gate
   and value passthrough.
 - Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_path_residuals_copy_isolation_shell`
+  now publishes the narrow shallow-copy boundary for `_path_residuals`
+  `path_params.copy()` before local per-fold path-parameter mutation. The
+  existing path-residuals path-params shell remains the owner of subsequent
+  `Xy`, `X_offset`, `X_scale`, `precompute`, `copy_X`, `alphas`,
+  `sample_weight`, and `l1_ratio` update helpers.
+- Completed helper slice:
   `sklearn.linear_model.coordinate_descent_path_residuals_writeable_array_shell`
   now publishes deterministic `_path_residuals` dense-only memmap
   writeability helpers before `_pre_fit`: the dense-input guard, the
