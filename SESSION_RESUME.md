@@ -221,12 +221,7 @@ dynamic-trial math in the existing `sklearn.linear_model.ransac` family.
 
 The next best bounded candidates are:
 
-1. SGDOneClassSVM fit/offset/averaging shell
-   - third bounded candidate from the non-coordinate linear-model audit
-   - keep the compiled `_plain_sgd` call as a payload boundary and focus on
-     one-class labels, offset semantics, average tail, and allocation mode
-
-2. RANSAC follow-up only if needed
+1. RANSAC follow-up only if needed
    - the first RANSAC orchestration shell intentionally excludes min-samples
      resolution, validity callback payloads, predict/loss callback payloads,
      best-consensus state replacement, stop-condition guards, and warning
@@ -234,15 +229,27 @@ The next best bounded candidates are:
    - add those only as a second shell after a duplicate-risk audit against the
      existing `sklearn.linear_model.ransac` atoms
 
-3. `_path_residuals` no-go unless only copy isolation is needed
+2. `_path_residuals` no-go unless only copy isolation is needed
    - a parallel audit found the meaningful deterministic `_path_residuals`
      behavior already covered by existing residuals families
    - the only clean remaining seam is narrow `path_params.copy()` isolation
 
-4. final coordinate-descent duplicate-coverage check
+3. final coordinate-descent duplicate-coverage check
    - before leaving `LinearModelCV.fit` permanently, verify that no new seam
      duplicates existing alpha, validation, routing, path, parallel, MSE,
      refit, or postfit slices
+
+Completed current wave:
+
+- `sgd_one_class_fit_shell`
+  - publishes deterministic `SGDOneClassSVM._fit_one_class` / `_partial_fit`
+    helpers for artificial one-class targets, positive-weight validation masks,
+    fixed one-class solver context, offset/intercept conversion, `t_`
+    advancement, averaging threshold and buffer allocation, one-class parameter
+    allocation payloads, `_fit_one_class` delegation payloads, and `_partial_fit`
+    return identity
+  - leaves compiled `_plain_sgd`, stochastic updates, convergence, dataset
+    construction, seed generation, and generic SGD formulas outside the slice
 
 Pick the next seam by re-reading the immediate source region rather than
 assuming this ordering is still optimal.

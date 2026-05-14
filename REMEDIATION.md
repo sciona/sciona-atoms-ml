@@ -786,6 +786,16 @@ Potential remediation path:
   regressor-scoped and does not claim generic SGD fit, classifier fit, or
   compiled solver coverage.
 - Completed helper slice:
+  `sklearn.linear_model.sgd_one_class_fit_shell` now publishes deterministic
+  `SGDOneClassSVM._fit_one_class` and `_partial_fit` shell helpers:
+  artificial one-class targets, positive-weight validation masks, fixed
+  one-class solver context, offset/intercept conversion, `t_` advancement,
+  averaging threshold and buffer allocation, one-class parameter allocation
+  payloads, `_fit_one_class(...)` delegation payloads, and `_partial_fit`
+  return identity. Compiled `_plain_sgd` execution, stochastic updates,
+  convergence, dataset construction, seed generation, and generic SGD
+  learning-rate/l1-ratio helpers remain outside this slice.
+- Completed helper slice:
   `sklearn.linear_model.sgd_tags_super_callback_shell` now publishes a
   combined deterministic tag shell for `BaseSGDClassifier.__sklearn_tags__`
   and `BaseSGDRegressor.__sklearn_tags__`: super-tags identity, fixed

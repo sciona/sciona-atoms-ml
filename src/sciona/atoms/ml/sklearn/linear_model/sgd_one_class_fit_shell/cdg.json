@@ -1,0 +1,184 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_sgd_one_class_fit_shell_root",
+      "name": "Sklearn Linear Model SGDOneClassSVM Fit Shell Atoms",
+      "description": "Deterministic one-class SGD target, allocation, delegation, offset, and averaging helpers from SGDOneClassSVM._fit_one_class and _partial_fit.",
+      "status": "decomposed",
+      "children": [
+        "sgd_one_class_target",
+        "sgd_one_class_fixed_solver_context",
+        "sgd_one_class_validation_sample_mask",
+        "sgd_one_class_intercept_from_offset",
+        "sgd_one_class_offset_from_intercept",
+        "sgd_one_class_time_step_after_fit",
+        "sgd_one_class_average_active",
+        "sgd_one_class_average_buffers",
+        "sgd_one_class_parameter_allocation_payload",
+        "sgd_one_class_fit_one_class_payload",
+        "sgd_one_class_partial_fit_result"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "sgd_one_class_target",
+      "name": "sgd_one_class_target",
+      "description": "Return the artificial all-one target vector used for one-class SGD.",
+      "concept_type": "state_initialization",
+      "status": "atomic",
+      "type_signature": "(X: object) -> ndarray",
+      "depth": 1,
+      "inputs": [{"name": "X", "type_desc": "validated float32/float64 design matrix", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "one-dimensional all-one target with X dtype"}]
+    },
+    {
+      "node_id": "sgd_one_class_fixed_solver_context",
+      "name": "sgd_one_class_fixed_solver_context",
+      "description": "Return the fixed one-class and class-weight flags passed to the SGD solver.",
+      "concept_type": "solver_context",
+      "status": "atomic",
+      "type_signature": "(one_class: int = 1) -> tuple[int, int, int]",
+      "depth": 1,
+      "inputs": [{"name": "one_class", "type_desc": "fixed sklearn one-class solver flag", "required": false}],
+      "outputs": [{"name": "result", "type_desc": "one_class, pos_weight, and neg_weight tuple"}]
+    },
+    {
+      "node_id": "sgd_one_class_validation_sample_mask",
+      "name": "sgd_one_class_validation_sample_mask",
+      "description": "Return the positive-weight sample mask used by one-class validation splitting.",
+      "concept_type": "validation_mask",
+      "status": "atomic",
+      "type_signature": "(sample_weight: object) -> ndarray",
+      "depth": 1,
+      "inputs": [{"name": "sample_weight", "type_desc": "checked sample weight vector", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "boolean mask where sample weights are positive"}]
+    },
+    {
+      "node_id": "sgd_one_class_intercept_from_offset",
+      "name": "sgd_one_class_intercept_from_offset",
+      "description": "Return the solver intercept initialized from the public one-class offset.",
+      "concept_type": "state_conversion",
+      "status": "atomic",
+      "type_signature": "(offset: object) -> ndarray",
+      "depth": 1,
+      "inputs": [{"name": "offset", "type_desc": "finite offset scalar or vector", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "solver intercept vector"}]
+    },
+    {
+      "node_id": "sgd_one_class_offset_from_intercept",
+      "name": "sgd_one_class_offset_from_intercept",
+      "description": "Return the public one-class offset from a solver intercept.",
+      "concept_type": "state_conversion",
+      "status": "atomic",
+      "type_signature": "(intercept: object) -> ndarray",
+      "depth": 1,
+      "inputs": [{"name": "intercept", "type_desc": "finite solver intercept scalar or vector", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "public one-class offset vector"}]
+    },
+    {
+      "node_id": "sgd_one_class_time_step_after_fit",
+      "name": "sgd_one_class_time_step_after_fit",
+      "description": "Return t_ after n_iter passes over n_samples.",
+      "concept_type": "state_update",
+      "status": "atomic",
+      "type_signature": "(t_before: float, n_iter: int, n_samples: int) -> float",
+      "depth": 1,
+      "inputs": [
+        {"name": "t_before", "type_desc": "previous SGD update counter", "required": true},
+        {"name": "n_iter", "type_desc": "completed solver iterations", "required": true},
+        {"name": "n_samples", "type_desc": "sample count", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "advanced SGD update counter"}]
+    },
+    {
+      "node_id": "sgd_one_class_average_active",
+      "name": "sgd_one_class_average_active",
+      "description": "Return whether averaged state should replace standard solver state.",
+      "concept_type": "control_guard",
+      "status": "atomic",
+      "type_signature": "(average: object, t_after: float) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "average", "type_desc": "SGD averaging flag or threshold", "required": true},
+        {"name": "t_after", "type_desc": "postfit SGD update counter", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "averaged-state selection guard"}]
+    },
+    {
+      "node_id": "sgd_one_class_average_buffers",
+      "name": "sgd_one_class_average_buffers",
+      "description": "Return zero-initialized averaged coefficient and intercept buffers.",
+      "concept_type": "state_initialization",
+      "status": "atomic",
+      "type_signature": "(n_features: int, dtype: object) -> dict",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_features", "type_desc": "validated feature count", "required": true},
+        {"name": "dtype", "type_desc": "validated input dtype", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "average buffer payload"}]
+    },
+    {
+      "node_id": "sgd_one_class_parameter_allocation_payload",
+      "name": "sgd_one_class_parameter_allocation_payload",
+      "description": "Return the one-class _allocate_parameter_mem payload.",
+      "concept_type": "callback_payload",
+      "status": "atomic",
+      "type_signature": "(n_features: int, input_dtype: object, *, coef_init: object = None, offset_init: object = None) -> dict",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_features", "type_desc": "validated feature count", "required": true},
+        {"name": "input_dtype", "type_desc": "validated input dtype", "required": true},
+        {"name": "coef_init", "type_desc": "optional coefficient initializer", "required": false},
+        {"name": "offset_init", "type_desc": "optional offset initializer passed as intercept_init", "required": false}
+      ],
+      "outputs": [{"name": "result", "type_desc": "parameter allocation payload"}]
+    },
+    {
+      "node_id": "sgd_one_class_fit_one_class_payload",
+      "name": "sgd_one_class_fit_one_class_payload",
+      "description": "Return the delegated _fit_one_class payload from _partial_fit.",
+      "concept_type": "callback_payload",
+      "status": "atomic",
+      "type_signature": "(X: object, *, alpha: float, C: float, learning_rate: str, sample_weight: object, max_iter: int) -> dict",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "validated design matrix", "required": true},
+        {"name": "alpha", "type_desc": "regularization value", "required": true},
+        {"name": "C", "type_desc": "solver C value", "required": true},
+        {"name": "learning_rate", "type_desc": "learning-rate strategy", "required": true},
+        {"name": "sample_weight", "type_desc": "checked sample weight vector", "required": true},
+        {"name": "max_iter", "type_desc": "maximum solver iterations", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "_fit_one_class callback payload"}]
+    },
+    {
+      "node_id": "sgd_one_class_partial_fit_result",
+      "name": "sgd_one_class_partial_fit_result",
+      "description": "Return the estimator after _partial_fit completes.",
+      "concept_type": "return_value",
+      "status": "atomic",
+      "type_signature": "(estimator: object) -> object",
+      "depth": 1,
+      "inputs": [{"name": "estimator", "type_desc": "SGDOneClassSVM estimator", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "same estimator object"}]
+    }
+  ],
+  "edges": [
+    {"source": "sgd_one_class_target", "target": "sgd_one_class_validation_sample_mask", "kind": "validation_split_context"},
+    {"source": "sgd_one_class_fixed_solver_context", "target": "sgd_one_class_fit_one_class_payload", "kind": "solver_context"},
+    {"source": "sgd_one_class_intercept_from_offset", "target": "sgd_one_class_offset_from_intercept", "kind": "offset_roundtrip_context"},
+    {"source": "sgd_one_class_time_step_after_fit", "target": "sgd_one_class_average_active", "kind": "average_threshold_context"},
+    {"source": "sgd_one_class_average_buffers", "target": "sgd_one_class_average_active", "kind": "average_state_context"},
+    {"source": "sgd_one_class_parameter_allocation_payload", "target": "sgd_one_class_fit_one_class_payload", "kind": "partial_fit_context"},
+    {"source": "sgd_one_class_fit_one_class_payload", "target": "sgd_one_class_partial_fit_result", "kind": "delegation_context"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._stochastic_gradient",
+    "source_version": "1.6.1",
+    "source_license": "BSD-3-Clause",
+    "source_lines": "2270-2442",
+    "remediation_case": "Case 2 compiled solver boundary shell"
+  }
+}
