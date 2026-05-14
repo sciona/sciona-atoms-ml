@@ -669,6 +669,14 @@ Potential remediation path:
   now publishes deterministic `ElasticNet.__sklearn_tags__`
   callback-boundary helpers: identity-preserving return of the
   `super().__sklearn_tags__()` tags object and final returned-tags identity.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_multitask_cv_tags_super_callback_shell`
+  now publishes source-specific `MultiTaskElasticNetCV.__sklearn_tags__` and
+  `MultiTaskLassoCV.__sklearn_tags__` identity-boundary helpers:
+  identity-preserving return of the `super().__sklearn_tags__()` tags object
+  and final returned-tags identity. It intentionally excludes
+  `target_tags.single_output = False` because multitask tag values are already
+  represented by `coordinate_descent_multitask_estimator_shell`.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 

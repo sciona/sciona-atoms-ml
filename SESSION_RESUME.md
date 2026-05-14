@@ -15,7 +15,7 @@ work safely.
     recommended moving to non-coordinate-descent callback seams with lower
     duplicate risk
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.sgd_tags_super_callback_shell`
+  - `sklearn.linear_model.coordinate_descent_multitask_cv_tags_super_callback_shell`
 
 ## Known Unrelated Local Modification
 
@@ -198,6 +198,7 @@ Already landed in this section:
 - `coordinate_descent_cv_metadata_router_add_callback_shell`
 - `coordinate_descent_cv_tags_super_callback_shell`
 - `coordinate_descent_elastic_net_tags_super_callback_shell`
+- `coordinate_descent_multitask_cv_tags_super_callback_shell`
 
 ## Recent Non-Coordinate-Descent Coverage
 
@@ -210,19 +211,15 @@ Already landed in this section:
 
 ## Next Likely Seams
 
-The latest pass added a combined `BaseSGDClassifier`/`BaseSGDRegressor`
-`__sklearn_tags__` shell. That shell is now covered by
-`sgd_tags_super_callback_shell`.
+The latest pass added source-specific `MultiTaskElasticNetCV` and
+`MultiTaskLassoCV` `__sklearn_tags__` identity-boundary helpers. That shell is
+now covered by `coordinate_descent_multitask_cv_tags_super_callback_shell` and
+intentionally excludes the duplicate `target_tags.single_output = False`
+mutation.
 
 The next best bounded candidates are:
 
-1. coordinate-descent fallback seam
-   - remaining coordinate-descent tag-identity seams are lower novelty
-   - if forced back to coordinate descent, the least-bad candidate from the
-     latest audit is `coordinate_descent_multitask_tags_super_callback_shell`
-     for `MultiTaskElasticNet.__sklearn_tags__` super/return identity
-
-2. `_path_residuals` duplicate-coverage check
+1. `_path_residuals` duplicate-coverage check
    - split slicing and projection are now covered alongside the existing
      sample-weight slicing, writeable-array, callback, mono-output
      normalization, path-params, and residual aggregation families
@@ -230,10 +227,14 @@ The next best bounded candidates are:
      family, because the obvious deterministic body seams are now likely
      exhausted
 
-4. final duplicate-coverage check
+2. final coordinate-descent duplicate-coverage check
    - before leaving `LinearModelCV.fit` permanently, verify that no new seam
      duplicates existing alpha, validation, routing, path, parallel, MSE,
      refit, or postfit slices
+
+3. broader non-coordinate-descent frontier scan
+   - optimizer and callback seams outside coordinate descent remain the better
+     novelty target once the coordinate-descent duplicate pass is exhausted
 
 Pick the next seam by re-reading the immediate source region rather than
 assuming this ordering is still optimal.
