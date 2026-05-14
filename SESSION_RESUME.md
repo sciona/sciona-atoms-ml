@@ -207,28 +207,32 @@ Already landed in this section:
 - `huber_tags_super_callback_shell`
 - `quantile_solver_guard_shell`
 - `quantile_linprog_failure_message_shell`
+- `ransac_callback_orchestration_shell`
 - `sgd_classifier_fit_callback_shell`
 - `sgd_regressor_fit_callback_shell`
 - `sgd_tags_super_callback_shell`
 
 ## Next Likely Seams
 
-The latest pass added `HuberRegressor.fit` optimizer-shell helpers. That shell
-is now covered by `huber_fit_optimizer_shell` and intentionally keeps Huber
-objective, residual, and outlier-mask math in the existing
-`sklearn.linear_model.huber` family.
+The latest pass added `RANSACRegressor.fit` callback-orchestration helpers.
+That shell is now covered by `ransac_callback_orchestration_shell` and
+intentionally keeps threshold, loss, inlier-mask, consensus-comparison, and
+dynamic-trial math in the existing `sklearn.linear_model.ransac` family.
 
 The next best bounded candidates are:
 
-1. RANSAC callback orchestration shell
-   - second-best non-coordinate-descent candidate from the parallel audit
-   - keep estimator `fit`, `predict`, `score`, validity callbacks, and random
-     sampling as explicit callback boundaries
-
-2. SGDOneClassSVM fit/offset/averaging shell
+1. SGDOneClassSVM fit/offset/averaging shell
    - third bounded candidate from the non-coordinate linear-model audit
    - keep the compiled `_plain_sgd` call as a payload boundary and focus on
      one-class labels, offset semantics, average tail, and allocation mode
+
+2. RANSAC follow-up only if needed
+   - the first RANSAC orchestration shell intentionally excludes min-samples
+     resolution, validity callback payloads, predict/loss callback payloads,
+     best-consensus state replacement, stop-condition guards, and warning
+     payloads
+   - add those only as a second shell after a duplicate-risk audit against the
+     existing `sklearn.linear_model.ransac` atoms
 
 3. `_path_residuals` no-go unless only copy isolation is needed
    - a parallel audit found the meaningful deterministic `_path_residuals`

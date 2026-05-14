@@ -759,6 +759,14 @@ Potential remediation path:
   `ransac_default_residual_threshold`, `ransac_loss_residuals`,
   `ransac_inlier_mask`, `ransac_consensus_is_better`, and
   `ransac_dynamic_max_trials`.
+- Completed helper slice:
+  `sklearn.linear_model.ransac_callback_orchestration_shell` now publishes
+  deterministic `RANSACRegressor.fit` callback-orchestration helpers:
+  non-routing estimator parameter containers, skip-limit guard and
+  no-consensus messages, trial and inlier subset payloads, estimator fit and
+  score callback payloads, and final refit payloads. Existing
+  `sklearn.linear_model.ransac` atoms remain the owners of threshold, loss,
+  inlier-mask, consensus-comparison, and dynamic-trial math.
 - Completed helper slice: `sklearn.linear_model.sgd` now publishes SGD and
   passive-aggressive helper atoms for learning-rate resolution,
   passive-aggressive step-size/config selection, optional `l1_ratio`

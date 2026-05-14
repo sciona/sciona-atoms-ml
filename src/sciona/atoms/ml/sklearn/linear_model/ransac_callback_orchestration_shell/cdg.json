@@ -1,0 +1,170 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_ransac_callback_orchestration_shell_root",
+      "name": "Sklearn Linear Model RANSAC Callback Orchestration Shell Atoms",
+      "description": "Deterministic callback payload, subset extraction, skip-limit, and no-consensus diagnostic helpers from RANSACRegressor.fit.",
+      "status": "decomposed",
+      "children": [
+        "ransac_nonrouting_estimator_params",
+        "ransac_skip_limit_exceeded",
+        "ransac_trial_subset_payload",
+        "ransac_estimator_fit_callback_payload",
+        "ransac_inlier_subset_payload",
+        "ransac_score_callback_payload",
+        "ransac_no_consensus_failure_message",
+        "ransac_final_refit_callback_payload"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "ransac_nonrouting_estimator_params",
+      "name": "ransac_nonrouting_estimator_params",
+      "description": "Return RANSAC's non-routing estimator parameter containers.",
+      "concept_type": "routing_payload",
+      "status": "atomic",
+      "type_signature": "(sample_weight: object) -> dict",
+      "depth": 1,
+      "inputs": [
+        {"name": "sample_weight", "type_desc": "checked sample weights or None", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "fit, predict, and score parameter containers"}
+      ]
+    },
+    {
+      "node_id": "ransac_skip_limit_exceeded",
+      "name": "ransac_skip_limit_exceeded",
+      "description": "Return whether RANSAC has skipped more iterations than max_skips.",
+      "concept_type": "control_guard",
+      "status": "atomic",
+      "type_signature": "(n_skips_no_inliers: int, n_skips_invalid_data: int, n_skips_invalid_model: int, max_skips: int) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_skips_no_inliers", "type_desc": "no-inlier skip count", "required": true},
+        {"name": "n_skips_invalid_data", "type_desc": "invalid-data skip count", "required": true},
+        {"name": "n_skips_invalid_model", "type_desc": "invalid-model skip count", "required": true},
+        {"name": "max_skips", "type_desc": "maximum allowed skip count", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "skip-limit guard result"}
+      ]
+    },
+    {
+      "node_id": "ransac_trial_subset_payload",
+      "name": "ransac_trial_subset_payload",
+      "description": "Return the X/y subset payload for one RANSAC trial.",
+      "concept_type": "callback_payload",
+      "status": "atomic",
+      "type_signature": "(X: object, y: object, subset_idxs: object) -> dict",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "validated design matrix", "required": true},
+        {"name": "y", "type_desc": "validated target array", "required": true},
+        {"name": "subset_idxs", "type_desc": "sample indices selected by external sampler", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "subset indices and sliced X/y payload"}
+      ]
+    },
+    {
+      "node_id": "ransac_estimator_fit_callback_payload",
+      "name": "ransac_estimator_fit_callback_payload",
+      "description": "Return the estimator.fit callback payload for one RANSAC trial.",
+      "concept_type": "callback_payload",
+      "status": "atomic",
+      "type_signature": "(X_subset: object, y_subset: object, fit_params_subset: Mapping[str, object]) -> dict",
+      "depth": 1,
+      "inputs": [
+        {"name": "X_subset", "type_desc": "trial design subset", "required": true},
+        {"name": "y_subset", "type_desc": "trial target subset", "required": true},
+        {"name": "fit_params_subset", "type_desc": "already sliced estimator fit parameters", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "estimator.fit callback payload"}
+      ]
+    },
+    {
+      "node_id": "ransac_inlier_subset_payload",
+      "name": "ransac_inlier_subset_payload",
+      "description": "Return accepted inlier indices and X/y subsets for a RANSAC consensus.",
+      "concept_type": "subset_payload",
+      "status": "atomic",
+      "type_signature": "(X: object, y: object, sample_idxs: object, inlier_mask_subset: object) -> dict",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "validated design matrix", "required": true},
+        {"name": "y", "type_desc": "validated target array", "required": true},
+        {"name": "sample_idxs", "type_desc": "full sample index array", "required": true},
+        {"name": "inlier_mask_subset", "type_desc": "candidate inlier mask from existing mask atom", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "inlier indices and sliced X/y payload"}
+      ]
+    },
+    {
+      "node_id": "ransac_score_callback_payload",
+      "name": "ransac_score_callback_payload",
+      "description": "Return the estimator.score callback payload for a RANSAC consensus.",
+      "concept_type": "callback_payload",
+      "status": "atomic",
+      "type_signature": "(X_inlier_subset: object, y_inlier_subset: object, score_params_inlier_subset: Mapping[str, object]) -> dict",
+      "depth": 1,
+      "inputs": [
+        {"name": "X_inlier_subset", "type_desc": "candidate inlier design subset", "required": true},
+        {"name": "y_inlier_subset", "type_desc": "candidate inlier target subset", "required": true},
+        {"name": "score_params_inlier_subset", "type_desc": "already sliced estimator score parameters", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "estimator.score callback payload"}
+      ]
+    },
+    {
+      "node_id": "ransac_no_consensus_failure_message",
+      "name": "ransac_no_consensus_failure_message",
+      "description": "Return RANSAC's no-consensus failure message.",
+      "concept_type": "error_message",
+      "status": "atomic",
+      "type_signature": "(skip_limit_exceeded: bool) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "skip_limit_exceeded", "type_desc": "precomputed max-skips guard", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "sklearn no-consensus ValueError message"}
+      ]
+    },
+    {
+      "node_id": "ransac_final_refit_callback_payload",
+      "name": "ransac_final_refit_callback_payload",
+      "description": "Return the final estimator.fit callback payload on best inliers.",
+      "concept_type": "callback_payload",
+      "status": "atomic",
+      "type_signature": "(X_inlier_best: object, y_inlier_best: object, fit_params_best_idxs_subset: Mapping[str, object]) -> dict",
+      "depth": 1,
+      "inputs": [
+        {"name": "X_inlier_best", "type_desc": "best inlier design subset", "required": true},
+        {"name": "y_inlier_best", "type_desc": "best inlier target subset", "required": true},
+        {"name": "fit_params_best_idxs_subset", "type_desc": "already sliced final fit parameters", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "final estimator.fit callback payload"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "ransac_nonrouting_estimator_params", "target": "ransac_estimator_fit_callback_payload", "kind": "routing_context"},
+    {"source": "ransac_trial_subset_payload", "target": "ransac_estimator_fit_callback_payload", "kind": "trial_callback_context"},
+    {"source": "ransac_inlier_subset_payload", "target": "ransac_score_callback_payload", "kind": "score_callback_context"},
+    {"source": "ransac_inlier_subset_payload", "target": "ransac_final_refit_callback_payload", "kind": "final_refit_context"},
+    {"source": "ransac_skip_limit_exceeded", "target": "ransac_no_consensus_failure_message", "kind": "diagnostic_context"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._ransac",
+    "source_version": "1.6.1",
+    "source_license": "BSD-3-Clause",
+    "source_lines": "443-450,471-476,478-499,520-535,561-581,598-607",
+    "remediation_case": "Case 3 meta-estimator wrappers"
+  }
+}

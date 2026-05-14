@@ -1,0 +1,190 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "sciona.atoms.review_bundle.ml.sklearn_linear_model_ransac_callback_orchestration_shell.v1",
+  "provider_repo": "sciona-atoms-ml",
+  "family_batch": "ml_sklearn_linear_model_ransac_callback_orchestration_shell",
+  "review_status": "reviewed",
+  "review_semantic_verdict": "pass_with_limits",
+  "review_developer_semantic_verdict": "pass_with_limits",
+  "trust_readiness": "reviewed_with_limits",
+  "authoritative_sources": [
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/atoms.py"},
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/witnesses.py"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/references.json"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/cdg.json"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_linear_model_ransac_callback_orchestration_shell_behavior.py"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_linear_model_ransac_callback_orchestration_shell_references_metadata.py"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_linear_model_ransac_callback_orchestration_shell_review_bundle.py"}
+  ],
+  "limitations": [
+    "This batch covers deterministic RANSACRegressor.fit callback payloads, non-routing parameter containers, skip-limit diagnostics, subset extraction, and final refit payloads.",
+    "Estimator cloning, random sampling, metadata-routing execution, fit/predict/score callbacks, warnings, and estimator mutation are outside this shell.",
+    "Default threshold, built-in loss residuals, inlier masks, consensus comparison, and dynamic trial math remain owned by the existing sklearn.linear_model.ransac family.",
+    "Dense NumPy slicing parity is covered; sparse indexing and sklearn _check_method_params internals remain callback-boundary responsibilities."
+  ],
+  "blocking_findings": [],
+  "required_actions": [],
+  "review_record_path": "data/review_bundles/ml_sklearn_linear_model_ransac_callback_orchestration_shell.review_bundle.json",
+  "rows": [
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.ransac_callback_orchestration_shell.ransac_nonrouting_estimator_params",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.ransac_callback_orchestration_shell.ransac_nonrouting_estimator_params",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_ransac_callback_orchestration_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_ransac_callback_orchestration_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.ransac_callback_orchestration_shell.ransac_skip_limit_exceeded",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.ransac_callback_orchestration_shell.ransac_skip_limit_exceeded",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_ransac_callback_orchestration_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_ransac_callback_orchestration_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.ransac_callback_orchestration_shell.ransac_trial_subset_payload",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.ransac_callback_orchestration_shell.ransac_trial_subset_payload",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_ransac_callback_orchestration_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_ransac_callback_orchestration_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.ransac_callback_orchestration_shell.ransac_estimator_fit_callback_payload",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.ransac_callback_orchestration_shell.ransac_estimator_fit_callback_payload",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_ransac_callback_orchestration_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_ransac_callback_orchestration_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.ransac_callback_orchestration_shell.ransac_inlier_subset_payload",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.ransac_callback_orchestration_shell.ransac_inlier_subset_payload",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_ransac_callback_orchestration_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_ransac_callback_orchestration_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.ransac_callback_orchestration_shell.ransac_score_callback_payload",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.ransac_callback_orchestration_shell.ransac_score_callback_payload",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_ransac_callback_orchestration_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_ransac_callback_orchestration_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.ransac_callback_orchestration_shell.ransac_no_consensus_failure_message",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.ransac_callback_orchestration_shell.ransac_no_consensus_failure_message",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_ransac_callback_orchestration_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_ransac_callback_orchestration_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.ransac_callback_orchestration_shell.ransac_final_refit_callback_payload",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.ransac_callback_orchestration_shell.ransac_final_refit_callback_payload",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_ransac_callback_orchestration_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_ransac_callback_orchestration_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    }
+  ]
+}

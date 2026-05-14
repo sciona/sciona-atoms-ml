@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.ransac_callback_orchestration_shell.ransac_nonrouting_estimator_params@sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/atoms.py:158": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from RANSACRegressor.fit non-routing `Bunch(fit={}, predict={}, score={})` and sample-weight fit payload setup in sklearn.linear_model._ransac."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for RANSACRegressor metadata-routing behavior."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.ransac_callback_orchestration_shell.ransac_skip_limit_exceeded@sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/atoms.py:174": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from repeated RANSACRegressor.fit skip-count guard against `max_skips` in sklearn.linear_model._ransac."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for RANSACRegressor control flow."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.ransac_callback_orchestration_shell.ransac_trial_subset_payload@sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/atoms.py:191": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `X_subset = X[subset_idxs]` and `y_subset = y[subset_idxs]` in RANSACRegressor.fit in sklearn.linear_model._ransac."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for RANSACRegressor random subset trials."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.ransac_callback_orchestration_shell.ransac_estimator_fit_callback_payload@sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/atoms.py:209": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the `estimator.fit(X_subset, y_subset, **fit_params_subset)` callback boundary in RANSACRegressor.fit in sklearn.linear_model._ransac."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for meta-estimator callback boundaries."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.ransac_callback_orchestration_shell.ransac_inlier_subset_payload@sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/atoms.py:226": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `inlier_idxs_subset = sample_idxs[inlier_mask_subset]` and inlier X/y slicing in RANSACRegressor.fit in sklearn.linear_model._ransac."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for RANSAC consensus subsets."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.ransac_callback_orchestration_shell.ransac_score_callback_payload@sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/atoms.py:256": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the `estimator.score(X_inlier_subset, y_inlier_subset, **score_params_inlier_subset)` callback boundary in RANSACRegressor.fit in sklearn.linear_model._ransac."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for meta-estimator scoring callbacks."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.ransac_callback_orchestration_shell.ransac_no_consensus_failure_message@sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/atoms.py:276": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the two no-consensus ValueError messages in RANSACRegressor.fit in sklearn.linear_model._ransac."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for RANSACRegressor diagnostics."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.ransac_callback_orchestration_shell.ransac_final_refit_callback_payload@sciona/atoms/ml/sklearn/linear_model/ransac_callback_orchestration_shell/atoms.py:296": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from final `estimator.fit(X_inlier_best, y_inlier_best, **fit_params_best_idxs_subset)` refit callback boundary in RANSACRegressor.fit in sklearn.linear_model._ransac."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for RANSACRegressor final refit behavior."}}
+      ]
+    }
+  }
+}
