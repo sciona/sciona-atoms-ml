@@ -15,7 +15,7 @@ work safely.
     recommended moving to non-coordinate-descent callback seams with lower
     duplicate risk
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.coordinate_descent_multitask_cv_tags_super_callback_shell`
+  - `sklearn.linear_model.huber_tags_super_callback_shell`
 
 ## Known Unrelated Local Modification
 
@@ -203,6 +203,7 @@ Already landed in this section:
 ## Recent Non-Coordinate-Descent Coverage
 
 - `glm_tags_loss_callback_shell`
+- `huber_tags_super_callback_shell`
 - `quantile_solver_guard_shell`
 - `quantile_linprog_failure_message_shell`
 - `sgd_classifier_fit_callback_shell`
@@ -211,30 +212,34 @@ Already landed in this section:
 
 ## Next Likely Seams
 
-The latest pass added source-specific `MultiTaskElasticNetCV` and
-`MultiTaskLassoCV` `__sklearn_tags__` identity-boundary helpers. That shell is
-now covered by `coordinate_descent_multitask_cv_tags_super_callback_shell` and
-intentionally excludes the duplicate `target_tags.single_output = False`
-mutation.
+The latest pass added `HuberRegressor.__sklearn_tags__` callback-boundary
+helpers. That shell is now covered by `huber_tags_super_callback_shell` and
+intentionally excludes Huber fit, optimizer, and outlier-mask postfit behavior.
 
 The next best bounded candidates are:
 
-1. `_path_residuals` duplicate-coverage check
-   - split slicing and projection are now covered alongside the existing
-     sample-weight slicing, writeable-array, callback, mono-output
-     normalization, path-params, and residual aggregation families
-   - re-read the whole helper before adding any further `_path_residuals`
-     family, because the obvious deterministic body seams are now likely
-     exhausted
+1. HuberRegressor fit optimizer shell
+   - a parallel audit preferred `_huber.py:276-353` as the next larger
+     non-coordinate-descent wave after the tag shell
+   - keep it separate from `huber_tags_super_callback_shell` and avoid
+     duplicating the existing `sklearn.linear_model.huber` loss/gradient atoms
+   - likely atoms: initial parameter vector, L-BFGS-B bounds, optimizer payload,
+     optimize-result tail, and postfit outlier-mask handoff
 
-2. final coordinate-descent duplicate-coverage check
+2. RANSAC callback orchestration shell
+   - second-best non-coordinate-descent candidate from the parallel audit
+   - keep estimator `fit`, `predict`, `score`, validity callbacks, and random
+     sampling as explicit callback boundaries
+
+3. `_path_residuals` no-go unless only copy isolation is needed
+   - a parallel audit found the meaningful deterministic `_path_residuals`
+     behavior already covered by existing residuals families
+   - the only clean remaining seam is narrow `path_params.copy()` isolation
+
+4. final coordinate-descent duplicate-coverage check
    - before leaving `LinearModelCV.fit` permanently, verify that no new seam
      duplicates existing alpha, validation, routing, path, parallel, MSE,
      refit, or postfit slices
-
-3. broader non-coordinate-descent frontier scan
-   - optimizer and callback seams outside coordinate descent remain the better
-     novelty target once the coordinate-descent duplicate pass is exhausted
 
 Pick the next seam by re-reading the immediate source region rather than
 assuming this ordering is still optimal.

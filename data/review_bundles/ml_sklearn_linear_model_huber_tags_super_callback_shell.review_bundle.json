@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "sciona.atoms.review_bundle.ml.sklearn_linear_model_huber_tags_super_callback_shell.v1",
+  "provider_repo": "sciona-atoms-ml",
+  "family_batch": "ml_sklearn_linear_model_huber_tags_super_callback_shell",
+  "review_status": "reviewed",
+  "review_semantic_verdict": "pass_with_limits",
+  "review_developer_semantic_verdict": "pass_with_limits",
+  "trust_readiness": "reviewed_with_limits",
+  "authoritative_sources": [
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/sklearn/linear_model/huber_tags_super_callback_shell/atoms.py"},
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/sklearn/linear_model/huber_tags_super_callback_shell/witnesses.py"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/sklearn/linear_model/huber_tags_super_callback_shell/references.json"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/sklearn/linear_model/huber_tags_super_callback_shell/cdg.json"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_linear_model_huber_tags_super_callback_shell_behavior.py"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_linear_model_huber_tags_super_callback_shell_references_metadata.py"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_linear_model_huber_tags_super_callback_shell_review_bundle.py"}
+  ],
+  "limitations": [
+    "This batch covers only HuberRegressor __sklearn_tags__ super-callback object identity, fixed sparse-input tag value, and final returned-tags identity.",
+    "Huber loss and gradient math are covered by the existing sklearn.linear_model.huber family.",
+    "The L-BFGS-B optimizer call, optimize-result handling, fitted estimator mutation, and outlier-mask postfit computation are outside this tag shell."
+  ],
+  "blocking_findings": [],
+  "required_actions": [],
+  "review_record_path": "data/review_bundles/ml_sklearn_linear_model_huber_tags_super_callback_shell.review_bundle.json",
+  "rows": [
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.huber_tags_super_callback_shell.huber_tags_super_result",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.huber_tags_super_callback_shell.huber_tags_super_result",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/huber_tags_super_callback_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/huber_tags_super_callback_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/huber_tags_super_callback_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/huber_tags_super_callback_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_huber_tags_super_callback_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_huber_tags_super_callback_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.huber_tags_super_callback_shell.huber_tags_sparse_input_value",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.huber_tags_super_callback_shell.huber_tags_sparse_input_value",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/huber_tags_super_callback_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/huber_tags_super_callback_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/huber_tags_super_callback_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/huber_tags_super_callback_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_huber_tags_super_callback_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_huber_tags_super_callback_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.huber_tags_super_callback_shell.huber_tags_return",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.huber_tags_super_callback_shell.huber_tags_return",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/huber_tags_super_callback_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/huber_tags_super_callback_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/huber_tags_super_callback_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/huber_tags_super_callback_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_huber_tags_super_callback_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_huber_tags_super_callback_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    }
+  ]
+}

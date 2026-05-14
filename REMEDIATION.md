@@ -722,6 +722,12 @@ Potential remediation path:
   residual and objective helpers:
   `huber_linear_residuals`, `huber_outlier_mask`, and
   `huber_loss_gradient`.
+- Completed helper slice:
+  `sklearn.linear_model.huber_tags_super_callback_shell` now publishes
+  deterministic `HuberRegressor.__sklearn_tags__` callback-boundary helpers:
+  identity-preserving return of the `super().__sklearn_tags__()` tags object,
+  the fixed sparse-input tag value, and final returned-tags identity. Huber
+  loss math remains owned by the existing `sklearn.linear_model.huber` family.
 - Completed helper slice: `sklearn.linear_model.quantile` now publishes
   quantile-regression LP setup helpers for supplied dense inputs:
   `quantile_nonzero_weight_mask`, `quantile_dense_lp_problem`, and
