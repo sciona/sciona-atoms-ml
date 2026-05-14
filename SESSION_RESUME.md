@@ -15,7 +15,7 @@ work safely.
     recommended moving to non-coordinate-descent callback seams with lower
     duplicate risk
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.glm_tags_loss_callback_shell`
+  - `sklearn.linear_model.quantile_solver_guard_shell`
 
 ## Known Unrelated Local Modification
 
@@ -202,25 +202,25 @@ Already landed in this section:
 ## Recent Non-Coordinate-Descent Coverage
 
 - `glm_tags_loss_callback_shell`
+- `quantile_solver_guard_shell`
 
 ## Next Likely Seams
 
-The latest pass moved out of coordinate descent and added a bounded GLM
-`__sklearn_tags__` / base `_get_loss` callback shell. That shell is now covered
-by `glm_tags_loss_callback_shell`.
+The latest pass added a bounded QuantileRegressor solver guard/options shell.
+That shell is now covered by `quantile_solver_guard_shell`.
 
 The next best bounded candidates are:
 
-1. `linear_model_quantile_solver_guard_shell`
-   - bounded source seam in `sklearn.linear_model._quantile`
-   - keep it to solver/version/sparse guards and solver options
-   - avoid re-covering LP construction already covered by the existing
-     `linear_model.quantile` atoms
-
-2. `linear_model_sgd_classifier_fit_callback_shell`
+1. `linear_model_sgd_classifier_fit_callback_shell`
    - bounded source seam in `sklearn.linear_model._stochastic_gradient`
    - keep it to validation and `_fit(...)` callback payload boundaries
    - do not attempt to atomize compiled `_plain_sgd` update loops here
+
+2. `linear_model_quantile_linprog_failure_message_shell`
+   - optional result-tail seam in `sklearn.linear_model._quantile`
+   - keep it to unsuccessful-`linprog` warning-message formatting only
+   - do not own `linprog` execution, result payloads, solution decoding, or
+     estimator mutation
 
 3. coordinate-descent fallback seam
    - remaining coordinate-descent tag-identity seams are lower novelty

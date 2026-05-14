@@ -718,6 +718,13 @@ Potential remediation path:
   quantile-regression LP setup helpers for supplied dense inputs:
   `quantile_nonzero_weight_mask`, `quantile_dense_lp_problem`, and
   `quantile_solution_to_params`.
+- Completed helper slice:
+  `sklearn.linear_model.quantile_solver_guard_shell` now publishes
+  deterministic `QuantileRegressor.fit` solver guard and options helpers:
+  SciPy `interior-point` removal detection/message, sparse-input HiGHS
+  eligibility detection/message, and the pre-`linprog` `solver_options`
+  payload. Existing quantile atoms remain the owners of zero-weight filtering,
+  LP construction, and solution decoding.
 - Completed helper slice: `sklearn.linear_model.ransac` now publishes
   estimator-independent consensus bookkeeping helpers:
   `ransac_default_residual_threshold`, `ransac_loss_residuals`,

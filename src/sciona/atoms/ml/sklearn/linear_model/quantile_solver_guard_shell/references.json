@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.quantile_solver_guard_shell.quantile_interior_point_removed_guard@sciona/atoms/ml/sklearn/linear_model/quantile_solver_guard_shell/atoms.py:42": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `self.solver == \"interior-point\" and sp_version >= parse_version(\"1.11.0\")` in sklearn.linear_model._quantile.QuantileRegressor.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for linear-model estimator APIs."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.quantile_solver_guard_shell.quantile_interior_point_removed_message@sciona/atoms/ml/sklearn/linear_model/quantile_solver_guard_shell/atoms.py:53": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the removed interior-point solver ValueError message in sklearn.linear_model._quantile.QuantileRegressor.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for QuantileRegressor solver behavior."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.quantile_solver_guard_shell.quantile_sparse_solver_guard@sciona/atoms/ml/sklearn/linear_model/quantile_solver_guard_shell/atoms.py:65": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `sparse.issparse(X) and self.solver not in [\"highs\", \"highs-ds\", \"highs-ipm\"]` in sklearn.linear_model._quantile.QuantileRegressor.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for sparse-input estimator behavior."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.quantile_solver_guard_shell.quantile_sparse_solver_message@sciona/atoms/ml/sklearn/linear_model/quantile_solver_guard_shell/atoms.py:80": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the sparse-X unsupported-solver ValueError message in sklearn.linear_model._quantile.QuantileRegressor.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for sparse-input estimator behavior."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.quantile_solver_guard_shell.quantile_solver_options_payload@sciona/atoms/ml/sklearn/linear_model/quantile_solver_guard_shell/atoms.py:94": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the `solver_options` defaulting branch before scipy.optimize.linprog in sklearn.linear_model._quantile.QuantileRegressor.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for QuantileRegressor solver options."}}
+      ]
+    }
+  }
+}

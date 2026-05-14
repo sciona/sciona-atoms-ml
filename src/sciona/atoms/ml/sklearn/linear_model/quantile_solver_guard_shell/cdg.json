@@ -1,0 +1,110 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_quantile_solver_guard_shell_root",
+      "name": "Sklearn Linear Model Quantile Solver Guard Shell Atoms",
+      "description": "Deterministic solver guard and solver-options helpers from sklearn.linear_model._quantile.QuantileRegressor.fit.",
+      "status": "decomposed",
+      "children": [
+        "quantile_interior_point_removed_guard",
+        "quantile_interior_point_removed_message",
+        "quantile_sparse_solver_guard",
+        "quantile_sparse_solver_message",
+        "quantile_solver_options_payload"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "quantile_interior_point_removed_guard",
+      "name": "quantile_interior_point_removed_guard",
+      "description": "Return whether QuantileRegressor must reject removed interior-point.",
+      "concept_type": "version_solver_guard",
+      "status": "atomic",
+      "type_signature": "(solver: str, scipy_at_least_1_11: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "solver", "type_desc": "QuantileRegressor solver name", "required": true},
+        {"name": "scipy_at_least_1_11", "type_desc": "whether SciPy version is >= 1.11.0", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "whether the removed-solver ValueError branch applies"}
+      ]
+    },
+    {
+      "node_id": "quantile_interior_point_removed_message",
+      "name": "quantile_interior_point_removed_message",
+      "description": "Return the QuantileRegressor interior-point removal error message.",
+      "concept_type": "guard_error_message",
+      "status": "atomic",
+      "type_signature": "(solver: str) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "solver", "type_desc": "interior-point solver name", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "ValueError message"}
+      ]
+    },
+    {
+      "node_id": "quantile_sparse_solver_guard",
+      "name": "quantile_sparse_solver_guard",
+      "description": "Return whether sparse X must reject the selected QuantileRegressor solver.",
+      "concept_type": "sparse_solver_guard",
+      "status": "atomic",
+      "type_signature": "(is_sparse: bool, solver: str) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "is_sparse", "type_desc": "whether X is sparse", "required": true},
+        {"name": "solver", "type_desc": "QuantileRegressor solver name", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "whether the sparse-solver ValueError branch applies"}
+      ]
+    },
+    {
+      "node_id": "quantile_sparse_solver_message",
+      "name": "quantile_sparse_solver_message",
+      "description": "Return the QuantileRegressor sparse-X unsupported-solver error message.",
+      "concept_type": "guard_error_message",
+      "status": "atomic",
+      "type_signature": "(solver: str) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "solver", "type_desc": "solver unsupported for sparse X", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "ValueError message"}
+      ]
+    },
+    {
+      "node_id": "quantile_solver_options_payload",
+      "name": "quantile_solver_options_payload",
+      "description": "Return the solver_options payload selected before QuantileRegressor linprog.",
+      "concept_type": "callback_payload",
+      "status": "atomic",
+      "type_signature": "(solver_options: Mapping[str, Any] | None, solver: str) -> Mapping[str, Any] | None",
+      "depth": 1,
+      "inputs": [
+        {"name": "solver_options", "type_desc": "explicit solver_options mapping or None", "required": true},
+        {"name": "solver", "type_desc": "QuantileRegressor solver name", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "solver_options payload passed to linprog"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "quantile_interior_point_removed_guard", "target": "quantile_interior_point_removed_message", "kind": "guard_message_context"},
+    {"source": "quantile_sparse_solver_guard", "target": "quantile_sparse_solver_message", "kind": "guard_message_context"},
+    {"source": "quantile_interior_point_removed_guard", "target": "quantile_solver_options_payload", "kind": "solver_context"},
+    {"source": "quantile_sparse_solver_guard", "target": "quantile_solver_options_payload", "kind": "solver_context"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._quantile",
+    "source_version": "1.6.1",
+    "source_license": "BSD-3-Clause",
+    "source_lines": "184-198",
+    "remediation_case": "Case 2 external optimizer boundary"
+  }
+}
