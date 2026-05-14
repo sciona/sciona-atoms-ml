@@ -741,6 +741,13 @@ Potential remediation path:
   delegated `_fit(...)` payload, and returned `_fit` result identity. The
   existing `sgd` atoms remain the owners of learning-rate, passive-aggressive,
   and modified-Huber helper formulas.
+- Completed helper slice:
+  `sklearn.linear_model.sgd_regressor_fit_callback_shell` now publishes
+  deterministic `BaseSGDRegressor.fit` callback-boundary helpers:
+  `_more_validate_params()` result identity, fixed regressor `C=1.0`, the
+  delegated `_fit(...)` payload, and returned `_fit` result identity. This is
+  regressor-scoped and does not claim generic SGD fit, classifier fit, or
+  compiled solver coverage.
 - Decompose reusable, deterministic helper atoms first, such as GLM link/loss
   validation, RANSAC consensus bookkeeping from supplied residuals, or
   prediction from already-fitted coefficients.

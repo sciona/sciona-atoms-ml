@@ -15,7 +15,7 @@ work safely.
     recommended moving to non-coordinate-descent callback seams with lower
     duplicate risk
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.sgd_classifier_fit_callback_shell`
+  - `sklearn.linear_model.sgd_regressor_fit_callback_shell`
 
 ## Known Unrelated Local Modification
 
@@ -204,27 +204,27 @@ Already landed in this section:
 - `glm_tags_loss_callback_shell`
 - `quantile_solver_guard_shell`
 - `sgd_classifier_fit_callback_shell`
+- `sgd_regressor_fit_callback_shell`
 
 ## Next Likely Seams
 
-The latest pass added a bounded `BaseSGDClassifier.fit` validation and `_fit`
+The latest pass added a bounded `BaseSGDRegressor.fit` validation and `_fit`
 callback payload shell. That shell is now covered by
-`sgd_classifier_fit_callback_shell`.
+`sgd_regressor_fit_callback_shell`.
 
 The next best bounded candidates are:
 
-1. `linear_model_sgd_regressor_fit_callback_shell`
-   - bounded source seam in `sklearn.linear_model._stochastic_gradient`
-   - mirrors the classifier fit callback seam for `BaseSGDRegressor.fit`
-     around local installed lines 1645-1657
-   - keep it to validation and `_fit(...)` callback payload boundaries
-   - do not attempt to atomize compiled `_plain_sgd` update loops here
-
-2. `linear_model_quantile_linprog_failure_message_shell`
+1. `linear_model_quantile_linprog_failure_message_shell`
    - optional result-tail seam in `sklearn.linear_model._quantile`
    - keep it to unsuccessful-`linprog` warning-message formatting only
    - do not own `linprog` execution, result payloads, solution decoding, or
      estimator mutation
+
+2. `linear_model_sgd_tags_super_callback_shell`
+   - bounded source seam in `sklearn.linear_model._stochastic_gradient`
+   - possible tag-shell follow-up for BaseSGDClassifier/BaseSGDRegressor
+   - duplicate risk is medium after the coordinate-descent and GLM tag shells;
+     audit before implementing
 
 3. coordinate-descent fallback seam
    - remaining coordinate-descent tag-identity seams are lower novelty
