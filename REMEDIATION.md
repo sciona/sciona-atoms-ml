@@ -755,6 +755,12 @@ Potential remediation path:
   delegated `_fit(...)` payload, and returned `_fit` result identity. This is
   regressor-scoped and does not claim generic SGD fit, classifier fit, or
   compiled solver coverage.
+- Completed helper slice:
+  `sklearn.linear_model.sgd_tags_super_callback_shell` now publishes a
+  combined deterministic tag shell for `BaseSGDClassifier.__sklearn_tags__`
+  and `BaseSGDRegressor.__sklearn_tags__`: super-tags identity, fixed
+  sparse-input tag value, and returned-tags identity. The combined family
+  intentionally avoids separate duplicate classifier and regressor tag shells.
 - Decompose reusable, deterministic helper atoms first, such as GLM link/loss
   validation, RANSAC consensus bookkeeping from supplied residuals, or
   prediction from already-fitted coefficients.

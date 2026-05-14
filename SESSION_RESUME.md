@@ -15,7 +15,7 @@ work safely.
     recommended moving to non-coordinate-descent callback seams with lower
     duplicate risk
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.quantile_linprog_failure_message_shell`
+  - `sklearn.linear_model.sgd_tags_super_callback_shell`
 
 ## Known Unrelated Local Modification
 
@@ -206,28 +206,23 @@ Already landed in this section:
 - `quantile_linprog_failure_message_shell`
 - `sgd_classifier_fit_callback_shell`
 - `sgd_regressor_fit_callback_shell`
+- `sgd_tags_super_callback_shell`
 
 ## Next Likely Seams
 
-The latest pass added a bounded post-`linprog` QuantileRegressor failure
-warning-message shell. That shell is now covered by
-`quantile_linprog_failure_message_shell`.
+The latest pass added a combined `BaseSGDClassifier`/`BaseSGDRegressor`
+`__sklearn_tags__` shell. That shell is now covered by
+`sgd_tags_super_callback_shell`.
 
 The next best bounded candidates are:
 
-1. `linear_model_sgd_tags_super_callback_shell`
-   - bounded source seam in `sklearn.linear_model._stochastic_gradient`
-   - possible tag-shell follow-up for BaseSGDClassifier/BaseSGDRegressor
-   - duplicate risk is medium after the coordinate-descent and GLM tag shells;
-     audit before implementing
-
-2. coordinate-descent fallback seam
+1. coordinate-descent fallback seam
    - remaining coordinate-descent tag-identity seams are lower novelty
    - if forced back to coordinate descent, the least-bad candidate from the
      latest audit is `coordinate_descent_multitask_tags_super_callback_shell`
      for `MultiTaskElasticNet.__sklearn_tags__` super/return identity
 
-3. `_path_residuals` duplicate-coverage check
+2. `_path_residuals` duplicate-coverage check
    - split slicing and projection are now covered alongside the existing
      sample-weight slicing, writeable-array, callback, mono-output
      normalization, path-params, and residual aggregation families
