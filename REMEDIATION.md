@@ -664,6 +664,11 @@ Potential remediation path:
   publishes deterministic `LinearModelCV.__sklearn_tags__`
   callback-boundary helpers: identity-preserving return of the
   `super().__sklearn_tags__()` tags object and final returned-tags identity.
+- Completed helper slice:
+  `sklearn.linear_model.coordinate_descent_elastic_net_tags_super_callback_shell`
+  now publishes deterministic `ElasticNet.__sklearn_tags__`
+  callback-boundary helpers: identity-preserving return of the
+  `super().__sklearn_tags__()` tags object and final returned-tags identity.
 
 ## `sklearn.linear_model` optimizer and callback boundaries
 

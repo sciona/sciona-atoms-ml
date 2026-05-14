@@ -15,7 +15,7 @@ work safely.
     coordinate-descent estimators and CV wrappers in
     `sklearn.linear_model._coordinate_descent`
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.coordinate_descent_cv_tags_super_callback_shell`
+  - `sklearn.linear_model.coordinate_descent_elastic_net_tags_super_callback_shell`
 
 ## Known Unrelated Local Modification
 
@@ -197,12 +197,13 @@ Already landed in this section:
 - `coordinate_descent_cv_metadata_router_method_mapping_callback_shell`
 - `coordinate_descent_cv_metadata_router_add_callback_shell`
 - `coordinate_descent_cv_tags_super_callback_shell`
+- `coordinate_descent_elastic_net_tags_super_callback_shell`
 
 ## Next Likely Seams
 
 The latest pass added a bounded `super().__sklearn_tags__()` callback and
-returned-tags identity shell for `LinearModelCV.__sklearn_tags__`. That shell
-is now covered by `coordinate_descent_cv_tags_super_callback_shell`.
+returned-tags identity shell for `ElasticNet.__sklearn_tags__`. That shell is
+now covered by `coordinate_descent_elastic_net_tags_super_callback_shell`.
 
 The next best bounded candidates are:
 
@@ -251,12 +252,18 @@ The next best bounded candidates are:
      already landed, or the `LinearModelCV.get_metadata_routing`
      `MetadataRouter.add(...)` callback output identity already landed, or
      the `LinearModelCV.__sklearn_tags__` super-callback and final returned-tags
-     identity already landed
+     identity already landed, or the `ElasticNet.__sklearn_tags__`
+     super-callback and final returned-tags identity already landed
 
-2. next coordinate-descent seam after CV tags super-callback shell
-   - no worker audit was started for the next seam because the subagent thread
-     limit was reached during this wave
-   - if present, review its recommended family before copying anything into
+2. next coordinate-descent seam after ElasticNet tags super-callback shell
+   - duplicate-coverage audit report:
+     `/tmp/sciona-worker-coordinate-dup-audit-after-cv-tags-super/report.md`
+   - the audit ranked remaining tag-identity seams as low-novelty; the next
+     possible candidate is `coordinate_descent_multitask_tags_super_callback_shell`
+     for `MultiTaskElasticNet.__sklearn_tags__` super/return identity, while
+     `coordinate_descent_multitask_cv_tags_super_callback_shell` has higher
+     duplicate risk because the subclass tag mutation is already covered
+   - if present, review worker recommendations before copying anything into
      the repo
    - duplicate-risk check should confirm the candidate is separate from the
      landed constructor, class-API, validation, path, callback, and solver
