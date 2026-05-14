@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.quantile_linprog_failure_message_shell.quantile_linprog_failure_guard@sciona/atoms/ml/sklearn/linear_model/quantile_linprog_failure_message_shell/atoms.py:34": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `if not result.success` in sklearn.linear_model._quantile.QuantileRegressor.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for QuantileRegressor solver behavior."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.quantile_linprog_failure_message_shell.quantile_linprog_failure_reason@sciona/atoms/ml/sklearn/linear_model/quantile_linprog_failure_message_shell/atoms.py:45": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the linprog status-to-reason mapping in sklearn.linear_model._quantile.QuantileRegressor.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for QuantileRegressor solver warnings."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.quantile_linprog_failure_message_shell.quantile_linprog_failure_message@sciona/atoms/ml/sklearn/linear_model/quantile_linprog_failure_message_shell/atoms.py:65": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the unsuccessful-linprog ConvergenceWarning message payload in sklearn.linear_model._quantile.QuantileRegressor.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for QuantileRegressor warning messages."}}
+      ]
+    }
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_quantile_linprog_failure_message_shell_root",
+      "name": "Sklearn Linear Model Quantile Linprog Failure Message Shell Atoms",
+      "description": "Deterministic unsuccessful-linprog guard and warning-message helpers from sklearn.linear_model._quantile.QuantileRegressor.fit.",
+      "status": "decomposed",
+      "children": [
+        "quantile_linprog_failure_guard",
+        "quantile_linprog_failure_reason",
+        "quantile_linprog_failure_message"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "quantile_linprog_failure_guard",
+      "name": "quantile_linprog_failure_guard",
+      "description": "Return whether QuantileRegressor should enter the linprog failure branch.",
+      "concept_type": "solver_result_guard",
+      "status": "atomic",
+      "type_signature": "(success: bool) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "success", "type_desc": "linprog result.success flag", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "whether the warning branch applies"}
+      ]
+    },
+    {
+      "node_id": "quantile_linprog_failure_reason",
+      "name": "quantile_linprog_failure_reason",
+      "description": "Return the QuantileRegressor failure reason for a linprog status.",
+      "concept_type": "solver_status_message",
+      "status": "atomic",
+      "type_signature": "(status: int) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "status", "type_desc": "linprog result.status integer", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "fixed status reason or unknown reason"}
+      ]
+    },
+    {
+      "node_id": "quantile_linprog_failure_message",
+      "name": "quantile_linprog_failure_message",
+      "description": "Return the QuantileRegressor unsuccessful-linprog warning message.",
+      "concept_type": "solver_warning_message",
+      "status": "atomic",
+      "type_signature": "(status: int, result_message: str) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "status", "type_desc": "linprog result.status integer", "required": true},
+        {"name": "result_message", "type_desc": "linprog result.message string", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "ConvergenceWarning message payload"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "quantile_linprog_failure_guard", "target": "quantile_linprog_failure_message", "kind": "warning_branch_context"},
+    {"source": "quantile_linprog_failure_reason", "target": "quantile_linprog_failure_message", "kind": "message_component"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._quantile",
+    "source_version": "1.6.1",
+    "source_license": "BSD-3-Clause",
+    "source_lines": "267-281",
+    "remediation_case": "Case 2 external optimizer boundary"
+  }
+}

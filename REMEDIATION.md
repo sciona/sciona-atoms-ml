@@ -725,6 +725,13 @@ Potential remediation path:
   eligibility detection/message, and the pre-`linprog` `solver_options`
   payload. Existing quantile atoms remain the owners of zero-weight filtering,
   LP construction, and solution decoding.
+- Completed helper slice:
+  `sklearn.linear_model.quantile_linprog_failure_message_shell` now publishes
+  deterministic post-`linprog` unsuccessful-result warning helpers for
+  `QuantileRegressor.fit`: `result.success` branch detection, sklearn's fixed
+  status-to-reason mapping, and the warning message payload. It does not emit
+  warnings, own `OptimizeResult` semantics, decode solutions, or mutate
+  estimator state.
 - Completed helper slice: `sklearn.linear_model.ransac` now publishes
   estimator-independent consensus bookkeeping helpers:
   `ransac_default_residual_threshold`, `ransac_loss_residuals`,
