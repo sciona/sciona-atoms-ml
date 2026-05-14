@@ -15,7 +15,7 @@ work safely.
     recommended moving to non-coordinate-descent callback seams with lower
     duplicate risk
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.quantile_solver_guard_shell`
+  - `sklearn.linear_model.sgd_classifier_fit_callback_shell`
 
 ## Known Unrelated Local Modification
 
@@ -203,16 +203,20 @@ Already landed in this section:
 
 - `glm_tags_loss_callback_shell`
 - `quantile_solver_guard_shell`
+- `sgd_classifier_fit_callback_shell`
 
 ## Next Likely Seams
 
-The latest pass added a bounded QuantileRegressor solver guard/options shell.
-That shell is now covered by `quantile_solver_guard_shell`.
+The latest pass added a bounded `BaseSGDClassifier.fit` validation and `_fit`
+callback payload shell. That shell is now covered by
+`sgd_classifier_fit_callback_shell`.
 
 The next best bounded candidates are:
 
-1. `linear_model_sgd_classifier_fit_callback_shell`
+1. `linear_model_sgd_regressor_fit_callback_shell`
    - bounded source seam in `sklearn.linear_model._stochastic_gradient`
+   - mirrors the classifier fit callback seam for `BaseSGDRegressor.fit`
+     around local installed lines 1645-1657
    - keep it to validation and `_fit(...)` callback payload boundaries
    - do not attempt to atomize compiled `_plain_sgd` update loops here
 

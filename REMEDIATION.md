@@ -734,6 +734,13 @@ Potential remediation path:
   passive-aggressive helper atoms for learning-rate resolution,
   passive-aggressive step-size/config selection, optional `l1_ratio`
   normalization, and modified-Huber probability conversion.
+- Completed helper slice:
+  `sklearn.linear_model.sgd_classifier_fit_callback_shell` now publishes
+  deterministic `BaseSGDClassifier.fit` callback-boundary helpers:
+  `_more_validate_params()` result identity, fixed classifier `C=1.0`, the
+  delegated `_fit(...)` payload, and returned `_fit` result identity. The
+  existing `sgd` atoms remain the owners of learning-rate, passive-aggressive,
+  and modified-Huber helper formulas.
 - Decompose reusable, deterministic helper atoms first, such as GLM link/loss
   validation, RANSAC consensus bookkeeping from supplied residuals, or
   prediction from already-fitted coefficients.
