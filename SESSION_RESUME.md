@@ -10,12 +10,12 @@ work safely.
 - Branch target: `main`
 - Current remote state: `main` synced with `origin/main` at the time of writing
 - Active remediation frontier:
-  - `sklearn.linear_model` coordinate-descent solvers
-  - specifically the deterministic decomposition of multitask
-    coordinate-descent estimators and CV wrappers in
-    `sklearn.linear_model._coordinate_descent`
+  - `sklearn.linear_model` optimizer and callback boundaries
+  - coordinate-descent has many landed shells; the latest frontier audit
+    recommended moving to non-coordinate-descent callback seams with lower
+    duplicate risk
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.coordinate_descent_elastic_net_tags_super_callback_shell`
+  - `sklearn.linear_model.glm_tags_loss_callback_shell`
 
 ## Known Unrelated Local Modification
 
@@ -199,82 +199,36 @@ Already landed in this section:
 - `coordinate_descent_cv_tags_super_callback_shell`
 - `coordinate_descent_elastic_net_tags_super_callback_shell`
 
+## Recent Non-Coordinate-Descent Coverage
+
+- `glm_tags_loss_callback_shell`
+
 ## Next Likely Seams
 
-The latest pass added a bounded `super().__sklearn_tags__()` callback and
-returned-tags identity shell for `ElasticNet.__sklearn_tags__`. That shell is
-now covered by `coordinate_descent_elastic_net_tags_super_callback_shell`.
+The latest pass moved out of coordinate descent and added a bounded GLM
+`__sklearn_tags__` / base `_get_loss` callback shell. That shell is now covered
+by `glm_tags_loss_callback_shell`.
 
 The next best bounded candidates are:
 
-1. another coordinate-descent class/helper seam
-   - move to the next blocked coordinate-descent source region with a small
-     deterministic boundary rather than duplicating the `LinearModelCV.fit`
-     shells, the CV subclass API shell, or the ElasticNet sample-weight
-     validation-prelude, pre-fit, loop-setup, and loop-tail shells already
-     landed, or the Lasso and MultiTaskLasso estimator API shells already
-     landed, or the ElasticNet API and sparse-prediction shell already
-     landed, or the MultiTaskElasticNet API and validation-prelude shells
-     already landed, or the MultiTaskElasticNet solver-setup shell already
-     landed, or the multitask CV API shell already landed, or the
-     `_set_order` helper shell already landed, or the `enet_path`
-     validation callback shell already landed, the `enet_path` solver
-     payload shell already landed, the ElasticNet post-loop intercept
-     callback shell already landed, the MultiTaskElasticNet solver-result
-     tail shell already landed, the LassoCV constructor-forwarding shell
-     already landed, the ElasticNetCV constructor shell already landed, or
-     the LinearModelCV base constructor shell already landed, the
-     `enet_path` params pop/default shell already landed, the `_alpha_grid`
-     prelude shell already landed, or the `ElasticNet` class-level fit
-     metadata and base parameter-constraint shell already landed, the
-     `LinearModelCV.fit` n_alphas/alphas deprecation prelude already landed,
-     the path-helper n_alphas/alphas deprecation prelude already landed, or
-     the `enet_path` do_screening parameter and payload delta already landed,
-     the sklearn 1.8 `enet_path` prefit/grid payload delta already landed,
-     or the sklearn 1.8 `enet_path` prefit/grid callback output delta
-     already landed, or the `ElasticNet.fit` prefit callback output delta
-     already landed, or the `ElasticNet.fit` multi-target postfit
-     passthrough already landed, or the `ElasticNet._decision_function`
-     dense fallback already landed, or the `LinearModelCV` base
-     parameter-constraint schema already landed, or the `LinearModelCV`
-     abstract base API contract already landed, or the `LinearModelCV.fit`
-     decorator context already landed, or the `MultiTaskElasticNet.fit`
-     decorator context already landed, or the multitask CV signature-level
-     sample-weight absence seam already landed, or the `lasso_path` and
-     `enet_path` validate_params decorator schemas already landed, or the
-     final public `enet_path` return tuple branch already landed, or the
-     coordinate-descent CV subclass fit return passthrough already landed, or
-     the `LinearModelCV.get_metadata_routing` owner/caller/callee spec and
-     payload/return identities already landed, or the
-     `LinearModelCV.get_metadata_routing` `check_cv(self.cv)` callback
-     boundary already landed, or the `LinearModelCV.get_metadata_routing`
-     `MethodMapping().add(caller="fit", callee="split")` callback boundary
-     already landed, or the `LinearModelCV.get_metadata_routing`
-     `MetadataRouter.add(...)` callback output identity already landed, or
-     the `LinearModelCV.__sklearn_tags__` super-callback and final returned-tags
-     identity already landed, or the `ElasticNet.__sklearn_tags__`
-     super-callback and final returned-tags identity already landed
+1. `linear_model_quantile_solver_guard_shell`
+   - bounded source seam in `sklearn.linear_model._quantile`
+   - keep it to solver/version/sparse guards and solver options
+   - avoid re-covering LP construction already covered by the existing
+     `linear_model.quantile` atoms
 
-2. next coordinate-descent seam after ElasticNet tags super-callback shell
-   - duplicate-coverage audit report:
-     `/tmp/sciona-worker-coordinate-dup-audit-after-cv-tags-super/report.md`
-   - the audit ranked remaining tag-identity seams as low-novelty; the next
-     possible candidate is `coordinate_descent_multitask_tags_super_callback_shell`
-     for `MultiTaskElasticNet.__sklearn_tags__` super/return identity, while
-     `coordinate_descent_multitask_cv_tags_super_callback_shell` has higher
-     duplicate risk because the subclass tag mutation is already covered
-   - if present, review worker recommendations before copying anything into
-     the repo
-   - duplicate-risk check should confirm the candidate is separate from the
-     landed constructor, class-API, validation, path, callback, and solver
-     payload shells listed above
-   - do not copy
-     `/tmp/sciona-worker-coordinate-next-after-cv-base-fit-context/coordinate_descent_cv_base_metadata_tags_shell`
-     without redesign; it duplicates `coordinate_descent_cv_api_shell`
-   - treat signature-only seams as low priority unless they add source-level
-     evidence that is not already expressed by callback payload families
+2. `linear_model_sgd_classifier_fit_callback_shell`
+   - bounded source seam in `sklearn.linear_model._stochastic_gradient`
+   - keep it to validation and `_fit(...)` callback payload boundaries
+   - do not attempt to atomize compiled `_plain_sgd` update loops here
 
-3. `_path_residuals` duplicate-coverage check
+3. coordinate-descent fallback seam
+   - remaining coordinate-descent tag-identity seams are lower novelty
+   - if forced back to coordinate descent, the least-bad candidate from the
+     latest audit is `coordinate_descent_multitask_tags_super_callback_shell`
+     for `MultiTaskElasticNet.__sklearn_tags__` super/return identity
+
+4. `_path_residuals` duplicate-coverage check
    - split slicing and projection are now covered alongside the existing
      sample-weight slicing, writeable-array, callback, mono-output
      normalization, path-params, and residual aggregation families

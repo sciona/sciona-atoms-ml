@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.glm_tags_loss_callback_shell.glm_tags_super_result@sciona/atoms/ml/sklearn/linear_model/glm_tags_loss_callback_shell/atoms.py:29": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `tags = super().__sklearn_tags__()` in sklearn.linear_model._glm.glm._GeneralizedLinearRegressor.__sklearn_tags__."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator tag APIs."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.glm_tags_loss_callback_shell.glm_tags_sparse_input_value@sciona/atoms/ml/sklearn/linear_model/glm_tags_loss_callback_shell/atoms.py:37": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `tags.input_tags.sparse = True` in sklearn.linear_model._glm.glm._GeneralizedLinearRegressor.__sklearn_tags__."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator input tags."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.glm_tags_loss_callback_shell.glm_tags_loss_callback_result@sciona/atoms/ml/sklearn/linear_model/glm_tags_loss_callback_shell/atoms.py:48": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `base_loss = self._get_loss()` in sklearn.linear_model._glm.glm._GeneralizedLinearRegressor.__sklearn_tags__."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for GLM estimator internals."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.glm_tags_loss_callback_shell.glm_tags_positive_only_from_negative_range@sciona/atoms/ml/sklearn/linear_model/glm_tags_loss_callback_shell/atoms.py:62": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `tags.target_tags.positive_only = not base_loss.in_y_true_range(-1.0)` in sklearn.linear_model._glm.glm._GeneralizedLinearRegressor.__sklearn_tags__."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for target tags."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.glm_tags_loss_callback_shell.glm_tags_exception_fallback@sciona/atoms/ml/sklearn/linear_model/glm_tags_loss_callback_shell/atoms.py:77": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the `(ValueError, AttributeError, TypeError)` fallback branch in sklearn.linear_model._glm.glm._GeneralizedLinearRegressor.__sklearn_tags__."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator tag fallbacks."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.glm_tags_loss_callback_shell.glm_tags_return@sciona/atoms/ml/sklearn/linear_model/glm_tags_loss_callback_shell/atoms.py:88": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `return tags` in sklearn.linear_model._glm.glm._GeneralizedLinearRegressor.__sklearn_tags__."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator tag return values."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.glm_tags_loss_callback_shell.glm_base_default_loss_name@sciona/atoms/ml/sklearn/linear_model/glm_tags_loss_callback_shell/atoms.py:99": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from `_GeneralizedLinearRegressor._get_loss` returning `HalfSquaredError()` in sklearn.linear_model._glm.glm."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for GLM loss helpers."}}
+      ]
+    }
+  }
+}

@@ -697,6 +697,13 @@ Potential remediation path:
   objective helpers for supplied parameters and data:
   `glm_linear_raw_prediction`, `glm_log_link_half_loss_gradient`, and
   `glm_dense_loss_gradient` for Poisson, Gamma, and Tweedie log-link models.
+- Completed helper slice:
+  `sklearn.linear_model.glm_tags_loss_callback_shell` now publishes
+  deterministic `_GeneralizedLinearRegressor.__sklearn_tags__` and base
+  `_get_loss` callback-boundary helpers: super-tags identity, sparse-input
+  tag assignment, `_get_loss()` result identity, positive-only target tag
+  derivation from `in_y_true_range(-1.0)`, fallback tag preservation, final
+  returned-tags identity, and the base default `HalfSquaredError` loss name.
 - Completed helper slice: `sklearn.linear_model.logistic` now publishes binary
   logistic helpers for supplied raw scores, parameters, and dense design
   matrices:

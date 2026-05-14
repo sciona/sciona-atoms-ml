@@ -1,0 +1,169 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "sciona.atoms.review_bundle.ml.sklearn_linear_model_glm_tags_loss_callback_shell.v1",
+  "provider_repo": "sciona-atoms-ml",
+  "family_batch": "ml_sklearn_linear_model_glm_tags_loss_callback_shell",
+  "review_status": "reviewed",
+  "review_semantic_verdict": "pass_with_limits",
+  "review_developer_semantic_verdict": "pass_with_limits",
+  "trust_readiness": "reviewed_with_limits",
+  "authoritative_sources": [
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/sklearn/linear_model/glm_tags_loss_callback_shell/atoms.py"},
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/sklearn/linear_model/glm_tags_loss_callback_shell/witnesses.py"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/sklearn/linear_model/glm_tags_loss_callback_shell/references.json"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/sklearn/linear_model/glm_tags_loss_callback_shell/cdg.json"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_linear_model_glm_tags_loss_callback_shell_behavior.py"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_linear_model_glm_tags_loss_callback_shell_references_metadata.py"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_linear_model_glm_tags_loss_callback_shell_review_bundle.py"}
+  ],
+  "limitations": [
+    "This batch covers only _GeneralizedLinearRegressor.__sklearn_tags__ object identity, sparse-input tag assignment, _get_loss callback identity, positive-only target tag derivation, fallback preservation, final returned-tags identity, and the base default _get_loss class name.",
+    "GLM objective values, loss gradients, and dense parameter gradients are covered by the existing sklearn.linear_model.glm family.",
+    "PoissonRegressor, GammaRegressor, and TweedieRegressor subclass _get_loss factories are outside this batch and may be split into a later factory shell."
+  ],
+  "blocking_findings": [],
+  "required_actions": [],
+  "review_record_path": "data/review_bundles/ml_sklearn_linear_model_glm_tags_loss_callback_shell.review_bundle.json",
+  "rows": [
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.glm_tags_loss_callback_shell.glm_tags_super_result",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.glm_tags_loss_callback_shell.glm_tags_super_result",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_tags_loss_callback_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_tags_loss_callback_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_tags_loss_callback_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_tags_loss_callback_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_glm_tags_loss_callback_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_glm_tags_loss_callback_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.glm_tags_loss_callback_shell.glm_tags_sparse_input_value",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.glm_tags_loss_callback_shell.glm_tags_sparse_input_value",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_tags_loss_callback_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_tags_loss_callback_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_tags_loss_callback_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_tags_loss_callback_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_glm_tags_loss_callback_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_glm_tags_loss_callback_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.glm_tags_loss_callback_shell.glm_tags_loss_callback_result",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.glm_tags_loss_callback_shell.glm_tags_loss_callback_result",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_tags_loss_callback_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_tags_loss_callback_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_tags_loss_callback_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_tags_loss_callback_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_glm_tags_loss_callback_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_glm_tags_loss_callback_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.glm_tags_loss_callback_shell.glm_tags_positive_only_from_negative_range",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.glm_tags_loss_callback_shell.glm_tags_positive_only_from_negative_range",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_tags_loss_callback_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_tags_loss_callback_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_tags_loss_callback_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_tags_loss_callback_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_glm_tags_loss_callback_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_glm_tags_loss_callback_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.glm_tags_loss_callback_shell.glm_tags_exception_fallback",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.glm_tags_loss_callback_shell.glm_tags_exception_fallback",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_tags_loss_callback_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_tags_loss_callback_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_tags_loss_callback_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_tags_loss_callback_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_glm_tags_loss_callback_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_glm_tags_loss_callback_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.glm_tags_loss_callback_shell.glm_tags_return",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.glm_tags_loss_callback_shell.glm_tags_return",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_tags_loss_callback_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_tags_loss_callback_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_tags_loss_callback_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_tags_loss_callback_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_glm_tags_loss_callback_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_glm_tags_loss_callback_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.glm_tags_loss_callback_shell.glm_base_default_loss_name",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.glm_tags_loss_callback_shell.glm_base_default_loss_name",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_tags_loss_callback_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_tags_loss_callback_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_tags_loss_callback_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_tags_loss_callback_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_glm_tags_loss_callback_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_glm_tags_loss_callback_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    }
+  ]
+}
