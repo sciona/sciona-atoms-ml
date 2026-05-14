@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.huber_fit_optimizer_shell.huber_fit_initial_parameters@sciona/atoms/ml/sklearn/linear_model/huber_fit_optimizer_shell/atoms.py:199": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from warm-start and fresh `parameters` construction in HuberRegressor.fit in sklearn.linear_model._huber."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for HuberRegressor estimator behavior."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.huber_fit_optimizer_shell.huber_fit_bounds@sciona/atoms/ml/sklearn/linear_model/huber_fit_optimizer_shell/atoms.py:221": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the L-BFGS-B `bounds` construction and final scale lower bound in HuberRegressor.fit in sklearn.linear_model._huber."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for optimizer-backed estimator fitting."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.huber_fit_optimizer_shell.huber_fit_optimizer_payload@sciona/atoms/ml/sklearn/linear_model/huber_fit_optimizer_shell/atoms.py:254": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the `optimize.minimize(..., method=\"L-BFGS-B\", jac=True, args=..., options=..., bounds=...)` call in HuberRegressor.fit in sklearn.linear_model._huber."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for optimizer callback boundaries."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.huber_fit_optimizer_shell.huber_fit_status2_failure_message@sciona/atoms/ml/sklearn/linear_model/huber_fit_optimizer_shell/atoms.py:289": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the `opt_res.status == 2` convergence failure ValueError message in HuberRegressor.fit in sklearn.linear_model._huber."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator convergence reporting."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.huber_fit_optimizer_shell.huber_fit_result_attributes@sciona/atoms/ml/sklearn/linear_model/huber_fit_optimizer_shell/atoms.py:314": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from HuberRegressor.fit optimizer-result unpacking into `scale_`, `intercept_`, and `coef_` in sklearn.linear_model._huber."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for fitted estimator attributes."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.huber_fit_optimizer_shell.huber_fit_outlier_handoff_payload@sciona/atoms/ml/sklearn/linear_model/huber_fit_optimizer_shell/atoms.py:348": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the postfit residual and outlier-mask inputs in HuberRegressor.fit in sklearn.linear_model._huber; residual and mask math remain owned by the existing Huber atoms."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for HuberRegressor outlier attributes."}}
+      ]
+    }
+  }
+}

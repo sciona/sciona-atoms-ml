@@ -1,0 +1,145 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_huber_fit_optimizer_shell_root",
+      "name": "Sklearn Linear Model Huber Fit Optimizer Shell Atoms",
+      "description": "Deterministic optimizer setup and post-optimizer bookkeeping helpers from HuberRegressor.fit.",
+      "status": "decomposed",
+      "children": [
+        "huber_fit_initial_parameters",
+        "huber_fit_bounds",
+        "huber_fit_optimizer_payload",
+        "huber_fit_status2_failure_message",
+        "huber_fit_result_attributes",
+        "huber_fit_outlier_handoff_payload"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "huber_fit_initial_parameters",
+      "name": "huber_fit_initial_parameters",
+      "description": "Return HuberRegressor's initial optimizer parameter vector.",
+      "concept_type": "state_initialization",
+      "status": "atomic",
+      "type_signature": "(n_features: int, *, fit_intercept: bool, warm_start: bool, coef: ndarray | None = None, intercept: float = 0.0, scale: float = 1.0) -> ndarray",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_features", "type_desc": "validated feature count", "required": true},
+        {"name": "fit_intercept", "type_desc": "intercept fitting flag", "required": true},
+        {"name": "warm_start", "type_desc": "warm-start branch flag", "required": true},
+        {"name": "coef", "type_desc": "previous coefficients for warm start", "required": false},
+        {"name": "intercept", "type_desc": "previous intercept for warm start", "required": false},
+        {"name": "scale", "type_desc": "previous positive scale for warm start", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "optimizer parameter vector"}
+      ]
+    },
+    {
+      "node_id": "huber_fit_bounds",
+      "name": "huber_fit_bounds",
+      "description": "Return the L-BFGS-B bounds matrix used by HuberRegressor.fit.",
+      "concept_type": "optimizer_bounds",
+      "status": "atomic",
+      "type_signature": "(n_parameters: int) -> ndarray",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_parameters", "type_desc": "optimizer parameter count", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "L-BFGS-B bounds matrix with positive scale lower bound"}
+      ]
+    },
+    {
+      "node_id": "huber_fit_optimizer_payload",
+      "name": "huber_fit_optimizer_payload",
+      "description": "Return the optimize.minimize payload assembled by HuberRegressor.fit.",
+      "concept_type": "callback_payload",
+      "status": "atomic",
+      "type_signature": "(objective: object, parameters: ndarray, X: object, y: object, *, epsilon: float, alpha: float, sample_weight: object, max_iter: int, tol: float, bounds: object) -> dict",
+      "depth": 1,
+      "inputs": [
+        {"name": "objective", "type_desc": "Huber loss-gradient callback", "required": true},
+        {"name": "parameters", "type_desc": "initial optimizer parameters", "required": true},
+        {"name": "X", "type_desc": "validated design matrix", "required": true},
+        {"name": "y", "type_desc": "validated target vector", "required": true},
+        {"name": "epsilon", "type_desc": "Huber epsilon", "required": true},
+        {"name": "alpha", "type_desc": "regularization strength", "required": true},
+        {"name": "sample_weight", "type_desc": "checked sample weights", "required": true},
+        {"name": "max_iter", "type_desc": "optimizer maximum iteration count", "required": true},
+        {"name": "tol", "type_desc": "optimizer gradient tolerance", "required": true},
+        {"name": "bounds", "type_desc": "L-BFGS-B bounds", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "deterministic optimizer payload"}
+      ]
+    },
+    {
+      "node_id": "huber_fit_status2_failure_message",
+      "name": "huber_fit_status2_failure_message",
+      "description": "Return the status-2 convergence failure message, or None otherwise.",
+      "concept_type": "error_message",
+      "status": "atomic",
+      "type_signature": "(status: int, message: object) -> str | None",
+      "depth": 1,
+      "inputs": [
+        {"name": "status", "type_desc": "optimizer status code", "required": true},
+        {"name": "message", "type_desc": "optimizer status message", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "status-2 failure message or None"}
+      ]
+    },
+    {
+      "node_id": "huber_fit_result_attributes",
+      "name": "huber_fit_result_attributes",
+      "description": "Return coef, intercept, and scale unpacked from optimizer parameters.",
+      "concept_type": "state_unpacking",
+      "status": "atomic",
+      "type_signature": "(parameters: ndarray, n_features: int, *, fit_intercept: bool) -> dict",
+      "depth": 1,
+      "inputs": [
+        {"name": "parameters", "type_desc": "optimized parameter vector", "required": true},
+        {"name": "n_features", "type_desc": "validated feature count", "required": true},
+        {"name": "fit_intercept", "type_desc": "intercept fitting flag", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "coef, intercept, and scale payload"}
+      ]
+    },
+    {
+      "node_id": "huber_fit_outlier_handoff_payload",
+      "name": "huber_fit_outlier_handoff_payload",
+      "description": "Return the postfit payload for existing Huber residual/outlier atoms.",
+      "concept_type": "callback_payload",
+      "status": "atomic",
+      "type_signature": "(X: object, y: object, coef: object, *, intercept: float, scale: float, epsilon: float) -> dict",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "validated design matrix", "required": true},
+        {"name": "y", "type_desc": "validated target vector", "required": true},
+        {"name": "coef", "type_desc": "fitted coefficients", "required": true},
+        {"name": "intercept", "type_desc": "fitted intercept", "required": true},
+        {"name": "scale", "type_desc": "fitted positive scale", "required": true},
+        {"name": "epsilon", "type_desc": "Huber epsilon", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "payload for residual and outlier-mask atoms"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "huber_fit_initial_parameters", "target": "huber_fit_bounds", "kind": "parameter_count_context"},
+    {"source": "huber_fit_bounds", "target": "huber_fit_optimizer_payload", "kind": "optimizer_payload_context"},
+    {"source": "huber_fit_optimizer_payload", "target": "huber_fit_result_attributes", "kind": "optimizer_result_context"},
+    {"source": "huber_fit_result_attributes", "target": "huber_fit_outlier_handoff_payload", "kind": "postfit_state_context"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._huber",
+    "source_version": "1.6.1",
+    "source_license": "BSD-3-Clause",
+    "source_lines": "309-352",
+    "remediation_case": "Case 2 optimizer boundary helper"
+  }
+}

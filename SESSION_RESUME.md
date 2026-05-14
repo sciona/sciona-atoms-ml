@@ -15,7 +15,7 @@ work safely.
     recommended moving to non-coordinate-descent callback seams with lower
     duplicate risk
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.huber_tags_super_callback_shell`
+  - `sklearn.linear_model.huber_fit_optimizer_shell`
 
 ## Known Unrelated Local Modification
 
@@ -203,6 +203,7 @@ Already landed in this section:
 ## Recent Non-Coordinate-Descent Coverage
 
 - `glm_tags_loss_callback_shell`
+- `huber_fit_optimizer_shell`
 - `huber_tags_super_callback_shell`
 - `quantile_solver_guard_shell`
 - `quantile_linprog_failure_message_shell`
@@ -212,24 +213,22 @@ Already landed in this section:
 
 ## Next Likely Seams
 
-The latest pass added `HuberRegressor.__sklearn_tags__` callback-boundary
-helpers. That shell is now covered by `huber_tags_super_callback_shell` and
-intentionally excludes Huber fit, optimizer, and outlier-mask postfit behavior.
+The latest pass added `HuberRegressor.fit` optimizer-shell helpers. That shell
+is now covered by `huber_fit_optimizer_shell` and intentionally keeps Huber
+objective, residual, and outlier-mask math in the existing
+`sklearn.linear_model.huber` family.
 
 The next best bounded candidates are:
 
-1. HuberRegressor fit optimizer shell
-   - a parallel audit preferred `_huber.py:276-353` as the next larger
-     non-coordinate-descent wave after the tag shell
-   - keep it separate from `huber_tags_super_callback_shell` and avoid
-     duplicating the existing `sklearn.linear_model.huber` loss/gradient atoms
-   - likely atoms: initial parameter vector, L-BFGS-B bounds, optimizer payload,
-     optimize-result tail, and postfit outlier-mask handoff
-
-2. RANSAC callback orchestration shell
+1. RANSAC callback orchestration shell
    - second-best non-coordinate-descent candidate from the parallel audit
    - keep estimator `fit`, `predict`, `score`, validity callbacks, and random
      sampling as explicit callback boundaries
+
+2. SGDOneClassSVM fit/offset/averaging shell
+   - third bounded candidate from the non-coordinate linear-model audit
+   - keep the compiled `_plain_sgd` call as a payload boundary and focus on
+     one-class labels, offset semantics, average tail, and allocation mode
 
 3. `_path_residuals` no-go unless only copy isolation is needed
    - a parallel audit found the meaningful deterministic `_path_residuals`

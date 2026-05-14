@@ -728,6 +728,14 @@ Potential remediation path:
   identity-preserving return of the `super().__sklearn_tags__()` tags object,
   the fixed sparse-input tag value, and final returned-tags identity. Huber
   loss math remains owned by the existing `sklearn.linear_model.huber` family.
+- Completed helper slice:
+  `sklearn.linear_model.huber_fit_optimizer_shell` now publishes deterministic
+  `HuberRegressor.fit` optimizer-shell helpers: warm-start and fresh parameter
+  vector construction, L-BFGS-B scale bounds, optimizer payload/options,
+  status-2 convergence failure message, optimized parameter unpacking, and
+  postfit residual/outlier handoff payloads. Huber objective, residual, and
+  outlier-mask math remain owned by the existing `sklearn.linear_model.huber`
+  family.
 - Completed helper slice: `sklearn.linear_model.quantile` now publishes
   quantile-regression LP setup helpers for supplied dense inputs:
   `quantile_nonzero_weight_mask`, `quantile_dense_lp_problem`, and
