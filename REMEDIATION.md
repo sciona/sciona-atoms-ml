@@ -767,6 +767,16 @@ Potential remediation path:
   score callback payloads, and final refit payloads. Existing
   `sklearn.linear_model.ransac` atoms remain the owners of threshold, loss,
   inlier-mask, consensus-comparison, and dynamic-trial math.
+- Completed helper slice:
+  `sklearn.linear_model.ransac_fit_prelude_termination_shell` now publishes
+  deterministic `RANSACRegressor.fit` prelude and termination helpers:
+  `min_samples` resolution, the `min_samples > n_samples` guard payload, the
+  accepted-consensus stop guard, and the valid-consensus max-skips warning
+  payload. Existing `sklearn.linear_model.ransac` and
+  `sklearn.linear_model.ransac_callback_orchestration_shell` atoms remain the
+  owners of residual/loss/inlier/consensus math, dynamic-trial math, subset
+  extraction, callback payloads, aggregate skip-limit guards, no-consensus
+  messages, and final refit payloads.
 - Completed helper slice: `sklearn.linear_model.sgd` now publishes SGD and
   passive-aggressive helper atoms for learning-rate resolution,
   passive-aggressive step-size/config selection, optional `l1_ratio`

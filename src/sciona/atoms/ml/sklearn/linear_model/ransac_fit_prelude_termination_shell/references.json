@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.ransac_fit_prelude_termination_shell.ransac_min_samples_value@sciona/atoms/ml/sklearn/linear_model/ransac_fit_prelude_termination_shell/atoms.py:103": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the `min_samples` None, fractional, and integer resolution branches in sklearn.linear_model._ransac.RANSACRegressor.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for RANSACRegressor fit configuration."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.ransac_fit_prelude_termination_shell.ransac_min_samples_guard_payload@sciona/atoms/ml/sklearn/linear_model/ransac_fit_prelude_termination_shell/atoms.py:125": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the `min_samples > X.shape[0]` ValueError branch in sklearn.linear_model._ransac.RANSACRegressor.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for RANSACRegressor parameter validation."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.ransac_fit_prelude_termination_shell.ransac_stop_condition_reached@sciona/atoms/ml/sklearn/linear_model/ransac_fit_prelude_termination_shell/atoms.py:146": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the `n_inliers_best >= self.stop_n_inliers or score_best >= self.stop_score` break guard in sklearn.linear_model._ransac.RANSACRegressor.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for RANSACRegressor stopping criteria."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.ransac_fit_prelude_termination_shell.ransac_valid_consensus_skip_warning_payload@sciona/atoms/ml/sklearn/linear_model/ransac_fit_prelude_termination_shell/atoms.py:163": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the valid-consensus ConvergenceWarning branch after the RANSACRegressor.fit loop in sklearn.linear_model._ransac."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for RANSACRegressor convergence diagnostics."}}
+      ]
+    }
+  }
+}

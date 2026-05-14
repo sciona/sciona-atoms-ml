@@ -1,0 +1,89 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_ransac_fit_prelude_termination_shell_root",
+      "name": "Sklearn Linear Model RANSAC Fit Prelude Termination Shell Atoms",
+      "description": "Deterministic min-samples prelude, accepted-consensus stop guard, and valid-consensus warning helpers from RANSACRegressor.fit.",
+      "status": "decomposed",
+      "children": [
+        "ransac_min_samples_value",
+        "ransac_min_samples_guard_payload",
+        "ransac_stop_condition_reached",
+        "ransac_valid_consensus_skip_warning_payload"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "ransac_min_samples_value",
+      "name": "ransac_min_samples_value",
+      "description": "Resolve RANSACRegressor.fit min_samples before the too-large guard.",
+      "concept_type": "parameter_resolution",
+      "status": "atomic",
+      "type_signature": "(min_samples: object, n_samples: int, n_features: int, *, estimator_is_linear_regression: bool) -> int",
+      "depth": 1,
+      "inputs": [
+        {"name": "min_samples", "type_desc": "configured min_samples value", "required": true},
+        {"name": "n_samples", "type_desc": "validated sample count", "required": true},
+        {"name": "n_features", "type_desc": "validated feature count", "required": true},
+        {"name": "estimator_is_linear_regression", "type_desc": "whether the default LinearRegression branch applies", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "resolved integer min_samples value"}]
+    },
+    {
+      "node_id": "ransac_min_samples_guard_payload",
+      "name": "ransac_min_samples_guard_payload",
+      "description": "Return the min_samples-too-large guard and source error message.",
+      "concept_type": "control_guard",
+      "status": "atomic",
+      "type_signature": "(resolved_min_samples: int, n_samples: int) -> dict",
+      "depth": 1,
+      "inputs": [
+        {"name": "resolved_min_samples", "type_desc": "resolved positive min_samples value", "required": true},
+        {"name": "n_samples", "type_desc": "validated sample count", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "too-large guard payload"}]
+    },
+    {
+      "node_id": "ransac_stop_condition_reached",
+      "name": "ransac_stop_condition_reached",
+      "description": "Return whether an accepted consensus reaches either stop criterion.",
+      "concept_type": "control_guard",
+      "status": "atomic",
+      "type_signature": "(n_inliers_best: int, score_best: float, stop_n_inliers: int, stop_score: float) -> bool",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_inliers_best", "type_desc": "accepted best inlier count", "required": true},
+        {"name": "score_best", "type_desc": "accepted best score", "required": true},
+        {"name": "stop_n_inliers", "type_desc": "configured inlier stop threshold", "required": true},
+        {"name": "stop_score", "type_desc": "configured score stop threshold", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "accepted-consensus stop guard"}]
+    },
+    {
+      "node_id": "ransac_valid_consensus_skip_warning_payload",
+      "name": "ransac_valid_consensus_skip_warning_payload",
+      "description": "Return the warning payload for valid consensus with too many skipped trials.",
+      "concept_type": "warning_payload",
+      "status": "atomic",
+      "type_signature": "(total_skips: int, max_skips: int) -> dict",
+      "depth": 1,
+      "inputs": [
+        {"name": "total_skips", "type_desc": "total skipped trial count", "required": true},
+        {"name": "max_skips", "type_desc": "configured max_skips threshold", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "warning category and message payload"}]
+    }
+  ],
+  "edges": [
+    {"source": "ransac_min_samples_value", "target": "ransac_min_samples_guard_payload", "kind": "min_samples_validation_context"},
+    {"source": "ransac_stop_condition_reached", "target": "ransac_valid_consensus_skip_warning_payload", "kind": "termination_context"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._ransac",
+    "source_version": "1.6.1",
+    "source_license": "BSD-3-Clause",
+    "source_lines": "383-398,557-559,584-595",
+    "remediation_case": "Case 3 meta-estimator wrappers"
+  }
+}

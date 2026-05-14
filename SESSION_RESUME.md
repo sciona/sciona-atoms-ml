@@ -208,38 +208,41 @@ Already landed in this section:
 - `quantile_solver_guard_shell`
 - `quantile_linprog_failure_message_shell`
 - `ransac_callback_orchestration_shell`
+- `ransac_fit_prelude_termination_shell`
 - `sgd_classifier_fit_callback_shell`
 - `sgd_regressor_fit_callback_shell`
 - `sgd_tags_super_callback_shell`
 
 ## Next Likely Seams
 
-The latest pass added `RANSACRegressor.fit` callback-orchestration helpers.
-That shell is now covered by `ransac_callback_orchestration_shell` and
-intentionally keeps threshold, loss, inlier-mask, consensus-comparison, and
-dynamic-trial math in the existing `sklearn.linear_model.ransac` family.
+The latest RANSAC passes added callback-orchestration helpers and a narrow
+prelude/termination shell. Those shells are now covered by
+`ransac_callback_orchestration_shell` and `ransac_fit_prelude_termination_shell`;
+threshold, loss, inlier-mask, consensus-comparison, and dynamic-trial math stay
+in the existing `sklearn.linear_model.ransac` family.
 
 The next best bounded candidates are:
 
-1. RANSAC follow-up only if needed
-   - the first RANSAC orchestration shell intentionally excludes min-samples
-     resolution, validity callback payloads, predict/loss callback payloads,
-     best-consensus state replacement, stop-condition guards, and warning
-     payloads
-   - add those only as a second shell after a duplicate-risk audit against the
-     existing `sklearn.linear_model.ransac` atoms
-
-2. `_path_residuals` no-go unless only copy isolation is needed
+1. `_path_residuals` no-go unless only copy isolation is needed
    - a parallel audit found the meaningful deterministic `_path_residuals`
      behavior already covered by existing residuals families
    - the only clean remaining seam is narrow `path_params.copy()` isolation
 
-3. final coordinate-descent duplicate-coverage check
+2. final coordinate-descent duplicate-coverage check
    - before leaving `LinearModelCV.fit` permanently, verify that no new seam
      duplicates existing alpha, validation, routing, path, parallel, MSE,
      refit, or postfit slices
 
 Completed current wave:
+
+- `ransac_fit_prelude_termination_shell`
+  - publishes deterministic `RANSACRegressor.fit` helpers for `min_samples`
+    resolution, the `min_samples > n_samples` guard payload, accepted-consensus
+    stop conditions, and the valid-consensus max-skips warning payload
+  - leaves residual/loss/inlier/consensus math, dynamic-trial math, subset
+    extraction, callback payloads, aggregate skip-limit guards, no-consensus
+    messages, warning emission, estimator fitting, and final refit payloads
+    outside this slice
 
 - `sgd_one_class_fit_shell`
   - publishes deterministic `SGDOneClassSVM._fit_one_class` / `_partial_fit`
