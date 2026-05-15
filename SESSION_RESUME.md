@@ -15,7 +15,7 @@ work safely.
     recommended moving to non-coordinate-descent callback seams with lower
     duplicate risk
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.huber_fit_optimizer_shell`
+  - `sklearn.linear_model.lars_cv_orchestration_shell`
 
 ## Known Unrelated Local Modification
 
@@ -206,6 +206,7 @@ Already landed in this section:
 - `glm_tags_loss_callback_shell`
 - `huber_fit_optimizer_shell`
 - `huber_tags_super_callback_shell`
+- `lars_cv_orchestration_shell`
 - `quantile_solver_guard_shell`
 - `quantile_linprog_failure_message_shell`
 - `ransac_callback_orchestration_shell`
@@ -267,6 +268,13 @@ Completed current wave:
     return identity
   - leaves compiled `_plain_sgd`, stochastic updates, convergence, dataset
     construction, seed generation, and generic SGD formulas outside the slice
+
+- `lars_cv_orchestration_shell`
+  - publishes the deterministic `_lars_path_residues` keyword callback payload
+    assembled by `LarsCV.fit` and inherited by `LassoLarsCV.fit`
+  - leaves LARS/Lasso-LARS path solving, residual projection, shared-alpha
+    interpolation, joblib scheduling, metadata routing, precompute warning
+    behavior, estimator mutation, and final refit outside the slice
 
 Pick the next seam by re-reading the immediate source region rather than
 assuming this ordering is still optimal.

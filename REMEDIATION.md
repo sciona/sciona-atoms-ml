@@ -853,6 +853,14 @@ Potential remediation path:
   `lars_cv_residual_path`, `lars_cv_alpha_grid`,
   `lars_cv_interpolated_fold_mse`, `lars_cv_finite_row_mask`, and
   `lars_cv_best_alpha`.
+- Completed orchestration slice:
+  `sklearn.linear_model.lars_cv_orchestration_shell` now publishes the
+  deterministic `_lars_path_residues` keyword callback payload used by
+  `LarsCV.fit` and inherited by `LassoLarsCV.fit`:
+  `lars_cv_path_residues_callback_kwargs`. Path solving, residual projection,
+  shared-alpha interpolation, joblib scheduling, metadata routing, precompute
+  warning behavior, estimator mutation, and final refit remain outside this
+  payload-only shell.
 - Ingest base `lars_path`/`lars_path_gram` solver atoms first.
 - Then add explicit atoms for fold residual-path computation, shared-alpha
   interpolation, mean-MSE selection, and final refit, instead of publishing a
