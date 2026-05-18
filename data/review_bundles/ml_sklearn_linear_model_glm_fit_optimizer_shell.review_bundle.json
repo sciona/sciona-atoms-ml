@@ -1,0 +1,130 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "sciona.atoms.review_bundle.ml.sklearn_linear_model_glm_fit_optimizer_shell.v1",
+  "provider_repo": "sciona-atoms-ml",
+  "family_batch": "ml_sklearn_linear_model_glm_fit_optimizer_shell",
+  "review_status": "reviewed",
+  "review_semantic_verdict": "pass_with_limits",
+  "review_developer_semantic_verdict": "pass_with_limits",
+  "trust_readiness": "reviewed_with_limits",
+  "authoritative_sources": [
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/sklearn/linear_model/glm_fit_optimizer_shell/atoms.py"},
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/sklearn/linear_model/glm_fit_optimizer_shell/witnesses.py"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/sklearn/linear_model/glm_fit_optimizer_shell/references.json"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/sklearn/linear_model/glm_fit_optimizer_shell/cdg.json"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_linear_model_glm_fit_optimizer_shell_behavior.py"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_linear_model_glm_fit_optimizer_shell_references_metadata.py"},
+    {"kind": "local_test", "path": "tests/test_ml_sklearn_linear_model_glm_fit_optimizer_shell_review_bundle.py"}
+  ],
+  "limitations": [
+    "This batch covers deterministic _GeneralizedLinearRegressor.fit initial coefficient setup, cold-start intercept initialization, L-BFGS-B optimizer payloads, Newton solver constructor payloads, and final coefficient/intercept unpacking.",
+    "SciPy L-BFGS-B execution, sklearn Newton solver execution, convergence checks, and solver quality are outside this batch.",
+    "GLM raw prediction, pointwise loss/gradient, and dense objective-gradient math remain owned by the existing sklearn.linear_model.glm family.",
+    "GLM _get_loss callbacks, estimator tags, validation prelude, sample-weight checking, target-range errors, estimator mutation, prediction, and scoring are outside this optimizer shell."
+  ],
+  "blocking_findings": [],
+  "required_actions": [],
+  "review_record_path": "data/review_bundles/ml_sklearn_linear_model_glm_fit_optimizer_shell.review_bundle.json",
+  "rows": [
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.glm_fit_optimizer_shell.glm_fit_initial_coef",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.glm_fit_optimizer_shell.glm_fit_initial_coef",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_fit_optimizer_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_fit_optimizer_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_fit_optimizer_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_fit_optimizer_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_glm_fit_optimizer_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_glm_fit_optimizer_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.glm_fit_optimizer_shell.glm_fit_intercept_init_value",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.glm_fit_optimizer_shell.glm_fit_intercept_init_value",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_fit_optimizer_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_fit_optimizer_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_fit_optimizer_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_fit_optimizer_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_glm_fit_optimizer_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_glm_fit_optimizer_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.glm_fit_optimizer_shell.glm_fit_lbfgs_optimizer_payload",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.glm_fit_optimizer_shell.glm_fit_lbfgs_optimizer_payload",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_fit_optimizer_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_fit_optimizer_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_fit_optimizer_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_fit_optimizer_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_glm_fit_optimizer_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_glm_fit_optimizer_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.glm_fit_optimizer_shell.glm_fit_newton_solver_payload",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.glm_fit_optimizer_shell.glm_fit_newton_solver_payload",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_fit_optimizer_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_fit_optimizer_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_fit_optimizer_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_fit_optimizer_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_glm_fit_optimizer_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_glm_fit_optimizer_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.glm_fit_optimizer_shell.glm_fit_result_attributes",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.glm_fit_optimizer_shell.glm_fit_result_attributes",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_fit_optimizer_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_fit_optimizer_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_fit_optimizer_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/glm_fit_optimizer_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_glm_fit_optimizer_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_glm_fit_optimizer_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    }
+  ]
+}

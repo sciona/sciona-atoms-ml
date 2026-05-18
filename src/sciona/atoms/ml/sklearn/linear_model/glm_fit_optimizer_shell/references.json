@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.glm_fit_optimizer_shell.glm_fit_initial_coef@sciona/atoms/ml/sklearn/linear_model/glm_fit_optimizer_shell/atoms.py:240": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from warm-start and cold-start coefficient initialization in sklearn.linear_model._glm.glm._GeneralizedLinearRegressor.fit in scikit-learn 1.6.1."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for GLM estimator internals."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.glm_fit_optimizer_shell.glm_fit_intercept_init_value@sciona/atoms/ml/sklearn/linear_model/glm_fit_optimizer_shell/atoms.py:282": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from cold-start intercept initialization via base_loss.link.link(np.average(y, weights=sample_weight)) in sklearn.linear_model._glm.glm._GeneralizedLinearRegressor.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for GLM link/loss helpers."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.glm_fit_optimizer_shell.glm_fit_lbfgs_optimizer_payload@sciona/atoms/ml/sklearn/linear_model/glm_fit_optimizer_shell/atoms.py:292": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the scipy.optimize.minimize L-BFGS-B payload in sklearn.linear_model._glm.glm._GeneralizedLinearRegressor.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for GLM optimizer setup."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.glm_fit_optimizer_shell.glm_fit_newton_solver_payload@sciona/atoms/ml/sklearn/linear_model/glm_fit_optimizer_shell/atoms.py:354": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from NewtonCholeskySolver and NewtonSolver constructor payloads in sklearn.linear_model._glm.glm._GeneralizedLinearRegressor.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for GLM solver setup."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.glm_fit_optimizer_shell.glm_fit_result_attributes@sciona/atoms/ml/sklearn/linear_model/glm_fit_optimizer_shell/atoms.py:413": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from final coefficient and intercept unpacking in sklearn.linear_model._glm.glm._GeneralizedLinearRegressor.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for GLM estimator state."}}
+      ]
+    }
+  }
+}

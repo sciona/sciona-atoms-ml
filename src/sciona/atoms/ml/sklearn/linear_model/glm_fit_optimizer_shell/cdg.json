@@ -1,0 +1,133 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_glm_fit_optimizer_shell_root",
+      "name": "Sklearn Linear Model GLM Fit Optimizer Shell Atoms",
+      "description": "Deterministic optimizer setup, solver payload, and post-optimizer coefficient unpacking helpers from sklearn.linear_model._glm.glm._GeneralizedLinearRegressor.fit.",
+      "status": "decomposed",
+      "children": [
+        "glm_fit_initial_coef",
+        "glm_fit_intercept_init_value",
+        "glm_fit_lbfgs_optimizer_payload",
+        "glm_fit_newton_solver_payload",
+        "glm_fit_result_attributes"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "glm_fit_initial_coef",
+      "name": "glm_fit_initial_coef",
+      "description": "Return the warm-start or cold-start coefficient vector used before GLM optimizer dispatch.",
+      "concept_type": "state_initialization",
+      "status": "atomic",
+      "type_signature": "(n_features: int, *, fit_intercept: bool, warm_start: bool, loss_dtype: object, coef: object | None = None, intercept: float = 0.0, intercept_init: float = 0.0) -> NDArray[np.floating]",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_features", "type_desc": "number of fit features", "required": true},
+        {"name": "fit_intercept", "type_desc": "whether the coefficient vector carries a tail intercept", "required": true},
+        {"name": "warm_start", "type_desc": "whether existing coefficients seed the optimizer", "required": true},
+        {"name": "loss_dtype", "type_desc": "loss computation dtype", "required": true},
+        {"name": "coef", "type_desc": "optional warm-start coefficient vector", "required": false},
+        {"name": "intercept", "type_desc": "optional warm-start intercept", "required": false},
+        {"name": "intercept_init", "type_desc": "cold-start intercept initialization value", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "initial optimizer coefficient vector"}
+      ]
+    },
+    {
+      "node_id": "glm_fit_intercept_init_value",
+      "name": "glm_fit_intercept_init_value",
+      "description": "Return the cold-start GLM intercept initialized from the loss link of the weighted target average.",
+      "concept_type": "link_initialization",
+      "status": "atomic",
+      "type_signature": "(base_loss: object, y: object, sample_weight: object | None = None) -> float",
+      "depth": 1,
+      "inputs": [
+        {"name": "base_loss", "type_desc": "loss object exposing link.link", "required": true},
+        {"name": "y", "type_desc": "target vector", "required": true},
+        {"name": "sample_weight", "type_desc": "optional target weights", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "initial intercept value"}
+      ]
+    },
+    {
+      "node_id": "glm_fit_lbfgs_optimizer_payload",
+      "name": "glm_fit_lbfgs_optimizer_payload",
+      "description": "Return the scipy.optimize.minimize payload used by the GLM L-BFGS-B solver branch.",
+      "concept_type": "callback_payload",
+      "status": "atomic",
+      "type_signature": "(objective: object, coef: object, X: object, y: object, *, sample_weight: object, l2_reg_strength: float, n_threads: int, max_iter: int, tol: float, verbose: int) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "objective", "type_desc": "linear loss gradient callback", "required": true},
+        {"name": "coef", "type_desc": "initial coefficient vector", "required": true},
+        {"name": "X", "type_desc": "validated feature matrix", "required": true},
+        {"name": "y", "type_desc": "validated target vector", "required": true},
+        {"name": "sample_weight", "type_desc": "optional sample weights", "required": true},
+        {"name": "l2_reg_strength", "type_desc": "L2 regularization strength", "required": true},
+        {"name": "n_threads", "type_desc": "OpenMP thread count", "required": true},
+        {"name": "max_iter", "type_desc": "optimizer iteration cap", "required": true},
+        {"name": "tol", "type_desc": "optimizer gradient tolerance", "required": true},
+        {"name": "verbose", "type_desc": "estimator verbosity", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "scipy.optimize.minimize keyword payload"}
+      ]
+    },
+    {
+      "node_id": "glm_fit_newton_solver_payload",
+      "name": "glm_fit_newton_solver_payload",
+      "description": "Return the Newton solver constructor payload used by the GLM Newton solver branches.",
+      "concept_type": "solver_payload",
+      "status": "atomic",
+      "type_signature": "(solver_class: object, coef: object, linear_loss: object, *, l2_reg_strength: float, tol: float, max_iter: int, n_threads: int, verbose: int | None = None) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "solver_class", "type_desc": "Newton solver class/callback", "required": true},
+        {"name": "coef", "type_desc": "initial coefficient vector", "required": true},
+        {"name": "linear_loss", "type_desc": "LinearModelLoss object", "required": true},
+        {"name": "l2_reg_strength", "type_desc": "L2 regularization strength", "required": true},
+        {"name": "tol", "type_desc": "solver tolerance", "required": true},
+        {"name": "max_iter", "type_desc": "solver iteration cap", "required": true},
+        {"name": "n_threads", "type_desc": "OpenMP thread count", "required": true},
+        {"name": "verbose", "type_desc": "optional NewtonCholesky verbosity", "required": false}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "Newton solver constructor payload"}
+      ]
+    },
+    {
+      "node_id": "glm_fit_result_attributes",
+      "name": "glm_fit_result_attributes",
+      "description": "Return final GLM coefficient and intercept attributes unpacked from the optimized vector.",
+      "concept_type": "state_unpacking",
+      "status": "atomic",
+      "type_signature": "(coef: object, *, fit_intercept: bool) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "coef", "type_desc": "optimized coefficient vector", "required": true},
+        {"name": "fit_intercept", "type_desc": "whether the final vector carries a tail intercept", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "coef/intercept attribute payload"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "glm_fit_intercept_init_value", "target": "glm_fit_initial_coef", "kind": "initialization_input"},
+    {"source": "glm_fit_initial_coef", "target": "glm_fit_lbfgs_optimizer_payload", "kind": "optimizer_input"},
+    {"source": "glm_fit_initial_coef", "target": "glm_fit_newton_solver_payload", "kind": "solver_input"},
+    {"source": "glm_fit_lbfgs_optimizer_payload", "target": "glm_fit_result_attributes", "kind": "optimizer_result_context"},
+    {"source": "glm_fit_newton_solver_payload", "target": "glm_fit_result_attributes", "kind": "solver_result_context"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._glm.glm",
+    "source_version": "1.6.1",
+    "source_license": "BSD-3-Clause",
+    "source_lines": "246-319",
+    "remediation_case": "Case 2 external optimizer boundary"
+  }
+}

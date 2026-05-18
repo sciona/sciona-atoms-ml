@@ -15,7 +15,7 @@ work safely.
     recommended moving to non-coordinate-descent callback seams with lower
     duplicate risk
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.lars_cv_orchestration_shell`
+  - `sklearn.linear_model.glm_fit_optimizer_shell`
 
 ## Known Unrelated Local Modification
 
@@ -203,6 +203,7 @@ Already landed in this section:
 
 ## Recent Non-Coordinate-Descent Coverage
 
+- `glm_fit_optimizer_shell`
 - `glm_tags_loss_callback_shell`
 - `huber_fit_optimizer_shell`
 - `huber_tags_super_callback_shell`
@@ -232,6 +233,17 @@ The next best bounded candidates should come from non-coordinate
    - avoid broad estimator wrappers that hide SciPy, native, or Cython solver
      boundaries
    - avoid tag-only families unless they unblock a larger non-tag remediation
+
+Best audited next candidate after the current wave:
+
+- `logistic_fit_postpath_packaging_shell`
+  - read-only audit report: `/tmp/sciona-logistic-next-audit/report.md`
+  - recommended scope: deterministic `LogisticRegression.fit` packaging after
+    `_logistic_regression_path` returns, covering `n_iter_`, coefficient
+    matrix layout, and intercept split/zeroing
+  - keep solver dispatch, `_logistic_regression_path`, validation, class
+    encoding, joblib scheduling, and `LogisticRegressionCV.fit` reshaping out
+    of that first logistic package
 
 Completed current wave:
 
@@ -275,6 +287,15 @@ Completed current wave:
   - leaves LARS/Lasso-LARS path solving, residual projection, shared-alpha
     interpolation, joblib scheduling, metadata routing, precompute warning
     behavior, estimator mutation, and final refit outside the slice
+
+- `glm_fit_optimizer_shell`
+  - publishes deterministic `_GeneralizedLinearRegressor.fit` optimizer-boundary
+    helpers for GLM initial coefficient setup, cold-start intercept
+    initialization, L-BFGS-B payloads, Newton solver constructor payloads, and
+    final coefficient/intercept unpacking
+  - leaves raw-prediction and dense objective math with `glm`, tags and
+    `_get_loss` callbacks with `glm_tags_loss_callback_shell`, and optimizer
+    execution/convergence outside the slice
 
 Pick the next seam by re-reading the immediate source region rather than
 assuming this ordering is still optimal.

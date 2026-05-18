@@ -729,6 +729,16 @@ Potential remediation path:
   tag assignment, `_get_loss()` result identity, positive-only target tag
   derivation from `in_y_true_range(-1.0)`, fallback tag preservation, final
   returned-tags identity, and the base default `HalfSquaredError` loss name.
+- Completed optimizer slice:
+  `sklearn.linear_model.glm_fit_optimizer_shell` now publishes deterministic
+  `_GeneralizedLinearRegressor.fit` optimizer-boundary helpers for
+  Poisson/Gamma/Tweedie GLMs: warm-start/cold-start coefficient-vector setup,
+  cold-start intercept initialization from the loss link of weighted average
+  targets, L-BFGS-B optimizer payloads, Newton solver constructor payloads,
+  and final coefficient/intercept unpacking. Existing `glm` atoms remain the
+  owners of raw-prediction, pointwise loss/gradient, and dense objective
+  math; tags and `_get_loss` callback behavior remain owned by
+  `glm_tags_loss_callback_shell`.
 - Completed helper slice: `sklearn.linear_model.logistic` now publishes binary
   logistic helpers for supplied raw scores, parameters, and dense design
   matrices:
