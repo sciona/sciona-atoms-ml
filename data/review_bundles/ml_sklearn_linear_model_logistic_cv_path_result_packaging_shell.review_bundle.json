@@ -1,0 +1,191 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "sciona.atoms.review_bundle.ml.sklearn_linear_model_logistic_cv_path_result_packaging_shell.v1",
+  "provider_repo": "sciona-atoms-ml",
+  "family_batch": "ml_sklearn_linear_model_logistic_cv_path_result_packaging_shell",
+  "review_status": "reviewed",
+  "review_semantic_verdict": "pass_with_limits",
+  "review_developer_semantic_verdict": "pass_with_limits",
+  "trust_readiness": "reviewed_with_limits",
+  "authoritative_sources": [
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_path_result_packaging_shell/atoms.py"
+    },
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_path_result_packaging_shell/witnesses.py"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_path_result_packaging_shell/references.json"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_path_result_packaging_shell/cdg.json"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_sklearn_linear_model_logistic_cv_path_result_packaging_shell_behavior.py"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_sklearn_linear_model_logistic_cv_path_result_packaging_shell_references_metadata.py"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_sklearn_linear_model_logistic_cv_path_result_packaging_shell_review_bundle.py"
+    }
+  ],
+  "limitations": [
+    "This batch covers only deterministic LogisticRegressionCV.fit path-result packaging after _log_reg_scoring_path has returned: 4-tuple unzipping, Cs_ selection, coefs_paths layout, n_iter_ layout, scores layout, and class-keyed scores_/coefs_paths_ dictionaries.",
+    "Logistic loss, probability transforms, dense objective-gradient math, and non-CV LogisticRegression.fit post-path packaging remain owned by existing logistic families.",
+    "Solver validation, class encoding, sample-weight handling, scorer callbacks, CV splitter construction, _log_reg_scoring_path execution, _logistic_regression_path execution, joblib scheduling, warnings, and estimator mutation are outside this batch.",
+    "Best-C selection, l1-ratio axis public expansion, refit calls, final coef_/intercept_ construction, C_, and l1_ratio_ selection are outside this batch."
+  ],
+  "blocking_findings": [],
+  "required_actions": [],
+  "review_record_path": "data/review_bundles/ml_sklearn_linear_model_logistic_cv_path_result_packaging_shell.review_bundle.json",
+  "rows": [
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_path_result_packaging_shell.logistic_cv_path_results",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_path_result_packaging_shell.logistic_cv_path_results",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_path_result_packaging_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_path_result_packaging_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_path_result_packaging_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_path_result_packaging_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_logistic_cv_path_result_packaging_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_logistic_cv_path_result_packaging_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_path_result_packaging_shell.logistic_cv_public_Cs",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_path_result_packaging_shell.logistic_cv_public_Cs",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_path_result_packaging_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_path_result_packaging_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_path_result_packaging_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_path_result_packaging_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_logistic_cv_path_result_packaging_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_logistic_cv_path_result_packaging_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_path_result_packaging_shell.logistic_cv_coefs_paths_layout",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_path_result_packaging_shell.logistic_cv_coefs_paths_layout",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_path_result_packaging_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_path_result_packaging_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_path_result_packaging_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_path_result_packaging_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_logistic_cv_path_result_packaging_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_logistic_cv_path_result_packaging_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_path_result_packaging_shell.logistic_cv_n_iter_layout",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_path_result_packaging_shell.logistic_cv_n_iter_layout",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_path_result_packaging_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_path_result_packaging_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_path_result_packaging_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_path_result_packaging_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_logistic_cv_path_result_packaging_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_logistic_cv_path_result_packaging_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_path_result_packaging_shell.logistic_cv_scores_layout",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_path_result_packaging_shell.logistic_cv_scores_layout",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_path_result_packaging_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_path_result_packaging_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_path_result_packaging_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_path_result_packaging_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_logistic_cv_path_result_packaging_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_logistic_cv_path_result_packaging_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_path_result_packaging_shell.logistic_cv_scores_by_class",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_path_result_packaging_shell.logistic_cv_scores_by_class",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_path_result_packaging_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_path_result_packaging_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_path_result_packaging_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_path_result_packaging_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_logistic_cv_path_result_packaging_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_logistic_cv_path_result_packaging_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_path_result_packaging_shell.logistic_cv_coefs_paths_by_class",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_path_result_packaging_shell.logistic_cv_coefs_paths_by_class",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_path_result_packaging_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_path_result_packaging_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_path_result_packaging_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_path_result_packaging_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_logistic_cv_path_result_packaging_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_logistic_cv_path_result_packaging_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    }
+  ]
+}

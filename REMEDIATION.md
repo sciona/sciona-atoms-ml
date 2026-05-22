@@ -755,6 +755,16 @@ Potential remediation path:
   loss, and dense objective-gradient math; solver dispatch, validation, class
   encoding, joblib scheduling, liblinear, and `LogisticRegressionCV.fit`
   reshaping/refit orchestration remain outside this slice.
+- Completed CV path-result packaging slice:
+  `sklearn.linear_model.logistic_cv_path_result_packaging_shell` now publishes
+  deterministic `LogisticRegressionCV.fit` packaging helpers after
+  `_log_reg_scoring_path` has returned: 4-tuple path-result unzipping, public
+  `Cs_` selection, multinomial/OvR `coefs_paths` layout normalization,
+  branch-specific `n_iter_` reshaping, multinomial score tiling, final score
+  layout, and class-keyed `scores_` / `coefs_paths_` dictionaries. Best-C
+  selection, l1-ratio public-axis expansion, refit calls, final `coef_` /
+  `intercept_` construction, scorer callbacks, CV splitter construction, and
+  solver execution remain outside this slice.
 - Completed helper slice: `sklearn.linear_model.huber` now publishes supplied
   residual and objective helpers:
   `huber_linear_residuals`, `huber_outlier_mask`, and

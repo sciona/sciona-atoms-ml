@@ -15,7 +15,7 @@ work safely.
     recommended moving to non-coordinate-descent callback seams with lower
     duplicate risk
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.logistic_fit_postpath_packaging_shell`
+  - `sklearn.linear_model.logistic_cv_path_result_packaging_shell`
 
 ## Known Unrelated Local Modification
 
@@ -208,6 +208,7 @@ Already landed in this section:
 - `huber_fit_optimizer_shell`
 - `huber_tags_super_callback_shell`
 - `lars_cv_orchestration_shell`
+- `logistic_cv_path_result_packaging_shell`
 - `logistic_fit_postpath_packaging_shell`
 - `quantile_solver_guard_shell`
 - `quantile_linprog_failure_message_shell`
@@ -237,16 +238,16 @@ The next best bounded candidates should come from non-coordinate
 
 Best audited next candidate after the current wave:
 
-- `logistic_cv_path_result_packaging_shell`
-  - basis: `/tmp/sciona-logistic-next-audit/report.md` identified
-    `LogisticRegressionCV.fit` post-parallel result reshaping as the next
-    distinct logistic seam after the basic `LogisticRegression.fit` tail
-  - recommended scope: `_logistic.py` around lines 2035-2061 only, covering
-    `coefs_paths`, `scores`, and `n_iter_` shape normalization and
-    class-keyed packaging
-  - keep best-C/refit selection, l1-ratio axis reshaping, solver dispatch,
-    scorer callbacks, CV splitter construction, and metadata routing outside
-    that first CV package
+- `logistic_cv_l1_ratio_axis_packaging_shell` or
+  `logistic_cv_best_refit_selection_shell`
+  - basis: `/tmp/sciona-logistic-cv-packaging-source-audit/report.md`
+  - the l1-ratio axis package would cover only the later elastic-net public
+    reshaping of `coefs_paths_`, `scores_`, and `n_iter_`
+  - the best/refit package would cover best-index/C/l1-ratio selection and
+    refit payloads, but should remain separate from the path-result reshape
+    package because it crosses into `_logistic_regression_path` callbacks
+  - keep solver dispatch, scorer callbacks, CV splitter construction, metadata
+    routing, and final estimator mutation outside unless explicitly scoped
 
 Completed current wave:
 
@@ -311,6 +312,19 @@ Completed current wave:
   - leaves solver dispatch, validation, class encoding, liblinear,
     `_logistic_regression_path`, joblib scheduling, and
     `LogisticRegressionCV.fit` reshaping/refit outside the slice
+
+- `logistic_cv_path_result_packaging_shell`
+  - publishes deterministic `LogisticRegressionCV.fit` path-result packaging
+    after `_log_reg_scoring_path` returns: 4-tuple unzipping, public `Cs_`
+    selection, multinomial/OvR coefficient-path layout, branch-specific
+    `n_iter_` layout, multinomial score tiling, score layout, and class-keyed
+    `scores_` / `coefs_paths_` dictionaries
+  - preserves coefficient, score, and iteration dtypes from scoring-path
+    outputs and leaves the later l1-ratio public-axis expansion outside this
+    first CV package
+  - leaves solver dispatch, scorer callbacks, CV splitter construction,
+    metadata routing, best-C/refit selection, final `coef_`/`intercept_`, and
+    estimator mutation outside the slice
 
 Pick the next seam by re-reading the immediate source region rather than
 assuming this ordering is still optimal.

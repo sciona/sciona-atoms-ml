@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.logistic_cv_path_result_packaging_shell.logistic_cv_path_results@sciona/atoms/ml/sklearn/linear_model/logistic_cv_path_result_packaging_shell/atoms.py:201": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from LogisticRegressionCV.fit unzipping _log_reg_scoring_path results into coefs_paths, Cs, scores, and n_iter_ in sklearn.linear_model._logistic, scikit-learn 1.6.1."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegressionCV estimator internals."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_cv_path_result_packaging_shell.logistic_cv_public_Cs@sciona/atoms/ml/sklearn/linear_model/logistic_cv_path_result_packaging_shell/atoms.py:208": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from LogisticRegressionCV.fit assigning Cs_ from the first returned C grid."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegressionCV regularization grids."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_cv_path_result_packaging_shell.logistic_cv_coefs_paths_layout@sciona/atoms/ml/sklearn/linear_model/logistic_cv_path_result_packaging_shell/atoms.py:234": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from LogisticRegressionCV.fit coefficient-path reshape and swapaxes packaging for multinomial and OvR branches."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegressionCV coefficient paths."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_cv_path_result_packaging_shell.logistic_cv_n_iter_layout@sciona/atoms/ml/sklearn/linear_model/logistic_cv_path_result_packaging_shell/atoms.py:282": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from LogisticRegressionCV.fit n_iter_ branch-specific reshape in scikit-learn 1.6.1."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegressionCV iteration attributes."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_cv_path_result_packaging_shell.logistic_cv_scores_layout@sciona/atoms/ml/sklearn/linear_model/logistic_cv_path_result_packaging_shell/atoms.py:324": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from LogisticRegressionCV.fit multinomial score tiling and final score reshape."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegressionCV scoring attributes."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_cv_path_result_packaging_shell.logistic_cv_scores_by_class@sciona/atoms/ml/sklearn/linear_model/logistic_cv_path_result_packaging_shell/atoms.py:333": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from LogisticRegressionCV.fit class-keyed scores_ dictionary packaging with dict(zip(classes, scores))."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegressionCV scoring attributes."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_cv_path_result_packaging_shell.logistic_cv_coefs_paths_by_class@sciona/atoms/ml/sklearn/linear_model/logistic_cv_path_result_packaging_shell/atoms.py:340": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from LogisticRegressionCV.fit class-keyed coefs_paths_ dictionary packaging with dict(zip(classes, coefs_paths))."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegressionCV coefficient paths."}}
+      ]
+    }
+  }
+}

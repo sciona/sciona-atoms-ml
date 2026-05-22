@@ -1,0 +1,138 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_logistic_cv_path_result_packaging_shell_root",
+      "name": "Sklearn LogisticRegressionCV Path-result Packaging Shell Atoms",
+      "description": "Deterministic LogisticRegressionCV.fit packaging after _log_reg_scoring_path has returned.",
+      "status": "decomposed",
+      "children": [
+        "logistic_cv_path_results",
+        "logistic_cv_public_Cs",
+        "logistic_cv_coefs_paths_layout",
+        "logistic_cv_n_iter_layout",
+        "logistic_cv_scores_layout",
+        "logistic_cv_scores_by_class",
+        "logistic_cv_coefs_paths_by_class"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "logistic_cv_path_results",
+      "name": "logistic_cv_path_results",
+      "description": "Return unzipped coefficient paths, C grids, scores, and n_iter values from CV scoring-path results.",
+      "concept_type": "state_packaging",
+      "status": "atomic",
+      "type_signature": "(path_results: object) -> tuple[tuple[object, ...], tuple[object, ...], tuple[object, ...], tuple[object, ...]]",
+      "depth": 1,
+      "inputs": [{"name": "path_results", "type_desc": "_log_reg_scoring_path result tuples", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "unpacked coefs_paths, Cs, scores, and n_iter tuple"}]
+    },
+    {
+      "node_id": "logistic_cv_public_Cs",
+      "name": "logistic_cv_public_Cs",
+      "description": "Return the public Cs_ grid from the first returned scoring-path C grid.",
+      "concept_type": "state_packaging",
+      "status": "atomic",
+      "type_signature": "(Cs: object) -> NDArray[np.floating]",
+      "depth": 1,
+      "inputs": [{"name": "Cs", "type_desc": "returned C grids", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "public Cs_ grid"}]
+    },
+    {
+      "node_id": "logistic_cv_coefs_paths_layout",
+      "name": "logistic_cv_coefs_paths_layout",
+      "description": "Return coefficient paths in class-fold-path layout for multinomial or OvR CV packaging.",
+      "concept_type": "state_reshaping",
+      "status": "atomic",
+      "type_signature": "(coefs_paths: object, *, multi_class: str, n_classes: int, n_folds: int, n_Cs: int, n_l1_ratios: int) -> NDArray[np.floating]",
+      "depth": 1,
+      "inputs": [
+        {"name": "coefs_paths", "type_desc": "raw scoring-path coefficient path outputs", "required": true},
+        {"name": "multi_class", "type_desc": "resolved logistic multiclass mode", "required": true},
+        {"name": "n_classes", "type_desc": "effective class count", "required": true},
+        {"name": "n_folds", "type_desc": "cross-validation fold count", "required": true},
+        {"name": "n_Cs", "type_desc": "number of C values", "required": true},
+        {"name": "n_l1_ratios", "type_desc": "number of l1-ratio values in flattened path axis", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "coefficient paths shaped as class by fold by flattened path by coefficient"}]
+    },
+    {
+      "node_id": "logistic_cv_n_iter_layout",
+      "name": "logistic_cv_n_iter_layout",
+      "description": "Return n_iter_ in the branch-specific CV layout.",
+      "concept_type": "state_reshaping",
+      "status": "atomic",
+      "type_signature": "(n_iter: object, *, multi_class: str, n_classes: int, n_folds: int, n_Cs: int, n_l1_ratios: int) -> NDArray[np.integer]",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_iter", "type_desc": "raw scoring-path iteration counts", "required": true},
+        {"name": "multi_class", "type_desc": "resolved logistic multiclass mode", "required": true},
+        {"name": "n_classes", "type_desc": "effective class count", "required": true},
+        {"name": "n_folds", "type_desc": "cross-validation fold count", "required": true},
+        {"name": "n_Cs", "type_desc": "number of C values", "required": true},
+        {"name": "n_l1_ratios", "type_desc": "number of l1-ratio values in flattened path axis", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "n_iter_ tensor"}]
+    },
+    {
+      "node_id": "logistic_cv_scores_layout",
+      "name": "logistic_cv_scores_layout",
+      "description": "Return scores in class-fold-path layout, tiling multinomial scores across classes.",
+      "concept_type": "state_reshaping",
+      "status": "atomic",
+      "type_signature": "(scores: object, *, multi_class: str, n_classes: int, n_folds: int) -> NDArray[np.floating]",
+      "depth": 1,
+      "inputs": [
+        {"name": "scores", "type_desc": "raw scoring-path scores", "required": true},
+        {"name": "multi_class", "type_desc": "resolved logistic multiclass mode", "required": true},
+        {"name": "n_classes", "type_desc": "effective class count", "required": true},
+        {"name": "n_folds", "type_desc": "cross-validation fold count", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "scores tensor"}]
+    },
+    {
+      "node_id": "logistic_cv_scores_by_class",
+      "name": "logistic_cv_scores_by_class",
+      "description": "Return the scores_ dictionary keyed by class labels.",
+      "concept_type": "state_mapping",
+      "status": "atomic",
+      "type_signature": "(classes: object, scores: object) -> dict[object, NDArray[np.floating]]",
+      "depth": 1,
+      "inputs": [
+        {"name": "classes", "type_desc": "effective class labels", "required": true},
+        {"name": "scores", "type_desc": "scores tensor", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "class-keyed scores mapping"}]
+    },
+    {
+      "node_id": "logistic_cv_coefs_paths_by_class",
+      "name": "logistic_cv_coefs_paths_by_class",
+      "description": "Return the coefs_paths_ dictionary keyed by class labels.",
+      "concept_type": "state_mapping",
+      "status": "atomic",
+      "type_signature": "(classes: object, coefs_paths: object) -> dict[object, NDArray[np.floating]]",
+      "depth": 1,
+      "inputs": [
+        {"name": "classes", "type_desc": "effective class labels", "required": true},
+        {"name": "coefs_paths", "type_desc": "coefficient paths tensor", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "class-keyed coefficient-path mapping"}]
+    }
+  ],
+  "edges": [
+    {"source": "logistic_cv_path_results", "target": "logistic_cv_public_Cs", "kind": "state_packaging"},
+    {"source": "logistic_cv_path_results", "target": "logistic_cv_coefs_paths_layout", "kind": "state_packaging"},
+    {"source": "logistic_cv_path_results", "target": "logistic_cv_n_iter_layout", "kind": "state_packaging"},
+    {"source": "logistic_cv_path_results", "target": "logistic_cv_scores_layout", "kind": "state_packaging"},
+    {"source": "logistic_cv_coefs_paths_layout", "target": "logistic_cv_coefs_paths_by_class", "kind": "state_mapping"},
+    {"source": "logistic_cv_scores_layout", "target": "logistic_cv_scores_by_class", "kind": "state_mapping"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._logistic",
+    "source_version": "1.6.1",
+    "source_license": "BSD-3-Clause",
+    "source_lines": "2035-2061",
+    "remediation_case": "Case 2 external optimizer boundary post-callback CV packaging"
+  }
+}
