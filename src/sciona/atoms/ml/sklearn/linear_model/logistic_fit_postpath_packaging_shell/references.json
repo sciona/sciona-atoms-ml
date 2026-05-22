@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.logistic_fit_postpath_packaging_shell.logistic_fit_path_results@sciona/atoms/ml/sklearn/linear_model/logistic_fit_postpath_packaging_shell/atoms.py:133": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from LogisticRegression.fit unzipping _logistic_regression_path outputs with fold_coefs_, _, n_iter_ = zip(*fold_coefs_) in sklearn.linear_model._logistic, scikit-learn 1.6.1."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegression estimator internals."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_fit_postpath_packaging_shell.logistic_fit_n_iter_from_path_results@sciona/atoms/ml/sklearn/linear_model/logistic_fit_postpath_packaging_shell/atoms.py:129": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from LogisticRegression.fit n_iter_ packaging after _logistic_regression_path returns in sklearn.linear_model._logistic, scikit-learn 1.6.1."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegression estimator internals."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_fit_postpath_packaging_shell.logistic_fit_coef_with_intercept@sciona/atoms/ml/sklearn/linear_model/logistic_fit_postpath_packaging_shell/atoms.py:151": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from LogisticRegression.fit post-path coefficient matrix packaging for multinomial and OvR branches in sklearn.linear_model._logistic, scikit-learn 1.6.1. The atom preserves the coefficient dtype supplied by the path result."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegression fit result packaging."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_fit_postpath_packaging_shell.logistic_fit_final_coef@sciona/atoms/ml/sklearn/linear_model/logistic_fit_postpath_packaging_shell/atoms.py:198": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from LogisticRegression.fit final coef_ extraction after intercept splitting in sklearn.linear_model._logistic, scikit-learn 1.6.1."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegression fitted attributes."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_fit_postpath_packaging_shell.logistic_fit_final_intercept@sciona/atoms/ml/sklearn/linear_model/logistic_fit_postpath_packaging_shell/atoms.py:210": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from LogisticRegression.fit final intercept_ extraction or zero initialization in sklearn.linear_model._logistic, scikit-learn 1.6.1."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegression fitted attributes."}}
+      ]
+    }
+  }
+}

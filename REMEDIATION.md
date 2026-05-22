@@ -745,6 +745,16 @@ Potential remediation path:
   `binary_logistic_positive_probability`,
   `binary_logistic_half_loss_gradient`, and
   `binary_logistic_dense_loss_gradient`.
+- Completed post-path packaging slice:
+  `sklearn.linear_model.logistic_fit_postpath_packaging_shell` now publishes
+  deterministic `LogisticRegression.fit` state-packaging helpers after
+  `_logistic_regression_path` has returned: path-result unzipping, `n_iter_`
+  slicing, multinomial/OvR coefficient matrix layout, final `coef_`
+  extraction, and final `intercept_` extraction or zero initialization.
+  Existing `logistic` atoms remain the owners of binary logistic probability,
+  loss, and dense objective-gradient math; solver dispatch, validation, class
+  encoding, joblib scheduling, liblinear, and `LogisticRegressionCV.fit`
+  reshaping/refit orchestration remain outside this slice.
 - Completed helper slice: `sklearn.linear_model.huber` now publishes supplied
   residual and objective helpers:
   `huber_linear_residuals`, `huber_outlier_mask`, and

@@ -1,0 +1,114 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_logistic_fit_postpath_packaging_shell_root",
+      "name": "Sklearn LogisticRegression Fit Post-path Packaging Shell Atoms",
+      "description": "Deterministic LogisticRegression.fit result packaging after _logistic_regression_path has returned.",
+      "status": "decomposed",
+      "children": [
+        "logistic_fit_path_results",
+        "logistic_fit_n_iter_from_path_results",
+        "logistic_fit_coef_with_intercept",
+        "logistic_fit_final_coef",
+        "logistic_fit_final_intercept"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "logistic_fit_path_results",
+      "name": "logistic_fit_path_results",
+      "description": "Return unzipped coefficient, C-grid, and n_iter path results.",
+      "concept_type": "state_packaging",
+      "status": "atomic",
+      "type_signature": "(path_results: object) -> tuple[tuple[object, ...], tuple[object, ...], tuple[object, ...]]",
+      "depth": 1,
+      "inputs": [
+        {"name": "path_results", "type_desc": "_logistic_regression_path result tuples", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "unpacked fold_coefs, Cs, and n_iter tuple"}
+      ]
+    },
+    {
+      "node_id": "logistic_fit_n_iter_from_path_results",
+      "name": "logistic_fit_n_iter_from_path_results",
+      "description": "Return n_iter_ by taking the first path-iteration count for each fitted class path.",
+      "concept_type": "state_packaging",
+      "status": "atomic",
+      "type_signature": "(n_iter: object) -> NDArray[np.int32]",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_iter", "type_desc": "path result iteration counts", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "LogisticRegression n_iter_ vector"}
+      ]
+    },
+    {
+      "node_id": "logistic_fit_coef_with_intercept",
+      "name": "logistic_fit_coef_with_intercept",
+      "description": "Return the post-path coefficient matrix before the intercept column is split off.",
+      "concept_type": "state_packaging",
+      "status": "atomic",
+      "type_signature": "(fold_coefs: object, *, multi_class: str, n_classes: int, n_features: int, fit_intercept: bool) -> NDArray[np.floating]",
+      "depth": 1,
+      "inputs": [
+        {"name": "fold_coefs", "type_desc": "_logistic_regression_path coefficient outputs", "required": true},
+        {"name": "multi_class", "type_desc": "resolved logistic multiclass mode", "required": true},
+        {"name": "n_classes", "type_desc": "effective number of fitted class rows", "required": true},
+        {"name": "n_features", "type_desc": "number of input features", "required": true},
+        {"name": "fit_intercept", "type_desc": "whether the path output carries an intercept column", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "coefficient matrix including optional intercept column"}
+      ]
+    },
+    {
+      "node_id": "logistic_fit_final_coef",
+      "name": "logistic_fit_final_coef",
+      "description": "Return final coef_ by removing the intercept column when fit_intercept is enabled.",
+      "concept_type": "state_unpacking",
+      "status": "atomic",
+      "type_signature": "(coef_with_intercept: object, *, fit_intercept: bool) -> NDArray[np.floating]",
+      "depth": 1,
+      "inputs": [
+        {"name": "coef_with_intercept", "type_desc": "coefficient matrix including optional intercept column", "required": true},
+        {"name": "fit_intercept", "type_desc": "whether the final column is an intercept", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "final coef_ matrix"}
+      ]
+    },
+    {
+      "node_id": "logistic_fit_final_intercept",
+      "name": "logistic_fit_final_intercept",
+      "description": "Return final intercept_ from the last coefficient column or zeros when no intercept is fitted.",
+      "concept_type": "state_unpacking",
+      "status": "atomic",
+      "type_signature": "(coef_with_intercept: object, *, n_classes: int, fit_intercept: bool) -> NDArray[np.floating]",
+      "depth": 1,
+      "inputs": [
+        {"name": "coef_with_intercept", "type_desc": "coefficient matrix including optional intercept column", "required": true},
+        {"name": "n_classes", "type_desc": "effective number of fitted class rows", "required": true},
+        {"name": "fit_intercept", "type_desc": "whether the final column is an intercept", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "final intercept_ vector"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "logistic_fit_path_results", "target": "logistic_fit_n_iter_from_path_results", "kind": "state_packaging"},
+    {"source": "logistic_fit_path_results", "target": "logistic_fit_coef_with_intercept", "kind": "state_packaging"},
+    {"source": "logistic_fit_coef_with_intercept", "target": "logistic_fit_final_coef", "kind": "state_unpacking"},
+    {"source": "logistic_fit_coef_with_intercept", "target": "logistic_fit_final_intercept", "kind": "state_unpacking"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._logistic",
+    "source_version": "1.6.1",
+    "source_license": "BSD-3-Clause",
+    "source_lines": "1375-1392",
+    "remediation_case": "Case 2 external optimizer boundary post-callback packaging"
+  }
+}
