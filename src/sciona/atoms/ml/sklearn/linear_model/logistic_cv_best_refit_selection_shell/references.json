@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.logistic_cv_best_refit_selection_shell.logistic_cv_loop_path_views@sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/atoms.py:176": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from LogisticRegressionCV.fit selecting class-specific scores/coefs_paths for OvR and shared scores[0] for multinomial."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegressionCV estimator internals."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_cv_best_refit_selection_shell.logistic_cv_best_flat_index@sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/atoms.py:199": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from best_index = scores.sum(axis=0).argmax() in the LogisticRegressionCV refit branch."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegressionCV CV model selection."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_cv_best_refit_selection_shell.logistic_cv_best_C_l1_selection@sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/atoms.py:207": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from best_index % len(self.Cs_) and best_index // len(self.Cs_) C/l1-ratio selection."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegressionCV regularization-grid selection."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_cv_best_refit_selection_shell.logistic_cv_refit_coef_init@sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/atoms.py:221": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from branch-specific coef_init averaging before the _logistic_regression_path refit callback."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegressionCV refit initialization."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_cv_best_refit_selection_shell.logistic_cv_nonrefit_best_indices@sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/atoms.py:232": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from best_indices = np.argmax(scores, axis=1) in the non-refit branch."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegressionCV non-refit model selection."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_cv_best_refit_selection_shell.logistic_cv_nonrefit_average_w@sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/atoms.py:240": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from branch-specific averaging of fold-winning coefficients in the non-refit branch."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegressionCV non-refit coefficient packaging."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_cv_best_refit_selection_shell.logistic_cv_nonrefit_average_C@sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/atoms.py:251": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from np.mean(self.Cs_[best_indices % len(self.Cs_)]) in the non-refit branch."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegressionCV regularization-grid selection."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_cv_best_refit_selection_shell.logistic_cv_nonrefit_average_l1_ratio@sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/atoms.py:260": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from elastic-net-only l1-ratio averaging and the non-elastic None branch in LogisticRegressionCV.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegressionCV elastic-net regularization selection."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_cv_best_refit_selection_shell.logistic_cv_multinomial_final_components@sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/atoms.py:274": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from multinomial final C_/l1_ratio_ tiling and coef_/intercept_ extraction from w."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegressionCV fitted-state packaging."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_cv_best_refit_selection_shell.logistic_cv_ovr_final_row@sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/atoms.py:297": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from OvR row-wise coef_ and intercept_ extraction from w in LogisticRegressionCV.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegressionCV fitted-state packaging."}}
+      ]
+    }
+  }
+}

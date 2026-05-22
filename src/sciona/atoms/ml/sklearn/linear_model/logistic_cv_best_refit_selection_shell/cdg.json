@@ -1,0 +1,192 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_logistic_cv_best_refit_selection_shell_root",
+      "name": "Sklearn LogisticRegressionCV Best/refit Selection Shell Atoms",
+      "description": "Deterministic LogisticRegressionCV.fit best-index, refit-initialization, non-refit averaging, and final component packaging around the solver boundary.",
+      "status": "decomposed",
+      "children": [
+        "logistic_cv_loop_path_views",
+        "logistic_cv_best_flat_index",
+        "logistic_cv_best_C_l1_selection",
+        "logistic_cv_refit_coef_init",
+        "logistic_cv_nonrefit_best_indices",
+        "logistic_cv_nonrefit_average_w",
+        "logistic_cv_nonrefit_average_C",
+        "logistic_cv_nonrefit_average_l1_ratio",
+        "logistic_cv_multinomial_final_components",
+        "logistic_cv_ovr_final_row"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "logistic_cv_loop_path_views",
+      "name": "logistic_cv_loop_path_views",
+      "description": "Return the per-loop score and coefficient-path views used by OvR or multinomial CV selection.",
+      "concept_type": "state_selection",
+      "status": "atomic",
+      "type_signature": "(multi_class: str, cls: object, scores_by_class: Mapping[object, object], coefs_paths_by_class: Mapping[object, object], multinomial_scores: object, multinomial_coefs_paths: object) -> tuple[object, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "multi_class", "type_desc": "resolved logistic multiclass mode", "required": true},
+        {"name": "cls", "type_desc": "current class label", "required": true},
+        {"name": "scores_by_class", "type_desc": "class-keyed score paths", "required": true},
+        {"name": "coefs_paths_by_class", "type_desc": "class-keyed coefficient paths", "required": true},
+        {"name": "multinomial_scores", "type_desc": "shared multinomial score tensor", "required": true},
+        {"name": "multinomial_coefs_paths", "type_desc": "multinomial coefficient paths", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "scores and coefficient paths visible inside the loop body"}]
+    },
+    {
+      "node_id": "logistic_cv_best_flat_index",
+      "name": "logistic_cv_best_flat_index",
+      "description": "Return the flattened best path index from summed fold scores.",
+      "concept_type": "state_selection",
+      "status": "atomic",
+      "type_signature": "(scores: object) -> int",
+      "depth": 1,
+      "inputs": [{"name": "scores", "type_desc": "fold-by-path scores", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "flattened best path index"}]
+    },
+    {
+      "node_id": "logistic_cv_best_C_l1_selection",
+      "name": "logistic_cv_best_C_l1_selection",
+      "description": "Return selected C and l1-ratio values from a flattened best path index.",
+      "concept_type": "state_selection",
+      "status": "atomic",
+      "type_signature": "(best_index: int, Cs: object, l1_ratios: object) -> tuple[object, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "best_index", "type_desc": "flattened best path index", "required": true},
+        {"name": "Cs", "type_desc": "public C grid", "required": true},
+        {"name": "l1_ratios", "type_desc": "l1-ratio grid, possibly containing None for non-elastic-net penalties", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "selected C and l1-ratio"}]
+    },
+    {
+      "node_id": "logistic_cv_refit_coef_init",
+      "name": "logistic_cv_refit_coef_init",
+      "description": "Return coefficient initialization for the refit solver boundary from best path coefficients.",
+      "concept_type": "state_packaging",
+      "status": "atomic",
+      "type_signature": "(coefs_paths: object, *, multi_class: str, best_index: int) -> NDArray[np.floating]",
+      "depth": 1,
+      "inputs": [
+        {"name": "coefs_paths", "type_desc": "loop coefficient paths", "required": true},
+        {"name": "multi_class", "type_desc": "resolved logistic multiclass mode", "required": true},
+        {"name": "best_index", "type_desc": "flattened best path index", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "coefficient initialization passed to the solver callback"}]
+    },
+    {
+      "node_id": "logistic_cv_nonrefit_best_indices",
+      "name": "logistic_cv_nonrefit_best_indices",
+      "description": "Return one best path index per fold for the non-refit branch.",
+      "concept_type": "state_selection",
+      "status": "atomic",
+      "type_signature": "(scores: object) -> NDArray[np.integer]",
+      "depth": 1,
+      "inputs": [{"name": "scores", "type_desc": "fold-by-path scores", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "best path index per fold"}]
+    },
+    {
+      "node_id": "logistic_cv_nonrefit_average_w",
+      "name": "logistic_cv_nonrefit_average_w",
+      "description": "Return the non-refit averaged coefficient vector or matrix from fold-specific best path entries.",
+      "concept_type": "state_aggregation",
+      "status": "atomic",
+      "type_signature": "(coefs_paths: object, best_indices: object, *, multi_class: str) -> NDArray[np.floating]",
+      "depth": 1,
+      "inputs": [
+        {"name": "coefs_paths", "type_desc": "loop coefficient paths", "required": true},
+        {"name": "best_indices", "type_desc": "best path index per fold", "required": true},
+        {"name": "multi_class", "type_desc": "resolved logistic multiclass mode", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "averaged coefficient vector or matrix"}]
+    },
+    {
+      "node_id": "logistic_cv_nonrefit_average_C",
+      "name": "logistic_cv_nonrefit_average_C",
+      "description": "Return the non-refit mean selected C value.",
+      "concept_type": "state_aggregation",
+      "status": "atomic",
+      "type_signature": "(best_indices: object, Cs: object) -> object",
+      "depth": 1,
+      "inputs": [
+        {"name": "best_indices", "type_desc": "best path index per fold", "required": true},
+        {"name": "Cs", "type_desc": "public C grid", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "mean selected C value"}]
+    },
+    {
+      "node_id": "logistic_cv_nonrefit_average_l1_ratio",
+      "name": "logistic_cv_nonrefit_average_l1_ratio",
+      "description": "Return the non-refit mean selected l1-ratio for elastic-net penalties, else None.",
+      "concept_type": "state_aggregation",
+      "status": "atomic",
+      "type_signature": "(best_indices: object, Cs: object, l1_ratios: object, penalty: str) -> object",
+      "depth": 1,
+      "inputs": [
+        {"name": "best_indices", "type_desc": "best path index per fold", "required": true},
+        {"name": "Cs", "type_desc": "public C grid", "required": true},
+        {"name": "l1_ratios", "type_desc": "l1-ratio grid", "required": true},
+        {"name": "penalty", "type_desc": "resolved penalty name", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "mean selected l1-ratio or None"}]
+    },
+    {
+      "node_id": "logistic_cv_multinomial_final_components",
+      "name": "logistic_cv_multinomial_final_components",
+      "description": "Return multinomial final C, l1-ratio, coefficient, and optional intercept components from supplied weights.",
+      "concept_type": "state_packaging",
+      "status": "atomic",
+      "type_signature": "(C_values: object, l1_ratio_values: object, w: object, *, n_classes: int, n_features: int, fit_intercept: bool) -> tuple[NDArray[object], NDArray[object], NDArray[np.floating], NDArray[np.floating] | None]",
+      "depth": 1,
+      "inputs": [
+        {"name": "C_values", "type_desc": "selected C list before multinomial tiling", "required": true},
+        {"name": "l1_ratio_values", "type_desc": "selected l1-ratio list before multinomial tiling", "required": true},
+        {"name": "w", "type_desc": "solver or non-refit weight matrix", "required": true},
+        {"name": "n_classes", "type_desc": "effective class count", "required": true},
+        {"name": "n_features", "type_desc": "number of input features", "required": true},
+        {"name": "fit_intercept", "type_desc": "whether trailing intercept weights are present", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "C_, l1_ratio_, coef_, and optional intercept_ components"}]
+    },
+    {
+      "node_id": "logistic_cv_ovr_final_row",
+      "name": "logistic_cv_ovr_final_row",
+      "description": "Return one OvR coefficient row and optional intercept value from supplied weights.",
+      "concept_type": "state_packaging",
+      "status": "atomic",
+      "type_signature": "(w: object, *, n_features: int, fit_intercept: bool) -> tuple[NDArray[np.floating], object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "w", "type_desc": "solver or non-refit weight vector", "required": true},
+        {"name": "n_features", "type_desc": "number of input features", "required": true},
+        {"name": "fit_intercept", "type_desc": "whether a trailing intercept weight is present", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "coefficient row and optional intercept"}]
+    }
+  ],
+  "edges": [
+    {"source": "logistic_cv_loop_path_views", "target": "logistic_cv_best_flat_index", "kind": "state_selection"},
+    {"source": "logistic_cv_best_flat_index", "target": "logistic_cv_best_C_l1_selection", "kind": "state_selection"},
+    {"source": "logistic_cv_best_flat_index", "target": "logistic_cv_refit_coef_init", "kind": "state_packaging"},
+    {"source": "logistic_cv_loop_path_views", "target": "logistic_cv_nonrefit_best_indices", "kind": "state_selection"},
+    {"source": "logistic_cv_nonrefit_best_indices", "target": "logistic_cv_nonrefit_average_w", "kind": "state_aggregation"},
+    {"source": "logistic_cv_nonrefit_best_indices", "target": "logistic_cv_nonrefit_average_C", "kind": "state_aggregation"},
+    {"source": "logistic_cv_nonrefit_best_indices", "target": "logistic_cv_nonrefit_average_l1_ratio", "kind": "state_aggregation"},
+    {"source": "logistic_cv_refit_coef_init", "target": "logistic_cv_multinomial_final_components", "kind": "state_packaging"},
+    {"source": "logistic_cv_refit_coef_init", "target": "logistic_cv_ovr_final_row", "kind": "state_packaging"},
+    {"source": "logistic_cv_nonrefit_average_w", "target": "logistic_cv_multinomial_final_components", "kind": "state_packaging"},
+    {"source": "logistic_cv_nonrefit_average_w", "target": "logistic_cv_ovr_final_row", "kind": "state_packaging"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._logistic",
+    "source_version": "1.6.1",
+    "source_license": "BSD-3-Clause",
+    "source_lines": "2063-2160",
+    "remediation_case": "Case 2 external optimizer boundary best/refit selection state"
+  }
+}

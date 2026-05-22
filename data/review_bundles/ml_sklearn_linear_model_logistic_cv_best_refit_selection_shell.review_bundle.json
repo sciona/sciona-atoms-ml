@@ -1,0 +1,251 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "sciona.atoms.review_bundle.ml.sklearn_linear_model_logistic_cv_best_refit_selection_shell.v1",
+  "provider_repo": "sciona-atoms-ml",
+  "family_batch": "ml_sklearn_linear_model_logistic_cv_best_refit_selection_shell",
+  "review_status": "reviewed",
+  "review_semantic_verdict": "pass_with_limits",
+  "review_developer_semantic_verdict": "pass_with_limits",
+  "trust_readiness": "reviewed_with_limits",
+  "authoritative_sources": [
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/atoms.py"
+    },
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/witnesses.py"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/references.json"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/cdg.json"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_sklearn_linear_model_logistic_cv_best_refit_selection_shell_behavior.py"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_sklearn_linear_model_logistic_cv_best_refit_selection_shell_references_metadata.py"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_sklearn_linear_model_logistic_cv_best_refit_selection_shell_review_bundle.py"
+    }
+  ],
+  "limitations": [
+    "This batch covers only deterministic LogisticRegressionCV.fit best-index selection, C/l1 lookup, refit coefficient initialization, non-refit averaging, and final component packaging.",
+    "It treats _logistic_regression_path refit execution as an external solver boundary and consumes supplied weight outputs instead of executing solver callbacks.",
+    "Path-result packaging remains owned by logistic_cv_path_result_packaging_shell and public l1-axis expansion remains owned by logistic_cv_l1_axis_packaging_tail.",
+    "Scorer callbacks, CV splitter construction, metadata routing, class encoding, validation, warnings, joblib scheduling, solver dispatch, and estimator mutation are outside this batch."
+  ],
+  "blocking_findings": [],
+  "required_actions": [],
+  "review_record_path": "data/review_bundles/ml_sklearn_linear_model_logistic_cv_best_refit_selection_shell.review_bundle.json",
+  "rows": [
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_best_refit_selection_shell.logistic_cv_loop_path_views",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_best_refit_selection_shell.logistic_cv_loop_path_views",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_logistic_cv_best_refit_selection_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_logistic_cv_best_refit_selection_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_best_refit_selection_shell.logistic_cv_best_flat_index",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_best_refit_selection_shell.logistic_cv_best_flat_index",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_logistic_cv_best_refit_selection_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_logistic_cv_best_refit_selection_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_best_refit_selection_shell.logistic_cv_best_C_l1_selection",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_best_refit_selection_shell.logistic_cv_best_C_l1_selection",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_logistic_cv_best_refit_selection_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_logistic_cv_best_refit_selection_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_best_refit_selection_shell.logistic_cv_refit_coef_init",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_best_refit_selection_shell.logistic_cv_refit_coef_init",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_logistic_cv_best_refit_selection_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_logistic_cv_best_refit_selection_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_best_refit_selection_shell.logistic_cv_nonrefit_best_indices",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_best_refit_selection_shell.logistic_cv_nonrefit_best_indices",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_logistic_cv_best_refit_selection_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_logistic_cv_best_refit_selection_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_best_refit_selection_shell.logistic_cv_nonrefit_average_w",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_best_refit_selection_shell.logistic_cv_nonrefit_average_w",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_logistic_cv_best_refit_selection_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_logistic_cv_best_refit_selection_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_best_refit_selection_shell.logistic_cv_nonrefit_average_C",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_best_refit_selection_shell.logistic_cv_nonrefit_average_C",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_logistic_cv_best_refit_selection_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_logistic_cv_best_refit_selection_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_best_refit_selection_shell.logistic_cv_nonrefit_average_l1_ratio",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_best_refit_selection_shell.logistic_cv_nonrefit_average_l1_ratio",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_logistic_cv_best_refit_selection_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_logistic_cv_best_refit_selection_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_best_refit_selection_shell.logistic_cv_multinomial_final_components",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_best_refit_selection_shell.logistic_cv_multinomial_final_components",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_logistic_cv_best_refit_selection_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_logistic_cv_best_refit_selection_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_best_refit_selection_shell.logistic_cv_ovr_final_row",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_best_refit_selection_shell.logistic_cv_ovr_final_row",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_best_refit_selection_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_logistic_cv_best_refit_selection_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_logistic_cv_best_refit_selection_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    }
+  ]
+}

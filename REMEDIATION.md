@@ -778,6 +778,18 @@ Potential remediation path:
   final `coef_` / `intercept_` construction, scorer callbacks, CV splitter
   construction, metadata routing, solver execution, and estimator mutation
   remain outside this slice.
+- Completed CV best/refit selection shell:
+  `sklearn.linear_model.logistic_cv_best_refit_selection_shell` now publishes
+  deterministic `LogisticRegressionCV.fit` selection and state-packaging
+  helpers between CV path-result packaging and the later l1-axis tail:
+  per-loop OvR/multinomial path views, summed-score best-index selection,
+  flattened C/l1 lookup, refit coefficient initialization, non-refit
+  per-fold best-index selection, non-refit coefficient/C/l1 averaging, and
+  multinomial/OvR final coefficient/intercept component extraction from a
+  supplied weight result. The `_logistic_regression_path` refit call remains
+  an external solver boundary; refit callback execution, scorer callbacks, CV
+  splitter construction, metadata routing, validation, joblib scheduling,
+  solver dispatch, and estimator mutation remain outside this slice.
 - Completed helper slice: `sklearn.linear_model.huber` now publishes supplied
   residual and objective helpers:
   `huber_linear_residuals`, `huber_outlier_mask`, and
