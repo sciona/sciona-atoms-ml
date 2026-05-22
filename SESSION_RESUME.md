@@ -15,7 +15,7 @@ work safely.
     recommended moving to non-coordinate-descent callback seams with lower
     duplicate risk
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.logistic_cv_path_result_packaging_shell`
+  - `sklearn.linear_model.logistic_cv_l1_axis_packaging_tail`
 
 ## Known Unrelated Local Modification
 
@@ -208,6 +208,7 @@ Already landed in this section:
 - `huber_fit_optimizer_shell`
 - `huber_tags_super_callback_shell`
 - `lars_cv_orchestration_shell`
+- `logistic_cv_l1_axis_packaging_tail`
 - `logistic_cv_path_result_packaging_shell`
 - `logistic_fit_postpath_packaging_shell`
 - `quantile_solver_guard_shell`
@@ -238,14 +239,14 @@ The next best bounded candidates should come from non-coordinate
 
 Best audited next candidate after the current wave:
 
-- `logistic_cv_l1_ratio_axis_packaging_shell` or
-  `logistic_cv_best_refit_selection_shell`
-  - basis: `/tmp/sciona-logistic-cv-packaging-source-audit/report.md`
-  - the l1-ratio axis package would cover only the later elastic-net public
-    reshaping of `coefs_paths_`, `scores_`, and `n_iter_`
-  - the best/refit package would cover best-index/C/l1-ratio selection and
-    refit payloads, but should remain separate from the path-result reshape
-    package because it crosses into `_logistic_regression_path` callbacks
+- `logistic_cv_best_refit_selection_shell`
+  - basis: `/tmp/sciona-logistic-cv-best-refit-audit/report.md`
+  - source region is broader than the just-landed l1-axis packaging tail and
+    crosses best-index/C/l1-ratio selection, refit payload assembly, and
+    `_logistic_regression_path` callbacks
+  - split before implementation if a narrower deterministic sub-seam is
+    visible; do not combine best-selection state, callback payloads, and final
+    estimator mutation into one broad atom package
   - keep solver dispatch, scorer callbacks, CV splitter construction, metadata
     routing, and final estimator mutation outside unless explicitly scoped
 
@@ -323,6 +324,19 @@ Completed current wave:
     outputs and leaves the later l1-ratio public-axis expansion outside this
     first CV package
   - leaves solver dispatch, scorer callbacks, CV splitter construction,
+    metadata routing, best-C/refit selection, final `coef_`/`intercept_`, and
+    estimator mutation outside the slice
+
+- `logistic_cv_l1_axis_packaging_tail`
+  - publishes deterministic `LogisticRegressionCV.fit` public l1-ratio axis
+    packaging when `self.l1_ratios is not None`: branch enablement,
+    class-keyed `coefs_paths_` reshape/transpose, class-keyed `scores_`
+    reshape/transpose, and `n_iter_` reshape/transpose with an inferred class
+    axis
+  - preserves coefficient, score, and iteration dtypes while retaining
+    singleton C/l1 axes
+  - leaves path-result unzipping with `logistic_cv_path_result_packaging_shell`
+    and leaves solver dispatch, scorer callbacks, CV splitter construction,
     metadata routing, best-C/refit selection, final `coef_`/`intercept_`, and
     estimator mutation outside the slice
 

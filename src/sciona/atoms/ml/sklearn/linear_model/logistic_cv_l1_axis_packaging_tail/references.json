@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.logistic_cv_l1_axis_packaging_tail.logistic_cv_l1_axis_enabled@sciona/atoms/ml/sklearn/linear_model/logistic_cv_l1_axis_packaging_tail/atoms.py:114": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from LogisticRegressionCV.fit branching on self.l1_ratios is not None before public l1-ratio axis packaging in scikit-learn 1.6.1."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegressionCV estimator internals."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_cv_l1_axis_packaging_tail.logistic_cv_coefs_paths_l1_axis@sciona/atoms/ml/sklearn/linear_model/logistic_cv_l1_axis_packaging_tail/atoms.py:126": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from per-class coefs_paths_ reshape to (fold, l1, C, coef) and transpose to (fold, C, l1, coef) in LogisticRegressionCV.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegressionCV coefficient path attributes."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_cv_l1_axis_packaging_tail.logistic_cv_coefs_paths_dict_l1_axis@sciona/atoms/ml/sklearn/linear_model/logistic_cv_l1_axis_packaging_tail/atoms.py:143": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the LogisticRegressionCV.fit loop over self.coefs_paths_.items() during public l1-ratio axis packaging."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegressionCV coefficient path attributes."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_cv_l1_axis_packaging_tail.logistic_cv_scores_l1_axis@sciona/atoms/ml/sklearn/linear_model/logistic_cv_l1_axis_packaging_tail/atoms.py:162": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from per-class scores_ reshape to (fold, l1, C) and transpose to (fold, C, l1) in LogisticRegressionCV.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegressionCV score attributes."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_cv_l1_axis_packaging_tail.logistic_cv_scores_dict_l1_axis@sciona/atoms/ml/sklearn/linear_model/logistic_cv_l1_axis_packaging_tail/atoms.py:178": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the LogisticRegressionCV.fit loop over self.scores_.items() during public l1-ratio axis packaging."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegressionCV score attributes."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_cv_l1_axis_packaging_tail.logistic_cv_n_iter_l1_axis@sciona/atoms/ml/sklearn/linear_model/logistic_cv_l1_axis_packaging_tail/atoms.py:193": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from LogisticRegressionCV.fit reshaping n_iter_ with inferred leading class axis and transposing to class-fold-C-l1 layout."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegressionCV iteration attributes."}}
+      ]
+    }
+  }
+}

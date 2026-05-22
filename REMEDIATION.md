@@ -765,6 +765,19 @@ Potential remediation path:
   selection, l1-ratio public-axis expansion, refit calls, final `coef_` /
   `intercept_` construction, scorer callbacks, CV splitter construction, and
   solver execution remain outside this slice.
+- Completed CV l1-axis packaging tail:
+  `sklearn.linear_model.logistic_cv_l1_axis_packaging_tail` now publishes
+  deterministic `LogisticRegressionCV.fit` public-axis helpers for the
+  `self.l1_ratios is not None` branch after CV path-result packaging:
+  l1-axis enablement, per-class `coefs_paths_` reshape from fold/l1/C to
+  fold/C/l1/coef layout, class-keyed coefficient-path reshaping, per-class
+  `scores_` reshape from fold/l1/C to fold/C/l1 layout, class-keyed score
+  reshaping, and `n_iter_` reshape/transpose with an inferred leading class
+  axis. Path-result unzipping remains owned by
+  `logistic_cv_path_result_packaging_shell`; best-C/l1 selection, refit calls,
+  final `coef_` / `intercept_` construction, scorer callbacks, CV splitter
+  construction, metadata routing, solver execution, and estimator mutation
+  remain outside this slice.
 - Completed helper slice: `sklearn.linear_model.huber` now publishes supplied
   residual and objective helpers:
   `huber_linear_residuals`, `huber_outlier_mask`, and
