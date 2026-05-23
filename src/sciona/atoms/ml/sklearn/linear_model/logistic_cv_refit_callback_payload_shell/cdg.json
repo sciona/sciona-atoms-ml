@@ -1,0 +1,107 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_logistic_cv_refit_callback_payload_shell_root",
+      "name": "Sklearn LogisticRegressionCV Refit Callback Payload Shell Atoms",
+      "description": "Deterministic LogisticRegressionCV.fit payload assembly for the _logistic_regression_path refit callback boundary.",
+      "status": "decomposed",
+      "children": [
+        "logistic_cv_refit_single_Cs",
+        "logistic_cv_refit_verbose",
+        "logistic_cv_refit_path_kwargs",
+        "logistic_cv_refit_path_call",
+        "logistic_cv_refit_first_weight"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "logistic_cv_refit_single_Cs",
+      "name": "logistic_cv_refit_single_Cs",
+      "description": "Return the one-element C grid used by the refit solver callback.",
+      "concept_type": "callback_payload",
+      "status": "atomic",
+      "type_signature": "(C_value: object) -> list[object]",
+      "depth": 1,
+      "inputs": [{"name": "C_value", "type_desc": "selected regularization strength", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "one-element C grid"}]
+    },
+    {
+      "node_id": "logistic_cv_refit_verbose",
+      "name": "logistic_cv_refit_verbose",
+      "description": "Return the nonnegative decremented verbose level used by the refit solver callback.",
+      "concept_type": "callback_payload",
+      "status": "atomic",
+      "type_signature": "(verbose: int) -> int",
+      "depth": 1,
+      "inputs": [{"name": "verbose", "type_desc": "public estimator verbose value", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "refit callback verbose value"}]
+    },
+    {
+      "node_id": "logistic_cv_refit_path_kwargs",
+      "name": "logistic_cv_refit_path_kwargs",
+      "description": "Return the exact keyword payload passed to _logistic_regression_path during LogisticRegressionCV refit.",
+      "concept_type": "callback_payload",
+      "status": "atomic",
+      "type_signature": "(pos_class: object, C_value: object, solver: object, fit_intercept: bool, coef_init: object, max_iter: int, tol: object, penalty: object, class_weight: object, multi_class: str, verbose: int, random_state: object, max_squared_sum: object, sample_weight: object, l1_ratio: object) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "pos_class", "type_desc": "encoded positive class or None for multinomial", "required": true},
+        {"name": "C_value", "type_desc": "selected C value", "required": true},
+        {"name": "solver", "type_desc": "resolved solver name", "required": true},
+        {"name": "fit_intercept", "type_desc": "fit-intercept flag", "required": true},
+        {"name": "coef_init", "type_desc": "refit coefficient initialization", "required": true},
+        {"name": "max_iter", "type_desc": "maximum solver iterations", "required": true},
+        {"name": "tol", "type_desc": "solver tolerance", "required": true},
+        {"name": "penalty", "type_desc": "resolved penalty", "required": true},
+        {"name": "class_weight", "type_desc": "class-weight payload", "required": true},
+        {"name": "multi_class", "type_desc": "resolved multiclass mode", "required": true},
+        {"name": "verbose", "type_desc": "public estimator verbose value", "required": true},
+        {"name": "random_state", "type_desc": "random-state payload", "required": true},
+        {"name": "max_squared_sum", "type_desc": "SAG/SAGA max-squared-sum payload", "required": true},
+        {"name": "sample_weight", "type_desc": "sample-weight payload", "required": true},
+        {"name": "l1_ratio", "type_desc": "selected l1-ratio", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "_logistic_regression_path keyword payload"}]
+    },
+    {
+      "node_id": "logistic_cv_refit_path_call",
+      "name": "logistic_cv_refit_path_call",
+      "description": "Return positional X/y and keyword payload for the refit solver callback.",
+      "concept_type": "callback_payload",
+      "status": "atomic",
+      "type_signature": "(X: object, y: object, kwargs: dict[str, object]) -> tuple[object, object, dict[str, object]]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "validated design matrix", "required": true},
+        {"name": "y", "type_desc": "label-encoded target", "required": true},
+        {"name": "kwargs", "type_desc": "_logistic_regression_path keyword payload", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "positional X/y and keyword payload"}]
+    },
+    {
+      "node_id": "logistic_cv_refit_first_weight",
+      "name": "logistic_cv_refit_first_weight",
+      "description": "Return the first weight result after the refit solver boundary returns.",
+      "concept_type": "state_packaging",
+      "status": "atomic",
+      "type_signature": "(refit_weights: object) -> object",
+      "depth": 1,
+      "inputs": [{"name": "refit_weights", "type_desc": "first element of _logistic_regression_path result tuple", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "first refit weight row"}]
+    }
+  ],
+  "edges": [
+    {"source": "logistic_cv_refit_single_Cs", "target": "logistic_cv_refit_path_kwargs", "kind": "callback_payload"},
+    {"source": "logistic_cv_refit_verbose", "target": "logistic_cv_refit_path_kwargs", "kind": "callback_payload"},
+    {"source": "logistic_cv_refit_path_kwargs", "target": "logistic_cv_refit_path_call", "kind": "callback_payload"},
+    {"source": "logistic_cv_refit_path_call", "target": "logistic_cv_refit_first_weight", "kind": "state_packaging"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._logistic",
+    "source_version": "1.6.1",
+    "source_license": "BSD-3-Clause",
+    "source_lines": "2110-2135",
+    "remediation_case": "Case 2 external optimizer boundary refit callback payload"
+  }
+}

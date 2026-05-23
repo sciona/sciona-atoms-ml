@@ -790,6 +790,18 @@ Potential remediation path:
   an external solver boundary; refit callback execution, scorer callbacks, CV
   splitter construction, metadata routing, validation, joblib scheduling,
   solver dispatch, and estimator mutation remain outside this slice.
+- Completed CV refit callback payload shell:
+  `sklearn.linear_model.logistic_cv_refit_callback_payload_shell` now
+  publishes deterministic `LogisticRegressionCV.fit` payload helpers for the
+  `_logistic_regression_path` refit callback boundary: single-C grid
+  packaging, nonnegative verbose decrementing, exact keyword payload assembly
+  including `check_input=False`, positional `X`/`y` call payload preservation,
+  and first returned weight extraction after the solver boundary returns.
+  Best-index selection, C/l1 selection, refit coefficient initialization,
+  non-refit averaging, final fitted-state component extraction, path-result
+  packaging, public l1-axis expansion, solver execution, convergence,
+  validation, scorer callbacks, CV splitter construction, metadata routing,
+  joblib scheduling, and estimator mutation remain outside this slice.
 - Completed helper slice: `sklearn.linear_model.huber` now publishes supplied
   residual and objective helpers:
   `huber_linear_residuals`, `huber_outlier_mask`, and

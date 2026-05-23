@@ -1,0 +1,151 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "sciona.atoms.review_bundle.ml.sklearn_linear_model_logistic_cv_refit_callback_payload_shell.v1",
+  "provider_repo": "sciona-atoms-ml",
+  "family_batch": "ml_sklearn_linear_model_logistic_cv_refit_callback_payload_shell",
+  "review_status": "reviewed",
+  "review_semantic_verdict": "pass_with_limits",
+  "review_developer_semantic_verdict": "pass_with_limits",
+  "trust_readiness": "reviewed_with_limits",
+  "authoritative_sources": [
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_refit_callback_payload_shell/atoms.py"
+    },
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_refit_callback_payload_shell/witnesses.py"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_refit_callback_payload_shell/references.json"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_refit_callback_payload_shell/cdg.json"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_sklearn_linear_model_logistic_cv_refit_callback_payload_shell_behavior.py"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_sklearn_linear_model_logistic_cv_refit_callback_payload_shell_references_metadata.py"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_sklearn_linear_model_logistic_cv_refit_callback_payload_shell_review_bundle.py"
+    }
+  ],
+  "limitations": [
+    "This batch covers only deterministic LogisticRegressionCV.fit payload assembly for the _logistic_regression_path refit callback boundary.",
+    "It packages the one-element C grid, refit verbose clamp, exact callback kwargs, positional X/y call payload, and first returned weight extraction after the solver boundary returns.",
+    "Best-index selection, selected C/l1 computation, coefficient initialization, non-refit averaging, and final component extraction remain owned by logistic_cv_best_refit_selection_shell.",
+    "Solver execution, convergence, objective math, validation, scorer callbacks, CV splitter construction, metadata routing, joblib scheduling, path-result packaging, public l1-axis expansion, and estimator mutation are outside this batch."
+  ],
+  "blocking_findings": [],
+  "required_actions": [],
+  "review_record_path": "data/review_bundles/ml_sklearn_linear_model_logistic_cv_refit_callback_payload_shell.review_bundle.json",
+  "rows": [
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_refit_callback_payload_shell.logistic_cv_refit_single_Cs",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_refit_callback_payload_shell.logistic_cv_refit_single_Cs",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_refit_callback_payload_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_refit_callback_payload_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_refit_callback_payload_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_refit_callback_payload_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_logistic_cv_refit_callback_payload_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_logistic_cv_refit_callback_payload_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_refit_callback_payload_shell.logistic_cv_refit_verbose",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_refit_callback_payload_shell.logistic_cv_refit_verbose",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_refit_callback_payload_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_refit_callback_payload_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_refit_callback_payload_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_refit_callback_payload_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_logistic_cv_refit_callback_payload_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_logistic_cv_refit_callback_payload_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_refit_callback_payload_shell.logistic_cv_refit_path_kwargs",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_refit_callback_payload_shell.logistic_cv_refit_path_kwargs",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_refit_callback_payload_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_refit_callback_payload_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_refit_callback_payload_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_refit_callback_payload_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_logistic_cv_refit_callback_payload_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_logistic_cv_refit_callback_payload_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_refit_callback_payload_shell.logistic_cv_refit_path_call",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_refit_callback_payload_shell.logistic_cv_refit_path_call",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_refit_callback_payload_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_refit_callback_payload_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_refit_callback_payload_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_refit_callback_payload_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_logistic_cv_refit_callback_payload_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_logistic_cv_refit_callback_payload_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_refit_callback_payload_shell.logistic_cv_refit_first_weight",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.logistic_cv_refit_callback_payload_shell.logistic_cv_refit_first_weight",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_refit_callback_payload_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_refit_callback_payload_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_refit_callback_payload_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/logistic_cv_refit_callback_payload_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_logistic_cv_refit_callback_payload_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_logistic_cv_refit_callback_payload_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    }
+  ]
+}

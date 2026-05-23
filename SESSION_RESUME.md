@@ -15,7 +15,7 @@ work safely.
     recommended moving to non-coordinate-descent callback seams with lower
     duplicate risk
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.logistic_cv_best_refit_selection_shell`
+  - `sklearn.linear_model.logistic_cv_refit_callback_payload_shell`
 
 ## Known Unrelated Local Modification
 
@@ -211,6 +211,7 @@ Already landed in this section:
 - `logistic_cv_best_refit_selection_shell`
 - `logistic_cv_l1_axis_packaging_tail`
 - `logistic_cv_path_result_packaging_shell`
+- `logistic_cv_refit_callback_payload_shell`
 - `logistic_fit_postpath_packaging_shell`
 - `quantile_solver_guard_shell`
 - `quantile_linprog_failure_message_shell`
@@ -240,18 +241,15 @@ The next best bounded candidates should come from non-coordinate
 
 Best audited next candidate after the current wave:
 
-- `logistic_cv_refit_callback_payload_shell`
-  - basis: `/tmp/sciona-logistic-cv-best-refit-next-audit/report.md` and
-    `/tmp/sciona-logistic-cv-best-refit-pattern-audit/report.md`
-  - the just-landed `logistic_cv_best_refit_selection_shell` covers
-    best-index/C/l1 selection, refit coefficient initialization, non-refit
-    averaging, and final component packaging from supplied weights
-  - a next bounded seam, if still useful after source re-read, would cover only
-    deterministic `_logistic_regression_path` refit keyword/argument payload
-    assembly and then stop at the solver callback boundary
-  - keep solver execution, convergence, scorer callbacks, CV splitter
-    construction, metadata routing, final estimator mutation, path-result
-    packaging, and public l1-axis expansion outside unless explicitly scoped
+- `logistic_cv_final_array_packaging_tail`
+  - basis: re-read sklearn 1.6.1 `_logistic.py` immediately after the
+    LogisticRegressionCV loop, before the already-landed l1-axis expansion
+  - likely scope is only `np.asarray` packaging for selected `C_`,
+    selected `l1_ratio_`, and public `l1_ratios_`
+  - keep path-result packaging, best/refit selection, refit callback payloads,
+    public l1-axis reshaping, solver execution, scorer callbacks, CV splitter
+    construction, metadata routing, and estimator mutation outside unless
+    explicitly scoped
 
 Completed current wave:
 
@@ -356,6 +354,19 @@ Completed current wave:
     scorer callbacks, CV splitter construction, metadata routing, validation,
     joblib scheduling, solver dispatch, and estimator mutation outside the
     slice
+
+- `logistic_cv_refit_callback_payload_shell`
+  - publishes deterministic `LogisticRegressionCV.fit` refit callback payload
+    helpers for `_logistic_regression_path`: single-C grid packaging,
+    `verbose=max(0, self.verbose - 1)`, exact keyword payload assembly with
+    `check_input=False`, positional `X`/`y` call payload preservation, and
+    first returned weight extraction after the solver boundary
+  - leaves best-index/C/l1 selection and coefficient initialization with
+    `logistic_cv_best_refit_selection_shell`
+  - leaves solver execution, convergence, objective math, scorer callbacks,
+    CV splitter construction, metadata routing, validation, joblib scheduling,
+    path-result packaging, public l1-axis expansion, and estimator mutation
+    outside the slice
 
 Pick the next seam by re-reading the immediate source region rather than
 assuming this ordering is still optimal.

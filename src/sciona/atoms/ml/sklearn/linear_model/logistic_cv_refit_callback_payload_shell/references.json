@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.logistic_cv_refit_callback_payload_shell.logistic_cv_refit_single_Cs@sciona/atoms/ml/sklearn/linear_model/logistic_cv_refit_callback_payload_shell/atoms.py:130": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from LogisticRegressionCV.fit passing Cs=[C_] into _logistic_regression_path during refit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegressionCV refit internals."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_cv_refit_callback_payload_shell.logistic_cv_refit_verbose@sciona/atoms/ml/sklearn/linear_model/logistic_cv_refit_callback_payload_shell/atoms.py:138": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from verbose=max(0, self.verbose - 1) in the LogisticRegressionCV refit callback payload."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegressionCV refit internals."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_cv_refit_callback_payload_shell.logistic_cv_refit_path_kwargs@sciona/atoms/ml/sklearn/linear_model/logistic_cv_refit_callback_payload_shell/atoms.py:150": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the exact _logistic_regression_path keyword arguments assembled in LogisticRegressionCV.fit refit branch, including check_input=False."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegressionCV refit internals."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_cv_refit_callback_payload_shell.logistic_cv_refit_path_call@sciona/atoms/ml/sklearn/linear_model/logistic_cv_refit_callback_payload_shell/atoms.py:225": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from LogisticRegressionCV.fit calling _logistic_regression_path with positional X and y plus the assembled keyword payload."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegressionCV refit internals."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_cv_refit_callback_payload_shell.logistic_cv_refit_first_weight@sciona/atoms/ml/sklearn/linear_model/logistic_cv_refit_callback_payload_shell/atoms.py:232": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from w = w[0] immediately after _logistic_regression_path returns in LogisticRegressionCV.fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegressionCV refit result packaging."}}
+      ]
+    }
+  }
+}
