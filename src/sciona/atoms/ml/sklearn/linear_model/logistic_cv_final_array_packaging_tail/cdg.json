@@ -1,0 +1,61 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_logistic_cv_final_array_packaging_tail_root",
+      "name": "Sklearn LogisticRegressionCV Final Array Packaging Tail Atoms",
+      "description": "Deterministic LogisticRegressionCV.fit final np.asarray packaging before public l1-axis reshaping.",
+      "status": "decomposed",
+      "children": [
+        "logistic_cv_C_array",
+        "logistic_cv_l1_ratio_array",
+        "logistic_cv_public_l1_ratios_array"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "logistic_cv_C_array",
+      "name": "logistic_cv_C_array",
+      "description": "Return selected C_ values as an ndarray.",
+      "concept_type": "state_packaging",
+      "status": "atomic",
+      "type_signature": "(C_values: object) -> NDArray[np.floating]",
+      "depth": 1,
+      "inputs": [{"name": "C_values", "type_desc": "selected C values accumulated during CV loop", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "selected C_ ndarray"}]
+    },
+    {
+      "node_id": "logistic_cv_l1_ratio_array",
+      "name": "logistic_cv_l1_ratio_array",
+      "description": "Return selected l1_ratio_ values as an ndarray.",
+      "concept_type": "state_packaging",
+      "status": "atomic",
+      "type_signature": "(l1_ratio_values: object) -> NDArray[object]",
+      "depth": 1,
+      "inputs": [{"name": "l1_ratio_values", "type_desc": "selected l1-ratio values accumulated during CV loop", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "selected l1_ratio_ ndarray"}]
+    },
+    {
+      "node_id": "logistic_cv_public_l1_ratios_array",
+      "name": "logistic_cv_public_l1_ratios_array",
+      "description": "Return public l1_ratios_ grid as an ndarray.",
+      "concept_type": "state_packaging",
+      "status": "atomic",
+      "type_signature": "(l1_ratios: object) -> NDArray[object]",
+      "depth": 1,
+      "inputs": [{"name": "l1_ratios", "type_desc": "effective l1-ratio grid, including [None] for non-elastic-net penalties", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "public l1_ratios_ ndarray"}]
+    }
+  ],
+  "edges": [
+    {"source": "logistic_cv_C_array", "target": "logistic_cv_public_l1_ratios_array", "kind": "state_packaging"},
+    {"source": "logistic_cv_l1_ratio_array", "target": "logistic_cv_public_l1_ratios_array", "kind": "state_packaging"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._logistic",
+    "source_version": "1.6.1",
+    "source_license": "BSD-3-Clause",
+    "source_lines": "2162-2164",
+    "remediation_case": "Case 2 external optimizer boundary final array packaging"
+  }
+}

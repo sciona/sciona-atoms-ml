@@ -802,6 +802,18 @@ Potential remediation path:
   packaging, public l1-axis expansion, solver execution, convergence,
   validation, scorer callbacks, CV splitter construction, metadata routing,
   joblib scheduling, and estimator mutation remain outside this slice.
+- Completed CV final array packaging tail:
+  `sklearn.linear_model.logistic_cv_final_array_packaging_tail` now publishes
+  deterministic `LogisticRegressionCV.fit` final array packaging immediately
+  before public l1-axis reshaping: selected `C_` conversion with
+  `np.asarray`, selected `l1_ratio_` conversion with `np.asarray`, and
+  public `l1_ratios_` grid conversion with `np.asarray`. Non-elastic-net
+  `None` l1-ratio values are preserved as object arrays. Best/refit
+  selection, refit callback payloads, non-refit averaging, final
+  coefficient/intercept extraction, path-result packaging, public l1-axis
+  reshaping, solver execution, validation, scorer callbacks, CV splitter
+  construction, metadata routing, joblib scheduling, and estimator mutation
+  remain outside this slice.
 - Completed helper slice: `sklearn.linear_model.huber` now publishes supplied
   residual and objective helpers:
   `huber_linear_residuals`, `huber_outlier_mask`, and

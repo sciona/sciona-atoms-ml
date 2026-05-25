@@ -15,7 +15,7 @@ work safely.
     recommended moving to non-coordinate-descent callback seams with lower
     duplicate risk
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.logistic_cv_refit_callback_payload_shell`
+  - `sklearn.linear_model.logistic_cv_final_array_packaging_tail`
 
 ## Known Unrelated Local Modification
 
@@ -209,6 +209,7 @@ Already landed in this section:
 - `huber_tags_super_callback_shell`
 - `lars_cv_orchestration_shell`
 - `logistic_cv_best_refit_selection_shell`
+- `logistic_cv_final_array_packaging_tail`
 - `logistic_cv_l1_axis_packaging_tail`
 - `logistic_cv_path_result_packaging_shell`
 - `logistic_cv_refit_callback_payload_shell`
@@ -241,15 +242,16 @@ The next best bounded candidates should come from non-coordinate
 
 Best audited next candidate after the current wave:
 
-- `logistic_cv_final_array_packaging_tail`
-  - basis: re-read sklearn 1.6.1 `_logistic.py` immediately after the
-    LogisticRegressionCV loop, before the already-landed l1-axis expansion
-  - likely scope is only `np.asarray` packaging for selected `C_`,
-    selected `l1_ratio_`, and public `l1_ratios_`
-  - keep path-result packaging, best/refit selection, refit callback payloads,
-    public l1-axis reshaping, solver execution, scorer callbacks, CV splitter
-    construction, metadata routing, and estimator mutation outside unless
-    explicitly scoped
+- Re-audit non-coordinate `sklearn.linear_model` deferred targets before
+  choosing the next seam.
+  - LogisticRegressionCV now has landed packages for path-result packaging,
+    best/refit selection, refit callback payloads, final array packaging, and
+    public l1-axis reshaping.
+  - Prefer a new source-local non-tag callback or optimizer-boundary seam from
+    Huber, Quantile, RANSAC, SGD, GLM, LARS CV, or another deferred
+    non-coordinate target.
+  - Avoid broad estimator wrappers that would hide SciPy/native/Cython solver
+    execution or arbitrary user-estimator callbacks.
 
 Completed current wave:
 
@@ -366,6 +368,18 @@ Completed current wave:
   - leaves solver execution, convergence, objective math, scorer callbacks,
     CV splitter construction, metadata routing, validation, joblib scheduling,
     path-result packaging, public l1-axis expansion, and estimator mutation
+    outside the slice
+
+- `logistic_cv_final_array_packaging_tail`
+  - publishes deterministic `LogisticRegressionCV.fit` final `np.asarray`
+    packaging for selected `C_`, selected `l1_ratio_`, and public
+    `l1_ratios_` immediately before the existing public l1-axis reshaping
+  - preserves object arrays for non-elastic-net `None` l1-ratio values and
+    numeric arrays for selected C values
+  - leaves path-result packaging, best/refit selection, refit callback
+    payloads, final coefficient/intercept extraction, public l1-axis
+    reshaping, solver execution, validation, scorer callbacks, CV splitter
+    construction, metadata routing, joblib scheduling, and estimator mutation
     outside the slice
 
 Pick the next seam by re-reading the immediate source region rather than
