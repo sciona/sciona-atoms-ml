@@ -1,0 +1,95 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_sgd_classifier_partial_fit_callback_shell_root",
+      "name": "Sklearn SGD Classifier Partial-fit Callback Shell Atoms",
+      "description": "Deterministic BaseSGDClassifier.partial_fit validation guard and _partial_fit callback payload helpers.",
+      "status": "decomposed",
+      "children": [
+        "sgd_classifier_partial_fit_first_call",
+        "sgd_classifier_partial_fit_validate_params_kwargs",
+        "sgd_classifier_partial_fit_balanced_class_weight_error",
+        "sgd_classifier_partial_fit_callback_payload",
+        "sgd_classifier_partial_fit_result"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "sgd_classifier_partial_fit_first_call",
+      "name": "sgd_classifier_partial_fit_first_call",
+      "description": "Return whether partial_fit is running before classes_ exists.",
+      "concept_type": "callback_boundary",
+      "status": "atomic",
+      "type_signature": "(has_classes: bool) -> bool",
+      "depth": 1,
+      "inputs": [{"name": "has_classes", "type_desc": "whether classes_ exists", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "first-call predicate"}]
+    },
+    {
+      "node_id": "sgd_classifier_partial_fit_validate_params_kwargs",
+      "name": "sgd_classifier_partial_fit_validate_params_kwargs",
+      "description": "Return kwargs for _more_validate_params in partial-fit mode.",
+      "concept_type": "callback_boundary",
+      "status": "atomic",
+      "type_signature": "(first_call: bool) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [{"name": "first_call", "type_desc": "first-call predicate", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "_more_validate_params keyword payload"}]
+    },
+    {
+      "node_id": "sgd_classifier_partial_fit_balanced_class_weight_error",
+      "name": "sgd_classifier_partial_fit_balanced_class_weight_error",
+      "description": "Return the balanced class-weight error message for partial_fit.",
+      "concept_type": "validation_failure",
+      "status": "atomic",
+      "type_signature": "(class_weight: str) -> str",
+      "depth": 1,
+      "inputs": [{"name": "class_weight", "type_desc": "fixed balanced class-weight value", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "ValueError message"}]
+    },
+    {
+      "node_id": "sgd_classifier_partial_fit_callback_payload",
+      "name": "sgd_classifier_partial_fit_callback_payload",
+      "description": "Return the keyword payload delegated to _partial_fit.",
+      "concept_type": "callback_boundary",
+      "status": "atomic",
+      "type_signature": "(X: object, y: object, *, alpha: float, loss: str, learning_rate: str, classes: object, sample_weight: object = None) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "feature matrix payload", "required": true},
+        {"name": "y", "type_desc": "target vector payload", "required": true},
+        {"name": "alpha", "type_desc": "regularization strength", "required": true},
+        {"name": "loss", "type_desc": "loss name", "required": true},
+        {"name": "learning_rate", "type_desc": "learning-rate schedule name", "required": true},
+        {"name": "classes", "type_desc": "partial_fit classes payload", "required": true},
+        {"name": "sample_weight", "type_desc": "optional sample weights", "required": false}
+      ],
+      "outputs": [{"name": "result", "type_desc": "_partial_fit keyword payload"}]
+    },
+    {
+      "node_id": "sgd_classifier_partial_fit_result",
+      "name": "sgd_classifier_partial_fit_result",
+      "description": "Return the delegated _partial_fit result identity.",
+      "concept_type": "callback_boundary",
+      "status": "atomic",
+      "type_signature": "(partial_fit_result: object) -> object",
+      "depth": 1,
+      "inputs": [{"name": "partial_fit_result", "type_desc": "delegated callback result", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "same callback result"}]
+    }
+  ],
+  "edges": [
+    {"source": "sgd_classifier_partial_fit_first_call", "target": "sgd_classifier_partial_fit_validate_params_kwargs", "kind": "validation_context"},
+    {"source": "sgd_classifier_partial_fit_validate_params_kwargs", "target": "sgd_classifier_partial_fit_balanced_class_weight_error", "kind": "validation_context"},
+    {"source": "sgd_classifier_partial_fit_balanced_class_weight_error", "target": "sgd_classifier_partial_fit_callback_payload", "kind": "guard_context"},
+    {"source": "sgd_classifier_partial_fit_callback_payload", "target": "sgd_classifier_partial_fit_result", "kind": "callback_payload"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._stochastic_gradient",
+    "source_version": "1.6.1",
+    "source_license": "BSD-3-Clause",
+    "source_lines": "871-899",
+    "remediation_case": "Case 3 partial-fit callback boundary"
+  }
+}

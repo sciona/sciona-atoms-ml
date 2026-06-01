@@ -924,6 +924,15 @@ Potential remediation path:
   existing `sgd` atoms remain the owners of learning-rate, passive-aggressive,
   and modified-Huber helper formulas.
 - Completed helper slice:
+  `sklearn.linear_model.sgd_classifier_partial_fit_callback_shell` now
+  publishes deterministic `BaseSGDClassifier.partial_fit` callback-boundary
+  helpers: first-call detection, `_more_validate_params(for_partial_fit=True)`
+  payload selection, balanced `class_weight` rejection message, delegated
+  `_partial_fit(...)` payload with fixed `C=1.0`, `max_iter=1`, and no init
+  arrays, plus returned `_partial_fit` result identity. `_partial_fit`
+  internals, compiled `_plain_sgd`, stochastic updates, convergence, dataset
+  construction, and estimator mutation remain outside this slice.
+- Completed helper slice:
   `sklearn.linear_model.sgd_regressor_fit_callback_shell` now publishes
   deterministic `BaseSGDRegressor.fit` callback-boundary helpers:
   `_more_validate_params()` result identity, fixed regressor `C=1.0`, the

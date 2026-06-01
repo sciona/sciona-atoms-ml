@@ -15,7 +15,7 @@ work safely.
     recommended moving to non-coordinate-descent callback seams with lower
     duplicate risk
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.glm_score_deviance_tail`
+  - `sklearn.linear_model.sgd_classifier_partial_fit_callback_shell`
 
 ## Known Unrelated Local Modification
 
@@ -225,6 +225,7 @@ Already landed in this section:
 - `ransac_metadata_routing_shell`
 - `ransac_predict_score_callback_shell`
 - `sgd_classifier_fit_callback_shell`
+- `sgd_classifier_partial_fit_callback_shell`
 - `sgd_regressor_fit_callback_shell`
 - `sgd_tags_super_callback_shell`
 
@@ -247,13 +248,6 @@ The next best bounded candidates should come from non-coordinate
    - avoid tag-only families unless they unblock a larger non-tag remediation
 
 Best audited next candidates after the current wave:
-
-- `sgd_classifier_partial_fit_callback_shell`
-  - source: sklearn 1.6.1 `_stochastic_gradient.py` lines 871-899
-  - likely scope: `partial_fit(...)->_partial_fit(...)` callback payload,
-    first-call predicate, validate-params payload, balanced class-weight
-    rejection message, and callback result identity
-  - keep `_partial_fit` internals and compiled `_plain_sgd` outside the slice
 
 - `logistic_scoring_path_callback_shell`
   - source: sklearn 1.6.1 `_logistic.py` lines 735-804
@@ -339,6 +333,15 @@ Completed current wave:
     return identity
   - leaves compiled `_plain_sgd`, stochastic updates, convergence, dataset
     construction, seed generation, and generic SGD formulas outside the slice
+
+- `sgd_classifier_partial_fit_callback_shell`
+  - publishes deterministic `BaseSGDClassifier.partial_fit` callback-boundary
+    helpers: first-call detection, `_more_validate_params(for_partial_fit=True)`
+    payload selection, balanced `class_weight` rejection message, delegated
+    `_partial_fit(...)` payload with fixed `C=1.0`, `max_iter=1`, and no init
+    arrays, plus returned `_partial_fit` result identity
+  - leaves `_partial_fit` internals, compiled `_plain_sgd`, stochastic updates,
+    convergence, dataset construction, and estimator mutation outside the slice
 
 - `lars_cv_orchestration_shell`
   - publishes the deterministic `_lars_path_residues` keyword callback payload
