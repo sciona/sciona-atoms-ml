@@ -739,6 +739,14 @@ Potential remediation path:
   owners of raw-prediction, pointwise loss/gradient, and dense objective
   math; tags and `_get_loss` callback behavior remain owned by
   `glm_tags_loss_callback_shell`.
+- Completed score-tail slice:
+  `sklearn.linear_model.glm_score_deviance_tail` now publishes deterministic
+  `_GeneralizedLinearRegressor.score` helpers: score target validation kwargs,
+  sample-weight validation payloads, invalid target-range message, weighted
+  constant averaging from supplied loss callbacks, null raw-prediction tiling
+  from a supplied linked mean, and final D2 from supplied model/null deviances.
+  `_linear_predictor`, validation execution, base-loss callbacks, link
+  callbacks, optimizer work, and estimator mutation remain outside this slice.
 - Completed helper slice: `sklearn.linear_model.logistic` now publishes binary
   logistic helpers for supplied raw scores, parameters, and dense design
   matrices:

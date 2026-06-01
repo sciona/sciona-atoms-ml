@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.glm_score_deviance_tail.glm_score_y_check_array_kwargs@sciona/atoms/ml/sklearn/linear_model/glm_score_deviance_tail/atoms.py:80": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from check_array(y, dtype=raw_prediction.dtype, order=\"C\", ensure_2d=False) in _GeneralizedLinearRegressor.score."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for GLM scoring behavior."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.glm_score_deviance_tail.glm_score_sample_weight_check_args@sciona/atoms/ml/sklearn/linear_model/glm_score_deviance_tail/atoms.py:93": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the positional sample_weight and X arguments passed to _check_sample_weight in _GeneralizedLinearRegressor.score."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for GLM scoring behavior."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.glm_score_deviance_tail.glm_score_sample_weight_check_kwargs@sciona/atoms/ml/sklearn/linear_model/glm_score_deviance_tail/atoms.py:102": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from dtype=y.dtype passed to _check_sample_weight in _GeneralizedLinearRegressor.score."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for GLM scoring behavior."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.glm_score_deviance_tail.glm_score_target_range_error_message@sciona/atoms/ml/sklearn/linear_model/glm_score_deviance_tail/atoms.py:113": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the invalid target range ValueError message in _GeneralizedLinearRegressor.score."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for GLM scoring behavior."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.glm_score_deviance_tail.glm_score_constant_average@sciona/atoms/ml/sklearn/linear_model/glm_score_deviance_tail/atoms.py:126": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from np.average(base_loss.constant_to_optimal_zero(...), weights=sample_weight) in _GeneralizedLinearRegressor.score."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for GLM scoring behavior."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.glm_score_deviance_tail.glm_score_null_raw_prediction@sciona/atoms/ml/sklearn/linear_model/glm_score_deviance_tail/atoms.py:134": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from np.tile(y_mean, y.shape[0]) for the null deviance call in _GeneralizedLinearRegressor.score."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for GLM scoring behavior."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.glm_score_deviance_tail.glm_score_d2_from_deviances@sciona/atoms/ml/sklearn/linear_model/glm_score_deviance_tail/atoms.py:142": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the final D2 score formula in _GeneralizedLinearRegressor.score."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for GLM scoring behavior."}}
+      ]
+    }
+  }
+}

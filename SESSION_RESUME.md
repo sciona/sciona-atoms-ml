@@ -15,7 +15,7 @@ work safely.
     recommended moving to non-coordinate-descent callback seams with lower
     duplicate risk
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.lars_cv_refit_callback_shell`
+  - `sklearn.linear_model.glm_score_deviance_tail`
 
 ## Known Unrelated Local Modification
 
@@ -204,6 +204,7 @@ Already landed in this section:
 ## Recent Non-Coordinate-Descent Coverage
 
 - `glm_fit_optimizer_shell`
+- `glm_score_deviance_tail`
 - `glm_tags_loss_callback_shell`
 - `huber_fit_optimizer_shell`
 - `huber_tags_super_callback_shell`
@@ -247,13 +248,27 @@ The next best bounded candidates should come from non-coordinate
 
 Best audited next candidates after the current wave:
 
-- `glm_score_deviance_tail`
-  - source: sklearn 1.6.1 `_glm/glm.py` lines 405-441
-  - likely scope: scoring validation callback payloads, supplied target-range
-    failure message, constant-average/null-prediction helpers, and final D2
-    score from supplied deviances
-  - keep base-loss callbacks, link callbacks, prediction, validation execution,
-    and optimizer work outside the slice
+- `sgd_classifier_partial_fit_callback_shell`
+  - source: sklearn 1.6.1 `_stochastic_gradient.py` lines 871-899
+  - likely scope: `partial_fit(...)->_partial_fit(...)` callback payload,
+    first-call predicate, validate-params payload, balanced class-weight
+    rejection message, and callback result identity
+  - keep `_partial_fit` internals and compiled `_plain_sgd` outside the slice
+
+- `logistic_scoring_path_callback_shell`
+  - source: sklearn 1.6.1 `_logistic.py` lines 735-804
+  - likely scope: `_log_reg_scoring_path` fold slicing, delegated path-call
+    payloads, temporary estimator state from supplied coefficients, and scorer
+    callback payloads
+  - keep scorer lookup/execution and `_logistic_regression_path` execution
+    outside the slice
+
+- `logistic_fit_path_dispatch_payload_shell`
+  - source: sklearn 1.6.1 `_logistic.py` lines 1193-1373
+  - likely scope: non-liblinear `LogisticRegression.fit` path dispatch payloads
+    around warm-start expansion, class iteration, `prefer`, C/penalty
+    normalization, and `n_threads`
+  - avoid absorbing the direct liblinear branch or solver execution
 
 Completed current wave:
 
@@ -348,6 +363,15 @@ Completed current wave:
   - leaves raw-prediction and dense objective math with `glm`, tags and
     `_get_loss` callbacks with `glm_tags_loss_callback_shell`, and optimizer
     execution/convergence outside the slice
+
+- `glm_score_deviance_tail`
+  - publishes deterministic `_GeneralizedLinearRegressor.score` helpers for
+    target validation kwargs, sample-weight validation payloads, invalid
+    target-range message, weighted constant averaging from supplied loss
+    callbacks, null raw-prediction tiling from a supplied linked mean, and final
+    D2 from supplied model/null deviances
+  - leaves `_linear_predictor`, validation execution, base-loss callbacks, link
+    callbacks, optimizer work, and estimator mutation outside the slice
 
 - `logistic_fit_postpath_packaging_shell`
   - publishes deterministic `LogisticRegression.fit` post-path packaging after

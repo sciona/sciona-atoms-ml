@@ -1,0 +1,123 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_glm_score_deviance_tail_root",
+      "name": "Sklearn GLM Score Deviance-tail Atoms",
+      "description": "Deterministic GLM score validation payload, supplied-callback reduction, null-prediction, and final D2 helpers.",
+      "status": "decomposed",
+      "children": [
+        "glm_score_y_check_array_kwargs",
+        "glm_score_sample_weight_check_args",
+        "glm_score_sample_weight_check_kwargs",
+        "glm_score_target_range_error_message",
+        "glm_score_constant_average",
+        "glm_score_null_raw_prediction",
+        "glm_score_d2_from_deviances"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "glm_score_y_check_array_kwargs",
+      "name": "glm_score_y_check_array_kwargs",
+      "description": "Return kwargs passed to check_array for score targets.",
+      "concept_type": "validation_callback_payload",
+      "status": "atomic",
+      "type_signature": "(raw_prediction: object) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [{"name": "raw_prediction", "type_desc": "supplied raw prediction vector", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "check_array keyword payload"}]
+    },
+    {
+      "node_id": "glm_score_sample_weight_check_args",
+      "name": "glm_score_sample_weight_check_args",
+      "description": "Return positional args passed to _check_sample_weight.",
+      "concept_type": "validation_callback_payload",
+      "status": "atomic",
+      "type_signature": "(sample_weight: object, X: object) -> tuple[object, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "sample_weight", "type_desc": "sample-weight payload", "required": true},
+        {"name": "X", "type_desc": "validated feature matrix", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "_check_sample_weight positional payload"}]
+    },
+    {
+      "node_id": "glm_score_sample_weight_check_kwargs",
+      "name": "glm_score_sample_weight_check_kwargs",
+      "description": "Return kwargs passed to _check_sample_weight.",
+      "concept_type": "validation_callback_payload",
+      "status": "atomic",
+      "type_signature": "(y: object) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [{"name": "y", "type_desc": "validated target vector", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "_check_sample_weight keyword payload"}]
+    },
+    {
+      "node_id": "glm_score_target_range_error_message",
+      "name": "glm_score_target_range_error_message",
+      "description": "Return the invalid-target-range message once loss range validation fails.",
+      "concept_type": "validation_failure",
+      "status": "atomic",
+      "type_signature": "(loss_name: str) -> str",
+      "depth": 1,
+      "inputs": [{"name": "loss_name", "type_desc": "base_loss.__name__", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "ValueError message"}]
+    },
+    {
+      "node_id": "glm_score_constant_average",
+      "name": "glm_score_constant_average",
+      "description": "Return weighted average of supplied constant_to_optimal_zero values.",
+      "concept_type": "score_reduction",
+      "status": "atomic",
+      "type_signature": "(constant_values: NDArray[np.float64], sample_weight: object = None) -> float",
+      "depth": 1,
+      "inputs": [
+        {"name": "constant_values", "type_desc": "supplied constant_to_optimal_zero output", "required": true},
+        {"name": "sample_weight", "type_desc": "validated sample weights or None", "required": false}
+      ],
+      "outputs": [{"name": "result", "type_desc": "weighted constant average"}]
+    },
+    {
+      "node_id": "glm_score_null_raw_prediction",
+      "name": "glm_score_null_raw_prediction",
+      "description": "Return tiled null-model raw prediction from a supplied linked weighted mean.",
+      "concept_type": "score_reduction",
+      "status": "atomic",
+      "type_signature": "(y: object, linked_mean: float) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {"name": "y", "type_desc": "validated target vector", "required": true},
+        {"name": "linked_mean", "type_desc": "supplied base_loss.link.link(weighted_mean_y) result", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "null raw prediction vector"}]
+    },
+    {
+      "node_id": "glm_score_d2_from_deviances",
+      "name": "glm_score_d2_from_deviances",
+      "description": "Return the final D2 score from supplied model and null deviances plus constant.",
+      "concept_type": "score_reduction",
+      "status": "atomic",
+      "type_signature": "(deviance: float, deviance_null: float, constant: float) -> float",
+      "depth": 1,
+      "inputs": [
+        {"name": "deviance", "type_desc": "supplied model deviance", "required": true},
+        {"name": "deviance_null", "type_desc": "supplied null deviance", "required": true},
+        {"name": "constant", "type_desc": "weighted constant average", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "D2 score"}]
+    }
+  ],
+  "edges": [
+    {"source": "glm_score_y_check_array_kwargs", "target": "glm_score_sample_weight_check_kwargs", "kind": "validation_context"},
+    {"source": "glm_score_constant_average", "target": "glm_score_d2_from_deviances", "kind": "score_component"},
+    {"source": "glm_score_null_raw_prediction", "target": "glm_score_d2_from_deviances", "kind": "null_model_context"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._glm.glm",
+    "source_version": "1.6.1",
+    "source_license": "BSD-3-Clause",
+    "source_lines": "405-441",
+    "remediation_case": "Case 3 score callback and deviance tail boundary"
+  }
+}
