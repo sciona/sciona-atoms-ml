@@ -15,7 +15,7 @@ work safely.
     recommended moving to non-coordinate-descent callback seams with lower
     duplicate risk
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.quantile_sparse_lp_matrix_shell`
+  - `sklearn.linear_model.lars_cv_refit_callback_shell`
 
 ## Known Unrelated Local Modification
 
@@ -208,6 +208,7 @@ Already landed in this section:
 - `huber_fit_optimizer_shell`
 - `huber_tags_super_callback_shell`
 - `lars_cv_orchestration_shell`
+- `lars_cv_refit_callback_shell`
 - `logistic_cv_best_refit_selection_shell`
 - `logistic_cv_final_array_packaging_tail`
 - `logistic_cv_l1_axis_packaging_tail`
@@ -245,13 +246,6 @@ The next best bounded candidates should come from non-coordinate
    - avoid tag-only families unless they unblock a larger non-tag remediation
 
 Best audited next candidates after the current wave:
-
-- `lars_cv_refit_callback_shell`
-  - source: sklearn 1.6.1 `_least_angle.py` lines 1792-1808
-  - likely scope: selected alpha/CV state payloads, final `_fit(...)` refit
-    callback kwargs/payload, and fit return identity
-  - keep path solving, interpolation, joblib scheduling, and estimator mutation
-    outside the slice
 
 - `glm_score_deviance_tail`
   - source: sklearn 1.6.1 `_glm/glm.py` lines 405-441
@@ -337,6 +331,14 @@ Completed current wave:
   - leaves LARS/Lasso-LARS path solving, residual projection, shared-alpha
     interpolation, joblib scheduling, metadata routing, precompute warning
     behavior, estimator mutation, and final refit outside the slice
+
+- `lars_cv_refit_callback_shell`
+  - publishes deterministic `LarsCV.fit` helpers after CV alpha selection:
+    selected alpha/CV-grid/MSE-path state payloads, final `_fit(...)` keyword
+    payload, final `_fit` call payload, and fit return identity
+  - leaves path solving, residual projection, shared-alpha interpolation, CV
+    splitting, joblib scheduling, metadata routing, `_fit` execution,
+    lasso-specific solver behavior, and estimator mutation outside the slice
 
 - `glm_fit_optimizer_shell`
   - publishes deterministic `_GeneralizedLinearRegressor.fit` optimizer-boundary

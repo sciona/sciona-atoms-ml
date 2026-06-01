@@ -971,6 +971,14 @@ Potential remediation path:
   shared-alpha interpolation, joblib scheduling, metadata routing, precompute
   warning behavior, estimator mutation, and final refit remain outside this
   payload-only shell.
+- Completed refit callback slice:
+  `sklearn.linear_model.lars_cv_refit_callback_shell` now publishes
+  deterministic `LarsCV.fit` helpers after CV alpha selection: selected
+  alpha/CV-grid/MSE-path state payloads, final `_fit(...)` keyword payload,
+  final `_fit` call payload, and fit return identity. Path solving, residual
+  projection, shared-alpha interpolation, CV splitting, joblib scheduling,
+  metadata routing, `_fit` execution, lasso-specific solver behavior, and
+  estimator mutation remain outside this slice.
 - Ingest base `lars_path`/`lars_path_gram` solver atoms first.
 - Then add explicit atoms for fold residual-path computation, shared-alpha
   interpolation, mean-MSE selection, and final refit, instead of publishing a

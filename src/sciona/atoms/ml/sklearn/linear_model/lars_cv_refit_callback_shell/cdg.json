@@ -1,0 +1,95 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_lars_cv_refit_callback_shell_root",
+      "name": "Sklearn LARS CV Refit Callback Shell Atoms",
+      "description": "Deterministic LarsCV.fit selected-state and final _fit callback payload helpers after CV alpha selection.",
+      "status": "decomposed",
+      "children": [
+        "lars_cv_refit_state_payload",
+        "lars_cv_refit_fit_kwargs",
+        "lars_cv_refit_fit_call",
+        "lars_cv_fit_return_self"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "lars_cv_refit_state_payload",
+      "name": "lars_cv_refit_state_payload",
+      "description": "Return the selected alpha, CV alpha grid, and MSE path state payload.",
+      "concept_type": "callback_boundary",
+      "status": "atomic",
+      "type_signature": "(best_alpha: float, cv_alphas: object, mse_path: object) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "best_alpha", "type_desc": "selected alpha after CV scoring", "required": true},
+        {"name": "cv_alphas", "type_desc": "filtered shared alpha grid", "required": true},
+        {"name": "mse_path", "type_desc": "filtered MSE path matrix", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "selected fitted-state payload"}
+      ]
+    },
+    {
+      "node_id": "lars_cv_refit_fit_kwargs",
+      "name": "lars_cv_refit_fit_kwargs",
+      "description": "Return kwargs passed to LarsCV._fit for the final full-data refit.",
+      "concept_type": "callback_boundary",
+      "status": "atomic",
+      "type_signature": "(max_iter: int, best_alpha: float) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "max_iter", "type_desc": "LARS iteration cap", "required": true},
+        {"name": "best_alpha", "type_desc": "selected alpha after CV scoring", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "final _fit keyword payload"}
+      ]
+    },
+    {
+      "node_id": "lars_cv_refit_fit_call",
+      "name": "lars_cv_refit_fit_call",
+      "description": "Return the positional and keyword payload for the deferred LarsCV._fit callback.",
+      "concept_type": "callback_boundary",
+      "status": "atomic",
+      "type_signature": "(X: object, y: object, kwargs: Mapping[str, object]) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "validated full feature matrix", "required": true},
+        {"name": "y", "type_desc": "validated full target vector", "required": true},
+        {"name": "kwargs", "type_desc": "final _fit keyword payload", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "final _fit call payload"}
+      ]
+    },
+    {
+      "node_id": "lars_cv_fit_return_self",
+      "name": "lars_cv_fit_return_self",
+      "description": "Return the fitted estimator identity after the refit callback.",
+      "concept_type": "callback_boundary",
+      "status": "atomic",
+      "type_signature": "(estimator: object) -> object",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator", "type_desc": "LarsCV or LassoLarsCV estimator", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "same estimator identity"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "lars_cv_refit_state_payload", "target": "lars_cv_refit_fit_kwargs", "kind": "selected_alpha_context"},
+    {"source": "lars_cv_refit_fit_kwargs", "target": "lars_cv_refit_fit_call", "kind": "callback_payload"},
+    {"source": "lars_cv_refit_fit_call", "target": "lars_cv_fit_return_self", "kind": "deferred_refit_boundary"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._least_angle",
+    "source_version": "1.6.1",
+    "source_license": "BSD-3-Clause",
+    "source_lines": "1792-1808",
+    "remediation_case": "Case 3 final estimator refit callback boundary"
+  }
+}
