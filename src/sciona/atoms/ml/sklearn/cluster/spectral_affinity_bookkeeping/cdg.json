@@ -21,11 +21,21 @@
       "status": "atomic",
       "concept_type": "spectral_affinity_branch",
       "inputs": [
-        {"name": "affinity", "type_desc": "str"}
+        {
+          "name": "affinity",
+          "type_desc": "str"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "spectral_fit_use_precomputed_nearest_neighbors",
@@ -34,11 +44,21 @@
       "status": "atomic",
       "concept_type": "spectral_affinity_branch",
       "inputs": [
-        {"name": "affinity", "type_desc": "str"}
+        {
+          "name": "affinity",
+          "type_desc": "str"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "spectral_fit_use_precomputed_affinity",
@@ -47,11 +67,21 @@
       "status": "atomic",
       "concept_type": "spectral_affinity_branch",
       "inputs": [
-        {"name": "affinity", "type_desc": "str"}
+        {
+          "name": "affinity",
+          "type_desc": "str"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "spectral_fit_use_pairwise_kernel_hyperparameters",
@@ -60,11 +90,21 @@
       "status": "atomic",
       "concept_type": "spectral_affinity_setup",
       "inputs": [
-        {"name": "affinity", "type_desc": "callable or str"}
+        {
+          "name": "affinity",
+          "type_desc": "callable or str"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "spectral_fit_pairwise_kernel_params",
@@ -73,15 +113,37 @@
       "status": "atomic",
       "concept_type": "spectral_affinity_setup",
       "inputs": [
-        {"name": "kernel_params", "type_desc": "dict[str, object] | None"},
-        {"name": "use_kernel_hyperparameters", "type_desc": "bool"},
-        {"name": "gamma", "type_desc": "float"},
-        {"name": "degree", "type_desc": "float"},
-        {"name": "coef0", "type_desc": "float"}
+        {
+          "name": "kernel_params",
+          "type_desc": "dict[str, object] | None"
+        },
+        {
+          "name": "use_kernel_hyperparameters",
+          "type_desc": "bool"
+        },
+        {
+          "name": "gamma",
+          "type_desc": "float"
+        },
+        {
+          "name": "degree",
+          "type_desc": "float"
+        },
+        {
+          "name": "coef0",
+          "type_desc": "float"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "dict[str, object]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "dict[str, object]"
+        }
+      ],
+      "time_complexity": "O(N^2 * d)",
+      "space_complexity": "O(N^2)",
+      "complexity_reasoning": "Manifold learning, biclustering or spectral decomposition constructs similarity/projection matrices, taking quadratic time/space in samples.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "spectral_fit_symmetric_connectivity",
@@ -90,16 +152,38 @@
       "status": "atomic",
       "concept_type": "spectral_affinity_matrix",
       "inputs": [
-        {"name": "connectivity", "type_desc": "square dense or sparse matrix"}
+        {
+          "name": "connectivity",
+          "type_desc": "square dense or sparse matrix"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "square dense or sparse matrix"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "square dense or sparse matrix"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "spectral_fit_use_nearest_neighbors", "target": "spectral_fit_symmetric_connectivity", "kind": "branch_to_affinity_matrix"},
-    {"source": "spectral_fit_use_precomputed_nearest_neighbors", "target": "spectral_fit_symmetric_connectivity", "kind": "branch_to_affinity_matrix"},
-    {"source": "spectral_fit_use_pairwise_kernel_hyperparameters", "target": "spectral_fit_pairwise_kernel_params", "kind": "hyperparameter_gate"}
+    {
+      "source": "spectral_fit_use_nearest_neighbors",
+      "target": "spectral_fit_symmetric_connectivity",
+      "kind": "branch_to_affinity_matrix"
+    },
+    {
+      "source": "spectral_fit_use_precomputed_nearest_neighbors",
+      "target": "spectral_fit_symmetric_connectivity",
+      "kind": "branch_to_affinity_matrix"
+    },
+    {
+      "source": "spectral_fit_use_pairwise_kernel_hyperparameters",
+      "target": "spectral_fit_pairwise_kernel_params",
+      "kind": "hyperparameter_gate"
+    }
   ]
 }

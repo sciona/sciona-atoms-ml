@@ -27,12 +27,27 @@
       "type_signature": "(warm_start: bool, has_coef_attr: bool) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "warm_start", "type_desc": "estimator warm_start setting", "required": true},
-        {"name": "has_coef_attr", "type_desc": "whether estimator already has coef_", "required": true}
+        {
+          "name": "warm_start",
+          "type_desc": "estimator warm_start setting",
+          "required": true
+        },
+        {
+          "name": "has_coef_attr",
+          "type_desc": "whether estimator already has coef_",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "true when fresh coefficients are allocated"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "true when fresh coefficients are allocated"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_estimator_initial_coef_zeros",
@@ -43,13 +58,32 @@
       "type_signature": "(n_targets: int, n_features: int, dtype: object) -> NDArray[np.floating]",
       "depth": 1,
       "inputs": [
-        {"name": "n_targets", "type_desc": "target count", "required": true},
-        {"name": "n_features", "type_desc": "feature count", "required": true},
-        {"name": "dtype", "type_desc": "validated X dtype", "required": true}
+        {
+          "name": "n_targets",
+          "type_desc": "target count",
+          "required": true
+        },
+        {
+          "name": "n_features",
+          "type_desc": "feature count",
+          "required": true
+        },
+        {
+          "name": "dtype",
+          "type_desc": "validated X dtype",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "F-contiguous zero coefficient matrix"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "F-contiguous zero coefficient matrix"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_estimator_warm_start_coef_matrix",
@@ -60,11 +94,22 @@
       "type_signature": "(coef: NDArray[np.floating]) -> NDArray[np.floating]",
       "depth": 1,
       "inputs": [
-        {"name": "coef", "type_desc": "existing estimator coef_", "required": true}
+        {
+          "name": "coef",
+          "type_desc": "existing estimator coef_",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "two-dimensional coefficient matrix"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "two-dimensional coefficient matrix"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_estimator_dual_gaps_zeros",
@@ -75,12 +120,27 @@
       "type_signature": "(n_targets: int, dtype: object) -> NDArray[np.floating]",
       "depth": 1,
       "inputs": [
-        {"name": "n_targets", "type_desc": "target count", "required": true},
-        {"name": "dtype", "type_desc": "validated X dtype", "required": true}
+        {
+          "name": "n_targets",
+          "type_desc": "target count",
+          "required": true
+        },
+        {
+          "name": "dtype",
+          "type_desc": "validated X dtype",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "zero dual-gap vector"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "zero dual-gap vector"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_estimator_n_iter_list_initial",
@@ -91,11 +151,22 @@
       "type_signature": "(n_targets: int) -> list[int]",
       "depth": 1,
       "inputs": [
-        {"name": "n_targets", "type_desc": "target count", "required": true}
+        {
+          "name": "n_targets",
+          "type_desc": "target count",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "empty iteration-count list"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "empty iteration-count list"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_estimator_loop_this_xy",
@@ -106,12 +177,27 @@
       "type_signature": "(Xy: object, target_index: int) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "Xy", "type_desc": "optional precomputed Xy matrix", "required": true},
-        {"name": "target_index", "type_desc": "target-loop index", "required": true}
+        {
+          "name": "Xy",
+          "type_desc": "optional precomputed Xy matrix",
+          "required": true
+        },
+        {
+          "name": "target_index",
+          "type_desc": "target-loop index",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "None or Xy column for target_index"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "None or Xy column for target_index"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_estimator_single_alpha_grid",
@@ -122,11 +208,22 @@
       "type_signature": "(alpha: object) -> list[object]",
       "depth": 1,
       "inputs": [
-        {"name": "alpha", "type_desc": "estimator alpha parameter", "required": true}
+        {
+          "name": "alpha",
+          "type_desc": "estimator alpha parameter",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "one-element alpha list"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "one-element alpha list"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_estimator_path_args",
@@ -137,13 +234,32 @@
       "type_signature": "(X: object, y: NDArray[np.floating], target_index: int) -> tuple[object, NDArray[np.floating]]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "post-_pre_fit feature matrix", "required": true},
-        {"name": "y", "type_desc": "two-dimensional target matrix", "required": true},
-        {"name": "target_index", "type_desc": "target-loop index", "required": true}
+        {
+          "name": "X",
+          "type_desc": "post-_pre_fit feature matrix",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "two-dimensional target matrix",
+          "required": true
+        },
+        {
+          "name": "target_index",
+          "type_desc": "target-loop index",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "X and selected y column"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "X and selected y column"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_estimator_path_kwargs",
@@ -154,33 +270,120 @@
       "type_signature": "(l1_ratio: object, alpha: object, precompute: object, this_Xy: object, coef_init: object, positive: bool, tol: object, X_offset: object, X_scale: object, max_iter: int, random_state: object, selection: str, sample_weight: object) -> dict[str, object]",
       "depth": 1,
       "inputs": [
-        {"name": "l1_ratio", "type_desc": "estimator l1_ratio parameter", "required": true},
-        {"name": "alpha", "type_desc": "estimator alpha parameter", "required": true},
-        {"name": "precompute", "type_desc": "resolved precompute payload", "required": true},
-        {"name": "this_Xy", "type_desc": "selected Xy payload for target", "required": true},
-        {"name": "coef_init", "type_desc": "initial coefficient vector for target", "required": true},
-        {"name": "positive", "type_desc": "estimator positive setting", "required": true},
-        {"name": "tol", "type_desc": "estimator tolerance", "required": true},
-        {"name": "X_offset", "type_desc": "pre-fit X offset", "required": true},
-        {"name": "X_scale", "type_desc": "pre-fit X scale", "required": true},
-        {"name": "max_iter", "type_desc": "estimator max_iter setting", "required": true},
-        {"name": "random_state", "type_desc": "estimator random_state setting", "required": true},
-        {"name": "selection", "type_desc": "estimator selection setting", "required": true},
-        {"name": "sample_weight", "type_desc": "sample-weight payload after rescaling", "required": true}
+        {
+          "name": "l1_ratio",
+          "type_desc": "estimator l1_ratio parameter",
+          "required": true
+        },
+        {
+          "name": "alpha",
+          "type_desc": "estimator alpha parameter",
+          "required": true
+        },
+        {
+          "name": "precompute",
+          "type_desc": "resolved precompute payload",
+          "required": true
+        },
+        {
+          "name": "this_Xy",
+          "type_desc": "selected Xy payload for target",
+          "required": true
+        },
+        {
+          "name": "coef_init",
+          "type_desc": "initial coefficient vector for target",
+          "required": true
+        },
+        {
+          "name": "positive",
+          "type_desc": "estimator positive setting",
+          "required": true
+        },
+        {
+          "name": "tol",
+          "type_desc": "estimator tolerance",
+          "required": true
+        },
+        {
+          "name": "X_offset",
+          "type_desc": "pre-fit X offset",
+          "required": true
+        },
+        {
+          "name": "X_scale",
+          "type_desc": "pre-fit X scale",
+          "required": true
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "estimator max_iter setting",
+          "required": true
+        },
+        {
+          "name": "random_state",
+          "type_desc": "estimator random_state setting",
+          "required": true
+        },
+        {
+          "name": "selection",
+          "type_desc": "estimator selection setting",
+          "required": true
+        },
+        {
+          "name": "sample_weight",
+          "type_desc": "sample-weight payload after rescaling",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "kwargs payload for self.path"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "kwargs payload for self.path"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "cd_estimator_initial_coef_required", "target": "cd_estimator_initial_coef_zeros", "kind": "branch_context"},
-    {"source": "cd_estimator_initial_coef_required", "target": "cd_estimator_warm_start_coef_matrix", "kind": "branch_context"},
-    {"source": "cd_estimator_initial_coef_zeros", "target": "cd_estimator_path_kwargs", "kind": "callback_context"},
-    {"source": "cd_estimator_warm_start_coef_matrix", "target": "cd_estimator_path_kwargs", "kind": "callback_context"},
-    {"source": "cd_estimator_loop_this_xy", "target": "cd_estimator_path_kwargs", "kind": "callback_context"},
-    {"source": "cd_estimator_single_alpha_grid", "target": "cd_estimator_path_kwargs", "kind": "callback_context"},
-    {"source": "cd_estimator_path_args", "target": "cd_estimator_path_kwargs", "kind": "callback_context"}
+    {
+      "source": "cd_estimator_initial_coef_required",
+      "target": "cd_estimator_initial_coef_zeros",
+      "kind": "branch_context"
+    },
+    {
+      "source": "cd_estimator_initial_coef_required",
+      "target": "cd_estimator_warm_start_coef_matrix",
+      "kind": "branch_context"
+    },
+    {
+      "source": "cd_estimator_initial_coef_zeros",
+      "target": "cd_estimator_path_kwargs",
+      "kind": "callback_context"
+    },
+    {
+      "source": "cd_estimator_warm_start_coef_matrix",
+      "target": "cd_estimator_path_kwargs",
+      "kind": "callback_context"
+    },
+    {
+      "source": "cd_estimator_loop_this_xy",
+      "target": "cd_estimator_path_kwargs",
+      "kind": "callback_context"
+    },
+    {
+      "source": "cd_estimator_single_alpha_grid",
+      "target": "cd_estimator_path_kwargs",
+      "kind": "callback_context"
+    },
+    {
+      "source": "cd_estimator_path_args",
+      "target": "cd_estimator_path_kwargs",
+      "kind": "callback_context"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

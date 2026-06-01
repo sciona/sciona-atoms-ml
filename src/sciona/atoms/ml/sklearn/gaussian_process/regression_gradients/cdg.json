@@ -21,12 +21,27 @@
       "type_signature": "(L: NDArray[np.float64], dual_coefficients: NDArray[np.float64]) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "L", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "dual_coefficients", "type_desc": "NDArray[np.float64]", "required": true}
+        {
+          "name": "L",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "dual_coefficients",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "gp_log_marginal_gradient_dims",
@@ -37,12 +52,27 @@
       "type_signature": "(inner_term: NDArray[np.float64], kernel_gradient: NDArray[np.float64]) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "inner_term", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "kernel_gradient", "type_desc": "NDArray[np.float64]", "required": true}
+        {
+          "name": "inner_term",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "kernel_gradient",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "gp_log_marginal_gradient",
@@ -53,16 +83,35 @@
       "type_signature": "(gradient_dims: NDArray[np.float64]) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "gradient_dims", "type_desc": "NDArray[np.float64]", "required": true}
+        {
+          "name": "gradient_dims",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [
-    {"source": "gp_log_marginal_gradient_inner_term", "target": "gp_log_marginal_gradient_dims", "kind": "inner_term_input"},
-    {"source": "gp_log_marginal_gradient_dims", "target": "gp_log_marginal_gradient", "kind": "gradient_dims_input"}
+    {
+      "source": "gp_log_marginal_gradient_inner_term",
+      "target": "gp_log_marginal_gradient_dims",
+      "kind": "inner_term_input"
+    },
+    {
+      "source": "gp_log_marginal_gradient_dims",
+      "target": "gp_log_marginal_gradient",
+      "kind": "gradient_dims_input"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

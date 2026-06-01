@@ -18,11 +18,21 @@
       "status": "atomic",
       "concept_type": "partial_dependence_input_bookkeeping",
       "inputs": [
-        {"name": "custom_values", "type_desc": "optional mapping"}
+        {
+          "name": "custom_values",
+          "type_desc": "optional mapping"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "dict"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "dict"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "partial_dependence_feature_sequence",
@@ -31,11 +41,21 @@
       "status": "atomic",
       "concept_type": "partial_dependence_input_bookkeeping",
       "inputs": [
-        {"name": "features", "type_desc": "scalar feature label or nonempty sequence of feature items"}
+        {
+          "name": "features",
+          "type_desc": "scalar feature label or nonempty sequence of feature items"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "tuple of feature items"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "tuple of feature items"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "partial_dependence_custom_values_subset_mapping",
@@ -44,16 +64,37 @@
       "status": "atomic",
       "concept_type": "partial_dependence_input_bookkeeping",
       "inputs": [
-        {"name": "features", "type_desc": "tuple of feature items"},
-        {"name": "custom_values", "type_desc": "mapping"}
+        {
+          "name": "features",
+          "type_desc": "tuple of feature items"
+        },
+        {
+          "name": "custom_values",
+          "type_desc": "mapping"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "dict[int, object]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "dict[int, object]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "partial_dependence_custom_values_mapping", "target": "partial_dependence_custom_values_subset_mapping", "kind": "mapping_default_to_subset"},
-    {"source": "partial_dependence_feature_sequence", "target": "partial_dependence_custom_values_subset_mapping", "kind": "feature_order_to_subset"}
+    {
+      "source": "partial_dependence_custom_values_mapping",
+      "target": "partial_dependence_custom_values_subset_mapping",
+      "kind": "mapping_default_to_subset"
+    },
+    {
+      "source": "partial_dependence_feature_sequence",
+      "target": "partial_dependence_custom_values_subset_mapping",
+      "kind": "feature_order_to_subset"
+    }
   ]
 }

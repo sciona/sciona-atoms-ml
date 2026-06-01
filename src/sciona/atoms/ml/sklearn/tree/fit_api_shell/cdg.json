@@ -20,11 +20,22 @@
       "type_signature": "(estimator: DecisionTreeClassifier) -> DecisionTreeClassifier",
       "depth": 1,
       "inputs": [
-        {"name": "estimator", "type_desc": "fitted DecisionTreeClassifier", "required": true}
+        {
+          "name": "estimator",
+          "type_desc": "fitted DecisionTreeClassifier",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "same fitted DecisionTreeClassifier"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "same fitted DecisionTreeClassifier"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "tree_regressor_fit_return_self",
@@ -35,11 +46,22 @@
       "type_signature": "(estimator: DecisionTreeRegressor) -> DecisionTreeRegressor",
       "depth": 1,
       "inputs": [
-        {"name": "estimator", "type_desc": "fitted DecisionTreeRegressor", "required": true}
+        {
+          "name": "estimator",
+          "type_desc": "fitted DecisionTreeRegressor",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "same fitted DecisionTreeRegressor"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "same fitted DecisionTreeRegressor"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [],

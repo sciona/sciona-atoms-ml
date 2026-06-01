@@ -24,11 +24,22 @@
       "type_signature": "(output_predictions: NDArray[np.float64]) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "output_predictions", "type_desc": "NDArray[np.float64]", "required": true}
+        {
+          "name": "output_predictions",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "multioutput_exact_match_score",
@@ -39,12 +50,27 @@
       "type_signature": "(y_true: NDArray[np.float64], y_pred: NDArray[np.float64]) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "y_true", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "y_pred", "type_desc": "NDArray[np.float64]", "required": true}
+        {
+          "name": "y_true",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y_pred",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "float"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "chain_order_indices",
@@ -55,13 +81,32 @@
       "type_signature": "(n_outputs: int, order: ChainOrderSpec = None, random_state: int = 0) -> NDArray[np.int64]",
       "depth": 1,
       "inputs": [
-        {"name": "n_outputs", "type_desc": "int", "required": true},
-        {"name": "order", "type_desc": "str | tuple[int, ...] | None", "required": false},
-        {"name": "random_state", "type_desc": "int", "required": false}
+        {
+          "name": "n_outputs",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "order",
+          "type_desc": "str | tuple[int, ...] | None",
+          "required": false
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.int64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.int64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "chain_training_features",
@@ -72,13 +117,32 @@
       "type_signature": "(X: NDArray[np.float64], Y: NDArray[np.float64], order: NDArray[np.int64]) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "Y", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "order", "type_desc": "NDArray[np.int64]", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "Y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "order",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "chain_step_features",
@@ -89,12 +153,27 @@
       "type_signature": "(X: NDArray[np.float64], previous_predictions: NDArray[np.float64]) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "previous_predictions", "type_desc": "NDArray[np.float64]", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "previous_predictions",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "chain_restore_output_order",
@@ -105,18 +184,45 @@
       "type_signature": "(chain_predictions: NDArray[np.float64], order: NDArray[np.int64]) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "chain_predictions", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "order", "type_desc": "NDArray[np.int64]", "required": true}
+        {
+          "name": "chain_predictions",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "order",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [
-    {"source": "chain_order_indices", "target": "chain_training_features", "kind": "order"},
-    {"source": "chain_order_indices", "target": "chain_restore_output_order", "kind": "order"},
-    {"source": "chain_step_features", "target": "chain_restore_output_order", "kind": "prediction_flow"}
+    {
+      "source": "chain_order_indices",
+      "target": "chain_training_features",
+      "kind": "order"
+    },
+    {
+      "source": "chain_order_indices",
+      "target": "chain_restore_output_order",
+      "kind": "order"
+    },
+    {
+      "source": "chain_step_features",
+      "target": "chain_restore_output_order",
+      "kind": "prediction_flow"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

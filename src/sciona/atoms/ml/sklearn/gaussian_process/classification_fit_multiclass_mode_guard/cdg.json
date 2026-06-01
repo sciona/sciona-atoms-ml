@@ -19,12 +19,27 @@
       "type_signature": "(n_classes: int, multi_class: str) -> str",
       "depth": 1,
       "inputs": [
-        {"name": "n_classes", "type_desc": "int", "required": true},
-        {"name": "multi_class", "type_desc": "str", "required": true}
+        {
+          "name": "n_classes",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "multi_class",
+          "type_desc": "str",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "str"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "str"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [],

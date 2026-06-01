@@ -22,15 +22,42 @@
       "type_signature": "(mus: NDArray[np.float64], sigmas: NDArray[np.float64], min_value: float, max_value: float, random_state: int = 0) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "mus", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "sigmas", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "min_value", "type_desc": "float", "required": true},
-        {"name": "max_value", "type_desc": "float", "required": true},
-        {"name": "random_state", "type_desc": "int", "required": false}
+        {
+          "name": "mus",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "sigmas",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "min_value",
+          "type_desc": "float",
+          "required": true
+        },
+        {
+          "name": "max_value",
+          "type_desc": "float",
+          "required": true
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "iterative_clipped_imputed_values",
@@ -41,13 +68,32 @@
       "type_signature": "(predictions: NDArray[np.float64], min_value: float, max_value: float) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "predictions", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "min_value", "type_desc": "float", "required": true},
-        {"name": "max_value", "type_desc": "float", "required": true}
+        {
+          "name": "predictions",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "min_value",
+          "type_desc": "float",
+          "required": true
+        },
+        {
+          "name": "max_value",
+          "type_desc": "float",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "iterative_assign_feature_values",
@@ -58,14 +104,37 @@
       "type_signature": "(X_filled: NDArray[np.float64], imputed_values: NDArray[np.float64], missing_row_mask: NDArray[np.bool_], feat_idx: int) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X_filled", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "imputed_values", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "missing_row_mask", "type_desc": "NDArray[np.bool_]", "required": true},
-        {"name": "feat_idx", "type_desc": "int", "required": true}
+        {
+          "name": "X_filled",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "imputed_values",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "missing_row_mask",
+          "type_desc": "NDArray[np.bool_]",
+          "required": true
+        },
+        {
+          "name": "feat_idx",
+          "type_desc": "int",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "iterative_restore_observed_values",
@@ -76,19 +145,50 @@
       "type_signature": "(X_target: NDArray[np.float64], X_source: NDArray[np.float64], observed_mask: NDArray[np.bool_]) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X_target", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "X_source", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "observed_mask", "type_desc": "NDArray[np.bool_]", "required": true}
+        {
+          "name": "X_target",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "X_source",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "observed_mask",
+          "type_desc": "NDArray[np.bool_]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [
-    {"source": "iterative_posterior_imputed_values", "target": "iterative_assign_feature_values", "kind": "imputed_values"},
-    {"source": "iterative_clipped_imputed_values", "target": "iterative_assign_feature_values", "kind": "imputed_values"},
-    {"source": "iterative_assign_feature_values", "target": "iterative_restore_observed_values", "kind": "filled_matrix"}
+    {
+      "source": "iterative_posterior_imputed_values",
+      "target": "iterative_assign_feature_values",
+      "kind": "imputed_values"
+    },
+    {
+      "source": "iterative_clipped_imputed_values",
+      "target": "iterative_assign_feature_values",
+      "kind": "imputed_values"
+    },
+    {
+      "source": "iterative_assign_feature_values",
+      "target": "iterative_restore_observed_values",
+      "kind": "filled_matrix"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

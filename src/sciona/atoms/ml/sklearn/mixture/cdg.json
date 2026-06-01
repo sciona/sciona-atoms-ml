@@ -30,17 +30,52 @@
       "type_signature": "(X: NDArray[np.float64], initial_weights: NDArray[np.float64], initial_means: NDArray[np.float64], initial_variances: NDArray[np.float64], reg_covar: float = 1e-6, max_iter: int = 100, tol: float = 1e-3) -> GaussianMixtureDiagState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "initial_weights", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "initial_means", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "initial_variances", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "reg_covar", "type_desc": "float", "required": false},
-        {"name": "max_iter", "type_desc": "int", "required": false},
-        {"name": "tol", "type_desc": "float", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "initial_weights",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "initial_means",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "initial_variances",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "reg_covar",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "tol",
+          "type_desc": "float",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "GaussianMixtureDiagState"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "GaussianMixtureDiagState"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "gaussian_mixture_diag_score_samples",
@@ -51,12 +86,27 @@
       "type_signature": "(X: NDArray[np.float64], state: GaussianMixtureDiagState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "GaussianMixtureDiagState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "GaussianMixtureDiagState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "gaussian_mixture_diag_score",
@@ -67,12 +117,27 @@
       "type_signature": "(X: NDArray[np.float64], state: GaussianMixtureDiagState) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "GaussianMixtureDiagState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "GaussianMixtureDiagState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "float"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "gaussian_mixture_diag_predict_proba",
@@ -83,12 +148,27 @@
       "type_signature": "(X: NDArray[np.float64], state: GaussianMixtureDiagState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "GaussianMixtureDiagState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "GaussianMixtureDiagState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "gaussian_mixture_diag_predict",
@@ -99,12 +179,27 @@
       "type_signature": "(X: NDArray[np.float64], state: GaussianMixtureDiagState) -> NDArray[np.int64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "GaussianMixtureDiagState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "GaussianMixtureDiagState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.int64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.int64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "gaussian_mixture_diag_bic",
@@ -115,12 +210,27 @@
       "type_signature": "(X: NDArray[np.float64], state: GaussianMixtureDiagState) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "GaussianMixtureDiagState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "GaussianMixtureDiagState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "float"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "gaussian_mixture_diag_aic",
@@ -131,12 +241,27 @@
       "type_signature": "(X: NDArray[np.float64], state: GaussianMixtureDiagState) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "GaussianMixtureDiagState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "GaussianMixtureDiagState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "float"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "bayesian_gaussian_mixture_diag_fit",
@@ -147,21 +272,72 @@
       "type_signature": "(X: NDArray[np.float64], initial_responsibilities: NDArray[np.float64], reg_covar: float = 1e-6, max_iter: int = 100, tol: float = 1e-3, weight_concentration_prior_type: str = 'dirichlet_process', weight_concentration_prior: float | None = None, mean_precision_prior: float = 1.0, mean_prior: NDArray[np.float64] | None = None, degrees_of_freedom_prior: float | None = None, covariance_prior: NDArray[np.float64] | None = None) -> BayesianGaussianMixtureDiagState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "initial_responsibilities", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "reg_covar", "type_desc": "float", "required": false},
-        {"name": "max_iter", "type_desc": "int", "required": false},
-        {"name": "tol", "type_desc": "float", "required": false},
-        {"name": "weight_concentration_prior_type", "type_desc": "str", "required": false},
-        {"name": "weight_concentration_prior", "type_desc": "float | None", "required": false},
-        {"name": "mean_precision_prior", "type_desc": "float", "required": false},
-        {"name": "mean_prior", "type_desc": "NDArray[np.float64] | None", "required": false},
-        {"name": "degrees_of_freedom_prior", "type_desc": "float | None", "required": false},
-        {"name": "covariance_prior", "type_desc": "NDArray[np.float64] | None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "initial_responsibilities",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "reg_covar",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "tol",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "weight_concentration_prior_type",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "weight_concentration_prior",
+          "type_desc": "float | None",
+          "required": false
+        },
+        {
+          "name": "mean_precision_prior",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "mean_prior",
+          "type_desc": "NDArray[np.float64] | None",
+          "required": false
+        },
+        {
+          "name": "degrees_of_freedom_prior",
+          "type_desc": "float | None",
+          "required": false
+        },
+        {
+          "name": "covariance_prior",
+          "type_desc": "NDArray[np.float64] | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "BayesianGaussianMixtureDiagState"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "BayesianGaussianMixtureDiagState"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "bayesian_gaussian_mixture_diag_score_samples",
@@ -172,12 +348,27 @@
       "type_signature": "(X: NDArray[np.float64], state: BayesianGaussianMixtureDiagState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "BayesianGaussianMixtureDiagState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "BayesianGaussianMixtureDiagState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "bayesian_gaussian_mixture_diag_score",
@@ -188,12 +379,27 @@
       "type_signature": "(X: NDArray[np.float64], state: BayesianGaussianMixtureDiagState) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "BayesianGaussianMixtureDiagState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "BayesianGaussianMixtureDiagState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "float"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "bayesian_gaussian_mixture_diag_predict_proba",
@@ -204,12 +410,27 @@
       "type_signature": "(X: NDArray[np.float64], state: BayesianGaussianMixtureDiagState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "BayesianGaussianMixtureDiagState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "BayesianGaussianMixtureDiagState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "bayesian_gaussian_mixture_diag_predict",
@@ -220,24 +441,79 @@
       "type_signature": "(X: NDArray[np.float64], state: BayesianGaussianMixtureDiagState) -> NDArray[np.int64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "BayesianGaussianMixtureDiagState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "BayesianGaussianMixtureDiagState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.int64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.int64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [
-    {"source": "gaussian_mixture_diag_fit", "target": "gaussian_mixture_diag_score_samples", "kind": "state"},
-    {"source": "gaussian_mixture_diag_score_samples", "target": "gaussian_mixture_diag_score", "kind": "mean_likelihood"},
-    {"source": "gaussian_mixture_diag_fit", "target": "gaussian_mixture_diag_predict_proba", "kind": "state"},
-    {"source": "gaussian_mixture_diag_predict_proba", "target": "gaussian_mixture_diag_predict", "kind": "posterior_argmax"},
-    {"source": "gaussian_mixture_diag_score_samples", "target": "gaussian_mixture_diag_bic", "kind": "likelihood_sum"},
-    {"source": "gaussian_mixture_diag_score_samples", "target": "gaussian_mixture_diag_aic", "kind": "likelihood_sum"},
-    {"source": "bayesian_gaussian_mixture_diag_fit", "target": "bayesian_gaussian_mixture_diag_score_samples", "kind": "state"},
-    {"source": "bayesian_gaussian_mixture_diag_score_samples", "target": "bayesian_gaussian_mixture_diag_score", "kind": "mean_score"},
-    {"source": "bayesian_gaussian_mixture_diag_fit", "target": "bayesian_gaussian_mixture_diag_predict_proba", "kind": "state"},
-    {"source": "bayesian_gaussian_mixture_diag_predict_proba", "target": "bayesian_gaussian_mixture_diag_predict", "kind": "posterior_argmax"}
+    {
+      "source": "gaussian_mixture_diag_fit",
+      "target": "gaussian_mixture_diag_score_samples",
+      "kind": "state"
+    },
+    {
+      "source": "gaussian_mixture_diag_score_samples",
+      "target": "gaussian_mixture_diag_score",
+      "kind": "mean_likelihood"
+    },
+    {
+      "source": "gaussian_mixture_diag_fit",
+      "target": "gaussian_mixture_diag_predict_proba",
+      "kind": "state"
+    },
+    {
+      "source": "gaussian_mixture_diag_predict_proba",
+      "target": "gaussian_mixture_diag_predict",
+      "kind": "posterior_argmax"
+    },
+    {
+      "source": "gaussian_mixture_diag_score_samples",
+      "target": "gaussian_mixture_diag_bic",
+      "kind": "likelihood_sum"
+    },
+    {
+      "source": "gaussian_mixture_diag_score_samples",
+      "target": "gaussian_mixture_diag_aic",
+      "kind": "likelihood_sum"
+    },
+    {
+      "source": "bayesian_gaussian_mixture_diag_fit",
+      "target": "bayesian_gaussian_mixture_diag_score_samples",
+      "kind": "state"
+    },
+    {
+      "source": "bayesian_gaussian_mixture_diag_score_samples",
+      "target": "bayesian_gaussian_mixture_diag_score",
+      "kind": "mean_score"
+    },
+    {
+      "source": "bayesian_gaussian_mixture_diag_fit",
+      "target": "bayesian_gaussian_mixture_diag_predict_proba",
+      "kind": "state"
+    },
+    {
+      "source": "bayesian_gaussian_mixture_diag_predict_proba",
+      "target": "bayesian_gaussian_mixture_diag_predict",
+      "kind": "posterior_argmax"
+    }
   ]
 }

@@ -20,11 +20,22 @@
       "type_signature": "(estimator: object) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "estimator", "type_desc": "estimator supporting get_params and set_params", "required": true}
+        {
+          "name": "estimator",
+          "type_desc": "estimator supporting get_params and set_params",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "cloned estimator with ccp_alpha reset to 0.0"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "cloned estimator with ccp_alpha reset to 0.0"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "tree_pruning_path_result",
@@ -35,11 +46,22 @@
       "type_signature": "(pruning_path: Mapping[str, NDArray[np.float64]]) -> Bunch",
       "depth": 1,
       "inputs": [
-        {"name": "pruning_path", "type_desc": "mapping with aligned ccp_alphas and impurities vectors", "required": true}
+        {
+          "name": "pruning_path",
+          "type_desc": "mapping with aligned ccp_alphas and impurities vectors",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "Bunch with ccp_alphas and impurities"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "Bunch with ccp_alphas and impurities"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [],

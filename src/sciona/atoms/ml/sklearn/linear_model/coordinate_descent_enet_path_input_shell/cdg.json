@@ -25,11 +25,22 @@
       "type_signature": "(params: Mapping[object, object]) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "params", "type_desc": "mapping of leftover keyword parameters", "required": true}
+        {
+          "name": "params",
+          "type_desc": "mapping of leftover keyword parameters",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether len(params) > 0"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether len(params) > 0"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_enet_path_check_input_branch",
@@ -40,11 +51,22 @@
       "type_signature": "(check_input: bool) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "check_input", "type_desc": "input-validation flag", "required": true}
+        {
+          "name": "check_input",
+          "type_desc": "input-validation flag",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether input validation should run"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether input validation should run"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_enet_path_Xy_validation_required",
@@ -55,11 +77,22 @@
       "type_signature": "(Xy: object) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "Xy", "type_desc": "optional precomputed X transpose y value", "required": true}
+        {
+          "name": "Xy",
+          "type_desc": "optional precomputed X transpose y value",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether Xy is present"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether Xy is present"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_enet_path_sparse_scaling_required",
@@ -70,12 +103,27 @@
       "type_signature": "(multi_output: bool, x_is_sparse: bool) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "multi_output", "type_desc": "whether y is multi-output", "required": true},
-        {"name": "x_is_sparse", "type_desc": "whether X is sparse", "required": true}
+        {
+          "name": "multi_output",
+          "type_desc": "whether y is multi-output",
+          "required": true
+        },
+        {
+          "name": "x_is_sparse",
+          "type_desc": "whether X is sparse",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether sparse scaling should be built"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether sparse scaling should be built"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_enet_path_sparse_scaling",
@@ -86,14 +134,37 @@
       "type_signature": "(X_offset_param: object, X_scale_param: object, n_features: int, dtype_name: str) -> NDArray[np.floating]",
       "depth": 1,
       "inputs": [
-        {"name": "X_offset_param", "type_desc": "optional finite offset vector", "required": true},
-        {"name": "X_scale_param", "type_desc": "optional finite nonzero scale vector", "required": true},
-        {"name": "n_features", "type_desc": "positive integer feature count", "required": true},
-        {"name": "dtype_name", "type_desc": "float32 or float64 output dtype", "required": true}
+        {
+          "name": "X_offset_param",
+          "type_desc": "optional finite offset vector",
+          "required": true
+        },
+        {
+          "name": "X_scale_param",
+          "type_desc": "optional finite nonzero scale vector",
+          "required": true
+        },
+        {
+          "name": "n_features",
+          "type_desc": "positive integer feature count",
+          "required": true
+        },
+        {
+          "name": "dtype_name",
+          "type_desc": "float32 or float64 output dtype",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "finite one-dimensional sparse scaling vector"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "finite one-dimensional sparse scaling vector"
+        }
+      ],
+      "time_complexity": "O(I * N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Coordinate descent path computation for linear models scales linearly with samples N, features d, and the number of optimization iterations I.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "cd_enet_path_prefit_kwargs",
@@ -104,11 +175,22 @@
       "type_signature": "(check_input: bool) -> dict[str, object]",
       "depth": 1,
       "inputs": [
-        {"name": "check_input", "type_desc": "input-validation flag", "required": true}
+        {
+          "name": "check_input",
+          "type_desc": "input-validation flag",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "fixed _pre_fit keyword-argument mapping"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "fixed _pre_fit keyword-argument mapping"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_enet_path_alpha_grid_required",
@@ -119,19 +201,50 @@
       "type_signature": "(alphas: object) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "alphas", "type_desc": "optional user-supplied alpha vector", "required": true}
+        {
+          "name": "alphas",
+          "type_desc": "optional user-supplied alpha vector",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether alphas is None"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether alphas is None"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "cd_enet_path_unexpected_params_guard_required", "target": "cd_enet_path_check_input_branch", "kind": "prelude_guard"},
-    {"source": "cd_enet_path_check_input_branch", "target": "cd_enet_path_Xy_validation_required", "kind": "validation_gate"},
-    {"source": "cd_enet_path_check_input_branch", "target": "cd_enet_path_prefit_kwargs", "kind": "prefit_dispatch"},
-    {"source": "cd_enet_path_sparse_scaling_required", "target": "cd_enet_path_sparse_scaling", "kind": "conditional_construction"},
-    {"source": "cd_enet_path_check_input_branch", "target": "cd_enet_path_alpha_grid_required", "kind": "post_prefit_flow"}
+    {
+      "source": "cd_enet_path_unexpected_params_guard_required",
+      "target": "cd_enet_path_check_input_branch",
+      "kind": "prelude_guard"
+    },
+    {
+      "source": "cd_enet_path_check_input_branch",
+      "target": "cd_enet_path_Xy_validation_required",
+      "kind": "validation_gate"
+    },
+    {
+      "source": "cd_enet_path_check_input_branch",
+      "target": "cd_enet_path_prefit_kwargs",
+      "kind": "prefit_dispatch"
+    },
+    {
+      "source": "cd_enet_path_sparse_scaling_required",
+      "target": "cd_enet_path_sparse_scaling",
+      "kind": "conditional_construction"
+    },
+    {
+      "source": "cd_enet_path_check_input_branch",
+      "target": "cd_enet_path_alpha_grid_required",
+      "kind": "post_prefit_flow"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

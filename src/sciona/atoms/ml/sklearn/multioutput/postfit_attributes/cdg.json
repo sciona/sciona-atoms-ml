@@ -12,12 +12,27 @@
       "concept_type": "multioutput_postfit_bookkeeping",
       "type_signature": "(*, first_time: bool, estimator_has_n_features_in: bool) -> bool",
       "inputs": [
-        {"name": "first_time", "type_desc": "bool", "required": true},
-        {"name": "estimator_has_n_features_in", "type_desc": "bool", "required": true}
+        {
+          "name": "first_time",
+          "type_desc": "bool",
+          "required": true
+        },
+        {
+          "name": "estimator_has_n_features_in",
+          "type_desc": "bool",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "multioutput_partial_fit_feature_names_in_update_required",
@@ -28,12 +43,27 @@
       "concept_type": "multioutput_postfit_bookkeeping",
       "type_signature": "(*, first_time: bool, estimator_has_feature_names_in: bool) -> bool",
       "inputs": [
-        {"name": "first_time", "type_desc": "bool", "required": true},
-        {"name": "estimator_has_feature_names_in", "type_desc": "bool", "required": true}
+        {
+          "name": "first_time",
+          "type_desc": "bool",
+          "required": true
+        },
+        {
+          "name": "estimator_has_feature_names_in",
+          "type_desc": "bool",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "multioutput_fit_n_features_in",
@@ -44,11 +74,22 @@
       "concept_type": "multioutput_postfit_attribute",
       "type_signature": "(n_features_in: int) -> int",
       "inputs": [
-        {"name": "n_features_in", "type_desc": "int", "required": true}
+        {
+          "name": "n_features_in",
+          "type_desc": "int",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "int"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "multioutput_fit_feature_names_in",
@@ -59,11 +100,22 @@
       "concept_type": "multioutput_postfit_attribute",
       "type_signature": "(feature_names_in: tuple[str, ...]) -> tuple[str, ...]",
       "inputs": [
-        {"name": "feature_names_in", "type_desc": "tuple[str, ...]", "required": true}
+        {
+          "name": "feature_names_in",
+          "type_desc": "tuple[str, ...]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "tuple[str, ...]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "tuple[str, ...]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "multioutput_classifier_classes",
@@ -74,11 +126,22 @@
       "concept_type": "multioutput_postfit_attribute",
       "type_signature": "(class_vectors: tuple[NDArray[np.float64], ...]) -> tuple[NDArray[np.float64], ...]",
       "inputs": [
-        {"name": "class_vectors", "type_desc": "tuple[NDArray[np.float64], ...]", "required": true}
+        {
+          "name": "class_vectors",
+          "type_desc": "tuple[NDArray[np.float64], ...]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "tuple[NDArray[np.float64], ...]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "tuple[NDArray[np.float64], ...]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [

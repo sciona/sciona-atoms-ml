@@ -22,12 +22,37 @@
       "type_signature": "(node_id: int, finite_count: int, outlier_count: int, internal_to_raw: dict[int, int]) -> int",
       "depth": 1,
       "inputs": [
-        {"name": "node_id", "type_desc": "int", "required": true},
-        {"name": "finite_count", "type_desc": "int", "required": true},
-        {"name": "outlier_count", "type_desc": "int", "required": true},
-        {"name": "internal_to_raw", "type_desc": "dict[int, int]", "required": true}
+        {
+          "name": "node_id",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "finite_count",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "outlier_count",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "internal_to_raw",
+          "type_desc": "dict[int, int]",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "int"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "DBSCAN state retrieval or basic property mapping takes linear time and space in the number of samples N.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "hdbscan_remapped_tree_rows",
@@ -38,11 +63,32 @@
       "type_signature": "(tree: NDArray[np.void], internal_to_raw: dict[int, int], outlier_count: int) -> NDArray[np.void]",
       "depth": 1,
       "inputs": [
-        {"name": "tree", "type_desc": "NDArray[np.void]", "required": true},
-        {"name": "internal_to_raw", "type_desc": "dict[int, int]", "required": true},
-        {"name": "outlier_count", "type_desc": "int", "required": true}
+        {
+          "name": "tree",
+          "type_desc": "NDArray[np.void]",
+          "required": true
+        },
+        {
+          "name": "internal_to_raw",
+          "type_desc": "dict[int, int]",
+          "required": true
+        },
+        {
+          "name": "outlier_count",
+          "type_desc": "int",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.void]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.void]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "DBSCAN state retrieval or basic property mapping takes linear time and space in the number of samples N.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "hdbscan_outlier_linkage_rows",
@@ -53,11 +99,32 @@
       "type_signature": "(last_cluster_id: int, last_cluster_size: int, nonfinite_raw_indices: NDArray[np.int64]) -> NDArray[np.void]",
       "depth": 1,
       "inputs": [
-        {"name": "last_cluster_id", "type_desc": "int", "required": true},
-        {"name": "last_cluster_size", "type_desc": "int", "required": true},
-        {"name": "nonfinite_raw_indices", "type_desc": "NDArray[np.int64]", "required": true}
+        {
+          "name": "last_cluster_id",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "last_cluster_size",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "nonfinite_raw_indices",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.void]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.void]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "DBSCAN state retrieval or basic property mapping takes linear time and space in the number of samples N.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "hdbscan_remapped_single_linkage_tree",
@@ -68,17 +135,50 @@
       "type_signature": "(tree: NDArray[np.void], internal_to_raw: dict[int, int], nonfinite_raw_indices: NDArray[np.int64]) -> NDArray[np.void]",
       "depth": 1,
       "inputs": [
-        {"name": "tree", "type_desc": "NDArray[np.void]", "required": true},
-        {"name": "internal_to_raw", "type_desc": "dict[int, int]", "required": true},
-        {"name": "nonfinite_raw_indices", "type_desc": "NDArray[np.int64]", "required": true}
+        {
+          "name": "tree",
+          "type_desc": "NDArray[np.void]",
+          "required": true
+        },
+        {
+          "name": "internal_to_raw",
+          "type_desc": "dict[int, int]",
+          "required": true
+        },
+        {
+          "name": "nonfinite_raw_indices",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.void]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.void]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "DBSCAN state retrieval or basic property mapping takes linear time and space in the number of samples N.",
+      "complexity_confidence": 90
     }
   ],
   "edges": [
-    {"source": "hdbscan_tree_node_id", "target": "hdbscan_remapped_tree_rows", "kind": "endpoint_remap"},
-    {"source": "hdbscan_remapped_tree_rows", "target": "hdbscan_remapped_single_linkage_tree", "kind": "core_tree_remap"},
-    {"source": "hdbscan_outlier_linkage_rows", "target": "hdbscan_remapped_single_linkage_tree", "kind": "outlier_append"}
+    {
+      "source": "hdbscan_tree_node_id",
+      "target": "hdbscan_remapped_tree_rows",
+      "kind": "endpoint_remap"
+    },
+    {
+      "source": "hdbscan_remapped_tree_rows",
+      "target": "hdbscan_remapped_single_linkage_tree",
+      "kind": "core_tree_remap"
+    },
+    {
+      "source": "hdbscan_outlier_linkage_rows",
+      "target": "hdbscan_remapped_single_linkage_tree",
+      "kind": "outlier_append"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

@@ -22,11 +22,22 @@
       "type_signature": "(validation_result: object) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "validation_result", "type_desc": "_more_validate_params callback output", "required": true}
+        {
+          "name": "validation_result",
+          "type_desc": "_more_validate_params callback output",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "same callback output"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "same callback output"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "sgd_classifier_fit_c_value",
@@ -37,11 +48,22 @@
       "type_signature": "(alpha: float) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "alpha", "type_desc": "regularization strength context", "required": true}
+        {
+          "name": "alpha",
+          "type_desc": "regularization strength context",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "fixed 1.0 C value"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "fixed 1.0 C value"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "sgd_classifier_fit_callback_payload",
@@ -52,18 +74,57 @@
       "type_signature": "(X: object, y: object, alpha: float, loss: str, learning_rate: str, coef_init: object = None, intercept_init: object = None, sample_weight: object = None) -> dict[str, object]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "fit feature input object", "required": true},
-        {"name": "y", "type_desc": "fit target input object", "required": true},
-        {"name": "alpha", "type_desc": "estimator alpha attribute", "required": true},
-        {"name": "loss", "type_desc": "estimator loss attribute", "required": true},
-        {"name": "learning_rate", "type_desc": "estimator learning_rate attribute", "required": true},
-        {"name": "coef_init", "type_desc": "optional coefficient initializer", "required": false},
-        {"name": "intercept_init", "type_desc": "optional intercept initializer", "required": false},
-        {"name": "sample_weight", "type_desc": "optional sample weights", "required": false}
+        {
+          "name": "X",
+          "type_desc": "fit feature input object",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "fit target input object",
+          "required": true
+        },
+        {
+          "name": "alpha",
+          "type_desc": "estimator alpha attribute",
+          "required": true
+        },
+        {
+          "name": "loss",
+          "type_desc": "estimator loss attribute",
+          "required": true
+        },
+        {
+          "name": "learning_rate",
+          "type_desc": "estimator learning_rate attribute",
+          "required": true
+        },
+        {
+          "name": "coef_init",
+          "type_desc": "optional coefficient initializer",
+          "required": false
+        },
+        {
+          "name": "intercept_init",
+          "type_desc": "optional intercept initializer",
+          "required": false
+        },
+        {
+          "name": "sample_weight",
+          "type_desc": "optional sample weights",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "_fit callback argument payload"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "_fit callback argument payload"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "sgd_classifier_fit_result",
@@ -74,17 +135,40 @@
       "type_signature": "(fit_result: object) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "fit_result", "type_desc": "_fit callback output", "required": true}
+        {
+          "name": "fit_result",
+          "type_desc": "_fit callback output",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "same callback output"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "same callback output"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "sgd_classifier_fit_more_validate_params_result", "target": "sgd_classifier_fit_callback_payload", "kind": "validation_precedes_callback"},
-    {"source": "sgd_classifier_fit_c_value", "target": "sgd_classifier_fit_callback_payload", "kind": "payload_argument"},
-    {"source": "sgd_classifier_fit_callback_payload", "target": "sgd_classifier_fit_result", "kind": "callback_return_context"}
+    {
+      "source": "sgd_classifier_fit_more_validate_params_result",
+      "target": "sgd_classifier_fit_callback_payload",
+      "kind": "validation_precedes_callback"
+    },
+    {
+      "source": "sgd_classifier_fit_c_value",
+      "target": "sgd_classifier_fit_callback_payload",
+      "kind": "payload_argument"
+    },
+    {
+      "source": "sgd_classifier_fit_callback_payload",
+      "target": "sgd_classifier_fit_result",
+      "kind": "callback_return_context"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

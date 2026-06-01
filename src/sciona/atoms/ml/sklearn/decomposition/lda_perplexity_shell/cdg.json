@@ -11,14 +11,47 @@
       "concept_type": "perplexity_scalar",
       "description": "Compute LDA perplexity from a supplied approximate bound and a prevalidated topic matrix.",
       "inputs": [
-        {"name": "bound", "type_desc": "float", "required": true},
-        {"name": "X", "type_desc": "ndarray", "required": true},
-        {"name": "doc_topic_distr", "type_desc": "ndarray", "required": true},
-        {"name": "n_components", "type_desc": "int", "required": true},
-        {"name": "total_samples", "type_desc": "float", "required": false},
-        {"name": "sub_sampling", "type_desc": "bool", "required": false}
+        {
+          "name": "bound",
+          "type_desc": "float",
+          "required": true
+        },
+        {
+          "name": "X",
+          "type_desc": "ndarray",
+          "required": true
+        },
+        {
+          "name": "doc_topic_distr",
+          "type_desc": "ndarray",
+          "required": true
+        },
+        {
+          "name": "n_components",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "total_samples",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "sub_sampling",
+          "type_desc": "bool",
+          "required": false
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "float"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
+      ],
+      "time_complexity": "O(N * d^2)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Dimensionality reduction or sparse coding decomposes high-dimensional features, taking quadratic time in features and linear in samples.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "lda_fit_transform_output",
@@ -26,11 +59,30 @@
       "status": "atomic",
       "concept_type": "postfit_passthrough",
       "description": "Return LDA's fit_transform shell result from a supplied transform output.",
-      "inputs": [{"name": "transformed", "type_desc": "ndarray", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+      "inputs": [
+        {
+          "name": "transformed",
+          "type_desc": "ndarray",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "ndarray"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "lda_fit_transform_output", "target": "lda_perplexity_precomputed_topics", "kind": "transform_then_perplexity"}
+    {
+      "source": "lda_fit_transform_output",
+      "target": "lda_perplexity_precomputed_topics",
+      "kind": "transform_then_perplexity"
+    }
   ]
 }

@@ -17,18 +17,50 @@
       "kind": "atom",
       "status": "atomic",
       "inputs": [
-        {"name": "has_array", "type_desc": "bool", "required": true},
-        {"name": "is_sparse", "type_desc": "bool", "required": true}
+        {
+          "name": "has_array",
+          "type_desc": "bool",
+          "required": true
+        },
+        {
+          "name": "is_sparse",
+          "type_desc": "bool",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "bool"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "partial_dependence_checked_object_array",
       "name": "partial_dependence_checked_object_array",
       "kind": "atom",
       "status": "atomic",
-      "inputs": [{"name": "X", "type_desc": "array-like 2D", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "2D object array"}]
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "array-like 2D",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "2D object array"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     }
   ]
 }

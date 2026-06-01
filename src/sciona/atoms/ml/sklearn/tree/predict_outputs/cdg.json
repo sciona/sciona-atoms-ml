@@ -22,12 +22,27 @@
       "type_signature": "(probabilities: NDArray[np.float64], classes: NDArray[np.object_]) -> NDArray[np.object_]",
       "depth": 1,
       "inputs": [
-        {"name": "probabilities", "type_desc": "sample-by-class matrix", "required": true},
-        {"name": "classes", "type_desc": "unique class vector", "required": true}
+        {
+          "name": "probabilities",
+          "type_desc": "sample-by-class matrix",
+          "required": true
+        },
+        {
+          "name": "classes",
+          "type_desc": "unique class vector",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "label vector"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "label vector"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "tree_classifier_multioutput_labels",
@@ -38,12 +53,27 @@
       "type_signature": "(probabilities: NDArray[np.float64], classes_blocks: tuple[NDArray[np.object_], ...]) -> NDArray[np.object_]",
       "depth": 1,
       "inputs": [
-        {"name": "probabilities", "type_desc": "sample-by-output-by-class tensor", "required": true},
-        {"name": "classes_blocks", "type_desc": "tuple of class vectors", "required": true}
+        {
+          "name": "probabilities",
+          "type_desc": "sample-by-output-by-class tensor",
+          "required": true
+        },
+        {
+          "name": "classes_blocks",
+          "type_desc": "tuple of class vectors",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "sample-by-output label matrix"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "sample-by-output label matrix"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "tree_regressor_single_output_values",
@@ -54,11 +84,22 @@
       "type_signature": "(probabilities: NDArray[np.float64]) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "probabilities", "type_desc": "sample-by-1 matrix", "required": true}
+        {
+          "name": "probabilities",
+          "type_desc": "sample-by-1 matrix",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "value vector"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "value vector"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "tree_regressor_multioutput_values",
@@ -69,11 +110,22 @@
       "type_signature": "(probabilities: NDArray[np.float64]) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "probabilities", "type_desc": "sample-by-output-by-1 tensor", "required": true}
+        {
+          "name": "probabilities",
+          "type_desc": "sample-by-output-by-1 tensor",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "sample-by-output value matrix"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "sample-by-output value matrix"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [],
@@ -85,4 +137,3 @@
     "remediation_case": "Case 7 probabilistic and mutable-kernel workflows"
   }
 }
-

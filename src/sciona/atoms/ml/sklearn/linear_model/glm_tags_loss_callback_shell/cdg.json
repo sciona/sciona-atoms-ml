@@ -25,11 +25,22 @@
       "type_signature": "(tags_from_super: object) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "tags_from_super", "type_desc": "super().__sklearn_tags__ callback output", "required": true}
+        {
+          "name": "tags_from_super",
+          "type_desc": "super().__sklearn_tags__ callback output",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "same tags object"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "same tags object"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "glm_tags_sparse_input_value",
@@ -40,11 +51,22 @@
       "type_signature": "(tags: object) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "tags", "type_desc": "tags object whose input_tags.sparse field is assigned", "required": true}
+        {
+          "name": "tags",
+          "type_desc": "tags object whose input_tags.sparse field is assigned",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "fixed True sparse-input tag value"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "fixed True sparse-input tag value"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "glm_tags_loss_callback_result",
@@ -55,11 +77,22 @@
       "type_signature": "(base_loss: object) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "base_loss", "type_desc": "_get_loss callback output", "required": true}
+        {
+          "name": "base_loss",
+          "type_desc": "_get_loss callback output",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "same BaseLoss object"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "same BaseLoss object"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "glm_tags_positive_only_from_negative_range",
@@ -70,11 +103,22 @@
       "type_signature": "(in_negative_range: bool) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "in_negative_range", "type_desc": "result of base_loss.in_y_true_range(-1.0)", "required": true}
+        {
+          "name": "in_negative_range",
+          "type_desc": "result of base_loss.in_y_true_range(-1.0)",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "positive_only tag value"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "positive_only tag value"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "glm_tags_exception_fallback",
@@ -85,12 +129,27 @@
       "type_signature": "(tags: object, error_type: str) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "tags", "type_desc": "current tags object", "required": true},
-        {"name": "error_type", "type_desc": "ValueError, AttributeError, or TypeError", "required": true}
+        {
+          "name": "tags",
+          "type_desc": "current tags object",
+          "required": true
+        },
+        {
+          "name": "error_type",
+          "type_desc": "ValueError, AttributeError, or TypeError",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "same tags object"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "same tags object"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "glm_tags_return",
@@ -101,11 +160,22 @@
       "type_signature": "(tags: object) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "tags", "type_desc": "mutated tags object", "required": true}
+        {
+          "name": "tags",
+          "type_desc": "mutated tags object",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "same mutated tags object"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "same mutated tags object"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "glm_base_default_loss_name",
@@ -116,20 +186,55 @@
       "type_signature": "(loss_name: str) -> str",
       "depth": 1,
       "inputs": [
-        {"name": "loss_name", "type_desc": "base _get_loss class name", "required": true}
+        {
+          "name": "loss_name",
+          "type_desc": "base _get_loss class name",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "HalfSquaredError"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "HalfSquaredError"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "glm_tags_super_result", "target": "glm_tags_sparse_input_value", "kind": "tags_identity_context"},
-    {"source": "glm_tags_sparse_input_value", "target": "glm_tags_loss_callback_result", "kind": "tag_assignment_context"},
-    {"source": "glm_tags_loss_callback_result", "target": "glm_tags_positive_only_from_negative_range", "kind": "loss_range_context"},
-    {"source": "glm_tags_positive_only_from_negative_range", "target": "glm_tags_return", "kind": "tag_assignment_context"},
-    {"source": "glm_tags_exception_fallback", "target": "glm_tags_return", "kind": "fallback_context"},
-    {"source": "glm_base_default_loss_name", "target": "glm_tags_loss_callback_result", "kind": "base_loss_default_context"}
+    {
+      "source": "glm_tags_super_result",
+      "target": "glm_tags_sparse_input_value",
+      "kind": "tags_identity_context"
+    },
+    {
+      "source": "glm_tags_sparse_input_value",
+      "target": "glm_tags_loss_callback_result",
+      "kind": "tag_assignment_context"
+    },
+    {
+      "source": "glm_tags_loss_callback_result",
+      "target": "glm_tags_positive_only_from_negative_range",
+      "kind": "loss_range_context"
+    },
+    {
+      "source": "glm_tags_positive_only_from_negative_range",
+      "target": "glm_tags_return",
+      "kind": "tag_assignment_context"
+    },
+    {
+      "source": "glm_tags_exception_fallback",
+      "target": "glm_tags_return",
+      "kind": "fallback_context"
+    },
+    {
+      "source": "glm_base_default_loss_name",
+      "target": "glm_tags_loss_callback_result",
+      "kind": "base_loss_default_context"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

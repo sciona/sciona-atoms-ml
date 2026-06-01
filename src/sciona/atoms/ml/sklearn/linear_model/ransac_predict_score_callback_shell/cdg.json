@@ -21,8 +21,23 @@
       "status": "atomic",
       "type_signature": "(method_name: str) -> dict[str, object]",
       "depth": 1,
-      "inputs": [{"name": "method_name", "type_desc": "public method name, predict or score", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "validate_data keyword payload"}]
+      "inputs": [
+        {
+          "name": "method_name",
+          "type_desc": "public method name, predict or score",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "validate_data keyword payload"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "ransac_public_nonrouting_params",
@@ -32,8 +47,23 @@
       "status": "atomic",
       "type_signature": "(method_name: str) -> dict[str, object]",
       "depth": 1,
-      "inputs": [{"name": "method_name", "type_desc": "public method name, predict or score", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "empty callback params"}]
+      "inputs": [
+        {
+          "name": "method_name",
+          "type_desc": "public method name, predict or score",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "empty callback params"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "ransac_public_predict_callback_payload",
@@ -44,11 +74,32 @@
       "type_signature": "(estimator: object, X: object, predict_params: Mapping[str, object]) -> dict[str, object]",
       "depth": 1,
       "inputs": [
-        {"name": "estimator", "type_desc": "fitted base estimator", "required": true},
-        {"name": "X", "type_desc": "validated input data", "required": true},
-        {"name": "predict_params", "type_desc": "routed predict params", "required": true}
+        {
+          "name": "estimator",
+          "type_desc": "fitted base estimator",
+          "required": true
+        },
+        {
+          "name": "X",
+          "type_desc": "validated input data",
+          "required": true
+        },
+        {
+          "name": "predict_params",
+          "type_desc": "routed predict params",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "predict callback payload"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "predict callback payload"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "ransac_public_score_callback_payload",
@@ -59,19 +110,60 @@
       "type_signature": "(estimator: object, X: object, y: object, score_params: Mapping[str, object]) -> dict[str, object]",
       "depth": 1,
       "inputs": [
-        {"name": "estimator", "type_desc": "fitted base estimator", "required": true},
-        {"name": "X", "type_desc": "validated input data", "required": true},
-        {"name": "y", "type_desc": "target data", "required": true},
-        {"name": "score_params", "type_desc": "routed score params", "required": true}
+        {
+          "name": "estimator",
+          "type_desc": "fitted base estimator",
+          "required": true
+        },
+        {
+          "name": "X",
+          "type_desc": "validated input data",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "target data",
+          "required": true
+        },
+        {
+          "name": "score_params",
+          "type_desc": "routed score params",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "score callback payload"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "score callback payload"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "ransac_public_validation_kwargs", "target": "ransac_public_predict_callback_payload", "kind": "callback_payload"},
-    {"source": "ransac_public_validation_kwargs", "target": "ransac_public_score_callback_payload", "kind": "callback_payload"},
-    {"source": "ransac_public_nonrouting_params", "target": "ransac_public_predict_callback_payload", "kind": "callback_payload"},
-    {"source": "ransac_public_nonrouting_params", "target": "ransac_public_score_callback_payload", "kind": "callback_payload"}
+    {
+      "source": "ransac_public_validation_kwargs",
+      "target": "ransac_public_predict_callback_payload",
+      "kind": "callback_payload"
+    },
+    {
+      "source": "ransac_public_validation_kwargs",
+      "target": "ransac_public_score_callback_payload",
+      "kind": "callback_payload"
+    },
+    {
+      "source": "ransac_public_nonrouting_params",
+      "target": "ransac_public_predict_callback_payload",
+      "kind": "callback_payload"
+    },
+    {
+      "source": "ransac_public_nonrouting_params",
+      "target": "ransac_public_score_callback_payload",
+      "kind": "callback_payload"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

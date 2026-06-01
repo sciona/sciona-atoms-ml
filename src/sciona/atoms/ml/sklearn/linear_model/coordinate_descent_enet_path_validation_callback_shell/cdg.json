@@ -26,11 +26,22 @@
       "type_signature": "(X: object) -> tuple[object]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "feature matrix payload", "required": true}
+        {
+          "name": "X",
+          "type_desc": "feature matrix payload",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "check_array positional arguments for X"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "check_array positional arguments for X"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_enet_path_check_array_X_kwargs",
@@ -41,11 +52,22 @@
       "type_signature": "(copy_X: bool) -> dict[str, object]",
       "depth": 1,
       "inputs": [
-        {"name": "copy_X", "type_desc": "copy_X setting", "required": true}
+        {
+          "name": "copy_X",
+          "type_desc": "copy_X setting",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "check_array keyword arguments for X"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "check_array keyword arguments for X"
+        }
+      ],
+      "time_complexity": "O(I * N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Coordinate descent path computation for linear models scales linearly with samples N, features d, and the number of optimization iterations I.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "cd_enet_path_check_array_y_args",
@@ -56,11 +78,22 @@
       "type_signature": "(y: object) -> tuple[object]",
       "depth": 1,
       "inputs": [
-        {"name": "y", "type_desc": "target payload", "required": true}
+        {
+          "name": "y",
+          "type_desc": "target payload",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "check_array positional arguments for y"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "check_array positional arguments for y"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_enet_path_check_array_y_kwargs",
@@ -71,11 +104,22 @@
       "type_signature": "(x_dtype_type: object) -> dict[str, object]",
       "depth": 1,
       "inputs": [
-        {"name": "x_dtype_type", "type_desc": "validated X dtype type", "required": true}
+        {
+          "name": "x_dtype_type",
+          "type_desc": "validated X dtype type",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "check_array keyword arguments for y"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "check_array keyword arguments for y"
+        }
+      ],
+      "time_complexity": "O(I * N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Coordinate descent path computation for linear models scales linearly with samples N, features d, and the number of optimization iterations I.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "cd_enet_path_check_array_Xy_args",
@@ -86,11 +130,22 @@
       "type_signature": "(Xy: object) -> tuple[object]",
       "depth": 1,
       "inputs": [
-        {"name": "Xy", "type_desc": "optional precomputed X transpose y payload", "required": true}
+        {
+          "name": "Xy",
+          "type_desc": "optional precomputed X transpose y payload",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "check_array positional arguments for Xy"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "check_array positional arguments for Xy"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_enet_path_check_array_Xy_kwargs",
@@ -101,11 +156,22 @@
       "type_signature": "(x_dtype_type: object) -> dict[str, object]",
       "depth": 1,
       "inputs": [
-        {"name": "x_dtype_type", "type_desc": "validated X dtype type", "required": true}
+        {
+          "name": "x_dtype_type",
+          "type_desc": "validated X dtype type",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "check_array keyword arguments for Xy"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "check_array keyword arguments for Xy"
+        }
+      ],
+      "time_complexity": "O(I * N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Coordinate descent path computation for linear models scales linearly with samples N, features d, and the number of optimization iterations I.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "cd_enet_path_check_array_gram_args",
@@ -116,11 +182,22 @@
       "type_signature": "(precompute: object) -> tuple[object]",
       "depth": 1,
       "inputs": [
-        {"name": "precompute", "type_desc": "Gram precompute payload", "required": true}
+        {
+          "name": "precompute",
+          "type_desc": "Gram precompute payload",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "check_array positional arguments for Gram validation"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "check_array positional arguments for Gram validation"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_enet_path_check_array_gram_kwargs",
@@ -131,19 +208,50 @@
       "type_signature": "(x_dtype_type: object) -> dict[str, object]",
       "depth": 1,
       "inputs": [
-        {"name": "x_dtype_type", "type_desc": "validated X dtype type", "required": true}
+        {
+          "name": "x_dtype_type",
+          "type_desc": "validated X dtype type",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "check_array keyword arguments for Gram validation"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "check_array keyword arguments for Gram validation"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "cd_enet_path_check_array_X_args", "target": "cd_enet_path_check_array_X_kwargs", "kind": "validation_callback"},
-    {"source": "cd_enet_path_check_array_X_kwargs", "target": "cd_enet_path_check_array_y_kwargs", "kind": "validated_dtype_context"},
-    {"source": "cd_enet_path_check_array_y_args", "target": "cd_enet_path_check_array_y_kwargs", "kind": "validation_callback"},
-    {"source": "cd_enet_path_check_array_Xy_args", "target": "cd_enet_path_check_array_Xy_kwargs", "kind": "validation_callback"},
-    {"source": "cd_enet_path_check_array_gram_args", "target": "cd_enet_path_check_array_gram_kwargs", "kind": "validation_callback"}
+    {
+      "source": "cd_enet_path_check_array_X_args",
+      "target": "cd_enet_path_check_array_X_kwargs",
+      "kind": "validation_callback"
+    },
+    {
+      "source": "cd_enet_path_check_array_X_kwargs",
+      "target": "cd_enet_path_check_array_y_kwargs",
+      "kind": "validated_dtype_context"
+    },
+    {
+      "source": "cd_enet_path_check_array_y_args",
+      "target": "cd_enet_path_check_array_y_kwargs",
+      "kind": "validation_callback"
+    },
+    {
+      "source": "cd_enet_path_check_array_Xy_args",
+      "target": "cd_enet_path_check_array_Xy_kwargs",
+      "kind": "validation_callback"
+    },
+    {
+      "source": "cd_enet_path_check_array_gram_args",
+      "target": "cd_enet_path_check_array_gram_kwargs",
+      "kind": "validation_callback"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

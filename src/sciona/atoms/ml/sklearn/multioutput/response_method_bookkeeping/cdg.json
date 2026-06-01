@@ -12,11 +12,22 @@
       "concept_type": "response_method_bookkeeping",
       "type_signature": "(response_method: str | tuple[str, ...]) -> tuple[str, ...]",
       "inputs": [
-        {"name": "response_method", "type_desc": "str | tuple[str, ...]", "required": true}
+        {
+          "name": "response_method",
+          "type_desc": "str | tuple[str, ...]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "tuple[str, ...]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "tuple[str, ...]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "response_method_name",
@@ -27,13 +38,32 @@
       "concept_type": "response_method_bookkeeping",
       "type_signature": "(method_candidates: tuple[str, ...], implemented_methods: tuple[str, ...], *, estimator_name: str) -> str",
       "inputs": [
-        {"name": "method_candidates", "type_desc": "tuple[str, ...]", "required": true},
-        {"name": "implemented_methods", "type_desc": "tuple[str, ...]", "required": true},
-        {"name": "estimator_name", "type_desc": "str", "required": true}
+        {
+          "name": "method_candidates",
+          "type_desc": "tuple[str, ...]",
+          "required": true
+        },
+        {
+          "name": "implemented_methods",
+          "type_desc": "tuple[str, ...]",
+          "required": true
+        },
+        {
+          "name": "estimator_name",
+          "type_desc": "str",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "str"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "str"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "chain_fit_chain_method_name",
@@ -44,13 +74,32 @@
       "concept_type": "response_method_bookkeeping",
       "type_signature": "(chain_method: str | tuple[str, ...], implemented_methods: tuple[str, ...], *, estimator_name: str) -> str",
       "inputs": [
-        {"name": "chain_method", "type_desc": "str | tuple[str, ...]", "required": true},
-        {"name": "implemented_methods", "type_desc": "tuple[str, ...]", "required": true},
-        {"name": "estimator_name", "type_desc": "str", "required": true}
+        {
+          "name": "chain_method",
+          "type_desc": "str | tuple[str, ...]",
+          "required": true
+        },
+        {
+          "name": "implemented_methods",
+          "type_desc": "tuple[str, ...]",
+          "required": true
+        },
+        {
+          "name": "estimator_name",
+          "type_desc": "str",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "str"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "str"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "multioutput_predict_proba_available_from_estimators",
@@ -61,11 +110,22 @@
       "concept_type": "response_method_bookkeeping",
       "type_signature": "(fitted_predict_proba_flags: tuple[bool, ...]) -> bool",
       "inputs": [
-        {"name": "fitted_predict_proba_flags", "type_desc": "tuple[bool, ...]", "required": true}
+        {
+          "name": "fitted_predict_proba_flags",
+          "type_desc": "tuple[bool, ...]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "multioutput_predict_proba_available_from_base_estimator",
@@ -76,15 +136,34 @@
       "concept_type": "response_method_bookkeeping",
       "type_signature": "(base_estimator_has_predict_proba: bool) -> bool",
       "inputs": [
-        {"name": "base_estimator_has_predict_proba", "type_desc": "bool", "required": true}
+        {
+          "name": "base_estimator_has_predict_proba",
+          "type_desc": "bool",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "response_method_candidates", "target": "response_method_name", "kind": "candidate_resolution"},
-    {"source": "response_method_candidates", "target": "chain_fit_chain_method_name", "kind": "candidate_resolution"}
+    {
+      "source": "response_method_candidates",
+      "target": "response_method_name",
+      "kind": "candidate_resolution"
+    },
+    {
+      "source": "response_method_candidates",
+      "target": "chain_fit_chain_method_name",
+      "kind": "candidate_resolution"
+    }
   ]
 }

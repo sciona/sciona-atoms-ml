@@ -24,12 +24,27 @@
       "type_signature": "(check_input: bool, precompute_is_array: bool) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "check_input", "type_desc": "input-validation flag", "required": true},
-        {"name": "precompute_is_array", "type_desc": "whether precompute is an ndarray", "required": true}
+        {
+          "name": "check_input",
+          "type_desc": "input-validation flag",
+          "required": true
+        },
+        {
+          "name": "precompute_is_array",
+          "type_desc": "whether precompute is an ndarray",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether Gram validation should run"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether Gram validation should run"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_enet_path_use_sparse_solver",
@@ -40,12 +55,27 @@
       "type_signature": "(multi_output: bool, x_is_sparse: bool) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "multi_output", "type_desc": "whether y is multi-output", "required": true},
-        {"name": "x_is_sparse", "type_desc": "whether X is sparse", "required": true}
+        {
+          "name": "multi_output",
+          "type_desc": "whether y is multi-output",
+          "required": true
+        },
+        {
+          "name": "x_is_sparse",
+          "type_desc": "whether X is sparse",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether sparse solver dispatch should be used"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether sparse solver dispatch should be used"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_enet_path_use_multi_task_solver",
@@ -56,12 +86,27 @@
       "type_signature": "(use_sparse_solver: bool, multi_output: bool) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "use_sparse_solver", "type_desc": "whether sparse solver dispatch already matched", "required": true},
-        {"name": "multi_output", "type_desc": "whether y is multi-output", "required": true}
+        {
+          "name": "use_sparse_solver",
+          "type_desc": "whether sparse solver dispatch already matched",
+          "required": true
+        },
+        {
+          "name": "multi_output",
+          "type_desc": "whether y is multi-output",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether multitask solver dispatch should be used"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether multitask solver dispatch should be used"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_enet_path_use_gram_solver",
@@ -72,13 +117,32 @@
       "type_signature": "(use_sparse_solver: bool, multi_output: bool, precompute_is_array: bool) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "use_sparse_solver", "type_desc": "whether sparse solver dispatch already matched", "required": true},
-        {"name": "multi_output", "type_desc": "whether y is multi-output", "required": true},
-        {"name": "precompute_is_array", "type_desc": "whether precompute is an ndarray", "required": true}
+        {
+          "name": "use_sparse_solver",
+          "type_desc": "whether sparse solver dispatch already matched",
+          "required": true
+        },
+        {
+          "name": "multi_output",
+          "type_desc": "whether y is multi-output",
+          "required": true
+        },
+        {
+          "name": "precompute_is_array",
+          "type_desc": "whether precompute is an ndarray",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether Gram solver dispatch should be used"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether Gram solver dispatch should be used"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_enet_path_use_dense_solver",
@@ -89,13 +153,32 @@
       "type_signature": "(use_sparse_solver: bool, use_multi_task_solver: bool, precompute_is_false: bool) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "use_sparse_solver", "type_desc": "whether sparse solver dispatch already matched", "required": true},
-        {"name": "use_multi_task_solver", "type_desc": "whether multitask solver dispatch already matched", "required": true},
-        {"name": "precompute_is_false", "type_desc": "whether precompute is exactly False", "required": true}
+        {
+          "name": "use_sparse_solver",
+          "type_desc": "whether sparse solver dispatch already matched",
+          "required": true
+        },
+        {
+          "name": "use_multi_task_solver",
+          "type_desc": "whether multitask solver dispatch already matched",
+          "required": true
+        },
+        {
+          "name": "precompute_is_false",
+          "type_desc": "whether precompute is exactly False",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether dense solver dispatch should be used"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether dense solver dispatch should be used"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_enet_path_invalid_precompute_message",
@@ -106,19 +189,50 @@
       "type_signature": "(precompute: object) -> str",
       "depth": 1,
       "inputs": [
-        {"name": "precompute", "type_desc": "invalid precompute value", "required": true}
+        {
+          "name": "precompute",
+          "type_desc": "invalid precompute value",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "formatted invalid-precompute error message"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "formatted invalid-precompute error message"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "cd_enet_path_use_sparse_solver", "target": "cd_enet_path_use_multi_task_solver", "kind": "dispatch_order"},
-    {"source": "cd_enet_path_use_sparse_solver", "target": "cd_enet_path_use_gram_solver", "kind": "dispatch_order"},
-    {"source": "cd_enet_path_use_multi_task_solver", "target": "cd_enet_path_use_dense_solver", "kind": "dispatch_order"},
-    {"source": "cd_enet_path_gram_validation_required", "target": "cd_enet_path_use_gram_solver", "kind": "validation_gate"},
-    {"source": "cd_enet_path_use_dense_solver", "target": "cd_enet_path_invalid_precompute_message", "kind": "fallback_error"}
+    {
+      "source": "cd_enet_path_use_sparse_solver",
+      "target": "cd_enet_path_use_multi_task_solver",
+      "kind": "dispatch_order"
+    },
+    {
+      "source": "cd_enet_path_use_sparse_solver",
+      "target": "cd_enet_path_use_gram_solver",
+      "kind": "dispatch_order"
+    },
+    {
+      "source": "cd_enet_path_use_multi_task_solver",
+      "target": "cd_enet_path_use_dense_solver",
+      "kind": "dispatch_order"
+    },
+    {
+      "source": "cd_enet_path_gram_validation_required",
+      "target": "cd_enet_path_use_gram_solver",
+      "kind": "validation_gate"
+    },
+    {
+      "source": "cd_enet_path_use_dense_solver",
+      "target": "cd_enet_path_invalid_precompute_message",
+      "kind": "fallback_error"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

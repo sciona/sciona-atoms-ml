@@ -18,12 +18,25 @@
       "status": "atomic",
       "concept_type": "partial_dependence_branch",
       "inputs": [
-        {"name": "is_base_gradient_boosting", "type_desc": "bool"},
-        {"name": "init_is_none", "type_desc": "bool"}
+        {
+          "name": "is_base_gradient_boosting",
+          "type_desc": "bool"
+        },
+        {
+          "name": "init_is_none",
+          "type_desc": "bool"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "partial_dependence_tree_recursion_supported",
@@ -32,13 +45,29 @@
       "status": "atomic",
       "concept_type": "partial_dependence_branch",
       "inputs": [
-        {"name": "is_base_hist_gradient_boosting", "type_desc": "bool"},
-        {"name": "is_decision_tree_regressor", "type_desc": "bool"},
-        {"name": "is_random_forest_regressor", "type_desc": "bool"}
+        {
+          "name": "is_base_hist_gradient_boosting",
+          "type_desc": "bool"
+        },
+        {
+          "name": "is_decision_tree_regressor",
+          "type_desc": "bool"
+        },
+        {
+          "name": "is_random_forest_regressor",
+          "type_desc": "bool"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "partial_dependence_recursion_supported_estimator",
@@ -47,16 +76,37 @@
       "status": "atomic",
       "concept_type": "partial_dependence_branch",
       "inputs": [
-        {"name": "gradient_boosting_supported", "type_desc": "bool"},
-        {"name": "tree_supported", "type_desc": "bool"}
+        {
+          "name": "gradient_boosting_supported",
+          "type_desc": "bool"
+        },
+        {
+          "name": "tree_supported",
+          "type_desc": "bool"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "partial_dependence_gradient_boosting_recursion_supported", "target": "partial_dependence_recursion_supported_estimator", "kind": "family_support"},
-    {"source": "partial_dependence_tree_recursion_supported", "target": "partial_dependence_recursion_supported_estimator", "kind": "family_support"}
+    {
+      "source": "partial_dependence_gradient_boosting_recursion_supported",
+      "target": "partial_dependence_recursion_supported_estimator",
+      "kind": "family_support"
+    },
+    {
+      "source": "partial_dependence_tree_recursion_supported",
+      "target": "partial_dependence_recursion_supported_estimator",
+      "kind": "family_support"
+    }
   ]
 }

@@ -17,12 +17,33 @@
       "status": "atomic",
       "concept_type": "kmeans_callback_shell",
       "inputs": [
-        {"name": "n_clusters", "type_desc": "int"},
-        {"name": "init", "type_desc": "str | callable | finite matrix"},
-        {"name": "n_init", "type_desc": "int"},
-        {"name": "random_state", "type_desc": "object"}
+        {
+          "name": "n_clusters",
+          "type_desc": "int"
+        },
+        {
+          "name": "init",
+          "type_desc": "str | callable | finite matrix"
+        },
+        {
+          "name": "n_init",
+          "type_desc": "int"
+        },
+        {
+          "name": "random_state",
+          "type_desc": "object"
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "dict[str, object]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "dict[str, object]"
+        }
+      ],
+      "time_complexity": "O(I * K * N * d)",
+      "space_complexity": "O((N + K) * d)",
+      "complexity_reasoning": "K-Means complexity is linear in number of iterations I, clusters K, samples N, and dimensions d, storing centroids and sample labels in memory.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "bicluster_minibatch_kmeans_kwargs",
@@ -31,12 +52,33 @@
       "status": "atomic",
       "concept_type": "kmeans_callback_shell",
       "inputs": [
-        {"name": "n_clusters", "type_desc": "int"},
-        {"name": "init", "type_desc": "str | callable | finite matrix"},
-        {"name": "n_init", "type_desc": "int"},
-        {"name": "random_state", "type_desc": "object"}
+        {
+          "name": "n_clusters",
+          "type_desc": "int"
+        },
+        {
+          "name": "init",
+          "type_desc": "str | callable | finite matrix"
+        },
+        {
+          "name": "n_init",
+          "type_desc": "int"
+        },
+        {
+          "name": "random_state",
+          "type_desc": "object"
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "dict[str, object]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "dict[str, object]"
+        }
+      ],
+      "time_complexity": "O(I * K * N * d)",
+      "space_complexity": "O((N + K) * d)",
+      "complexity_reasoning": "K-Means complexity is linear in number of iterations I, clusters K, samples N, and dimensions d, storing centroids and sample labels in memory.",
+      "complexity_confidence": 95
     }
   ],
   "edges": []

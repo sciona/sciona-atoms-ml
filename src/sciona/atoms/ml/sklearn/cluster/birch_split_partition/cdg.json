@@ -11,10 +11,27 @@
       "concept_type": "distance_bookkeeping",
       "description": "Compute the squared centroid-distance matrix used by sklearn BIRCH node splitting.",
       "inputs": [
-        {"name": "centroids", "type_desc": "ndarray[float64]", "required": true},
-        {"name": "squared_norm", "type_desc": "ndarray[float64]", "required": true}
+        {
+          "name": "centroids",
+          "type_desc": "ndarray[float64]",
+          "required": true
+        },
+        {
+          "name": "squared_norm",
+          "type_desc": "ndarray[float64]",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "ndarray[float64]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "ndarray[float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(B * d)",
+      "complexity_reasoning": "BIRCH clustering constructs a clustering feature tree, scaling linearly with sample size N and dimensionality d given branching factor B.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "birch_split_farthest_pair",
@@ -22,8 +39,23 @@
       "status": "atomic",
       "concept_type": "index_selection",
       "description": "Select the farthest centroid-pair index tuple from the BIRCH split distance matrix.",
-      "inputs": [{"name": "distance_matrix", "type_desc": "ndarray[float64]", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "tuple[int, int]"}]
+      "inputs": [
+        {
+          "name": "distance_matrix",
+          "type_desc": "ndarray[float64]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "tuple[int, int]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(B * d)",
+      "complexity_reasoning": "BIRCH clustering constructs a clustering feature tree, scaling linearly with sample size N and dimensionality d given branching factor B.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "birch_split_assignment_mask",
@@ -32,10 +64,27 @@
       "concept_type": "partitioning",
       "description": "Compute sklearn's node1-closer Boolean partition mask, including the tie-breaking override that forces the first farthest index into node1.",
       "inputs": [
-        {"name": "distance_matrix", "type_desc": "ndarray[float64]", "required": true},
-        {"name": "farthest_pair", "type_desc": "tuple[int, int]", "required": true}
+        {
+          "name": "distance_matrix",
+          "type_desc": "ndarray[float64]",
+          "required": true
+        },
+        {
+          "name": "farthest_pair",
+          "type_desc": "tuple[int, int]",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "ndarray[bool]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "ndarray[bool]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(B * d)",
+      "complexity_reasoning": "BIRCH clustering constructs a clustering feature tree, scaling linearly with sample size N and dimensionality d given branching factor B.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "birch_split_partition_indices",
@@ -43,8 +92,23 @@
       "status": "atomic",
       "concept_type": "partitioning",
       "description": "Materialize the two nonempty centroid-index groups induced by sklearn's BIRCH split mask.",
-      "inputs": [{"name": "node1_closer", "type_desc": "ndarray[bool]", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "tuple[ndarray[int64], ndarray[int64]]"}]
+      "inputs": [
+        {
+          "name": "node1_closer",
+          "type_desc": "ndarray[bool]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "tuple[ndarray[int64], ndarray[int64]]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(B * d)",
+      "complexity_reasoning": "BIRCH clustering constructs a clustering feature tree, scaling linearly with sample size N and dimensionality d given branching factor B.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "birch_split_partition_stats",
@@ -53,16 +117,49 @@
       "concept_type": "statistics",
       "description": "Aggregate two BIRCH split partitions into the subcluster statistics that seed the new child nodes.",
       "inputs": [
-        {"name": "subcluster_states", "type_desc": "tuple[BirchSubclusterStats, ...]", "required": true},
-        {"name": "node1_closer", "type_desc": "ndarray[bool]", "required": true}
+        {
+          "name": "subcluster_states",
+          "type_desc": "tuple[BirchSubclusterStats, ...]",
+          "required": true
+        },
+        {
+          "name": "node1_closer",
+          "type_desc": "ndarray[bool]",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "tuple[BirchSubclusterStats, BirchSubclusterStats]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "tuple[BirchSubclusterStats, BirchSubclusterStats]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(B * d)",
+      "complexity_reasoning": "BIRCH clustering constructs a clustering feature tree, scaling linearly with sample size N and dimensionality d given branching factor B.",
+      "complexity_confidence": 90
     }
   ],
   "edges": [
-    {"source": "birch_split_distance_matrix", "target": "birch_split_farthest_pair", "kind": "selection"},
-    {"source": "birch_split_farthest_pair", "target": "birch_split_assignment_mask", "kind": "call_context"},
-    {"source": "birch_split_assignment_mask", "target": "birch_split_partition_indices", "kind": "partition"},
-    {"source": "birch_split_assignment_mask", "target": "birch_split_partition_stats", "kind": "partition"}
+    {
+      "source": "birch_split_distance_matrix",
+      "target": "birch_split_farthest_pair",
+      "kind": "selection"
+    },
+    {
+      "source": "birch_split_farthest_pair",
+      "target": "birch_split_assignment_mask",
+      "kind": "call_context"
+    },
+    {
+      "source": "birch_split_assignment_mask",
+      "target": "birch_split_partition_indices",
+      "kind": "partition"
+    },
+    {
+      "source": "birch_split_assignment_mask",
+      "target": "birch_split_partition_stats",
+      "kind": "partition"
+    }
   ]
 }

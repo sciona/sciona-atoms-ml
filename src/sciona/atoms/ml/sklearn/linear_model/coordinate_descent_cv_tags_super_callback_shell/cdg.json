@@ -20,11 +20,22 @@
       "type_signature": "(tags_from_super: object) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "tags_from_super", "type_desc": "super().__sklearn_tags__ callback output", "required": true}
+        {
+          "name": "tags_from_super",
+          "type_desc": "super().__sklearn_tags__ callback output",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "same tags object"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "same tags object"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_tags_return",
@@ -35,11 +46,22 @@
       "type_signature": "(tags: object) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "tags", "type_desc": "mutated tags object", "required": true}
+        {
+          "name": "tags",
+          "type_desc": "mutated tags object",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "same mutated tags object"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "same mutated tags object"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [

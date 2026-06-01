@@ -23,8 +23,23 @@
       "status": "atomic",
       "type_signature": "(alpha: float) -> float",
       "depth": 1,
-      "inputs": [{"name": "alpha", "type_desc": "float", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "float"}]
+      "inputs": [
+        {
+          "name": "alpha",
+          "type_desc": "float",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "graphical_lasso_cv_fit_covariance",
@@ -34,8 +49,23 @@
       "status": "atomic",
       "type_signature": "(covariance: NDArray[np.float64]) -> NDArray[np.float64]",
       "depth": 1,
-      "inputs": [{"name": "covariance", "type_desc": "NDArray[np.float64]", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+      "inputs": [
+        {
+          "name": "covariance",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "graphical_lasso_cv_fit_precision",
@@ -45,8 +75,23 @@
       "status": "atomic",
       "type_signature": "(precision: NDArray[np.float64]) -> NDArray[np.float64]",
       "depth": 1,
-      "inputs": [{"name": "precision", "type_desc": "NDArray[np.float64]", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+      "inputs": [
+        {
+          "name": "precision",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "graphical_lasso_cv_fit_costs",
@@ -56,8 +101,23 @@
       "status": "atomic",
       "type_signature": "(costs: list[tuple[float, float]]) -> list[tuple[float, float]]",
       "depth": 1,
-      "inputs": [{"name": "costs", "type_desc": "list[tuple[float, float]]", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "list[tuple[float, float]]"}]
+      "inputs": [
+        {
+          "name": "costs",
+          "type_desc": "list[tuple[float, float]]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "list[tuple[float, float]]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "graphical_lasso_cv_fit_n_iter",
@@ -67,8 +127,23 @@
       "status": "atomic",
       "type_signature": "(n_iter: int) -> int",
       "depth": 1,
-      "inputs": [{"name": "n_iter", "type_desc": "int", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "int"}]
+      "inputs": [
+        {
+          "name": "n_iter",
+          "type_desc": "int",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "graphical_lasso_cv_fit_return_self",
@@ -78,16 +153,51 @@
       "status": "atomic",
       "type_signature": "(estimator_token: str) -> str",
       "depth": 1,
-      "inputs": [{"name": "estimator_token", "type_desc": "str", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "str"}]
+      "inputs": [
+        {
+          "name": "estimator_token",
+          "type_desc": "str",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "str"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "graphical_lasso_cv_fit_alpha", "target": "graphical_lasso_cv_fit_covariance", "kind": "selected_alpha_refit"},
-    {"source": "graphical_lasso_cv_fit_covariance", "target": "graphical_lasso_cv_fit_precision", "kind": "refit_state"},
-    {"source": "graphical_lasso_cv_fit_precision", "target": "graphical_lasso_cv_fit_costs", "kind": "solver_outputs"},
-    {"source": "graphical_lasso_cv_fit_costs", "target": "graphical_lasso_cv_fit_n_iter", "kind": "solver_outputs"},
-    {"source": "graphical_lasso_cv_fit_n_iter", "target": "graphical_lasso_cv_fit_return_self", "kind": "fit_completion"}
+    {
+      "source": "graphical_lasso_cv_fit_alpha",
+      "target": "graphical_lasso_cv_fit_covariance",
+      "kind": "selected_alpha_refit"
+    },
+    {
+      "source": "graphical_lasso_cv_fit_covariance",
+      "target": "graphical_lasso_cv_fit_precision",
+      "kind": "refit_state"
+    },
+    {
+      "source": "graphical_lasso_cv_fit_precision",
+      "target": "graphical_lasso_cv_fit_costs",
+      "kind": "solver_outputs"
+    },
+    {
+      "source": "graphical_lasso_cv_fit_costs",
+      "target": "graphical_lasso_cv_fit_n_iter",
+      "kind": "solver_outputs"
+    },
+    {
+      "source": "graphical_lasso_cv_fit_n_iter",
+      "target": "graphical_lasso_cv_fit_return_self",
+      "kind": "fit_completion"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

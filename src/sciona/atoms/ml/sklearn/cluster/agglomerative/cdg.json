@@ -21,12 +21,27 @@
       "type_signature": "(children: NDArray[np.int64], n_leaves: int) -> int",
       "depth": 1,
       "inputs": [
-        {"name": "children", "type_desc": "NDArray[np.int64]", "required": true},
-        {"name": "n_leaves", "type_desc": "int", "required": true}
+        {
+          "name": "children",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        },
+        {
+          "name": "n_leaves",
+          "type_desc": "int",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "int"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "agglomerative_descendent_leaves",
@@ -37,13 +52,32 @@
       "type_signature": "(node: int, children: NDArray[np.int64], n_leaves: int) -> NDArray[np.int64]",
       "depth": 1,
       "inputs": [
-        {"name": "node", "type_desc": "int", "required": true},
-        {"name": "children", "type_desc": "NDArray[np.int64]", "required": true},
-        {"name": "n_leaves", "type_desc": "int", "required": true}
+        {
+          "name": "node",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "children",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        },
+        {
+          "name": "n_leaves",
+          "type_desc": "int",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.int64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.int64]"
+        }
+      ],
+      "time_complexity": "O(N^2 * log N)",
+      "space_complexity": "O(N^2)",
+      "complexity_reasoning": "Agglomerative hierarchical clustering computes a linkage tree requiring quadratic space for the distance matrix and quadratic-logarithmic time.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "agglomerative_hc_cut",
@@ -54,18 +88,45 @@
       "type_signature": "(n_clusters: int, children: NDArray[np.int64], n_leaves: int) -> NDArray[np.int64]",
       "depth": 1,
       "inputs": [
-        {"name": "n_clusters", "type_desc": "int", "required": true},
-        {"name": "children", "type_desc": "NDArray[np.int64]", "required": true},
-        {"name": "n_leaves", "type_desc": "int", "required": true}
+        {
+          "name": "n_clusters",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "children",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        },
+        {
+          "name": "n_leaves",
+          "type_desc": "int",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.int64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.int64]"
+        }
+      ],
+      "time_complexity": "O(N^2 * log N)",
+      "space_complexity": "O(N^2)",
+      "complexity_reasoning": "Agglomerative hierarchical clustering computes a linkage tree requiring quadratic space for the distance matrix and quadratic-logarithmic time.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [
-    {"source": "agglomerative_root_node", "target": "agglomerative_hc_cut", "kind": "initial_cut_node"},
-    {"source": "agglomerative_descendent_leaves", "target": "agglomerative_hc_cut", "kind": "label_assignment_support"}
+    {
+      "source": "agglomerative_root_node",
+      "target": "agglomerative_hc_cut",
+      "kind": "initial_cut_node"
+    },
+    {
+      "source": "agglomerative_descendent_leaves",
+      "target": "agglomerative_hc_cut",
+      "kind": "label_assignment_support"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

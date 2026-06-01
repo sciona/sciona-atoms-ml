@@ -21,12 +21,27 @@
       "type_signature": "(n_samples: int, max_samples: int | float | None) -> int",
       "depth": 1,
       "inputs": [
-        {"name": "n_samples", "type_desc": "int", "required": true},
-        {"name": "max_samples", "type_desc": "int | float | None", "required": false}
+        {
+          "name": "n_samples",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "max_samples",
+          "type_desc": "int | float | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "int"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "forest_generate_sample_indices",
@@ -37,13 +52,32 @@
       "type_signature": "(n_samples: int, n_samples_bootstrap: int, random_state: int | np.random.RandomState | None = None) -> NDArray[np.int64]",
       "depth": 1,
       "inputs": [
-        {"name": "n_samples", "type_desc": "int", "required": true},
-        {"name": "n_samples_bootstrap", "type_desc": "int", "required": true},
-        {"name": "random_state", "type_desc": "int | np.random.RandomState | None", "required": false}
+        {
+          "name": "n_samples",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "n_samples_bootstrap",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int | np.random.RandomState | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.int64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.int64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "forest_generate_unsampled_indices",
@@ -54,13 +88,32 @@
       "type_signature": "(n_samples: int, n_samples_bootstrap: int, random_state: int | np.random.RandomState | None = None) -> NDArray[np.int64]",
       "depth": 1,
       "inputs": [
-        {"name": "n_samples", "type_desc": "int", "required": true},
-        {"name": "n_samples_bootstrap", "type_desc": "int", "required": true},
-        {"name": "random_state", "type_desc": "int | np.random.RandomState | None", "required": false}
+        {
+          "name": "n_samples",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "n_samples_bootstrap",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int | np.random.RandomState | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.int64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.int64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [],

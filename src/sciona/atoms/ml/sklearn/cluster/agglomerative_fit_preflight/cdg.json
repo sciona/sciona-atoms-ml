@@ -21,12 +21,27 @@
       "type_signature": "(n_clusters: int | None, distance_threshold: float | None = None) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "n_clusters", "type_desc": "int | None", "required": true},
-        {"name": "distance_threshold", "type_desc": "float | None", "required": false}
+        {
+          "name": "n_clusters",
+          "type_desc": "int | None",
+          "required": true
+        },
+        {
+          "name": "distance_threshold",
+          "type_desc": "float | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(N^2 * log N)",
+      "space_complexity": "O(N^2)",
+      "complexity_reasoning": "Agglomerative hierarchical clustering computes a linkage tree requiring quadratic space for the distance matrix and quadratic-logarithmic time.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "agglomerative_fit_require_full_tree_when_distance_threshold_set",
@@ -37,12 +52,27 @@
       "type_signature": "(compute_full_tree: str | bool, distance_threshold: float | None = None) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "compute_full_tree", "type_desc": "str | bool", "required": true},
-        {"name": "distance_threshold", "type_desc": "float | None", "required": false}
+        {
+          "name": "compute_full_tree",
+          "type_desc": "str | bool",
+          "required": true
+        },
+        {
+          "name": "distance_threshold",
+          "type_desc": "float | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(N^2 * log N)",
+      "space_complexity": "O(N^2)",
+      "complexity_reasoning": "Agglomerative hierarchical clustering computes a linkage tree requiring quadratic space for the distance matrix and quadratic-logarithmic time.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "agglomerative_fit_require_ward_metric_euclidean",
@@ -53,17 +83,40 @@
       "type_signature": "(linkage: str, metric: object) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "linkage", "type_desc": "str", "required": true},
-        {"name": "metric", "type_desc": "object", "required": true}
+        {
+          "name": "linkage",
+          "type_desc": "str",
+          "required": true
+        },
+        {
+          "name": "metric",
+          "type_desc": "object",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(N^2 * log N)",
+      "space_complexity": "O(N^2)",
+      "complexity_reasoning": "Agglomerative hierarchical clustering computes a linkage tree requiring quadratic space for the distance matrix and quadratic-logarithmic time.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [
-    {"source": "agglomerative_fit_require_exactly_one_cluster_spec", "target": "agglomerative_fit_require_full_tree_when_distance_threshold_set", "kind": "shared_preflight_validation"},
-    {"source": "agglomerative_fit_require_full_tree_when_distance_threshold_set", "target": "agglomerative_fit_require_ward_metric_euclidean", "kind": "shared_preflight_validation"}
+    {
+      "source": "agglomerative_fit_require_exactly_one_cluster_spec",
+      "target": "agglomerative_fit_require_full_tree_when_distance_threshold_set",
+      "kind": "shared_preflight_validation"
+    },
+    {
+      "source": "agglomerative_fit_require_full_tree_when_distance_threshold_set",
+      "target": "agglomerative_fit_require_ward_metric_euclidean",
+      "kind": "shared_preflight_validation"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

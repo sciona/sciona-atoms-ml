@@ -23,13 +23,32 @@
       "type_signature": "(estimator: object, X: object, y: object) -> tuple[object, object, object]",
       "depth": 1,
       "inputs": [
-        {"name": "estimator", "type_desc": "LinearModelCV instance", "required": true},
-        {"name": "X", "type_desc": "raw input data passed to fit", "required": true},
-        {"name": "y", "type_desc": "raw target data passed to fit", "required": true}
+        {
+          "name": "estimator",
+          "type_desc": "LinearModelCV instance",
+          "required": true
+        },
+        {
+          "name": "X",
+          "type_desc": "raw input data passed to fit",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "raw target data passed to fit",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "three-tuple preserving estimator, X, and y identity"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "three-tuple preserving estimator, X, and y identity"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_validate_data_kwargs",
@@ -40,12 +59,27 @@
       "type_signature": "(check_x_params: dict[object, object], check_y_params: dict[object, object]) -> dict[str, tuple[dict[object, object], dict[object, object]]]",
       "depth": 1,
       "inputs": [
-        {"name": "check_x_params", "type_desc": "X-validation kwargs", "required": true},
-        {"name": "check_y_params", "type_desc": "y-validation kwargs", "required": true}
+        {
+          "name": "check_x_params",
+          "type_desc": "X-validation kwargs",
+          "required": true
+        },
+        {
+          "name": "check_y_params",
+          "type_desc": "y-validation kwargs",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "validate_data kwargs with validate_separately tuple"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "validate_data kwargs with validate_separately tuple"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_validated_x",
@@ -56,11 +90,22 @@
       "type_signature": "(validated_pair: tuple[object, object]) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "validated_pair", "type_desc": "two-tuple returned by validate_data", "required": true}
+        {
+          "name": "validated_pair",
+          "type_desc": "two-tuple returned by validate_data",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "same object as validated_pair[0]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "same object as validated_pair[0]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_validated_y",
@@ -71,11 +116,22 @@
       "type_signature": "(validated_pair: tuple[object, object]) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "validated_pair", "type_desc": "two-tuple returned by validate_data", "required": true}
+        {
+          "name": "validated_pair",
+          "type_desc": "two-tuple returned by validate_data",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "same object as validated_pair[1]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "same object as validated_pair[1]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_check_consistent_length_args",
@@ -86,21 +142,60 @@
       "type_signature": "(X: object, y: object) -> tuple[object, object]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "validated input data", "required": true},
-        {"name": "y", "type_desc": "validated target data", "required": true}
+        {
+          "name": "X",
+          "type_desc": "validated input data",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "validated target data",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "two-tuple preserving X and y identity"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "two-tuple preserving X and y identity"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "cd_cv_validate_data_args", "target": "cd_cv_validated_x", "kind": "callback_context"},
-    {"source": "cd_cv_validate_data_args", "target": "cd_cv_validated_y", "kind": "callback_context"},
-    {"source": "cd_cv_validate_data_kwargs", "target": "cd_cv_validated_x", "kind": "callback_context"},
-    {"source": "cd_cv_validate_data_kwargs", "target": "cd_cv_validated_y", "kind": "callback_context"},
-    {"source": "cd_cv_validated_x", "target": "cd_cv_check_consistent_length_args", "kind": "validation_context"},
-    {"source": "cd_cv_validated_y", "target": "cd_cv_check_consistent_length_args", "kind": "validation_context"}
+    {
+      "source": "cd_cv_validate_data_args",
+      "target": "cd_cv_validated_x",
+      "kind": "callback_context"
+    },
+    {
+      "source": "cd_cv_validate_data_args",
+      "target": "cd_cv_validated_y",
+      "kind": "callback_context"
+    },
+    {
+      "source": "cd_cv_validate_data_kwargs",
+      "target": "cd_cv_validated_x",
+      "kind": "callback_context"
+    },
+    {
+      "source": "cd_cv_validate_data_kwargs",
+      "target": "cd_cv_validated_y",
+      "kind": "callback_context"
+    },
+    {
+      "source": "cd_cv_validated_x",
+      "target": "cd_cv_check_consistent_length_args",
+      "kind": "validation_context"
+    },
+    {
+      "source": "cd_cv_validated_y",
+      "target": "cd_cv_check_consistent_length_args",
+      "kind": "validation_context"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

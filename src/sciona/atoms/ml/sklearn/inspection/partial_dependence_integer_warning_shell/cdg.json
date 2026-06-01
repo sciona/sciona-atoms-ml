@@ -18,12 +18,25 @@
       "status": "atomic",
       "concept_type": "partial_dependence_warning_branch",
       "inputs": [
-        {"name": "is_categorical", "type_desc": "bool"},
-        {"name": "dtype_kind", "type_desc": "dtype-kind string"}
+        {
+          "name": "is_categorical",
+          "type_desc": "bool"
+        },
+        {
+          "name": "dtype_kind",
+          "type_desc": "dtype-kind string"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "partial_dependence_integer_warning_message",
@@ -32,11 +45,21 @@
       "status": "atomic",
       "concept_type": "partial_dependence_warning_text",
       "inputs": [
-        {"name": "feature", "type_desc": "feature label"}
+        {
+          "name": "feature",
+          "type_desc": "feature label"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "str"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "str"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "partial_dependence_first_integer_warning_feature",
@@ -45,17 +68,41 @@
       "status": "atomic",
       "concept_type": "partial_dependence_warning_bookkeeping",
       "inputs": [
-        {"name": "features", "type_desc": "tuple of feature labels"},
-        {"name": "is_categorical", "type_desc": "tuple of bool"},
-        {"name": "dtype_kinds", "type_desc": "tuple of dtype-kind strings"}
+        {
+          "name": "features",
+          "type_desc": "tuple of feature labels"
+        },
+        {
+          "name": "is_categorical",
+          "type_desc": "tuple of bool"
+        },
+        {
+          "name": "dtype_kinds",
+          "type_desc": "tuple of dtype-kind strings"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "feature label or None"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "feature label or None"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "partial_dependence_integer_warning_required", "target": "partial_dependence_first_integer_warning_feature", "kind": "warning_loop_predicate"},
-    {"source": "partial_dependence_first_integer_warning_feature", "target": "partial_dependence_integer_warning_message", "kind": "warning_message_selection"}
+    {
+      "source": "partial_dependence_integer_warning_required",
+      "target": "partial_dependence_first_integer_warning_feature",
+      "kind": "warning_loop_predicate"
+    },
+    {
+      "source": "partial_dependence_first_integer_warning_feature",
+      "target": "partial_dependence_integer_warning_message",
+      "kind": "warning_message_selection"
+    }
   ]
 }

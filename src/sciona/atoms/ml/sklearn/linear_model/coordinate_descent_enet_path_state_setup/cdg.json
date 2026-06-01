@@ -25,11 +25,22 @@
       "type_signature": "(alphas: Sequence[object]) -> int",
       "depth": 1,
       "inputs": [
-        {"name": "alphas", "type_desc": "nonempty alpha sequence", "required": true}
+        {
+          "name": "alphas",
+          "type_desc": "nonempty alpha sequence",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "positive alpha count"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "positive alpha count"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_enet_path_dual_gap_buffer",
@@ -40,11 +51,22 @@
       "type_signature": "(alpha_count: int) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "alpha_count", "type_desc": "positive alpha count", "required": true}
+        {
+          "name": "alpha_count",
+          "type_desc": "positive alpha count",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "float64 dual-gap buffer"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "float64 dual-gap buffer"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_enet_path_iteration_buffer",
@@ -55,11 +77,22 @@
       "type_signature": "(alpha_count: int) -> list[int]",
       "depth": 1,
       "inputs": [
-        {"name": "alpha_count", "type_desc": "positive alpha count", "required": true}
+        {
+          "name": "alpha_count",
+          "type_desc": "positive alpha count",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "empty iteration-count list"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "empty iteration-count list"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_enet_path_coef_path_shape",
@@ -70,14 +103,37 @@
       "type_signature": "(n_features: int, alpha_count: int, multi_output: bool, n_targets: int | None) -> tuple[int, ...]",
       "depth": 1,
       "inputs": [
-        {"name": "n_features", "type_desc": "positive feature count", "required": true},
-        {"name": "alpha_count", "type_desc": "positive alpha count", "required": true},
-        {"name": "multi_output", "type_desc": "whether y is multi-output", "required": true},
-        {"name": "n_targets", "type_desc": "optional positive target count", "required": true}
+        {
+          "name": "n_features",
+          "type_desc": "positive feature count",
+          "required": true
+        },
+        {
+          "name": "alpha_count",
+          "type_desc": "positive alpha count",
+          "required": true
+        },
+        {
+          "name": "multi_output",
+          "type_desc": "whether y is multi-output",
+          "required": true
+        },
+        {
+          "name": "n_targets",
+          "type_desc": "optional positive target count",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "2D or 3D coefficient-path shape"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "2D or 3D coefficient-path shape"
+        }
+      ],
+      "time_complexity": "O(I * N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Coordinate descent path computation for linear models scales linearly with samples N, features d, and the number of optimization iterations I.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "cd_enet_path_coef_path_buffer",
@@ -88,12 +144,27 @@
       "type_signature": "(coef_shape: tuple[int, ...], dtype_name: str) -> NDArray[np.floating]",
       "depth": 1,
       "inputs": [
-        {"name": "coef_shape", "type_desc": "positive 2D or 3D coefficient-path shape", "required": true},
-        {"name": "dtype_name", "type_desc": "float32 or float64 output dtype", "required": true}
+        {
+          "name": "coef_shape",
+          "type_desc": "positive 2D or 3D coefficient-path shape",
+          "required": true
+        },
+        {
+          "name": "dtype_name",
+          "type_desc": "float32 or float64 output dtype",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "coefficient-path buffer"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "coefficient-path buffer"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_enet_path_initial_coef_required",
@@ -104,11 +175,22 @@
       "type_signature": "(coef_init: object) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "coef_init", "type_desc": "optional warm-start coefficient array", "required": true}
+        {
+          "name": "coef_init",
+          "type_desc": "optional warm-start coefficient array",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether coef_init is None"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether coef_init is None"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_enet_path_initial_coef",
@@ -119,21 +201,60 @@
       "type_signature": "(coef_shape: tuple[int, ...], dtype_name: str, coef_init: object) -> NDArray[np.floating]",
       "depth": 1,
       "inputs": [
-        {"name": "coef_shape", "type_desc": "positive 2D or 3D coefficient-path shape", "required": true},
-        {"name": "dtype_name", "type_desc": "float32 or float64 output dtype", "required": true},
-        {"name": "coef_init", "type_desc": "optional finite warm-start coefficient array", "required": true}
+        {
+          "name": "coef_shape",
+          "type_desc": "positive 2D or 3D coefficient-path shape",
+          "required": true
+        },
+        {
+          "name": "dtype_name",
+          "type_desc": "float32 or float64 output dtype",
+          "required": true
+        },
+        {
+          "name": "coef_init",
+          "type_desc": "optional finite warm-start coefficient array",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "Fortran-contiguous initial coefficient buffer"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "Fortran-contiguous initial coefficient buffer"
+        }
+      ],
+      "time_complexity": "O(I * N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Coordinate descent path computation for linear models scales linearly with samples N, features d, and the number of optimization iterations I.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [
-    {"source": "cd_enet_path_alpha_count", "target": "cd_enet_path_dual_gap_buffer", "kind": "shared_length"},
-    {"source": "cd_enet_path_alpha_count", "target": "cd_enet_path_coef_path_shape", "kind": "shared_length"},
-    {"source": "cd_enet_path_coef_path_shape", "target": "cd_enet_path_coef_path_buffer", "kind": "allocation_shape"},
-    {"source": "cd_enet_path_coef_path_shape", "target": "cd_enet_path_initial_coef", "kind": "warm_start_shape"},
-    {"source": "cd_enet_path_initial_coef_required", "target": "cd_enet_path_initial_coef", "kind": "branch"}
+    {
+      "source": "cd_enet_path_alpha_count",
+      "target": "cd_enet_path_dual_gap_buffer",
+      "kind": "shared_length"
+    },
+    {
+      "source": "cd_enet_path_alpha_count",
+      "target": "cd_enet_path_coef_path_shape",
+      "kind": "shared_length"
+    },
+    {
+      "source": "cd_enet_path_coef_path_shape",
+      "target": "cd_enet_path_coef_path_buffer",
+      "kind": "allocation_shape"
+    },
+    {
+      "source": "cd_enet_path_coef_path_shape",
+      "target": "cd_enet_path_initial_coef",
+      "kind": "warm_start_shape"
+    },
+    {
+      "source": "cd_enet_path_initial_coef_required",
+      "target": "cd_enet_path_initial_coef",
+      "kind": "branch"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

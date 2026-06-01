@@ -21,11 +21,22 @@
       "type_signature": "(X: NDArray[np.float64]) -> tuple[NDArray[np.float64], NDArray[np.float64], NDArray[np.float64]]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "tuple[NDArray[np.float64], NDArray[np.float64], NDArray[np.float64]]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "tuple[NDArray[np.float64], NDArray[np.float64], NDArray[np.float64]]"
+        }
+      ],
+      "time_complexity": "O(N * d^2)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Dimensionality reduction or sparse coding decomposes high-dimensional features, taking quadratic time in features and linear in samples.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "bicluster_bistochastic_normalize",
@@ -36,13 +47,32 @@
       "type_signature": "(X: NDArray[np.float64], max_iter: int = 1000, tol: float = 1e-5) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "max_iter", "type_desc": "int", "required": false},
-        {"name": "tol", "type_desc": "float", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "tol",
+          "type_desc": "float",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d^2)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Dimensionality reduction or sparse coding decomposes high-dimensional features, taking quadratic time in features and linear in samples.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "bicluster_log_normalize",
@@ -53,15 +83,30 @@
       "type_signature": "(X: NDArray[np.float64]) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d^2)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Dimensionality reduction or sparse coding decomposes high-dimensional features, taking quadratic time in features and linear in samples.",
+      "complexity_confidence": 90
     }
   ],
   "edges": [
-    {"source": "bicluster_scale_normalize", "target": "bicluster_bistochastic_normalize", "kind": "iterative_normalization_step"}
+    {
+      "source": "bicluster_scale_normalize",
+      "target": "bicluster_bistochastic_normalize",
+      "kind": "iterative_normalization_step"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

@@ -12,12 +12,27 @@
       "concept_type": "outlier_postfit_bookkeeping",
       "type_signature": "(negative_training_distances: NDArray[np.float64], contamination: float) -> float",
       "inputs": [
-        {"name": "negative_training_distances", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "contamination", "type_desc": "float", "required": true}
+        {
+          "name": "negative_training_distances",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "contamination",
+          "type_desc": "float",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "float"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "elliptic_envelope_score_samples",
@@ -28,11 +43,22 @@
       "concept_type": "outlier_score_postprocessing",
       "type_signature": "(mahalanobis_distances: NDArray[np.float64]) -> NDArray[np.float64]",
       "inputs": [
-        {"name": "mahalanobis_distances", "type_desc": "NDArray[np.float64]", "required": true}
+        {
+          "name": "mahalanobis_distances",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "elliptic_envelope_decision_function",
@@ -43,12 +69,27 @@
       "concept_type": "outlier_score_postprocessing",
       "type_signature": "(negative_mahalanobis_distances: NDArray[np.float64], offset: float) -> NDArray[np.float64]",
       "inputs": [
-        {"name": "negative_mahalanobis_distances", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "offset", "type_desc": "float", "required": true}
+        {
+          "name": "negative_mahalanobis_distances",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "offset",
+          "type_desc": "float",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "elliptic_envelope_labels",
@@ -59,11 +100,22 @@
       "concept_type": "outlier_label_postprocessing",
       "type_signature": "(decision_values: NDArray[np.float64]) -> NDArray[np.int64]",
       "inputs": [
-        {"name": "decision_values", "type_desc": "NDArray[np.float64]", "required": true}
+        {
+          "name": "decision_values",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.int64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.int64]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [

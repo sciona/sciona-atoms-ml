@@ -25,11 +25,22 @@
       "type_signature": "(estimator_kind: str) -> str",
       "depth": 1,
       "inputs": [
-        {"name": "estimator_kind", "type_desc": "ElasticNet estimator kind token", "required": true}
+        {
+          "name": "estimator_kind",
+          "type_desc": "ElasticNet estimator kind token",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "selected path helper name"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "selected path helper name"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_elastic_net_init_attributes",
@@ -40,21 +51,72 @@
       "type_signature": "(alpha: object, l1_ratio: object, fit_intercept: bool, precompute: object, max_iter: int | None, copy_X: bool, tol: object, warm_start: bool, positive: bool, random_state: object, selection: str) -> dict[str, object]",
       "depth": 1,
       "inputs": [
-        {"name": "alpha", "type_desc": "alpha parameter", "required": true},
-        {"name": "l1_ratio", "type_desc": "l1_ratio parameter", "required": true},
-        {"name": "fit_intercept", "type_desc": "fit_intercept parameter", "required": true},
-        {"name": "precompute", "type_desc": "precompute parameter", "required": true},
-        {"name": "max_iter", "type_desc": "max_iter parameter", "required": true},
-        {"name": "copy_X", "type_desc": "copy_X parameter", "required": true},
-        {"name": "tol", "type_desc": "tol parameter", "required": true},
-        {"name": "warm_start", "type_desc": "warm_start parameter", "required": true},
-        {"name": "positive", "type_desc": "positive parameter", "required": true},
-        {"name": "random_state", "type_desc": "random_state parameter", "required": true},
-        {"name": "selection", "type_desc": "selection parameter", "required": true}
+        {
+          "name": "alpha",
+          "type_desc": "alpha parameter",
+          "required": true
+        },
+        {
+          "name": "l1_ratio",
+          "type_desc": "l1_ratio parameter",
+          "required": true
+        },
+        {
+          "name": "fit_intercept",
+          "type_desc": "fit_intercept parameter",
+          "required": true
+        },
+        {
+          "name": "precompute",
+          "type_desc": "precompute parameter",
+          "required": true
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "max_iter parameter",
+          "required": true
+        },
+        {
+          "name": "copy_X",
+          "type_desc": "copy_X parameter",
+          "required": true
+        },
+        {
+          "name": "tol",
+          "type_desc": "tol parameter",
+          "required": true
+        },
+        {
+          "name": "warm_start",
+          "type_desc": "warm_start parameter",
+          "required": true
+        },
+        {
+          "name": "positive",
+          "type_desc": "positive parameter",
+          "required": true
+        },
+        {
+          "name": "random_state",
+          "type_desc": "random_state parameter",
+          "required": true
+        },
+        {
+          "name": "selection",
+          "type_desc": "selection parameter",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "attribute mapping assigned by __init__"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "attribute mapping assigned by __init__"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_elastic_net_sparse_decision_required",
@@ -65,11 +127,22 @@
       "type_signature": "(is_sparse: bool) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "is_sparse", "type_desc": "result of sparse.issparse(X)", "required": true}
+        {
+          "name": "is_sparse",
+          "type_desc": "result of sparse.issparse(X)",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether the sparse branch is taken"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether the sparse branch is taken"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_elastic_net_sparse_dot_args",
@@ -80,12 +153,27 @@
       "type_signature": "(X: object, coef: object) -> tuple[object, NDArray[np.generic]]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "sparse input matrix", "required": true},
-        {"name": "coef", "type_desc": "fitted coefficient array", "required": true}
+        {
+          "name": "X",
+          "type_desc": "sparse input matrix",
+          "required": true
+        },
+        {
+          "name": "coef",
+          "type_desc": "fitted coefficient array",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "X and transposed coefficients"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "X and transposed coefficients"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_elastic_net_sparse_dot_kwargs",
@@ -96,11 +184,22 @@
       "type_signature": "(is_sparse: bool) -> dict[str, bool]",
       "depth": 1,
       "inputs": [
-        {"name": "is_sparse", "type_desc": "sparse-branch predicate", "required": true}
+        {
+          "name": "is_sparse",
+          "type_desc": "sparse-branch predicate",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "dense_output=True keyword mapping"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "dense_output=True keyword mapping"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_elastic_net_sparse_decision_output",
@@ -111,12 +210,27 @@
       "type_signature": "(dot_output: object, intercept: object) -> NDArray[np.generic]",
       "depth": 1,
       "inputs": [
-        {"name": "dot_output", "type_desc": "safe_sparse_dot output", "required": true},
-        {"name": "intercept", "type_desc": "fitted intercept", "required": true}
+        {
+          "name": "dot_output",
+          "type_desc": "safe_sparse_dot output",
+          "required": true
+        },
+        {
+          "name": "intercept",
+          "type_desc": "fitted intercept",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "decision output after intercept addition"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "decision output after intercept addition"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_elastic_net_sparse_input_tag",
@@ -127,19 +241,50 @@
       "type_signature": "(parent_sparse: bool = False) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "parent_sparse", "type_desc": "inherited sparse tag value", "required": true}
+        {
+          "name": "parent_sparse",
+          "type_desc": "inherited sparse tag value",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "fixed sparse input support tag"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "fixed sparse input support tag"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "cd_elastic_net_path_name", "target": "cd_elastic_net_init_attributes", "kind": "class_context"},
-    {"source": "cd_elastic_net_sparse_decision_required", "target": "cd_elastic_net_sparse_dot_args", "kind": "branch_context"},
-    {"source": "cd_elastic_net_sparse_decision_required", "target": "cd_elastic_net_sparse_dot_kwargs", "kind": "branch_context"},
-    {"source": "cd_elastic_net_sparse_dot_args", "target": "cd_elastic_net_sparse_decision_output", "kind": "callback_context"},
-    {"source": "cd_elastic_net_sparse_dot_kwargs", "target": "cd_elastic_net_sparse_decision_output", "kind": "callback_context"}
+    {
+      "source": "cd_elastic_net_path_name",
+      "target": "cd_elastic_net_init_attributes",
+      "kind": "class_context"
+    },
+    {
+      "source": "cd_elastic_net_sparse_decision_required",
+      "target": "cd_elastic_net_sparse_dot_args",
+      "kind": "branch_context"
+    },
+    {
+      "source": "cd_elastic_net_sparse_decision_required",
+      "target": "cd_elastic_net_sparse_dot_kwargs",
+      "kind": "branch_context"
+    },
+    {
+      "source": "cd_elastic_net_sparse_dot_args",
+      "target": "cd_elastic_net_sparse_decision_output",
+      "kind": "callback_context"
+    },
+    {
+      "source": "cd_elastic_net_sparse_dot_kwargs",
+      "target": "cd_elastic_net_sparse_decision_output",
+      "kind": "callback_context"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

@@ -24,10 +24,27 @@
       "type_signature": "(n_features: int, gamma: float | None = None) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "n_features", "type_desc": "int", "required": true},
-        {"name": "gamma", "type_desc": "float | None", "required": false}
+        {
+          "name": "n_features",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "gamma",
+          "type_desc": "float | None",
+          "required": false
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "float"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "pairwise_linear_kernel",
@@ -38,10 +55,27 @@
       "type_signature": "(X: ndarray, Y: ndarray | None = None) -> ndarray",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "ndarray", "required": true},
-        {"name": "Y", "type_desc": "ndarray | None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "ndarray",
+          "required": true
+        },
+        {
+          "name": "Y",
+          "type_desc": "ndarray | None",
+          "required": false
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "ndarray"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "pairwise_polynomial_kernel",
@@ -52,13 +86,42 @@
       "type_signature": "(X: ndarray, Y: ndarray | None = None, degree: float = 3.0, gamma: float | None = None, coef0: float = 1.0) -> ndarray",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "ndarray", "required": true},
-        {"name": "Y", "type_desc": "ndarray | None", "required": false},
-        {"name": "degree", "type_desc": "float", "required": false},
-        {"name": "gamma", "type_desc": "float | None", "required": false},
-        {"name": "coef0", "type_desc": "float", "required": false}
+        {
+          "name": "X",
+          "type_desc": "ndarray",
+          "required": true
+        },
+        {
+          "name": "Y",
+          "type_desc": "ndarray | None",
+          "required": false
+        },
+        {
+          "name": "degree",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "gamma",
+          "type_desc": "float | None",
+          "required": false
+        },
+        {
+          "name": "coef0",
+          "type_desc": "float",
+          "required": false
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "ndarray"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "pairwise_laplacian_kernel",
@@ -69,11 +132,32 @@
       "type_signature": "(X: ndarray, Y: ndarray | None = None, gamma: float | None = None) -> ndarray",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "ndarray", "required": true},
-        {"name": "Y", "type_desc": "ndarray | None", "required": false},
-        {"name": "gamma", "type_desc": "float | None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "ndarray",
+          "required": true
+        },
+        {
+          "name": "Y",
+          "type_desc": "ndarray | None",
+          "required": false
+        },
+        {
+          "name": "gamma",
+          "type_desc": "float | None",
+          "required": false
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "ndarray"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "pairwise_sigmoid_kernel",
@@ -84,12 +168,37 @@
       "type_signature": "(X: ndarray, Y: ndarray | None = None, gamma: float | None = None, coef0: float = 1.0) -> ndarray",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "ndarray", "required": true},
-        {"name": "Y", "type_desc": "ndarray | None", "required": false},
-        {"name": "gamma", "type_desc": "float | None", "required": false},
-        {"name": "coef0", "type_desc": "float", "required": false}
+        {
+          "name": "X",
+          "type_desc": "ndarray",
+          "required": true
+        },
+        {
+          "name": "Y",
+          "type_desc": "ndarray | None",
+          "required": false
+        },
+        {
+          "name": "gamma",
+          "type_desc": "float | None",
+          "required": false
+        },
+        {
+          "name": "coef0",
+          "type_desc": "float",
+          "required": false
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "ndarray"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "pairwise_cosine_similarity",
@@ -100,18 +209,55 @@
       "type_signature": "(X: ndarray, Y: ndarray | None = None) -> ndarray",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "ndarray", "required": true},
-        {"name": "Y", "type_desc": "ndarray | None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "ndarray",
+          "required": true
+        },
+        {
+          "name": "Y",
+          "type_desc": "ndarray | None",
+          "required": false
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "ndarray"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [
-    {"source": "pairwise_default_gamma", "target": "pairwise_polynomial_kernel", "kind": "parameter_context"},
-    {"source": "pairwise_default_gamma", "target": "pairwise_laplacian_kernel", "kind": "parameter_context"},
-    {"source": "pairwise_default_gamma", "target": "pairwise_sigmoid_kernel", "kind": "parameter_context"},
-    {"source": "pairwise_linear_kernel", "target": "pairwise_polynomial_kernel", "kind": "gram_context"},
-    {"source": "pairwise_linear_kernel", "target": "pairwise_sigmoid_kernel", "kind": "gram_context"}
+    {
+      "source": "pairwise_default_gamma",
+      "target": "pairwise_polynomial_kernel",
+      "kind": "parameter_context"
+    },
+    {
+      "source": "pairwise_default_gamma",
+      "target": "pairwise_laplacian_kernel",
+      "kind": "parameter_context"
+    },
+    {
+      "source": "pairwise_default_gamma",
+      "target": "pairwise_sigmoid_kernel",
+      "kind": "parameter_context"
+    },
+    {
+      "source": "pairwise_linear_kernel",
+      "target": "pairwise_polynomial_kernel",
+      "kind": "gram_context"
+    },
+    {
+      "source": "pairwise_linear_kernel",
+      "target": "pairwise_sigmoid_kernel",
+      "kind": "gram_context"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

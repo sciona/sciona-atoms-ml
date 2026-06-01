@@ -24,11 +24,22 @@
       "type_signature": "(kernel: Kernel | None) -> Kernel",
       "depth": 1,
       "inputs": [
-        {"name": "kernel", "type_desc": "Kernel | None", "required": true}
+        {
+          "name": "kernel",
+          "type_desc": "Kernel | None",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "Kernel"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "Kernel"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "gpc_binary_fit_stored_train_inputs",
@@ -39,12 +50,27 @@
       "type_signature": "(X: NDArray[np.object_], copy_X_train: bool) -> NDArray[np.object_]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.object_]", "required": true},
-        {"name": "copy_X_train", "type_desc": "bool", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.object_]",
+          "required": true
+        },
+        {
+          "name": "copy_X_train",
+          "type_desc": "bool",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.object_]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.object_]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "gpc_binary_fit_classes",
@@ -55,11 +81,22 @@
       "type_signature": "(y: NDArray[np.object_]) -> NDArray[np.object_]",
       "depth": 1,
       "inputs": [
-        {"name": "y", "type_desc": "NDArray[np.object_]", "required": true}
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.object_]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.object_]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.object_]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "gpc_binary_fit_encoded_targets",
@@ -70,11 +107,22 @@
       "type_signature": "(y: NDArray[np.object_]) -> NDArray[np.int64]",
       "depth": 1,
       "inputs": [
-        {"name": "y", "type_desc": "NDArray[np.object_]", "required": true}
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.object_]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.int64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.int64]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "gpc_binary_fit_require_binary_classes",
@@ -85,12 +133,27 @@
       "type_signature": "(classes: NDArray[np.object_], class_name: str) -> int",
       "depth": 1,
       "inputs": [
-        {"name": "classes", "type_desc": "NDArray[np.object_]", "required": true},
-        {"name": "class_name", "type_desc": "str", "required": true}
+        {
+          "name": "classes",
+          "type_desc": "NDArray[np.object_]",
+          "required": true
+        },
+        {
+          "name": "class_name",
+          "type_desc": "str",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "int"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "gpc_binary_fit_use_optimizer_branch",
@@ -101,18 +164,45 @@
       "type_signature": "(optimizer_is_not_none: bool, kernel_n_dims: int) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "optimizer_is_not_none", "type_desc": "bool", "required": true},
-        {"name": "kernel_n_dims", "type_desc": "int", "required": true}
+        {
+          "name": "optimizer_is_not_none",
+          "type_desc": "bool",
+          "required": true
+        },
+        {
+          "name": "kernel_n_dims",
+          "type_desc": "int",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "gpc_binary_fit_classes", "target": "gpc_binary_fit_encoded_targets", "kind": "shared_label_encoder_logic"},
-    {"source": "gpc_binary_fit_classes", "target": "gpc_binary_fit_require_binary_classes", "kind": "class_guard_input"},
-    {"source": "gpc_binary_fit_kernel", "target": "gpc_binary_fit_use_optimizer_branch", "kind": "kernel_dimension_input"}
+    {
+      "source": "gpc_binary_fit_classes",
+      "target": "gpc_binary_fit_encoded_targets",
+      "kind": "shared_label_encoder_logic"
+    },
+    {
+      "source": "gpc_binary_fit_classes",
+      "target": "gpc_binary_fit_require_binary_classes",
+      "kind": "class_guard_input"
+    },
+    {
+      "source": "gpc_binary_fit_kernel",
+      "target": "gpc_binary_fit_use_optimizer_branch",
+      "kind": "kernel_dimension_input"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

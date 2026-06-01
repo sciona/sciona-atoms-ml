@@ -10,8 +10,23 @@
       "status": "atomic",
       "concept_type": "postfit_passthrough",
       "description": "Return the unnormalized document-topic matrix after LDA's deferred E-step has produced it.",
-      "inputs": [{"name": "doc_topic_distr", "type_desc": "ndarray", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+      "inputs": [
+        {
+          "name": "doc_topic_distr",
+          "type_desc": "ndarray",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "ndarray"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "lda_transform_output",
@@ -20,10 +35,27 @@
       "concept_type": "normalization",
       "description": "Apply LDA's transform-time optional normalization to a supplied unnormalized document-topic matrix.",
       "inputs": [
-        {"name": "doc_topic_distr", "type_desc": "ndarray", "required": true},
-        {"name": "normalize", "type_desc": "bool", "required": true}
+        {
+          "name": "doc_topic_distr",
+          "type_desc": "ndarray",
+          "required": true
+        },
+        {
+          "name": "normalize",
+          "type_desc": "bool",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "ndarray"
+        }
+      ],
+      "time_complexity": "O(N * d^2)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Dimensionality reduction or sparse coding decomposes high-dimensional features, taking quadratic time in features and linear in samples.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "lda_score_from_bound",
@@ -31,8 +63,23 @@
       "status": "atomic",
       "concept_type": "postfit_passthrough",
       "description": "Return LDA's score shell result from a supplied approximate bound.",
-      "inputs": [{"name": "bound", "type_desc": "float", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "float"}]
+      "inputs": [
+        {
+          "name": "bound",
+          "type_desc": "float",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "lda_n_features_out",
@@ -40,13 +87,40 @@
       "status": "atomic",
       "concept_type": "postfit_attribute",
       "description": "Return LDA's transformed output width from the fitted component count.",
-      "inputs": [{"name": "n_components", "type_desc": "int", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "int"}]
+      "inputs": [
+        {
+          "name": "n_components",
+          "type_desc": "int",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "lda_unnormalized_transform_output", "target": "lda_transform_output", "kind": "transform_normalization"},
-    {"source": "lda_transform_output", "target": "lda_n_features_out", "kind": "postfit_shape"},
-    {"source": "lda_score_from_bound", "target": "lda_n_features_out", "kind": "postfit_interface"}
+    {
+      "source": "lda_unnormalized_transform_output",
+      "target": "lda_transform_output",
+      "kind": "transform_normalization"
+    },
+    {
+      "source": "lda_transform_output",
+      "target": "lda_n_features_out",
+      "kind": "postfit_shape"
+    },
+    {
+      "source": "lda_score_from_bound",
+      "target": "lda_n_features_out",
+      "kind": "postfit_interface"
+    }
   ]
 }

@@ -25,11 +25,22 @@
       "type_signature": "(cv_kind: str) -> str",
       "depth": 1,
       "inputs": [
-        {"name": "cv_kind", "type_desc": "coordinate-descent CV subclass key", "required": true}
+        {
+          "name": "cv_kind",
+          "type_desc": "coordinate-descent CV subclass key",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "lasso_path or enet_path"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "lasso_path or enet_path"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_subclass_estimator_name",
@@ -40,11 +51,22 @@
       "type_signature": "(cv_kind: str) -> str",
       "depth": 1,
       "inputs": [
-        {"name": "cv_kind", "type_desc": "coordinate-descent CV subclass key", "required": true}
+        {
+          "name": "cv_kind",
+          "type_desc": "coordinate-descent CV subclass key",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "concrete estimator class name"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "concrete estimator class name"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_subclass_is_multitask",
@@ -55,11 +77,22 @@
       "type_signature": "(cv_kind: str) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "cv_kind", "type_desc": "coordinate-descent CV subclass key", "required": true}
+        {
+          "name": "cv_kind",
+          "type_desc": "coordinate-descent CV subclass key",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "true for multitask CV subclasses"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "true for multitask CV subclasses"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_subclass_target_single_output_tag",
@@ -70,11 +103,22 @@
       "type_signature": "(multitask: bool) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "multitask", "type_desc": "true for multitask CV subclass", "required": true}
+        {
+          "name": "multitask",
+          "type_desc": "true for multitask CV subclass",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "false single-output target tag"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "false single-output target tag"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_subclass_fit_forwards_sample_weight",
@@ -85,11 +129,22 @@
       "type_signature": "(multitask: bool) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "multitask", "type_desc": "whether the subclass is multitask", "required": true}
+        {
+          "name": "multitask",
+          "type_desc": "whether the subclass is multitask",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "true only for mono-output CV subclasses"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "true only for mono-output CV subclasses"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_subclass_super_fit_args",
@@ -100,12 +155,27 @@
       "type_signature": "(X: object, y: object) -> tuple[object, object]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "training data passed to subclass fit", "required": true},
-        {"name": "y", "type_desc": "target passed to subclass fit", "required": true}
+        {
+          "name": "X",
+          "type_desc": "training data passed to subclass fit",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "target passed to subclass fit",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "two-tuple preserving X and y identity"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "two-tuple preserving X and y identity"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_subclass_super_fit_kwargs",
@@ -116,20 +186,55 @@
       "type_signature": "(params: dict[object, object], sample_weight: object, forwards_sample_weight: bool) -> dict[object, object]",
       "depth": 1,
       "inputs": [
-        {"name": "params", "type_desc": "metadata routing params passed to subclass fit", "required": true},
-        {"name": "sample_weight", "type_desc": "sample_weight payload available to mono-output CV subclasses", "required": true},
-        {"name": "forwards_sample_weight", "type_desc": "whether sample_weight is forwarded", "required": true}
+        {
+          "name": "params",
+          "type_desc": "metadata routing params passed to subclass fit",
+          "required": true
+        },
+        {
+          "name": "sample_weight",
+          "type_desc": "sample_weight payload available to mono-output CV subclasses",
+          "required": true
+        },
+        {
+          "name": "forwards_sample_weight",
+          "type_desc": "whether sample_weight is forwarded",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "kwargs payload for super().fit"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "kwargs payload for super().fit"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "cd_cv_subclass_is_multitask", "target": "cd_cv_subclass_target_single_output_tag", "kind": "branch_context"},
-    {"source": "cd_cv_subclass_is_multitask", "target": "cd_cv_subclass_fit_forwards_sample_weight", "kind": "branch_context"},
-    {"source": "cd_cv_subclass_fit_forwards_sample_weight", "target": "cd_cv_subclass_super_fit_kwargs", "kind": "callback_context"},
-    {"source": "cd_cv_subclass_super_fit_args", "target": "cd_cv_subclass_super_fit_kwargs", "kind": "callback_context"}
+    {
+      "source": "cd_cv_subclass_is_multitask",
+      "target": "cd_cv_subclass_target_single_output_tag",
+      "kind": "branch_context"
+    },
+    {
+      "source": "cd_cv_subclass_is_multitask",
+      "target": "cd_cv_subclass_fit_forwards_sample_weight",
+      "kind": "branch_context"
+    },
+    {
+      "source": "cd_cv_subclass_fit_forwards_sample_weight",
+      "target": "cd_cv_subclass_super_fit_kwargs",
+      "kind": "callback_context"
+    },
+    {
+      "source": "cd_cv_subclass_super_fit_args",
+      "target": "cd_cv_subclass_super_fit_kwargs",
+      "kind": "callback_context"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

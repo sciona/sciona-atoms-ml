@@ -20,13 +20,32 @@
       "kind": "atom",
       "status": "atomic",
       "inputs": [
-        {"name": "n_features", "type_desc": "int", "required": true},
-        {"name": "n_features_to_select", "type_desc": "str | int | float", "required": false},
-        {"name": "tol", "type_desc": "float | None", "required": false}
+        {
+          "name": "n_features",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "n_features_to_select",
+          "type_desc": "str | int | float",
+          "required": false
+        },
+        {
+          "name": "tol",
+          "type_desc": "float | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "int"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "sequential_direction_tol_valid",
@@ -34,12 +53,27 @@
       "kind": "atom",
       "status": "atomic",
       "inputs": [
-        {"name": "direction", "type_desc": "str", "required": false},
-        {"name": "tol", "type_desc": "float | None", "required": false}
+        {
+          "name": "direction",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "tol",
+          "type_desc": "float | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "sequential_auto_select_enabled",
@@ -47,12 +81,27 @@
       "kind": "atom",
       "status": "atomic",
       "inputs": [
-        {"name": "n_features_to_select", "type_desc": "str | int | float", "required": false},
-        {"name": "tol", "type_desc": "float | None", "required": false}
+        {
+          "name": "n_features_to_select",
+          "type_desc": "str | int | float",
+          "required": false
+        },
+        {
+          "name": "tol",
+          "type_desc": "float | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "sequential_iteration_count",
@@ -60,14 +109,37 @@
       "kind": "atom",
       "status": "atomic",
       "inputs": [
-        {"name": "n_features", "type_desc": "int", "required": true},
-        {"name": "n_features_to_select_resolved", "type_desc": "int", "required": true},
-        {"name": "n_features_to_select", "type_desc": "str | int | float", "required": false},
-        {"name": "direction", "type_desc": "str", "required": false}
+        {
+          "name": "n_features",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "n_features_to_select_resolved",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "n_features_to_select",
+          "type_desc": "str | int | float",
+          "required": false
+        },
+        {
+          "name": "direction",
+          "type_desc": "str",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "int"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "sequential_tolerance_break",
@@ -75,13 +147,32 @@
       "kind": "atom",
       "status": "atomic",
       "inputs": [
-        {"name": "old_score", "type_desc": "float", "required": true},
-        {"name": "new_score", "type_desc": "float", "required": true},
-        {"name": "tol", "type_desc": "float", "required": false}
+        {
+          "name": "old_score",
+          "type_desc": "float",
+          "required": true
+        },
+        {
+          "name": "new_score",
+          "type_desc": "float",
+          "required": true
+        },
+        {
+          "name": "tol",
+          "type_desc": "float",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "sequential_finalize_support",
@@ -89,19 +180,50 @@
       "kind": "atom",
       "status": "atomic",
       "inputs": [
-        {"name": "current_mask", "type_desc": "NDArray[np.bool_]", "required": true},
-        {"name": "direction", "type_desc": "str", "required": false}
+        {
+          "name": "current_mask",
+          "type_desc": "NDArray[np.bool_]",
+          "required": true
+        },
+        {
+          "name": "direction",
+          "type_desc": "str",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.bool_]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.bool_]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "sequential_resolve_n_features_to_select", "target": "sequential_iteration_count", "kind": "resolved_feature_count"},
-    {"source": "sequential_auto_select_enabled", "target": "sequential_tolerance_break", "kind": "auto_selection_gate"},
-    {"source": "sequential_direction_tol_valid", "target": "sequential_tolerance_break", "kind": "tol_guard"},
-    {"source": "sequential_iteration_count", "target": "sequential_finalize_support", "kind": "loop_completion"}
+    {
+      "source": "sequential_resolve_n_features_to_select",
+      "target": "sequential_iteration_count",
+      "kind": "resolved_feature_count"
+    },
+    {
+      "source": "sequential_auto_select_enabled",
+      "target": "sequential_tolerance_break",
+      "kind": "auto_selection_gate"
+    },
+    {
+      "source": "sequential_direction_tol_valid",
+      "target": "sequential_tolerance_break",
+      "kind": "tol_guard"
+    },
+    {
+      "source": "sequential_iteration_count",
+      "target": "sequential_finalize_support",
+      "kind": "loop_completion"
+    }
   ],
   "metadata": {
     "family": "sklearn.feature_selection.sequential_fit_bookkeeping",

@@ -27,10 +27,27 @@
       "type_signature": "(n_components: int | None, n_features: int) -> int",
       "depth": 1,
       "inputs": [
-        {"name": "n_components", "type_desc": "int | None", "required": true},
-        {"name": "n_features", "type_desc": "int", "required": true}
+        {
+          "name": "n_components",
+          "type_desc": "int | None",
+          "required": true
+        },
+        {
+          "name": "n_features",
+          "type_desc": "int",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "int"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "dictionary_learning_minibatch_fit_algorithm",
@@ -41,10 +58,27 @@
       "type_signature": "(fit_algorithm: str, positive_code: bool) -> str",
       "depth": 1,
       "inputs": [
-        {"name": "fit_algorithm", "type_desc": "str", "required": true},
-        {"name": "positive_code", "type_desc": "bool", "required": true}
+        {
+          "name": "fit_algorithm",
+          "type_desc": "str",
+          "required": true
+        },
+        {
+          "name": "positive_code",
+          "type_desc": "bool",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "str"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "str"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "dictionary_learning_minibatch_batch_size",
@@ -55,10 +89,27 @@
       "type_signature": "(batch_size: int, n_samples: int) -> int",
       "depth": 1,
       "inputs": [
-        {"name": "batch_size", "type_desc": "int", "required": true},
-        {"name": "n_samples", "type_desc": "int", "required": true}
+        {
+          "name": "batch_size",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "n_samples",
+          "type_desc": "int",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "int"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "dictionary_learning_minibatch_stats_decay",
@@ -69,10 +120,27 @@
       "type_signature": "(batch_size: int, step: int) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "batch_size", "type_desc": "int", "required": true},
-        {"name": "step", "type_desc": "int", "required": true}
+        {
+          "name": "batch_size",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "step",
+          "type_desc": "int",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "float"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "dictionary_learning_minibatch_inner_stats",
@@ -83,14 +151,47 @@
       "type_signature": "(A: NDArray[np.float64], B: NDArray[np.float64], X_batch: NDArray[np.float64], code: NDArray[np.float64], batch_size: int, step: int) -> tuple[NDArray[np.float64], NDArray[np.float64]]",
       "depth": 1,
       "inputs": [
-        {"name": "A", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "B", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "X_batch", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "code", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "batch_size", "type_desc": "int", "required": true},
-        {"name": "step", "type_desc": "int", "required": true}
+        {
+          "name": "A",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "B",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "X_batch",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "code",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "batch_size",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "step",
+          "type_desc": "int",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "tuple[NDArray[np.float64], NDArray[np.float64]]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "tuple[NDArray[np.float64], NDArray[np.float64]]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "dictionary_learning_minibatch_monitoring_started",
@@ -101,11 +202,32 @@
       "type_signature": "(step: int, n_samples: int, batch_size: int) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "step", "type_desc": "int", "required": true},
-        {"name": "n_samples", "type_desc": "int", "required": true},
-        {"name": "batch_size", "type_desc": "int", "required": true}
+        {
+          "name": "step",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "n_samples",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "batch_size",
+          "type_desc": "int",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "bool"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "dictionary_learning_minibatch_ewa_cost",
@@ -116,12 +238,37 @@
       "type_signature": "(previous_ewa_cost: float | None, batch_cost: float, batch_size: int, n_samples: int) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "previous_ewa_cost", "type_desc": "float | None", "required": true},
-        {"name": "batch_cost", "type_desc": "float", "required": true},
-        {"name": "batch_size", "type_desc": "int", "required": true},
-        {"name": "n_samples", "type_desc": "int", "required": true}
+        {
+          "name": "previous_ewa_cost",
+          "type_desc": "float | None",
+          "required": true
+        },
+        {
+          "name": "batch_cost",
+          "type_desc": "float",
+          "required": true
+        },
+        {
+          "name": "batch_size",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "n_samples",
+          "type_desc": "int",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "float"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "dictionary_learning_minibatch_dictionary_change_converged",
@@ -132,12 +279,37 @@
       "type_signature": "(new_dict: NDArray[np.float64], old_dict: NDArray[np.float64], n_components: int, tol: float) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "new_dict", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "old_dict", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "n_components", "type_desc": "int", "required": true},
-        {"name": "tol", "type_desc": "float", "required": true}
+        {
+          "name": "new_dict",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "old_dict",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "n_components",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "tol",
+          "type_desc": "float",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "bool"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "dictionary_learning_minibatch_improvement_state",
@@ -148,21 +320,70 @@
       "type_signature": "(ewa_cost: float, ewa_cost_min: float | None, no_improvement: int, max_no_improvement: int | None) -> tuple[float, int, bool]",
       "depth": 1,
       "inputs": [
-        {"name": "ewa_cost", "type_desc": "float", "required": true},
-        {"name": "ewa_cost_min", "type_desc": "float | None", "required": true},
-        {"name": "no_improvement", "type_desc": "int", "required": true},
-        {"name": "max_no_improvement", "type_desc": "int | None", "required": true}
+        {
+          "name": "ewa_cost",
+          "type_desc": "float",
+          "required": true
+        },
+        {
+          "name": "ewa_cost_min",
+          "type_desc": "float | None",
+          "required": true
+        },
+        {
+          "name": "no_improvement",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "max_no_improvement",
+          "type_desc": "int | None",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "tuple[float, int, bool]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "tuple[float, int, bool]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "dictionary_learning_minibatch_component_count", "target": "dictionary_learning_minibatch_dictionary_change_converged", "kind": "parameter_input"},
-    {"source": "dictionary_learning_minibatch_batch_size", "target": "dictionary_learning_minibatch_stats_decay", "kind": "parameter_input"},
-    {"source": "dictionary_learning_minibatch_stats_decay", "target": "dictionary_learning_minibatch_inner_stats", "kind": "decay_factor"},
-    {"source": "dictionary_learning_minibatch_batch_size", "target": "dictionary_learning_minibatch_monitoring_started", "kind": "parameter_input"},
-    {"source": "dictionary_learning_minibatch_batch_size", "target": "dictionary_learning_minibatch_ewa_cost", "kind": "parameter_input"},
-    {"source": "dictionary_learning_minibatch_ewa_cost", "target": "dictionary_learning_minibatch_improvement_state", "kind": "convergence_input"}
+    {
+      "source": "dictionary_learning_minibatch_component_count",
+      "target": "dictionary_learning_minibatch_dictionary_change_converged",
+      "kind": "parameter_input"
+    },
+    {
+      "source": "dictionary_learning_minibatch_batch_size",
+      "target": "dictionary_learning_minibatch_stats_decay",
+      "kind": "parameter_input"
+    },
+    {
+      "source": "dictionary_learning_minibatch_stats_decay",
+      "target": "dictionary_learning_minibatch_inner_stats",
+      "kind": "decay_factor"
+    },
+    {
+      "source": "dictionary_learning_minibatch_batch_size",
+      "target": "dictionary_learning_minibatch_monitoring_started",
+      "kind": "parameter_input"
+    },
+    {
+      "source": "dictionary_learning_minibatch_batch_size",
+      "target": "dictionary_learning_minibatch_ewa_cost",
+      "kind": "parameter_input"
+    },
+    {
+      "source": "dictionary_learning_minibatch_ewa_cost",
+      "target": "dictionary_learning_minibatch_improvement_state",
+      "kind": "convergence_input"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

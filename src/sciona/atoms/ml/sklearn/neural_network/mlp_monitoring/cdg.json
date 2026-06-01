@@ -23,9 +23,22 @@
       "type_signature": "(early_stopping: bool) -> tuple[float | None, float | None, int, tuple[float, ...] | None]",
       "depth": 1,
       "inputs": [
-        {"name": "early_stopping", "type_desc": "bool", "required": true}
+        {
+          "name": "early_stopping",
+          "type_desc": "bool",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "tuple[float | None, float | None, int, tuple[float, ...] | None]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "tuple[float | None, float | None, int, tuple[float, ...] | None]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "mlp_monitor_best_loss",
@@ -36,10 +49,27 @@
       "type_signature": "(last_loss: float, best_loss: float) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "last_loss", "type_desc": "float", "required": true},
-        {"name": "best_loss", "type_desc": "float", "required": true}
+        {
+          "name": "last_loss",
+          "type_desc": "float",
+          "required": true
+        },
+        {
+          "name": "best_loss",
+          "type_desc": "float",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "float"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "mlp_monitor_loss_no_improvement_count",
@@ -50,12 +80,37 @@
       "type_signature": "(last_loss: float, best_loss: float, tol: float, no_improvement_count: int) -> int",
       "depth": 1,
       "inputs": [
-        {"name": "last_loss", "type_desc": "float", "required": true},
-        {"name": "best_loss", "type_desc": "float", "required": true},
-        {"name": "tol", "type_desc": "float", "required": true},
-        {"name": "no_improvement_count", "type_desc": "int", "required": true}
+        {
+          "name": "last_loss",
+          "type_desc": "float",
+          "required": true
+        },
+        {
+          "name": "best_loss",
+          "type_desc": "float",
+          "required": true
+        },
+        {
+          "name": "tol",
+          "type_desc": "float",
+          "required": true
+        },
+        {
+          "name": "no_improvement_count",
+          "type_desc": "int",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "int"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "mlp_monitor_best_validation_score",
@@ -66,10 +121,27 @@
       "type_signature": "(last_validation_score: float, best_validation_score: float) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "last_validation_score", "type_desc": "float", "required": true},
-        {"name": "best_validation_score", "type_desc": "float", "required": true}
+        {
+          "name": "last_validation_score",
+          "type_desc": "float",
+          "required": true
+        },
+        {
+          "name": "best_validation_score",
+          "type_desc": "float",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "float"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "mlp_monitor_validation_no_improvement_count",
@@ -80,19 +152,60 @@
       "type_signature": "(last_validation_score: float, best_validation_score: float, tol: float, no_improvement_count: int) -> int",
       "depth": 1,
       "inputs": [
-        {"name": "last_validation_score", "type_desc": "float", "required": true},
-        {"name": "best_validation_score", "type_desc": "float", "required": true},
-        {"name": "tol", "type_desc": "float", "required": true},
-        {"name": "no_improvement_count", "type_desc": "int", "required": true}
+        {
+          "name": "last_validation_score",
+          "type_desc": "float",
+          "required": true
+        },
+        {
+          "name": "best_validation_score",
+          "type_desc": "float",
+          "required": true
+        },
+        {
+          "name": "tol",
+          "type_desc": "float",
+          "required": true
+        },
+        {
+          "name": "no_improvement_count",
+          "type_desc": "int",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "int"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "mlp_monitor_defaults", "target": "mlp_monitor_best_loss", "kind": "initial_state"},
-    {"source": "mlp_monitor_defaults", "target": "mlp_monitor_best_validation_score", "kind": "initial_state"},
-    {"source": "mlp_monitor_best_loss", "target": "mlp_monitor_loss_no_improvement_count", "kind": "best_metric_input"},
-    {"source": "mlp_monitor_best_validation_score", "target": "mlp_monitor_validation_no_improvement_count", "kind": "best_metric_input"}
+    {
+      "source": "mlp_monitor_defaults",
+      "target": "mlp_monitor_best_loss",
+      "kind": "initial_state"
+    },
+    {
+      "source": "mlp_monitor_defaults",
+      "target": "mlp_monitor_best_validation_score",
+      "kind": "initial_state"
+    },
+    {
+      "source": "mlp_monitor_best_loss",
+      "target": "mlp_monitor_loss_no_improvement_count",
+      "kind": "best_metric_input"
+    },
+    {
+      "source": "mlp_monitor_best_validation_score",
+      "target": "mlp_monitor_validation_no_improvement_count",
+      "kind": "best_metric_input"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

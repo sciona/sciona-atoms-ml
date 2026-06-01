@@ -24,11 +24,22 @@
       "type_signature": "(prediction: NDArray[np.float64]) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "prediction", "type_desc": "NDArray[np.float64]", "required": true}
+        {
+          "name": "prediction",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "forest_regressor_oob_prediction_block",
@@ -39,11 +50,22 @@
       "type_signature": "(prediction: NDArray[np.float64]) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "prediction", "type_desc": "NDArray[np.float64]", "required": true}
+        {
+          "name": "prediction",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "forest_oob_prediction_totals",
@@ -54,15 +76,42 @@
       "type_signature": "(prediction_blocks: tuple[NDArray[np.float64], ...], unsampled_index_blocks: tuple[NDArray[np.int64], ...], n_samples: int, prediction_width: int, n_outputs: int) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "prediction_blocks", "type_desc": "tuple[NDArray[np.float64], ...]", "required": true},
-        {"name": "unsampled_index_blocks", "type_desc": "tuple[NDArray[np.int64], ...]", "required": true},
-        {"name": "n_samples", "type_desc": "int", "required": true},
-        {"name": "prediction_width", "type_desc": "int", "required": true},
-        {"name": "n_outputs", "type_desc": "int", "required": true}
+        {
+          "name": "prediction_blocks",
+          "type_desc": "tuple[NDArray[np.float64], ...]",
+          "required": true
+        },
+        {
+          "name": "unsampled_index_blocks",
+          "type_desc": "tuple[NDArray[np.int64], ...]",
+          "required": true
+        },
+        {
+          "name": "n_samples",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "prediction_width",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "n_outputs",
+          "type_desc": "int",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "forest_oob_prediction_counts",
@@ -73,13 +122,32 @@
       "type_signature": "(unsampled_index_blocks: tuple[NDArray[np.int64], ...], n_samples: int, n_outputs: int) -> NDArray[np.int64]",
       "depth": 1,
       "inputs": [
-        {"name": "unsampled_index_blocks", "type_desc": "tuple[NDArray[np.int64], ...]", "required": true},
-        {"name": "n_samples", "type_desc": "int", "required": true},
-        {"name": "n_outputs", "type_desc": "int", "required": true}
+        {
+          "name": "unsampled_index_blocks",
+          "type_desc": "tuple[NDArray[np.int64], ...]",
+          "required": true
+        },
+        {
+          "name": "n_samples",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "n_outputs",
+          "type_desc": "int",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.int64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.int64]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "forest_oob_uncovered_mask",
@@ -90,11 +158,22 @@
       "type_signature": "(prediction_counts: NDArray[np.int64]) -> NDArray[np.bool_]",
       "depth": 1,
       "inputs": [
-        {"name": "prediction_counts", "type_desc": "NDArray[np.int64]", "required": true}
+        {
+          "name": "prediction_counts",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.bool_]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.bool_]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "forest_oob_average_predictions",
@@ -105,20 +184,55 @@
       "type_signature": "(prediction_totals: NDArray[np.float64], prediction_counts: NDArray[np.int64]) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "prediction_totals", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "prediction_counts", "type_desc": "NDArray[np.int64]", "required": true}
+        {
+          "name": "prediction_totals",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "prediction_counts",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [
-    {"source": "forest_classifier_oob_prediction_block", "target": "forest_oob_prediction_totals", "kind": "classifier_block_to_totals"},
-    {"source": "forest_regressor_oob_prediction_block", "target": "forest_oob_prediction_totals", "kind": "regressor_block_to_totals"},
-    {"source": "forest_oob_prediction_counts", "target": "forest_oob_uncovered_mask", "kind": "zero_coverage_mask_from_counts"},
-    {"source": "forest_oob_prediction_totals", "target": "forest_oob_average_predictions", "kind": "totals_into_average"},
-    {"source": "forest_oob_prediction_counts", "target": "forest_oob_average_predictions", "kind": "counts_into_average"}
+    {
+      "source": "forest_classifier_oob_prediction_block",
+      "target": "forest_oob_prediction_totals",
+      "kind": "classifier_block_to_totals"
+    },
+    {
+      "source": "forest_regressor_oob_prediction_block",
+      "target": "forest_oob_prediction_totals",
+      "kind": "regressor_block_to_totals"
+    },
+    {
+      "source": "forest_oob_prediction_counts",
+      "target": "forest_oob_uncovered_mask",
+      "kind": "zero_coverage_mask_from_counts"
+    },
+    {
+      "source": "forest_oob_prediction_totals",
+      "target": "forest_oob_average_predictions",
+      "kind": "totals_into_average"
+    },
+    {
+      "source": "forest_oob_prediction_counts",
+      "target": "forest_oob_average_predictions",
+      "kind": "counts_into_average"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

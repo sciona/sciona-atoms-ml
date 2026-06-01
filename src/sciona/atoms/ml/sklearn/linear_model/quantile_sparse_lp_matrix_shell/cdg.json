@@ -21,12 +21,27 @@
       "type_signature": "(n_rows: int, dtype: object) -> sparse.csc_matrix",
       "depth": 1,
       "inputs": [
-        {"name": "n_rows", "type_desc": "filtered sample count", "required": true},
-        {"name": "dtype", "type_desc": "input matrix dtype", "required": true}
+        {
+          "name": "n_rows",
+          "type_desc": "filtered sample count",
+          "required": true
+        },
+        {
+          "name": "dtype",
+          "type_desc": "input matrix dtype",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "CSC identity matrix"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "CSC identity matrix"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "quantile_highs_intercept_column",
@@ -37,12 +52,27 @@
       "type_signature": "(n_rows: int, dtype: object) -> sparse.csc_matrix",
       "depth": 1,
       "inputs": [
-        {"name": "n_rows", "type_desc": "filtered sample count", "required": true},
-        {"name": "dtype", "type_desc": "input matrix dtype", "required": true}
+        {
+          "name": "n_rows",
+          "type_desc": "filtered sample count",
+          "required": true
+        },
+        {
+          "name": "dtype",
+          "type_desc": "input matrix dtype",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "CSC ones column"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "CSC ones column"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "quantile_highs_sparse_a_eq",
@@ -53,17 +83,40 @@
       "type_signature": "(X: object, fit_intercept: bool) -> sparse.csc_matrix",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "filtered dense or sparse feature matrix", "required": true},
-        {"name": "fit_intercept", "type_desc": "intercept branch selector", "required": true}
+        {
+          "name": "X",
+          "type_desc": "filtered dense or sparse feature matrix",
+          "required": true
+        },
+        {
+          "name": "fit_intercept",
+          "type_desc": "intercept branch selector",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "CSC equality-constraint matrix"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "CSC equality-constraint matrix"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "quantile_highs_sparse_identity", "target": "quantile_highs_sparse_a_eq", "kind": "matrix_block"},
-    {"source": "quantile_highs_intercept_column", "target": "quantile_highs_sparse_a_eq", "kind": "matrix_block"}
+    {
+      "source": "quantile_highs_sparse_identity",
+      "target": "quantile_highs_sparse_a_eq",
+      "kind": "matrix_block"
+    },
+    {
+      "source": "quantile_highs_intercept_column",
+      "target": "quantile_highs_sparse_a_eq",
+      "kind": "matrix_block"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

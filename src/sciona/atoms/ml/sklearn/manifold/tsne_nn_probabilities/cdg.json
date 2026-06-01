@@ -10,8 +10,23 @@
       "status": "atomic",
       "concept_type": "sparse_preprocessing",
       "description": "Extract the per-sample nearest-neighbor distance rows from CSR storage before sklearn's binary perplexity search.",
-      "inputs": [{"name": "distances", "type_desc": "csr_matrix", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+      "inputs": [
+        {
+          "name": "distances",
+          "type_desc": "csr_matrix",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "ndarray"
+        }
+      ],
+      "time_complexity": "O(N^2 * d)",
+      "space_complexity": "O(N^2)",
+      "complexity_reasoning": "Manifold learning, biclustering or spectral decomposition constructs similarity/projection matrices, taking quadratic time/space in samples.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "tsne_nn_conditional_probability_matrix",
@@ -20,12 +35,37 @@
       "concept_type": "sparse_matrix_construction",
       "description": "Rebuild sklearn's CSR conditional-probability matrix from perplexity-search outputs and the nearest-neighbor CSR structure.",
       "inputs": [
-        {"name": "conditional_probabilities", "type_desc": "ndarray", "required": true},
-        {"name": "indices", "type_desc": "ndarray", "required": true},
-        {"name": "indptr", "type_desc": "ndarray", "required": true},
-        {"name": "n_samples", "type_desc": "int", "required": true}
+        {
+          "name": "conditional_probabilities",
+          "type_desc": "ndarray",
+          "required": true
+        },
+        {
+          "name": "indices",
+          "type_desc": "ndarray",
+          "required": true
+        },
+        {
+          "name": "indptr",
+          "type_desc": "ndarray",
+          "required": true
+        },
+        {
+          "name": "n_samples",
+          "type_desc": "int",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "csr_matrix"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "csr_matrix"
+        }
+      ],
+      "time_complexity": "O(N^2 * d)",
+      "space_complexity": "O(N^2)",
+      "complexity_reasoning": "Manifold learning, biclustering or spectral decomposition constructs similarity/projection matrices, taking quadratic time/space in samples.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "tsne_nn_joint_probabilities",
@@ -33,12 +73,35 @@
       "status": "atomic",
       "concept_type": "sparse_normalization",
       "description": "Symmetrize and normalize sparse nearest-neighbor conditional probabilities into t-SNE joint probabilities.",
-      "inputs": [{"name": "conditional_probability_matrix", "type_desc": "csr_matrix", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "csr_matrix"}]
+      "inputs": [
+        {
+          "name": "conditional_probability_matrix",
+          "type_desc": "csr_matrix",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "csr_matrix"
+        }
+      ],
+      "time_complexity": "O(N^2 * d)",
+      "space_complexity": "O(N^2)",
+      "complexity_reasoning": "Manifold learning, biclustering or spectral decomposition constructs similarity/projection matrices, taking quadratic time/space in samples.",
+      "complexity_confidence": 90
     }
   ],
   "edges": [
-    {"source": "tsne_nn_distance_blocks", "target": "tsne_nn_conditional_probability_matrix", "kind": "perplexity_search_input"},
-    {"source": "tsne_nn_conditional_probability_matrix", "target": "tsne_nn_joint_probabilities", "kind": "symmetrize_and_normalize"}
+    {
+      "source": "tsne_nn_distance_blocks",
+      "target": "tsne_nn_conditional_probability_matrix",
+      "kind": "perplexity_search_input"
+    },
+    {
+      "source": "tsne_nn_conditional_probability_matrix",
+      "target": "tsne_nn_joint_probabilities",
+      "kind": "symmetrize_and_normalize"
+    }
   ]
 }

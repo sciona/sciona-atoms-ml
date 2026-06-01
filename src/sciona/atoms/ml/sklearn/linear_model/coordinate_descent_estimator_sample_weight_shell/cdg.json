@@ -25,11 +25,22 @@
       "type_signature": "(sample_weight: object) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "sample_weight", "type_desc": "input sample_weight payload", "required": true}
+        {
+          "name": "sample_weight",
+          "type_desc": "input sample_weight payload",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "None for scalar numbers, otherwise the same payload"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "None for scalar numbers, otherwise the same payload"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_estimator_sample_weight_check_required",
@@ -40,12 +51,27 @@
       "type_signature": "(sample_weight: object, check_input: bool) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "sample_weight", "type_desc": "sample_weight after scalar normalization", "required": true},
-        {"name": "check_input", "type_desc": "whether ElasticNet.fit validates inputs", "required": true}
+        {
+          "name": "sample_weight",
+          "type_desc": "sample_weight after scalar normalization",
+          "required": true
+        },
+        {
+          "name": "check_input",
+          "type_desc": "whether ElasticNet.fit validates inputs",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "true only when sample_weight is present and check_input is true"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "true only when sample_weight is present and check_input is true"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_estimator_check_sample_weight_args",
@@ -56,12 +82,27 @@
       "type_signature": "(sample_weight: object, X: object) -> tuple[object, object]",
       "depth": 1,
       "inputs": [
-        {"name": "sample_weight", "type_desc": "sample-weight payload before validation", "required": true},
-        {"name": "X", "type_desc": "validated training data", "required": true}
+        {
+          "name": "sample_weight",
+          "type_desc": "sample-weight payload before validation",
+          "required": true
+        },
+        {
+          "name": "X",
+          "type_desc": "validated training data",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "two-tuple preserving sample_weight and X identity"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "two-tuple preserving sample_weight and X identity"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_estimator_check_sample_weight_kwargs",
@@ -72,11 +113,22 @@
       "type_signature": "(x_dtype: object) -> dict[str, object]",
       "depth": 1,
       "inputs": [
-        {"name": "x_dtype", "type_desc": "validated X dtype", "required": true}
+        {
+          "name": "x_dtype",
+          "type_desc": "validated X dtype",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "kwargs dict with dtype"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "kwargs dict with dtype"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_estimator_checked_sample_weight",
@@ -87,11 +139,22 @@
       "type_signature": "(checked_sample_weight: object) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "checked_sample_weight", "type_desc": "sample_weight returned by _check_sample_weight", "required": true}
+        {
+          "name": "checked_sample_weight",
+          "type_desc": "sample_weight returned by _check_sample_weight",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "same checked sample_weight object"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "same checked sample_weight object"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_estimator_sample_weight_rescale_factor",
@@ -102,12 +165,27 @@
       "type_signature": "(sample_weight: object, n_samples: int) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "sample_weight", "type_desc": "checked sample-weight vector", "required": true},
-        {"name": "n_samples", "type_desc": "training sample count", "required": true}
+        {
+          "name": "sample_weight",
+          "type_desc": "checked sample-weight vector",
+          "required": true
+        },
+        {
+          "name": "n_samples",
+          "type_desc": "training sample count",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "positive rescale factor"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "positive rescale factor"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_estimator_sample_weight_rescaled",
@@ -118,21 +196,60 @@
       "type_signature": "(sample_weight: NDArray[np.floating], n_samples: int) -> NDArray[np.floating]",
       "depth": 1,
       "inputs": [
-        {"name": "sample_weight", "type_desc": "checked sample-weight vector", "required": true},
-        {"name": "n_samples", "type_desc": "training sample count", "required": true}
+        {
+          "name": "sample_weight",
+          "type_desc": "checked sample-weight vector",
+          "required": true
+        },
+        {
+          "name": "n_samples",
+          "type_desc": "training sample count",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "sample-weight vector whose sum equals n_samples"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "sample-weight vector whose sum equals n_samples"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "cd_estimator_sample_weight_after_scalar_guard", "target": "cd_estimator_sample_weight_check_required", "kind": "branch_context"},
-    {"source": "cd_estimator_sample_weight_check_required", "target": "cd_estimator_check_sample_weight_args", "kind": "callback_context"},
-    {"source": "cd_estimator_check_sample_weight_args", "target": "cd_estimator_checked_sample_weight", "kind": "callback_context"},
-    {"source": "cd_estimator_check_sample_weight_kwargs", "target": "cd_estimator_checked_sample_weight", "kind": "callback_context"},
-    {"source": "cd_estimator_checked_sample_weight", "target": "cd_estimator_sample_weight_rescale_factor", "kind": "numeric_context"},
-    {"source": "cd_estimator_sample_weight_rescale_factor", "target": "cd_estimator_sample_weight_rescaled", "kind": "numeric_context"}
+    {
+      "source": "cd_estimator_sample_weight_after_scalar_guard",
+      "target": "cd_estimator_sample_weight_check_required",
+      "kind": "branch_context"
+    },
+    {
+      "source": "cd_estimator_sample_weight_check_required",
+      "target": "cd_estimator_check_sample_weight_args",
+      "kind": "callback_context"
+    },
+    {
+      "source": "cd_estimator_check_sample_weight_args",
+      "target": "cd_estimator_checked_sample_weight",
+      "kind": "callback_context"
+    },
+    {
+      "source": "cd_estimator_check_sample_weight_kwargs",
+      "target": "cd_estimator_checked_sample_weight",
+      "kind": "callback_context"
+    },
+    {
+      "source": "cd_estimator_checked_sample_weight",
+      "target": "cd_estimator_sample_weight_rescale_factor",
+      "kind": "numeric_context"
+    },
+    {
+      "source": "cd_estimator_sample_weight_rescale_factor",
+      "target": "cd_estimator_sample_weight_rescaled",
+      "kind": "numeric_context"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

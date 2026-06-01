@@ -12,12 +12,27 @@
       "concept_type": "preflight_guard",
       "type_signature": "(fit_algorithm: str, positive_code: bool) -> bool",
       "inputs": [
-        {"name": "fit_algorithm", "type_desc": "str", "required": true},
-        {"name": "positive_code", "type_desc": "bool", "required": true}
+        {
+          "name": "fit_algorithm",
+          "type_desc": "str",
+          "required": true
+        },
+        {
+          "name": "positive_code",
+          "type_desc": "bool",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "dictionary_learning_fit_transform_method",
@@ -28,11 +43,22 @@
       "concept_type": "preflight_resolution",
       "type_signature": "(fit_algorithm: str) -> str",
       "inputs": [
-        {"name": "fit_algorithm", "type_desc": "str", "required": true}
+        {
+          "name": "fit_algorithm",
+          "type_desc": "str",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "str"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "str"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "dictionary_learning_fit_transform_validated_data",
@@ -43,11 +69,22 @@
       "concept_type": "validation_shell",
       "type_signature": "(X: NDArray[np.float64]) -> NDArray[np.float64]",
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "dictionary_learning_fit_transform_n_components",
@@ -58,16 +95,39 @@
       "concept_type": "preflight_resolution",
       "type_signature": "(X: NDArray[np.float64], n_components: int | None) -> int",
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "n_components", "type_desc": "int | None", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "n_components",
+          "type_desc": "int | None",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "int"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [
-    {"source": "dictionary_learning_fit_transform_require_positive_coding_supported", "target": "dictionary_learning_fit_transform_method", "kind": "method_guard"},
-    {"source": "dictionary_learning_fit_transform_validated_data", "target": "dictionary_learning_fit_transform_n_components", "kind": "validated_shape_context"}
+    {
+      "source": "dictionary_learning_fit_transform_require_positive_coding_supported",
+      "target": "dictionary_learning_fit_transform_method",
+      "kind": "method_guard"
+    },
+    {
+      "source": "dictionary_learning_fit_transform_validated_data",
+      "target": "dictionary_learning_fit_transform_n_components",
+      "kind": "validated_shape_context"
+    }
   ]
 }

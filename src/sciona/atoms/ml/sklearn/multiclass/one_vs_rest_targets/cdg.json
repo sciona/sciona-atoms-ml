@@ -22,8 +22,23 @@
       "status": "atomic",
       "type_signature": "(y: NDArray[np.float64]) -> NDArray[np.float64]",
       "depth": 1,
-      "inputs": [{"name": "y", "type_desc": "NDArray[np.float64]", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+      "inputs": [
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "one_vs_rest_fit_target_indicator_csc",
@@ -33,8 +48,23 @@
       "status": "atomic",
       "type_signature": "(y: NDArray[np.float64]) -> scipy.sparse.csc_matrix",
       "depth": 1,
-      "inputs": [{"name": "y", "type_desc": "NDArray[np.float64]", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "scipy.sparse.csc_matrix"}]
+      "inputs": [
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "scipy.sparse.csc_matrix"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "one_vs_rest_partial_fit_unknown_classes",
@@ -45,10 +75,27 @@
       "type_signature": "(y: NDArray[np.float64], classes: NDArray[np.float64]) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "classes", "type_desc": "NDArray[np.float64]", "required": true}
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "classes",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "one_vs_rest_partial_fit_target_indicator_csc",
@@ -59,10 +106,27 @@
       "type_signature": "(y: NDArray[np.float64], classes: NDArray[np.float64]) -> scipy.sparse.csc_matrix",
       "depth": 1,
       "inputs": [
-        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "classes", "type_desc": "NDArray[np.float64]", "required": true}
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "classes",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "scipy.sparse.csc_matrix"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "scipy.sparse.csc_matrix"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "one_vs_rest_target_columns_dense",
@@ -72,14 +136,41 @@
       "status": "atomic",
       "type_signature": "(indicator: scipy.sparse.csc_matrix) -> NDArray[np.float64]",
       "depth": 1,
-      "inputs": [{"name": "indicator", "type_desc": "scipy.sparse.csc_matrix", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+      "inputs": [
+        {
+          "name": "indicator",
+          "type_desc": "scipy.sparse.csc_matrix",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "one_vs_rest_fit_classes", "target": "one_vs_rest_partial_fit_unknown_classes", "kind": "known_class_vector"},
-    {"source": "one_vs_rest_fit_target_indicator_csc", "target": "one_vs_rest_target_columns_dense", "kind": "indicator_to_worker_columns"},
-    {"source": "one_vs_rest_partial_fit_target_indicator_csc", "target": "one_vs_rest_target_columns_dense", "kind": "indicator_to_worker_columns"}
+    {
+      "source": "one_vs_rest_fit_classes",
+      "target": "one_vs_rest_partial_fit_unknown_classes",
+      "kind": "known_class_vector"
+    },
+    {
+      "source": "one_vs_rest_fit_target_indicator_csc",
+      "target": "one_vs_rest_target_columns_dense",
+      "kind": "indicator_to_worker_columns"
+    },
+    {
+      "source": "one_vs_rest_partial_fit_target_indicator_csc",
+      "target": "one_vs_rest_target_columns_dense",
+      "kind": "indicator_to_worker_columns"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

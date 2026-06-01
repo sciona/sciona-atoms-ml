@@ -20,10 +20,27 @@
       "type_signature": "(X: NDArray[np.float64], method: str) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "method", "type_desc": "str", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "method",
+          "type_desc": "str",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d^2)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Dimensionality reduction or sparse coding decomposes high-dimensional features, taking quadratic time in features and linear in samples.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "bicluster_sparse_normalized_data",
@@ -34,10 +51,27 @@
       "type_signature": "(X: scipy.sparse.spmatrix, method: str) -> scipy.sparse.spmatrix",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "scipy.sparse.spmatrix", "required": true},
-        {"name": "method", "type_desc": "str", "required": true}
+        {
+          "name": "X",
+          "type_desc": "scipy.sparse.spmatrix",
+          "required": true
+        },
+        {
+          "name": "method",
+          "type_desc": "str",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "scipy.sparse.spmatrix"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "scipy.sparse.spmatrix"
+        }
+      ],
+      "time_complexity": "O(N * d^2)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Dimensionality reduction or sparse coding decomposes high-dimensional features, taking quadratic time in features and linear in samples.",
+      "complexity_confidence": 90
     }
   ],
   "edges": [],

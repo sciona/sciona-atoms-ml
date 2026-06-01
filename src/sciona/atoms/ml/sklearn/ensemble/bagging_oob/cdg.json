@@ -23,15 +23,42 @@
       "type_signature": "(probability_blocks: tuple[NDArray[np.float64], ...], class_index_blocks: tuple[NDArray[np.int64], ...], sample_index_blocks: tuple[NDArray[np.int64], ...], n_samples: int, n_classes: int) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "probability_blocks", "type_desc": "tuple[NDArray[np.float64], ...]", "required": true},
-        {"name": "class_index_blocks", "type_desc": "tuple[NDArray[np.int64], ...]", "required": true},
-        {"name": "sample_index_blocks", "type_desc": "tuple[NDArray[np.int64], ...]", "required": true},
-        {"name": "n_samples", "type_desc": "int", "required": true},
-        {"name": "n_classes", "type_desc": "int", "required": true}
+        {
+          "name": "probability_blocks",
+          "type_desc": "tuple[NDArray[np.float64], ...]",
+          "required": true
+        },
+        {
+          "name": "class_index_blocks",
+          "type_desc": "tuple[NDArray[np.int64], ...]",
+          "required": true
+        },
+        {
+          "name": "sample_index_blocks",
+          "type_desc": "tuple[NDArray[np.int64], ...]",
+          "required": true
+        },
+        {
+          "name": "n_samples",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "n_classes",
+          "type_desc": "int",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "bagging_classifier_oob_vote_totals",
@@ -42,14 +69,37 @@
       "type_signature": "(predicted_label_blocks: tuple[NDArray[np.int64], ...], sample_index_blocks: tuple[NDArray[np.int64], ...], n_samples: int, n_classes: int) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "predicted_label_blocks", "type_desc": "tuple[NDArray[np.int64], ...]", "required": true},
-        {"name": "sample_index_blocks", "type_desc": "tuple[NDArray[np.int64], ...]", "required": true},
-        {"name": "n_samples", "type_desc": "int", "required": true},
-        {"name": "n_classes", "type_desc": "int", "required": true}
+        {
+          "name": "predicted_label_blocks",
+          "type_desc": "tuple[NDArray[np.int64], ...]",
+          "required": true
+        },
+        {
+          "name": "sample_index_blocks",
+          "type_desc": "tuple[NDArray[np.int64], ...]",
+          "required": true
+        },
+        {
+          "name": "n_samples",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "n_classes",
+          "type_desc": "int",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "bagging_classifier_oob_decision_function",
@@ -60,11 +110,22 @@
       "type_signature": "(prediction_totals: NDArray[np.float64]) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "prediction_totals", "type_desc": "NDArray[np.float64]", "required": true}
+        {
+          "name": "prediction_totals",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "bagging_classifier_oob_label_indices",
@@ -75,11 +136,22 @@
       "type_signature": "(prediction_totals: NDArray[np.float64]) -> NDArray[np.int64]",
       "depth": 1,
       "inputs": [
-        {"name": "prediction_totals", "type_desc": "NDArray[np.float64]", "required": true}
+        {
+          "name": "prediction_totals",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.int64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.int64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "bagging_regressor_oob_predictions",
@@ -90,20 +162,55 @@
       "type_signature": "(prediction_blocks: tuple[NDArray[np.float64], ...], sample_index_blocks: tuple[NDArray[np.int64], ...], n_samples: int) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "prediction_blocks", "type_desc": "tuple[NDArray[np.float64], ...]", "required": true},
-        {"name": "sample_index_blocks", "type_desc": "tuple[NDArray[np.int64], ...]", "required": true},
-        {"name": "n_samples", "type_desc": "int", "required": true}
+        {
+          "name": "prediction_blocks",
+          "type_desc": "tuple[NDArray[np.float64], ...]",
+          "required": true
+        },
+        {
+          "name": "sample_index_blocks",
+          "type_desc": "tuple[NDArray[np.int64], ...]",
+          "required": true
+        },
+        {
+          "name": "n_samples",
+          "type_desc": "int",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [
-    {"source": "bagging_classifier_oob_probability_totals", "target": "bagging_classifier_oob_decision_function", "kind": "oob_decision_from_probability_totals"},
-    {"source": "bagging_classifier_oob_vote_totals", "target": "bagging_classifier_oob_decision_function", "kind": "oob_decision_from_vote_totals"},
-    {"source": "bagging_classifier_oob_probability_totals", "target": "bagging_classifier_oob_label_indices", "kind": "oob_argmax_from_probability_totals"},
-    {"source": "bagging_classifier_oob_vote_totals", "target": "bagging_classifier_oob_label_indices", "kind": "oob_argmax_from_vote_totals"}
+    {
+      "source": "bagging_classifier_oob_probability_totals",
+      "target": "bagging_classifier_oob_decision_function",
+      "kind": "oob_decision_from_probability_totals"
+    },
+    {
+      "source": "bagging_classifier_oob_vote_totals",
+      "target": "bagging_classifier_oob_decision_function",
+      "kind": "oob_decision_from_vote_totals"
+    },
+    {
+      "source": "bagging_classifier_oob_probability_totals",
+      "target": "bagging_classifier_oob_label_indices",
+      "kind": "oob_argmax_from_probability_totals"
+    },
+    {
+      "source": "bagging_classifier_oob_vote_totals",
+      "target": "bagging_classifier_oob_label_indices",
+      "kind": "oob_argmax_from_vote_totals"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

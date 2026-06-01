@@ -21,11 +21,22 @@
       "type_signature": "(kernel: Kernel | None = None) -> Kernel",
       "depth": 1,
       "inputs": [
-        {"name": "kernel", "type_desc": "Kernel | None", "required": false}
+        {
+          "name": "kernel",
+          "type_desc": "Kernel | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "Kernel"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "Kernel"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "gp_predict_prior_kernel",
@@ -36,11 +47,22 @@
       "type_signature": "(kernel: Kernel | None = None) -> Kernel",
       "depth": 1,
       "inputs": [
-        {"name": "kernel", "type_desc": "Kernel | None", "required": false}
+        {
+          "name": "kernel",
+          "type_desc": "Kernel | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "Kernel"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "Kernel"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "gp_regression_requires_fit_tag",
@@ -51,15 +73,30 @@
       "type_signature": "(parent_requires_fit: bool) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "parent_requires_fit", "type_desc": "bool", "required": true}
+        {
+          "name": "parent_requires_fit",
+          "type_desc": "bool",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "gp_fit_kernel", "target": "gp_predict_prior_kernel", "kind": "shared_kernel_surface"}
+    {
+      "source": "gp_fit_kernel",
+      "target": "gp_predict_prior_kernel",
+      "kind": "shared_kernel_surface"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

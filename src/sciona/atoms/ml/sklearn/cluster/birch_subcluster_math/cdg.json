@@ -10,8 +10,23 @@
       "status": "atomic",
       "concept_type": "statistics",
       "description": "Construct singleton BIRCH subcluster statistics from one feature vector.",
-      "inputs": [{"name": "linear_sum", "type_desc": "ndarray[float64]", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "BirchSubclusterStats"}]
+      "inputs": [
+        {
+          "name": "linear_sum",
+          "type_desc": "ndarray[float64]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "BirchSubclusterStats"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(B * d)",
+      "complexity_reasoning": "BIRCH clustering constructs a clustering feature tree, scaling linearly with sample size N and dimensionality d given branching factor B.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "birch_subcluster_update",
@@ -20,10 +35,27 @@
       "concept_type": "statistics",
       "description": "Accumulate one BIRCH subcluster into another using sklearn's update rule.",
       "inputs": [
-        {"name": "base_state", "type_desc": "BirchSubclusterStats", "required": true},
-        {"name": "added_state", "type_desc": "BirchSubclusterStats", "required": true}
+        {
+          "name": "base_state",
+          "type_desc": "BirchSubclusterStats",
+          "required": true
+        },
+        {
+          "name": "added_state",
+          "type_desc": "BirchSubclusterStats",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "BirchSubclusterStats"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "BirchSubclusterStats"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(B * d)",
+      "complexity_reasoning": "BIRCH clustering constructs a clustering feature tree, scaling linearly with sample size N and dimensionality d given branching factor B.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "birch_subcluster_squared_radius",
@@ -31,8 +63,23 @@
       "status": "atomic",
       "concept_type": "statistics",
       "description": "Compute sklearn's BIRCH squared-radius expression from subcluster statistics.",
-      "inputs": [{"name": "state", "type_desc": "BirchSubclusterStats", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "float"}]
+      "inputs": [
+        {
+          "name": "state",
+          "type_desc": "BirchSubclusterStats",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "birch_subcluster_merge",
@@ -41,11 +88,32 @@
       "concept_type": "thresholded_update",
       "description": "Apply sklearn's thresholded BIRCH subcluster merge and return the merge flag plus resulting statistics.",
       "inputs": [
-        {"name": "base_state", "type_desc": "BirchSubclusterStats", "required": true},
-        {"name": "nominee_state", "type_desc": "BirchSubclusterStats", "required": true},
-        {"name": "threshold", "type_desc": "float", "required": true}
+        {
+          "name": "base_state",
+          "type_desc": "BirchSubclusterStats",
+          "required": true
+        },
+        {
+          "name": "nominee_state",
+          "type_desc": "BirchSubclusterStats",
+          "required": true
+        },
+        {
+          "name": "threshold",
+          "type_desc": "float",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "tuple[bool, BirchSubclusterStats]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "tuple[bool, BirchSubclusterStats]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(B * d)",
+      "complexity_reasoning": "BIRCH clustering constructs a clustering feature tree, scaling linearly with sample size N and dimensionality d given branching factor B.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "birch_subcluster_radius",
@@ -53,14 +121,45 @@
       "status": "atomic",
       "concept_type": "statistics",
       "description": "Compute sklearn's nonnegative BIRCH subcluster radius property from subcluster statistics.",
-      "inputs": [{"name": "state", "type_desc": "BirchSubclusterStats", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "float"}]
+      "inputs": [
+        {
+          "name": "state",
+          "type_desc": "BirchSubclusterStats",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "birch_subcluster_singleton", "target": "birch_subcluster_update", "kind": "state_source"},
-    {"source": "birch_subcluster_update", "target": "birch_subcluster_squared_radius", "kind": "derived_statistic"},
-    {"source": "birch_subcluster_squared_radius", "target": "birch_subcluster_merge", "kind": "threshold_check"},
-    {"source": "birch_subcluster_squared_radius", "target": "birch_subcluster_radius", "kind": "derived_statistic"}
+    {
+      "source": "birch_subcluster_singleton",
+      "target": "birch_subcluster_update",
+      "kind": "state_source"
+    },
+    {
+      "source": "birch_subcluster_update",
+      "target": "birch_subcluster_squared_radius",
+      "kind": "derived_statistic"
+    },
+    {
+      "source": "birch_subcluster_squared_radius",
+      "target": "birch_subcluster_merge",
+      "kind": "threshold_check"
+    },
+    {
+      "source": "birch_subcluster_squared_radius",
+      "target": "birch_subcluster_radius",
+      "kind": "derived_statistic"
+    }
   ]
 }

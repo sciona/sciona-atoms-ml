@@ -27,11 +27,22 @@
       "type_signature": "(selection: object) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "selection", "type_desc": "candidate coordinate-selection mode", "required": true}
+        {
+          "name": "selection",
+          "type_desc": "candidate coordinate-selection mode",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether selection is outside {'random', 'cyclic'}"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether selection is outside {'random', 'cyclic'}"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_enet_path_selection_error_message",
@@ -42,11 +53,22 @@
       "type_signature": "(selection: object) -> str",
       "depth": 1,
       "inputs": [
-        {"name": "selection", "type_desc": "candidate coordinate-selection mode", "required": true}
+        {
+          "name": "selection",
+          "type_desc": "candidate coordinate-selection mode",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "formatted invalid-selection error message"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "formatted invalid-selection error message"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_enet_path_model_coef",
@@ -57,11 +79,22 @@
       "type_signature": "(model: tuple[object, object, object, object]) -> NDArray[np.generic]",
       "depth": 1,
       "inputs": [
-        {"name": "model", "type_desc": "four-item solver result tuple", "required": true}
+        {
+          "name": "model",
+          "type_desc": "four-item solver result tuple",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "coefficient array from model[0]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "coefficient array from model[0]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_enet_path_scaled_dual_gap",
@@ -72,12 +105,27 @@
       "type_signature": "(dual_gap: float, n_samples: int) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "dual_gap", "type_desc": "finite solver dual gap", "required": true},
-        {"name": "n_samples", "type_desc": "positive sample count", "required": true}
+        {
+          "name": "dual_gap",
+          "type_desc": "finite solver dual gap",
+          "required": true
+        },
+        {
+          "name": "n_samples",
+          "type_desc": "positive sample count",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "finite scaled dual gap"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "finite scaled dual gap"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_enet_path_model_iteration_count",
@@ -88,11 +136,22 @@
       "type_signature": "(model: tuple[object, object, object, object]) -> int",
       "depth": 1,
       "inputs": [
-        {"name": "model", "type_desc": "four-item solver result tuple", "required": true}
+        {
+          "name": "model",
+          "type_desc": "four-item solver result tuple",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "positive iteration count from model[3]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "positive iteration count from model[3]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_enet_path_verbose_use_tuple_print",
@@ -103,11 +162,22 @@
       "type_signature": "(verbose: bool | int) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "verbose", "type_desc": "verbosity flag or level", "required": true}
+        {
+          "name": "verbose",
+          "type_desc": "verbosity flag or level",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether verbose > 2"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether verbose > 2"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_enet_path_verbose_use_progress_print",
@@ -118,11 +188,22 @@
       "type_signature": "(verbose: bool | int) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "verbose", "type_desc": "verbosity flag or level", "required": true}
+        {
+          "name": "verbose",
+          "type_desc": "verbosity flag or level",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether verbose > 1"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether verbose > 1"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_enet_path_verbose_use_stderr_dot",
@@ -133,11 +214,22 @@
       "type_signature": "(verbose: bool | int) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "verbose", "type_desc": "verbosity flag or level", "required": true}
+        {
+          "name": "verbose",
+          "type_desc": "verbosity flag or level",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether the stderr-dot branch is taken"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether the stderr-dot branch is taken"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_enet_path_verbose_progress_message",
@@ -148,20 +240,55 @@
       "type_signature": "(index: int, alpha_count: int) -> str",
       "depth": 1,
       "inputs": [
-        {"name": "index", "type_desc": "nonnegative loop index", "required": true},
-        {"name": "alpha_count", "type_desc": "positive alpha count", "required": true}
+        {
+          "name": "index",
+          "type_desc": "nonnegative loop index",
+          "required": true
+        },
+        {
+          "name": "alpha_count",
+          "type_desc": "positive alpha count",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "formatted progress message"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "formatted progress message"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "cd_enet_path_selection_guard_required", "target": "cd_enet_path_selection_error_message", "kind": "guard_message"},
-    {"source": "cd_enet_path_model_coef", "target": "cd_enet_path_scaled_dual_gap", "kind": "shared_model_tail"},
-    {"source": "cd_enet_path_model_coef", "target": "cd_enet_path_model_iteration_count", "kind": "shared_model_tail"},
-    {"source": "cd_enet_path_verbose_use_progress_print", "target": "cd_enet_path_verbose_progress_message", "kind": "message_gate"},
-    {"source": "cd_enet_path_verbose_use_tuple_print", "target": "cd_enet_path_verbose_use_stderr_dot", "kind": "verbose_order"}
+    {
+      "source": "cd_enet_path_selection_guard_required",
+      "target": "cd_enet_path_selection_error_message",
+      "kind": "guard_message"
+    },
+    {
+      "source": "cd_enet_path_model_coef",
+      "target": "cd_enet_path_scaled_dual_gap",
+      "kind": "shared_model_tail"
+    },
+    {
+      "source": "cd_enet_path_model_coef",
+      "target": "cd_enet_path_model_iteration_count",
+      "kind": "shared_model_tail"
+    },
+    {
+      "source": "cd_enet_path_verbose_use_progress_print",
+      "target": "cd_enet_path_verbose_progress_message",
+      "kind": "message_gate"
+    },
+    {
+      "source": "cd_enet_path_verbose_use_tuple_print",
+      "target": "cd_enet_path_verbose_use_stderr_dot",
+      "kind": "verbose_order"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

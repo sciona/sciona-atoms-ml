@@ -86,7 +86,11 @@
           "name": "result",
           "type_desc": "tuple[NDArray[np.float64], NDArray[np.float64]]"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "gaussian_nb_fit",
@@ -128,7 +132,11 @@
           "name": "result",
           "type_desc": "GaussianNBState"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "gaussian_nb_joint_log_likelihood",
@@ -155,7 +163,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64]"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "gaussian_nb_predict_log_proba",
@@ -182,7 +194,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "gaussian_nb_predict_proba",
@@ -209,7 +225,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "gaussian_nb_predict",
@@ -236,7 +256,11 @@
           "name": "result",
           "type_desc": "NDArray[np.int64]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "multinomial_nb_count",
@@ -268,7 +292,11 @@
           "name": "result",
           "type_desc": "tuple[NDArray[np.int64], NDArray[np.float64], NDArray[np.float64]]"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "multinomial_nb_feature_log_prob",
@@ -295,7 +323,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "multinomial_nb_class_log_prior",
@@ -327,7 +359,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "multinomial_nb_fit",
@@ -374,7 +410,11 @@
           "name": "result",
           "type_desc": "MultinomialNBState"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "multinomial_nb_joint_log_likelihood",
@@ -401,7 +441,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64]"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "multinomial_nb_predict_log_proba",
@@ -428,7 +472,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "multinomial_nb_predict_proba",
@@ -455,7 +503,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "multinomial_nb_predict",
@@ -482,7 +534,11 @@
           "name": "result",
           "type_desc": "NDArray[np.int64]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "complement_nb_count",
@@ -514,7 +570,11 @@
           "name": "result",
           "type_desc": "tuple[NDArray[np.int64], NDArray[np.float64], NDArray[np.float64], NDArray[np.float64]]"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "complement_nb_feature_log_prob",
@@ -551,7 +611,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "complement_nb_fit",
@@ -603,7 +667,11 @@
           "name": "result",
           "type_desc": "ComplementNBState"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "complement_nb_joint_log_likelihood",
@@ -630,7 +698,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64]"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "complement_nb_predict_log_proba",
@@ -657,7 +729,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "complement_nb_predict_proba",
@@ -684,7 +760,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "complement_nb_predict",
@@ -711,7 +791,11 @@
           "name": "result",
           "type_desc": "NDArray[np.int64]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "bernoulli_nb_binarize",
@@ -738,7 +822,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64]"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "bernoulli_nb_count",
@@ -775,7 +863,11 @@
           "name": "result",
           "type_desc": "tuple[NDArray[np.int64], NDArray[np.float64], NDArray[np.float64]]"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "bernoulli_nb_feature_log_prob",
@@ -807,7 +899,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "bernoulli_nb_fit",
@@ -859,7 +955,11 @@
           "name": "result",
           "type_desc": "BernoulliNBState"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "bernoulli_nb_joint_log_likelihood",
@@ -886,7 +986,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64]"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "bernoulli_nb_predict_log_proba",
@@ -913,7 +1017,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "bernoulli_nb_predict_proba",
@@ -940,7 +1048,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "bernoulli_nb_predict",
@@ -967,7 +1079,11 @@
           "name": "result",
           "type_desc": "NDArray[np.int64]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "categorical_nb_n_categories",
@@ -994,7 +1110,11 @@
           "name": "result",
           "type_desc": "NDArray[np.int64]"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "categorical_nb_count",
@@ -1031,7 +1151,11 @@
           "name": "result",
           "type_desc": "tuple[NDArray[np.int64], NDArray[np.float64], NDArray[np.int64], list[NDArray[np.float64]]]"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "categorical_nb_feature_log_prob",
@@ -1058,7 +1182,11 @@
           "name": "result",
           "type_desc": "list[NDArray[np.float64]]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "categorical_nb_fit",
@@ -1110,7 +1238,11 @@
           "name": "result",
           "type_desc": "CategoricalNBState"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "categorical_nb_joint_log_likelihood",
@@ -1137,7 +1269,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64]"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "categorical_nb_predict_log_proba",
@@ -1164,7 +1300,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "categorical_nb_predict_proba",
@@ -1191,7 +1331,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "categorical_nb_predict",
@@ -1218,7 +1362,11 @@
           "name": "result",
           "type_desc": "NDArray[np.int64]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [

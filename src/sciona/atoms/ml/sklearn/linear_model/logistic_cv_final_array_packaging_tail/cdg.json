@@ -20,8 +20,23 @@
       "status": "atomic",
       "type_signature": "(C_values: object) -> NDArray[np.floating]",
       "depth": 1,
-      "inputs": [{"name": "C_values", "type_desc": "selected C values accumulated during CV loop", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "selected C_ ndarray"}]
+      "inputs": [
+        {
+          "name": "C_values",
+          "type_desc": "selected C values accumulated during CV loop",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "selected C_ ndarray"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "logistic_cv_l1_ratio_array",
@@ -31,8 +46,23 @@
       "status": "atomic",
       "type_signature": "(l1_ratio_values: object) -> NDArray[object]",
       "depth": 1,
-      "inputs": [{"name": "l1_ratio_values", "type_desc": "selected l1-ratio values accumulated during CV loop", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "selected l1_ratio_ ndarray"}]
+      "inputs": [
+        {
+          "name": "l1_ratio_values",
+          "type_desc": "selected l1-ratio values accumulated during CV loop",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "selected l1_ratio_ ndarray"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "logistic_cv_public_l1_ratios_array",
@@ -42,13 +72,36 @@
       "status": "atomic",
       "type_signature": "(l1_ratios: object) -> NDArray[object]",
       "depth": 1,
-      "inputs": [{"name": "l1_ratios", "type_desc": "effective l1-ratio grid, including [None] for non-elastic-net penalties", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "public l1_ratios_ ndarray"}]
+      "inputs": [
+        {
+          "name": "l1_ratios",
+          "type_desc": "effective l1-ratio grid, including [None] for non-elastic-net penalties",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "public l1_ratios_ ndarray"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "logistic_cv_C_array", "target": "logistic_cv_public_l1_ratios_array", "kind": "state_packaging"},
-    {"source": "logistic_cv_l1_ratio_array", "target": "logistic_cv_public_l1_ratios_array", "kind": "state_packaging"}
+    {
+      "source": "logistic_cv_C_array",
+      "target": "logistic_cv_public_l1_ratios_array",
+      "kind": "state_packaging"
+    },
+    {
+      "source": "logistic_cv_l1_ratio_array",
+      "target": "logistic_cv_public_l1_ratios_array",
+      "kind": "state_packaging"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

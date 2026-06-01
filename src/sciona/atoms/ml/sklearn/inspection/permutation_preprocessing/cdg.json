@@ -11,10 +11,27 @@
       "concept_type": "parameter_resolution",
       "description": "Resolve sklearn's effective max_samples count from the public int or float parameter.",
       "inputs": [
-        {"name": "max_samples", "type_desc": "int | float", "required": true},
-        {"name": "n_samples", "type_desc": "int", "required": true}
+        {
+          "name": "max_samples",
+          "type_desc": "int | float",
+          "required": true
+        },
+        {
+          "name": "n_samples",
+          "type_desc": "int",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "int"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "permutation_importance_row_indices",
@@ -23,11 +40,32 @@
       "concept_type": "subsampling",
       "description": "Draw sklearn's permutation-importance row subsample without replacement from a supplied random state seed.",
       "inputs": [
-        {"name": "n_population", "type_desc": "int", "required": true},
-        {"name": "n_samples", "type_desc": "int", "required": true},
-        {"name": "random_state", "type_desc": "int", "required": false}
+        {
+          "name": "n_population",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "n_samples",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int",
+          "required": false
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "ndarray[int64]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "ndarray[int64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "permutation_importance_shuffle_indices",
@@ -36,11 +74,32 @@
       "concept_type": "permutation",
       "description": "Generate one row permutation per repeat for sklearn's in-place feature-column shuffling.",
       "inputs": [
-        {"name": "n_samples", "type_desc": "int", "required": true},
-        {"name": "n_repeats", "type_desc": "int", "required": true},
-        {"name": "random_state", "type_desc": "int", "required": false}
+        {
+          "name": "n_samples",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "n_repeats",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int",
+          "required": false
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "ndarray[int64]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "ndarray[int64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "permutation_importance_dense_permuted_columns",
@@ -49,15 +108,44 @@
       "concept_type": "column_permutation",
       "description": "Apply repeated dense feature-column permutations from supplied shuffle-index states.",
       "inputs": [
-        {"name": "X", "type_desc": "ndarray[float64]", "required": true},
-        {"name": "col_idx", "type_desc": "int", "required": true},
-        {"name": "shuffle_indices", "type_desc": "ndarray[int64]", "required": true}
+        {
+          "name": "X",
+          "type_desc": "ndarray[float64]",
+          "required": true
+        },
+        {
+          "name": "col_idx",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "shuffle_indices",
+          "type_desc": "ndarray[int64]",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "ndarray[float64]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "ndarray[float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [
-    {"source": "permutation_importance_max_sample_count", "target": "permutation_importance_row_indices", "kind": "resolved_subsample_size"},
-    {"source": "permutation_importance_shuffle_indices", "target": "permutation_importance_dense_permuted_columns", "kind": "column_permutation_indices"}
+    {
+      "source": "permutation_importance_max_sample_count",
+      "target": "permutation_importance_row_indices",
+      "kind": "resolved_subsample_size"
+    },
+    {
+      "source": "permutation_importance_shuffle_indices",
+      "target": "permutation_importance_dense_permuted_columns",
+      "kind": "column_permutation_indices"
+    }
   ]
 }

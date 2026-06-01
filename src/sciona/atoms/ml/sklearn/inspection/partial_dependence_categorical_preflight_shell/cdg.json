@@ -21,11 +21,21 @@
       "status": "atomic",
       "concept_type": "partial_dependence_guard_branch",
       "inputs": [
-        {"name": "size", "type_desc": "int"}
+        {
+          "name": "size",
+          "type_desc": "int"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "partial_dependence_categorical_empty_message",
@@ -34,11 +44,21 @@
       "status": "atomic",
       "concept_type": "partial_dependence_guard_message",
       "inputs": [
-        {"name": "size", "type_desc": "int"}
+        {
+          "name": "size",
+          "type_desc": "int"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "str"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "str"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "partial_dependence_categorical_bool_size_guard_required",
@@ -47,12 +67,25 @@
       "status": "atomic",
       "concept_type": "partial_dependence_guard_branch",
       "inputs": [
-        {"name": "size", "type_desc": "int"},
-        {"name": "n_features", "type_desc": "int"}
+        {
+          "name": "size",
+          "type_desc": "int"
+        },
+        {
+          "name": "n_features",
+          "type_desc": "int"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "partial_dependence_categorical_bool_size_message",
@@ -61,12 +94,25 @@
       "status": "atomic",
       "concept_type": "partial_dependence_guard_message",
       "inputs": [
-        {"name": "size", "type_desc": "int"},
-        {"name": "n_features", "type_desc": "int"}
+        {
+          "name": "size",
+          "type_desc": "int"
+        },
+        {
+          "name": "n_features",
+          "type_desc": "int"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "str"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "str"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "partial_dependence_categorical_dtype_supported",
@@ -75,11 +121,21 @@
       "status": "atomic",
       "concept_type": "partial_dependence_guard_branch",
       "inputs": [
-        {"name": "dtype_kind", "type_desc": "str"}
+        {
+          "name": "dtype_kind",
+          "type_desc": "str"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "partial_dependence_categorical_dtype_message",
@@ -88,16 +144,38 @@
       "status": "atomic",
       "concept_type": "partial_dependence_guard_message",
       "inputs": [
-        {"name": "dtype_name", "type_desc": "str"}
+        {
+          "name": "dtype_name",
+          "type_desc": "str"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "str"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "str"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "partial_dependence_categorical_empty_guard_required", "target": "partial_dependence_categorical_empty_message", "kind": "guard_to_message"},
-    {"source": "partial_dependence_categorical_bool_size_guard_required", "target": "partial_dependence_categorical_bool_size_message", "kind": "guard_to_message"},
-    {"source": "partial_dependence_categorical_dtype_supported", "target": "partial_dependence_categorical_dtype_message", "kind": "guard_to_message"}
+    {
+      "source": "partial_dependence_categorical_empty_guard_required",
+      "target": "partial_dependence_categorical_empty_message",
+      "kind": "guard_to_message"
+    },
+    {
+      "source": "partial_dependence_categorical_bool_size_guard_required",
+      "target": "partial_dependence_categorical_bool_size_message",
+      "kind": "guard_to_message"
+    },
+    {
+      "source": "partial_dependence_categorical_dtype_supported",
+      "target": "partial_dependence_categorical_dtype_message",
+      "kind": "guard_to_message"
+    }
   ]
 }

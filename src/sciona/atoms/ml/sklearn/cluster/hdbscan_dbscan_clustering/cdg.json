@@ -21,9 +21,22 @@
       "type_signature": "(fitted_labels: NDArray[np.int_]) -> NDArray[np.bool_]",
       "depth": 1,
       "inputs": [
-        {"name": "fitted_labels", "type_desc": "NDArray[np.int_]", "required": true}
+        {
+          "name": "fitted_labels",
+          "type_desc": "NDArray[np.int_]",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.bool_]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.bool_]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "hdbscan_dbscan_missing_mask",
@@ -34,9 +47,22 @@
       "type_signature": "(fitted_labels: NDArray[np.int_]) -> NDArray[np.bool_]",
       "depth": 1,
       "inputs": [
-        {"name": "fitted_labels", "type_desc": "NDArray[np.int_]", "required": true}
+        {
+          "name": "fitted_labels",
+          "type_desc": "NDArray[np.int_]",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.bool_]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.bool_]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "hdbscan_dbscan_labels",
@@ -47,16 +73,45 @@
       "type_signature": "(labels_at_cut: NDArray[np.int_], infinite_mask: NDArray[np.bool_], missing_mask: NDArray[np.bool_]) -> NDArray[np.int_]",
       "depth": 1,
       "inputs": [
-        {"name": "labels_at_cut", "type_desc": "NDArray[np.int_]", "required": true},
-        {"name": "infinite_mask", "type_desc": "NDArray[np.bool_]", "required": true},
-        {"name": "missing_mask", "type_desc": "NDArray[np.bool_]", "required": true}
+        {
+          "name": "labels_at_cut",
+          "type_desc": "NDArray[np.int_]",
+          "required": true
+        },
+        {
+          "name": "infinite_mask",
+          "type_desc": "NDArray[np.bool_]",
+          "required": true
+        },
+        {
+          "name": "missing_mask",
+          "type_desc": "NDArray[np.bool_]",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.int_]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.int_]"
+        }
+      ],
+      "time_complexity": "O(N^2 * d)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "Computing cluster labels from DBSCAN sample-to-sample connectivity graph takes quadratic time in samples and linear space for label arrays.",
+      "complexity_confidence": 90
     }
   ],
   "edges": [
-    {"source": "hdbscan_dbscan_infinite_mask", "target": "hdbscan_dbscan_labels", "kind": "outlier_override"},
-    {"source": "hdbscan_dbscan_missing_mask", "target": "hdbscan_dbscan_labels", "kind": "outlier_override"}
+    {
+      "source": "hdbscan_dbscan_infinite_mask",
+      "target": "hdbscan_dbscan_labels",
+      "kind": "outlier_override"
+    },
+    {
+      "source": "hdbscan_dbscan_missing_mask",
+      "target": "hdbscan_dbscan_labels",
+      "kind": "outlier_override"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

@@ -28,8 +28,23 @@
       "status": "atomic",
       "type_signature": "(X: object) -> ndarray",
       "depth": 1,
-      "inputs": [{"name": "X", "type_desc": "validated float32/float64 design matrix", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "one-dimensional all-one target with X dtype"}]
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "validated float32/float64 design matrix",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "one-dimensional all-one target with X dtype"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "sgd_one_class_fixed_solver_context",
@@ -39,8 +54,23 @@
       "status": "atomic",
       "type_signature": "(one_class: int = 1) -> tuple[int, int, int]",
       "depth": 1,
-      "inputs": [{"name": "one_class", "type_desc": "fixed sklearn one-class solver flag", "required": false}],
-      "outputs": [{"name": "result", "type_desc": "one_class, pos_weight, and neg_weight tuple"}]
+      "inputs": [
+        {
+          "name": "one_class",
+          "type_desc": "fixed sklearn one-class solver flag",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "one_class, pos_weight, and neg_weight tuple"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "sgd_one_class_validation_sample_mask",
@@ -50,8 +80,23 @@
       "status": "atomic",
       "type_signature": "(sample_weight: object) -> ndarray",
       "depth": 1,
-      "inputs": [{"name": "sample_weight", "type_desc": "checked sample weight vector", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "boolean mask where sample weights are positive"}]
+      "inputs": [
+        {
+          "name": "sample_weight",
+          "type_desc": "checked sample weight vector",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "boolean mask where sample weights are positive"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "sgd_one_class_intercept_from_offset",
@@ -61,8 +106,23 @@
       "status": "atomic",
       "type_signature": "(offset: object) -> ndarray",
       "depth": 1,
-      "inputs": [{"name": "offset", "type_desc": "finite offset scalar or vector", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "solver intercept vector"}]
+      "inputs": [
+        {
+          "name": "offset",
+          "type_desc": "finite offset scalar or vector",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "solver intercept vector"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "sgd_one_class_offset_from_intercept",
@@ -72,8 +132,23 @@
       "status": "atomic",
       "type_signature": "(intercept: object) -> ndarray",
       "depth": 1,
-      "inputs": [{"name": "intercept", "type_desc": "finite solver intercept scalar or vector", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "public one-class offset vector"}]
+      "inputs": [
+        {
+          "name": "intercept",
+          "type_desc": "finite solver intercept scalar or vector",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "public one-class offset vector"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "sgd_one_class_time_step_after_fit",
@@ -84,11 +159,32 @@
       "type_signature": "(t_before: float, n_iter: int, n_samples: int) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "t_before", "type_desc": "previous SGD update counter", "required": true},
-        {"name": "n_iter", "type_desc": "completed solver iterations", "required": true},
-        {"name": "n_samples", "type_desc": "sample count", "required": true}
+        {
+          "name": "t_before",
+          "type_desc": "previous SGD update counter",
+          "required": true
+        },
+        {
+          "name": "n_iter",
+          "type_desc": "completed solver iterations",
+          "required": true
+        },
+        {
+          "name": "n_samples",
+          "type_desc": "sample count",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "advanced SGD update counter"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "advanced SGD update counter"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "sgd_one_class_average_active",
@@ -99,10 +195,27 @@
       "type_signature": "(average: object, t_after: float) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "average", "type_desc": "SGD averaging flag or threshold", "required": true},
-        {"name": "t_after", "type_desc": "postfit SGD update counter", "required": true}
+        {
+          "name": "average",
+          "type_desc": "SGD averaging flag or threshold",
+          "required": true
+        },
+        {
+          "name": "t_after",
+          "type_desc": "postfit SGD update counter",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "averaged-state selection guard"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "averaged-state selection guard"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "sgd_one_class_average_buffers",
@@ -113,10 +226,27 @@
       "type_signature": "(n_features: int, dtype: object) -> dict",
       "depth": 1,
       "inputs": [
-        {"name": "n_features", "type_desc": "validated feature count", "required": true},
-        {"name": "dtype", "type_desc": "validated input dtype", "required": true}
+        {
+          "name": "n_features",
+          "type_desc": "validated feature count",
+          "required": true
+        },
+        {
+          "name": "dtype",
+          "type_desc": "validated input dtype",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "average buffer payload"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "average buffer payload"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "sgd_one_class_parameter_allocation_payload",
@@ -127,12 +257,37 @@
       "type_signature": "(n_features: int, input_dtype: object, *, coef_init: object = None, offset_init: object = None) -> dict",
       "depth": 1,
       "inputs": [
-        {"name": "n_features", "type_desc": "validated feature count", "required": true},
-        {"name": "input_dtype", "type_desc": "validated input dtype", "required": true},
-        {"name": "coef_init", "type_desc": "optional coefficient initializer", "required": false},
-        {"name": "offset_init", "type_desc": "optional offset initializer passed as intercept_init", "required": false}
+        {
+          "name": "n_features",
+          "type_desc": "validated feature count",
+          "required": true
+        },
+        {
+          "name": "input_dtype",
+          "type_desc": "validated input dtype",
+          "required": true
+        },
+        {
+          "name": "coef_init",
+          "type_desc": "optional coefficient initializer",
+          "required": false
+        },
+        {
+          "name": "offset_init",
+          "type_desc": "optional offset initializer passed as intercept_init",
+          "required": false
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "parameter allocation payload"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "parameter allocation payload"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "sgd_one_class_fit_one_class_payload",
@@ -143,14 +298,47 @@
       "type_signature": "(X: object, *, alpha: float, C: float, learning_rate: str, sample_weight: object, max_iter: int) -> dict",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "validated design matrix", "required": true},
-        {"name": "alpha", "type_desc": "regularization value", "required": true},
-        {"name": "C", "type_desc": "solver C value", "required": true},
-        {"name": "learning_rate", "type_desc": "learning-rate strategy", "required": true},
-        {"name": "sample_weight", "type_desc": "checked sample weight vector", "required": true},
-        {"name": "max_iter", "type_desc": "maximum solver iterations", "required": true}
+        {
+          "name": "X",
+          "type_desc": "validated design matrix",
+          "required": true
+        },
+        {
+          "name": "alpha",
+          "type_desc": "regularization value",
+          "required": true
+        },
+        {
+          "name": "C",
+          "type_desc": "solver C value",
+          "required": true
+        },
+        {
+          "name": "learning_rate",
+          "type_desc": "learning-rate strategy",
+          "required": true
+        },
+        {
+          "name": "sample_weight",
+          "type_desc": "checked sample weight vector",
+          "required": true
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "maximum solver iterations",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "_fit_one_class callback payload"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "_fit_one_class callback payload"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "sgd_one_class_partial_fit_result",
@@ -160,18 +348,61 @@
       "status": "atomic",
       "type_signature": "(estimator: object) -> object",
       "depth": 1,
-      "inputs": [{"name": "estimator", "type_desc": "SGDOneClassSVM estimator", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "same estimator object"}]
+      "inputs": [
+        {
+          "name": "estimator",
+          "type_desc": "SGDOneClassSVM estimator",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "same estimator object"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "sgd_one_class_target", "target": "sgd_one_class_validation_sample_mask", "kind": "validation_split_context"},
-    {"source": "sgd_one_class_fixed_solver_context", "target": "sgd_one_class_fit_one_class_payload", "kind": "solver_context"},
-    {"source": "sgd_one_class_intercept_from_offset", "target": "sgd_one_class_offset_from_intercept", "kind": "offset_roundtrip_context"},
-    {"source": "sgd_one_class_time_step_after_fit", "target": "sgd_one_class_average_active", "kind": "average_threshold_context"},
-    {"source": "sgd_one_class_average_buffers", "target": "sgd_one_class_average_active", "kind": "average_state_context"},
-    {"source": "sgd_one_class_parameter_allocation_payload", "target": "sgd_one_class_fit_one_class_payload", "kind": "partial_fit_context"},
-    {"source": "sgd_one_class_fit_one_class_payload", "target": "sgd_one_class_partial_fit_result", "kind": "delegation_context"}
+    {
+      "source": "sgd_one_class_target",
+      "target": "sgd_one_class_validation_sample_mask",
+      "kind": "validation_split_context"
+    },
+    {
+      "source": "sgd_one_class_fixed_solver_context",
+      "target": "sgd_one_class_fit_one_class_payload",
+      "kind": "solver_context"
+    },
+    {
+      "source": "sgd_one_class_intercept_from_offset",
+      "target": "sgd_one_class_offset_from_intercept",
+      "kind": "offset_roundtrip_context"
+    },
+    {
+      "source": "sgd_one_class_time_step_after_fit",
+      "target": "sgd_one_class_average_active",
+      "kind": "average_threshold_context"
+    },
+    {
+      "source": "sgd_one_class_average_buffers",
+      "target": "sgd_one_class_average_active",
+      "kind": "average_state_context"
+    },
+    {
+      "source": "sgd_one_class_parameter_allocation_payload",
+      "target": "sgd_one_class_fit_one_class_payload",
+      "kind": "partial_fit_context"
+    },
+    {
+      "source": "sgd_one_class_fit_one_class_payload",
+      "target": "sgd_one_class_partial_fit_result",
+      "kind": "delegation_context"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

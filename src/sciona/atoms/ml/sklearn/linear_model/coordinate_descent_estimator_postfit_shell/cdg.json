@@ -25,11 +25,22 @@
       "type_signature": "(n_targets: int) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "n_targets", "type_desc": "positive target count", "required": true}
+        {
+          "name": "n_targets",
+          "type_desc": "positive target count",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether n_targets == 1"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether n_targets == 1"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_estimator_single_target_n_iter",
@@ -40,11 +51,22 @@
       "type_signature": "(n_iter_list: Sequence[int]) -> int",
       "depth": 1,
       "inputs": [
-        {"name": "n_iter_list", "type_desc": "nonempty sequence of positive iteration counts", "required": true}
+        {
+          "name": "n_iter_list",
+          "type_desc": "nonempty sequence of positive iteration counts",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "first iteration count"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "first iteration count"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_estimator_single_target_coef",
@@ -55,11 +77,22 @@
       "type_signature": "(coef_matrix: NDArray[np.floating]) -> NDArray[np.floating]",
       "depth": 1,
       "inputs": [
-        {"name": "coef_matrix", "type_desc": "finite coefficient matrix with a leading target axis", "required": true}
+        {
+          "name": "coef_matrix",
+          "type_desc": "finite coefficient matrix with a leading target axis",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "first coefficient row"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "first coefficient row"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_estimator_single_target_dual_gap",
@@ -70,11 +103,22 @@
       "type_signature": "(dual_gaps: NDArray[np.floating]) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "dual_gaps", "type_desc": "finite dual-gap vector", "required": true}
+        {
+          "name": "dual_gaps",
+          "type_desc": "finite dual-gap vector",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "first dual-gap entry"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "first dual-gap entry"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_estimator_nonfinite_parameter_guard_required",
@@ -85,12 +129,27 @@
       "type_signature": "(coef: object, intercept: object) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "coef", "type_desc": "fitted coefficient array", "required": true},
-        {"name": "intercept", "type_desc": "fitted intercept scalar or array", "required": true}
+        {
+          "name": "coef",
+          "type_desc": "fitted coefficient array",
+          "required": true
+        },
+        {
+          "name": "intercept",
+          "type_desc": "fitted intercept scalar or array",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether any fitted parameter is non-finite"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether any fitted parameter is non-finite"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_estimator_nonfinite_parameter_message",
@@ -101,12 +160,27 @@
       "type_signature": "(coef: object, intercept: object) -> str",
       "depth": 1,
       "inputs": [
-        {"name": "coef", "type_desc": "fitted coefficient array", "required": true},
-        {"name": "intercept", "type_desc": "fitted intercept scalar or array", "required": true}
+        {
+          "name": "coef",
+          "type_desc": "fitted coefficient array",
+          "required": true
+        },
+        {
+          "name": "intercept",
+          "type_desc": "fitted intercept scalar or array",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "formatted non-finite-parameter error message"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "formatted non-finite-parameter error message"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_estimator_sparse_coef",
@@ -117,19 +191,50 @@
       "type_signature": "(coef: object) -> sparse.csr_matrix",
       "depth": 1,
       "inputs": [
-        {"name": "coef", "type_desc": "finite coefficient vector or matrix", "required": true}
+        {
+          "name": "coef",
+          "type_desc": "finite coefficient vector or matrix",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "CSR sparse representation of coef_"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "CSR sparse representation of coef_"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "cd_estimator_single_target_branch", "target": "cd_estimator_single_target_n_iter", "kind": "single_target_collapse"},
-    {"source": "cd_estimator_single_target_branch", "target": "cd_estimator_single_target_coef", "kind": "single_target_collapse"},
-    {"source": "cd_estimator_single_target_branch", "target": "cd_estimator_single_target_dual_gap", "kind": "single_target_collapse"},
-    {"source": "cd_estimator_nonfinite_parameter_guard_required", "target": "cd_estimator_nonfinite_parameter_message", "kind": "guard_message"},
-    {"source": "cd_estimator_single_target_coef", "target": "cd_estimator_sparse_coef", "kind": "postfit_property"}
+    {
+      "source": "cd_estimator_single_target_branch",
+      "target": "cd_estimator_single_target_n_iter",
+      "kind": "single_target_collapse"
+    },
+    {
+      "source": "cd_estimator_single_target_branch",
+      "target": "cd_estimator_single_target_coef",
+      "kind": "single_target_collapse"
+    },
+    {
+      "source": "cd_estimator_single_target_branch",
+      "target": "cd_estimator_single_target_dual_gap",
+      "kind": "single_target_collapse"
+    },
+    {
+      "source": "cd_estimator_nonfinite_parameter_guard_required",
+      "target": "cd_estimator_nonfinite_parameter_message",
+      "kind": "guard_message"
+    },
+    {
+      "source": "cd_estimator_single_target_coef",
+      "target": "cd_estimator_sparse_coef",
+      "kind": "postfit_property"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

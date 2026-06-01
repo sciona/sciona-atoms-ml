@@ -27,13 +27,32 @@
       "type_signature": "(mse_paths: np.ndarray, n_l1_ratio: int, fold_count: int) -> np.ndarray",
       "depth": 1,
       "inputs": [
-        {"name": "mse_paths", "type_desc": "parallel residual outputs", "required": true},
-        {"name": "n_l1_ratio", "type_desc": "positive l1_ratio count", "required": true},
-        {"name": "fold_count", "type_desc": "positive fold count", "required": true}
+        {
+          "name": "mse_paths",
+          "type_desc": "parallel residual outputs",
+          "required": true
+        },
+        {
+          "name": "n_l1_ratio",
+          "type_desc": "positive l1_ratio count",
+          "required": true
+        },
+        {
+          "name": "fold_count",
+          "type_desc": "positive fold count",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "reshaped mse path tensor"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "reshaped mse path tensor"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_mean_mse",
@@ -44,11 +63,22 @@
       "type_signature": "(mse_paths_reshaped: np.ndarray) -> np.ndarray",
       "depth": 1,
       "inputs": [
-        {"name": "mse_paths_reshaped", "type_desc": "3D reshaped mse path tensor", "required": true}
+        {
+          "name": "mse_paths_reshaped",
+          "type_desc": "3D reshaped mse path tensor",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "mean MSE by l1_ratio and alpha"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "mean MSE by l1_ratio and alpha"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_mse_path_public",
@@ -59,11 +89,22 @@
       "type_signature": "(mse_paths_reshaped: np.ndarray) -> np.ndarray",
       "depth": 1,
       "inputs": [
-        {"name": "mse_paths_reshaped", "type_desc": "3D reshaped mse path tensor", "required": true}
+        {
+          "name": "mse_paths_reshaped",
+          "type_desc": "3D reshaped mse path tensor",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "public mse_path_ array"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "public mse_path_ array"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_best_alpha_index",
@@ -74,11 +115,22 @@
       "type_signature": "(mse_alphas: np.ndarray) -> int",
       "depth": 1,
       "inputs": [
-        {"name": "mse_alphas", "type_desc": "nonempty 1D MSE vector for one l1_ratio", "required": true}
+        {
+          "name": "mse_alphas",
+          "type_desc": "nonempty 1D MSE vector for one l1_ratio",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "argmin position"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "argmin position"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_best_mse_value",
@@ -89,12 +141,27 @@
       "type_signature": "(mse_alphas: np.ndarray, best_alpha_index: int) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "mse_alphas", "type_desc": "nonempty 1D MSE vector for one l1_ratio", "required": true},
-        {"name": "best_alpha_index", "type_desc": "valid argmin position", "required": true}
+        {
+          "name": "mse_alphas",
+          "type_desc": "nonempty 1D MSE vector for one l1_ratio",
+          "required": true
+        },
+        {
+          "name": "best_alpha_index",
+          "type_desc": "valid argmin position",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "best MSE value"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "best MSE value"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_best_alpha_value",
@@ -105,12 +172,27 @@
       "type_signature": "(l1_alphas: np.ndarray, best_alpha_index: int) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "l1_alphas", "type_desc": "nonempty 1D alpha vector for one l1_ratio", "required": true},
-        {"name": "best_alpha_index", "type_desc": "valid argmin position", "required": true}
+        {
+          "name": "l1_alphas",
+          "type_desc": "nonempty 1D alpha vector for one l1_ratio",
+          "required": true
+        },
+        {
+          "name": "best_alpha_index",
+          "type_desc": "valid argmin position",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "best alpha value"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "best alpha value"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_best_l1_ratio_value",
@@ -121,11 +203,22 @@
       "type_signature": "(l1_ratio: object) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "l1_ratio", "type_desc": "selected l1_ratio object", "required": true}
+        {
+          "name": "l1_ratio",
+          "type_desc": "selected l1_ratio object",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "same l1_ratio object"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "same l1_ratio object"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_alphas_from_auto_grid",
@@ -136,12 +229,27 @@
       "type_signature": "(alphas: object, n_l1_ratio: int) -> np.ndarray",
       "depth": 1,
       "inputs": [
-        {"name": "alphas", "type_desc": "computed alpha grids", "required": true},
-        {"name": "n_l1_ratio", "type_desc": "positive l1_ratio count", "required": true}
+        {
+          "name": "alphas",
+          "type_desc": "computed alpha grids",
+          "required": true
+        },
+        {
+          "name": "n_l1_ratio",
+          "type_desc": "positive l1_ratio count",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "public alphas_ array from computed grids"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "public alphas_ array from computed grids"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_alphas_from_user_grid",
@@ -152,18 +260,45 @@
       "type_signature": "(alphas: object) -> np.ndarray",
       "depth": 1,
       "inputs": [
-        {"name": "alphas", "type_desc": "alpha grid container", "required": true}
+        {
+          "name": "alphas",
+          "type_desc": "alpha grid container",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "public alphas_ array from user grid"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "public alphas_ array from user grid"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "cd_cv_mse_paths_reshaped", "target": "cd_cv_mean_mse", "kind": "reduction_context"},
-    {"source": "cd_cv_mse_paths_reshaped", "target": "cd_cv_mse_path_public", "kind": "shape_context"},
-    {"source": "cd_cv_best_alpha_index", "target": "cd_cv_best_mse_value", "kind": "index_context"},
-    {"source": "cd_cv_best_alpha_index", "target": "cd_cv_best_alpha_value", "kind": "index_context"}
+    {
+      "source": "cd_cv_mse_paths_reshaped",
+      "target": "cd_cv_mean_mse",
+      "kind": "reduction_context"
+    },
+    {
+      "source": "cd_cv_mse_paths_reshaped",
+      "target": "cd_cv_mse_path_public",
+      "kind": "shape_context"
+    },
+    {
+      "source": "cd_cv_best_alpha_index",
+      "target": "cd_cv_best_mse_value",
+      "kind": "index_context"
+    },
+    {
+      "source": "cd_cv_best_alpha_index",
+      "target": "cd_cv_best_alpha_value",
+      "kind": "index_context"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

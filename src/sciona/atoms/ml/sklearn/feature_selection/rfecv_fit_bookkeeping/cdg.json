@@ -23,12 +23,27 @@
       "description": "Return whether RFECV.fit would issue its UserWarning because min_features_to_select exceeds the observed feature count.",
       "type_signature": "(n_features: int, *, min_features_to_select: int) -> bool",
       "inputs": [
-        {"name": "n_features", "type_desc": "int", "required": true},
-        {"name": "min_features_to_select", "type_desc": "int", "required": true}
+        {
+          "name": "n_features",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "min_features_to_select",
+          "type_desc": "int",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "rfecv_resolved_min_features_to_select",
@@ -38,12 +53,27 @@
       "description": "Resolve the min feature count RFECV passes into the inner RFE by clamping min_features_to_select to the observed feature count.",
       "type_signature": "(n_features: int, *, min_features_to_select: int) -> int",
       "inputs": [
-        {"name": "n_features", "type_desc": "int", "required": true},
-        {"name": "min_features_to_select", "type_desc": "int", "required": true}
+        {
+          "name": "n_features",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "min_features_to_select",
+          "type_desc": "int",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "int"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "rfecv_default_scoring_name",
@@ -53,16 +83,39 @@
       "description": "Resolve RFECV's default scoring name when scoring is omitted, otherwise preserve the explicit scoring string.",
       "type_signature": "(estimator_is_classifier: bool, scoring: str | None = None) -> str",
       "inputs": [
-        {"name": "estimator_is_classifier", "type_desc": "bool", "required": true},
-        {"name": "scoring", "type_desc": "str | None", "required": false}
+        {
+          "name": "estimator_is_classifier",
+          "type_desc": "bool",
+          "required": true
+        },
+        {
+          "name": "scoring",
+          "type_desc": "str | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "str"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "str"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "rfecv_warn_min_features_too_large", "target": "rfecv_resolved_min_features_to_select", "kind": "warning_then_clamp"},
-    {"source": "rfecv_resolved_min_features_to_select", "target": "rfecv_default_scoring_name", "kind": "fit_bookkeeping_context"}
+    {
+      "source": "rfecv_warn_min_features_too_large",
+      "target": "rfecv_resolved_min_features_to_select",
+      "kind": "warning_then_clamp"
+    },
+    {
+      "source": "rfecv_resolved_min_features_to_select",
+      "target": "rfecv_default_scoring_name",
+      "kind": "fit_bookkeeping_context"
+    }
   ]
 }

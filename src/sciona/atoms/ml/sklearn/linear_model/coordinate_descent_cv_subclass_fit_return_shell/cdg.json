@@ -20,11 +20,22 @@
       "type_signature": "(cv_kind: str) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "cv_kind", "type_desc": "coordinate-descent CV subclass kind", "required": true}
+        {
+          "name": "cv_kind",
+          "type_desc": "coordinate-descent CV subclass kind",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "true when the wrapper must return the delegated super-fit result"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "true when the wrapper must return the delegated super-fit result"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_subclass_fit_returns_super_result",
@@ -35,12 +46,27 @@
       "type_signature": "(cv_kind: str, super_fit_result: object) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "cv_kind", "type_desc": "coordinate-descent CV subclass kind", "required": true},
-        {"name": "super_fit_result", "type_desc": "object returned by delegated super().fit", "required": true}
+        {
+          "name": "cv_kind",
+          "type_desc": "coordinate-descent CV subclass kind",
+          "required": true
+        },
+        {
+          "name": "super_fit_result",
+          "type_desc": "object returned by delegated super().fit",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "the exact delegated super-fit result object"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "the exact delegated super-fit result object"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [

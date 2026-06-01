@@ -23,13 +23,32 @@
       "type_signature": "(max_samples_override: int | float | None, configured_max_samples: int | float, n_samples: int) -> int",
       "depth": 1,
       "inputs": [
-        {"name": "max_samples_override", "type_desc": "int | float | None", "required": true},
-        {"name": "configured_max_samples", "type_desc": "int | float", "required": true},
-        {"name": "n_samples", "type_desc": "int", "required": true}
+        {
+          "name": "max_samples_override",
+          "type_desc": "int | float | None",
+          "required": true
+        },
+        {
+          "name": "configured_max_samples",
+          "type_desc": "int | float",
+          "required": true
+        },
+        {
+          "name": "n_samples",
+          "type_desc": "int",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "int"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "bagging_resolve_max_features",
@@ -40,12 +59,27 @@
       "type_signature": "(configured_max_features: int | float, n_features: int) -> int",
       "depth": 1,
       "inputs": [
-        {"name": "configured_max_features", "type_desc": "int | float", "required": true},
-        {"name": "n_features", "type_desc": "int", "required": true}
+        {
+          "name": "configured_max_features",
+          "type_desc": "int | float",
+          "required": true
+        },
+        {
+          "name": "n_features",
+          "type_desc": "int",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "int"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "bagging_fit_require_bootstrap_for_oob",
@@ -56,12 +90,27 @@
       "type_signature": "(bootstrap: bool, oob_score: bool) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "bootstrap", "type_desc": "bool", "required": true},
-        {"name": "oob_score", "type_desc": "bool", "required": true}
+        {
+          "name": "bootstrap",
+          "type_desc": "bool",
+          "required": true
+        },
+        {
+          "name": "oob_score",
+          "type_desc": "bool",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "bagging_fit_require_no_warm_start_with_oob",
@@ -72,12 +121,27 @@
       "type_signature": "(warm_start: bool, oob_score: bool) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "warm_start", "type_desc": "bool", "required": true},
-        {"name": "oob_score", "type_desc": "bool", "required": true}
+        {
+          "name": "warm_start",
+          "type_desc": "bool",
+          "required": true
+        },
+        {
+          "name": "oob_score",
+          "type_desc": "bool",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "bagging_additional_estimator_count",
@@ -88,18 +152,45 @@
       "type_signature": "(n_estimators: int, existing_estimators: int) -> int",
       "depth": 1,
       "inputs": [
-        {"name": "n_estimators", "type_desc": "int", "required": true},
-        {"name": "existing_estimators", "type_desc": "int", "required": true}
+        {
+          "name": "n_estimators",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "existing_estimators",
+          "type_desc": "int",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "int"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "bagging_resolve_max_samples", "target": "bagging_resolve_max_features", "kind": "fit_sampling_parameter_resolution"},
-    {"source": "bagging_fit_require_bootstrap_for_oob", "target": "bagging_fit_require_no_warm_start_with_oob", "kind": "oob_preflight_checks"},
-    {"source": "bagging_fit_require_no_warm_start_with_oob", "target": "bagging_additional_estimator_count", "kind": "warm_start_bookkeeping_after_preflight"}
+    {
+      "source": "bagging_resolve_max_samples",
+      "target": "bagging_resolve_max_features",
+      "kind": "fit_sampling_parameter_resolution"
+    },
+    {
+      "source": "bagging_fit_require_bootstrap_for_oob",
+      "target": "bagging_fit_require_no_warm_start_with_oob",
+      "kind": "oob_preflight_checks"
+    },
+    {
+      "source": "bagging_fit_require_no_warm_start_with_oob",
+      "target": "bagging_additional_estimator_count",
+      "kind": "warm_start_bookkeeping_after_preflight"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

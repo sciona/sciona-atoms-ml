@@ -20,11 +20,22 @@
       "type_signature": "(path_helper: str) -> dict[str, bool]",
       "depth": 1,
       "inputs": [
-        {"name": "path_helper", "type_desc": "must be enet_path", "required": true}
+        {
+          "name": "path_helper",
+          "type_desc": "must be enet_path",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "_pre_fit keyword payload"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "_pre_fit keyword payload"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_enet_path_alpha_grid_18_kwargs",
@@ -35,19 +46,50 @@
       "type_signature": "(path_helper: str, Xy: object, l1_ratio: object, eps: Real, n_alphas: Integral) -> dict[str, object]",
       "depth": 1,
       "inputs": [
-        {"name": "path_helper", "type_desc": "must be enet_path", "required": true},
-        {"name": "Xy", "type_desc": "precomputed X-y dot product or None", "required": true},
-        {"name": "l1_ratio", "type_desc": "elastic-net L1/L2 mixing parameter", "required": true},
-        {"name": "eps", "type_desc": "positive path length ratio", "required": true},
-        {"name": "n_alphas", "type_desc": "positive alpha count", "required": true}
+        {
+          "name": "path_helper",
+          "type_desc": "must be enet_path",
+          "required": true
+        },
+        {
+          "name": "Xy",
+          "type_desc": "precomputed X-y dot product or None",
+          "required": true
+        },
+        {
+          "name": "l1_ratio",
+          "type_desc": "elastic-net L1/L2 mixing parameter",
+          "required": true
+        },
+        {
+          "name": "eps",
+          "type_desc": "positive path length ratio",
+          "required": true
+        },
+        {
+          "name": "n_alphas",
+          "type_desc": "positive alpha count",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "_alpha_grid keyword payload"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "_alpha_grid keyword payload"
+        }
+      ],
+      "time_complexity": "O(I * N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Coordinate descent path computation for linear models scales linearly with samples N, features d, and the number of optimization iterations I.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [
-    {"source": "cd_enet_path_prefit_18_kwargs", "target": "cd_enet_path_alpha_grid_18_kwargs", "kind": "precedes_alpha_grid"}
+    {
+      "source": "cd_enet_path_prefit_18_kwargs",
+      "target": "cd_enet_path_alpha_grid_18_kwargs",
+      "kind": "precedes_alpha_grid"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

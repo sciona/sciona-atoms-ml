@@ -23,12 +23,27 @@
       "type_signature": "(X: NDArray[np.float64], assume_centered: bool) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "assume_centered", "type_desc": "bool", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "assume_centered",
+          "type_desc": "bool",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "graphical_lasso_cv_inner_verbose",
@@ -39,11 +54,22 @@
       "type_signature": "(verbose: int) -> int",
       "depth": 1,
       "inputs": [
-        {"name": "verbose", "type_desc": "int", "required": true}
+        {
+          "name": "verbose",
+          "type_desc": "int",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "int"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "graphical_lasso_cv_use_explicit_alphas",
@@ -54,11 +80,22 @@
       "type_signature": "(alphas: object) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "alphas", "type_desc": "object", "required": true}
+        {
+          "name": "alphas",
+          "type_desc": "object",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "graphical_lasso_cv_explicit_alphas",
@@ -69,11 +106,22 @@
       "type_signature": "(alphas: object) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "alphas", "type_desc": "object", "required": true}
+        {
+          "name": "alphas",
+          "type_desc": "object",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "graphical_lasso_cv_refinement_count",
@@ -84,17 +132,40 @@
       "type_signature": "(use_explicit_alphas: bool, n_refinements: int) -> int",
       "depth": 1,
       "inputs": [
-        {"name": "use_explicit_alphas", "type_desc": "bool", "required": true},
-        {"name": "n_refinements", "type_desc": "int", "required": true}
+        {
+          "name": "use_explicit_alphas",
+          "type_desc": "bool",
+          "required": true
+        },
+        {
+          "name": "n_refinements",
+          "type_desc": "int",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "int"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "graphical_lasso_cv_use_explicit_alphas", "target": "graphical_lasso_cv_explicit_alphas", "kind": "explicit_alpha_mode"},
-    {"source": "graphical_lasso_cv_use_explicit_alphas", "target": "graphical_lasso_cv_refinement_count", "kind": "refinement_mode"}
+    {
+      "source": "graphical_lasso_cv_use_explicit_alphas",
+      "target": "graphical_lasso_cv_explicit_alphas",
+      "kind": "explicit_alpha_mode"
+    },
+    {
+      "source": "graphical_lasso_cv_use_explicit_alphas",
+      "target": "graphical_lasso_cv_refinement_count",
+      "kind": "refinement_mode"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

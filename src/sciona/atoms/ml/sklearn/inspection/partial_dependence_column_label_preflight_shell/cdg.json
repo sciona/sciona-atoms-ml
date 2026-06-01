@@ -19,11 +19,21 @@
       "status": "atomic",
       "concept_type": "partial_dependence_branch",
       "inputs": [
-        {"name": "key_dtype", "type_desc": "str"}
+        {
+          "name": "key_dtype",
+          "type_desc": "str"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "partial_dependence_dataframe_columns_required_guard_required",
@@ -32,12 +42,25 @@
       "status": "atomic",
       "concept_type": "partial_dependence_guard_branch",
       "inputs": [
-        {"name": "uses_label_branch", "type_desc": "bool"},
-        {"name": "has_columns", "type_desc": "bool"}
+        {
+          "name": "uses_label_branch",
+          "type_desc": "bool"
+        },
+        {
+          "name": "has_columns",
+          "type_desc": "bool"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "partial_dependence_dataframe_columns_required_message",
@@ -46,11 +69,21 @@
       "status": "atomic",
       "concept_type": "partial_dependence_guard_message",
       "inputs": [
-        {"name": "uses_label_branch", "type_desc": "bool"}
+        {
+          "name": "uses_label_branch",
+          "type_desc": "bool"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "str"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "str"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "partial_dependence_string_column_keys",
@@ -59,16 +92,38 @@
       "status": "atomic",
       "concept_type": "partial_dependence_bookkeeping",
       "inputs": [
-        {"name": "column_name", "type_desc": "str"}
+        {
+          "name": "column_name",
+          "type_desc": "str"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "tuple[str, ...]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "tuple[str, ...]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "partial_dependence_column_key_uses_label_branch", "target": "partial_dependence_dataframe_columns_required_guard_required", "kind": "branch_to_guard"},
-    {"source": "partial_dependence_dataframe_columns_required_guard_required", "target": "partial_dependence_dataframe_columns_required_message", "kind": "guard_to_message"},
-    {"source": "partial_dependence_column_key_uses_label_branch", "target": "partial_dependence_string_column_keys", "kind": "string_branch_to_sequence"}
+    {
+      "source": "partial_dependence_column_key_uses_label_branch",
+      "target": "partial_dependence_dataframe_columns_required_guard_required",
+      "kind": "branch_to_guard"
+    },
+    {
+      "source": "partial_dependence_dataframe_columns_required_guard_required",
+      "target": "partial_dependence_dataframe_columns_required_message",
+      "kind": "guard_to_message"
+    },
+    {
+      "source": "partial_dependence_column_key_uses_label_branch",
+      "target": "partial_dependence_string_column_keys",
+      "kind": "string_branch_to_sequence"
+    }
   ]
 }

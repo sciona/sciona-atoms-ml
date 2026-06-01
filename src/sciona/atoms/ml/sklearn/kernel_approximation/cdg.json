@@ -27,14 +27,37 @@
       "type_signature": "(X: NDArray[np.float64], gamma: float | str = 1.0, n_components: int = 100, random_state: int | None = None) -> RBFSamplerState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "gamma", "type_desc": "float | str", "required": false},
-        {"name": "n_components", "type_desc": "int", "required": false},
-        {"name": "random_state", "type_desc": "int | None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "gamma",
+          "type_desc": "float | str",
+          "required": false
+        },
+        {
+          "name": "n_components",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "RBFSamplerState"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "RBFSamplerState"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "rbf_sampler_transform",
@@ -45,12 +68,27 @@
       "type_signature": "(X: NDArray[np.float64], state: RBFSamplerState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "RBFSamplerState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "RBFSamplerState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "skewed_chi2_sampler_fit",
@@ -61,14 +99,37 @@
       "type_signature": "(X: NDArray[np.float64], skewedness: float = 1.0, n_components: int = 100, random_state: int | None = None) -> SkewedChi2SamplerState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "skewedness", "type_desc": "float", "required": false},
-        {"name": "n_components", "type_desc": "int", "required": false},
-        {"name": "random_state", "type_desc": "int | None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "skewedness",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "n_components",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "SkewedChi2SamplerState"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "SkewedChi2SamplerState"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "skewed_chi2_sampler_transform",
@@ -79,12 +140,27 @@
       "type_signature": "(X: NDArray[np.float64], state: SkewedChi2SamplerState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "SkewedChi2SamplerState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "SkewedChi2SamplerState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "additive_chi2_sampler_transform",
@@ -95,13 +171,32 @@
       "type_signature": "(X: NDArray[np.float64], sample_steps: int = 2, sample_interval: float | None = None) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "sample_steps", "type_desc": "int", "required": false},
-        {"name": "sample_interval", "type_desc": "float | None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "sample_steps",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "sample_interval",
+          "type_desc": "float | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "polynomial_count_sketch_fit",
@@ -112,16 +207,47 @@
       "type_signature": "(X: NDArray[np.float64], gamma: float = 1.0, degree: int = 2, coef0: float = 0.0, n_components: int = 100, random_state: int | None = None) -> PolynomialCountSketchState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "gamma", "type_desc": "float", "required": false},
-        {"name": "degree", "type_desc": "int", "required": false},
-        {"name": "coef0", "type_desc": "float", "required": false},
-        {"name": "n_components", "type_desc": "int", "required": false},
-        {"name": "random_state", "type_desc": "int | None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "gamma",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "degree",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "coef0",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "n_components",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "PolynomialCountSketchState"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "PolynomialCountSketchState"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "polynomial_count_sketch_transform",
@@ -132,12 +258,27 @@
       "type_signature": "(X: NDArray[np.float64], state: PolynomialCountSketchState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "PolynomialCountSketchState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "PolynomialCountSketchState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "nystroem_fit",
@@ -148,19 +289,62 @@
       "type_signature": "(X: NDArray[np.float64], kernel: str = 'rbf', gamma: float | None = None, coef0: float | None = None, degree: float | None = None, kernel_params: dict[str, float] | None = None, n_components: int = 100, random_state: int | None = None, n_jobs: int | None = None) -> NystroemState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "kernel", "type_desc": "str", "required": false},
-        {"name": "gamma", "type_desc": "float | None", "required": false},
-        {"name": "coef0", "type_desc": "float | None", "required": false},
-        {"name": "degree", "type_desc": "float | None", "required": false},
-        {"name": "kernel_params", "type_desc": "dict[str, float] | None", "required": false},
-        {"name": "n_components", "type_desc": "int", "required": false},
-        {"name": "random_state", "type_desc": "int | None", "required": false},
-        {"name": "n_jobs", "type_desc": "int | None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "kernel",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "gamma",
+          "type_desc": "float | None",
+          "required": false
+        },
+        {
+          "name": "coef0",
+          "type_desc": "float | None",
+          "required": false
+        },
+        {
+          "name": "degree",
+          "type_desc": "float | None",
+          "required": false
+        },
+        {
+          "name": "kernel_params",
+          "type_desc": "dict[str, float] | None",
+          "required": false
+        },
+        {
+          "name": "n_components",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int | None",
+          "required": false
+        },
+        {
+          "name": "n_jobs",
+          "type_desc": "int | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NystroemState"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NystroemState"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "nystroem_transform",
@@ -171,19 +355,50 @@
       "type_signature": "(X: NDArray[np.float64], state: NystroemState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "NystroemState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "NystroemState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [
-    {"source": "rbf_sampler_fit", "target": "rbf_sampler_transform", "kind": "state"},
-    {"source": "skewed_chi2_sampler_fit", "target": "skewed_chi2_sampler_transform", "kind": "state"},
-    {"source": "polynomial_count_sketch_fit", "target": "polynomial_count_sketch_transform", "kind": "state"},
-    {"source": "nystroem_fit", "target": "nystroem_transform", "kind": "state"}
+    {
+      "source": "rbf_sampler_fit",
+      "target": "rbf_sampler_transform",
+      "kind": "state"
+    },
+    {
+      "source": "skewed_chi2_sampler_fit",
+      "target": "skewed_chi2_sampler_transform",
+      "kind": "state"
+    },
+    {
+      "source": "polynomial_count_sketch_fit",
+      "target": "polynomial_count_sketch_transform",
+      "kind": "state"
+    },
+    {
+      "source": "nystroem_fit",
+      "target": "nystroem_transform",
+      "kind": "state"
+    }
   ],
   "metadata": {
     "source": "agent_ingestion",

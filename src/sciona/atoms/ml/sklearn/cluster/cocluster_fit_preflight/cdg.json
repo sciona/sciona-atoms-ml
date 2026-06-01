@@ -19,10 +19,27 @@
       "type_signature": "(n_clusters: int, n_samples: int) -> int",
       "depth": 1,
       "inputs": [
-        {"name": "n_clusters", "type_desc": "int", "required": true},
-        {"name": "n_samples", "type_desc": "int", "required": true}
+        {
+          "name": "n_clusters",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "n_samples",
+          "type_desc": "int",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "int"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [],

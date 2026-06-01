@@ -27,11 +27,22 @@
       "type_signature": "(has_l1_ratio_attr: bool) -> str",
       "depth": 1,
       "inputs": [
-        {"name": "has_l1_ratio_attr", "type_desc": "whether the estimator exposes l1_ratio", "required": true}
+        {
+          "name": "has_l1_ratio_attr",
+          "type_desc": "whether the estimator exposes l1_ratio",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "ElasticNet or Lasso"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "ElasticNet or Lasso"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_multitask_mono_task_guard_required",
@@ -42,11 +53,22 @@
       "type_signature": "(y_ndim: int) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "y_ndim", "type_desc": "positive target ndim", "required": true}
+        {
+          "name": "y_ndim",
+          "type_desc": "positive target ndim",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether y.ndim == 1"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether y.ndim == 1"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_multitask_mono_task_message",
@@ -57,11 +79,22 @@
       "type_signature": "(model_name: str) -> str",
       "depth": 1,
       "inputs": [
-        {"name": "model_name", "type_desc": "ElasticNet or Lasso", "required": true}
+        {
+          "name": "model_name",
+          "type_desc": "ElasticNet or Lasso",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "formatted mono-task error message"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "formatted mono-task error message"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_multitask_random_selection",
@@ -72,11 +105,22 @@
       "type_signature": "(selection: str) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "selection", "type_desc": "random or cyclic", "required": true}
+        {
+          "name": "selection",
+          "type_desc": "random or cyclic",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether selection == 'random'"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether selection == 'random'"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_multitask_dual_gap",
@@ -87,12 +131,27 @@
       "type_signature": "(dual_gap: float, n_samples: int) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "dual_gap", "type_desc": "finite solver dual gap", "required": true},
-        {"name": "n_samples", "type_desc": "positive sample count", "required": true}
+        {
+          "name": "dual_gap",
+          "type_desc": "finite solver dual gap",
+          "required": true
+        },
+        {
+          "name": "n_samples",
+          "type_desc": "positive sample count",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "finite scaled dual gap"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "finite scaled dual gap"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_multitask_fit_return_self",
@@ -103,11 +162,22 @@
       "type_signature": "(estimator_identity: object) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "estimator_identity", "type_desc": "the estimator instance being fit", "required": true}
+        {
+          "name": "estimator_identity",
+          "type_desc": "the estimator instance being fit",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "same estimator instance"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "same estimator instance"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_multitask_sparse_input_tag",
@@ -118,11 +188,22 @@
       "type_signature": "(parent_sparse: bool = False) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "parent_sparse", "type_desc": "inherited sparse-input tag value", "required": false}
+        {
+          "name": "parent_sparse",
+          "type_desc": "inherited sparse-input tag value",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "False"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "False"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_multitask_target_multi_output_tag",
@@ -133,11 +214,22 @@
       "type_signature": "(parent_multi_output: bool = False) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "parent_multi_output", "type_desc": "inherited target multi_output tag value", "required": false}
+        {
+          "name": "parent_multi_output",
+          "type_desc": "inherited target multi_output tag value",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "True"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "True"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_multitask_target_single_output_tag",
@@ -148,20 +240,55 @@
       "type_signature": "(parent_single_output: bool = False) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "parent_single_output", "type_desc": "inherited target single_output tag value", "required": false}
+        {
+          "name": "parent_single_output",
+          "type_desc": "inherited target single_output tag value",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "False"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "False"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "cd_multitask_model_name", "target": "cd_multitask_mono_task_message", "kind": "message_context"},
-    {"source": "cd_multitask_mono_task_guard_required", "target": "cd_multitask_mono_task_message", "kind": "guard_message"},
-    {"source": "cd_multitask_random_selection", "target": "cd_multitask_dual_gap", "kind": "solver_context"},
-    {"source": "cd_multitask_dual_gap", "target": "cd_multitask_fit_return_self", "kind": "postfit_state"},
-    {"source": "cd_multitask_sparse_input_tag", "target": "cd_multitask_target_multi_output_tag", "kind": "shared_tags"},
-    {"source": "cd_multitask_target_multi_output_tag", "target": "cd_multitask_target_single_output_tag", "kind": "shared_tags"}
+    {
+      "source": "cd_multitask_model_name",
+      "target": "cd_multitask_mono_task_message",
+      "kind": "message_context"
+    },
+    {
+      "source": "cd_multitask_mono_task_guard_required",
+      "target": "cd_multitask_mono_task_message",
+      "kind": "guard_message"
+    },
+    {
+      "source": "cd_multitask_random_selection",
+      "target": "cd_multitask_dual_gap",
+      "kind": "solver_context"
+    },
+    {
+      "source": "cd_multitask_dual_gap",
+      "target": "cd_multitask_fit_return_self",
+      "kind": "postfit_state"
+    },
+    {
+      "source": "cd_multitask_sparse_input_tag",
+      "target": "cd_multitask_target_multi_output_tag",
+      "kind": "shared_tags"
+    },
+    {
+      "source": "cd_multitask_target_multi_output_tag",
+      "target": "cd_multitask_target_single_output_tag",
+      "kind": "shared_tags"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

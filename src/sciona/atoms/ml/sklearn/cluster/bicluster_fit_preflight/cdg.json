@@ -21,10 +21,27 @@
       "type_signature": "(n_clusters: int | tuple[int, int], n_samples: int) -> tuple[int, int]",
       "depth": 1,
       "inputs": [
-        {"name": "n_clusters", "type_desc": "int | tuple[int, int]", "required": true},
-        {"name": "n_samples", "type_desc": "int", "required": true}
+        {
+          "name": "n_clusters",
+          "type_desc": "int | tuple[int, int]",
+          "required": true
+        },
+        {
+          "name": "n_samples",
+          "type_desc": "int",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "tuple[int, int]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "tuple[int, int]"
+        }
+      ],
+      "time_complexity": "O(N * d^2)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Dimensionality reduction or sparse coding decomposes high-dimensional features, taking quadratic time in features and linear in samples.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "bicluster_checked_n_best",
@@ -35,10 +52,27 @@
       "type_signature": "(n_best: int, n_components: int) -> int",
       "depth": 1,
       "inputs": [
-        {"name": "n_best", "type_desc": "int", "required": true},
-        {"name": "n_components", "type_desc": "int", "required": true}
+        {
+          "name": "n_best",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "n_components",
+          "type_desc": "int",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "int"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ],
+      "time_complexity": "O(N * d^2)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Dimensionality reduction or sparse coding decomposes high-dimensional features, taking quadratic time in features and linear in samples.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "bicluster_checked_method",
@@ -49,10 +83,27 @@
       "type_signature": "(method: str, is_sparse: bool) -> str",
       "depth": 1,
       "inputs": [
-        {"name": "method", "type_desc": "str", "required": true},
-        {"name": "is_sparse", "type_desc": "bool", "required": true}
+        {
+          "name": "method",
+          "type_desc": "str",
+          "required": true
+        },
+        {
+          "name": "is_sparse",
+          "type_desc": "bool",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "str"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "str"
+        }
+      ],
+      "time_complexity": "O(N * d^2)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Dimensionality reduction or sparse coding decomposes high-dimensional features, taking quadratic time in features and linear in samples.",
+      "complexity_confidence": 90
     }
   ],
   "edges": [],

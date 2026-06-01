@@ -22,8 +22,23 @@
       "status": "atomic",
       "type_signature": "(C_value: object) -> list[object]",
       "depth": 1,
-      "inputs": [{"name": "C_value", "type_desc": "selected regularization strength", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "one-element C grid"}]
+      "inputs": [
+        {
+          "name": "C_value",
+          "type_desc": "selected regularization strength",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "one-element C grid"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "logistic_cv_refit_verbose",
@@ -33,8 +48,23 @@
       "status": "atomic",
       "type_signature": "(verbose: int) -> int",
       "depth": 1,
-      "inputs": [{"name": "verbose", "type_desc": "public estimator verbose value", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "refit callback verbose value"}]
+      "inputs": [
+        {
+          "name": "verbose",
+          "type_desc": "public estimator verbose value",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "refit callback verbose value"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "logistic_cv_refit_path_kwargs",
@@ -45,23 +75,92 @@
       "type_signature": "(pos_class: object, C_value: object, solver: object, fit_intercept: bool, coef_init: object, max_iter: int, tol: object, penalty: object, class_weight: object, multi_class: str, verbose: int, random_state: object, max_squared_sum: object, sample_weight: object, l1_ratio: object) -> dict[str, object]",
       "depth": 1,
       "inputs": [
-        {"name": "pos_class", "type_desc": "encoded positive class or None for multinomial", "required": true},
-        {"name": "C_value", "type_desc": "selected C value", "required": true},
-        {"name": "solver", "type_desc": "resolved solver name", "required": true},
-        {"name": "fit_intercept", "type_desc": "fit-intercept flag", "required": true},
-        {"name": "coef_init", "type_desc": "refit coefficient initialization", "required": true},
-        {"name": "max_iter", "type_desc": "maximum solver iterations", "required": true},
-        {"name": "tol", "type_desc": "solver tolerance", "required": true},
-        {"name": "penalty", "type_desc": "resolved penalty", "required": true},
-        {"name": "class_weight", "type_desc": "class-weight payload", "required": true},
-        {"name": "multi_class", "type_desc": "resolved multiclass mode", "required": true},
-        {"name": "verbose", "type_desc": "public estimator verbose value", "required": true},
-        {"name": "random_state", "type_desc": "random-state payload", "required": true},
-        {"name": "max_squared_sum", "type_desc": "SAG/SAGA max-squared-sum payload", "required": true},
-        {"name": "sample_weight", "type_desc": "sample-weight payload", "required": true},
-        {"name": "l1_ratio", "type_desc": "selected l1-ratio", "required": true}
+        {
+          "name": "pos_class",
+          "type_desc": "encoded positive class or None for multinomial",
+          "required": true
+        },
+        {
+          "name": "C_value",
+          "type_desc": "selected C value",
+          "required": true
+        },
+        {
+          "name": "solver",
+          "type_desc": "resolved solver name",
+          "required": true
+        },
+        {
+          "name": "fit_intercept",
+          "type_desc": "fit-intercept flag",
+          "required": true
+        },
+        {
+          "name": "coef_init",
+          "type_desc": "refit coefficient initialization",
+          "required": true
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "maximum solver iterations",
+          "required": true
+        },
+        {
+          "name": "tol",
+          "type_desc": "solver tolerance",
+          "required": true
+        },
+        {
+          "name": "penalty",
+          "type_desc": "resolved penalty",
+          "required": true
+        },
+        {
+          "name": "class_weight",
+          "type_desc": "class-weight payload",
+          "required": true
+        },
+        {
+          "name": "multi_class",
+          "type_desc": "resolved multiclass mode",
+          "required": true
+        },
+        {
+          "name": "verbose",
+          "type_desc": "public estimator verbose value",
+          "required": true
+        },
+        {
+          "name": "random_state",
+          "type_desc": "random-state payload",
+          "required": true
+        },
+        {
+          "name": "max_squared_sum",
+          "type_desc": "SAG/SAGA max-squared-sum payload",
+          "required": true
+        },
+        {
+          "name": "sample_weight",
+          "type_desc": "sample-weight payload",
+          "required": true
+        },
+        {
+          "name": "l1_ratio",
+          "type_desc": "selected l1-ratio",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "_logistic_regression_path keyword payload"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "_logistic_regression_path keyword payload"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "logistic_cv_refit_path_call",
@@ -72,11 +171,32 @@
       "type_signature": "(X: object, y: object, kwargs: dict[str, object]) -> tuple[object, object, dict[str, object]]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "validated design matrix", "required": true},
-        {"name": "y", "type_desc": "label-encoded target", "required": true},
-        {"name": "kwargs", "type_desc": "_logistic_regression_path keyword payload", "required": true}
+        {
+          "name": "X",
+          "type_desc": "validated design matrix",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "label-encoded target",
+          "required": true
+        },
+        {
+          "name": "kwargs",
+          "type_desc": "_logistic_regression_path keyword payload",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "positional X/y and keyword payload"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "positional X/y and keyword payload"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "logistic_cv_refit_first_weight",
@@ -86,15 +206,46 @@
       "status": "atomic",
       "type_signature": "(refit_weights: object) -> object",
       "depth": 1,
-      "inputs": [{"name": "refit_weights", "type_desc": "first element of _logistic_regression_path result tuple", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "first refit weight row"}]
+      "inputs": [
+        {
+          "name": "refit_weights",
+          "type_desc": "first element of _logistic_regression_path result tuple",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "first refit weight row"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "logistic_cv_refit_single_Cs", "target": "logistic_cv_refit_path_kwargs", "kind": "callback_payload"},
-    {"source": "logistic_cv_refit_verbose", "target": "logistic_cv_refit_path_kwargs", "kind": "callback_payload"},
-    {"source": "logistic_cv_refit_path_kwargs", "target": "logistic_cv_refit_path_call", "kind": "callback_payload"},
-    {"source": "logistic_cv_refit_path_call", "target": "logistic_cv_refit_first_weight", "kind": "state_packaging"}
+    {
+      "source": "logistic_cv_refit_single_Cs",
+      "target": "logistic_cv_refit_path_kwargs",
+      "kind": "callback_payload"
+    },
+    {
+      "source": "logistic_cv_refit_verbose",
+      "target": "logistic_cv_refit_path_kwargs",
+      "kind": "callback_payload"
+    },
+    {
+      "source": "logistic_cv_refit_path_kwargs",
+      "target": "logistic_cv_refit_path_call",
+      "kind": "callback_payload"
+    },
+    {
+      "source": "logistic_cv_refit_path_call",
+      "target": "logistic_cv_refit_first_weight",
+      "kind": "state_packaging"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

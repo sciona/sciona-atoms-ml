@@ -22,12 +22,27 @@
       "type_signature": "(X: object, train: object) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "feature matrix or array-like supporting indexing", "required": true},
-        {"name": "train", "type_desc": "training index slice or iterable", "required": true}
+        {
+          "name": "X",
+          "type_desc": "feature matrix or array-like supporting indexing",
+          "required": true
+        },
+        {
+          "name": "train",
+          "type_desc": "training index slice or iterable",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "feature payload equal to X[train]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "feature payload equal to X[train]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_path_residuals_y_train_slice",
@@ -38,12 +53,27 @@
       "type_signature": "(y: object, train: object) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "y", "type_desc": "target array-like supporting indexing", "required": true},
-        {"name": "train", "type_desc": "training index slice or iterable", "required": true}
+        {
+          "name": "y",
+          "type_desc": "target array-like supporting indexing",
+          "required": true
+        },
+        {
+          "name": "train",
+          "type_desc": "training index slice or iterable",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "target payload equal to y[train]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "target payload equal to y[train]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_path_residuals_X_test_slice",
@@ -54,12 +84,27 @@
       "type_signature": "(X: object, test: object) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "feature matrix or array-like supporting indexing", "required": true},
-        {"name": "test", "type_desc": "test index slice or iterable", "required": true}
+        {
+          "name": "X",
+          "type_desc": "feature matrix or array-like supporting indexing",
+          "required": true
+        },
+        {
+          "name": "test",
+          "type_desc": "test index slice or iterable",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "feature payload equal to X[test]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "feature payload equal to X[test]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_path_residuals_y_test_slice",
@@ -70,19 +115,50 @@
       "type_signature": "(y: object, test: object) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "y", "type_desc": "target array-like supporting indexing", "required": true},
-        {"name": "test", "type_desc": "test index slice or iterable", "required": true}
+        {
+          "name": "y",
+          "type_desc": "target array-like supporting indexing",
+          "required": true
+        },
+        {
+          "name": "test",
+          "type_desc": "test index slice or iterable",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "target payload equal to y[test]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "target payload equal to y[test]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "cd_path_residuals_X_train_slice", "target": "cd_path_residuals_y_train_slice", "kind": "same_train_split"},
-    {"source": "cd_path_residuals_X_test_slice", "target": "cd_path_residuals_y_test_slice", "kind": "same_test_split"},
-    {"source": "cd_path_residuals_X_train_slice", "target": "cd_path_residuals_X_test_slice", "kind": "complementary_split_shell"},
-    {"source": "cd_path_residuals_y_train_slice", "target": "cd_path_residuals_y_test_slice", "kind": "complementary_split_shell"}
+    {
+      "source": "cd_path_residuals_X_train_slice",
+      "target": "cd_path_residuals_y_train_slice",
+      "kind": "same_train_split"
+    },
+    {
+      "source": "cd_path_residuals_X_test_slice",
+      "target": "cd_path_residuals_y_test_slice",
+      "kind": "same_test_split"
+    },
+    {
+      "source": "cd_path_residuals_X_train_slice",
+      "target": "cd_path_residuals_X_test_slice",
+      "kind": "complementary_split_shell"
+    },
+    {
+      "source": "cd_path_residuals_y_train_slice",
+      "target": "cd_path_residuals_y_test_slice",
+      "kind": "complementary_split_shell"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

@@ -20,14 +20,37 @@
       "type_signature": "(bootstrap: bool, n_samples: int, n_samples_bootstrap: int | None, random_state: int) -> NDArray[np.int64]",
       "depth": 1,
       "inputs": [
-        {"name": "bootstrap", "type_desc": "bool", "required": true},
-        {"name": "n_samples", "type_desc": "int", "required": true},
-        {"name": "n_samples_bootstrap", "type_desc": "int | None", "required": true},
-        {"name": "random_state", "type_desc": "int", "required": true}
+        {
+          "name": "bootstrap",
+          "type_desc": "bool",
+          "required": true
+        },
+        {
+          "name": "n_samples",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "n_samples_bootstrap",
+          "type_desc": "int | None",
+          "required": true
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.int64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.int64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "forest_estimators_sample_indices",
@@ -38,14 +61,37 @@
       "type_signature": "(random_states: tuple[int, ...], bootstrap: bool, n_samples: int, n_samples_bootstrap: int | None) -> tuple[NDArray[np.int64], ...]",
       "depth": 1,
       "inputs": [
-        {"name": "random_states", "type_desc": "tuple[int, ...]", "required": true},
-        {"name": "bootstrap", "type_desc": "bool", "required": true},
-        {"name": "n_samples", "type_desc": "int", "required": true},
-        {"name": "n_samples_bootstrap", "type_desc": "int | None", "required": true}
+        {
+          "name": "random_states",
+          "type_desc": "tuple[int, ...]",
+          "required": true
+        },
+        {
+          "name": "bootstrap",
+          "type_desc": "bool",
+          "required": true
+        },
+        {
+          "name": "n_samples",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "n_samples_bootstrap",
+          "type_desc": "int | None",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "tuple[NDArray[np.int64], ...]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "tuple[NDArray[np.int64], ...]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [

@@ -21,10 +21,27 @@
       "type_signature": "(percentiles: tuple[float, float], grid_resolution: int) -> tuple[float, float]",
       "depth": 1,
       "inputs": [
-        {"name": "percentiles", "type_desc": "tuple[float, float]", "required": true},
-        {"name": "grid_resolution", "type_desc": "int", "required": true}
+        {
+          "name": "percentiles",
+          "type_desc": "tuple[float, float]",
+          "required": true
+        },
+        {
+          "name": "grid_resolution",
+          "type_desc": "int",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "tuple[float, float]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "tuple[float, float]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "partial_dependence_feature_axis",
@@ -35,12 +52,37 @@
       "type_signature": "(feature_values: NDArray[np.float64], percentiles: tuple[float, float], is_categorical: bool, grid_resolution: int) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "feature_values", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "percentiles", "type_desc": "tuple[float, float]", "required": true},
-        {"name": "is_categorical", "type_desc": "bool", "required": true},
-        {"name": "grid_resolution", "type_desc": "int", "required": true}
+        {
+          "name": "feature_values",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "percentiles",
+          "type_desc": "tuple[float, float]",
+          "required": true
+        },
+        {
+          "name": "is_categorical",
+          "type_desc": "bool",
+          "required": true
+        },
+        {
+          "name": "grid_resolution",
+          "type_desc": "int",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "partial_dependence_grid",
@@ -51,17 +93,50 @@
       "type_signature": "(X: NDArray[np.float64], percentiles: tuple[float, float], is_categorical: tuple[bool, ...], grid_resolution: int) -> tuple[NDArray[np.float64], tuple[NDArray[np.float64], ...]]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "percentiles", "type_desc": "tuple[float, float]", "required": true},
-        {"name": "is_categorical", "type_desc": "tuple[bool, ...]", "required": true},
-        {"name": "grid_resolution", "type_desc": "int", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "percentiles",
+          "type_desc": "tuple[float, float]",
+          "required": true
+        },
+        {
+          "name": "is_categorical",
+          "type_desc": "tuple[bool, ...]",
+          "required": true
+        },
+        {
+          "name": "grid_resolution",
+          "type_desc": "int",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "tuple[NDArray[np.float64], tuple[NDArray[np.float64], ...]]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "tuple[NDArray[np.float64], tuple[NDArray[np.float64], ...]]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [
-    {"source": "partial_dependence_grid_parameters", "target": "partial_dependence_feature_axis", "kind": "parameter_input"},
-    {"source": "partial_dependence_feature_axis", "target": "partial_dependence_grid", "kind": "axis_input"}
+    {
+      "source": "partial_dependence_grid_parameters",
+      "target": "partial_dependence_feature_axis",
+      "kind": "parameter_input"
+    },
+    {
+      "source": "partial_dependence_feature_axis",
+      "target": "partial_dependence_grid",
+      "kind": "axis_input"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

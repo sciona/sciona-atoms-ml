@@ -21,11 +21,22 @@
       "type_signature": "(X_is_sparse: bool) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "X_is_sparse", "type_desc": "whether the original X input is sparse", "required": true}
+        {
+          "name": "X_is_sparse",
+          "type_desc": "whether the original X input is sparse",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether the dense-only writeability loop runs"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether the dense-only writeability loop runs"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_path_residuals_array_needs_writeable_fix",
@@ -36,12 +47,27 @@
       "type_signature": "(array_base_matches_input: bool, array_writeable: bool) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "array_base_matches_input", "type_desc": "whether array.base is array_input", "required": true},
-        {"name": "array_writeable", "type_desc": "whether the array is already writeable", "required": true}
+        {
+          "name": "array_base_matches_input",
+          "type_desc": "whether array.base is array_input",
+          "required": true
+        },
+        {
+          "name": "array_writeable",
+          "type_desc": "whether the array is already writeable",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether the writeability fix is required"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether the writeability fix is required"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_path_residuals_writable_array",
@@ -52,17 +78,40 @@
       "type_signature": "(array: NDArray[np.generic], array_input: object) -> NDArray[np.generic]",
       "depth": 1,
       "inputs": [
-        {"name": "array", "type_desc": "finite numeric rank-1 or rank-2 sliced array", "required": true},
-        {"name": "array_input", "type_desc": "original source object paired with the array in the sklearn loop", "required": true}
+        {
+          "name": "array",
+          "type_desc": "finite numeric rank-1 or rank-2 sliced array",
+          "required": true
+        },
+        {
+          "name": "array_input",
+          "type_desc": "original source object paired with the array in the sklearn loop",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "same array object, writeable when the guard requires it"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "same array object, writeable when the guard requires it"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "cd_path_residuals_dense_writeable_guard", "target": "cd_path_residuals_array_needs_writeable_fix", "kind": "loop_context"},
-    {"source": "cd_path_residuals_array_needs_writeable_fix", "target": "cd_path_residuals_writable_array", "kind": "branch_context"}
+    {
+      "source": "cd_path_residuals_dense_writeable_guard",
+      "target": "cd_path_residuals_array_needs_writeable_fix",
+      "kind": "loop_context"
+    },
+    {
+      "source": "cd_path_residuals_array_needs_writeable_fix",
+      "target": "cd_path_residuals_writable_array",
+      "kind": "branch_context"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

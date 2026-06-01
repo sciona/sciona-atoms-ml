@@ -21,11 +21,22 @@
       "type_signature": "(prefit_result: Sequence[object]) -> dict[str, object]",
       "depth": 1,
       "inputs": [
-        {"name": "prefit_result", "type_desc": "seven-item _pre_fit return", "required": true}
+        {
+          "name": "prefit_result",
+          "type_desc": "seven-item _pre_fit return",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "mapping of assigned _pre_fit fields"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "mapping of assigned _pre_fit fields"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_estimator_set_order_result_unpack",
@@ -36,11 +47,22 @@
       "type_signature": "(order_result: Sequence[object]) -> dict[str, object]",
       "depth": 1,
       "inputs": [
-        {"name": "order_result", "type_desc": "two-item _set_order return", "required": true}
+        {
+          "name": "order_result",
+          "type_desc": "two-item _set_order return",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "mapping of assigned ordered X and y fields"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "mapping of assigned ordered X and y fields"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_estimator_prefit_xy_payload",
@@ -51,22 +73,65 @@
       "type_signature": "(X: object, y: object, X_offset: object, y_offset: object, X_scale: object, precompute: object, Xy: object) -> dict[str, object]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "post-prefit feature matrix", "required": true},
-        {"name": "y", "type_desc": "post-prefit target array", "required": true},
-        {"name": "X_offset", "type_desc": "feature offset from _pre_fit", "required": true},
-        {"name": "y_offset", "type_desc": "target offset from _pre_fit", "required": true},
-        {"name": "X_scale", "type_desc": "feature scale from _pre_fit", "required": true},
-        {"name": "precompute", "type_desc": "post-prefit precompute payload", "required": true},
-        {"name": "Xy", "type_desc": "post-prefit Xy payload", "required": true}
+        {
+          "name": "X",
+          "type_desc": "post-prefit feature matrix",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "post-prefit target array",
+          "required": true
+        },
+        {
+          "name": "X_offset",
+          "type_desc": "feature offset from _pre_fit",
+          "required": true
+        },
+        {
+          "name": "y_offset",
+          "type_desc": "target offset from _pre_fit",
+          "required": true
+        },
+        {
+          "name": "X_scale",
+          "type_desc": "feature scale from _pre_fit",
+          "required": true
+        },
+        {
+          "name": "precompute",
+          "type_desc": "post-prefit precompute payload",
+          "required": true
+        },
+        {
+          "name": "Xy",
+          "type_desc": "post-prefit Xy payload",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "identity-preserving named payload"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "identity-preserving named payload"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "cd_estimator_prefit_result_unpack", "target": "cd_estimator_prefit_xy_payload", "kind": "provides_prefit_fields"},
-    {"source": "cd_estimator_set_order_result_unpack", "target": "cd_estimator_prefit_xy_payload", "kind": "updates_ordered_X_y"}
+    {
+      "source": "cd_estimator_prefit_result_unpack",
+      "target": "cd_estimator_prefit_xy_payload",
+      "kind": "provides_prefit_fields"
+    },
+    {
+      "source": "cd_estimator_set_order_result_unpack",
+      "target": "cd_estimator_prefit_xy_payload",
+      "kind": "updates_ordered_X_y"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

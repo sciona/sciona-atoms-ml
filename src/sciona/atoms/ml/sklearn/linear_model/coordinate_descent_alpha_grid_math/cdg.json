@@ -23,11 +23,22 @@
       "type_signature": "(Xyw: NDArray[np.floating]) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "Xyw", "type_desc": "finite one- or two-dimensional numeric array", "required": true}
+        {
+          "name": "Xyw",
+          "type_desc": "finite one- or two-dimensional numeric array",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "finite two-dimensional float64 matrix"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "finite two-dimensional float64 matrix"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "cd_alpha_grid_sample_count",
@@ -38,12 +49,27 @@
       "type_signature": "(n_samples: int, sample_weight_sum: float | None = None) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "n_samples", "type_desc": "positive integer sample count", "required": true},
-        {"name": "sample_weight_sum", "type_desc": "optional positive finite weighted sample count", "required": false}
+        {
+          "name": "n_samples",
+          "type_desc": "positive integer sample count",
+          "required": true
+        },
+        {
+          "name": "sample_weight_sum",
+          "type_desc": "optional positive finite weighted sample count",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "positive finite effective sample count"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "positive finite effective sample count"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_alpha_grid_alpha_max",
@@ -54,13 +80,32 @@
       "type_signature": "(Xyw: NDArray[np.float64], sample_count: float, l1_ratio: float) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "Xyw", "type_desc": "finite two-dimensional float64 matrix", "required": true},
-        {"name": "sample_count", "type_desc": "positive finite sample count", "required": true},
-        {"name": "l1_ratio", "type_desc": "positive finite elastic-net mixing value", "required": true}
+        {
+          "name": "Xyw",
+          "type_desc": "finite two-dimensional float64 matrix",
+          "required": true
+        },
+        {
+          "name": "sample_count",
+          "type_desc": "positive finite sample count",
+          "required": true
+        },
+        {
+          "name": "l1_ratio",
+          "type_desc": "positive finite elastic-net mixing value",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "nonnegative finite alpha_max"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "nonnegative finite alpha_max"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "cd_alpha_grid_use_resolution_fallback",
@@ -71,11 +116,22 @@
       "type_signature": "(alpha_max: float) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "alpha_max", "type_desc": "finite nonnegative alpha_max", "required": true}
+        {
+          "name": "alpha_max",
+          "type_desc": "finite nonnegative alpha_max",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether the resolution fallback should be used"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether the resolution fallback should be used"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_alpha_grid_values",
@@ -86,21 +142,60 @@
       "type_signature": "(alpha_max: float, eps: float, n_alphas: int) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "alpha_max", "type_desc": "finite nonnegative alpha_max", "required": true},
-        {"name": "eps", "type_desc": "positive finite path ratio", "required": true},
-        {"name": "n_alphas", "type_desc": "positive integer alpha count", "required": true}
+        {
+          "name": "alpha_max",
+          "type_desc": "finite nonnegative alpha_max",
+          "required": true
+        },
+        {
+          "name": "eps",
+          "type_desc": "positive finite path ratio",
+          "required": true
+        },
+        {
+          "name": "n_alphas",
+          "type_desc": "positive integer alpha count",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "positive finite one-dimensional alpha grid"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "positive finite one-dimensional alpha grid"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "cd_alpha_grid_xyw_matrix", "target": "cd_alpha_grid_alpha_max", "kind": "normalized_matrix"},
-    {"source": "cd_alpha_grid_sample_count", "target": "cd_alpha_grid_alpha_max", "kind": "effective_sample_count"},
-    {"source": "cd_alpha_grid_alpha_max", "target": "cd_alpha_grid_use_resolution_fallback", "kind": "cutoff_check"},
-    {"source": "cd_alpha_grid_alpha_max", "target": "cd_alpha_grid_values", "kind": "grid_start"},
-    {"source": "cd_alpha_grid_use_resolution_fallback", "target": "cd_alpha_grid_values", "kind": "branch"}
+    {
+      "source": "cd_alpha_grid_xyw_matrix",
+      "target": "cd_alpha_grid_alpha_max",
+      "kind": "normalized_matrix"
+    },
+    {
+      "source": "cd_alpha_grid_sample_count",
+      "target": "cd_alpha_grid_alpha_max",
+      "kind": "effective_sample_count"
+    },
+    {
+      "source": "cd_alpha_grid_alpha_max",
+      "target": "cd_alpha_grid_use_resolution_fallback",
+      "kind": "cutoff_check"
+    },
+    {
+      "source": "cd_alpha_grid_alpha_max",
+      "target": "cd_alpha_grid_values",
+      "kind": "grid_start"
+    },
+    {
+      "source": "cd_alpha_grid_use_resolution_fallback",
+      "target": "cd_alpha_grid_values",
+      "kind": "branch"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

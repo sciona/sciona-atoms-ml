@@ -23,11 +23,22 @@
       "type_signature": "(path_results: object) -> tuple[tuple[object, ...], tuple[object, ...], tuple[object, ...]]",
       "depth": 1,
       "inputs": [
-        {"name": "path_results", "type_desc": "_logistic_regression_path result tuples", "required": true}
+        {
+          "name": "path_results",
+          "type_desc": "_logistic_regression_path result tuples",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "unpacked fold_coefs, Cs, and n_iter tuple"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "unpacked fold_coefs, Cs, and n_iter tuple"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "logistic_fit_n_iter_from_path_results",
@@ -38,11 +49,22 @@
       "type_signature": "(n_iter: object) -> NDArray[np.int32]",
       "depth": 1,
       "inputs": [
-        {"name": "n_iter", "type_desc": "path result iteration counts", "required": true}
+        {
+          "name": "n_iter",
+          "type_desc": "path result iteration counts",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "LogisticRegression n_iter_ vector"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "LogisticRegression n_iter_ vector"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "logistic_fit_coef_with_intercept",
@@ -53,15 +75,42 @@
       "type_signature": "(fold_coefs: object, *, multi_class: str, n_classes: int, n_features: int, fit_intercept: bool) -> NDArray[np.floating]",
       "depth": 1,
       "inputs": [
-        {"name": "fold_coefs", "type_desc": "_logistic_regression_path coefficient outputs", "required": true},
-        {"name": "multi_class", "type_desc": "resolved logistic multiclass mode", "required": true},
-        {"name": "n_classes", "type_desc": "effective number of fitted class rows", "required": true},
-        {"name": "n_features", "type_desc": "number of input features", "required": true},
-        {"name": "fit_intercept", "type_desc": "whether the path output carries an intercept column", "required": true}
+        {
+          "name": "fold_coefs",
+          "type_desc": "_logistic_regression_path coefficient outputs",
+          "required": true
+        },
+        {
+          "name": "multi_class",
+          "type_desc": "resolved logistic multiclass mode",
+          "required": true
+        },
+        {
+          "name": "n_classes",
+          "type_desc": "effective number of fitted class rows",
+          "required": true
+        },
+        {
+          "name": "n_features",
+          "type_desc": "number of input features",
+          "required": true
+        },
+        {
+          "name": "fit_intercept",
+          "type_desc": "whether the path output carries an intercept column",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "coefficient matrix including optional intercept column"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "coefficient matrix including optional intercept column"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "logistic_fit_final_coef",
@@ -72,12 +121,27 @@
       "type_signature": "(coef_with_intercept: object, *, fit_intercept: bool) -> NDArray[np.floating]",
       "depth": 1,
       "inputs": [
-        {"name": "coef_with_intercept", "type_desc": "coefficient matrix including optional intercept column", "required": true},
-        {"name": "fit_intercept", "type_desc": "whether the final column is an intercept", "required": true}
+        {
+          "name": "coef_with_intercept",
+          "type_desc": "coefficient matrix including optional intercept column",
+          "required": true
+        },
+        {
+          "name": "fit_intercept",
+          "type_desc": "whether the final column is an intercept",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "final coef_ matrix"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "final coef_ matrix"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "logistic_fit_final_intercept",
@@ -88,20 +152,55 @@
       "type_signature": "(coef_with_intercept: object, *, n_classes: int, fit_intercept: bool) -> NDArray[np.floating]",
       "depth": 1,
       "inputs": [
-        {"name": "coef_with_intercept", "type_desc": "coefficient matrix including optional intercept column", "required": true},
-        {"name": "n_classes", "type_desc": "effective number of fitted class rows", "required": true},
-        {"name": "fit_intercept", "type_desc": "whether the final column is an intercept", "required": true}
+        {
+          "name": "coef_with_intercept",
+          "type_desc": "coefficient matrix including optional intercept column",
+          "required": true
+        },
+        {
+          "name": "n_classes",
+          "type_desc": "effective number of fitted class rows",
+          "required": true
+        },
+        {
+          "name": "fit_intercept",
+          "type_desc": "whether the final column is an intercept",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "final intercept_ vector"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "final intercept_ vector"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [
-    {"source": "logistic_fit_path_results", "target": "logistic_fit_n_iter_from_path_results", "kind": "state_packaging"},
-    {"source": "logistic_fit_path_results", "target": "logistic_fit_coef_with_intercept", "kind": "state_packaging"},
-    {"source": "logistic_fit_coef_with_intercept", "target": "logistic_fit_final_coef", "kind": "state_unpacking"},
-    {"source": "logistic_fit_coef_with_intercept", "target": "logistic_fit_final_intercept", "kind": "state_unpacking"}
+    {
+      "source": "logistic_fit_path_results",
+      "target": "logistic_fit_n_iter_from_path_results",
+      "kind": "state_packaging"
+    },
+    {
+      "source": "logistic_fit_path_results",
+      "target": "logistic_fit_coef_with_intercept",
+      "kind": "state_packaging"
+    },
+    {
+      "source": "logistic_fit_coef_with_intercept",
+      "target": "logistic_fit_final_coef",
+      "kind": "state_unpacking"
+    },
+    {
+      "source": "logistic_fit_coef_with_intercept",
+      "target": "logistic_fit_final_intercept",
+      "kind": "state_unpacking"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

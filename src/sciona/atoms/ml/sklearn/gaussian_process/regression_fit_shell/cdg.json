@@ -23,11 +23,22 @@
       "type_signature": "(kernel_requires_vector_input: bool) -> str | None",
       "depth": 1,
       "inputs": [
-        {"name": "kernel_requires_vector_input", "type_desc": "bool", "required": true}
+        {
+          "name": "kernel_requires_vector_input",
+          "type_desc": "bool",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "str | None"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "str | None"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "gp_fit_validate_ensure_2d",
@@ -38,11 +49,22 @@
       "type_signature": "(kernel_requires_vector_input: bool) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "kernel_requires_vector_input", "type_desc": "bool", "required": true}
+        {
+          "name": "kernel_requires_vector_input",
+          "type_desc": "bool",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "gp_fit_use_optimizer_branch",
@@ -53,12 +75,27 @@
       "type_signature": "(optimizer_is_not_none: bool, kernel_n_dims: int) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "optimizer_is_not_none", "type_desc": "bool", "required": true},
-        {"name": "kernel_n_dims", "type_desc": "int", "required": true}
+        {
+          "name": "optimizer_is_not_none",
+          "type_desc": "bool",
+          "required": true
+        },
+        {
+          "name": "kernel_n_dims",
+          "type_desc": "int",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "gp_fit_stored_train_inputs",
@@ -69,12 +106,27 @@
       "type_signature": "(X: NDArray[np.float64], copy_X_train: bool) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "copy_X_train", "type_desc": "bool", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "copy_X_train",
+          "type_desc": "bool",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "gp_fit_stored_train_targets",
@@ -85,19 +137,50 @@
       "type_signature": "(y: NDArray[np.float64], copy_X_train: bool) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "copy_X_train", "type_desc": "bool", "required": true}
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "copy_X_train",
+          "type_desc": "bool",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [
-    {"source": "gp_fit_dtype_name", "target": "gp_fit_validate_ensure_2d", "kind": "validation_mode"},
-    {"source": "gp_fit_validate_ensure_2d", "target": "gp_fit_stored_train_inputs", "kind": "post_validation_storage"},
-    {"source": "gp_fit_stored_train_inputs", "target": "gp_fit_stored_train_targets", "kind": "shared_copy_policy"},
-    {"source": "gp_fit_validate_ensure_2d", "target": "gp_fit_use_optimizer_branch", "kind": "fit_flow"}
+    {
+      "source": "gp_fit_dtype_name",
+      "target": "gp_fit_validate_ensure_2d",
+      "kind": "validation_mode"
+    },
+    {
+      "source": "gp_fit_validate_ensure_2d",
+      "target": "gp_fit_stored_train_inputs",
+      "kind": "post_validation_storage"
+    },
+    {
+      "source": "gp_fit_stored_train_inputs",
+      "target": "gp_fit_stored_train_targets",
+      "kind": "shared_copy_policy"
+    },
+    {
+      "source": "gp_fit_validate_ensure_2d",
+      "target": "gp_fit_use_optimizer_branch",
+      "kind": "fit_flow"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

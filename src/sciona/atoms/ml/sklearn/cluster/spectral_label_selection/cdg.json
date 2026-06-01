@@ -17,11 +17,21 @@
       "status": "atomic",
       "concept_type": "spectral_label_branch",
       "inputs": [
-        {"name": "assign_labels", "type_desc": "str"}
+        {
+          "name": "assign_labels",
+          "type_desc": "str"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "spectral_fit_selected_labels",
@@ -30,18 +40,44 @@
       "status": "atomic",
       "concept_type": "spectral_label_output",
       "inputs": [
-        {"name": "use_kmeans", "type_desc": "bool"},
-        {"name": "use_cluster_qr", "type_desc": "bool"},
-        {"name": "kmeans_labels", "type_desc": "integer vector"},
-        {"name": "cluster_qr_labels", "type_desc": "integer vector"},
-        {"name": "discretize_labels", "type_desc": "integer vector"}
+        {
+          "name": "use_kmeans",
+          "type_desc": "bool"
+        },
+        {
+          "name": "use_cluster_qr",
+          "type_desc": "bool"
+        },
+        {
+          "name": "kmeans_labels",
+          "type_desc": "integer vector"
+        },
+        {
+          "name": "cluster_qr_labels",
+          "type_desc": "integer vector"
+        },
+        {
+          "name": "discretize_labels",
+          "type_desc": "integer vector"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "integer vector"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "integer vector"
+        }
+      ],
+      "time_complexity": "O(N^2 * d)",
+      "space_complexity": "O(N^2)",
+      "complexity_reasoning": "Manifold learning, biclustering or spectral decomposition constructs similarity/projection matrices, taking quadratic time/space in samples.",
+      "complexity_confidence": 90
     }
   ],
   "edges": [
-    {"source": "spectral_fit_use_discretize", "target": "spectral_fit_selected_labels", "kind": "fallback_label_branch"}
+    {
+      "source": "spectral_fit_use_discretize",
+      "target": "spectral_fit_selected_labels",
+      "kind": "fallback_label_branch"
+    }
   ]
 }

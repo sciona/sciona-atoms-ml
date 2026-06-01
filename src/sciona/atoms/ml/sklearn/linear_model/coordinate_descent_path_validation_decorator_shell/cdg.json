@@ -22,11 +22,22 @@
       "type_signature": "(path_name: str) -> tuple[str, ...]",
       "depth": 1,
       "inputs": [
-        {"name": "path_name", "type_desc": "must be lasso_path", "required": true}
+        {
+          "name": "path_name",
+          "type_desc": "must be lasso_path",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "ordered validate_params keys for lasso_path"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "ordered validate_params keys for lasso_path"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_enet_path_validation_param_names",
@@ -37,11 +48,22 @@
       "type_signature": "(path_name: str) -> tuple[str, ...]",
       "depth": 1,
       "inputs": [
-        {"name": "path_name", "type_desc": "must be enet_path", "required": true}
+        {
+          "name": "path_name",
+          "type_desc": "must be enet_path",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "ordered validate_params keys for enet_path"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "ordered validate_params keys for enet_path"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_path_validation_param_descriptors",
@@ -52,11 +74,22 @@
       "type_signature": "(path_name: str) -> dict[str, tuple[object, ...]]",
       "depth": 1,
       "inputs": [
-        {"name": "path_name", "type_desc": "lasso_path or enet_path", "required": true}
+        {
+          "name": "path_name",
+          "type_desc": "lasso_path or enet_path",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "compact validation descriptors"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "compact validation descriptors"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_path_validation_prefers_skip_nested",
@@ -67,17 +100,40 @@
       "type_signature": "(path_name: str) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "path_name", "type_desc": "lasso_path or enet_path", "required": true}
+        {
+          "name": "path_name",
+          "type_desc": "lasso_path or enet_path",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "true when nested validation is skipped"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "true when nested validation is skipped"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "cd_lasso_path_validation_param_names", "target": "cd_path_validation_param_descriptors", "kind": "schema_order"},
-    {"source": "cd_enet_path_validation_param_names", "target": "cd_path_validation_param_descriptors", "kind": "schema_order"},
-    {"source": "cd_path_validation_param_descriptors", "target": "cd_path_validation_prefers_skip_nested", "kind": "decorator_context"}
+    {
+      "source": "cd_lasso_path_validation_param_names",
+      "target": "cd_path_validation_param_descriptors",
+      "kind": "schema_order"
+    },
+    {
+      "source": "cd_enet_path_validation_param_names",
+      "target": "cd_path_validation_param_descriptors",
+      "kind": "schema_order"
+    },
+    {
+      "source": "cd_path_validation_param_descriptors",
+      "target": "cd_path_validation_prefers_skip_nested",
+      "kind": "decorator_context"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

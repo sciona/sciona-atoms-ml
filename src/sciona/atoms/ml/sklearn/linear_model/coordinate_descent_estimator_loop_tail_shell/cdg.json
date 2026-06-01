@@ -24,11 +24,22 @@
       "type_signature": "(this_coef: object) -> NDArray[np.floating]",
       "depth": 1,
       "inputs": [
-        {"name": "this_coef", "type_desc": "coefficient array returned by path for one target", "required": true}
+        {
+          "name": "this_coef",
+          "type_desc": "coefficient array returned by path for one target",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "first coefficient column this_coef[:, 0]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "first coefficient column this_coef[:, 0]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_estimator_coef_matrix_with_target",
@@ -39,13 +50,32 @@
       "type_signature": "(coef_matrix: NDArray[np.floating], target_index: int, this_coef: object) -> NDArray[np.floating]",
       "depth": 1,
       "inputs": [
-        {"name": "coef_matrix", "type_desc": "coefficient matrix before target update", "required": true},
-        {"name": "target_index", "type_desc": "target-loop index", "required": true},
-        {"name": "this_coef", "type_desc": "coefficient array returned by path for one target", "required": true}
+        {
+          "name": "coef_matrix",
+          "type_desc": "coefficient matrix before target update",
+          "required": true
+        },
+        {
+          "name": "target_index",
+          "type_desc": "target-loop index",
+          "required": true
+        },
+        {
+          "name": "this_coef",
+          "type_desc": "coefficient array returned by path for one target",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "copy of coefficient matrix with row k replaced"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "copy of coefficient matrix with row k replaced"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_estimator_target_dual_gap_scalar",
@@ -56,11 +86,22 @@
       "type_signature": "(this_dual_gap: object) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "this_dual_gap", "type_desc": "dual-gap vector returned by path for one target", "required": true}
+        {
+          "name": "this_dual_gap",
+          "type_desc": "dual-gap vector returned by path for one target",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "first dual-gap entry this_dual_gap[0]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "first dual-gap entry this_dual_gap[0]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_estimator_dual_gaps_with_target",
@@ -71,13 +112,32 @@
       "type_signature": "(dual_gaps: NDArray[np.floating], target_index: int, this_dual_gap: object) -> NDArray[np.floating]",
       "depth": 1,
       "inputs": [
-        {"name": "dual_gaps", "type_desc": "dual-gap vector before target update", "required": true},
-        {"name": "target_index", "type_desc": "target-loop index", "required": true},
-        {"name": "this_dual_gap", "type_desc": "dual-gap vector returned by path for one target", "required": true}
+        {
+          "name": "dual_gaps",
+          "type_desc": "dual-gap vector before target update",
+          "required": true
+        },
+        {
+          "name": "target_index",
+          "type_desc": "target-loop index",
+          "required": true
+        },
+        {
+          "name": "this_dual_gap",
+          "type_desc": "dual-gap vector returned by path for one target",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "copy of dual-gap vector with slot k replaced"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "copy of dual-gap vector with slot k replaced"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_estimator_target_iteration_count",
@@ -88,11 +148,22 @@
       "type_signature": "(this_iter: object) -> int",
       "depth": 1,
       "inputs": [
-        {"name": "this_iter", "type_desc": "iteration-count vector returned by path for one target", "required": true}
+        {
+          "name": "this_iter",
+          "type_desc": "iteration-count vector returned by path for one target",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "first iteration count this_iter[0]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "first iteration count this_iter[0]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_estimator_n_iter_with_target",
@@ -103,18 +174,45 @@
       "type_signature": "(n_iter_list: Sequence[int], this_iter: object) -> list[int]",
       "depth": 1,
       "inputs": [
-        {"name": "n_iter_list", "type_desc": "iteration-count list before append", "required": true},
-        {"name": "this_iter", "type_desc": "iteration-count vector returned by path for one target", "required": true}
+        {
+          "name": "n_iter_list",
+          "type_desc": "iteration-count list before append",
+          "required": true
+        },
+        {
+          "name": "this_iter",
+          "type_desc": "iteration-count vector returned by path for one target",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "new list with this_iter[0] appended"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "new list with this_iter[0] appended"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "cd_estimator_target_coef_column", "target": "cd_estimator_coef_matrix_with_target", "kind": "state_update"},
-    {"source": "cd_estimator_target_dual_gap_scalar", "target": "cd_estimator_dual_gaps_with_target", "kind": "state_update"},
-    {"source": "cd_estimator_target_iteration_count", "target": "cd_estimator_n_iter_with_target", "kind": "state_update"}
+    {
+      "source": "cd_estimator_target_coef_column",
+      "target": "cd_estimator_coef_matrix_with_target",
+      "kind": "state_update"
+    },
+    {
+      "source": "cd_estimator_target_dual_gap_scalar",
+      "target": "cd_estimator_dual_gaps_with_target",
+      "kind": "state_update"
+    },
+    {
+      "source": "cd_estimator_target_iteration_count",
+      "target": "cd_estimator_n_iter_with_target",
+      "kind": "state_update"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

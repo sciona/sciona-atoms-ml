@@ -24,8 +24,23 @@
       "status": "atomic",
       "type_signature": "(raw_prediction: object) -> dict[str, object]",
       "depth": 1,
-      "inputs": [{"name": "raw_prediction", "type_desc": "supplied raw prediction vector", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "check_array keyword payload"}]
+      "inputs": [
+        {
+          "name": "raw_prediction",
+          "type_desc": "supplied raw prediction vector",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "check_array keyword payload"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "glm_score_sample_weight_check_args",
@@ -36,10 +51,27 @@
       "type_signature": "(sample_weight: object, X: object) -> tuple[object, object]",
       "depth": 1,
       "inputs": [
-        {"name": "sample_weight", "type_desc": "sample-weight payload", "required": true},
-        {"name": "X", "type_desc": "validated feature matrix", "required": true}
+        {
+          "name": "sample_weight",
+          "type_desc": "sample-weight payload",
+          "required": true
+        },
+        {
+          "name": "X",
+          "type_desc": "validated feature matrix",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "_check_sample_weight positional payload"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "_check_sample_weight positional payload"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "glm_score_sample_weight_check_kwargs",
@@ -49,8 +81,23 @@
       "status": "atomic",
       "type_signature": "(y: object) -> dict[str, object]",
       "depth": 1,
-      "inputs": [{"name": "y", "type_desc": "validated target vector", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "_check_sample_weight keyword payload"}]
+      "inputs": [
+        {
+          "name": "y",
+          "type_desc": "validated target vector",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "_check_sample_weight keyword payload"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "glm_score_target_range_error_message",
@@ -60,8 +107,23 @@
       "status": "atomic",
       "type_signature": "(loss_name: str) -> str",
       "depth": 1,
-      "inputs": [{"name": "loss_name", "type_desc": "base_loss.__name__", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "ValueError message"}]
+      "inputs": [
+        {
+          "name": "loss_name",
+          "type_desc": "base_loss.__name__",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "ValueError message"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "glm_score_constant_average",
@@ -72,10 +134,27 @@
       "type_signature": "(constant_values: NDArray[np.float64], sample_weight: object = None) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "constant_values", "type_desc": "supplied constant_to_optimal_zero output", "required": true},
-        {"name": "sample_weight", "type_desc": "validated sample weights or None", "required": false}
+        {
+          "name": "constant_values",
+          "type_desc": "supplied constant_to_optimal_zero output",
+          "required": true
+        },
+        {
+          "name": "sample_weight",
+          "type_desc": "validated sample weights or None",
+          "required": false
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "weighted constant average"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "weighted constant average"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "glm_score_null_raw_prediction",
@@ -86,10 +165,27 @@
       "type_signature": "(y: object, linked_mean: float) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "y", "type_desc": "validated target vector", "required": true},
-        {"name": "linked_mean", "type_desc": "supplied base_loss.link.link(weighted_mean_y) result", "required": true}
+        {
+          "name": "y",
+          "type_desc": "validated target vector",
+          "required": true
+        },
+        {
+          "name": "linked_mean",
+          "type_desc": "supplied base_loss.link.link(weighted_mean_y) result",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "null raw prediction vector"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "null raw prediction vector"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "glm_score_d2_from_deviances",
@@ -100,17 +196,50 @@
       "type_signature": "(deviance: float, deviance_null: float, constant: float) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "deviance", "type_desc": "supplied model deviance", "required": true},
-        {"name": "deviance_null", "type_desc": "supplied null deviance", "required": true},
-        {"name": "constant", "type_desc": "weighted constant average", "required": true}
+        {
+          "name": "deviance",
+          "type_desc": "supplied model deviance",
+          "required": true
+        },
+        {
+          "name": "deviance_null",
+          "type_desc": "supplied null deviance",
+          "required": true
+        },
+        {
+          "name": "constant",
+          "type_desc": "weighted constant average",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "D2 score"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "D2 score"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "glm_score_y_check_array_kwargs", "target": "glm_score_sample_weight_check_kwargs", "kind": "validation_context"},
-    {"source": "glm_score_constant_average", "target": "glm_score_d2_from_deviances", "kind": "score_component"},
-    {"source": "glm_score_null_raw_prediction", "target": "glm_score_d2_from_deviances", "kind": "null_model_context"}
+    {
+      "source": "glm_score_y_check_array_kwargs",
+      "target": "glm_score_sample_weight_check_kwargs",
+      "kind": "validation_context"
+    },
+    {
+      "source": "glm_score_constant_average",
+      "target": "glm_score_d2_from_deviances",
+      "kind": "score_component"
+    },
+    {
+      "source": "glm_score_null_raw_prediction",
+      "target": "glm_score_d2_from_deviances",
+      "kind": "null_model_context"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

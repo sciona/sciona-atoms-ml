@@ -23,13 +23,32 @@
       "type_signature": "(n_samples: int, n_features: int, support_fraction: float | None = None) -> int",
       "depth": 1,
       "inputs": [
-        {"name": "n_samples", "type_desc": "int", "required": true},
-        {"name": "n_features", "type_desc": "int", "required": true},
-        {"name": "support_fraction", "type_desc": "float | None", "required": false}
+        {
+          "name": "n_samples",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "n_features",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "support_fraction",
+          "type_desc": "float | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "int"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "fast_mcd_1d_location",
@@ -40,12 +59,27 @@
       "type_signature": "(X: NDArray[np.float64], n_support: int) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "n_support", "type_desc": "int", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "n_support",
+          "type_desc": "int",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * log N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "Ranking or sorting array elements is dominated by the O(N log N) time complexity of the sorting algorithm, and takes linear space.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "fast_mcd_1d_support_mask",
@@ -56,13 +90,32 @@
       "type_signature": "(X: NDArray[np.float64], location: NDArray[np.float64], n_support: int) -> NDArray[np.bool_]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "location", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "n_support", "type_desc": "int", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "location",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "n_support",
+          "type_desc": "int",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.bool_]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.bool_]"
+        }
+      ],
+      "time_complexity": "O(N * log N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "Ranking or sorting array elements is dominated by the O(N log N) time complexity of the sorting algorithm, and takes linear space.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "fast_mcd_1d_covariance",
@@ -73,12 +126,27 @@
       "type_signature": "(X: NDArray[np.float64], support_mask: NDArray[np.bool_]) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "support_mask", "type_desc": "NDArray[np.bool_]", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "support_mask",
+          "type_desc": "NDArray[np.bool_]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "fast_mcd_1d_squared_distances",
@@ -89,20 +157,55 @@
       "type_signature": "(X: NDArray[np.float64], location: NDArray[np.float64], covariance: NDArray[np.float64]) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "location", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "covariance", "type_desc": "NDArray[np.float64]", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "location",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "covariance",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [
-    {"source": "fast_mcd_support_count", "target": "fast_mcd_1d_location", "kind": "support_size"},
-    {"source": "fast_mcd_1d_location", "target": "fast_mcd_1d_support_mask", "kind": "centered_support_selection"},
-    {"source": "fast_mcd_1d_support_mask", "target": "fast_mcd_1d_covariance", "kind": "selected_support"},
-    {"source": "fast_mcd_1d_covariance", "target": "fast_mcd_1d_squared_distances", "kind": "raw_covariance"}
+    {
+      "source": "fast_mcd_support_count",
+      "target": "fast_mcd_1d_location",
+      "kind": "support_size"
+    },
+    {
+      "source": "fast_mcd_1d_location",
+      "target": "fast_mcd_1d_support_mask",
+      "kind": "centered_support_selection"
+    },
+    {
+      "source": "fast_mcd_1d_support_mask",
+      "target": "fast_mcd_1d_covariance",
+      "kind": "selected_support"
+    },
+    {
+      "source": "fast_mcd_1d_covariance",
+      "target": "fast_mcd_1d_squared_distances",
+      "kind": "raw_covariance"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

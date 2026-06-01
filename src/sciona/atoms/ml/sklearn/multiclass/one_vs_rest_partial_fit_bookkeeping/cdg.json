@@ -23,11 +23,22 @@
       "description": "Resolve the number of cloned estimators allocated on the first OneVsRestClassifier.partial_fit call from the fitted class count.",
       "type_signature": "(n_classes: int) -> int",
       "inputs": [
-        {"name": "n_classes", "type_desc": "int", "required": true}
+        {
+          "name": "n_classes",
+          "type_desc": "int",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "int"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "one_vs_rest_partial_fit_label_binarizer_classes",
@@ -37,11 +48,22 @@
       "description": "Expose the class vector passed into sklearn's sparse LabelBinarizer.fit on the first OneVsRestClassifier.partial_fit call.",
       "type_signature": "(classes: NDArray[np.float64]) -> NDArray[np.float64]",
       "inputs": [
-        {"name": "classes", "type_desc": "NDArray[np.float64]", "required": true}
+        {
+          "name": "classes",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "one_vs_rest_partial_fit_n_features_in",
@@ -51,11 +73,22 @@
       "description": "Expose sklearn's fitted n_features_in_ value copied from the first trained one-vs-rest estimator after partial_fit.",
       "type_signature": "(n_features_in: int) -> int",
       "inputs": [
-        {"name": "n_features_in", "type_desc": "int", "required": true}
+        {
+          "name": "n_features_in",
+          "type_desc": "int",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "int"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [

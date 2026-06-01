@@ -23,14 +23,37 @@
       "type_signature": "(predictions: NDArray[np.float64], protected_variable: NDArray[np.float64], n_neighbours: int, step: int) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "predictions", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "protected_variable", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "n_neighbours", "type_desc": "int", "required": false},
-        {"name": "step", "type_desc": "int", "required": false}
+        {
+          "name": "predictions",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "protected_variable",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "n_neighbours",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "step",
+          "type_desc": "int",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "float"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
+      ],
+      "time_complexity": "O(N^2 / S + N * log N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "CvM mass decorrelation slides a rolling window over samples, leading to quadratic time in sample size N scaled by step size S, and linear space.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "compute_ks_agreement",
@@ -41,14 +64,37 @@
       "type_signature": "(data_predictions: NDArray[np.float64], mc_predictions: NDArray[np.float64], weights_data: NDArray[np.float64], weights_mc: NDArray[np.float64]) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "data_predictions", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "mc_predictions", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "weights_data", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "weights_mc", "type_desc": "NDArray[np.float64]", "required": true}
+        {
+          "name": "data_predictions",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "mc_predictions",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "weights_data",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "weights_mc",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "float"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
+      ],
+      "time_complexity": "O(N * log N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "Computing weighted AUC or Kolmogorov-Smirnov distance is dominated by sorting the predictions in O(N log N) time and linear space.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "roc_auc_truncated_weighted",
@@ -59,14 +105,37 @@
       "type_signature": "(labels: NDArray[np.float64], predictions: NDArray[np.float64], tpr_thresholds: tuple[float, ...], weights: tuple[float, ...]) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "labels", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "predictions", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "tpr_thresholds", "type_desc": "tuple[float, ...]", "required": false},
-        {"name": "weights", "type_desc": "tuple[float, ...]", "required": false}
+        {
+          "name": "labels",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "predictions",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "tpr_thresholds",
+          "type_desc": "tuple[float, ...]",
+          "required": false
+        },
+        {
+          "name": "weights",
+          "type_desc": "tuple[float, ...]",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "float"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
+      ],
+      "time_complexity": "O(N * log N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "Computing weighted AUC or Kolmogorov-Smirnov distance is dominated by sorting the predictions in O(N log N) time and linear space.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "noise_injection_decorrelation",
@@ -77,13 +146,32 @@
       "type_signature": "(predictions: NDArray[np.float64], noise_level: float, random_state: int | None) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "predictions", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "noise_level", "type_desc": "float", "required": false},
-        {"name": "random_state", "type_desc": "int | None", "required": false}
+        {
+          "name": "predictions",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "noise_level",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "Mixing predictions with uniform random noise takes linear time and space in the size of the prediction vector N.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "flatness_penalty_gradient",
@@ -94,17 +182,52 @@
       "type_signature": "(predictions: NDArray[np.float64], labels: NDArray[np.int64], protected_variable: NDArray[np.float64], n_bins: int, power: float, fl_coefficient: float, uniform_label: int) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "predictions", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "labels", "type_desc": "NDArray[np.int64]", "required": true},
-        {"name": "protected_variable", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "n_bins", "type_desc": "int", "required": false},
-        {"name": "power", "type_desc": "float", "required": false},
-        {"name": "fl_coefficient", "type_desc": "float", "required": false},
-        {"name": "uniform_label", "type_desc": "int", "required": false}
+        {
+          "name": "predictions",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "labels",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        },
+        {
+          "name": "protected_variable",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "n_bins",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "power",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "fl_coefficient",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "uniform_label",
+          "type_desc": "int",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * log N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "Ranking or sorting array elements is dominated by the O(N log N) time complexity of the sorting algorithm, and takes linear space.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [],

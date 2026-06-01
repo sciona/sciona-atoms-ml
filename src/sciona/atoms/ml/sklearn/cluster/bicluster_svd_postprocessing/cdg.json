@@ -17,12 +17,25 @@
       "status": "atomic",
       "concept_type": "svd_postprocessing",
       "inputs": [
-        {"name": "u", "type_desc": "finite matrix"},
-        {"name": "n_discard", "type_desc": "int"}
+        {
+          "name": "u",
+          "type_desc": "finite matrix"
+        },
+        {
+          "name": "n_discard",
+          "type_desc": "int"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "finite matrix"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "finite matrix"
+        }
+      ],
+      "time_complexity": "O(N * d^2)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Dimensionality reduction or sparse coding decomposes high-dimensional features, taking quadratic time in features and linear in samples.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "bicluster_svd_right_vectors",
@@ -31,12 +44,25 @@
       "status": "atomic",
       "concept_type": "svd_postprocessing",
       "inputs": [
-        {"name": "vt", "type_desc": "finite matrix"},
-        {"name": "n_discard", "type_desc": "int"}
+        {
+          "name": "vt",
+          "type_desc": "finite matrix"
+        },
+        {
+          "name": "n_discard",
+          "type_desc": "int"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "finite matrix"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "finite matrix"
+        }
+      ],
+      "time_complexity": "O(N * d^2)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Dimensionality reduction or sparse coding decomposes high-dimensional features, taking quadratic time in features and linear in samples.",
+      "complexity_confidence": 90
     }
   ],
   "edges": []

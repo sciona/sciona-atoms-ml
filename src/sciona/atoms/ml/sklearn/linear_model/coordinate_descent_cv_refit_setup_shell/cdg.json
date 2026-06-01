@@ -25,12 +25,27 @@
       "type_signature": "(self_params: dict[object, object], model_param_names: set[str] | frozenset[str]) -> dict[object, object]",
       "depth": 1,
       "inputs": [
-        {"name": "self_params", "type_desc": "estimator parameter mapping", "required": true},
-        {"name": "model_param_names", "type_desc": "refit-model parameter name set", "required": true}
+        {
+          "name": "self_params",
+          "type_desc": "estimator parameter mapping",
+          "required": true
+        },
+        {
+          "name": "model_param_names",
+          "type_desc": "refit-model parameter name set",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "shared-parameter mapping"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "shared-parameter mapping"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_refit_model_alpha",
@@ -41,11 +56,22 @@
       "type_signature": "(best_alpha: float) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "best_alpha", "type_desc": "finite selected alpha", "required": true}
+        {
+          "name": "best_alpha",
+          "type_desc": "finite selected alpha",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "assigned model alpha"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "assigned model alpha"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_refit_model_l1_ratio",
@@ -56,11 +82,22 @@
       "type_signature": "(best_l1_ratio: object) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "best_l1_ratio", "type_desc": "selected l1_ratio value", "required": true}
+        {
+          "name": "best_l1_ratio",
+          "type_desc": "selected l1_ratio value",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "assigned model l1_ratio"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "assigned model l1_ratio"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_refit_copy_x",
@@ -71,11 +108,22 @@
       "type_signature": "(copy_x: bool) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "copy_x", "type_desc": "resolved estimator-side copy_X boolean", "required": true}
+        {
+          "name": "copy_x",
+          "type_desc": "resolved estimator-side copy_X boolean",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "assigned model copy_X"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "assigned model copy_X"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_refit_precompute_auto_guard_required",
@@ -86,11 +134,22 @@
       "type_signature": "(precompute: object) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "precompute", "type_desc": "estimator precompute attribute value", "required": true}
+        {
+          "name": "precompute",
+          "type_desc": "estimator precompute attribute value",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether the precompute auto override fires"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether the precompute auto override fires"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_refit_precompute_value",
@@ -101,12 +160,27 @@
       "type_signature": "(precompute: object, precompute_auto_guard_required: bool) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "precompute", "type_desc": "estimator precompute attribute value", "required": true},
-        {"name": "precompute_auto_guard_required", "type_desc": "whether the auto override fires", "required": true}
+        {
+          "name": "precompute",
+          "type_desc": "estimator precompute attribute value",
+          "required": true
+        },
+        {
+          "name": "precompute_auto_guard_required",
+          "type_desc": "whether the auto override fires",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "resolved model.precompute value"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "resolved model.precompute value"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_refit_fit_call_uses_sample_weight",
@@ -117,19 +191,50 @@
       "type_signature": "(sample_weight: object) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "sample_weight", "type_desc": "optional sample-weight vector", "required": true}
+        {
+          "name": "sample_weight",
+          "type_desc": "optional sample-weight vector",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether sample_weight is supplied to model.fit"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether sample_weight is supplied to model.fit"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "cd_cv_refit_common_params", "target": "cd_cv_refit_model_alpha", "kind": "refit_context"},
-    {"source": "cd_cv_refit_model_alpha", "target": "cd_cv_refit_model_l1_ratio", "kind": "refit_context"},
-    {"source": "cd_cv_refit_model_l1_ratio", "target": "cd_cv_refit_copy_x", "kind": "refit_context"},
-    {"source": "cd_cv_refit_precompute_auto_guard_required", "target": "cd_cv_refit_precompute_value", "kind": "branch_context"},
-    {"source": "cd_cv_refit_precompute_value", "target": "cd_cv_refit_fit_call_uses_sample_weight", "kind": "refit_context"}
+    {
+      "source": "cd_cv_refit_common_params",
+      "target": "cd_cv_refit_model_alpha",
+      "kind": "refit_context"
+    },
+    {
+      "source": "cd_cv_refit_model_alpha",
+      "target": "cd_cv_refit_model_l1_ratio",
+      "kind": "refit_context"
+    },
+    {
+      "source": "cd_cv_refit_model_l1_ratio",
+      "target": "cd_cv_refit_copy_x",
+      "kind": "refit_context"
+    },
+    {
+      "source": "cd_cv_refit_precompute_auto_guard_required",
+      "target": "cd_cv_refit_precompute_value",
+      "kind": "branch_context"
+    },
+    {
+      "source": "cd_cv_refit_precompute_value",
+      "target": "cd_cv_refit_fit_call_uses_sample_weight",
+      "kind": "refit_context"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

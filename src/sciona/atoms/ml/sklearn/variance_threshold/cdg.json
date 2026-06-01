@@ -54,7 +54,11 @@
           "ordering": "sequential",
           "when": "Stage describes removing low-variance features"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "variance_threshold_support_mask",
@@ -89,7 +93,11 @@
           "ordering": "sequential",
           "when": "Stage describes removing low-variance features"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "variance_threshold_transform",
@@ -129,7 +137,11 @@
           "ordering": "sequential",
           "when": "Stage describes removing low-variance features"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [

@@ -25,11 +25,22 @@
       "type_signature": "(sample_weight: object) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "sample_weight", "type_desc": "optional sample-weight vector", "required": true}
+        {
+          "name": "sample_weight",
+          "type_desc": "optional sample-weight vector",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether sample_weight is present"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether sample_weight is present"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_path_residuals_train_sample_weight",
@@ -40,12 +51,27 @@
       "type_signature": "(sample_weight: object, train: object) -> np.ndarray",
       "depth": 1,
       "inputs": [
-        {"name": "sample_weight", "type_desc": "sample-weight vector", "required": true},
-        {"name": "train", "type_desc": "training indices", "required": true}
+        {
+          "name": "sample_weight",
+          "type_desc": "sample-weight vector",
+          "required": true
+        },
+        {
+          "name": "train",
+          "type_desc": "training indices",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "sample_weight[train]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "sample_weight[train]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_path_residuals_test_sample_weight",
@@ -56,12 +82,27 @@
       "type_signature": "(sample_weight: object, test: object) -> np.ndarray",
       "depth": 1,
       "inputs": [
-        {"name": "sample_weight", "type_desc": "sample-weight vector", "required": true},
-        {"name": "test", "type_desc": "test indices", "required": true}
+        {
+          "name": "sample_weight",
+          "type_desc": "sample-weight vector",
+          "required": true
+        },
+        {
+          "name": "test",
+          "type_desc": "test indices",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "sample_weight[test]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "sample_weight[test]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_path_residuals_train_sample_count",
@@ -72,11 +113,22 @@
       "type_signature": "(x_train_shape: tuple[int, ...]) -> int",
       "depth": 1,
       "inputs": [
-        {"name": "x_train_shape", "type_desc": "X_train shape tuple", "required": true}
+        {
+          "name": "x_train_shape",
+          "type_desc": "X_train shape tuple",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "X_train.shape[0]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "X_train.shape[0]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_path_residuals_rescaled_train_sample_weight",
@@ -87,12 +139,27 @@
       "type_signature": "(train_sample_weight: np.ndarray, train_sample_count: int) -> np.ndarray",
       "depth": 1,
       "inputs": [
-        {"name": "train_sample_weight", "type_desc": "nonempty training sample-weight vector", "required": true},
-        {"name": "train_sample_count", "type_desc": "positive training sample count", "required": true}
+        {
+          "name": "train_sample_weight",
+          "type_desc": "nonempty training sample-weight vector",
+          "required": true
+        },
+        {
+          "name": "train_sample_count",
+          "type_desc": "positive training sample count",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "rescaled training sample weights"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "rescaled training sample weights"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_path_residuals_use_gram_precompute",
@@ -103,11 +170,22 @@
       "type_signature": "(y_ndim: int) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "y_ndim", "type_desc": "positive target ndim", "required": true}
+        {
+          "name": "y_ndim",
+          "type_desc": "positive target ndim",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether y.ndim == 1"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether y.ndim == 1"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_path_residuals_resolved_precompute",
@@ -118,19 +196,50 @@
       "type_signature": "(path_precompute: object, use_gram_precompute: bool) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "path_precompute", "type_desc": "path_params['precompute'] value", "required": true},
-        {"name": "use_gram_precompute", "type_desc": "whether mono-output precompute is used", "required": true}
+        {
+          "name": "path_precompute",
+          "type_desc": "path_params['precompute'] value",
+          "required": true
+        },
+        {
+          "name": "use_gram_precompute",
+          "type_desc": "whether mono-output precompute is used",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "resolved precompute value"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "resolved precompute value"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "cd_path_residuals_use_sample_weight_branch", "target": "cd_path_residuals_train_sample_weight", "kind": "branch_context"},
-    {"source": "cd_path_residuals_train_sample_weight", "target": "cd_path_residuals_rescaled_train_sample_weight", "kind": "scaling_context"},
-    {"source": "cd_path_residuals_train_sample_count", "target": "cd_path_residuals_rescaled_train_sample_weight", "kind": "scaling_context"},
-    {"source": "cd_path_residuals_use_gram_precompute", "target": "cd_path_residuals_resolved_precompute", "kind": "branch_context"}
+    {
+      "source": "cd_path_residuals_use_sample_weight_branch",
+      "target": "cd_path_residuals_train_sample_weight",
+      "kind": "branch_context"
+    },
+    {
+      "source": "cd_path_residuals_train_sample_weight",
+      "target": "cd_path_residuals_rescaled_train_sample_weight",
+      "kind": "scaling_context"
+    },
+    {
+      "source": "cd_path_residuals_train_sample_count",
+      "target": "cd_path_residuals_rescaled_train_sample_weight",
+      "kind": "scaling_context"
+    },
+    {
+      "source": "cd_path_residuals_use_gram_precompute",
+      "target": "cd_path_residuals_resolved_precompute",
+      "kind": "branch_context"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

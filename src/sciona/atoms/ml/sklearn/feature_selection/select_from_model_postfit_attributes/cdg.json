@@ -11,11 +11,22 @@
       "concept_type": "fit_bookkeeping",
       "description": "Resolve whether SelectFromModel.partial_fit is on its first call.",
       "inputs": [
-        {"name": "estimator_is_initialized", "type_desc": "bool", "required": true}
+        {
+          "name": "estimator_is_initialized",
+          "type_desc": "bool",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "select_from_model_postfit_n_features_in",
@@ -24,11 +35,22 @@
       "concept_type": "attribute_pass_through",
       "description": "Copy the wrapped estimator's fitted n_features_in_ value.",
       "inputs": [
-        {"name": "n_features_in", "type_desc": "int", "required": true}
+        {
+          "name": "n_features_in",
+          "type_desc": "int",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "int"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "select_from_model_postfit_feature_names_in",
@@ -37,11 +59,22 @@
       "concept_type": "attribute_pass_through",
       "description": "Copy the wrapped estimator's fitted feature_names_in_ tuple.",
       "inputs": [
-        {"name": "feature_names_in", "type_desc": "tuple[str, ...]", "required": true}
+        {
+          "name": "feature_names_in",
+          "type_desc": "tuple[str, ...]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "tuple[str, ...]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "tuple[str, ...]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [

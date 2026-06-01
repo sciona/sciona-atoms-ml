@@ -10,8 +10,23 @@
       "status": "atomic",
       "concept_type": "matrix_stack",
       "description": "Stack per-job document-topic matrices from the LatentDirichletAllocation E-step.",
-      "inputs": [{"name": "doc_topic_blocks", "type_desc": "tuple[ndarray, ...]", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+      "inputs": [
+        {
+          "name": "doc_topic_blocks",
+          "type_desc": "tuple[ndarray, ...]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "ndarray"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "lda_e_step_sufficient_statistics",
@@ -20,10 +35,27 @@
       "concept_type": "sufficient_statistics_merge",
       "description": "Merge per-job sufficient-statistics blocks and scale them by exp_dirichlet_component_ after the LatentDirichletAllocation E-step.",
       "inputs": [
-        {"name": "sstats_blocks", "type_desc": "tuple[ndarray, ...]", "required": true},
-        {"name": "exp_dirichlet_component", "type_desc": "ndarray", "required": true}
+        {
+          "name": "sstats_blocks",
+          "type_desc": "tuple[ndarray, ...]",
+          "required": true
+        },
+        {
+          "name": "exp_dirichlet_component",
+          "type_desc": "ndarray",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "ndarray"
+        }
+      ],
+      "time_complexity": "O(N * d^2)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Dimensionality reduction or sparse coding decomposes high-dimensional features, taking quadratic time in features and linear in samples.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "lda_online_update_weight",
@@ -32,11 +64,32 @@
       "concept_type": "schedule_scalar",
       "description": "Compute the online-learning weight used by LatentDirichletAllocation.",
       "inputs": [
-        {"name": "learning_offset", "type_desc": "float", "required": true},
-        {"name": "n_batch_iter", "type_desc": "int", "required": true},
-        {"name": "learning_decay", "type_desc": "float", "required": true}
+        {
+          "name": "learning_offset",
+          "type_desc": "float",
+          "required": true
+        },
+        {
+          "name": "n_batch_iter",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "learning_decay",
+          "type_desc": "float",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "float"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
+      ],
+      "time_complexity": "O(N * d^2)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Dimensionality reduction or sparse coding decomposes high-dimensional features, taking quadratic time in features and linear in samples.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "lda_online_document_ratio",
@@ -45,10 +98,27 @@
       "concept_type": "schedule_scalar",
       "description": "Compute the online-learning document ratio total_samples / batch_samples used by LatentDirichletAllocation.",
       "inputs": [
-        {"name": "total_samples", "type_desc": "float", "required": true},
-        {"name": "current_samples", "type_desc": "int", "required": true}
+        {
+          "name": "total_samples",
+          "type_desc": "float",
+          "required": true
+        },
+        {
+          "name": "current_samples",
+          "type_desc": "int",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "float"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
+      ],
+      "time_complexity": "O(N * d^2)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Dimensionality reduction or sparse coding decomposes high-dimensional features, taking quadratic time in features and linear in samples.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "lda_batch_components",
@@ -57,10 +127,27 @@
       "concept_type": "matrix_update",
       "description": "Apply the batch-learning M-step update for LatentDirichletAllocation components.",
       "inputs": [
-        {"name": "topic_word_prior", "type_desc": "float", "required": true},
-        {"name": "suff_stats", "type_desc": "ndarray", "required": true}
+        {
+          "name": "topic_word_prior",
+          "type_desc": "float",
+          "required": true
+        },
+        {
+          "name": "suff_stats",
+          "type_desc": "ndarray",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "ndarray"
+        }
+      ],
+      "time_complexity": "O(N * d^2)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Dimensionality reduction or sparse coding decomposes high-dimensional features, taking quadratic time in features and linear in samples.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "lda_online_components",
@@ -69,19 +156,64 @@
       "concept_type": "matrix_update",
       "description": "Apply the online-learning M-step update for LatentDirichletAllocation components.",
       "inputs": [
-        {"name": "previous_components", "type_desc": "ndarray", "required": true},
-        {"name": "topic_word_prior", "type_desc": "float", "required": true},
-        {"name": "suff_stats", "type_desc": "ndarray", "required": true},
-        {"name": "weight", "type_desc": "float", "required": true},
-        {"name": "doc_ratio", "type_desc": "float", "required": true}
+        {
+          "name": "previous_components",
+          "type_desc": "ndarray",
+          "required": true
+        },
+        {
+          "name": "topic_word_prior",
+          "type_desc": "float",
+          "required": true
+        },
+        {
+          "name": "suff_stats",
+          "type_desc": "ndarray",
+          "required": true
+        },
+        {
+          "name": "weight",
+          "type_desc": "float",
+          "required": true
+        },
+        {
+          "name": "doc_ratio",
+          "type_desc": "float",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "ndarray"
+        }
+      ],
+      "time_complexity": "O(N * d^2)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Dimensionality reduction or sparse coding decomposes high-dimensional features, taking quadratic time in features and linear in samples.",
+      "complexity_confidence": 90
     }
   ],
   "edges": [
-    {"source": "lda_e_step_sufficient_statistics", "target": "lda_batch_components", "kind": "sufficient_statistics"},
-    {"source": "lda_e_step_sufficient_statistics", "target": "lda_online_components", "kind": "sufficient_statistics"},
-    {"source": "lda_online_update_weight", "target": "lda_online_components", "kind": "update_weight"},
-    {"source": "lda_online_document_ratio", "target": "lda_online_components", "kind": "document_ratio"}
+    {
+      "source": "lda_e_step_sufficient_statistics",
+      "target": "lda_batch_components",
+      "kind": "sufficient_statistics"
+    },
+    {
+      "source": "lda_e_step_sufficient_statistics",
+      "target": "lda_online_components",
+      "kind": "sufficient_statistics"
+    },
+    {
+      "source": "lda_online_update_weight",
+      "target": "lda_online_components",
+      "kind": "update_weight"
+    },
+    {
+      "source": "lda_online_document_ratio",
+      "target": "lda_online_components",
+      "kind": "document_ratio"
+    }
   ]
 }

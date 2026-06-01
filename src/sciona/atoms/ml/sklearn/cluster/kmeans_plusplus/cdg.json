@@ -34,7 +34,11 @@
           "name": "result",
           "type_desc": "int"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "kmeans_plusplus_first_center_index",
@@ -61,7 +65,11 @@
           "name": "result",
           "type_desc": "int"
         }
-      ]
+      ],
+      "time_complexity": "O(I * K * N * d)",
+      "space_complexity": "O((N + K) * d)",
+      "complexity_reasoning": "K-Means complexity is linear in number of iterations I, clusters K, samples N, and dimensions d, storing centroids and sample labels in memory.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "kmeans_plusplus_candidate_ids",
@@ -103,7 +111,11 @@
           "name": "result",
           "type_desc": "NDArray[np.int64]"
         }
-      ]
+      ],
+      "time_complexity": "O(I * K * N * d)",
+      "space_complexity": "O((N + K) * d)",
+      "complexity_reasoning": "K-Means complexity is linear in number of iterations I, clusters K, samples N, and dimensions d, storing centroids and sample labels in memory.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "kmeans_plusplus_candidate_potentials",
@@ -145,7 +157,11 @@
           "name": "result",
           "type_desc": "CandidatePotentials"
         }
-      ]
+      ],
+      "time_complexity": "O(I * K * N * d)",
+      "space_complexity": "O((N + K) * d)",
+      "complexity_reasoning": "K-Means complexity is linear in number of iterations I, clusters K, samples N, and dimensions d, storing centroids and sample labels in memory.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "kmeans_plusplus_initialize_dense",
@@ -196,7 +212,11 @@
       "aliases": [
         "feature_clustering",
         "kmeans_clustering"
-      ]
+      ],
+      "time_complexity": "O(I * K * N * d)",
+      "space_complexity": "O((N + K) * d)",
+      "complexity_reasoning": "K-Means complexity is linear in number of iterations I, clusters K, samples N, and dimensions d, storing centroids and sample labels in memory.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [

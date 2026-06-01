@@ -17,24 +17,69 @@
       "name": "covariance_ledoit_wolf_fit_shrinkage",
       "kind": "atom",
       "status": "atomic",
-      "inputs": [{"name": "shrinkage", "type_desc": "float in [0, 1]", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "float in [0, 1]"}]
+      "inputs": [
+        {
+          "name": "shrinkage",
+          "type_desc": "float in [0, 1]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "float in [0, 1]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "covariance_oas_fit_shrinkage",
       "name": "covariance_oas_fit_shrinkage",
       "kind": "atom",
       "status": "atomic",
-      "inputs": [{"name": "shrinkage", "type_desc": "float in [0, 1]", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "float in [0, 1]"}]
+      "inputs": [
+        {
+          "name": "shrinkage",
+          "type_desc": "float in [0, 1]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "float in [0, 1]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "covariance_fit_return_self",
       "name": "covariance_fit_return_self",
       "kind": "atom",
       "status": "atomic",
-      "inputs": [{"name": "estimator_token", "type_desc": "nonempty string", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "same nonempty string"}]
+      "inputs": [
+        {
+          "name": "estimator_token",
+          "type_desc": "nonempty string",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "same nonempty string"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ]
 }

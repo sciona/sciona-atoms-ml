@@ -22,11 +22,22 @@
       "type_signature": "(y: NDArray[np.int64]) -> NDArray[np.bool_]",
       "depth": 1,
       "inputs": [
-        {"name": "y", "type_desc": "NDArray[np.int64]", "required": true}
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.bool_]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.bool_]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "nca_linear_transform",
@@ -37,12 +48,27 @@
       "type_signature": "(X: NDArray[np.float64], components: NDArray[np.float64]) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "components", "type_desc": "NDArray[np.float64]", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "components",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "nca_neighbor_probabilities",
@@ -53,11 +79,22 @@
       "type_signature": "(X_embedded: NDArray[np.float64]) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X_embedded", "type_desc": "NDArray[np.float64]", "required": true}
+        {
+          "name": "X_embedded",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "nca_loss_gradient",
@@ -68,20 +105,55 @@
       "type_signature": "(transformation: NDArray[np.float64], X: NDArray[np.float64], same_class_mask: NDArray[np.bool_], sign: float = 1.0) -> tuple[float, NDArray[np.float64]]",
       "depth": 1,
       "inputs": [
-        {"name": "transformation", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "same_class_mask", "type_desc": "NDArray[np.bool_]", "required": true},
-        {"name": "sign", "type_desc": "float", "required": false}
+        {
+          "name": "transformation",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "same_class_mask",
+          "type_desc": "NDArray[np.bool_]",
+          "required": true
+        },
+        {
+          "name": "sign",
+          "type_desc": "float",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "tuple[float, NDArray[np.float64]]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "tuple[float, NDArray[np.float64]]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [
-    {"source": "nca_same_class_mask", "target": "nca_loss_gradient", "kind": "same_class_mask"},
-    {"source": "nca_linear_transform", "target": "nca_neighbor_probabilities", "kind": "embedded_samples"},
-    {"source": "nca_neighbor_probabilities", "target": "nca_loss_gradient", "kind": "neighbor_probabilities"}
+    {
+      "source": "nca_same_class_mask",
+      "target": "nca_loss_gradient",
+      "kind": "same_class_mask"
+    },
+    {
+      "source": "nca_linear_transform",
+      "target": "nca_neighbor_probabilities",
+      "kind": "embedded_samples"
+    },
+    {
+      "source": "nca_neighbor_probabilities",
+      "target": "nca_loss_gradient",
+      "kind": "neighbor_probabilities"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

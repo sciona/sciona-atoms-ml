@@ -20,11 +20,22 @@
       "type_signature": "(cv: object) -> tuple[object]",
       "depth": 1,
       "inputs": [
-        {"name": "cv", "type_desc": "LinearModelCV.cv value", "required": true}
+        {
+          "name": "cv",
+          "type_desc": "LinearModelCV.cv value",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "check_cv positional argument tuple"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "check_cv positional argument tuple"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_metadata_router_checked_splitter_result",
@@ -35,11 +46,22 @@
       "type_signature": "(checked_splitter: object) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "checked_splitter", "type_desc": "check_cv callback result", "required": true}
+        {
+          "name": "checked_splitter",
+          "type_desc": "check_cv callback result",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "same checked splitter object"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "same checked splitter object"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [

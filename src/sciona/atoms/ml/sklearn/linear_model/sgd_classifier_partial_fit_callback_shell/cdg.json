@@ -22,8 +22,23 @@
       "status": "atomic",
       "type_signature": "(has_classes: bool) -> bool",
       "depth": 1,
-      "inputs": [{"name": "has_classes", "type_desc": "whether classes_ exists", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "first-call predicate"}]
+      "inputs": [
+        {
+          "name": "has_classes",
+          "type_desc": "whether classes_ exists",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "first-call predicate"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "sgd_classifier_partial_fit_validate_params_kwargs",
@@ -33,8 +48,23 @@
       "status": "atomic",
       "type_signature": "(first_call: bool) -> dict[str, object]",
       "depth": 1,
-      "inputs": [{"name": "first_call", "type_desc": "first-call predicate", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "_more_validate_params keyword payload"}]
+      "inputs": [
+        {
+          "name": "first_call",
+          "type_desc": "first-call predicate",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "_more_validate_params keyword payload"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "sgd_classifier_partial_fit_balanced_class_weight_error",
@@ -44,8 +74,23 @@
       "status": "atomic",
       "type_signature": "(class_weight: str) -> str",
       "depth": 1,
-      "inputs": [{"name": "class_weight", "type_desc": "fixed balanced class-weight value", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "ValueError message"}]
+      "inputs": [
+        {
+          "name": "class_weight",
+          "type_desc": "fixed balanced class-weight value",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "ValueError message"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "sgd_classifier_partial_fit_callback_payload",
@@ -56,15 +101,52 @@
       "type_signature": "(X: object, y: object, *, alpha: float, loss: str, learning_rate: str, classes: object, sample_weight: object = None) -> dict[str, object]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "feature matrix payload", "required": true},
-        {"name": "y", "type_desc": "target vector payload", "required": true},
-        {"name": "alpha", "type_desc": "regularization strength", "required": true},
-        {"name": "loss", "type_desc": "loss name", "required": true},
-        {"name": "learning_rate", "type_desc": "learning-rate schedule name", "required": true},
-        {"name": "classes", "type_desc": "partial_fit classes payload", "required": true},
-        {"name": "sample_weight", "type_desc": "optional sample weights", "required": false}
+        {
+          "name": "X",
+          "type_desc": "feature matrix payload",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "target vector payload",
+          "required": true
+        },
+        {
+          "name": "alpha",
+          "type_desc": "regularization strength",
+          "required": true
+        },
+        {
+          "name": "loss",
+          "type_desc": "loss name",
+          "required": true
+        },
+        {
+          "name": "learning_rate",
+          "type_desc": "learning-rate schedule name",
+          "required": true
+        },
+        {
+          "name": "classes",
+          "type_desc": "partial_fit classes payload",
+          "required": true
+        },
+        {
+          "name": "sample_weight",
+          "type_desc": "optional sample weights",
+          "required": false
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "_partial_fit keyword payload"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "_partial_fit keyword payload"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "sgd_classifier_partial_fit_result",
@@ -74,15 +156,46 @@
       "status": "atomic",
       "type_signature": "(partial_fit_result: object) -> object",
       "depth": 1,
-      "inputs": [{"name": "partial_fit_result", "type_desc": "delegated callback result", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "same callback result"}]
+      "inputs": [
+        {
+          "name": "partial_fit_result",
+          "type_desc": "delegated callback result",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "same callback result"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "sgd_classifier_partial_fit_first_call", "target": "sgd_classifier_partial_fit_validate_params_kwargs", "kind": "validation_context"},
-    {"source": "sgd_classifier_partial_fit_validate_params_kwargs", "target": "sgd_classifier_partial_fit_balanced_class_weight_error", "kind": "validation_context"},
-    {"source": "sgd_classifier_partial_fit_balanced_class_weight_error", "target": "sgd_classifier_partial_fit_callback_payload", "kind": "guard_context"},
-    {"source": "sgd_classifier_partial_fit_callback_payload", "target": "sgd_classifier_partial_fit_result", "kind": "callback_payload"}
+    {
+      "source": "sgd_classifier_partial_fit_first_call",
+      "target": "sgd_classifier_partial_fit_validate_params_kwargs",
+      "kind": "validation_context"
+    },
+    {
+      "source": "sgd_classifier_partial_fit_validate_params_kwargs",
+      "target": "sgd_classifier_partial_fit_balanced_class_weight_error",
+      "kind": "validation_context"
+    },
+    {
+      "source": "sgd_classifier_partial_fit_balanced_class_weight_error",
+      "target": "sgd_classifier_partial_fit_callback_payload",
+      "kind": "guard_context"
+    },
+    {
+      "source": "sgd_classifier_partial_fit_callback_payload",
+      "target": "sgd_classifier_partial_fit_result",
+      "kind": "callback_payload"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

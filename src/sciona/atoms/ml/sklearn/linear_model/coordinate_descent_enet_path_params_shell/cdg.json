@@ -19,11 +19,22 @@
       "type_signature": "(params: Mapping[str, object]) -> dict[str, object]",
       "depth": 1,
       "inputs": [
-        {"name": "params", "type_desc": "keyword params mapping passed through enet_path", "required": true}
+        {
+          "name": "params",
+          "type_desc": "keyword params mapping passed through enet_path",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "mapping with popped solver params, defaults, and remaining params"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "mapping with popped solver params, defaults, and remaining params"
+        }
+      ],
+      "time_complexity": "O(I * N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Coordinate descent path computation for linear models scales linearly with samples N, features d, and the number of optimization iterations I.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [],

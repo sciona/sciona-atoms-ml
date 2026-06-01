@@ -26,12 +26,27 @@
       "type_signature": "(x_is_ndarray: bool, x_is_sparse: bool) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "x_is_ndarray", "type_desc": "whether X is a numpy ndarray", "required": true},
-        {"name": "x_is_sparse", "type_desc": "whether X is sparse", "required": true}
+        {
+          "name": "x_is_ndarray",
+          "type_desc": "whether X is a numpy ndarray",
+          "required": true
+        },
+        {
+          "name": "x_is_sparse",
+          "type_desc": "whether X is sparse",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether LinearModelCV.fit takes the reference-preserving validation branch"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether LinearModelCV.fit takes the reference-preserving validation branch"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_non_multitask_guard_required",
@@ -42,13 +57,32 @@
       "type_signature": "(multitask: bool, y_ndim: int, y_width: int) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "multitask", "type_desc": "whether the estimator is multitask", "required": true},
-        {"name": "y_ndim", "type_desc": "positive target ndim", "required": true},
-        {"name": "y_width", "type_desc": "positive second-dimension width when y.ndim > 1", "required": true}
+        {
+          "name": "multitask",
+          "type_desc": "whether the estimator is multitask",
+          "required": true
+        },
+        {
+          "name": "y_ndim",
+          "type_desc": "positive target ndim",
+          "required": true
+        },
+        {
+          "name": "y_width",
+          "type_desc": "positive second-dimension width when y.ndim > 1",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether the non-multitask multi-output guard should fire"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether the non-multitask multi-output guard should fire"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_non_multitask_message",
@@ -59,11 +93,22 @@
       "type_signature": "(class_name: str) -> str",
       "depth": 1,
       "inputs": [
-        {"name": "class_name", "type_desc": "nonempty estimator class name", "required": true}
+        {
+          "name": "class_name",
+          "type_desc": "nonempty estimator class name",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "formatted multi-task error message"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "formatted multi-task error message"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_multitask_sparse_guard_required",
@@ -74,12 +119,27 @@
       "type_signature": "(multitask: bool, x_is_sparse: bool) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "multitask", "type_desc": "whether the estimator is multitask", "required": true},
-        {"name": "x_is_sparse", "type_desc": "whether X is sparse", "required": true}
+        {
+          "name": "multitask",
+          "type_desc": "whether the estimator is multitask",
+          "required": true
+        },
+        {
+          "name": "x_is_sparse",
+          "type_desc": "whether X is sparse",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether the sparse multitask guard should fire"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether the sparse multitask guard should fire"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_multitask_sparse_message",
@@ -90,11 +150,22 @@
       "type_signature": "(guard_required: bool) -> str",
       "depth": 1,
       "inputs": [
-        {"name": "guard_required", "type_desc": "whether the sparse multitask guard fires", "required": true}
+        {
+          "name": "guard_required",
+          "type_desc": "whether the sparse multitask guard fires",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "fixed sparse-input TypeError message"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "fixed sparse-input TypeError message"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_multitask_monotask_guard_required",
@@ -105,12 +176,27 @@
       "type_signature": "(multitask: bool, y_ndim: int) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "multitask", "type_desc": "whether the estimator is multitask", "required": true},
-        {"name": "y_ndim", "type_desc": "positive target ndim", "required": true}
+        {
+          "name": "multitask",
+          "type_desc": "whether the estimator is multitask",
+          "required": true
+        },
+        {
+          "name": "y_ndim",
+          "type_desc": "positive target ndim",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether the mono-task multitask guard should fire"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether the mono-task multitask guard should fire"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_multitask_monotask_message",
@@ -121,11 +207,22 @@
       "type_signature": "(class_name: str) -> str",
       "depth": 1,
       "inputs": [
-        {"name": "class_name", "type_desc": "estimator class name beginning with MultiTask", "required": true}
+        {
+          "name": "class_name",
+          "type_desc": "estimator class name beginning with MultiTask",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "formatted mono-task CV error message"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "formatted mono-task CV error message"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_scalar_sample_weight_becomes_none",
@@ -136,17 +233,40 @@
       "type_signature": "(sample_weight_is_number: bool) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "sample_weight_is_number", "type_desc": "whether sample_weight is a Python number", "required": true}
+        {
+          "name": "sample_weight_is_number",
+          "type_desc": "whether sample_weight is a Python number",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether scalar sample_weight is normalized to None"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether scalar sample_weight is normalized to None"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "cd_cv_non_multitask_guard_required", "target": "cd_cv_non_multitask_message", "kind": "guard_message"},
-    {"source": "cd_cv_multitask_sparse_guard_required", "target": "cd_cv_multitask_sparse_message", "kind": "guard_message"},
-    {"source": "cd_cv_multitask_monotask_guard_required", "target": "cd_cv_multitask_monotask_message", "kind": "guard_message"}
+    {
+      "source": "cd_cv_non_multitask_guard_required",
+      "target": "cd_cv_non_multitask_message",
+      "kind": "guard_message"
+    },
+    {
+      "source": "cd_cv_multitask_sparse_guard_required",
+      "target": "cd_cv_multitask_sparse_message",
+      "kind": "guard_message"
+    },
+    {
+      "source": "cd_cv_multitask_monotask_guard_required",
+      "target": "cd_cv_multitask_monotask_message",
+      "kind": "guard_message"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

@@ -20,8 +20,22 @@
       "description": "Return whether BaseSpectral._svd should repair NaNs in vt.",
       "status": "atomic",
       "concept_type": "svd_nan_recovery",
-      "inputs": [{"name": "vt", "type_desc": "2D float-like matrix"}],
-      "outputs": [{"name": "result", "type_desc": "bool"}]
+      "inputs": [
+        {
+          "name": "vt",
+          "type_desc": "2D float-like matrix"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "bicluster_svd_u_nan_recovery_required",
@@ -29,8 +43,22 @@
       "description": "Return whether BaseSpectral._svd should repair NaNs in u.",
       "status": "atomic",
       "concept_type": "svd_nan_recovery",
-      "inputs": [{"name": "u", "type_desc": "2D float-like matrix"}],
-      "outputs": [{"name": "result", "type_desc": "bool"}]
+      "inputs": [
+        {
+          "name": "u",
+          "type_desc": "2D float-like matrix"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "bicluster_svd_right_gram_matrix",
@@ -38,8 +66,22 @@
       "description": "Build the right-side Gram matrix used for vt NaN recovery.",
       "status": "atomic",
       "concept_type": "svd_nan_recovery",
-      "inputs": [{"name": "array", "type_desc": "finite dense or sparse matrix"}],
-      "outputs": [{"name": "result", "type_desc": "square Gram matrix"}]
+      "inputs": [
+        {
+          "name": "array",
+          "type_desc": "finite dense or sparse matrix"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "square Gram matrix"
+        }
+      ],
+      "time_complexity": "O(N * d^2)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Dimensionality reduction or sparse coding decomposes high-dimensional features, taking quadratic time in features and linear in samples.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "bicluster_svd_left_gram_matrix",
@@ -47,8 +89,22 @@
       "description": "Build the left-side Gram matrix used for u NaN recovery.",
       "status": "atomic",
       "concept_type": "svd_nan_recovery",
-      "inputs": [{"name": "array", "type_desc": "finite dense or sparse matrix"}],
-      "outputs": [{"name": "result", "type_desc": "square Gram matrix"}]
+      "inputs": [
+        {
+          "name": "array",
+          "type_desc": "finite dense or sparse matrix"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "square Gram matrix"
+        }
+      ],
+      "time_complexity": "O(N * d^2)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Dimensionality reduction or sparse coding decomposes high-dimensional features, taking quadratic time in features and linear in samples.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "bicluster_svd_arpack_init_vector",
@@ -57,10 +113,25 @@
       "status": "atomic",
       "concept_type": "svd_nan_recovery",
       "inputs": [
-        {"name": "random_state", "type_desc": "object"},
-        {"name": "width", "type_desc": "int"}
+        {
+          "name": "random_state",
+          "type_desc": "object"
+        },
+        {
+          "name": "width",
+          "type_desc": "int"
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "finite vector"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "finite vector"
+        }
+      ],
+      "time_complexity": "O(N * d^2)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Dimensionality reduction or sparse coding decomposes high-dimensional features, taking quadratic time in features and linear in samples.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "bicluster_svd_eigsh_kwargs",
@@ -69,10 +140,25 @@
       "status": "atomic",
       "concept_type": "svd_nan_recovery",
       "inputs": [
-        {"name": "n_svd_vecs", "type_desc": "int | None"},
-        {"name": "v0", "type_desc": "finite vector"}
+        {
+          "name": "n_svd_vecs",
+          "type_desc": "int | None"
+        },
+        {
+          "name": "v0",
+          "type_desc": "finite vector"
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "dict[str, object]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "dict[str, object]"
+        }
+      ],
+      "time_complexity": "O(N * d^2)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Dimensionality reduction or sparse coding decomposes high-dimensional features, taking quadratic time in features and linear in samples.",
+      "complexity_confidence": 90
     }
   ],
   "edges": []

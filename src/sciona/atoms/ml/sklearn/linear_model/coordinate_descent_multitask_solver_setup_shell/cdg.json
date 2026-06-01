@@ -26,12 +26,27 @@
       "type_signature": "(X: object, y: object) -> tuple[object, object]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "validated feature matrix", "required": true},
-        {"name": "y", "type_desc": "validated target matrix", "required": true}
+        {
+          "name": "X",
+          "type_desc": "validated feature matrix",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "validated target matrix",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "_preprocess_data positional arguments"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "_preprocess_data positional arguments"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_multitask_preprocess_data_kwargs",
@@ -42,11 +57,22 @@
       "type_signature": "(fit_intercept: bool) -> dict[str, object]",
       "depth": 1,
       "inputs": [
-        {"name": "fit_intercept", "type_desc": "fit_intercept setting", "required": true}
+        {
+          "name": "fit_intercept",
+          "type_desc": "fit_intercept setting",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "_preprocess_data keyword arguments"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "_preprocess_data keyword arguments"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_multitask_fresh_coef_required",
@@ -57,12 +83,27 @@
       "type_signature": "(warm_start: bool, has_coef_attr: bool) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "warm_start", "type_desc": "warm_start setting", "required": true},
-        {"name": "has_coef_attr", "type_desc": "whether coef_ already exists", "required": true}
+        {
+          "name": "warm_start",
+          "type_desc": "warm_start setting",
+          "required": true
+        },
+        {
+          "name": "has_coef_attr",
+          "type_desc": "whether coef_ already exists",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether a fresh coefficient matrix is required"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether a fresh coefficient matrix is required"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_multitask_initial_coef_zeros",
@@ -73,13 +114,32 @@
       "type_signature": "(n_targets: int, n_features: int, dtype: object) -> NDArray[np.floating]",
       "depth": 1,
       "inputs": [
-        {"name": "n_targets", "type_desc": "positive target count", "required": true},
-        {"name": "n_features", "type_desc": "positive feature count", "required": true},
-        {"name": "dtype", "type_desc": "NumPy dtype for coefficients", "required": true}
+        {
+          "name": "n_targets",
+          "type_desc": "positive target count",
+          "required": true
+        },
+        {
+          "name": "n_features",
+          "type_desc": "positive feature count",
+          "required": true
+        },
+        {
+          "name": "dtype",
+          "type_desc": "NumPy dtype for coefficients",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "F-contiguous zero coefficient matrix"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "F-contiguous zero coefficient matrix"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_multitask_regularization",
@@ -90,13 +150,32 @@
       "type_signature": "(alpha: object, l1_ratio: object, n_samples: int) -> tuple[float, float]",
       "depth": 1,
       "inputs": [
-        {"name": "alpha", "type_desc": "regularization strength", "required": true},
-        {"name": "l1_ratio", "type_desc": "l1/l2 mixing ratio", "required": true},
-        {"name": "n_samples", "type_desc": "positive sample count", "required": true}
+        {
+          "name": "alpha",
+          "type_desc": "regularization strength",
+          "required": true
+        },
+        {
+          "name": "l1_ratio",
+          "type_desc": "l1/l2 mixing ratio",
+          "required": true
+        },
+        {
+          "name": "n_samples",
+          "type_desc": "positive sample count",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "l1_reg and l2_reg scaled by n_samples"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "l1_reg and l2_reg scaled by n_samples"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_multitask_coef_fortran_array",
@@ -107,11 +186,22 @@
       "type_signature": "(coef: object) -> NDArray[np.generic]",
       "depth": 1,
       "inputs": [
-        {"name": "coef", "type_desc": "finite numeric coefficient array", "required": true}
+        {
+          "name": "coef",
+          "type_desc": "finite numeric coefficient array",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "Fortran-contiguous coefficient array"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "Fortran-contiguous coefficient array"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_multitask_random_state_args",
@@ -122,11 +212,22 @@
       "type_signature": "(random_state: object) -> tuple[object]",
       "depth": 1,
       "inputs": [
-        {"name": "random_state", "type_desc": "random_state payload", "required": true}
+        {
+          "name": "random_state",
+          "type_desc": "random_state payload",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "check_random_state positional arguments"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "check_random_state positional arguments"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_multitask_solver_args",
@@ -137,28 +238,95 @@
       "type_signature": "(coef: object, l1_reg: object, l2_reg: object, X: object, y: object, max_iter: int, tol: object, checked_random_state: object, random: bool) -> tuple[object, object, object, object, object, int, object, object, bool]",
       "depth": 1,
       "inputs": [
-        {"name": "coef", "type_desc": "Fortran-contiguous coefficient matrix", "required": true},
-        {"name": "l1_reg", "type_desc": "scaled l1 regularization", "required": true},
-        {"name": "l2_reg", "type_desc": "scaled l2 regularization", "required": true},
-        {"name": "X", "type_desc": "preprocessed feature matrix", "required": true},
-        {"name": "y", "type_desc": "preprocessed target matrix", "required": true},
-        {"name": "max_iter", "type_desc": "positive iteration limit", "required": true},
-        {"name": "tol", "type_desc": "solver tolerance", "required": true},
-        {"name": "checked_random_state", "type_desc": "validated random state", "required": true},
-        {"name": "random", "type_desc": "random coordinate selection flag", "required": true}
+        {
+          "name": "coef",
+          "type_desc": "Fortran-contiguous coefficient matrix",
+          "required": true
+        },
+        {
+          "name": "l1_reg",
+          "type_desc": "scaled l1 regularization",
+          "required": true
+        },
+        {
+          "name": "l2_reg",
+          "type_desc": "scaled l2 regularization",
+          "required": true
+        },
+        {
+          "name": "X",
+          "type_desc": "preprocessed feature matrix",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "preprocessed target matrix",
+          "required": true
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "positive iteration limit",
+          "required": true
+        },
+        {
+          "name": "tol",
+          "type_desc": "solver tolerance",
+          "required": true
+        },
+        {
+          "name": "checked_random_state",
+          "type_desc": "validated random state",
+          "required": true
+        },
+        {
+          "name": "random",
+          "type_desc": "random coordinate selection flag",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "compiled solver positional payload"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "compiled solver positional payload"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "cd_multitask_preprocess_data_args", "target": "cd_multitask_preprocess_data_kwargs", "kind": "callback_context"},
-    {"source": "cd_multitask_fresh_coef_required", "target": "cd_multitask_initial_coef_zeros", "kind": "allocation_guard"},
-    {"source": "cd_multitask_initial_coef_zeros", "target": "cd_multitask_coef_fortran_array", "kind": "solver_state"},
-    {"source": "cd_multitask_regularization", "target": "cd_multitask_solver_args", "kind": "solver_argument"},
-    {"source": "cd_multitask_coef_fortran_array", "target": "cd_multitask_solver_args", "kind": "solver_argument"},
-    {"source": "cd_multitask_random_state_args", "target": "cd_multitask_solver_args", "kind": "solver_argument"}
+    {
+      "source": "cd_multitask_preprocess_data_args",
+      "target": "cd_multitask_preprocess_data_kwargs",
+      "kind": "callback_context"
+    },
+    {
+      "source": "cd_multitask_fresh_coef_required",
+      "target": "cd_multitask_initial_coef_zeros",
+      "kind": "allocation_guard"
+    },
+    {
+      "source": "cd_multitask_initial_coef_zeros",
+      "target": "cd_multitask_coef_fortran_array",
+      "kind": "solver_state"
+    },
+    {
+      "source": "cd_multitask_regularization",
+      "target": "cd_multitask_solver_args",
+      "kind": "solver_argument"
+    },
+    {
+      "source": "cd_multitask_coef_fortran_array",
+      "target": "cd_multitask_solver_args",
+      "kind": "solver_argument"
+    },
+    {
+      "source": "cd_multitask_random_state_args",
+      "target": "cd_multitask_solver_args",
+      "kind": "solver_argument"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

@@ -49,7 +49,11 @@
           "name": "result",
           "type_desc": "str"
         }
-      ]
+      ],
+      "time_complexity": "O(L)",
+      "space_complexity": "O(L)",
+      "complexity_reasoning": "Tokenizing text, decoding tags, or calculating readability metrics scales linearly with the length L of the input text string.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "levenshtein",
@@ -74,7 +78,11 @@
           "name": "result",
           "type_desc": "int"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "jaro_winkler",
@@ -104,7 +112,11 @@
           "name": "result",
           "type_desc": "float"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "bio_decode",
@@ -142,7 +154,11 @@
           "ordering": "sequential",
           "when": "Stage describes NER, sequence tagging, or BIO decoding"
         }
-      ]
+      ],
+      "time_complexity": "O(L)",
+      "space_complexity": "O(L)",
+      "complexity_reasoning": "Tokenizing text, decoding tags, or calculating readability metrics scales linearly with the length L of the input text string.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "char_to_token_offsets",
@@ -181,7 +197,11 @@
           "ordering": "sequential",
           "when": "Stage describes NER, sequence tagging, or BIO decoding"
         }
-      ]
+      ],
+      "time_complexity": "O(L)",
+      "space_complexity": "O(L)",
+      "complexity_reasoning": "Tokenizing text, decoding tags, or calculating readability metrics scales linearly with the length L of the input text string.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "beam_search",
@@ -226,7 +246,11 @@
           "name": "result",
           "type_desc": "list[tuple[list[int], float]]"
         }
-      ]
+      ],
+      "time_complexity": "O(T * B * V)",
+      "space_complexity": "O(B * V)",
+      "complexity_reasoning": "Beam search scales linearly with sequence length T, beam width B, and vocabulary size V to keep track of candidates.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "feature_hash",
@@ -251,7 +275,11 @@
           "name": "result",
           "type_desc": "dict[int, float]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "word_ngrams",
@@ -276,7 +304,11 @@
           "name": "result",
           "type_desc": "list[tuple[str, ...]]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "char_ngrams",
@@ -301,7 +333,11 @@
           "name": "result",
           "type_desc": "list[str]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "filter_spans_by_length",
@@ -326,7 +362,11 @@
           "name": "result",
           "type_desc": "list[tuple[str, int, int]]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "beam_search",
@@ -373,7 +413,11 @@
           "type_desc": "list[tuple[list[int], float]]",
           "required": true
         }
-      ]
+      ],
+      "time_complexity": "O(T * B * V)",
+      "space_complexity": "O(B * V)",
+      "complexity_reasoning": "Beam search scales linearly with sequence length T, beam width B, and vocabulary size V to keep track of candidates.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "bio_decode",
@@ -420,7 +464,11 @@
           "ordering": "sequential",
           "when": "Stage describes NER, sequence tagging, or BIO decoding"
         }
-      ]
+      ],
+      "time_complexity": "O(L)",
+      "space_complexity": "O(L)",
+      "complexity_reasoning": "Tokenizing text, decoding tags, or calculating readability metrics scales linearly with the length L of the input text string.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "clean_text",
@@ -452,7 +500,11 @@
           "type_desc": "str",
           "required": true
         }
-      ]
+      ],
+      "time_complexity": "O(L)",
+      "space_complexity": "O(L)",
+      "complexity_reasoning": "Tokenizing text, decoding tags, or calculating readability metrics scales linearly with the length L of the input text string.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "readability_scores",
@@ -478,7 +530,11 @@
           "name": "result",
           "type_desc": "dict[str, float]"
         }
-      ]
+      ],
+      "time_complexity": "O(L)",
+      "space_complexity": "O(L)",
+      "complexity_reasoning": "Tokenizing text, decoding tags, or calculating readability metrics scales linearly with the length L of the input text string.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "qa_span_selector",
@@ -520,7 +576,11 @@
           "name": "result",
           "type_desc": "list[tuple[int, int, float]]"
         }
-      ]
+      ],
+      "time_complexity": "O(N * log N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "Ranking or sorting array elements is dominated by the O(N log N) time complexity of the sorting algorithm, and takes linear space.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [

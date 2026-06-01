@@ -17,16 +17,46 @@
       "name": "permutation_importance_use_dataframe_passthrough",
       "kind": "atom",
       "status": "atomic",
-      "inputs": [{"name": "has_iloc", "type_desc": "bool", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "bool"}]
+      "inputs": [
+        {
+          "name": "has_iloc",
+          "type_desc": "bool",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "permutation_importance_checked_array",
       "name": "permutation_importance_checked_array",
       "kind": "atom",
       "status": "atomic",
-      "inputs": [{"name": "X", "type_desc": "array-like 2D", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "float64 matrix"}]
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "array-like 2D",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "float64 matrix"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "permutation_importance_max_samples_guard_required",
@@ -34,10 +64,27 @@
       "kind": "atom",
       "status": "atomic",
       "inputs": [
-        {"name": "max_samples", "type_desc": "int or float in (0, 1]", "required": true},
-        {"name": "n_samples", "type_desc": "positive int", "required": true}
+        {
+          "name": "max_samples",
+          "type_desc": "int or float in (0, 1]",
+          "required": true
+        },
+        {
+          "name": "n_samples",
+          "type_desc": "positive int",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "bool"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ]
 }

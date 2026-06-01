@@ -23,17 +23,52 @@
       "type_signature": "(n_features: int, *, fit_intercept: bool, warm_start: bool, loss_dtype: object, coef: object | None = None, intercept: float = 0.0, intercept_init: float = 0.0) -> NDArray[np.floating]",
       "depth": 1,
       "inputs": [
-        {"name": "n_features", "type_desc": "number of fit features", "required": true},
-        {"name": "fit_intercept", "type_desc": "whether the coefficient vector carries a tail intercept", "required": true},
-        {"name": "warm_start", "type_desc": "whether existing coefficients seed the optimizer", "required": true},
-        {"name": "loss_dtype", "type_desc": "loss computation dtype", "required": true},
-        {"name": "coef", "type_desc": "optional warm-start coefficient vector", "required": false},
-        {"name": "intercept", "type_desc": "optional warm-start intercept", "required": false},
-        {"name": "intercept_init", "type_desc": "cold-start intercept initialization value", "required": false}
+        {
+          "name": "n_features",
+          "type_desc": "number of fit features",
+          "required": true
+        },
+        {
+          "name": "fit_intercept",
+          "type_desc": "whether the coefficient vector carries a tail intercept",
+          "required": true
+        },
+        {
+          "name": "warm_start",
+          "type_desc": "whether existing coefficients seed the optimizer",
+          "required": true
+        },
+        {
+          "name": "loss_dtype",
+          "type_desc": "loss computation dtype",
+          "required": true
+        },
+        {
+          "name": "coef",
+          "type_desc": "optional warm-start coefficient vector",
+          "required": false
+        },
+        {
+          "name": "intercept",
+          "type_desc": "optional warm-start intercept",
+          "required": false
+        },
+        {
+          "name": "intercept_init",
+          "type_desc": "cold-start intercept initialization value",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "initial optimizer coefficient vector"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "initial optimizer coefficient vector"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "glm_fit_intercept_init_value",
@@ -44,13 +79,32 @@
       "type_signature": "(base_loss: object, y: object, sample_weight: object | None = None) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "base_loss", "type_desc": "loss object exposing link.link", "required": true},
-        {"name": "y", "type_desc": "target vector", "required": true},
-        {"name": "sample_weight", "type_desc": "optional target weights", "required": false}
+        {
+          "name": "base_loss",
+          "type_desc": "loss object exposing link.link",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "target vector",
+          "required": true
+        },
+        {
+          "name": "sample_weight",
+          "type_desc": "optional target weights",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "initial intercept value"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "initial intercept value"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "glm_fit_lbfgs_optimizer_payload",
@@ -61,20 +115,67 @@
       "type_signature": "(objective: object, coef: object, X: object, y: object, *, sample_weight: object, l2_reg_strength: float, n_threads: int, max_iter: int, tol: float, verbose: int) -> dict[str, object]",
       "depth": 1,
       "inputs": [
-        {"name": "objective", "type_desc": "linear loss gradient callback", "required": true},
-        {"name": "coef", "type_desc": "initial coefficient vector", "required": true},
-        {"name": "X", "type_desc": "validated feature matrix", "required": true},
-        {"name": "y", "type_desc": "validated target vector", "required": true},
-        {"name": "sample_weight", "type_desc": "optional sample weights", "required": true},
-        {"name": "l2_reg_strength", "type_desc": "L2 regularization strength", "required": true},
-        {"name": "n_threads", "type_desc": "OpenMP thread count", "required": true},
-        {"name": "max_iter", "type_desc": "optimizer iteration cap", "required": true},
-        {"name": "tol", "type_desc": "optimizer gradient tolerance", "required": true},
-        {"name": "verbose", "type_desc": "estimator verbosity", "required": true}
+        {
+          "name": "objective",
+          "type_desc": "linear loss gradient callback",
+          "required": true
+        },
+        {
+          "name": "coef",
+          "type_desc": "initial coefficient vector",
+          "required": true
+        },
+        {
+          "name": "X",
+          "type_desc": "validated feature matrix",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "validated target vector",
+          "required": true
+        },
+        {
+          "name": "sample_weight",
+          "type_desc": "optional sample weights",
+          "required": true
+        },
+        {
+          "name": "l2_reg_strength",
+          "type_desc": "L2 regularization strength",
+          "required": true
+        },
+        {
+          "name": "n_threads",
+          "type_desc": "OpenMP thread count",
+          "required": true
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "optimizer iteration cap",
+          "required": true
+        },
+        {
+          "name": "tol",
+          "type_desc": "optimizer gradient tolerance",
+          "required": true
+        },
+        {
+          "name": "verbose",
+          "type_desc": "estimator verbosity",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "scipy.optimize.minimize keyword payload"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "scipy.optimize.minimize keyword payload"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "glm_fit_newton_solver_payload",
@@ -85,18 +186,57 @@
       "type_signature": "(solver_class: object, coef: object, linear_loss: object, *, l2_reg_strength: float, tol: float, max_iter: int, n_threads: int, verbose: int | None = None) -> dict[str, object]",
       "depth": 1,
       "inputs": [
-        {"name": "solver_class", "type_desc": "Newton solver class/callback", "required": true},
-        {"name": "coef", "type_desc": "initial coefficient vector", "required": true},
-        {"name": "linear_loss", "type_desc": "LinearModelLoss object", "required": true},
-        {"name": "l2_reg_strength", "type_desc": "L2 regularization strength", "required": true},
-        {"name": "tol", "type_desc": "solver tolerance", "required": true},
-        {"name": "max_iter", "type_desc": "solver iteration cap", "required": true},
-        {"name": "n_threads", "type_desc": "OpenMP thread count", "required": true},
-        {"name": "verbose", "type_desc": "optional NewtonCholesky verbosity", "required": false}
+        {
+          "name": "solver_class",
+          "type_desc": "Newton solver class/callback",
+          "required": true
+        },
+        {
+          "name": "coef",
+          "type_desc": "initial coefficient vector",
+          "required": true
+        },
+        {
+          "name": "linear_loss",
+          "type_desc": "LinearModelLoss object",
+          "required": true
+        },
+        {
+          "name": "l2_reg_strength",
+          "type_desc": "L2 regularization strength",
+          "required": true
+        },
+        {
+          "name": "tol",
+          "type_desc": "solver tolerance",
+          "required": true
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "solver iteration cap",
+          "required": true
+        },
+        {
+          "name": "n_threads",
+          "type_desc": "OpenMP thread count",
+          "required": true
+        },
+        {
+          "name": "verbose",
+          "type_desc": "optional NewtonCholesky verbosity",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "Newton solver constructor payload"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "Newton solver constructor payload"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "glm_fit_result_attributes",
@@ -107,20 +247,55 @@
       "type_signature": "(coef: object, *, fit_intercept: bool) -> dict[str, object]",
       "depth": 1,
       "inputs": [
-        {"name": "coef", "type_desc": "optimized coefficient vector", "required": true},
-        {"name": "fit_intercept", "type_desc": "whether the final vector carries a tail intercept", "required": true}
+        {
+          "name": "coef",
+          "type_desc": "optimized coefficient vector",
+          "required": true
+        },
+        {
+          "name": "fit_intercept",
+          "type_desc": "whether the final vector carries a tail intercept",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "coef/intercept attribute payload"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "coef/intercept attribute payload"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [
-    {"source": "glm_fit_intercept_init_value", "target": "glm_fit_initial_coef", "kind": "initialization_input"},
-    {"source": "glm_fit_initial_coef", "target": "glm_fit_lbfgs_optimizer_payload", "kind": "optimizer_input"},
-    {"source": "glm_fit_initial_coef", "target": "glm_fit_newton_solver_payload", "kind": "solver_input"},
-    {"source": "glm_fit_lbfgs_optimizer_payload", "target": "glm_fit_result_attributes", "kind": "optimizer_result_context"},
-    {"source": "glm_fit_newton_solver_payload", "target": "glm_fit_result_attributes", "kind": "solver_result_context"}
+    {
+      "source": "glm_fit_intercept_init_value",
+      "target": "glm_fit_initial_coef",
+      "kind": "initialization_input"
+    },
+    {
+      "source": "glm_fit_initial_coef",
+      "target": "glm_fit_lbfgs_optimizer_payload",
+      "kind": "optimizer_input"
+    },
+    {
+      "source": "glm_fit_initial_coef",
+      "target": "glm_fit_newton_solver_payload",
+      "kind": "solver_input"
+    },
+    {
+      "source": "glm_fit_lbfgs_optimizer_payload",
+      "target": "glm_fit_result_attributes",
+      "kind": "optimizer_result_context"
+    },
+    {
+      "source": "glm_fit_newton_solver_payload",
+      "target": "glm_fit_result_attributes",
+      "kind": "solver_result_context"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

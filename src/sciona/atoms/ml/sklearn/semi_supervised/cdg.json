@@ -74,7 +74,11 @@
           "name": "result",
           "type_desc": "LabelPropagationState"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "label_propagation_predict_proba",
@@ -101,7 +105,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "label_propagation_predict",
@@ -128,7 +136,11 @@
           "name": "result",
           "type_desc": "NDArray[np.object_]"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "label_spreading_fit",
@@ -190,7 +202,11 @@
           "name": "result",
           "type_desc": "LabelPropagationState"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "label_spreading_predict_proba",
@@ -217,7 +233,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "label_spreading_predict",
@@ -244,7 +264,11 @@
           "name": "result",
           "type_desc": "NDArray[np.object_]"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "self_training_select_pseudo_labels",
@@ -281,7 +305,11 @@
           "name": "result",
           "type_desc": "NDArray[np.bool_] | NDArray[np.int_]"
         }
-      ]
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "self_training_fit",
@@ -350,7 +378,11 @@
           "ordering": "sequential",
           "when": "Stage describes pseudo-labeling or self-training"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "self_training_predict",
@@ -377,7 +409,11 @@
           "name": "result",
           "type_desc": "NDArray[np.object_]"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "self_training_predict_proba",
@@ -404,7 +440,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64]"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [

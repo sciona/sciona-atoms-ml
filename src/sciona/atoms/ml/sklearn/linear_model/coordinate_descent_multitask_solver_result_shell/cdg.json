@@ -23,11 +23,22 @@
       "type_signature": "(solver_result: tuple[object, object, object, object]) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "solver_result", "type_desc": "four-item compiled multitask solver result", "required": true}
+        {
+          "name": "solver_result",
+          "type_desc": "four-item compiled multitask solver result",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "solver_result item 0 assigned to self.coef_"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "solver_result item 0 assigned to self.coef_"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_multitask_solver_result_dual_gap",
@@ -38,11 +49,22 @@
       "type_signature": "(solver_result: tuple[object, object, object, object]) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "solver_result", "type_desc": "four-item compiled multitask solver result", "required": true}
+        {
+          "name": "solver_result",
+          "type_desc": "four-item compiled multitask solver result",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "solver_result item 1 assigned to self.dual_gap_ before public scaling"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "solver_result item 1 assigned to self.dual_gap_ before public scaling"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_multitask_solver_result_eps",
@@ -53,11 +75,22 @@
       "type_signature": "(solver_result: tuple[object, object, object, object]) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "solver_result", "type_desc": "four-item compiled multitask solver result", "required": true}
+        {
+          "name": "solver_result",
+          "type_desc": "four-item compiled multitask solver result",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "solver_result item 2 assigned to self.eps_"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "solver_result item 2 assigned to self.eps_"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_multitask_solver_result_n_iter",
@@ -68,11 +101,22 @@
       "type_signature": "(solver_result: tuple[object, object, object, object]) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "solver_result", "type_desc": "four-item compiled multitask solver result", "required": true}
+        {
+          "name": "solver_result",
+          "type_desc": "four-item compiled multitask solver result",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "solver_result item 3 assigned to self.n_iter_"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "solver_result item 3 assigned to self.n_iter_"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_multitask_set_intercept_args",
@@ -83,20 +127,55 @@
       "type_signature": "(X_offset: object, y_offset: object, X_scale: object) -> tuple[object, object, object]",
       "depth": 1,
       "inputs": [
-        {"name": "X_offset", "type_desc": "feature offset payload from _preprocess_data", "required": true},
-        {"name": "y_offset", "type_desc": "target offset payload from _preprocess_data", "required": true},
-        {"name": "X_scale", "type_desc": "feature scale payload from _preprocess_data", "required": true}
+        {
+          "name": "X_offset",
+          "type_desc": "feature offset payload from _preprocess_data",
+          "required": true
+        },
+        {
+          "name": "y_offset",
+          "type_desc": "target offset payload from _preprocess_data",
+          "required": true
+        },
+        {
+          "name": "X_scale",
+          "type_desc": "feature scale payload from _preprocess_data",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "set-intercept positional payload"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "set-intercept positional payload"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "cd_multitask_solver_result_coef", "target": "cd_multitask_solver_result_dual_gap", "kind": "tuple_unpack_peer"},
-    {"source": "cd_multitask_solver_result_dual_gap", "target": "cd_multitask_solver_result_eps", "kind": "tuple_unpack_peer"},
-    {"source": "cd_multitask_solver_result_eps", "target": "cd_multitask_solver_result_n_iter", "kind": "tuple_unpack_peer"},
-    {"source": "cd_multitask_solver_result_n_iter", "target": "cd_multitask_set_intercept_args", "kind": "post_solver_tail_order"}
+    {
+      "source": "cd_multitask_solver_result_coef",
+      "target": "cd_multitask_solver_result_dual_gap",
+      "kind": "tuple_unpack_peer"
+    },
+    {
+      "source": "cd_multitask_solver_result_dual_gap",
+      "target": "cd_multitask_solver_result_eps",
+      "kind": "tuple_unpack_peer"
+    },
+    {
+      "source": "cd_multitask_solver_result_eps",
+      "target": "cd_multitask_solver_result_n_iter",
+      "kind": "tuple_unpack_peer"
+    },
+    {
+      "source": "cd_multitask_solver_result_n_iter",
+      "target": "cd_multitask_set_intercept_args",
+      "kind": "post_solver_tail_order"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

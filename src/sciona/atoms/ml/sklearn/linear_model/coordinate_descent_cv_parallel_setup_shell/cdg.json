@@ -23,11 +23,22 @@
       "type_signature": "(cv_splits: Iterable[tuple[object, object]]) -> list[tuple[object, object]]",
       "depth": 1,
       "inputs": [
-        {"name": "cv_splits", "type_desc": "iterable of (train, test) fold pairs", "required": true}
+        {
+          "name": "cv_splits",
+          "type_desc": "iterable of (train, test) fold pairs",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "concrete fold list"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "concrete fold list"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_fold_count",
@@ -38,11 +49,22 @@
       "type_signature": "(folds: Sequence[object]) -> int",
       "depth": 1,
       "inputs": [
-        {"name": "folds", "type_desc": "materialized fold sequence", "required": true}
+        {
+          "name": "folds",
+          "type_desc": "materialized fold sequence",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "fold count"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "fold count"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_path_job_kwargs",
@@ -53,13 +75,32 @@
       "type_signature": "(this_alphas: object, this_l1_ratio: object, x_dtype_type: object) -> dict[str, object]",
       "depth": 1,
       "inputs": [
-        {"name": "this_alphas", "type_desc": "alpha grid for one l1_ratio branch", "required": true},
-        {"name": "this_l1_ratio", "type_desc": "l1_ratio for one branch", "required": true},
-        {"name": "x_dtype_type", "type_desc": "X.dtype.type object", "required": true}
+        {
+          "name": "this_alphas",
+          "type_desc": "alpha grid for one l1_ratio branch",
+          "required": true
+        },
+        {
+          "name": "this_l1_ratio",
+          "type_desc": "l1_ratio for one branch",
+          "required": true
+        },
+        {
+          "name": "x_dtype_type",
+          "type_desc": "X.dtype.type object",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "kwarg mapping with alphas, l1_ratio, X_order, and dtype"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "kwarg mapping with alphas, l1_ratio, X_order, and dtype"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_path_job_count",
@@ -70,12 +111,27 @@
       "type_signature": "(l1_ratios: Sequence[object], folds: Sequence[object]) -> int",
       "depth": 1,
       "inputs": [
-        {"name": "l1_ratios", "type_desc": "materialized l1_ratio sequence", "required": true},
-        {"name": "folds", "type_desc": "materialized fold sequence", "required": true}
+        {
+          "name": "l1_ratios",
+          "type_desc": "materialized l1_ratio sequence",
+          "required": true
+        },
+        {
+          "name": "folds",
+          "type_desc": "materialized fold sequence",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "nested job count"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "nested job count"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_best_mse_initial",
@@ -86,18 +142,45 @@
       "type_signature": "(fold_count: int) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "fold_count", "type_desc": "positive fold count used to anchor the setup phase", "required": true}
+        {
+          "name": "fold_count",
+          "type_desc": "positive fold count used to anchor the setup phase",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "positive infinity"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "positive infinity"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "cd_cv_folds", "target": "cd_cv_fold_count", "kind": "materialization_context"},
-    {"source": "cd_cv_fold_count", "target": "cd_cv_path_job_count", "kind": "count_context"},
-    {"source": "cd_cv_path_job_kwargs", "target": "cd_cv_path_job_count", "kind": "job_context"},
-    {"source": "cd_cv_fold_count", "target": "cd_cv_best_mse_initial", "kind": "setup_context"}
+    {
+      "source": "cd_cv_folds",
+      "target": "cd_cv_fold_count",
+      "kind": "materialization_context"
+    },
+    {
+      "source": "cd_cv_fold_count",
+      "target": "cd_cv_path_job_count",
+      "kind": "count_context"
+    },
+    {
+      "source": "cd_cv_path_job_kwargs",
+      "target": "cd_cv_path_job_count",
+      "kind": "job_context"
+    },
+    {
+      "source": "cd_cv_fold_count",
+      "target": "cd_cv_best_mse_initial",
+      "kind": "setup_context"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

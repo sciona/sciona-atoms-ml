@@ -42,7 +42,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "gp_train_cholesky",
@@ -77,7 +81,11 @@
           "ordering": "sequential",
           "when": "Stage describes GP fitting, interpolation, or kriging"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "gp_dual_coefficients",
@@ -104,7 +112,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "gp_log_marginal_likelihood",
@@ -136,7 +148,11 @@
           "name": "result",
           "type_desc": "float"
         }
-      ]
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "gp_posterior_predictive_mean",
@@ -186,7 +202,11 @@
           "ordering": "sequential",
           "when": "Stage describes GP fitting, interpolation, or kriging"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "gp_posterior_cross_solve",
@@ -213,7 +233,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "gp_posterior_predictive_covariance",
@@ -245,7 +269,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "gp_posterior_predictive_std",
@@ -290,7 +318,11 @@
           "ordering": "sequential",
           "when": "Stage describes GP fitting, interpolation, or kriging"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [

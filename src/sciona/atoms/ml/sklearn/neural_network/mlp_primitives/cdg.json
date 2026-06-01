@@ -24,12 +24,27 @@
       "type_signature": "(values: NDArray[np.float64], activation: ActivationName) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "values", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "activation", "type_desc": "ActivationName", "required": true}
+        {
+          "name": "values",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "activation",
+          "type_desc": "ActivationName",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "mlp_activation_derivative",
@@ -40,13 +55,32 @@
       "type_signature": "(activated_values: NDArray[np.float64], delta: NDArray[np.float64], activation: HiddenActivationName) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "activated_values", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "delta", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "activation", "type_desc": "HiddenActivationName", "required": true}
+        {
+          "name": "activated_values",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "delta",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "activation",
+          "type_desc": "HiddenActivationName",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "mlp_loss",
@@ -57,15 +91,42 @@
       "type_signature": "(y_true: NDArray[np.float64], y_pred: NDArray[np.float64], loss_name: LossName, output_activation: ActivationName, sample_weight: NDArray[np.float64] | None = None) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "y_true", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "y_pred", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "loss_name", "type_desc": "LossName", "required": true},
-        {"name": "output_activation", "type_desc": "ActivationName", "required": true},
-        {"name": "sample_weight", "type_desc": "NDArray[np.float64] | None", "required": false}
+        {
+          "name": "y_true",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y_pred",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "loss_name",
+          "type_desc": "LossName",
+          "required": true
+        },
+        {
+          "name": "output_activation",
+          "type_desc": "ActivationName",
+          "required": true
+        },
+        {
+          "name": "sample_weight",
+          "type_desc": "NDArray[np.float64] | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "float"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "mlp_forward_pass",
@@ -76,15 +137,42 @@
       "type_signature": "(X: NDArray[np.float64], coefs: tuple[NDArray[np.float64], ...], intercepts: tuple[NDArray[np.float64], ...], hidden_activation: HiddenActivationName, output_activation: ActivationName) -> tuple[NDArray[np.float64], ...]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "coefs", "type_desc": "tuple[NDArray[np.float64], ...]", "required": true},
-        {"name": "intercepts", "type_desc": "tuple[NDArray[np.float64], ...]", "required": true},
-        {"name": "hidden_activation", "type_desc": "HiddenActivationName", "required": true},
-        {"name": "output_activation", "type_desc": "ActivationName", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "coefs",
+          "type_desc": "tuple[NDArray[np.float64], ...]",
+          "required": true
+        },
+        {
+          "name": "intercepts",
+          "type_desc": "tuple[NDArray[np.float64], ...]",
+          "required": true
+        },
+        {
+          "name": "hidden_activation",
+          "type_desc": "HiddenActivationName",
+          "required": true
+        },
+        {
+          "name": "output_activation",
+          "type_desc": "ActivationName",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "tuple[NDArray[np.float64], ...]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "tuple[NDArray[np.float64], ...]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "mlp_layer_gradients",
@@ -95,15 +183,42 @@
       "type_signature": "(layer_activation: NDArray[np.float64], delta: NDArray[np.float64], coefs: NDArray[np.float64], alpha: float = 0.0, sample_weight_sum: float | None = None) -> tuple[NDArray[np.float64], NDArray[np.float64]]",
       "depth": 1,
       "inputs": [
-        {"name": "layer_activation", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "delta", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "coefs", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "alpha", "type_desc": "float", "required": false},
-        {"name": "sample_weight_sum", "type_desc": "float | None", "required": false}
+        {
+          "name": "layer_activation",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "delta",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "coefs",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "alpha",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "sample_weight_sum",
+          "type_desc": "float | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "tuple[NDArray[np.float64], NDArray[np.float64]]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "tuple[NDArray[np.float64], NDArray[np.float64]]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "mlp_backprop",
@@ -114,27 +229,90 @@
       "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], coefs: tuple[NDArray[np.float64], ...], intercepts: tuple[NDArray[np.float64], ...], hidden_activation: HiddenActivationName, output_activation: ActivationName, loss_name: LossName, alpha: float = 0.0, sample_weight: NDArray[np.float64] | None = None) -> tuple[float, tuple[NDArray[np.float64], ...], tuple[NDArray[np.float64], ...]]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "coefs", "type_desc": "tuple[NDArray[np.float64], ...]", "required": true},
-        {"name": "intercepts", "type_desc": "tuple[NDArray[np.float64], ...]", "required": true},
-        {"name": "hidden_activation", "type_desc": "HiddenActivationName", "required": true},
-        {"name": "output_activation", "type_desc": "ActivationName", "required": true},
-        {"name": "loss_name", "type_desc": "LossName", "required": true},
-        {"name": "alpha", "type_desc": "float", "required": false},
-        {"name": "sample_weight", "type_desc": "NDArray[np.float64] | None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "coefs",
+          "type_desc": "tuple[NDArray[np.float64], ...]",
+          "required": true
+        },
+        {
+          "name": "intercepts",
+          "type_desc": "tuple[NDArray[np.float64], ...]",
+          "required": true
+        },
+        {
+          "name": "hidden_activation",
+          "type_desc": "HiddenActivationName",
+          "required": true
+        },
+        {
+          "name": "output_activation",
+          "type_desc": "ActivationName",
+          "required": true
+        },
+        {
+          "name": "loss_name",
+          "type_desc": "LossName",
+          "required": true
+        },
+        {
+          "name": "alpha",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "sample_weight",
+          "type_desc": "NDArray[np.float64] | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "tuple[float, tuple[NDArray[np.float64], ...], tuple[NDArray[np.float64], ...]]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "tuple[float, tuple[NDArray[np.float64], ...], tuple[NDArray[np.float64], ...]]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [
-    {"source": "mlp_activation", "target": "mlp_forward_pass", "kind": "forward_activation"},
-    {"source": "mlp_forward_pass", "target": "mlp_backprop", "kind": "forward_state"},
-    {"source": "mlp_loss", "target": "mlp_backprop", "kind": "loss_evaluation"},
-    {"source": "mlp_activation_derivative", "target": "mlp_backprop", "kind": "hidden_delta"},
-    {"source": "mlp_layer_gradients", "target": "mlp_backprop", "kind": "parameter_gradient"}
+    {
+      "source": "mlp_activation",
+      "target": "mlp_forward_pass",
+      "kind": "forward_activation"
+    },
+    {
+      "source": "mlp_forward_pass",
+      "target": "mlp_backprop",
+      "kind": "forward_state"
+    },
+    {
+      "source": "mlp_loss",
+      "target": "mlp_backprop",
+      "kind": "loss_evaluation"
+    },
+    {
+      "source": "mlp_activation_derivative",
+      "target": "mlp_backprop",
+      "kind": "hidden_delta"
+    },
+    {
+      "source": "mlp_layer_gradients",
+      "target": "mlp_backprop",
+      "kind": "parameter_gradient"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

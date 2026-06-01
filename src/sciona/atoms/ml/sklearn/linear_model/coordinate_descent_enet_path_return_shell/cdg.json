@@ -20,11 +20,22 @@
       "type_signature": "(return_n_iter: bool) -> int",
       "depth": 1,
       "inputs": [
-        {"name": "return_n_iter", "type_desc": "whether to include n_iters", "required": true}
+        {
+          "name": "return_n_iter",
+          "type_desc": "whether to include n_iters",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "3 without n_iters, 4 with n_iters"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "3 without n_iters, 4 with n_iters"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_enet_path_result_tuple",
@@ -35,19 +46,50 @@
       "type_signature": "(alphas: object, coefs: object, dual_gaps: object, n_iters: Sequence[object], return_n_iter: bool) -> tuple[object, ...]",
       "depth": 1,
       "inputs": [
-        {"name": "alphas", "type_desc": "alpha grid result", "required": true},
-        {"name": "coefs", "type_desc": "coefficient path result", "required": true},
-        {"name": "dual_gaps", "type_desc": "dual-gap path result", "required": true},
-        {"name": "n_iters", "type_desc": "iteration-count path result", "required": true},
-        {"name": "return_n_iter", "type_desc": "whether to include n_iters", "required": true}
+        {
+          "name": "alphas",
+          "type_desc": "alpha grid result",
+          "required": true
+        },
+        {
+          "name": "coefs",
+          "type_desc": "coefficient path result",
+          "required": true
+        },
+        {
+          "name": "dual_gaps",
+          "type_desc": "dual-gap path result",
+          "required": true
+        },
+        {
+          "name": "n_iters",
+          "type_desc": "iteration-count path result",
+          "required": true
+        },
+        {
+          "name": "return_n_iter",
+          "type_desc": "whether to include n_iters",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "public enet_path return tuple"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "public enet_path return tuple"
+        }
+      ],
+      "time_complexity": "O(I * N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Coordinate descent path computation for linear models scales linearly with samples N, features d, and the number of optimization iterations I.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [
-    {"source": "cd_enet_path_return_arity", "target": "cd_enet_path_result_tuple", "kind": "return_branch_context"}
+    {
+      "source": "cd_enet_path_return_arity",
+      "target": "cd_enet_path_result_tuple",
+      "kind": "return_branch_context"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

@@ -18,12 +18,27 @@
       "kind": "atom",
       "status": "atomic",
       "inputs": [
-        {"name": "max_features", "type_desc": "int", "required": true},
-        {"name": "n_features", "type_desc": "int", "required": true}
+        {
+          "name": "max_features",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "n_features",
+          "type_desc": "int",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "int"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "select_from_model_prefit_estimator_valid",
@@ -31,12 +46,27 @@
       "kind": "atom",
       "status": "atomic",
       "inputs": [
-        {"name": "prefit", "type_desc": "bool", "required": true},
-        {"name": "estimator_is_fitted", "type_desc": "bool", "required": true}
+        {
+          "name": "prefit",
+          "type_desc": "bool",
+          "required": true
+        },
+        {
+          "name": "estimator_is_fitted",
+          "type_desc": "bool",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "select_from_model_prefit_callable_max_features_ready",
@@ -44,13 +74,32 @@
       "kind": "atom",
       "status": "atomic",
       "inputs": [
-        {"name": "prefit", "type_desc": "bool", "required": true},
-        {"name": "max_features_is_callable", "type_desc": "bool", "required": true},
-        {"name": "has_fitted_max_features", "type_desc": "bool", "required": true}
+        {
+          "name": "prefit",
+          "type_desc": "bool",
+          "required": true
+        },
+        {
+          "name": "max_features_is_callable",
+          "type_desc": "bool",
+          "required": true
+        },
+        {
+          "name": "has_fitted_max_features",
+          "type_desc": "bool",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "select_from_model_candidate_indices",
@@ -58,17 +107,40 @@
       "kind": "atom",
       "status": "atomic",
       "inputs": [
-        {"name": "scores", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "max_features", "type_desc": "int", "required": true}
+        {
+          "name": "scores",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "max_features",
+          "type_desc": "int",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.int64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.int64]"
+        }
+      ],
+      "time_complexity": "O(N * log N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "Ranking or sorting array elements is dominated by the O(N log N) time complexity of the sorting algorithm, and takes linear space.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [
-    {"source": "select_from_model_checked_max_features", "target": "select_from_model_candidate_indices", "kind": "validated_max_features"},
-    {"source": "select_from_model_prefit_estimator_valid", "target": "select_from_model_prefit_callable_max_features_ready", "kind": "prefit_branch"}
+    {
+      "source": "select_from_model_checked_max_features",
+      "target": "select_from_model_candidate_indices",
+      "kind": "validated_max_features"
+    },
+    {
+      "source": "select_from_model_prefit_estimator_valid",
+      "target": "select_from_model_prefit_callable_max_features_ready",
+      "kind": "prefit_branch"
+    }
   ],
   "metadata": {
     "family": "sklearn.feature_selection.select_from_model_bookkeeping",

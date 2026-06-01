@@ -22,24 +22,87 @@
       "type_signature": "(coef: object, l1_reg: object, l2_reg: object, X_data: object, X_indices: object, X_indptr: object, y: object, sample_weight: object, X_sparse_scaling: object, max_iter: int, tol: object, rng: object, random: bool, positive: bool) -> dict[str, object]",
       "depth": 1,
       "inputs": [
-        {"name": "coef", "type_desc": "coefficient buffer", "required": true},
-        {"name": "l1_reg", "type_desc": "scaled l1 regularization", "required": true},
-        {"name": "l2_reg", "type_desc": "scaled l2 regularization", "required": true},
-        {"name": "X_data", "type_desc": "sparse X data array", "required": true},
-        {"name": "X_indices", "type_desc": "sparse X indices array", "required": true},
-        {"name": "X_indptr", "type_desc": "sparse X index-pointer array", "required": true},
-        {"name": "y", "type_desc": "target payload", "required": true},
-        {"name": "sample_weight", "type_desc": "sample-weight payload", "required": true},
-        {"name": "X_sparse_scaling", "type_desc": "sparse centering-scaling vector", "required": true},
-        {"name": "max_iter", "type_desc": "positive iteration limit", "required": true},
-        {"name": "tol", "type_desc": "solver tolerance", "required": true},
-        {"name": "rng", "type_desc": "checked random state", "required": true},
-        {"name": "random", "type_desc": "random selection flag", "required": true},
-        {"name": "positive", "type_desc": "positive coefficient flag", "required": true}
+        {
+          "name": "coef",
+          "type_desc": "coefficient buffer",
+          "required": true
+        },
+        {
+          "name": "l1_reg",
+          "type_desc": "scaled l1 regularization",
+          "required": true
+        },
+        {
+          "name": "l2_reg",
+          "type_desc": "scaled l2 regularization",
+          "required": true
+        },
+        {
+          "name": "X_data",
+          "type_desc": "sparse X data array",
+          "required": true
+        },
+        {
+          "name": "X_indices",
+          "type_desc": "sparse X indices array",
+          "required": true
+        },
+        {
+          "name": "X_indptr",
+          "type_desc": "sparse X index-pointer array",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "target payload",
+          "required": true
+        },
+        {
+          "name": "sample_weight",
+          "type_desc": "sample-weight payload",
+          "required": true
+        },
+        {
+          "name": "X_sparse_scaling",
+          "type_desc": "sparse centering-scaling vector",
+          "required": true
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "positive iteration limit",
+          "required": true
+        },
+        {
+          "name": "tol",
+          "type_desc": "solver tolerance",
+          "required": true
+        },
+        {
+          "name": "rng",
+          "type_desc": "checked random state",
+          "required": true
+        },
+        {
+          "name": "random",
+          "type_desc": "random selection flag",
+          "required": true
+        },
+        {
+          "name": "positive",
+          "type_desc": "positive coefficient flag",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "sparse solver keyword payload"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "sparse solver keyword payload"
+        }
+      ],
+      "time_complexity": "O(I * N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Coordinate descent path computation for linear models scales linearly with samples N, features d, and the number of optimization iterations I.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "cd_enet_path_multitask_solver_args",
@@ -50,19 +113,62 @@
       "type_signature": "(coef: object, l1_reg: object, l2_reg: object, X: object, y: object, max_iter: int, tol: object, rng: object, random: bool) -> tuple[object, object, object, object, object, int, object, object, bool]",
       "depth": 1,
       "inputs": [
-        {"name": "coef", "type_desc": "coefficient buffer", "required": true},
-        {"name": "l1_reg", "type_desc": "scaled l1 regularization", "required": true},
-        {"name": "l2_reg", "type_desc": "scaled l2 regularization", "required": true},
-        {"name": "X", "type_desc": "feature matrix payload", "required": true},
-        {"name": "y", "type_desc": "target payload", "required": true},
-        {"name": "max_iter", "type_desc": "positive iteration limit", "required": true},
-        {"name": "tol", "type_desc": "solver tolerance", "required": true},
-        {"name": "rng", "type_desc": "checked random state", "required": true},
-        {"name": "random", "type_desc": "random selection flag", "required": true}
+        {
+          "name": "coef",
+          "type_desc": "coefficient buffer",
+          "required": true
+        },
+        {
+          "name": "l1_reg",
+          "type_desc": "scaled l1 regularization",
+          "required": true
+        },
+        {
+          "name": "l2_reg",
+          "type_desc": "scaled l2 regularization",
+          "required": true
+        },
+        {
+          "name": "X",
+          "type_desc": "feature matrix payload",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "target payload",
+          "required": true
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "positive iteration limit",
+          "required": true
+        },
+        {
+          "name": "tol",
+          "type_desc": "solver tolerance",
+          "required": true
+        },
+        {
+          "name": "rng",
+          "type_desc": "checked random state",
+          "required": true
+        },
+        {
+          "name": "random",
+          "type_desc": "random selection flag",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "multitask solver positional payload"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "multitask solver positional payload"
+        }
+      ],
+      "time_complexity": "O(I * N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Coordinate descent path computation for linear models scales linearly with samples N, features d, and the number of optimization iterations I.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "cd_enet_path_gram_solver_args",
@@ -73,21 +179,72 @@
       "type_signature": "(coef: object, l1_reg: object, l2_reg: object, precompute: object, Xy: object, y: object, max_iter: int, tol: object, rng: object, random: bool, positive: bool) -> tuple[object, object, object, object, object, object, int, object, object, bool, bool]",
       "depth": 1,
       "inputs": [
-        {"name": "coef", "type_desc": "coefficient buffer", "required": true},
-        {"name": "l1_reg", "type_desc": "scaled l1 regularization", "required": true},
-        {"name": "l2_reg", "type_desc": "scaled l2 regularization", "required": true},
-        {"name": "precompute", "type_desc": "Gram matrix payload", "required": true},
-        {"name": "Xy", "type_desc": "X transpose y payload", "required": true},
-        {"name": "y", "type_desc": "target payload", "required": true},
-        {"name": "max_iter", "type_desc": "positive iteration limit", "required": true},
-        {"name": "tol", "type_desc": "solver tolerance", "required": true},
-        {"name": "rng", "type_desc": "checked random state", "required": true},
-        {"name": "random", "type_desc": "random selection flag", "required": true},
-        {"name": "positive", "type_desc": "positive coefficient flag", "required": true}
+        {
+          "name": "coef",
+          "type_desc": "coefficient buffer",
+          "required": true
+        },
+        {
+          "name": "l1_reg",
+          "type_desc": "scaled l1 regularization",
+          "required": true
+        },
+        {
+          "name": "l2_reg",
+          "type_desc": "scaled l2 regularization",
+          "required": true
+        },
+        {
+          "name": "precompute",
+          "type_desc": "Gram matrix payload",
+          "required": true
+        },
+        {
+          "name": "Xy",
+          "type_desc": "X transpose y payload",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "target payload",
+          "required": true
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "positive iteration limit",
+          "required": true
+        },
+        {
+          "name": "tol",
+          "type_desc": "solver tolerance",
+          "required": true
+        },
+        {
+          "name": "rng",
+          "type_desc": "checked random state",
+          "required": true
+        },
+        {
+          "name": "random",
+          "type_desc": "random selection flag",
+          "required": true
+        },
+        {
+          "name": "positive",
+          "type_desc": "positive coefficient flag",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "Gram solver positional payload"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "Gram solver positional payload"
+        }
+      ],
+      "time_complexity": "O(I * N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Coordinate descent path computation for linear models scales linearly with samples N, features d, and the number of optimization iterations I.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "cd_enet_path_dense_solver_args",
@@ -98,26 +255,85 @@
       "type_signature": "(coef: object, l1_reg: object, l2_reg: object, X: object, y: object, max_iter: int, tol: object, rng: object, random: bool, positive: bool) -> tuple[object, object, object, object, object, int, object, object, bool, bool]",
       "depth": 1,
       "inputs": [
-        {"name": "coef", "type_desc": "coefficient buffer", "required": true},
-        {"name": "l1_reg", "type_desc": "scaled l1 regularization", "required": true},
-        {"name": "l2_reg", "type_desc": "scaled l2 regularization", "required": true},
-        {"name": "X", "type_desc": "feature matrix payload", "required": true},
-        {"name": "y", "type_desc": "target payload", "required": true},
-        {"name": "max_iter", "type_desc": "positive iteration limit", "required": true},
-        {"name": "tol", "type_desc": "solver tolerance", "required": true},
-        {"name": "rng", "type_desc": "checked random state", "required": true},
-        {"name": "random", "type_desc": "random selection flag", "required": true},
-        {"name": "positive", "type_desc": "positive coefficient flag", "required": true}
+        {
+          "name": "coef",
+          "type_desc": "coefficient buffer",
+          "required": true
+        },
+        {
+          "name": "l1_reg",
+          "type_desc": "scaled l1 regularization",
+          "required": true
+        },
+        {
+          "name": "l2_reg",
+          "type_desc": "scaled l2 regularization",
+          "required": true
+        },
+        {
+          "name": "X",
+          "type_desc": "feature matrix payload",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "target payload",
+          "required": true
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "positive iteration limit",
+          "required": true
+        },
+        {
+          "name": "tol",
+          "type_desc": "solver tolerance",
+          "required": true
+        },
+        {
+          "name": "rng",
+          "type_desc": "checked random state",
+          "required": true
+        },
+        {
+          "name": "random",
+          "type_desc": "random selection flag",
+          "required": true
+        },
+        {
+          "name": "positive",
+          "type_desc": "positive coefficient flag",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "dense solver positional payload"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "dense solver positional payload"
+        }
+      ],
+      "time_complexity": "O(I * N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Coordinate descent path computation for linear models scales linearly with samples N, features d, and the number of optimization iterations I.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [
-    {"source": "cd_enet_path_sparse_solver_kwargs", "target": "cd_enet_path_multitask_solver_args", "kind": "dispatch_alternative"},
-    {"source": "cd_enet_path_multitask_solver_args", "target": "cd_enet_path_gram_solver_args", "kind": "dispatch_alternative"},
-    {"source": "cd_enet_path_gram_solver_args", "target": "cd_enet_path_dense_solver_args", "kind": "dispatch_alternative"}
+    {
+      "source": "cd_enet_path_sparse_solver_kwargs",
+      "target": "cd_enet_path_multitask_solver_args",
+      "kind": "dispatch_alternative"
+    },
+    {
+      "source": "cd_enet_path_multitask_solver_args",
+      "target": "cd_enet_path_gram_solver_args",
+      "kind": "dispatch_alternative"
+    },
+    {
+      "source": "cd_enet_path_gram_solver_args",
+      "target": "cd_enet_path_dense_solver_args",
+      "kind": "dispatch_alternative"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

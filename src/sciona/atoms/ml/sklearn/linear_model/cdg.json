@@ -57,18 +57,57 @@
       "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], fit_intercept: bool = True, copy_X: bool = True, tol: float = 1e-6, n_jobs: int | None = None, positive: bool = False, sample_weight: float | tuple[float, ...] | NDArray[np.float64] | None = None) -> LinearRegressionState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "fit_intercept", "type_desc": "bool", "required": false},
-        {"name": "copy_X", "type_desc": "bool", "required": false},
-        {"name": "tol", "type_desc": "float", "required": false},
-        {"name": "n_jobs", "type_desc": "int | None", "required": false},
-        {"name": "positive", "type_desc": "bool", "required": false},
-        {"name": "sample_weight", "type_desc": "float | tuple[float, ...] | NDArray[np.float64] | None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "fit_intercept",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "copy_X",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "tol",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "n_jobs",
+          "type_desc": "int | None",
+          "required": false
+        },
+        {
+          "name": "positive",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "sample_weight",
+          "type_desc": "float | tuple[float, ...] | NDArray[np.float64] | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "LinearRegressionState"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "LinearRegressionState"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "linear_regression_predict",
@@ -79,12 +118,27 @@
       "type_signature": "(X: NDArray[np.float64], state: LinearRegressionState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "LinearRegressionState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "LinearRegressionState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "ridge_regression",
@@ -95,19 +149,62 @@
       "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], alpha: float | tuple[float, ...] | NDArray[np.float64] = 1.0, sample_weight: float | tuple[float, ...] | NDArray[np.float64] | None = None, solver: str = 'auto', max_iter: int | None = None, tol: float = 1e-4, positive: bool = False, random_state: int | None = None) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "alpha", "type_desc": "float | tuple[float, ...] | NDArray[np.float64]", "required": false},
-        {"name": "sample_weight", "type_desc": "float | tuple[float, ...] | NDArray[np.float64] | None", "required": false},
-        {"name": "solver", "type_desc": "str", "required": false},
-        {"name": "max_iter", "type_desc": "int | None", "required": false},
-        {"name": "tol", "type_desc": "float", "required": false},
-        {"name": "positive", "type_desc": "bool", "required": false},
-        {"name": "random_state", "type_desc": "int | None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "alpha",
+          "type_desc": "float | tuple[float, ...] | NDArray[np.float64]",
+          "required": false
+        },
+        {
+          "name": "sample_weight",
+          "type_desc": "float | tuple[float, ...] | NDArray[np.float64] | None",
+          "required": false
+        },
+        {
+          "name": "solver",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "int | None",
+          "required": false
+        },
+        {
+          "name": "tol",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "positive",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "ridge_fit",
@@ -118,21 +215,72 @@
       "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], alpha: float | tuple[float, ...] | NDArray[np.float64] = 1.0, fit_intercept: bool = True, copy_X: bool = True, max_iter: int | None = None, tol: float = 1e-4, solver: str = 'auto', positive: bool = False, random_state: int | None = None, sample_weight: float | tuple[float, ...] | NDArray[np.float64] | None = None) -> RidgeState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "alpha", "type_desc": "float | tuple[float, ...] | NDArray[np.float64]", "required": false},
-        {"name": "fit_intercept", "type_desc": "bool", "required": false},
-        {"name": "copy_X", "type_desc": "bool", "required": false},
-        {"name": "max_iter", "type_desc": "int | None", "required": false},
-        {"name": "tol", "type_desc": "float", "required": false},
-        {"name": "solver", "type_desc": "str", "required": false},
-        {"name": "positive", "type_desc": "bool", "required": false},
-        {"name": "random_state", "type_desc": "int | None", "required": false},
-        {"name": "sample_weight", "type_desc": "float | tuple[float, ...] | NDArray[np.float64] | None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "alpha",
+          "type_desc": "float | tuple[float, ...] | NDArray[np.float64]",
+          "required": false
+        },
+        {
+          "name": "fit_intercept",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "copy_X",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "int | None",
+          "required": false
+        },
+        {
+          "name": "tol",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "solver",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "positive",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int | None",
+          "required": false
+        },
+        {
+          "name": "sample_weight",
+          "type_desc": "float | tuple[float, ...] | NDArray[np.float64] | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "RidgeState"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "RidgeState"
+        }
+      ],
+      "time_complexity": "O(I * N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Coordinate descent path computation for linear models scales linearly with samples N, features d, and the number of optimization iterations I.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "ridge_predict",
@@ -143,12 +291,27 @@
       "type_signature": "(X: NDArray[np.float64], state: RidgeState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "RidgeState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "RidgeState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "orthogonal_mp",
@@ -159,18 +322,57 @@
       "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], n_nonzero_coefs: int | None = None, tol: float | None = None, precompute: bool | str = False, copy_X: bool = True, return_path: bool = False, return_n_iter: bool = False) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "n_nonzero_coefs", "type_desc": "int | None", "required": false},
-        {"name": "tol", "type_desc": "float | None", "required": false},
-        {"name": "precompute", "type_desc": "bool | str", "required": false},
-        {"name": "copy_X", "type_desc": "bool", "required": false},
-        {"name": "return_path", "type_desc": "bool", "required": false},
-        {"name": "return_n_iter", "type_desc": "bool", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "n_nonzero_coefs",
+          "type_desc": "int | None",
+          "required": false
+        },
+        {
+          "name": "tol",
+          "type_desc": "float | None",
+          "required": false
+        },
+        {
+          "name": "precompute",
+          "type_desc": "bool | str",
+          "required": false
+        },
+        {
+          "name": "copy_X",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "return_path",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "return_n_iter",
+          "type_desc": "bool",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "orthogonal_mp_gram",
@@ -181,19 +383,62 @@
       "type_signature": "(Gram: NDArray[np.float64], Xy: NDArray[np.float64], n_nonzero_coefs: int | None = None, tol: float | None = None, norms_squared: tuple[float, ...] | NDArray[np.float64] | None = None, copy_Gram: bool = True, copy_Xy: bool = True, return_path: bool = False, return_n_iter: bool = False) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "Gram", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "Xy", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "n_nonzero_coefs", "type_desc": "int | None", "required": false},
-        {"name": "tol", "type_desc": "float | None", "required": false},
-        {"name": "norms_squared", "type_desc": "tuple[float, ...] | NDArray[np.float64] | None", "required": false},
-        {"name": "copy_Gram", "type_desc": "bool", "required": false},
-        {"name": "copy_Xy", "type_desc": "bool", "required": false},
-        {"name": "return_path", "type_desc": "bool", "required": false},
-        {"name": "return_n_iter", "type_desc": "bool", "required": false}
+        {
+          "name": "Gram",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "Xy",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "n_nonzero_coefs",
+          "type_desc": "int | None",
+          "required": false
+        },
+        {
+          "name": "tol",
+          "type_desc": "float | None",
+          "required": false
+        },
+        {
+          "name": "norms_squared",
+          "type_desc": "tuple[float, ...] | NDArray[np.float64] | None",
+          "required": false
+        },
+        {
+          "name": "copy_Gram",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "copy_Xy",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "return_path",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "return_n_iter",
+          "type_desc": "bool",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "orthogonal_matching_pursuit_fit",
@@ -204,16 +449,47 @@
       "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], n_nonzero_coefs: int | None = None, tol: float | None = None, fit_intercept: bool = True, precompute: bool | str = 'auto') -> OrthogonalMatchingPursuitState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "n_nonzero_coefs", "type_desc": "int | None", "required": false},
-        {"name": "tol", "type_desc": "float | None", "required": false},
-        {"name": "fit_intercept", "type_desc": "bool", "required": false},
-        {"name": "precompute", "type_desc": "bool | str", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "n_nonzero_coefs",
+          "type_desc": "int | None",
+          "required": false
+        },
+        {
+          "name": "tol",
+          "type_desc": "float | None",
+          "required": false
+        },
+        {
+          "name": "fit_intercept",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "precompute",
+          "type_desc": "bool | str",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "OrthogonalMatchingPursuitState"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "OrthogonalMatchingPursuitState"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "orthogonal_matching_pursuit_predict",
@@ -224,12 +500,27 @@
       "type_signature": "(X: NDArray[np.float64], state: OrthogonalMatchingPursuitState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "OrthogonalMatchingPursuitState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "OrthogonalMatchingPursuitState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "omp_path_residues",
@@ -240,17 +531,52 @@
       "type_signature": "(X_train: NDArray[np.float64], y_train: NDArray[np.float64], X_test: NDArray[np.float64], y_test: NDArray[np.float64], copy: bool = True, fit_intercept: bool = True, max_iter: int = 100) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X_train", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "y_train", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "X_test", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "y_test", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "copy", "type_desc": "bool", "required": false},
-        {"name": "fit_intercept", "type_desc": "bool", "required": false},
-        {"name": "max_iter", "type_desc": "int", "required": false}
+        {
+          "name": "X_train",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y_train",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "X_test",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y_test",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "copy",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "fit_intercept",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "int",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "orthogonal_matching_pursuit_cv_fit",
@@ -261,18 +587,57 @@
       "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], copy: bool = True, fit_intercept: bool = True, max_iter: int | None = None, cv: int | None = None, n_jobs: None = None, verbose: bool = False) -> OrthogonalMatchingPursuitCVState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "copy", "type_desc": "bool", "required": false},
-        {"name": "fit_intercept", "type_desc": "bool", "required": false},
-        {"name": "max_iter", "type_desc": "int | None", "required": false},
-        {"name": "cv", "type_desc": "int | None", "required": false},
-        {"name": "n_jobs", "type_desc": "None", "required": false},
-        {"name": "verbose", "type_desc": "bool", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "copy",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "fit_intercept",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "int | None",
+          "required": false
+        },
+        {
+          "name": "cv",
+          "type_desc": "int | None",
+          "required": false
+        },
+        {
+          "name": "n_jobs",
+          "type_desc": "None",
+          "required": false
+        },
+        {
+          "name": "verbose",
+          "type_desc": "bool",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "OrthogonalMatchingPursuitCVState"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "OrthogonalMatchingPursuitCVState"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "orthogonal_matching_pursuit_cv_predict",
@@ -283,12 +648,27 @@
       "type_signature": "(X: NDArray[np.float64], state: OrthogonalMatchingPursuitCVState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "OrthogonalMatchingPursuitCVState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "OrthogonalMatchingPursuitCVState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "ridge_cv_scores",
@@ -299,17 +679,52 @@
       "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], alphas: float | tuple[float, ...] | NDArray[np.float64] = (0.1, 1.0, 10.0), fit_intercept: bool = True, scoring: None = None, cv: None = None, sample_weight: None = None) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "alphas", "type_desc": "float | tuple[float, ...] | NDArray[np.float64]", "required": false},
-        {"name": "fit_intercept", "type_desc": "bool", "required": false},
-        {"name": "scoring", "type_desc": "None", "required": false},
-        {"name": "cv", "type_desc": "None", "required": false},
-        {"name": "sample_weight", "type_desc": "None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "alphas",
+          "type_desc": "float | tuple[float, ...] | NDArray[np.float64]",
+          "required": false
+        },
+        {
+          "name": "fit_intercept",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "scoring",
+          "type_desc": "None",
+          "required": false
+        },
+        {
+          "name": "cv",
+          "type_desc": "None",
+          "required": false
+        },
+        {
+          "name": "sample_weight",
+          "type_desc": "None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "ridge_cv_fit",
@@ -320,20 +735,67 @@
       "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], alphas: float | tuple[float, ...] | NDArray[np.float64] = (0.1, 1.0, 10.0), fit_intercept: bool = True, scoring: None = None, cv: None = None, gcv_mode: str | None = None, store_cv_results: bool = False, alpha_per_target: bool = False, sample_weight: None = None) -> RidgeCVState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "alphas", "type_desc": "float | tuple[float, ...] | NDArray[np.float64]", "required": false},
-        {"name": "fit_intercept", "type_desc": "bool", "required": false},
-        {"name": "scoring", "type_desc": "None", "required": false},
-        {"name": "cv", "type_desc": "None", "required": false},
-        {"name": "gcv_mode", "type_desc": "str | None", "required": false},
-        {"name": "store_cv_results", "type_desc": "bool", "required": false},
-        {"name": "alpha_per_target", "type_desc": "bool", "required": false},
-        {"name": "sample_weight", "type_desc": "None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "alphas",
+          "type_desc": "float | tuple[float, ...] | NDArray[np.float64]",
+          "required": false
+        },
+        {
+          "name": "fit_intercept",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "scoring",
+          "type_desc": "None",
+          "required": false
+        },
+        {
+          "name": "cv",
+          "type_desc": "None",
+          "required": false
+        },
+        {
+          "name": "gcv_mode",
+          "type_desc": "str | None",
+          "required": false
+        },
+        {
+          "name": "store_cv_results",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "alpha_per_target",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "sample_weight",
+          "type_desc": "None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "RidgeCVState"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "RidgeCVState"
+        }
+      ],
+      "time_complexity": "O(I * N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Coordinate descent path computation for linear models scales linearly with samples N, features d, and the number of optimization iterations I.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "ridge_cv_predict",
@@ -344,12 +806,27 @@
       "type_signature": "(X: NDArray[np.float64], state: RidgeCVState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "RidgeCVState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "RidgeCVState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "ridge_classifier_fit",
@@ -360,22 +837,77 @@
       "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], alpha: float | tuple[float, ...] | NDArray[np.float64] = 1.0, fit_intercept: bool = True, copy_X: bool = True, max_iter: int | None = None, tol: float = 1e-4, class_weight: dict[float, float] | str | None = None, solver: str = 'auto', positive: bool = False, random_state: int | None = None, sample_weight: float | tuple[float, ...] | NDArray[np.float64] | None = None) -> RidgeClassifierState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "alpha", "type_desc": "float | tuple[float, ...] | NDArray[np.float64]", "required": false},
-        {"name": "fit_intercept", "type_desc": "bool", "required": false},
-        {"name": "copy_X", "type_desc": "bool", "required": false},
-        {"name": "max_iter", "type_desc": "int | None", "required": false},
-        {"name": "tol", "type_desc": "float", "required": false},
-        {"name": "class_weight", "type_desc": "dict[float, float] | str | None", "required": false},
-        {"name": "solver", "type_desc": "str", "required": false},
-        {"name": "positive", "type_desc": "bool", "required": false},
-        {"name": "random_state", "type_desc": "int | None", "required": false},
-        {"name": "sample_weight", "type_desc": "float | tuple[float, ...] | NDArray[np.float64] | None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "alpha",
+          "type_desc": "float | tuple[float, ...] | NDArray[np.float64]",
+          "required": false
+        },
+        {
+          "name": "fit_intercept",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "copy_X",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "int | None",
+          "required": false
+        },
+        {
+          "name": "tol",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "class_weight",
+          "type_desc": "dict[float, float] | str | None",
+          "required": false
+        },
+        {
+          "name": "solver",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "positive",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int | None",
+          "required": false
+        },
+        {
+          "name": "sample_weight",
+          "type_desc": "float | tuple[float, ...] | NDArray[np.float64] | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "RidgeClassifierState"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "RidgeClassifierState"
+        }
+      ],
+      "time_complexity": "O(I * N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Coordinate descent path computation for linear models scales linearly with samples N, features d, and the number of optimization iterations I.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "ridge_classifier_decision_function",
@@ -386,12 +918,27 @@
       "type_signature": "(X: NDArray[np.float64], state: RidgeClassifierState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "RidgeClassifierState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "RidgeClassifierState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "ridge_classifier_predict",
@@ -402,12 +949,27 @@
       "type_signature": "(X: NDArray[np.float64], state: RidgeClassifierState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "RidgeClassifierState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "RidgeClassifierState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "ridge_classifier_cv_scores",
@@ -418,18 +980,57 @@
       "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], alphas: float | tuple[float, ...] | NDArray[np.float64] = (0.1, 1.0, 10.0), fit_intercept: bool = True, scoring: None = None, cv: None = None, class_weight: None = None, sample_weight: None = None) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "alphas", "type_desc": "float | tuple[float, ...] | NDArray[np.float64]", "required": false},
-        {"name": "fit_intercept", "type_desc": "bool", "required": false},
-        {"name": "scoring", "type_desc": "None", "required": false},
-        {"name": "cv", "type_desc": "None", "required": false},
-        {"name": "class_weight", "type_desc": "None", "required": false},
-        {"name": "sample_weight", "type_desc": "None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "alphas",
+          "type_desc": "float | tuple[float, ...] | NDArray[np.float64]",
+          "required": false
+        },
+        {
+          "name": "fit_intercept",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "scoring",
+          "type_desc": "None",
+          "required": false
+        },
+        {
+          "name": "cv",
+          "type_desc": "None",
+          "required": false
+        },
+        {
+          "name": "class_weight",
+          "type_desc": "None",
+          "required": false
+        },
+        {
+          "name": "sample_weight",
+          "type_desc": "None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "ridge_classifier_cv_fit",
@@ -440,19 +1041,62 @@
       "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], alphas: float | tuple[float, ...] | NDArray[np.float64] = (0.1, 1.0, 10.0), fit_intercept: bool = True, scoring: None = None, cv: None = None, class_weight: None = None, store_cv_results: bool = False, sample_weight: None = None) -> RidgeClassifierCVState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "alphas", "type_desc": "float | tuple[float, ...] | NDArray[np.float64]", "required": false},
-        {"name": "fit_intercept", "type_desc": "bool", "required": false},
-        {"name": "scoring", "type_desc": "None", "required": false},
-        {"name": "cv", "type_desc": "None", "required": false},
-        {"name": "class_weight", "type_desc": "None", "required": false},
-        {"name": "store_cv_results", "type_desc": "bool", "required": false},
-        {"name": "sample_weight", "type_desc": "None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "alphas",
+          "type_desc": "float | tuple[float, ...] | NDArray[np.float64]",
+          "required": false
+        },
+        {
+          "name": "fit_intercept",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "scoring",
+          "type_desc": "None",
+          "required": false
+        },
+        {
+          "name": "cv",
+          "type_desc": "None",
+          "required": false
+        },
+        {
+          "name": "class_weight",
+          "type_desc": "None",
+          "required": false
+        },
+        {
+          "name": "store_cv_results",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "sample_weight",
+          "type_desc": "None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "RidgeClassifierCVState"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "RidgeClassifierCVState"
+        }
+      ],
+      "time_complexity": "O(I * N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Coordinate descent path computation for linear models scales linearly with samples N, features d, and the number of optimization iterations I.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "ridge_classifier_cv_decision_function",
@@ -463,12 +1107,27 @@
       "type_signature": "(X: NDArray[np.float64], state: RidgeClassifierCVState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "RidgeClassifierCVState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "RidgeClassifierCVState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "ridge_classifier_cv_predict",
@@ -479,12 +1138,27 @@
       "type_signature": "(X: NDArray[np.float64], state: RidgeClassifierCVState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "RidgeClassifierCVState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "RidgeClassifierCVState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "bayesian_ridge_fit",
@@ -495,24 +1169,87 @@
       "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], max_iter: int = 300, tol: float = 1e-3, alpha_1: float = 1e-6, alpha_2: float = 1e-6, lambda_1: float = 1e-6, lambda_2: float = 1e-6, alpha_init: float | None = None, lambda_init: float | None = None, compute_score: bool = False, fit_intercept: bool = True, copy_X: bool = True, sample_weight: float | tuple[float, ...] | NDArray[np.float64] | None = None) -> BayesianRidgeState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "max_iter", "type_desc": "int", "required": false},
-        {"name": "tol", "type_desc": "float", "required": false},
-        {"name": "alpha_1", "type_desc": "float", "required": false},
-        {"name": "alpha_2", "type_desc": "float", "required": false},
-        {"name": "lambda_1", "type_desc": "float", "required": false},
-        {"name": "lambda_2", "type_desc": "float", "required": false},
-        {"name": "alpha_init", "type_desc": "float | None", "required": false},
-        {"name": "lambda_init", "type_desc": "float | None", "required": false},
-        {"name": "compute_score", "type_desc": "bool", "required": false},
-        {"name": "fit_intercept", "type_desc": "bool", "required": false},
-        {"name": "copy_X", "type_desc": "bool", "required": false},
-        {"name": "sample_weight", "type_desc": "float | tuple[float, ...] | NDArray[np.float64] | None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "tol",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "alpha_1",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "alpha_2",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "lambda_1",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "lambda_2",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "alpha_init",
+          "type_desc": "float | None",
+          "required": false
+        },
+        {
+          "name": "lambda_init",
+          "type_desc": "float | None",
+          "required": false
+        },
+        {
+          "name": "compute_score",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "fit_intercept",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "copy_X",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "sample_weight",
+          "type_desc": "float | tuple[float, ...] | NDArray[np.float64] | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "BayesianRidgeState"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "BayesianRidgeState"
+        }
+      ],
+      "time_complexity": "O(I * N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Coordinate descent path computation for linear models scales linearly with samples N, features d, and the number of optimization iterations I.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "bayesian_ridge_predict",
@@ -523,13 +1260,32 @@
       "type_signature": "(X: NDArray[np.float64], state: BayesianRidgeState, return_std: bool = False) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "BayesianRidgeState", "required": true},
-        {"name": "return_std", "type_desc": "bool", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "BayesianRidgeState",
+          "required": true
+        },
+        {
+          "name": "return_std",
+          "type_desc": "bool",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "bayesian_ridge_predict_std",
@@ -540,12 +1296,27 @@
       "type_signature": "(X: NDArray[np.float64], state: BayesianRidgeState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "BayesianRidgeState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "BayesianRidgeState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "ard_regression_fit",
@@ -556,23 +1327,82 @@
       "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], max_iter: int = 300, tol: float = 1e-3, alpha_1: float = 1e-6, alpha_2: float = 1e-6, lambda_1: float = 1e-6, lambda_2: float = 1e-6, compute_score: bool = False, threshold_lambda: float = 1e4, fit_intercept: bool = True, copy_X: bool = True, verbose: bool = False) -> ARDRegressionState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "max_iter", "type_desc": "int", "required": false},
-        {"name": "tol", "type_desc": "float", "required": false},
-        {"name": "alpha_1", "type_desc": "float", "required": false},
-        {"name": "alpha_2", "type_desc": "float", "required": false},
-        {"name": "lambda_1", "type_desc": "float", "required": false},
-        {"name": "lambda_2", "type_desc": "float", "required": false},
-        {"name": "compute_score", "type_desc": "bool", "required": false},
-        {"name": "threshold_lambda", "type_desc": "float", "required": false},
-        {"name": "fit_intercept", "type_desc": "bool", "required": false},
-        {"name": "copy_X", "type_desc": "bool", "required": false},
-        {"name": "verbose", "type_desc": "bool", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "tol",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "alpha_1",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "alpha_2",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "lambda_1",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "lambda_2",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "compute_score",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "threshold_lambda",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "fit_intercept",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "copy_X",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "verbose",
+          "type_desc": "bool",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "ARDRegressionState"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "ARDRegressionState"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "ard_regression_predict",
@@ -583,13 +1413,32 @@
       "type_signature": "(X: NDArray[np.float64], state: ARDRegressionState, return_std: bool = False) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "ARDRegressionState", "required": true},
-        {"name": "return_std", "type_desc": "bool", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "ARDRegressionState",
+          "required": true
+        },
+        {
+          "name": "return_std",
+          "type_desc": "bool",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "ard_regression_predict_std",
@@ -600,12 +1449,27 @@
       "type_signature": "(X: NDArray[np.float64], state: ARDRegressionState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "ARDRegressionState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "ARDRegressionState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "theil_sen_regressor_fit",
@@ -616,20 +1480,67 @@
       "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], fit_intercept: bool = True, max_subpopulation: int | float = 10000, n_subsamples: int | None = None, max_iter: int = 300, tol: float = 1e-3, random_state: int | None = None, n_jobs: int | None = None, verbose: bool = False) -> TheilSenRegressorState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "fit_intercept", "type_desc": "bool", "required": false},
-        {"name": "max_subpopulation", "type_desc": "int | float", "required": false},
-        {"name": "n_subsamples", "type_desc": "int | None", "required": false},
-        {"name": "max_iter", "type_desc": "int", "required": false},
-        {"name": "tol", "type_desc": "float", "required": false},
-        {"name": "random_state", "type_desc": "int | None", "required": false},
-        {"name": "n_jobs", "type_desc": "int | None", "required": false},
-        {"name": "verbose", "type_desc": "bool", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "fit_intercept",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "max_subpopulation",
+          "type_desc": "int | float",
+          "required": false
+        },
+        {
+          "name": "n_subsamples",
+          "type_desc": "int | None",
+          "required": false
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "tol",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int | None",
+          "required": false
+        },
+        {
+          "name": "n_jobs",
+          "type_desc": "int | None",
+          "required": false
+        },
+        {
+          "name": "verbose",
+          "type_desc": "bool",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "TheilSenRegressorState"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "TheilSenRegressorState"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "theil_sen_regressor_predict",
@@ -640,12 +1551,27 @@
       "type_signature": "(X: NDArray[np.float64], state: TheilSenRegressorState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "TheilSenRegressorState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "TheilSenRegressorState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "lars_path",
@@ -656,24 +1582,87 @@
       "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], Xy: NDArray[np.float64] | None = None, Gram: NDArray[np.float64] | bool | str | None = None, max_iter: int = 500, alpha_min: float = 0.0, method: str = 'lar', copy_X: bool = True, eps: float = np.finfo(float).eps, copy_Gram: bool = True, verbose: int | bool = 0, return_path: bool = True, return_n_iter: bool = False, positive: bool = False) -> LarsPathState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "Xy", "type_desc": "NDArray[np.float64] | None", "required": false},
-        {"name": "Gram", "type_desc": "NDArray[np.float64] | bool | str | None", "required": false},
-        {"name": "max_iter", "type_desc": "int", "required": false},
-        {"name": "alpha_min", "type_desc": "float", "required": false},
-        {"name": "method", "type_desc": "str", "required": false},
-        {"name": "copy_X", "type_desc": "bool", "required": false},
-        {"name": "eps", "type_desc": "float", "required": false},
-        {"name": "copy_Gram", "type_desc": "bool", "required": false},
-        {"name": "verbose", "type_desc": "int | bool", "required": false},
-        {"name": "return_path", "type_desc": "bool", "required": false},
-        {"name": "return_n_iter", "type_desc": "bool", "required": false},
-        {"name": "positive", "type_desc": "bool", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "Xy",
+          "type_desc": "NDArray[np.float64] | None",
+          "required": false
+        },
+        {
+          "name": "Gram",
+          "type_desc": "NDArray[np.float64] | bool | str | None",
+          "required": false
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "alpha_min",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "method",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "copy_X",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "eps",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "copy_Gram",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "verbose",
+          "type_desc": "int | bool",
+          "required": false
+        },
+        {
+          "name": "return_path",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "return_n_iter",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "positive",
+          "type_desc": "bool",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "LarsPathState"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "LarsPathState"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "lars_path_gram",
@@ -684,23 +1673,82 @@
       "type_signature": "(Xy: NDArray[np.float64], Gram: NDArray[np.float64], n_samples: int, max_iter: int = 500, alpha_min: float = 0.0, method: str = 'lar', copy_X: bool = True, eps: float = np.finfo(float).eps, copy_Gram: bool = True, verbose: int | bool = 0, return_path: bool = True, return_n_iter: bool = False, positive: bool = False) -> LarsPathState",
       "depth": 1,
       "inputs": [
-        {"name": "Xy", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "Gram", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "n_samples", "type_desc": "int", "required": true},
-        {"name": "max_iter", "type_desc": "int", "required": false},
-        {"name": "alpha_min", "type_desc": "float", "required": false},
-        {"name": "method", "type_desc": "str", "required": false},
-        {"name": "copy_X", "type_desc": "bool", "required": false},
-        {"name": "eps", "type_desc": "float", "required": false},
-        {"name": "copy_Gram", "type_desc": "bool", "required": false},
-        {"name": "verbose", "type_desc": "int | bool", "required": false},
-        {"name": "return_path", "type_desc": "bool", "required": false},
-        {"name": "return_n_iter", "type_desc": "bool", "required": false},
-        {"name": "positive", "type_desc": "bool", "required": false}
+        {
+          "name": "Xy",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "Gram",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "n_samples",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "alpha_min",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "method",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "copy_X",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "eps",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "copy_Gram",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "verbose",
+          "type_desc": "int | bool",
+          "required": false
+        },
+        {
+          "name": "return_path",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "return_n_iter",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "positive",
+          "type_desc": "bool",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "LarsPathState"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "LarsPathState"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "lars_fit",
@@ -711,22 +1759,77 @@
       "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], Xy: NDArray[np.float64] | None = None, fit_intercept: bool = True, verbose: int | bool = False, precompute: bool | str | NDArray[np.float64] = 'auto', n_nonzero_coefs: int = 500, eps: float = np.finfo(float).eps, copy_X: bool = True, fit_path: bool = True, jitter: None = None, random_state: None = None) -> LarsState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "Xy", "type_desc": "NDArray[np.float64] | None", "required": false},
-        {"name": "fit_intercept", "type_desc": "bool", "required": false},
-        {"name": "verbose", "type_desc": "int | bool", "required": false},
-        {"name": "precompute", "type_desc": "bool | str | NDArray[np.float64]", "required": false},
-        {"name": "n_nonzero_coefs", "type_desc": "int", "required": false},
-        {"name": "eps", "type_desc": "float", "required": false},
-        {"name": "copy_X", "type_desc": "bool", "required": false},
-        {"name": "fit_path", "type_desc": "bool", "required": false},
-        {"name": "jitter", "type_desc": "None", "required": false},
-        {"name": "random_state", "type_desc": "None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "Xy",
+          "type_desc": "NDArray[np.float64] | None",
+          "required": false
+        },
+        {
+          "name": "fit_intercept",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "verbose",
+          "type_desc": "int | bool",
+          "required": false
+        },
+        {
+          "name": "precompute",
+          "type_desc": "bool | str | NDArray[np.float64]",
+          "required": false
+        },
+        {
+          "name": "n_nonzero_coefs",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "eps",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "copy_X",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "fit_path",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "jitter",
+          "type_desc": "None",
+          "required": false
+        },
+        {
+          "name": "random_state",
+          "type_desc": "None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "LarsState"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "LarsState"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "lars_predict",
@@ -737,12 +1840,27 @@
       "type_signature": "(X: NDArray[np.float64], state: LarsState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "LarsState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "LarsState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "lasso_lars_path",
@@ -753,23 +1871,82 @@
       "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], Xy: NDArray[np.float64] | None = None, Gram: NDArray[np.float64] | bool | str | None = None, max_iter: int = 500, alpha_min: float = 0.0, copy_X: bool = True, eps: float = np.finfo(float).eps, copy_Gram: bool = True, verbose: int | bool = 0, return_path: bool = True, return_n_iter: bool = False, positive: bool = False) -> LarsPathState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "Xy", "type_desc": "NDArray[np.float64] | None", "required": false},
-        {"name": "Gram", "type_desc": "NDArray[np.float64] | bool | str | None", "required": false},
-        {"name": "max_iter", "type_desc": "int", "required": false},
-        {"name": "alpha_min", "type_desc": "float", "required": false},
-        {"name": "copy_X", "type_desc": "bool", "required": false},
-        {"name": "eps", "type_desc": "float", "required": false},
-        {"name": "copy_Gram", "type_desc": "bool", "required": false},
-        {"name": "verbose", "type_desc": "int | bool", "required": false},
-        {"name": "return_path", "type_desc": "bool", "required": false},
-        {"name": "return_n_iter", "type_desc": "bool", "required": false},
-        {"name": "positive", "type_desc": "bool", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "Xy",
+          "type_desc": "NDArray[np.float64] | None",
+          "required": false
+        },
+        {
+          "name": "Gram",
+          "type_desc": "NDArray[np.float64] | bool | str | None",
+          "required": false
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "alpha_min",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "copy_X",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "eps",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "copy_Gram",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "verbose",
+          "type_desc": "int | bool",
+          "required": false
+        },
+        {
+          "name": "return_path",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "return_n_iter",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "positive",
+          "type_desc": "bool",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "LarsPathState"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "LarsPathState"
+        }
+      ],
+      "time_complexity": "O(I * N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Coordinate descent path computation for linear models scales linearly with samples N, features d, and the number of optimization iterations I.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "lasso_lars_fit",
@@ -780,24 +1957,87 @@
       "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], Xy: NDArray[np.float64] | None = None, alpha: float = 1.0, fit_intercept: bool = True, verbose: int | bool = False, precompute: bool | str | NDArray[np.float64] = 'auto', max_iter: int = 500, eps: float = np.finfo(float).eps, copy_X: bool = True, fit_path: bool = True, positive: bool = False, jitter: None = None, random_state: None = None) -> LassoLarsState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "Xy", "type_desc": "NDArray[np.float64] | None", "required": false},
-        {"name": "alpha", "type_desc": "float", "required": false},
-        {"name": "fit_intercept", "type_desc": "bool", "required": false},
-        {"name": "verbose", "type_desc": "int | bool", "required": false},
-        {"name": "precompute", "type_desc": "bool | str | NDArray[np.float64]", "required": false},
-        {"name": "max_iter", "type_desc": "int", "required": false},
-        {"name": "eps", "type_desc": "float", "required": false},
-        {"name": "copy_X", "type_desc": "bool", "required": false},
-        {"name": "fit_path", "type_desc": "bool", "required": false},
-        {"name": "positive", "type_desc": "bool", "required": false},
-        {"name": "jitter", "type_desc": "None", "required": false},
-        {"name": "random_state", "type_desc": "None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "Xy",
+          "type_desc": "NDArray[np.float64] | None",
+          "required": false
+        },
+        {
+          "name": "alpha",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "fit_intercept",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "verbose",
+          "type_desc": "int | bool",
+          "required": false
+        },
+        {
+          "name": "precompute",
+          "type_desc": "bool | str | NDArray[np.float64]",
+          "required": false
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "eps",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "copy_X",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "fit_path",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "positive",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "jitter",
+          "type_desc": "None",
+          "required": false
+        },
+        {
+          "name": "random_state",
+          "type_desc": "None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "LassoLarsState"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "LassoLarsState"
+        }
+      ],
+      "time_complexity": "O(I * N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Coordinate descent path computation for linear models scales linearly with samples N, features d, and the number of optimization iterations I.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "lasso_lars_predict",
@@ -808,12 +2048,27 @@
       "type_signature": "(X: NDArray[np.float64], state: LassoLarsState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "LassoLarsState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "LassoLarsState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "lasso_lars_ic_fit",
@@ -824,21 +2079,72 @@
       "type_signature": "(X: NDArray[np.float64], y: NDArray[np.float64], criterion: str = 'aic', fit_intercept: bool = True, verbose: int | bool = False, precompute: bool | str | NDArray[np.float64] = 'auto', max_iter: int = 500, eps: float = np.finfo(float).eps, copy_X: bool = True, positive: bool = False, noise_variance: float | None = None) -> LassoLarsICState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "y", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "criterion", "type_desc": "str", "required": false},
-        {"name": "fit_intercept", "type_desc": "bool", "required": false},
-        {"name": "verbose", "type_desc": "int | bool", "required": false},
-        {"name": "precompute", "type_desc": "bool | str | NDArray[np.float64]", "required": false},
-        {"name": "max_iter", "type_desc": "int", "required": false},
-        {"name": "eps", "type_desc": "float", "required": false},
-        {"name": "copy_X", "type_desc": "bool", "required": false},
-        {"name": "positive", "type_desc": "bool", "required": false},
-        {"name": "noise_variance", "type_desc": "float | None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "criterion",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "fit_intercept",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "verbose",
+          "type_desc": "int | bool",
+          "required": false
+        },
+        {
+          "name": "precompute",
+          "type_desc": "bool | str | NDArray[np.float64]",
+          "required": false
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "eps",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "copy_X",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "positive",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "noise_variance",
+          "type_desc": "float | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "LassoLarsICState"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "LassoLarsICState"
+        }
+      ],
+      "time_complexity": "O(I * N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Coordinate descent path computation for linear models scales linearly with samples N, features d, and the number of optimization iterations I.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "lasso_lars_ic_predict",
@@ -849,46 +2155,185 @@
       "type_signature": "(X: NDArray[np.float64], state: LassoLarsICState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "LassoLarsICState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "LassoLarsICState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "linear_regression_fit", "target": "linear_regression_predict", "kind": "state"},
-    {"source": "ridge_fit", "target": "ridge_predict", "kind": "state"},
-    {"source": "orthogonal_mp_gram", "target": "orthogonal_mp", "kind": "precomputed_solver"},
-    {"source": "orthogonal_mp", "target": "orthogonal_matching_pursuit_fit", "kind": "solver"},
-    {"source": "orthogonal_mp_gram", "target": "orthogonal_matching_pursuit_fit", "kind": "precomputed_solver"},
-    {"source": "orthogonal_matching_pursuit_fit", "target": "orthogonal_matching_pursuit_predict", "kind": "state"},
-    {"source": "orthogonal_mp", "target": "omp_path_residues", "kind": "coefficient_path"},
-    {"source": "omp_path_residues", "target": "orthogonal_matching_pursuit_cv_fit", "kind": "model_selection"},
-    {"source": "orthogonal_matching_pursuit_fit", "target": "orthogonal_matching_pursuit_cv_fit", "kind": "refit"},
-    {"source": "orthogonal_matching_pursuit_cv_fit", "target": "orthogonal_matching_pursuit_cv_predict", "kind": "state"},
-    {"source": "ridge_cv_scores", "target": "ridge_cv_fit", "kind": "alpha_selection"},
-    {"source": "ridge_cv_fit", "target": "ridge_cv_predict", "kind": "state"},
-    {"source": "ridge_classifier_fit", "target": "ridge_classifier_decision_function", "kind": "state"},
-    {"source": "ridge_classifier_fit", "target": "ridge_classifier_predict", "kind": "state"},
-    {"source": "ridge_classifier_decision_function", "target": "ridge_classifier_predict", "kind": "score"},
-    {"source": "ridge_classifier_cv_scores", "target": "ridge_classifier_cv_fit", "kind": "alpha_selection"},
-    {"source": "ridge_classifier_cv_fit", "target": "ridge_classifier_cv_decision_function", "kind": "state"},
-    {"source": "ridge_classifier_cv_fit", "target": "ridge_classifier_cv_predict", "kind": "state"},
-    {"source": "ridge_classifier_cv_decision_function", "target": "ridge_classifier_cv_predict", "kind": "score"},
-    {"source": "bayesian_ridge_fit", "target": "bayesian_ridge_predict", "kind": "state"},
-    {"source": "bayesian_ridge_fit", "target": "bayesian_ridge_predict_std", "kind": "state"},
-    {"source": "ard_regression_fit", "target": "ard_regression_predict", "kind": "state"},
-    {"source": "ard_regression_fit", "target": "ard_regression_predict_std", "kind": "state"},
-    {"source": "theil_sen_regressor_fit", "target": "theil_sen_regressor_predict", "kind": "state"},
-    {"source": "lars_path_gram", "target": "lars_path", "kind": "sufficient_statistics"},
-    {"source": "lars_path", "target": "lars_fit", "kind": "solver"},
-    {"source": "lars_fit", "target": "lars_predict", "kind": "state"},
-    {"source": "lasso_lars_path", "target": "lasso_lars_fit", "kind": "solver"},
-    {"source": "lasso_lars_fit", "target": "lasso_lars_predict", "kind": "state"},
-    {"source": "lasso_lars_path", "target": "lasso_lars_ic_fit", "kind": "model_selection"},
-    {"source": "lasso_lars_ic_fit", "target": "lasso_lars_ic_predict", "kind": "state"}
+    {
+      "source": "linear_regression_fit",
+      "target": "linear_regression_predict",
+      "kind": "state"
+    },
+    {
+      "source": "ridge_fit",
+      "target": "ridge_predict",
+      "kind": "state"
+    },
+    {
+      "source": "orthogonal_mp_gram",
+      "target": "orthogonal_mp",
+      "kind": "precomputed_solver"
+    },
+    {
+      "source": "orthogonal_mp",
+      "target": "orthogonal_matching_pursuit_fit",
+      "kind": "solver"
+    },
+    {
+      "source": "orthogonal_mp_gram",
+      "target": "orthogonal_matching_pursuit_fit",
+      "kind": "precomputed_solver"
+    },
+    {
+      "source": "orthogonal_matching_pursuit_fit",
+      "target": "orthogonal_matching_pursuit_predict",
+      "kind": "state"
+    },
+    {
+      "source": "orthogonal_mp",
+      "target": "omp_path_residues",
+      "kind": "coefficient_path"
+    },
+    {
+      "source": "omp_path_residues",
+      "target": "orthogonal_matching_pursuit_cv_fit",
+      "kind": "model_selection"
+    },
+    {
+      "source": "orthogonal_matching_pursuit_fit",
+      "target": "orthogonal_matching_pursuit_cv_fit",
+      "kind": "refit"
+    },
+    {
+      "source": "orthogonal_matching_pursuit_cv_fit",
+      "target": "orthogonal_matching_pursuit_cv_predict",
+      "kind": "state"
+    },
+    {
+      "source": "ridge_cv_scores",
+      "target": "ridge_cv_fit",
+      "kind": "alpha_selection"
+    },
+    {
+      "source": "ridge_cv_fit",
+      "target": "ridge_cv_predict",
+      "kind": "state"
+    },
+    {
+      "source": "ridge_classifier_fit",
+      "target": "ridge_classifier_decision_function",
+      "kind": "state"
+    },
+    {
+      "source": "ridge_classifier_fit",
+      "target": "ridge_classifier_predict",
+      "kind": "state"
+    },
+    {
+      "source": "ridge_classifier_decision_function",
+      "target": "ridge_classifier_predict",
+      "kind": "score"
+    },
+    {
+      "source": "ridge_classifier_cv_scores",
+      "target": "ridge_classifier_cv_fit",
+      "kind": "alpha_selection"
+    },
+    {
+      "source": "ridge_classifier_cv_fit",
+      "target": "ridge_classifier_cv_decision_function",
+      "kind": "state"
+    },
+    {
+      "source": "ridge_classifier_cv_fit",
+      "target": "ridge_classifier_cv_predict",
+      "kind": "state"
+    },
+    {
+      "source": "ridge_classifier_cv_decision_function",
+      "target": "ridge_classifier_cv_predict",
+      "kind": "score"
+    },
+    {
+      "source": "bayesian_ridge_fit",
+      "target": "bayesian_ridge_predict",
+      "kind": "state"
+    },
+    {
+      "source": "bayesian_ridge_fit",
+      "target": "bayesian_ridge_predict_std",
+      "kind": "state"
+    },
+    {
+      "source": "ard_regression_fit",
+      "target": "ard_regression_predict",
+      "kind": "state"
+    },
+    {
+      "source": "ard_regression_fit",
+      "target": "ard_regression_predict_std",
+      "kind": "state"
+    },
+    {
+      "source": "theil_sen_regressor_fit",
+      "target": "theil_sen_regressor_predict",
+      "kind": "state"
+    },
+    {
+      "source": "lars_path_gram",
+      "target": "lars_path",
+      "kind": "sufficient_statistics"
+    },
+    {
+      "source": "lars_path",
+      "target": "lars_fit",
+      "kind": "solver"
+    },
+    {
+      "source": "lars_fit",
+      "target": "lars_predict",
+      "kind": "state"
+    },
+    {
+      "source": "lasso_lars_path",
+      "target": "lasso_lars_fit",
+      "kind": "solver"
+    },
+    {
+      "source": "lasso_lars_fit",
+      "target": "lasso_lars_predict",
+      "kind": "state"
+    },
+    {
+      "source": "lasso_lars_path",
+      "target": "lasso_lars_ic_fit",
+      "kind": "model_selection"
+    },
+    {
+      "source": "lasso_lars_ic_fit",
+      "target": "lasso_lars_ic_predict",
+      "kind": "state"
+    }
   ],
   "metadata": {
     "source": "agent_ingestion",

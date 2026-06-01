@@ -22,10 +22,27 @@
       "type_signature": "(regularization: float, n_features: int) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "regularization", "type_desc": "float", "required": true},
-        {"name": "n_features", "type_desc": "int", "required": true}
+        {
+          "name": "regularization",
+          "type_desc": "float",
+          "required": true
+        },
+        {
+          "name": "n_features",
+          "type_desc": "int",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "float"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "sparse_encode_writable_init",
@@ -36,9 +53,22 @@
       "type_signature": "(init: NDArray[np.floating]) -> NDArray[np.floating]",
       "depth": 1,
       "inputs": [
-        {"name": "init", "type_desc": "NDArray[np.floating]", "required": true}
+        {
+          "name": "init",
+          "type_desc": "NDArray[np.floating]",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.floating]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.floating]"
+        }
+      ],
+      "time_complexity": "O(N * d^2)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Dimensionality reduction or sparse coding decomposes high-dimensional features, taking quadratic time in features and linear in samples.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "sparse_encode_omp_norms_squared",
@@ -49,9 +79,22 @@
       "type_signature": "(X: NDArray[np.floating]) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.floating]", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.floating]",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d^2)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Dimensionality reduction or sparse coding decomposes high-dimensional features, taking quadratic time in features and linear in samples.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "sparse_encode_precomputed_output",
@@ -62,11 +105,32 @@
       "type_signature": "(new_code: NDArray[np.floating], n_samples: int, n_components: int) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "new_code", "type_desc": "NDArray[np.floating]", "required": true},
-        {"name": "n_samples", "type_desc": "int", "required": true},
-        {"name": "n_components", "type_desc": "int", "required": true}
+        {
+          "name": "new_code",
+          "type_desc": "NDArray[np.floating]",
+          "required": true
+        },
+        {
+          "name": "n_samples",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "n_components",
+          "type_desc": "int",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d^2)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Dimensionality reduction or sparse coding decomposes high-dimensional features, taking quadratic time in features and linear in samples.",
+      "complexity_confidence": 90
     }
   ],
   "edges": [],

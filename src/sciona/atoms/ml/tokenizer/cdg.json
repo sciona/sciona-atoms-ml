@@ -57,7 +57,11 @@
           "ordering": "sequential",
           "when": "Stage describes NER, sequence tagging, or BIO decoding"
         }
-      ]
+      ],
+      "time_complexity": "O(L)",
+      "space_complexity": "O(L)",
+      "complexity_reasoning": "Tokenizing text, decoding tags, or calculating readability metrics scales linearly with the length L of the input text string.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "tokenize",
@@ -102,7 +106,11 @@
           "ordering": "sequential",
           "when": "Stage describes NER, sequence tagging, or BIO decoding"
         }
-      ]
+      ],
+      "time_complexity": "O(L)",
+      "space_complexity": "O(L)",
+      "complexity_reasoning": "Tokenizing text, decoding tags, or calculating readability metrics scales linearly with the length L of the input text string.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [

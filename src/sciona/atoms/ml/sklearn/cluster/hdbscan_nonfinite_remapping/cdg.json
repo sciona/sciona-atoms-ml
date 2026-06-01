@@ -24,8 +24,23 @@
       "status": "atomic",
       "type_signature": "(reduced_row_sums: NDArray[np.float64]) -> NDArray[np.intp]",
       "depth": 1,
-      "inputs": [{"name": "reduced_row_sums", "type_desc": "NDArray[np.float64]", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.intp]"}]
+      "inputs": [
+        {
+          "name": "reduced_row_sums",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.intp]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "DBSCAN state retrieval or basic property mapping takes linear time and space in the number of samples N.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "hdbscan_infinite_indices",
@@ -35,8 +50,23 @@
       "status": "atomic",
       "type_signature": "(reduced_row_sums: NDArray[np.float64]) -> NDArray[np.intp]",
       "depth": 1,
-      "inputs": [{"name": "reduced_row_sums", "type_desc": "NDArray[np.float64]", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.intp]"}]
+      "inputs": [
+        {
+          "name": "reduced_row_sums",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.intp]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "DBSCAN state retrieval or basic property mapping takes linear time and space in the number of samples N.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "hdbscan_finite_row_indices",
@@ -46,8 +76,23 @@
       "status": "atomic",
       "type_signature": "(X: object) -> NDArray[np.intp]",
       "depth": 1,
-      "inputs": [{"name": "X", "type_desc": "object", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.intp]"}]
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "object",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.intp]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "DBSCAN state retrieval or basic property mapping takes linear time and space in the number of samples N.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "hdbscan_internal_to_raw_map",
@@ -57,8 +102,23 @@
       "status": "atomic",
       "type_signature": "(finite_index: NDArray[np.intp]) -> dict[int, int]",
       "depth": 1,
-      "inputs": [{"name": "finite_index", "type_desc": "NDArray[np.intp]", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "dict[int, int]"}]
+      "inputs": [
+        {
+          "name": "finite_index",
+          "type_desc": "NDArray[np.intp]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "dict[int, int]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "DBSCAN state retrieval or basic property mapping takes linear time and space in the number of samples N.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "hdbscan_nonfinite_raw_indices",
@@ -69,10 +129,27 @@
       "type_signature": "(infinite_index: NDArray[np.intp], missing_index: NDArray[np.intp]) -> set[int]",
       "depth": 1,
       "inputs": [
-        {"name": "infinite_index", "type_desc": "NDArray[np.intp]", "required": true},
-        {"name": "missing_index", "type_desc": "NDArray[np.intp]", "required": true}
+        {
+          "name": "infinite_index",
+          "type_desc": "NDArray[np.intp]",
+          "required": true
+        },
+        {
+          "name": "missing_index",
+          "type_desc": "NDArray[np.intp]",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "set[int]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "set[int]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "DBSCAN state retrieval or basic property mapping takes linear time and space in the number of samples N.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "hdbscan_remapped_labels",
@@ -83,13 +160,42 @@
       "type_signature": "(raw_sample_count: int, finite_index: NDArray[np.intp], finite_labels: NDArray[np.int32], infinite_index: NDArray[np.intp], missing_index: NDArray[np.intp]) -> NDArray[np.int32]",
       "depth": 1,
       "inputs": [
-        {"name": "raw_sample_count", "type_desc": "int", "required": true},
-        {"name": "finite_index", "type_desc": "NDArray[np.intp]", "required": true},
-        {"name": "finite_labels", "type_desc": "NDArray[np.int32]", "required": true},
-        {"name": "infinite_index", "type_desc": "NDArray[np.intp]", "required": true},
-        {"name": "missing_index", "type_desc": "NDArray[np.intp]", "required": true}
+        {
+          "name": "raw_sample_count",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "finite_index",
+          "type_desc": "NDArray[np.intp]",
+          "required": true
+        },
+        {
+          "name": "finite_labels",
+          "type_desc": "NDArray[np.int32]",
+          "required": true
+        },
+        {
+          "name": "infinite_index",
+          "type_desc": "NDArray[np.intp]",
+          "required": true
+        },
+        {
+          "name": "missing_index",
+          "type_desc": "NDArray[np.intp]",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.int32]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.int32]"
+        }
+      ],
+      "time_complexity": "O(N^2 * d)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "Computing cluster labels from DBSCAN sample-to-sample connectivity graph takes quadratic time in samples and linear space for label arrays.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "hdbscan_remapped_probabilities",
@@ -100,25 +206,90 @@
       "type_signature": "(raw_sample_count: int, finite_index: NDArray[np.intp], finite_probabilities: NDArray[np.float64], infinite_index: NDArray[np.intp], missing_index: NDArray[np.intp]) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "raw_sample_count", "type_desc": "int", "required": true},
-        {"name": "finite_index", "type_desc": "NDArray[np.intp]", "required": true},
-        {"name": "finite_probabilities", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "infinite_index", "type_desc": "NDArray[np.intp]", "required": true},
-        {"name": "missing_index", "type_desc": "NDArray[np.intp]", "required": true}
+        {
+          "name": "raw_sample_count",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "finite_index",
+          "type_desc": "NDArray[np.intp]",
+          "required": true
+        },
+        {
+          "name": "finite_probabilities",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "infinite_index",
+          "type_desc": "NDArray[np.intp]",
+          "required": true
+        },
+        {
+          "name": "missing_index",
+          "type_desc": "NDArray[np.intp]",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "DBSCAN state retrieval or basic property mapping takes linear time and space in the number of samples N.",
+      "complexity_confidence": 90
     }
   ],
   "edges": [
-    {"source": "hdbscan_missing_indices", "target": "hdbscan_nonfinite_raw_indices", "kind": "nonfinite_set"},
-    {"source": "hdbscan_infinite_indices", "target": "hdbscan_nonfinite_raw_indices", "kind": "nonfinite_set"},
-    {"source": "hdbscan_finite_row_indices", "target": "hdbscan_internal_to_raw_map", "kind": "index_mapping"},
-    {"source": "hdbscan_finite_row_indices", "target": "hdbscan_remapped_labels", "kind": "raw_axis_restore"},
-    {"source": "hdbscan_finite_row_indices", "target": "hdbscan_remapped_probabilities", "kind": "raw_axis_restore"},
-    {"source": "hdbscan_missing_indices", "target": "hdbscan_remapped_labels", "kind": "missing_encoding"},
-    {"source": "hdbscan_infinite_indices", "target": "hdbscan_remapped_labels", "kind": "infinite_encoding"},
-    {"source": "hdbscan_missing_indices", "target": "hdbscan_remapped_probabilities", "kind": "missing_encoding"},
-    {"source": "hdbscan_infinite_indices", "target": "hdbscan_remapped_probabilities", "kind": "infinite_encoding"}
+    {
+      "source": "hdbscan_missing_indices",
+      "target": "hdbscan_nonfinite_raw_indices",
+      "kind": "nonfinite_set"
+    },
+    {
+      "source": "hdbscan_infinite_indices",
+      "target": "hdbscan_nonfinite_raw_indices",
+      "kind": "nonfinite_set"
+    },
+    {
+      "source": "hdbscan_finite_row_indices",
+      "target": "hdbscan_internal_to_raw_map",
+      "kind": "index_mapping"
+    },
+    {
+      "source": "hdbscan_finite_row_indices",
+      "target": "hdbscan_remapped_labels",
+      "kind": "raw_axis_restore"
+    },
+    {
+      "source": "hdbscan_finite_row_indices",
+      "target": "hdbscan_remapped_probabilities",
+      "kind": "raw_axis_restore"
+    },
+    {
+      "source": "hdbscan_missing_indices",
+      "target": "hdbscan_remapped_labels",
+      "kind": "missing_encoding"
+    },
+    {
+      "source": "hdbscan_infinite_indices",
+      "target": "hdbscan_remapped_labels",
+      "kind": "infinite_encoding"
+    },
+    {
+      "source": "hdbscan_missing_indices",
+      "target": "hdbscan_remapped_probabilities",
+      "kind": "missing_encoding"
+    },
+    {
+      "source": "hdbscan_infinite_indices",
+      "target": "hdbscan_remapped_probabilities",
+      "kind": "infinite_encoding"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

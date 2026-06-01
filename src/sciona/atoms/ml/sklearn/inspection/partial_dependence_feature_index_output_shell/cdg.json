@@ -18,11 +18,21 @@
       "status": "atomic",
       "concept_type": "partial_dependence_bookkeeping",
       "inputs": [
-        {"name": "column_indices", "type_desc": "tuple[int, ...]"}
+        {
+          "name": "column_indices",
+          "type_desc": "tuple[int, ...]"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.intp]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.intp]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "partial_dependence_feature_indices_vector",
@@ -31,11 +41,21 @@
       "status": "atomic",
       "concept_type": "partial_dependence_bookkeeping",
       "inputs": [
-        {"name": "feature_indices_array", "type_desc": "NDArray[np.intp]"}
+        {
+          "name": "feature_indices_array",
+          "type_desc": "NDArray[np.intp]"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.intp]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.intp]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "partial_dependence_selected_feature_count",
@@ -44,15 +64,33 @@
       "status": "atomic",
       "concept_type": "partial_dependence_bookkeeping",
       "inputs": [
-        {"name": "feature_indices", "type_desc": "NDArray[np.intp]"}
+        {
+          "name": "feature_indices",
+          "type_desc": "NDArray[np.intp]"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "int"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "partial_dependence_feature_indices_array", "target": "partial_dependence_feature_indices_vector", "kind": "array_to_vector"},
-    {"source": "partial_dependence_feature_indices_vector", "target": "partial_dependence_selected_feature_count", "kind": "vector_to_count"}
+    {
+      "source": "partial_dependence_feature_indices_array",
+      "target": "partial_dependence_feature_indices_vector",
+      "kind": "array_to_vector"
+    },
+    {
+      "source": "partial_dependence_feature_indices_vector",
+      "target": "partial_dependence_selected_feature_count",
+      "kind": "vector_to_count"
+    }
   ]
 }

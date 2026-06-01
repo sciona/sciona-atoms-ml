@@ -42,7 +42,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64]"
         }
-      ]
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "voting_classifier_soft_probabilities",
@@ -83,7 +87,11 @@
           "ordering": "alternatives",
           "when": "Stage describes ensembling, blending, or averaging model predictions"
         }
-      ]
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "voting_regressor_average",
@@ -124,7 +132,11 @@
           "ordering": "alternatives",
           "when": "Stage describes ensembling, blending, or averaging model predictions"
         }
-      ]
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [],

@@ -22,12 +22,27 @@
       "type_signature": "(probabilities: NDArray[np.float64], n_classes: int) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "probabilities", "type_desc": "nonempty sample-by-class probability matrix", "required": true},
-        {"name": "n_classes", "type_desc": "positive class count", "required": true}
+        {
+          "name": "probabilities",
+          "type_desc": "nonempty sample-by-class probability matrix",
+          "required": true
+        },
+        {
+          "name": "n_classes",
+          "type_desc": "positive class count",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "sample-by-class probability matrix"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "sample-by-class probability matrix"
+        }
+      ],
+      "time_complexity": "O(N * C)",
+      "space_complexity": "O(N * C)",
+      "complexity_reasoning": "Predicting class probabilities for N samples across C classes requires filling an output probability matrix of size N x C.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "tree_predict_proba_multioutput",
@@ -38,12 +53,27 @@
       "type_signature": "(probabilities: NDArray[np.float64], n_classes: tuple[int, ...]) -> list[NDArray[np.float64]]",
       "depth": 1,
       "inputs": [
-        {"name": "probabilities", "type_desc": "nonempty sample-by-output-by-class probability tensor", "required": true},
-        {"name": "n_classes", "type_desc": "per-output positive class counts", "required": true}
+        {
+          "name": "probabilities",
+          "type_desc": "nonempty sample-by-output-by-class probability tensor",
+          "required": true
+        },
+        {
+          "name": "n_classes",
+          "type_desc": "per-output positive class counts",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "list of sample-by-class probability matrices"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "list of sample-by-class probability matrices"
+        }
+      ],
+      "time_complexity": "O(N * C)",
+      "space_complexity": "O(N * C)",
+      "complexity_reasoning": "Predicting class probabilities for N samples across C classes requires filling an output probability matrix of size N x C.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "tree_predict_log_proba_single_output",
@@ -54,11 +84,22 @@
       "type_signature": "(probabilities: NDArray[np.float64]) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "probabilities", "type_desc": "nonempty sample-by-class probability matrix", "required": true}
+        {
+          "name": "probabilities",
+          "type_desc": "nonempty sample-by-class probability matrix",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "sample-by-class log-probability matrix"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "sample-by-class log-probability matrix"
+        }
+      ],
+      "time_complexity": "O(N * C)",
+      "space_complexity": "O(N * C)",
+      "complexity_reasoning": "Predicting class probabilities for N samples across C classes requires filling an output probability matrix of size N x C.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "tree_predict_log_proba_multioutput",
@@ -69,11 +110,22 @@
       "type_signature": "(probabilities: tuple[NDArray[np.float64], ...]) -> list[NDArray[np.float64]]",
       "depth": 1,
       "inputs": [
-        {"name": "probabilities", "type_desc": "nonempty tuple of sample-by-class probability matrices", "required": true}
+        {
+          "name": "probabilities",
+          "type_desc": "nonempty tuple of sample-by-class probability matrices",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "list of sample-by-class log-probability matrices"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "list of sample-by-class log-probability matrices"
+        }
+      ],
+      "time_complexity": "O(N * C)",
+      "space_complexity": "O(N * C)",
+      "complexity_reasoning": "Predicting class probabilities for N samples across C classes requires filling an output probability matrix of size N x C.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [],

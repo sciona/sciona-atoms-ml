@@ -10,8 +10,23 @@
       "status": "atomic",
       "concept_type": "rng_bookkeeping",
       "description": "Derive sklearn's per-call int32 permutation seed from the public random_state parameter.",
-      "inputs": [{"name": "random_state", "type_desc": "int | None", "required": false}],
-      "outputs": [{"name": "result", "type_desc": "int"}]
+      "inputs": [
+        {
+          "name": "random_state",
+          "type_desc": "int | None",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "permutation_importance_metric_score_matrix",
@@ -20,10 +35,27 @@
       "concept_type": "unpacking",
       "description": "Unpack one metric's per-feature repeated scores from sklearn's multimetric score-dict outputs.",
       "inputs": [
-        {"name": "score_dicts_by_feature", "type_desc": "tuple[dict[str, ndarray[float64]], ...]", "required": true},
-        {"name": "metric_name", "type_desc": "str", "required": true}
+        {
+          "name": "score_dicts_by_feature",
+          "type_desc": "tuple[dict[str, ndarray[float64]], ...]",
+          "required": true
+        },
+        {
+          "name": "metric_name",
+          "type_desc": "str",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "ndarray[float64]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "ndarray[float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "permutation_importance_summary_bunch",
@@ -32,10 +64,27 @@
       "concept_type": "packaging",
       "description": "Build sklearn's single-metric importances Bunch from a baseline score and a permuted-score matrix.",
       "inputs": [
-        {"name": "baseline_score", "type_desc": "float", "required": true},
-        {"name": "permuted_scores", "type_desc": "ndarray[float64]", "required": true}
+        {
+          "name": "baseline_score",
+          "type_desc": "float",
+          "required": true
+        },
+        {
+          "name": "permuted_scores",
+          "type_desc": "ndarray[float64]",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "Bunch"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "Bunch"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "permutation_importance_multi_metric_bunches",
@@ -44,16 +93,49 @@
       "concept_type": "packaging",
       "description": "Build sklearn's metric-keyed dict of importances Bunch objects from baseline scores and unpacked score dicts.",
       "inputs": [
-        {"name": "baseline_scores", "type_desc": "dict[str, float]", "required": true},
-        {"name": "score_dicts_by_feature", "type_desc": "tuple[dict[str, ndarray[float64]], ...]", "required": true}
+        {
+          "name": "baseline_scores",
+          "type_desc": "dict[str, float]",
+          "required": true
+        },
+        {
+          "name": "score_dicts_by_feature",
+          "type_desc": "tuple[dict[str, ndarray[float64]], ...]",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "dict[str, Bunch]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "dict[str, Bunch]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "permutation_importance_random_seed", "target": "permutation_importance_metric_score_matrix", "kind": "parallel_seed_context"},
-    {"source": "permutation_importance_metric_score_matrix", "target": "permutation_importance_summary_bunch", "kind": "score_matrix"},
-    {"source": "permutation_importance_metric_score_matrix", "target": "permutation_importance_multi_metric_bunches", "kind": "metric_unpacking"},
-    {"source": "permutation_importance_summary_bunch", "target": "permutation_importance_multi_metric_bunches", "kind": "per_metric_packaging"}
+    {
+      "source": "permutation_importance_random_seed",
+      "target": "permutation_importance_metric_score_matrix",
+      "kind": "parallel_seed_context"
+    },
+    {
+      "source": "permutation_importance_metric_score_matrix",
+      "target": "permutation_importance_summary_bunch",
+      "kind": "score_matrix"
+    },
+    {
+      "source": "permutation_importance_metric_score_matrix",
+      "target": "permutation_importance_multi_metric_bunches",
+      "kind": "metric_unpacking"
+    },
+    {
+      "source": "permutation_importance_summary_bunch",
+      "target": "permutation_importance_multi_metric_bunches",
+      "kind": "per_metric_packaging"
+    }
   ]
 }

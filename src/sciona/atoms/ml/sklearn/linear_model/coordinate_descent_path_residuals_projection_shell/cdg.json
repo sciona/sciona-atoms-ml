@@ -19,12 +19,27 @@
       "type_signature": "(X_test: NDArray[np.floating] | sparse.spmatrix, coefs: NDArray[np.floating]) -> NDArray[np.floating]",
       "depth": 1,
       "inputs": [
-        {"name": "X_test", "type_desc": "finite rank-2 held-out dense or sparse design matrix", "required": true},
-        {"name": "coefs", "type_desc": "finite rank-3 output-by-feature-by-alpha coefficient tensor", "required": true}
+        {
+          "name": "X_test",
+          "type_desc": "finite rank-2 held-out dense or sparse design matrix",
+          "required": true
+        },
+        {
+          "name": "coefs",
+          "type_desc": "finite rank-3 output-by-feature-by-alpha coefficient tensor",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "sample-by-output-by-alpha held-out projection tensor"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "sample-by-output-by-alpha held-out projection tensor"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [],

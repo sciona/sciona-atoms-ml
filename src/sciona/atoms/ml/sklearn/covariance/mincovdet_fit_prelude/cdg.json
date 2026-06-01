@@ -18,32 +18,92 @@
       "name": "mincovdet_fit_validated_data",
       "kind": "atom",
       "status": "atomic",
-      "inputs": [{"name": "X", "type_desc": "array-like 2D data", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "float64 matrix"}]
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "array-like 2D data",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "float64 matrix"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "mincovdet_fit_random_state",
       "name": "mincovdet_fit_random_state",
       "kind": "atom",
       "status": "atomic",
-      "inputs": [{"name": "random_state", "type_desc": "None | int | RandomState", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "numpy RandomState"}]
+      "inputs": [
+        {
+          "name": "random_state",
+          "type_desc": "None | int | RandomState",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "numpy RandomState"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "mincovdet_fit_shape",
       "name": "mincovdet_fit_shape",
       "kind": "atom",
       "status": "atomic",
-      "inputs": [{"name": "X", "type_desc": "float64 matrix", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "tuple[int, int]"}]
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "float64 matrix",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "tuple[int, int]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "mincovdet_fit_assume_centered_branch",
       "name": "mincovdet_fit_assume_centered_branch",
       "kind": "atom",
       "status": "atomic",
-      "inputs": [{"name": "assume_centered", "type_desc": "bool", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "bool"}]
+      "inputs": [
+        {
+          "name": "assume_centered",
+          "type_desc": "bool",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ]
 }

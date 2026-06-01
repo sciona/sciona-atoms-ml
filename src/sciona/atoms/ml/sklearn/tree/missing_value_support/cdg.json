@@ -22,11 +22,22 @@
       "type_signature": "(x_is_sparse: bool) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "x_is_sparse", "type_desc": "bool", "required": true}
+        {
+          "name": "x_is_sparse",
+          "type_desc": "bool",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "tree_missing_values_allow_nan_enabled",
@@ -37,11 +48,22 @@
       "type_signature": "(allow_nan_tag: bool) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "allow_nan_tag", "type_desc": "bool", "required": true}
+        {
+          "name": "allow_nan_tag",
+          "type_desc": "bool",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "tree_missing_values_monotonic_constraints_absent",
@@ -52,11 +74,22 @@
       "type_signature": "(monotonic_cst_is_none: bool) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "monotonic_cst_is_none", "type_desc": "bool", "required": true}
+        {
+          "name": "monotonic_cst_is_none",
+          "type_desc": "bool",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "tree_missing_values_supported",
@@ -67,13 +100,32 @@
       "type_signature": "(*, x_is_sparse: bool, allow_nan_tag: bool, monotonic_cst_is_none: bool) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "x_is_sparse", "type_desc": "bool", "required": true},
-        {"name": "allow_nan_tag", "type_desc": "bool", "required": true},
-        {"name": "monotonic_cst_is_none", "type_desc": "bool", "required": true}
+        {
+          "name": "x_is_sparse",
+          "type_desc": "bool",
+          "required": true
+        },
+        {
+          "name": "allow_nan_tag",
+          "type_desc": "bool",
+          "required": true
+        },
+        {
+          "name": "monotonic_cst_is_none",
+          "type_desc": "bool",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [],
@@ -85,4 +137,3 @@
     "remediation_case": "Case 7 probabilistic and mutable-kernel workflows"
   }
 }
-

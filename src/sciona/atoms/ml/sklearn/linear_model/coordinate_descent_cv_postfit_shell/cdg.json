@@ -25,11 +25,22 @@
       "type_signature": "(sample_weight: object) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "sample_weight", "type_desc": "optional sample-weight vector", "required": true}
+        {
+          "name": "sample_weight",
+          "type_desc": "optional sample-weight vector",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether sample_weight is present"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether sample_weight is present"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_delete_l1_ratio_required",
@@ -40,11 +51,22 @@
       "type_signature": "(has_l1_ratio_attr: bool) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "has_l1_ratio_attr", "type_desc": "whether the estimator defines an l1_ratio parameter", "required": true}
+        {
+          "name": "has_l1_ratio_attr",
+          "type_desc": "whether the estimator defines an l1_ratio parameter",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether l1_ratio_ cleanup should run"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether l1_ratio_ cleanup should run"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_fit_coef",
@@ -55,11 +77,22 @@
       "type_signature": "(model_coef: object) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "model_coef", "type_desc": "finite coefficient vector or matrix", "required": true}
+        {
+          "name": "model_coef",
+          "type_desc": "finite coefficient vector or matrix",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "coef_ passthrough"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "coef_ passthrough"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_fit_intercept",
@@ -70,11 +103,22 @@
       "type_signature": "(model_intercept: object) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "model_intercept", "type_desc": "finite intercept scalar or array", "required": true}
+        {
+          "name": "model_intercept",
+          "type_desc": "finite intercept scalar or array",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "intercept_ passthrough"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "intercept_ passthrough"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_fit_dual_gap",
@@ -85,11 +129,22 @@
       "type_signature": "(model_dual_gap: object) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "model_dual_gap", "type_desc": "finite dual-gap scalar or vector", "required": true}
+        {
+          "name": "model_dual_gap",
+          "type_desc": "finite dual-gap scalar or vector",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "dual_gap_ passthrough"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "dual_gap_ passthrough"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_fit_n_iter",
@@ -100,11 +155,22 @@
       "type_signature": "(model_n_iter: object) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "model_n_iter", "type_desc": "positive integer or nonempty sequence of iteration counts", "required": true}
+        {
+          "name": "model_n_iter",
+          "type_desc": "positive integer or nonempty sequence of iteration counts",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "n_iter_ passthrough"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "n_iter_ passthrough"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_fit_return_self",
@@ -115,20 +181,55 @@
       "type_signature": "(estimator_identity: object) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "estimator_identity", "type_desc": "the estimator instance being fit", "required": true}
+        {
+          "name": "estimator_identity",
+          "type_desc": "the estimator instance being fit",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "same estimator instance"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "same estimator instance"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "cd_cv_refit_uses_sample_weight", "target": "cd_cv_fit_coef", "kind": "refit_context"},
-    {"source": "cd_cv_delete_l1_ratio_required", "target": "cd_cv_fit_coef", "kind": "postfit_cleanup"},
-    {"source": "cd_cv_fit_coef", "target": "cd_cv_fit_intercept", "kind": "state_copy"},
-    {"source": "cd_cv_fit_intercept", "target": "cd_cv_fit_dual_gap", "kind": "state_copy"},
-    {"source": "cd_cv_fit_dual_gap", "target": "cd_cv_fit_n_iter", "kind": "state_copy"},
-    {"source": "cd_cv_fit_n_iter", "target": "cd_cv_fit_return_self", "kind": "final_return"}
+    {
+      "source": "cd_cv_refit_uses_sample_weight",
+      "target": "cd_cv_fit_coef",
+      "kind": "refit_context"
+    },
+    {
+      "source": "cd_cv_delete_l1_ratio_required",
+      "target": "cd_cv_fit_coef",
+      "kind": "postfit_cleanup"
+    },
+    {
+      "source": "cd_cv_fit_coef",
+      "target": "cd_cv_fit_intercept",
+      "kind": "state_copy"
+    },
+    {
+      "source": "cd_cv_fit_intercept",
+      "target": "cd_cv_fit_dual_gap",
+      "kind": "state_copy"
+    },
+    {
+      "source": "cd_cv_fit_dual_gap",
+      "target": "cd_cv_fit_n_iter",
+      "kind": "state_copy"
+    },
+    {
+      "source": "cd_cv_fit_n_iter",
+      "target": "cd_cv_fit_return_self",
+      "kind": "final_return"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

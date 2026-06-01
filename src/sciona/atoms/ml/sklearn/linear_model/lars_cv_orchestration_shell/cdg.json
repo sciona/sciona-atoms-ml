@@ -19,17 +19,52 @@
       "type_signature": "(*, precompute: object, method: str, verbose: int | bool = 0, fit_intercept: bool = True, max_iter: int = 500, eps: float = np.finfo(float).eps, positive: bool = False) -> dict[str, object]",
       "depth": 1,
       "inputs": [
-        {"name": "precompute", "type_desc": "resolved Gram/precompute setting passed to the private fold callback", "required": true},
-        {"name": "method", "type_desc": "LARS path method, either lar or lasso", "required": true},
-        {"name": "verbose", "type_desc": "estimator verbosity context", "required": false},
-        {"name": "fit_intercept", "type_desc": "fold-centering flag", "required": false},
-        {"name": "max_iter", "type_desc": "maximum LARS path iterations", "required": false},
-        {"name": "eps", "type_desc": "machine-precision regularization context", "required": false},
-        {"name": "positive", "type_desc": "positive-coefficient path constraint", "required": false}
+        {
+          "name": "precompute",
+          "type_desc": "resolved Gram/precompute setting passed to the private fold callback",
+          "required": true
+        },
+        {
+          "name": "method",
+          "type_desc": "LARS path method, either lar or lasso",
+          "required": true
+        },
+        {
+          "name": "verbose",
+          "type_desc": "estimator verbosity context",
+          "required": false
+        },
+        {
+          "name": "fit_intercept",
+          "type_desc": "fold-centering flag",
+          "required": false
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "maximum LARS path iterations",
+          "required": false
+        },
+        {
+          "name": "eps",
+          "type_desc": "machine-precision regularization context",
+          "required": false
+        },
+        {
+          "name": "positive",
+          "type_desc": "positive-coefficient path constraint",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "_lars_path_residues keyword callback payload"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "_lars_path_residues keyword callback payload"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [],

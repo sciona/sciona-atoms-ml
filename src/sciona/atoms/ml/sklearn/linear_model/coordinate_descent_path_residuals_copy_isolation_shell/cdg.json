@@ -19,11 +19,22 @@
       "type_signature": "(path_params: Mapping[object, object]) -> dict[object, object]",
       "depth": 1,
       "inputs": [
-        {"name": "path_params", "type_desc": "caller-supplied path parameter mapping", "required": true}
+        {
+          "name": "path_params",
+          "type_desc": "caller-supplied path parameter mapping",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "distinct shallow dict copy of path_params"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "distinct shallow dict copy of path_params"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [],

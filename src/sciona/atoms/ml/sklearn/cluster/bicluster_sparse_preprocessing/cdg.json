@@ -21,11 +21,22 @@
       "type_signature": "(X: sparse matrix) -> tuple[sparse matrix, NDArray[np.float64], NDArray[np.float64]]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "sparse matrix", "required": true}
+        {
+          "name": "X",
+          "type_desc": "sparse matrix",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "tuple[sparse matrix, row_factors, col_factors]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "tuple[sparse matrix, row_factors, col_factors]"
+        }
+      ],
+      "time_complexity": "O(N * d^2)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Dimensionality reduction or sparse coding decomposes high-dimensional features, taking quadratic time in features and linear in samples.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "bicluster_sparse_bistochastic_distance",
@@ -36,12 +47,27 @@
       "type_signature": "(current: sparse matrix, original: sparse matrix) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "current", "type_desc": "sparse matrix", "required": true},
-        {"name": "original", "type_desc": "sparse matrix", "required": true}
+        {
+          "name": "current",
+          "type_desc": "sparse matrix",
+          "required": true
+        },
+        {
+          "name": "original",
+          "type_desc": "sparse matrix",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "float"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
+      ],
+      "time_complexity": "O(N * d^2)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Dimensionality reduction or sparse coding decomposes high-dimensional features, taking quadratic time in features and linear in samples.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "bicluster_sparse_bistochastic_normalize",
@@ -52,18 +78,45 @@
       "type_signature": "(X: sparse matrix, max_iter: int = 1000, tol: float = 1e-5) -> sparse matrix",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "sparse matrix", "required": true},
-        {"name": "max_iter", "type_desc": "int", "required": false},
-        {"name": "tol", "type_desc": "float", "required": false}
+        {
+          "name": "X",
+          "type_desc": "sparse matrix",
+          "required": true
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "tol",
+          "type_desc": "float",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "sparse matrix"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "sparse matrix"
+        }
+      ],
+      "time_complexity": "O(N * d^2)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Dimensionality reduction or sparse coding decomposes high-dimensional features, taking quadratic time in features and linear in samples.",
+      "complexity_confidence": 90
     }
   ],
   "edges": [
-    {"source": "bicluster_sparse_scale_normalize", "target": "bicluster_sparse_bistochastic_normalize", "kind": "iterative_normalization_step"},
-    {"source": "bicluster_sparse_bistochastic_distance", "target": "bicluster_sparse_bistochastic_normalize", "kind": "sparse_stopping_distance"}
+    {
+      "source": "bicluster_sparse_scale_normalize",
+      "target": "bicluster_sparse_bistochastic_normalize",
+      "kind": "iterative_normalization_step"
+    },
+    {
+      "source": "bicluster_sparse_bistochastic_distance",
+      "target": "bicluster_sparse_bistochastic_normalize",
+      "kind": "sparse_stopping_distance"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

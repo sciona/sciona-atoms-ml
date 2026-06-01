@@ -20,11 +20,22 @@
       "type_signature": "(leaf_indices: NDArray[np.integer]) -> NDArray[np.integer]",
       "depth": 1,
       "inputs": [
-        {"name": "leaf_indices", "type_desc": "1D nonnegative integer vector", "required": true}
+        {
+          "name": "leaf_indices",
+          "type_desc": "1D nonnegative integer vector",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "1D nonnegative integer vector"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "1D nonnegative integer vector"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "tree_decision_path_indicator",
@@ -35,11 +46,22 @@
       "type_signature": "(indicator: csr_matrix) -> csr_matrix",
       "depth": 1,
       "inputs": [
-        {"name": "indicator", "type_desc": "nonempty sparse decision-path matrix", "required": true}
+        {
+          "name": "indicator",
+          "type_desc": "nonempty sparse decision-path matrix",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "csr_matrix"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "csr_matrix"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [],
@@ -51,4 +73,3 @@
     "remediation_case": "Case 7 probabilistic and mutable-kernel workflows"
   }
 }
-

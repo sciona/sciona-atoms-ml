@@ -17,11 +17,21 @@
       "status": "atomic",
       "concept_type": "permutation_scorer_branch",
       "inputs": [
-        {"name": "sample_weight", "type_desc": "optional finite weight vector"}
+        {
+          "name": "sample_weight",
+          "type_desc": "optional finite weight vector"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "permutation_importance_scorer_kwargs",
@@ -30,14 +40,28 @@
       "status": "atomic",
       "concept_type": "permutation_scorer_callback",
       "inputs": [
-        {"name": "sample_weight", "type_desc": "optional finite weight vector"}
+        {
+          "name": "sample_weight",
+          "type_desc": "optional finite weight vector"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "dict[str, numpy.ndarray]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "dict[str, numpy.ndarray]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "permutation_importance_use_sample_weight", "target": "permutation_importance_scorer_kwargs", "kind": "branch_to_callback_kwargs"}
+    {
+      "source": "permutation_importance_use_sample_weight",
+      "target": "permutation_importance_scorer_kwargs",
+      "kind": "branch_to_callback_kwargs"
+    }
   ]
 }

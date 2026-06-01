@@ -21,8 +21,23 @@
       "status": "atomic",
       "type_signature": "(class_name: str) -> str",
       "depth": 1,
-      "inputs": [{"name": "class_name", "type_desc": "self.__class__.__name__", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "MetadataRouter owner"}]
+      "inputs": [
+        {
+          "name": "class_name",
+          "type_desc": "self.__class__.__name__",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "MetadataRouter owner"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "ransac_metadata_method_mapping_add_kwargs",
@@ -33,10 +48,27 @@
       "type_signature": "(caller: str, callee: str) -> dict[str, str]",
       "depth": 1,
       "inputs": [
-        {"name": "caller", "type_desc": "caller method", "required": true},
-        {"name": "callee", "type_desc": "callee method", "required": true}
+        {
+          "name": "caller",
+          "type_desc": "caller method",
+          "required": true
+        },
+        {
+          "name": "callee",
+          "type_desc": "callee method",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "MethodMapping.add kwargs"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "MethodMapping.add kwargs"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "ransac_metadata_estimator_payload",
@@ -47,10 +79,27 @@
       "type_signature": "(estimator: object, method_mapping: object) -> dict[str, object]",
       "depth": 1,
       "inputs": [
-        {"name": "estimator", "type_desc": "wrapped estimator", "required": true},
-        {"name": "method_mapping", "type_desc": "constructed MethodMapping", "required": true}
+        {
+          "name": "estimator",
+          "type_desc": "wrapped estimator",
+          "required": true
+        },
+        {
+          "name": "method_mapping",
+          "type_desc": "constructed MethodMapping",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "MetadataRouter.add named payload"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "MetadataRouter.add named payload"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "ransac_metadata_router_result",
@@ -60,14 +109,41 @@
       "status": "atomic",
       "type_signature": "(router: object) -> object",
       "depth": 1,
-      "inputs": [{"name": "router", "type_desc": "constructed MetadataRouter", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "router return value"}]
+      "inputs": [
+        {
+          "name": "router",
+          "type_desc": "constructed MetadataRouter",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "router return value"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "ransac_metadata_router_owner", "target": "ransac_metadata_estimator_payload", "kind": "metadata_routing"},
-    {"source": "ransac_metadata_method_mapping_add_kwargs", "target": "ransac_metadata_estimator_payload", "kind": "metadata_routing"},
-    {"source": "ransac_metadata_estimator_payload", "target": "ransac_metadata_router_result", "kind": "metadata_routing"}
+    {
+      "source": "ransac_metadata_router_owner",
+      "target": "ransac_metadata_estimator_payload",
+      "kind": "metadata_routing"
+    },
+    {
+      "source": "ransac_metadata_method_mapping_add_kwargs",
+      "target": "ransac_metadata_estimator_payload",
+      "kind": "metadata_routing"
+    },
+    {
+      "source": "ransac_metadata_estimator_payload",
+      "target": "ransac_metadata_router_result",
+      "kind": "metadata_routing"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

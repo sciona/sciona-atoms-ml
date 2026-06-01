@@ -22,11 +22,32 @@
       "type_signature": "(X: NDArray[np.floating], shuffle: bool, permutation: NDArray[np.int64] | None = None) -> NDArray[np.floating]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.floating]", "required": true},
-        {"name": "shuffle", "type_desc": "bool", "required": true},
-        {"name": "permutation", "type_desc": "NDArray[np.int64] | None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.floating]",
+          "required": true
+        },
+        {
+          "name": "shuffle",
+          "type_desc": "bool",
+          "required": true
+        },
+        {
+          "name": "permutation",
+          "type_desc": "NDArray[np.int64] | None",
+          "required": false
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.floating]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.floating]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "dictionary_learning_minibatch_old_dictionary",
@@ -37,9 +58,22 @@
       "type_signature": "(dictionary: NDArray[np.floating]) -> NDArray[np.floating]",
       "depth": 1,
       "inputs": [
-        {"name": "dictionary", "type_desc": "NDArray[np.floating]", "required": true}
+        {
+          "name": "dictionary",
+          "type_desc": "NDArray[np.floating]",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.floating]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.floating]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "dictionary_learning_minibatch_verbose_message",
@@ -50,9 +84,22 @@
       "type_signature": "(verbose: bool | int) -> str | None",
       "depth": 1,
       "inputs": [
-        {"name": "verbose", "type_desc": "bool | int", "required": true}
+        {
+          "name": "verbose",
+          "type_desc": "bool | int",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "str | None"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "str | None"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "dictionary_learning_minibatch_monitor_state",
@@ -63,9 +110,22 @@
       "type_signature": "(max_no_improvement: int | None) -> tuple[None, None, int]",
       "depth": 1,
       "inputs": [
-        {"name": "max_no_improvement", "type_desc": "int | None", "required": true}
+        {
+          "name": "max_no_improvement",
+          "type_desc": "int | None",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "tuple[None, None, int]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "tuple[None, None, int]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [],

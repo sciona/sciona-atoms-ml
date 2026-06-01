@@ -12,11 +12,22 @@
       "concept_type": "mlp_training_guards",
       "type_signature": "(*, solver: str) -> bool",
       "inputs": [
-        {"name": "solver", "type_desc": "str", "required": true}
+        {
+          "name": "solver",
+          "type_desc": "str",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "mlp_fit_require_finite_weights",
@@ -27,15 +38,34 @@
       "concept_type": "mlp_training_guards",
       "type_signature": "(coefs: Sequence[NDArray[np.float64]], intercepts: Sequence[NDArray[np.float64]]) -> bool",
       "inputs": [
-        {"name": "coefs", "type_desc": "Sequence[NDArray[np.float64]]", "required": true},
-        {"name": "intercepts", "type_desc": "Sequence[NDArray[np.float64]]", "required": true}
+        {
+          "name": "coefs",
+          "type_desc": "Sequence[NDArray[np.float64]]",
+          "required": true
+        },
+        {
+          "name": "intercepts",
+          "type_desc": "Sequence[NDArray[np.float64]]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "mlp_partial_fit_require_stochastic_solver", "target": "mlp_fit_require_finite_weights", "kind": "training_guard_context"}
+    {
+      "source": "mlp_partial_fit_require_stochastic_solver",
+      "target": "mlp_fit_require_finite_weights",
+      "kind": "training_guard_context"
+    }
   ]
 }

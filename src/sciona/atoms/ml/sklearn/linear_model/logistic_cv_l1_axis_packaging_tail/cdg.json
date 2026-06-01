@@ -23,8 +23,23 @@
       "status": "atomic",
       "type_signature": "(public_l1_ratios_param: object) -> bool",
       "depth": 1,
-      "inputs": [{"name": "public_l1_ratios_param", "type_desc": "public self.l1_ratios parameter", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "true when public l1-ratio axis packaging runs"}]
+      "inputs": [
+        {
+          "name": "public_l1_ratios_param",
+          "type_desc": "public self.l1_ratios parameter",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "true when public l1-ratio axis packaging runs"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "logistic_cv_coefs_paths_l1_axis",
@@ -35,12 +50,37 @@
       "type_signature": "(coefs_paths: object, *, n_folds: int, n_Cs: int, n_l1_ratios: int) -> NDArray[np.floating]",
       "depth": 1,
       "inputs": [
-        {"name": "coefs_paths", "type_desc": "one class coefficient paths with flattened path axis", "required": true},
-        {"name": "n_folds", "type_desc": "cross-validation fold count", "required": true},
-        {"name": "n_Cs", "type_desc": "number of C values", "required": true},
-        {"name": "n_l1_ratios", "type_desc": "number of l1-ratio values", "required": true}
+        {
+          "name": "coefs_paths",
+          "type_desc": "one class coefficient paths with flattened path axis",
+          "required": true
+        },
+        {
+          "name": "n_folds",
+          "type_desc": "cross-validation fold count",
+          "required": true
+        },
+        {
+          "name": "n_Cs",
+          "type_desc": "number of C values",
+          "required": true
+        },
+        {
+          "name": "n_l1_ratios",
+          "type_desc": "number of l1-ratio values",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "coefficient paths shaped as fold by C by l1-ratio by coefficient"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "coefficient paths shaped as fold by C by l1-ratio by coefficient"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "logistic_cv_coefs_paths_dict_l1_axis",
@@ -51,12 +91,37 @@
       "type_signature": "(coefs_paths_by_class: Mapping[object, object], *, n_folds: int, n_Cs: int, n_l1_ratios: int) -> dict[object, NDArray[np.floating]]",
       "depth": 1,
       "inputs": [
-        {"name": "coefs_paths_by_class", "type_desc": "class-keyed flattened coefficient paths", "required": true},
-        {"name": "n_folds", "type_desc": "cross-validation fold count", "required": true},
-        {"name": "n_Cs", "type_desc": "number of C values", "required": true},
-        {"name": "n_l1_ratios", "type_desc": "number of l1-ratio values", "required": true}
+        {
+          "name": "coefs_paths_by_class",
+          "type_desc": "class-keyed flattened coefficient paths",
+          "required": true
+        },
+        {
+          "name": "n_folds",
+          "type_desc": "cross-validation fold count",
+          "required": true
+        },
+        {
+          "name": "n_Cs",
+          "type_desc": "number of C values",
+          "required": true
+        },
+        {
+          "name": "n_l1_ratios",
+          "type_desc": "number of l1-ratio values",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "class-keyed public-axis coefficient paths"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "class-keyed public-axis coefficient paths"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "logistic_cv_scores_l1_axis",
@@ -67,12 +132,37 @@
       "type_signature": "(scores: object, *, n_folds: int, n_Cs: int, n_l1_ratios: int) -> NDArray[np.floating]",
       "depth": 1,
       "inputs": [
-        {"name": "scores", "type_desc": "one class scores with flattened path axis", "required": true},
-        {"name": "n_folds", "type_desc": "cross-validation fold count", "required": true},
-        {"name": "n_Cs", "type_desc": "number of C values", "required": true},
-        {"name": "n_l1_ratios", "type_desc": "number of l1-ratio values", "required": true}
+        {
+          "name": "scores",
+          "type_desc": "one class scores with flattened path axis",
+          "required": true
+        },
+        {
+          "name": "n_folds",
+          "type_desc": "cross-validation fold count",
+          "required": true
+        },
+        {
+          "name": "n_Cs",
+          "type_desc": "number of C values",
+          "required": true
+        },
+        {
+          "name": "n_l1_ratios",
+          "type_desc": "number of l1-ratio values",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "scores shaped as fold by C by l1-ratio"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "scores shaped as fold by C by l1-ratio"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "logistic_cv_scores_dict_l1_axis",
@@ -83,12 +173,37 @@
       "type_signature": "(scores_by_class: Mapping[object, object], *, n_folds: int, n_Cs: int, n_l1_ratios: int) -> dict[object, NDArray[np.floating]]",
       "depth": 1,
       "inputs": [
-        {"name": "scores_by_class", "type_desc": "class-keyed flattened scores", "required": true},
-        {"name": "n_folds", "type_desc": "cross-validation fold count", "required": true},
-        {"name": "n_Cs", "type_desc": "number of C values", "required": true},
-        {"name": "n_l1_ratios", "type_desc": "number of l1-ratio values", "required": true}
+        {
+          "name": "scores_by_class",
+          "type_desc": "class-keyed flattened scores",
+          "required": true
+        },
+        {
+          "name": "n_folds",
+          "type_desc": "cross-validation fold count",
+          "required": true
+        },
+        {
+          "name": "n_Cs",
+          "type_desc": "number of C values",
+          "required": true
+        },
+        {
+          "name": "n_l1_ratios",
+          "type_desc": "number of l1-ratio values",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "class-keyed public-axis scores"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "class-keyed public-axis scores"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "logistic_cv_n_iter_l1_axis",
@@ -99,20 +214,65 @@
       "type_signature": "(n_iter: object, *, n_folds: int, n_Cs: int, n_l1_ratios: int) -> NDArray[np.integer]",
       "depth": 1,
       "inputs": [
-        {"name": "n_iter", "type_desc": "iteration tensor with flattened path axis", "required": true},
-        {"name": "n_folds", "type_desc": "cross-validation fold count", "required": true},
-        {"name": "n_Cs", "type_desc": "number of C values", "required": true},
-        {"name": "n_l1_ratios", "type_desc": "number of l1-ratio values", "required": true}
+        {
+          "name": "n_iter",
+          "type_desc": "iteration tensor with flattened path axis",
+          "required": true
+        },
+        {
+          "name": "n_folds",
+          "type_desc": "cross-validation fold count",
+          "required": true
+        },
+        {
+          "name": "n_Cs",
+          "type_desc": "number of C values",
+          "required": true
+        },
+        {
+          "name": "n_l1_ratios",
+          "type_desc": "number of l1-ratio values",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "n_iter_ tensor shaped as class-axis by fold by C by l1-ratio"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "n_iter_ tensor shaped as class-axis by fold by C by l1-ratio"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [
-    {"source": "logistic_cv_l1_axis_enabled", "target": "logistic_cv_coefs_paths_dict_l1_axis", "kind": "branch_guard"},
-    {"source": "logistic_cv_l1_axis_enabled", "target": "logistic_cv_scores_dict_l1_axis", "kind": "branch_guard"},
-    {"source": "logistic_cv_l1_axis_enabled", "target": "logistic_cv_n_iter_l1_axis", "kind": "branch_guard"},
-    {"source": "logistic_cv_coefs_paths_l1_axis", "target": "logistic_cv_coefs_paths_dict_l1_axis", "kind": "per_class_mapping"},
-    {"source": "logistic_cv_scores_l1_axis", "target": "logistic_cv_scores_dict_l1_axis", "kind": "per_class_mapping"}
+    {
+      "source": "logistic_cv_l1_axis_enabled",
+      "target": "logistic_cv_coefs_paths_dict_l1_axis",
+      "kind": "branch_guard"
+    },
+    {
+      "source": "logistic_cv_l1_axis_enabled",
+      "target": "logistic_cv_scores_dict_l1_axis",
+      "kind": "branch_guard"
+    },
+    {
+      "source": "logistic_cv_l1_axis_enabled",
+      "target": "logistic_cv_n_iter_l1_axis",
+      "kind": "branch_guard"
+    },
+    {
+      "source": "logistic_cv_coefs_paths_l1_axis",
+      "target": "logistic_cv_coefs_paths_dict_l1_axis",
+      "kind": "per_class_mapping"
+    },
+    {
+      "source": "logistic_cv_scores_l1_axis",
+      "target": "logistic_cv_scores_dict_l1_axis",
+      "kind": "per_class_mapping"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

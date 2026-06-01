@@ -23,13 +23,32 @@
       "type_signature": "(X: NDArray[np.float64], new_values: NDArray[np.float64], features: tuple[int, ...]) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "new_values", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "features", "type_desc": "tuple[int, ...]", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "new_values",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "features",
+          "type_desc": "tuple[int, ...]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "partial_dependence_average_response_sequence",
@@ -40,12 +59,27 @@
       "type_signature": "(responses: tuple[NDArray[np.float64], ...], sample_weight: NDArray[np.float64] | None = None) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "responses", "type_desc": "tuple[NDArray[np.float64], ...]", "required": true},
-        {"name": "sample_weight", "type_desc": "NDArray[np.float64] | None", "required": false}
+        {
+          "name": "responses",
+          "type_desc": "tuple[NDArray[np.float64], ...]",
+          "required": true
+        },
+        {
+          "name": "sample_weight",
+          "type_desc": "NDArray[np.float64] | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "partial_dependence_stack_response_sequence",
@@ -56,11 +90,22 @@
       "type_signature": "(responses: tuple[NDArray[np.float64], ...]) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "responses", "type_desc": "tuple[NDArray[np.float64], ...]", "required": true}
+        {
+          "name": "responses",
+          "type_desc": "tuple[NDArray[np.float64], ...]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "partial_dependence_finalize_predictions",
@@ -71,13 +116,32 @@
       "type_signature": "(stacked_predictions: NDArray[np.float64], task_kind: Literal['regression', 'classification'], n_samples: int) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "stacked_predictions", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "task_kind", "type_desc": "Literal['regression', 'classification']", "required": true},
-        {"name": "n_samples", "type_desc": "int", "required": true}
+        {
+          "name": "stacked_predictions",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "task_kind",
+          "type_desc": "Literal['regression', 'classification']",
+          "required": true
+        },
+        {
+          "name": "n_samples",
+          "type_desc": "int",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "partial_dependence_finalize_averages",
@@ -88,17 +152,40 @@
       "type_signature": "(stacked_averages: NDArray[np.float64], task_kind: Literal['regression', 'classification']) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "stacked_averages", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "task_kind", "type_desc": "Literal['regression', 'classification']", "required": true}
+        {
+          "name": "stacked_averages",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "task_kind",
+          "type_desc": "Literal['regression', 'classification']",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "partial_dependence_average_response_sequence", "target": "partial_dependence_finalize_averages", "kind": "average_stack"},
-    {"source": "partial_dependence_stack_response_sequence", "target": "partial_dependence_finalize_predictions", "kind": "prediction_stack"}
+    {
+      "source": "partial_dependence_average_response_sequence",
+      "target": "partial_dependence_finalize_averages",
+      "kind": "average_stack"
+    },
+    {
+      "source": "partial_dependence_stack_response_sequence",
+      "target": "partial_dependence_finalize_predictions",
+      "kind": "prediction_stack"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

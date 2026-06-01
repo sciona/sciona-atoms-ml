@@ -12,12 +12,27 @@
       "concept_type": "sparse_coder_fit_shell",
       "type_signature": "(x_feature_count: int, dictionary_feature_count: int) -> int",
       "inputs": [
-        {"name": "x_feature_count", "type_desc": "int", "required": true},
-        {"name": "dictionary_feature_count", "type_desc": "int", "required": true}
+        {
+          "name": "x_feature_count",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "dictionary_feature_count",
+          "type_desc": "int",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "int"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "sparse_coding_expected_code_width",
@@ -28,12 +43,27 @@
       "concept_type": "sparse_coder_inverse_shell",
       "type_signature": "(dictionary: NDArray[np.float64], *, split_sign: bool = False) -> int",
       "inputs": [
-        {"name": "dictionary", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "split_sign", "type_desc": "bool", "required": false}
+        {
+          "name": "dictionary",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "split_sign",
+          "type_desc": "bool",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "int"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "sparse_coding_merge_split_sign",
@@ -44,11 +74,22 @@
       "concept_type": "sparse_coder_inverse_shell",
       "type_signature": "(code: NDArray[np.float64]) -> NDArray[np.float64]",
       "inputs": [
-        {"name": "code", "type_desc": "NDArray[np.float64]", "required": true}
+        {
+          "name": "code",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "sparse_coder_inverse_transform",
@@ -59,18 +100,49 @@
       "concept_type": "sparse_coder_inverse_shell",
       "type_signature": "(code: NDArray[np.float64], dictionary: NDArray[np.float64], *, split_sign: bool = False) -> NDArray[np.float64]",
       "inputs": [
-        {"name": "code", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "dictionary", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "split_sign", "type_desc": "bool", "required": false}
+        {
+          "name": "code",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "dictionary",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "split_sign",
+          "type_desc": "bool",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [
-    {"source": "sparse_coder_fit_require_matching_features", "target": "sparse_coder_inverse_transform", "kind": "dictionary_feature_context"},
-    {"source": "sparse_coding_expected_code_width", "target": "sparse_coder_inverse_transform", "kind": "inverse_width_context"},
-    {"source": "sparse_coding_merge_split_sign", "target": "sparse_coder_inverse_transform", "kind": "split_sign_context"}
+    {
+      "source": "sparse_coder_fit_require_matching_features",
+      "target": "sparse_coder_inverse_transform",
+      "kind": "dictionary_feature_context"
+    },
+    {
+      "source": "sparse_coding_expected_code_width",
+      "target": "sparse_coder_inverse_transform",
+      "kind": "inverse_width_context"
+    },
+    {
+      "source": "sparse_coding_merge_split_sign",
+      "target": "sparse_coder_inverse_transform",
+      "kind": "split_sign_context"
+    }
   ]
 }

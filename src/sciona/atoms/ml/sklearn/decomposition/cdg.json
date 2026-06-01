@@ -39,15 +39,42 @@
       "type_signature": "(X: NDArray[np.float64], n_components: int | float | None = None, whiten: bool = False, copy: bool = True, svd_solver: str = 'full') -> PCAState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "n_components", "type_desc": "int | float | None", "required": false},
-        {"name": "whiten", "type_desc": "bool", "required": false},
-        {"name": "copy", "type_desc": "bool", "required": false},
-        {"name": "svd_solver", "type_desc": "str", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "n_components",
+          "type_desc": "int | float | None",
+          "required": false
+        },
+        {
+          "name": "whiten",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "copy",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "svd_solver",
+          "type_desc": "str",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "PCAState"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "PCAState"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "pca_get_precision",
@@ -58,11 +85,22 @@
       "type_signature": "(state: PCAState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "state", "type_desc": "PCAState", "required": true}
+        {
+          "name": "state",
+          "type_desc": "PCAState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "pca_components",
@@ -73,11 +111,22 @@
       "type_signature": "(state: PCAState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "state", "type_desc": "PCAState", "required": true}
+        {
+          "name": "state",
+          "type_desc": "PCAState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "pca_explained_variance_ratio",
@@ -88,11 +137,22 @@
       "type_signature": "(state: PCAState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "state", "type_desc": "PCAState", "required": true}
+        {
+          "name": "state",
+          "type_desc": "PCAState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "incremental_pca_partial_fit",
@@ -103,16 +163,47 @@
       "type_signature": "(X: NDArray[np.float64], n_components: int | None = None, state: IncrementalPCAState | None = None, whiten: bool = False, copy: bool = True, batch_size: int | None = None) -> IncrementalPCAState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "n_components", "type_desc": "int | None", "required": false},
-        {"name": "state", "type_desc": "IncrementalPCAState | None", "required": false},
-        {"name": "whiten", "type_desc": "bool", "required": false},
-        {"name": "copy", "type_desc": "bool", "required": false},
-        {"name": "batch_size", "type_desc": "int | None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "n_components",
+          "type_desc": "int | None",
+          "required": false
+        },
+        {
+          "name": "state",
+          "type_desc": "IncrementalPCAState | None",
+          "required": false
+        },
+        {
+          "name": "whiten",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "copy",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "batch_size",
+          "type_desc": "int | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "IncrementalPCAState"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "IncrementalPCAState"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "incremental_pca_transform",
@@ -123,12 +214,27 @@
       "type_signature": "(X: NDArray[np.float64], state: IncrementalPCAState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "IncrementalPCAState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "IncrementalPCAState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "incremental_pca_inverse_transform",
@@ -139,12 +245,27 @@
       "type_signature": "(X: NDArray[np.float64], state: IncrementalPCAState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "IncrementalPCAState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "IncrementalPCAState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "truncated_svd_fit",
@@ -155,18 +276,57 @@
       "type_signature": "(X: NDArray[np.float64], n_components: int = 2, algorithm: str = 'randomized', n_iter: int = 5, n_oversamples: int = 10, power_iteration_normalizer: str = 'auto', random_state: int | None = None, tol: float = 0.0) -> TruncatedSVDState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "n_components", "type_desc": "int", "required": false},
-        {"name": "algorithm", "type_desc": "str", "required": false},
-        {"name": "n_iter", "type_desc": "int", "required": false},
-        {"name": "n_oversamples", "type_desc": "int", "required": false},
-        {"name": "power_iteration_normalizer", "type_desc": "str", "required": false},
-        {"name": "random_state", "type_desc": "int | None", "required": false},
-        {"name": "tol", "type_desc": "float", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "n_components",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "algorithm",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "n_iter",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "n_oversamples",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "power_iteration_normalizer",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int | None",
+          "required": false
+        },
+        {
+          "name": "tol",
+          "type_desc": "float",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "TruncatedSVDState"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "TruncatedSVDState"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "truncated_svd_transform",
@@ -177,12 +337,27 @@
       "type_signature": "(X: NDArray[np.float64], state: TruncatedSVDState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "TruncatedSVDState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "TruncatedSVDState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "truncated_svd_inverse_transform",
@@ -193,12 +368,27 @@
       "type_signature": "(X: NDArray[np.float64], state: TruncatedSVDState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "TruncatedSVDState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "TruncatedSVDState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "kernel_pca_fit",
@@ -209,26 +399,97 @@
       "type_signature": "(X: NDArray[np.float64], n_components: int = 2, kernel: str = 'linear', gamma: float | None = None, degree: float = 3.0, coef0: float = 1.0, alpha: float = 1.0, fit_inverse_transform: bool = False, eigen_solver: str = 'dense', tol: float = 0.0, max_iter: int | None = None, iterated_power: int | str = 'auto', remove_zero_eig: bool = False, random_state: int | None = None, copy_X: bool = True, n_jobs: int | None = None) -> KernelPCAState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "n_components", "type_desc": "int", "required": false},
-        {"name": "kernel", "type_desc": "str", "required": false},
-        {"name": "gamma", "type_desc": "float | None", "required": false},
-        {"name": "degree", "type_desc": "float", "required": false},
-        {"name": "coef0", "type_desc": "float", "required": false},
-        {"name": "alpha", "type_desc": "float", "required": false},
-        {"name": "fit_inverse_transform", "type_desc": "bool", "required": false},
-        {"name": "eigen_solver", "type_desc": "str", "required": false},
-        {"name": "tol", "type_desc": "float", "required": false},
-        {"name": "max_iter", "type_desc": "int | None", "required": false},
-        {"name": "iterated_power", "type_desc": "int | str", "required": false},
-        {"name": "remove_zero_eig", "type_desc": "bool", "required": false},
-        {"name": "random_state", "type_desc": "int | None", "required": false},
-        {"name": "copy_X", "type_desc": "bool", "required": false},
-        {"name": "n_jobs", "type_desc": "int | None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "n_components",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "kernel",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "gamma",
+          "type_desc": "float | None",
+          "required": false
+        },
+        {
+          "name": "degree",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "coef0",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "alpha",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "fit_inverse_transform",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "eigen_solver",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "tol",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "int | None",
+          "required": false
+        },
+        {
+          "name": "iterated_power",
+          "type_desc": "int | str",
+          "required": false
+        },
+        {
+          "name": "remove_zero_eig",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int | None",
+          "required": false
+        },
+        {
+          "name": "copy_X",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "n_jobs",
+          "type_desc": "int | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "KernelPCAState"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "KernelPCAState"
+        }
+      ],
+      "time_complexity": "O(N * log N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "Ranking or sorting array elements is dominated by the O(N log N) time complexity of the sorting algorithm, and takes linear space.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "kernel_pca_transform",
@@ -239,12 +500,27 @@
       "type_signature": "(X: NDArray[np.float64], state: KernelPCAState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "KernelPCAState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "KernelPCAState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "factor_analysis_fit",
@@ -255,20 +531,67 @@
       "type_signature": "(X: NDArray[np.float64], n_components: int | None = None, tol: float = 1e-2, copy: bool = True, max_iter: int = 1000, noise_variance_init: tuple[float, ...] | None = None, svd_method: str = 'lapack', iterated_power: int = 3, rotation: None = None, random_state: int | None = 0) -> FactorAnalysisState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "n_components", "type_desc": "int | None", "required": false},
-        {"name": "tol", "type_desc": "float", "required": false},
-        {"name": "copy", "type_desc": "bool", "required": false},
-        {"name": "max_iter", "type_desc": "int", "required": false},
-        {"name": "noise_variance_init", "type_desc": "tuple[float, ...] | None", "required": false},
-        {"name": "svd_method", "type_desc": "str", "required": false},
-        {"name": "iterated_power", "type_desc": "int", "required": false},
-        {"name": "rotation", "type_desc": "None", "required": false},
-        {"name": "random_state", "type_desc": "int | None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "n_components",
+          "type_desc": "int | None",
+          "required": false
+        },
+        {
+          "name": "tol",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "copy",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "noise_variance_init",
+          "type_desc": "tuple[float, ...] | None",
+          "required": false
+        },
+        {
+          "name": "svd_method",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "iterated_power",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "rotation",
+          "type_desc": "None",
+          "required": false
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "FactorAnalysisState"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "FactorAnalysisState"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "factor_analysis_transform",
@@ -279,12 +602,27 @@
       "type_signature": "(X: NDArray[np.float64], state: FactorAnalysisState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "FactorAnalysisState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "FactorAnalysisState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "factor_analysis_covariance",
@@ -295,11 +633,22 @@
       "type_signature": "(state: FactorAnalysisState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "state", "type_desc": "FactorAnalysisState", "required": true}
+        {
+          "name": "state",
+          "type_desc": "FactorAnalysisState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "factor_analysis_precision",
@@ -310,11 +659,22 @@
       "type_signature": "(state: FactorAnalysisState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "state", "type_desc": "FactorAnalysisState", "required": true}
+        {
+          "name": "state",
+          "type_desc": "FactorAnalysisState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "factor_analysis_score_samples",
@@ -325,12 +685,27 @@
       "type_signature": "(X: NDArray[np.float64], state: FactorAnalysisState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "FactorAnalysisState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "FactorAnalysisState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "factor_analysis_score",
@@ -341,12 +716,27 @@
       "type_signature": "(X: NDArray[np.float64], state: FactorAnalysisState) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "FactorAnalysisState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "FactorAnalysisState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "float"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "fastica_fit",
@@ -357,21 +747,72 @@
       "type_signature": "(X: NDArray[np.float64], n_components: int | None = None, algorithm: str = 'parallel', whiten: str | bool = 'unit-variance', fun: str = 'logcosh', fun_args: dict[str, float] | None = None, max_iter: int = 200, tol: float = 1e-4, w_init: NDArray[np.float64] | None = None, whiten_solver: str = 'svd', random_state: int | None = None) -> FastICAState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "n_components", "type_desc": "int | None", "required": false},
-        {"name": "algorithm", "type_desc": "str", "required": false},
-        {"name": "whiten", "type_desc": "str | bool", "required": false},
-        {"name": "fun", "type_desc": "str", "required": false},
-        {"name": "fun_args", "type_desc": "dict[str, float] | None", "required": false},
-        {"name": "max_iter", "type_desc": "int", "required": false},
-        {"name": "tol", "type_desc": "float", "required": false},
-        {"name": "w_init", "type_desc": "NDArray[np.float64] | None", "required": false},
-        {"name": "whiten_solver", "type_desc": "str", "required": false},
-        {"name": "random_state", "type_desc": "int | None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "n_components",
+          "type_desc": "int | None",
+          "required": false
+        },
+        {
+          "name": "algorithm",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "whiten",
+          "type_desc": "str | bool",
+          "required": false
+        },
+        {
+          "name": "fun",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "fun_args",
+          "type_desc": "dict[str, float] | None",
+          "required": false
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "tol",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "w_init",
+          "type_desc": "NDArray[np.float64] | None",
+          "required": false
+        },
+        {
+          "name": "whiten_solver",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "FastICAState"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "FastICAState"
+        }
+      ],
+      "time_complexity": "O(N * log N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "Ranking or sorting array elements is dominated by the O(N log N) time complexity of the sorting algorithm, and takes linear space.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "fastica_transform",
@@ -382,12 +823,27 @@
       "type_signature": "(X: NDArray[np.float64], state: FastICAState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "FastICAState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "FastICAState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "fastica_inverse_transform",
@@ -398,32 +854,115 @@
       "type_signature": "(X: NDArray[np.float64], state: FastICAState) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "FastICAState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "FastICAState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [
-    {"source": "incremental_pca_partial_fit", "target": "incremental_pca_transform", "kind": "state"},
-    {"source": "incremental_pca_partial_fit", "target": "incremental_pca_inverse_transform", "kind": "state"},
-    {"source": "incremental_pca_transform", "target": "incremental_pca_inverse_transform", "kind": "data"},
-    {"source": "truncated_svd_fit", "target": "truncated_svd_transform", "kind": "state"},
-    {"source": "truncated_svd_fit", "target": "truncated_svd_inverse_transform", "kind": "state"},
-    {"source": "truncated_svd_transform", "target": "truncated_svd_inverse_transform", "kind": "data"},
-    {"source": "kernel_pca_fit", "target": "kernel_pca_transform", "kind": "state"},
-    {"source": "factor_analysis_fit", "target": "factor_analysis_transform", "kind": "state"},
-    {"source": "factor_analysis_fit", "target": "factor_analysis_covariance", "kind": "state"},
-    {"source": "factor_analysis_fit", "target": "factor_analysis_precision", "kind": "state"},
-    {"source": "factor_analysis_fit", "target": "factor_analysis_score_samples", "kind": "state"},
-    {"source": "factor_analysis_fit", "target": "factor_analysis_score", "kind": "state"},
-    {"source": "factor_analysis_precision", "target": "factor_analysis_score_samples", "kind": "computation"},
-    {"source": "factor_analysis_score_samples", "target": "factor_analysis_score", "kind": "aggregation"},
-    {"source": "fastica_fit", "target": "fastica_transform", "kind": "state"},
-    {"source": "fastica_fit", "target": "fastica_inverse_transform", "kind": "state"},
-    {"source": "fastica_transform", "target": "fastica_inverse_transform", "kind": "data"}
+    {
+      "source": "incremental_pca_partial_fit",
+      "target": "incremental_pca_transform",
+      "kind": "state"
+    },
+    {
+      "source": "incremental_pca_partial_fit",
+      "target": "incremental_pca_inverse_transform",
+      "kind": "state"
+    },
+    {
+      "source": "incremental_pca_transform",
+      "target": "incremental_pca_inverse_transform",
+      "kind": "data"
+    },
+    {
+      "source": "truncated_svd_fit",
+      "target": "truncated_svd_transform",
+      "kind": "state"
+    },
+    {
+      "source": "truncated_svd_fit",
+      "target": "truncated_svd_inverse_transform",
+      "kind": "state"
+    },
+    {
+      "source": "truncated_svd_transform",
+      "target": "truncated_svd_inverse_transform",
+      "kind": "data"
+    },
+    {
+      "source": "kernel_pca_fit",
+      "target": "kernel_pca_transform",
+      "kind": "state"
+    },
+    {
+      "source": "factor_analysis_fit",
+      "target": "factor_analysis_transform",
+      "kind": "state"
+    },
+    {
+      "source": "factor_analysis_fit",
+      "target": "factor_analysis_covariance",
+      "kind": "state"
+    },
+    {
+      "source": "factor_analysis_fit",
+      "target": "factor_analysis_precision",
+      "kind": "state"
+    },
+    {
+      "source": "factor_analysis_fit",
+      "target": "factor_analysis_score_samples",
+      "kind": "state"
+    },
+    {
+      "source": "factor_analysis_fit",
+      "target": "factor_analysis_score",
+      "kind": "state"
+    },
+    {
+      "source": "factor_analysis_precision",
+      "target": "factor_analysis_score_samples",
+      "kind": "computation"
+    },
+    {
+      "source": "factor_analysis_score_samples",
+      "target": "factor_analysis_score",
+      "kind": "aggregation"
+    },
+    {
+      "source": "fastica_fit",
+      "target": "fastica_transform",
+      "kind": "state"
+    },
+    {
+      "source": "fastica_fit",
+      "target": "fastica_inverse_transform",
+      "kind": "state"
+    },
+    {
+      "source": "fastica_transform",
+      "target": "fastica_inverse_transform",
+      "kind": "data"
+    }
   ],
   "metadata": {
     "source": "agent_ingestion",

@@ -10,8 +10,23 @@
       "status": "atomic",
       "concept_type": "coercion",
       "description": "Convert tuple-configured chain order into the ndarray form sklearn stores during fit.",
-      "inputs": [{"name": "order", "type_desc": "tuple[int, ...]", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "ndarray[int64]"}]
+      "inputs": [
+        {
+          "name": "order",
+          "type_desc": "tuple[int, ...]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "ndarray[int64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "chain_fit_require_valid_order",
@@ -20,10 +35,27 @@
       "concept_type": "validation",
       "description": "Require that an explicit chain order is a full permutation of output indices before estimator callbacks run.",
       "inputs": [
-        {"name": "order", "type_desc": "list[int] | ndarray[int64]", "required": true},
-        {"name": "n_outputs", "type_desc": "int", "required": true}
+        {
+          "name": "order",
+          "type_desc": "list[int] | ndarray[int64]",
+          "required": true
+        },
+        {
+          "name": "n_outputs",
+          "type_desc": "int",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "bool"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "chain_fit_log_message",
@@ -32,16 +64,49 @@
       "concept_type": "formatting",
       "description": "Format sklearn's optional verbose chain fit progress message for one estimator step.",
       "inputs": [
-        {"name": "verbose", "type_desc": "bool", "required": true},
-        {"name": "estimator_idx", "type_desc": "int", "required": true},
-        {"name": "n_estimators", "type_desc": "int", "required": true},
-        {"name": "processing_msg", "type_desc": "str", "required": true}
+        {
+          "name": "verbose",
+          "type_desc": "bool",
+          "required": true
+        },
+        {
+          "name": "estimator_idx",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "n_estimators",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "processing_msg",
+          "type_desc": "str",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "str | None"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "str | None"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "chain_fit_tuple_order_array", "target": "chain_fit_require_valid_order", "kind": "precondition"},
-    {"source": "chain_fit_require_valid_order", "target": "chain_fit_log_message", "kind": "call_context"}
+    {
+      "source": "chain_fit_tuple_order_array",
+      "target": "chain_fit_require_valid_order",
+      "kind": "precondition"
+    },
+    {
+      "source": "chain_fit_require_valid_order",
+      "target": "chain_fit_log_message",
+      "kind": "call_context"
+    }
   ]
 }

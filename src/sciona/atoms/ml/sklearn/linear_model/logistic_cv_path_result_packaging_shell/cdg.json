@@ -24,8 +24,23 @@
       "status": "atomic",
       "type_signature": "(path_results: object) -> tuple[tuple[object, ...], tuple[object, ...], tuple[object, ...], tuple[object, ...]]",
       "depth": 1,
-      "inputs": [{"name": "path_results", "type_desc": "_log_reg_scoring_path result tuples", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "unpacked coefs_paths, Cs, scores, and n_iter tuple"}]
+      "inputs": [
+        {
+          "name": "path_results",
+          "type_desc": "_log_reg_scoring_path result tuples",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "unpacked coefs_paths, Cs, scores, and n_iter tuple"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "logistic_cv_public_Cs",
@@ -35,8 +50,23 @@
       "status": "atomic",
       "type_signature": "(Cs: object) -> NDArray[np.floating]",
       "depth": 1,
-      "inputs": [{"name": "Cs", "type_desc": "returned C grids", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "public Cs_ grid"}]
+      "inputs": [
+        {
+          "name": "Cs",
+          "type_desc": "returned C grids",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "public Cs_ grid"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "logistic_cv_coefs_paths_layout",
@@ -47,14 +77,47 @@
       "type_signature": "(coefs_paths: object, *, multi_class: str, n_classes: int, n_folds: int, n_Cs: int, n_l1_ratios: int) -> NDArray[np.floating]",
       "depth": 1,
       "inputs": [
-        {"name": "coefs_paths", "type_desc": "raw scoring-path coefficient path outputs", "required": true},
-        {"name": "multi_class", "type_desc": "resolved logistic multiclass mode", "required": true},
-        {"name": "n_classes", "type_desc": "effective class count", "required": true},
-        {"name": "n_folds", "type_desc": "cross-validation fold count", "required": true},
-        {"name": "n_Cs", "type_desc": "number of C values", "required": true},
-        {"name": "n_l1_ratios", "type_desc": "number of l1-ratio values in flattened path axis", "required": true}
+        {
+          "name": "coefs_paths",
+          "type_desc": "raw scoring-path coefficient path outputs",
+          "required": true
+        },
+        {
+          "name": "multi_class",
+          "type_desc": "resolved logistic multiclass mode",
+          "required": true
+        },
+        {
+          "name": "n_classes",
+          "type_desc": "effective class count",
+          "required": true
+        },
+        {
+          "name": "n_folds",
+          "type_desc": "cross-validation fold count",
+          "required": true
+        },
+        {
+          "name": "n_Cs",
+          "type_desc": "number of C values",
+          "required": true
+        },
+        {
+          "name": "n_l1_ratios",
+          "type_desc": "number of l1-ratio values in flattened path axis",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "coefficient paths shaped as class by fold by flattened path by coefficient"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "coefficient paths shaped as class by fold by flattened path by coefficient"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "logistic_cv_n_iter_layout",
@@ -65,14 +128,47 @@
       "type_signature": "(n_iter: object, *, multi_class: str, n_classes: int, n_folds: int, n_Cs: int, n_l1_ratios: int) -> NDArray[np.integer]",
       "depth": 1,
       "inputs": [
-        {"name": "n_iter", "type_desc": "raw scoring-path iteration counts", "required": true},
-        {"name": "multi_class", "type_desc": "resolved logistic multiclass mode", "required": true},
-        {"name": "n_classes", "type_desc": "effective class count", "required": true},
-        {"name": "n_folds", "type_desc": "cross-validation fold count", "required": true},
-        {"name": "n_Cs", "type_desc": "number of C values", "required": true},
-        {"name": "n_l1_ratios", "type_desc": "number of l1-ratio values in flattened path axis", "required": true}
+        {
+          "name": "n_iter",
+          "type_desc": "raw scoring-path iteration counts",
+          "required": true
+        },
+        {
+          "name": "multi_class",
+          "type_desc": "resolved logistic multiclass mode",
+          "required": true
+        },
+        {
+          "name": "n_classes",
+          "type_desc": "effective class count",
+          "required": true
+        },
+        {
+          "name": "n_folds",
+          "type_desc": "cross-validation fold count",
+          "required": true
+        },
+        {
+          "name": "n_Cs",
+          "type_desc": "number of C values",
+          "required": true
+        },
+        {
+          "name": "n_l1_ratios",
+          "type_desc": "number of l1-ratio values in flattened path axis",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "n_iter_ tensor"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "n_iter_ tensor"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "logistic_cv_scores_layout",
@@ -83,12 +179,37 @@
       "type_signature": "(scores: object, *, multi_class: str, n_classes: int, n_folds: int) -> NDArray[np.floating]",
       "depth": 1,
       "inputs": [
-        {"name": "scores", "type_desc": "raw scoring-path scores", "required": true},
-        {"name": "multi_class", "type_desc": "resolved logistic multiclass mode", "required": true},
-        {"name": "n_classes", "type_desc": "effective class count", "required": true},
-        {"name": "n_folds", "type_desc": "cross-validation fold count", "required": true}
+        {
+          "name": "scores",
+          "type_desc": "raw scoring-path scores",
+          "required": true
+        },
+        {
+          "name": "multi_class",
+          "type_desc": "resolved logistic multiclass mode",
+          "required": true
+        },
+        {
+          "name": "n_classes",
+          "type_desc": "effective class count",
+          "required": true
+        },
+        {
+          "name": "n_folds",
+          "type_desc": "cross-validation fold count",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "scores tensor"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "scores tensor"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "logistic_cv_scores_by_class",
@@ -99,10 +220,27 @@
       "type_signature": "(classes: object, scores: object) -> dict[object, NDArray[np.floating]]",
       "depth": 1,
       "inputs": [
-        {"name": "classes", "type_desc": "effective class labels", "required": true},
-        {"name": "scores", "type_desc": "scores tensor", "required": true}
+        {
+          "name": "classes",
+          "type_desc": "effective class labels",
+          "required": true
+        },
+        {
+          "name": "scores",
+          "type_desc": "scores tensor",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "class-keyed scores mapping"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "class-keyed scores mapping"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "logistic_cv_coefs_paths_by_class",
@@ -113,19 +251,60 @@
       "type_signature": "(classes: object, coefs_paths: object) -> dict[object, NDArray[np.floating]]",
       "depth": 1,
       "inputs": [
-        {"name": "classes", "type_desc": "effective class labels", "required": true},
-        {"name": "coefs_paths", "type_desc": "coefficient paths tensor", "required": true}
+        {
+          "name": "classes",
+          "type_desc": "effective class labels",
+          "required": true
+        },
+        {
+          "name": "coefs_paths",
+          "type_desc": "coefficient paths tensor",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "class-keyed coefficient-path mapping"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "class-keyed coefficient-path mapping"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "logistic_cv_path_results", "target": "logistic_cv_public_Cs", "kind": "state_packaging"},
-    {"source": "logistic_cv_path_results", "target": "logistic_cv_coefs_paths_layout", "kind": "state_packaging"},
-    {"source": "logistic_cv_path_results", "target": "logistic_cv_n_iter_layout", "kind": "state_packaging"},
-    {"source": "logistic_cv_path_results", "target": "logistic_cv_scores_layout", "kind": "state_packaging"},
-    {"source": "logistic_cv_coefs_paths_layout", "target": "logistic_cv_coefs_paths_by_class", "kind": "state_mapping"},
-    {"source": "logistic_cv_scores_layout", "target": "logistic_cv_scores_by_class", "kind": "state_mapping"}
+    {
+      "source": "logistic_cv_path_results",
+      "target": "logistic_cv_public_Cs",
+      "kind": "state_packaging"
+    },
+    {
+      "source": "logistic_cv_path_results",
+      "target": "logistic_cv_coefs_paths_layout",
+      "kind": "state_packaging"
+    },
+    {
+      "source": "logistic_cv_path_results",
+      "target": "logistic_cv_n_iter_layout",
+      "kind": "state_packaging"
+    },
+    {
+      "source": "logistic_cv_path_results",
+      "target": "logistic_cv_scores_layout",
+      "kind": "state_packaging"
+    },
+    {
+      "source": "logistic_cv_coefs_paths_layout",
+      "target": "logistic_cv_coefs_paths_by_class",
+      "kind": "state_mapping"
+    },
+    {
+      "source": "logistic_cv_scores_layout",
+      "target": "logistic_cv_scores_by_class",
+      "kind": "state_mapping"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

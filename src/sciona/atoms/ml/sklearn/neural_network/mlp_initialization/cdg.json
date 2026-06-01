@@ -22,13 +22,32 @@
       "type_signature": "(is_classifier: bool, loss_name: LossName = 'squared_error', label_binarizer_type: LabelBinarizerType | None = None) -> OutputActivationName",
       "depth": 1,
       "inputs": [
-        {"name": "is_classifier", "type_desc": "bool", "required": true},
-        {"name": "loss_name", "type_desc": "LossName", "required": false},
-        {"name": "label_binarizer_type", "type_desc": "LabelBinarizerType | None", "required": false}
+        {
+          "name": "is_classifier",
+          "type_desc": "bool",
+          "required": true
+        },
+        {
+          "name": "loss_name",
+          "type_desc": "LossName",
+          "required": false
+        },
+        {
+          "name": "label_binarizer_type",
+          "type_desc": "LabelBinarizerType | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "OutputActivationName"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "OutputActivationName"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "mlp_glorot_init_bound",
@@ -39,13 +58,32 @@
       "type_signature": "(fan_in: int, fan_out: int, activation: HiddenActivationName) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "fan_in", "type_desc": "int", "required": true},
-        {"name": "fan_out", "type_desc": "int", "required": true},
-        {"name": "activation", "type_desc": "HiddenActivationName", "required": true}
+        {
+          "name": "fan_in",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "fan_out",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "activation",
+          "type_desc": "HiddenActivationName",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "float"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "mlp_init_layer_parameters",
@@ -56,15 +94,42 @@
       "type_signature": "(fan_in: int, fan_out: int, activation: HiddenActivationName, random_state: int | None = None, dtype_name: DtypeName = 'float64') -> tuple[NDArray[np.floating], NDArray[np.floating]]",
       "depth": 1,
       "inputs": [
-        {"name": "fan_in", "type_desc": "int", "required": true},
-        {"name": "fan_out", "type_desc": "int", "required": true},
-        {"name": "activation", "type_desc": "HiddenActivationName", "required": true},
-        {"name": "random_state", "type_desc": "int | None", "required": false},
-        {"name": "dtype_name", "type_desc": "DtypeName", "required": false}
+        {
+          "name": "fan_in",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "fan_out",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "activation",
+          "type_desc": "HiddenActivationName",
+          "required": true
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int | None",
+          "required": false
+        },
+        {
+          "name": "dtype_name",
+          "type_desc": "DtypeName",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "tuple[NDArray[np.floating], NDArray[np.floating]]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "tuple[NDArray[np.floating], NDArray[np.floating]]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "mlp_initialize_parameters",
@@ -75,20 +140,55 @@
       "type_signature": "(layer_units: tuple[int, ...], activation: HiddenActivationName, random_state: int | None = None, dtype_name: DtypeName = 'float64') -> tuple[tuple[NDArray[np.floating], ...], tuple[NDArray[np.floating], ...], tuple[NDArray[np.floating], ...], tuple[NDArray[np.floating], ...]]",
       "depth": 1,
       "inputs": [
-        {"name": "layer_units", "type_desc": "tuple[int, ...]", "required": true},
-        {"name": "activation", "type_desc": "HiddenActivationName", "required": true},
-        {"name": "random_state", "type_desc": "int | None", "required": false},
-        {"name": "dtype_name", "type_desc": "DtypeName", "required": false}
+        {
+          "name": "layer_units",
+          "type_desc": "tuple[int, ...]",
+          "required": true
+        },
+        {
+          "name": "activation",
+          "type_desc": "HiddenActivationName",
+          "required": true
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int | None",
+          "required": false
+        },
+        {
+          "name": "dtype_name",
+          "type_desc": "DtypeName",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "tuple[tuple[NDArray[np.floating], ...], tuple[NDArray[np.floating], ...], tuple[NDArray[np.floating], ...], tuple[NDArray[np.floating], ...]]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "tuple[tuple[NDArray[np.floating], ...], tuple[NDArray[np.floating], ...], tuple[NDArray[np.floating], ...], tuple[NDArray[np.floating], ...]]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "mlp_glorot_init_bound", "target": "mlp_init_layer_parameters", "kind": "bound"},
-    {"source": "mlp_glorot_init_bound", "target": "mlp_initialize_parameters", "kind": "bound"},
-    {"source": "mlp_init_layer_parameters", "target": "mlp_initialize_parameters", "kind": "layerwise_initialization"}
+    {
+      "source": "mlp_glorot_init_bound",
+      "target": "mlp_init_layer_parameters",
+      "kind": "bound"
+    },
+    {
+      "source": "mlp_glorot_init_bound",
+      "target": "mlp_initialize_parameters",
+      "kind": "bound"
+    },
+    {
+      "source": "mlp_init_layer_parameters",
+      "target": "mlp_initialize_parameters",
+      "kind": "layerwise_initialization"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

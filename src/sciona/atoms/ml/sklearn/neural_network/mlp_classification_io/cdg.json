@@ -23,14 +23,37 @@
       "type_signature": "(y: LabelArray, existing_state: LabelBinarizerState | None = None, warm_start: bool = False, incremental: bool = False) -> LabelBinarizerState",
       "depth": 1,
       "inputs": [
-        {"name": "y", "type_desc": "LabelArray", "required": true},
-        {"name": "existing_state", "type_desc": "LabelBinarizerState | None", "required": false},
-        {"name": "warm_start", "type_desc": "bool", "required": false},
-        {"name": "incremental", "type_desc": "bool", "required": false}
+        {
+          "name": "y",
+          "type_desc": "LabelArray",
+          "required": true
+        },
+        {
+          "name": "existing_state",
+          "type_desc": "LabelBinarizerState | None",
+          "required": false
+        },
+        {
+          "name": "warm_start",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "incremental",
+          "type_desc": "bool",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "LabelBinarizerState"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "LabelBinarizerState"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "mlp_classifier_partial_fit_target_state",
@@ -41,12 +64,27 @@
       "type_signature": "(y: LabelArray, classes: LabelArray) -> LabelBinarizerState",
       "depth": 1,
       "inputs": [
-        {"name": "y", "type_desc": "LabelArray", "required": true},
-        {"name": "classes", "type_desc": "LabelArray", "required": true}
+        {
+          "name": "y",
+          "type_desc": "LabelArray",
+          "required": true
+        },
+        {
+          "name": "classes",
+          "type_desc": "LabelArray",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "LabelBinarizerState"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "LabelBinarizerState"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "mlp_classifier_encode_targets",
@@ -57,12 +95,27 @@
       "type_signature": "(y: LabelArray, state: LabelBinarizerState) -> NDArray[np.bool_]",
       "depth": 1,
       "inputs": [
-        {"name": "y", "type_desc": "LabelArray", "required": true},
-        {"name": "state", "type_desc": "LabelBinarizerState", "required": true}
+        {
+          "name": "y",
+          "type_desc": "LabelArray",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "LabelBinarizerState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.bool_]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.bool_]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "mlp_classifier_labels_from_outputs",
@@ -73,13 +126,32 @@
       "type_signature": "(outputs: NDArray[np.float64], state: LabelBinarizerState, n_outputs: int) -> NDArray[np.object_] | csr_matrix",
       "depth": 1,
       "inputs": [
-        {"name": "outputs", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "state", "type_desc": "LabelBinarizerState", "required": true},
-        {"name": "n_outputs", "type_desc": "int", "required": false}
+        {
+          "name": "outputs",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "LabelBinarizerState",
+          "required": true
+        },
+        {
+          "name": "n_outputs",
+          "type_desc": "int",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.object_] | csr_matrix"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.object_] | csr_matrix"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "mlp_classifier_probabilities_from_outputs",
@@ -90,19 +162,50 @@
       "type_signature": "(outputs: NDArray[np.float64], n_outputs: int) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "outputs", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "n_outputs", "type_desc": "int", "required": false}
+        {
+          "name": "outputs",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "n_outputs",
+          "type_desc": "int",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [
-    {"source": "mlp_classifier_fit_target_state", "target": "mlp_classifier_encode_targets", "kind": "fitted_target_state"},
-    {"source": "mlp_classifier_partial_fit_target_state", "target": "mlp_classifier_encode_targets", "kind": "partial_fit_target_state"},
-    {"source": "mlp_classifier_encode_targets", "target": "mlp_classifier_labels_from_outputs", "kind": "shared_label_space"},
-    {"source": "mlp_classifier_probabilities_from_outputs", "target": "mlp_classifier_labels_from_outputs", "kind": "output_postprocessing"}
+    {
+      "source": "mlp_classifier_fit_target_state",
+      "target": "mlp_classifier_encode_targets",
+      "kind": "fitted_target_state"
+    },
+    {
+      "source": "mlp_classifier_partial_fit_target_state",
+      "target": "mlp_classifier_encode_targets",
+      "kind": "partial_fit_target_state"
+    },
+    {
+      "source": "mlp_classifier_encode_targets",
+      "target": "mlp_classifier_labels_from_outputs",
+      "kind": "shared_label_space"
+    },
+    {
+      "source": "mlp_classifier_probabilities_from_outputs",
+      "target": "mlp_classifier_labels_from_outputs",
+      "kind": "output_postprocessing"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

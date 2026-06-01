@@ -25,11 +25,22 @@
       "type_signature": "(y_ndim: int) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "y_ndim", "type_desc": "positive target ndim", "required": true}
+        {
+          "name": "y_ndim",
+          "type_desc": "positive target ndim",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether y is multi-output"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether y is multi-output"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_enet_path_target_count",
@@ -40,12 +51,27 @@
       "type_signature": "(y_shape: tuple[int, ...], multi_output: bool) -> int | None",
       "depth": 1,
       "inputs": [
-        {"name": "y_shape", "type_desc": "tuple of positive target dimensions", "required": true},
-        {"name": "multi_output", "type_desc": "whether y is multi-output", "required": true}
+        {
+          "name": "y_shape",
+          "type_desc": "tuple of positive target dimensions",
+          "required": true
+        },
+        {
+          "name": "multi_output",
+          "type_desc": "whether y is multi-output",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "target count or None"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "target count or None"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_enet_path_positive_multi_output_guard_required",
@@ -56,12 +82,27 @@
       "type_signature": "(multi_output: bool, positive: bool) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "multi_output", "type_desc": "whether y is multi-output", "required": true},
-        {"name": "positive", "type_desc": "positive-coefficient flag", "required": true}
+        {
+          "name": "multi_output",
+          "type_desc": "whether y is multi-output",
+          "required": true
+        },
+        {
+          "name": "positive",
+          "type_desc": "positive-coefficient flag",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether the positive multi-output guard should fire"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether the positive multi-output guard should fire"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_enet_path_sorted_alphas",
@@ -72,11 +113,22 @@
       "type_signature": "(alphas: NDArray[np.floating]) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "alphas", "type_desc": "finite one-dimensional alpha vector", "required": true}
+        {
+          "name": "alphas",
+          "type_desc": "finite one-dimensional alpha vector",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "finite one-dimensional alpha vector"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "finite one-dimensional alpha vector"
+        }
+      ],
+      "time_complexity": "O(I * N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Coordinate descent path computation for linear models scales linearly with samples N, features d, and the number of optimization iterations I.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "cd_enet_path_random_selection",
@@ -87,11 +139,22 @@
       "type_signature": "(selection: str) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "selection", "type_desc": "\"random\" or \"cyclic\"", "required": true}
+        {
+          "name": "selection",
+          "type_desc": "\"random\" or \"cyclic\"",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether random coordinate selection is used"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether random coordinate selection is used"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_enet_path_regularization_pair",
@@ -102,13 +165,32 @@
       "type_signature": "(alpha: float, l1_ratio: float, n_samples: int) -> tuple[float, float]",
       "depth": 1,
       "inputs": [
-        {"name": "alpha", "type_desc": "current path alpha", "required": true},
-        {"name": "l1_ratio", "type_desc": "elastic-net mixing ratio", "required": true},
-        {"name": "n_samples", "type_desc": "positive integer sample count", "required": true}
+        {
+          "name": "alpha",
+          "type_desc": "current path alpha",
+          "required": true
+        },
+        {
+          "name": "l1_ratio",
+          "type_desc": "elastic-net mixing ratio",
+          "required": true
+        },
+        {
+          "name": "n_samples",
+          "type_desc": "positive integer sample count",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "scaled l1 and l2 regularization pair"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "scaled l1 and l2 regularization pair"
+        }
+      ],
+      "time_complexity": "O(I * N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Coordinate descent path computation for linear models scales linearly with samples N, features d, and the number of optimization iterations I.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "cd_enet_path_outputs",
@@ -119,23 +201,70 @@
       "type_signature": "(alphas: NDArray[np.floating], coefs: NDArray[np.floating], dual_gaps: NDArray[np.floating], n_iters: Sequence[int], return_n_iter: bool) -> tuple[object, ...]",
       "depth": 1,
       "inputs": [
-        {"name": "alphas", "type_desc": "finite one-dimensional alpha vector", "required": true},
-        {"name": "coefs", "type_desc": "finite coefficient array", "required": true},
-        {"name": "dual_gaps", "type_desc": "finite one-dimensional dual-gap vector", "required": true},
-        {"name": "n_iters", "type_desc": "nonempty sequence of positive iteration counts", "required": true},
-        {"name": "return_n_iter", "type_desc": "whether to include iteration counts", "required": true}
+        {
+          "name": "alphas",
+          "type_desc": "finite one-dimensional alpha vector",
+          "required": true
+        },
+        {
+          "name": "coefs",
+          "type_desc": "finite coefficient array",
+          "required": true
+        },
+        {
+          "name": "dual_gaps",
+          "type_desc": "finite one-dimensional dual-gap vector",
+          "required": true
+        },
+        {
+          "name": "n_iters",
+          "type_desc": "nonempty sequence of positive iteration counts",
+          "required": true
+        },
+        {
+          "name": "return_n_iter",
+          "type_desc": "whether to include iteration counts",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "final enet_path output tuple"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "final enet_path output tuple"
+        }
+      ],
+      "time_complexity": "O(I * N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Coordinate descent path computation for linear models scales linearly with samples N, features d, and the number of optimization iterations I.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [
-    {"source": "cd_enet_path_multi_output", "target": "cd_enet_path_target_count", "kind": "shape_branch"},
-    {"source": "cd_enet_path_multi_output", "target": "cd_enet_path_positive_multi_output_guard_required", "kind": "guard"},
-    {"source": "cd_enet_path_sorted_alphas", "target": "cd_enet_path_outputs", "kind": "returned_alphas"},
-    {"source": "cd_enet_path_random_selection", "target": "cd_enet_path_regularization_pair", "kind": "loop_context"},
-    {"source": "cd_enet_path_regularization_pair", "target": "cd_enet_path_outputs", "kind": "solver_scaling_context"}
+    {
+      "source": "cd_enet_path_multi_output",
+      "target": "cd_enet_path_target_count",
+      "kind": "shape_branch"
+    },
+    {
+      "source": "cd_enet_path_multi_output",
+      "target": "cd_enet_path_positive_multi_output_guard_required",
+      "kind": "guard"
+    },
+    {
+      "source": "cd_enet_path_sorted_alphas",
+      "target": "cd_enet_path_outputs",
+      "kind": "returned_alphas"
+    },
+    {
+      "source": "cd_enet_path_random_selection",
+      "target": "cd_enet_path_regularization_pair",
+      "kind": "loop_context"
+    },
+    {
+      "source": "cd_enet_path_regularization_pair",
+      "target": "cd_enet_path_outputs",
+      "kind": "solver_scaling_context"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

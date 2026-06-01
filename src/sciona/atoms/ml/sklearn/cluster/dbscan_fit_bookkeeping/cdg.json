@@ -10,8 +10,23 @@
       "status": "atomic",
       "concept_type": "sparse_preprocessing",
       "description": "Copy a sparse precomputed distance graph and make its diagonal explicit for DBSCAN self-neighbor handling.",
-      "inputs": [{"name": "X", "type_desc": "scipy.sparse matrix", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "csr_matrix"}]
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "scipy.sparse matrix",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "csr_matrix"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "dbscan_neighbor_count_vector",
@@ -19,8 +34,23 @@
       "status": "atomic",
       "concept_type": "neighbor_reduction",
       "description": "Count the number of neighbor indices in each DBSCAN neighborhood list.",
-      "inputs": [{"name": "neighborhoods", "type_desc": "tuple[ndarray, ...]", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+      "inputs": [
+        {
+          "name": "neighborhoods",
+          "type_desc": "tuple[ndarray, ...]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "ndarray"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "dbscan_weighted_neighbor_sums",
@@ -29,10 +59,27 @@
       "concept_type": "neighbor_reduction",
       "description": "Reduce each DBSCAN neighborhood list to a sample-weight mass total.",
       "inputs": [
-        {"name": "neighborhoods", "type_desc": "tuple[ndarray, ...]", "required": true},
-        {"name": "sample_weight", "type_desc": "ndarray", "required": true}
+        {
+          "name": "neighborhoods",
+          "type_desc": "tuple[ndarray, ...]",
+          "required": true
+        },
+        {
+          "name": "sample_weight",
+          "type_desc": "ndarray",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "ndarray"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "DBSCAN state retrieval or basic property mapping takes linear time and space in the number of samples N.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "dbscan_core_sample_mask",
@@ -41,10 +88,27 @@
       "concept_type": "thresholding",
       "description": "Threshold DBSCAN neighborhood mass into the uint8 core-sample mask.",
       "inputs": [
-        {"name": "neighbor_mass", "type_desc": "ndarray", "required": true},
-        {"name": "min_samples", "type_desc": "int", "required": true}
+        {
+          "name": "neighbor_mass",
+          "type_desc": "ndarray",
+          "required": true
+        },
+        {
+          "name": "min_samples",
+          "type_desc": "int",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "ndarray"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "DBSCAN state retrieval or basic property mapping takes linear time and space in the number of samples N.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "dbscan_initial_noise_labels",
@@ -52,8 +116,23 @@
       "status": "atomic",
       "concept_type": "state_initialization",
       "description": "Initialize DBSCAN labels to the all-noise (-1) vector before connected expansion.",
-      "inputs": [{"name": "n_samples", "type_desc": "int", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+      "inputs": [
+        {
+          "name": "n_samples",
+          "type_desc": "int",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "ndarray"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "dbscan_dense_core_components",
@@ -62,10 +141,27 @@
       "concept_type": "state_projection",
       "description": "Copy the dense core-sample rows selected by DBSCAN into the public components matrix.",
       "inputs": [
-        {"name": "X", "type_desc": "ndarray", "required": true},
-        {"name": "core_sample_indices", "type_desc": "ndarray", "required": true}
+        {
+          "name": "X",
+          "type_desc": "ndarray",
+          "required": true
+        },
+        {
+          "name": "core_sample_indices",
+          "type_desc": "ndarray",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "ndarray"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "DBSCAN state retrieval or basic property mapping takes linear time and space in the number of samples N.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "dbscan_empty_components",
@@ -73,16 +169,55 @@
       "status": "atomic",
       "concept_type": "state_initialization",
       "description": "Create DBSCAN's empty dense components fallback when no core samples exist.",
-      "inputs": [{"name": "n_features", "type_desc": "int", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+      "inputs": [
+        {
+          "name": "n_features",
+          "type_desc": "int",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "ndarray"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "dbscan_precomputed_sparse_self_neighbors", "target": "dbscan_neighbor_count_vector", "kind": "precomputed_sparse_path"},
-    {"source": "dbscan_neighbor_count_vector", "target": "dbscan_core_sample_mask", "kind": "unweighted_neighbor_reduction"},
-    {"source": "dbscan_weighted_neighbor_sums", "target": "dbscan_core_sample_mask", "kind": "weighted_neighbor_reduction"},
-    {"source": "dbscan_core_sample_mask", "target": "dbscan_initial_noise_labels", "kind": "pre_expansion_state"},
-    {"source": "dbscan_core_sample_mask", "target": "dbscan_dense_core_components", "kind": "component_projection"},
-    {"source": "dbscan_initial_noise_labels", "target": "dbscan_empty_components", "kind": "no_core_fallback"}
+    {
+      "source": "dbscan_precomputed_sparse_self_neighbors",
+      "target": "dbscan_neighbor_count_vector",
+      "kind": "precomputed_sparse_path"
+    },
+    {
+      "source": "dbscan_neighbor_count_vector",
+      "target": "dbscan_core_sample_mask",
+      "kind": "unweighted_neighbor_reduction"
+    },
+    {
+      "source": "dbscan_weighted_neighbor_sums",
+      "target": "dbscan_core_sample_mask",
+      "kind": "weighted_neighbor_reduction"
+    },
+    {
+      "source": "dbscan_core_sample_mask",
+      "target": "dbscan_initial_noise_labels",
+      "kind": "pre_expansion_state"
+    },
+    {
+      "source": "dbscan_core_sample_mask",
+      "target": "dbscan_dense_core_components",
+      "kind": "component_projection"
+    },
+    {
+      "source": "dbscan_initial_noise_labels",
+      "target": "dbscan_empty_components",
+      "kind": "no_core_fallback"
+    }
   ]
 }

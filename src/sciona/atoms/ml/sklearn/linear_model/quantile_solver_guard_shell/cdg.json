@@ -23,12 +23,27 @@
       "type_signature": "(solver: str, scipy_at_least_1_11: bool) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "solver", "type_desc": "QuantileRegressor solver name", "required": true},
-        {"name": "scipy_at_least_1_11", "type_desc": "whether SciPy version is >= 1.11.0", "required": true}
+        {
+          "name": "solver",
+          "type_desc": "QuantileRegressor solver name",
+          "required": true
+        },
+        {
+          "name": "scipy_at_least_1_11",
+          "type_desc": "whether SciPy version is >= 1.11.0",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether the removed-solver ValueError branch applies"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether the removed-solver ValueError branch applies"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "quantile_interior_point_removed_message",
@@ -39,11 +54,22 @@
       "type_signature": "(solver: str) -> str",
       "depth": 1,
       "inputs": [
-        {"name": "solver", "type_desc": "interior-point solver name", "required": true}
+        {
+          "name": "solver",
+          "type_desc": "interior-point solver name",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "ValueError message"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "ValueError message"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "quantile_sparse_solver_guard",
@@ -54,12 +80,27 @@
       "type_signature": "(is_sparse: bool, solver: str) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "is_sparse", "type_desc": "whether X is sparse", "required": true},
-        {"name": "solver", "type_desc": "QuantileRegressor solver name", "required": true}
+        {
+          "name": "is_sparse",
+          "type_desc": "whether X is sparse",
+          "required": true
+        },
+        {
+          "name": "solver",
+          "type_desc": "QuantileRegressor solver name",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether the sparse-solver ValueError branch applies"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether the sparse-solver ValueError branch applies"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "quantile_sparse_solver_message",
@@ -70,11 +111,22 @@
       "type_signature": "(solver: str) -> str",
       "depth": 1,
       "inputs": [
-        {"name": "solver", "type_desc": "solver unsupported for sparse X", "required": true}
+        {
+          "name": "solver",
+          "type_desc": "solver unsupported for sparse X",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "ValueError message"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "ValueError message"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "quantile_solver_options_payload",
@@ -85,19 +137,50 @@
       "type_signature": "(solver_options: Mapping[str, Any] | None, solver: str) -> Mapping[str, Any] | None",
       "depth": 1,
       "inputs": [
-        {"name": "solver_options", "type_desc": "explicit solver_options mapping or None", "required": true},
-        {"name": "solver", "type_desc": "QuantileRegressor solver name", "required": true}
+        {
+          "name": "solver_options",
+          "type_desc": "explicit solver_options mapping or None",
+          "required": true
+        },
+        {
+          "name": "solver",
+          "type_desc": "QuantileRegressor solver name",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "solver_options payload passed to linprog"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "solver_options payload passed to linprog"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "quantile_interior_point_removed_guard", "target": "quantile_interior_point_removed_message", "kind": "guard_message_context"},
-    {"source": "quantile_sparse_solver_guard", "target": "quantile_sparse_solver_message", "kind": "guard_message_context"},
-    {"source": "quantile_interior_point_removed_guard", "target": "quantile_solver_options_payload", "kind": "solver_context"},
-    {"source": "quantile_sparse_solver_guard", "target": "quantile_solver_options_payload", "kind": "solver_context"}
+    {
+      "source": "quantile_interior_point_removed_guard",
+      "target": "quantile_interior_point_removed_message",
+      "kind": "guard_message_context"
+    },
+    {
+      "source": "quantile_sparse_solver_guard",
+      "target": "quantile_sparse_solver_message",
+      "kind": "guard_message_context"
+    },
+    {
+      "source": "quantile_interior_point_removed_guard",
+      "target": "quantile_solver_options_payload",
+      "kind": "solver_context"
+    },
+    {
+      "source": "quantile_sparse_solver_guard",
+      "target": "quantile_solver_options_payload",
+      "kind": "solver_context"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

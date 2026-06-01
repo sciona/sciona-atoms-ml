@@ -24,11 +24,22 @@
       "type_signature": "(beta_loss: float | str) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "beta_loss", "type_desc": "float | str", "required": true}
+        {
+          "name": "beta_loss",
+          "type_desc": "float | str",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "float"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "nmf_trace_dot",
@@ -39,12 +50,27 @@
       "type_signature": "(X: NDArray[np.float64] | sp.spmatrix, Y: NDArray[np.float64] | sp.spmatrix) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64] | sp.spmatrix", "required": true},
-        {"name": "Y", "type_desc": "NDArray[np.float64] | sp.spmatrix", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | sp.spmatrix",
+          "required": true
+        },
+        {
+          "name": "Y",
+          "type_desc": "NDArray[np.float64] | sp.spmatrix",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "float"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "nmf_beta_divergence",
@@ -55,15 +81,42 @@
       "type_signature": "(X: NDArray[np.float64] | sp.spmatrix, W: NDArray[np.float64], H: NDArray[np.float64], beta: float | str, square_root: bool = False) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64] | sp.spmatrix", "required": true},
-        {"name": "W", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "H", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "beta", "type_desc": "float | str", "required": true},
-        {"name": "square_root", "type_desc": "bool", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | sp.spmatrix",
+          "required": true
+        },
+        {
+          "name": "W",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "H",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "beta",
+          "type_desc": "float | str",
+          "required": true
+        },
+        {
+          "name": "square_root",
+          "type_desc": "bool",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "float"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "nmf_random_initialize",
@@ -74,13 +127,32 @@
       "type_signature": "(X: NDArray[np.float64], n_components: int, random_state: int | np.random.RandomState | None = None) -> tuple[NDArray[np.float64], NDArray[np.float64]]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "n_components", "type_desc": "int", "required": true},
-        {"name": "random_state", "type_desc": "int | np.random.RandomState | None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "n_components",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int | np.random.RandomState | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "tuple[NDArray[np.float64], NDArray[np.float64]]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "tuple[NDArray[np.float64], NDArray[np.float64]]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "nmf_nndsvd_from_svd",
@@ -91,17 +163,52 @@
       "type_signature": "(U: NDArray[np.float64], S: NDArray[np.float64], V: NDArray[np.float64], init: Literal['nndsvd', 'nndsvda', 'nndsvdar'], data_mean: float, eps: float = 1e-6, random_state: int | np.random.RandomState | None = None) -> tuple[NDArray[np.float64], NDArray[np.float64]]",
       "depth": 1,
       "inputs": [
-        {"name": "U", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "S", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "V", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "init", "type_desc": "Literal['nndsvd', 'nndsvda', 'nndsvdar']", "required": true},
-        {"name": "data_mean", "type_desc": "float", "required": true},
-        {"name": "eps", "type_desc": "float", "required": false},
-        {"name": "random_state", "type_desc": "int | np.random.RandomState | None", "required": false}
+        {
+          "name": "U",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "S",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "V",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "init",
+          "type_desc": "Literal['nndsvd', 'nndsvda', 'nndsvdar']",
+          "required": true
+        },
+        {
+          "name": "data_mean",
+          "type_desc": "float",
+          "required": true
+        },
+        {
+          "name": "eps",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int | np.random.RandomState | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "tuple[NDArray[np.float64], NDArray[np.float64]]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "tuple[NDArray[np.float64], NDArray[np.float64]]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "nmf_check_init_matrix",
@@ -112,18 +219,45 @@
       "type_signature": "(A: NDArray[np.float64], shape: tuple[int | Literal['auto'], int | Literal['auto']], whom: str) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "A", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "shape", "type_desc": "tuple[int | Literal['auto'], int | Literal['auto']]", "required": true},
-        {"name": "whom", "type_desc": "str", "required": true}
+        {
+          "name": "A",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "shape",
+          "type_desc": "tuple[int | Literal['auto'], int | Literal['auto']]",
+          "required": true
+        },
+        {
+          "name": "whom",
+          "type_desc": "str",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "nmf_beta_loss_to_float", "target": "nmf_beta_divergence", "kind": "beta_parameter_input"},
-    {"source": "nmf_trace_dot", "target": "nmf_beta_divergence", "kind": "sparse_frobenius_helper"}
+    {
+      "source": "nmf_beta_loss_to_float",
+      "target": "nmf_beta_divergence",
+      "kind": "beta_parameter_input"
+    },
+    {
+      "source": "nmf_trace_dot",
+      "target": "nmf_beta_divergence",
+      "kind": "sparse_frobenius_helper"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

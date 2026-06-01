@@ -81,7 +81,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "binarize",
@@ -113,7 +117,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "binarizer_transform",
@@ -145,7 +153,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "normalize",
@@ -187,7 +199,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | tuple[MatrixLike, NDArray[np.float64]]"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "normalizer_transform",
@@ -219,7 +235,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "kernel_centerer_fit",
@@ -241,7 +261,11 @@
           "name": "result",
           "type_desc": "KernelCentererState"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "kernel_centerer_transform",
@@ -273,7 +297,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64]"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "scale",
@@ -315,7 +343,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "standard_scaler_partial_fit",
@@ -357,7 +389,11 @@
           "name": "result",
           "type_desc": "StandardScalerState"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "standard_scaler_fit",
@@ -398,7 +434,11 @@
       "aliases": [
         "fit_target_scaler",
         "target_scaling_fit"
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "standard_scaler_transform",
@@ -435,7 +475,11 @@
         "standardize_target",
         "target_scaling",
         "target_scaling_transform"
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "standard_scaler_inverse_transform",
@@ -467,7 +511,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "maxabs_scale",
@@ -499,7 +547,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "maxabs_scaler_partial_fit",
@@ -526,7 +578,11 @@
           "name": "result",
           "type_desc": "MaxAbsScalerState"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "maxabs_scaler_fit",
@@ -548,7 +604,11 @@
           "name": "result",
           "type_desc": "MaxAbsScalerState"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "maxabs_scaler_transform",
@@ -585,7 +645,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "maxabs_scaler_inverse_transform",
@@ -617,7 +681,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "minmax_scale",
@@ -654,7 +722,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "minmax_scaler_partial_fit",
@@ -686,7 +758,11 @@
           "name": "result",
           "type_desc": "MinMaxScalerState"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "minmax_scaler_fit",
@@ -713,7 +789,11 @@
           "name": "result",
           "type_desc": "MinMaxScalerState"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "minmax_scaler_transform",
@@ -750,7 +830,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64]"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "minmax_scaler_inverse_transform",
@@ -782,7 +866,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "robust_scaler_fit",
@@ -824,7 +912,11 @@
           "name": "result",
           "type_desc": "RobustScalerState"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "robust_scaler_transform",
@@ -856,7 +948,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "robust_scaler_inverse_transform",
@@ -888,7 +984,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "robust_scale",
@@ -940,7 +1040,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "label_encoder_fit",
@@ -962,7 +1066,11 @@
           "name": "result",
           "type_desc": "LabelEncoderState"
         }
-      ]
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "label_binarize",
@@ -1004,7 +1112,11 @@
           "name": "result",
           "type_desc": "NDArray[np.int_] | scipy.sparse.csr_matrix"
         }
-      ]
+      ],
+      "time_complexity": "O(N * log N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "Ranking or sorting array elements is dominated by the O(N log N) time complexity of the sorting algorithm, and takes linear space.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "label_binarizer_fit",
@@ -1041,7 +1153,11 @@
           "name": "result",
           "type_desc": "LabelBinarizerState"
         }
-      ]
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "label_binarizer_fit_transform",
@@ -1078,7 +1194,11 @@
           "name": "result",
           "type_desc": "tuple[LabelBinarizerState, NDArray[np.int_] | scipy.sparse.csr_matrix]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "label_binarizer_transform",
@@ -1105,7 +1225,11 @@
           "name": "result",
           "type_desc": "NDArray[np.int_] | scipy.sparse.csr_matrix"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "label_binarizer_inverse_transform",
@@ -1137,7 +1261,11 @@
           "name": "result",
           "type_desc": "NDArray[np.object_] | scipy.sparse.csr_matrix"
         }
-      ]
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "label_encoder_fit_transform",
@@ -1159,7 +1287,11 @@
           "name": "result",
           "type_desc": "tuple[LabelEncoderState, NDArray[np.int_]]"
         }
-      ]
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "label_encoder_transform",
@@ -1186,7 +1318,11 @@
           "name": "result",
           "type_desc": "NDArray[np.int_]"
         }
-      ]
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "label_encoder_inverse_transform",
@@ -1213,7 +1349,11 @@
           "name": "result",
           "type_desc": "NDArray[np.object_]"
         }
-      ]
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "multi_label_binarizer_fit",
@@ -1245,7 +1385,11 @@
           "name": "result",
           "type_desc": "MultiLabelBinarizerState"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "multi_label_binarizer_fit_transform",
@@ -1277,7 +1421,11 @@
           "name": "result",
           "type_desc": "tuple[MultiLabelBinarizerState, NDArray[np.int_] | scipy.sparse.csr_matrix]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "multi_label_binarizer_transform",
@@ -1304,7 +1452,11 @@
           "name": "result",
           "type_desc": "NDArray[np.int_] | scipy.sparse.csr_matrix"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "multi_label_binarizer_inverse_transform",
@@ -1331,7 +1483,11 @@
           "name": "result",
           "type_desc": "list[tuple[object, ...]]"
         }
-      ]
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "polynomial_features_fit",
@@ -1373,7 +1529,11 @@
           "name": "result",
           "type_desc": "PolynomialFeaturesState"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "polynomial_features_transform",
@@ -1400,7 +1560,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "polynomial_features_fit_transform",
@@ -1442,7 +1606,11 @@
           "name": "result",
           "type_desc": "tuple[PolynomialFeaturesState, NDArray[np.float64] | scipy.sparse.spmatrix]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "power_transformer_fit",
@@ -1474,7 +1642,11 @@
           "name": "result",
           "type_desc": "PowerTransformerState"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "power_transformer_transform",
@@ -1506,7 +1678,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "power_transformer_inverse_transform",
@@ -1538,7 +1714,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "power_transformer_fit_transform",
@@ -1575,7 +1755,11 @@
           "name": "result",
           "type_desc": "tuple[PowerTransformerState, NDArray[np.float64]]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "power_transform",
@@ -1612,7 +1796,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "quantile_transformer_fit",
@@ -1659,7 +1847,11 @@
           "name": "result",
           "type_desc": "QuantileTransformerState"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "quantile_transformer_transform",
@@ -1691,7 +1883,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "quantile_transformer_inverse_transform",
@@ -1723,7 +1919,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "quantile_transformer_fit_transform",
@@ -1775,7 +1975,11 @@
           "name": "result",
           "type_desc": "tuple[QuantileTransformerState, NDArray[np.float64] | scipy.sparse.spmatrix]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "quantile_transform",
@@ -1832,7 +2036,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "kbins_discretizer_fit",
@@ -1894,7 +2102,11 @@
           "name": "result",
           "type_desc": "KBinsDiscretizerState"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "kbins_discretizer_transform",
@@ -1921,7 +2133,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "kbins_discretizer_inverse_transform",
@@ -1948,7 +2164,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64]"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "kbins_discretizer_fit_transform",
@@ -2010,7 +2230,11 @@
           "name": "result",
           "type_desc": "tuple[KBinsDiscretizerState, NDArray[np.float64] | scipy.sparse.spmatrix]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "spline_transformer_fit",
@@ -2077,7 +2301,11 @@
           "name": "result",
           "type_desc": "SplineTransformerState"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "spline_transformer_transform",
@@ -2104,7 +2332,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "spline_transformer_fit_transform",
@@ -2171,7 +2403,11 @@
           "name": "result",
           "type_desc": "tuple[SplineTransformerState, NDArray[np.float64] | scipy.sparse.spmatrix]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "ordinal_encoder_fit",
@@ -2218,7 +2454,11 @@
           "name": "result",
           "type_desc": "OrdinalEncoderState"
         }
-      ]
+      ],
+      "time_complexity": "O(N * log N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "Ranking or sorting array elements is dominated by the O(N log N) time complexity of the sorting algorithm, and takes linear space.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "ordinal_encoder_transform",
@@ -2245,7 +2485,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64]"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "ordinal_encoder_inverse_transform",
@@ -2272,7 +2516,11 @@
           "name": "result",
           "type_desc": "NDArray[np.object_]"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "ordinal_encoder_fit_transform",
@@ -2319,7 +2567,11 @@
           "name": "result",
           "type_desc": "tuple[OrdinalEncoderState, NDArray[np.float64]]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "onehot_encoder_fit",
@@ -2366,7 +2618,11 @@
           "name": "result",
           "type_desc": "OneHotEncoderState"
         }
-      ]
+      ],
+      "time_complexity": "O(N * log N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "Ranking or sorting array elements is dominated by the O(N log N) time complexity of the sorting algorithm, and takes linear space.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "onehot_encoder_transform",
@@ -2393,7 +2649,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "onehot_encoder_inverse_transform",
@@ -2420,7 +2680,11 @@
           "name": "result",
           "type_desc": "NDArray[np.object_]"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "onehot_encoder_fit_transform",
@@ -2467,7 +2731,11 @@
           "name": "result",
           "type_desc": "tuple[OneHotEncoderState, NDArray[np.float64] | scipy.sparse.spmatrix]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "target_encoder_fit",
@@ -2509,7 +2777,11 @@
           "name": "result",
           "type_desc": "TargetEncoderState"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "target_encoder_transform",
@@ -2536,7 +2808,11 @@
           "name": "result",
           "type_desc": "NDArray[np.float64]"
         }
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "target_encoder_fit_transform",
@@ -2593,7 +2869,11 @@
           "name": "result",
           "type_desc": "tuple[TargetEncoderState, NDArray[np.float64]]"
         }
-      ]
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [

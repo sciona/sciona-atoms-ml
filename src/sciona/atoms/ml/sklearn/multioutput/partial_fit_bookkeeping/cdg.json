@@ -10,8 +10,23 @@
       "status": "atomic",
       "concept_type": "state_check",
       "description": "Determine whether multioutput partial_fit is entering before estimators_ has been initialized.",
-      "inputs": [{"name": "has_estimators", "type_desc": "bool", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "bool"}]
+      "inputs": [
+        {
+          "name": "has_estimators",
+          "type_desc": "bool",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "multioutput_partial_fit_use_base_estimator",
@@ -19,8 +34,23 @@
       "status": "atomic",
       "concept_type": "dispatch",
       "description": "Resolve whether a multioutput partial_fit worker should receive the unfitted base estimator template.",
-      "inputs": [{"name": "first_time", "type_desc": "bool", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "bool"}]
+      "inputs": [
+        {
+          "name": "first_time",
+          "type_desc": "bool",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "multioutput_partial_fit_class_vector",
@@ -29,14 +59,39 @@
       "concept_type": "routing",
       "description": "Select the per-output classes vector routed into one _partial_fit_estimator call, or None for regressor-like flows.",
       "inputs": [
-        {"name": "classes_by_output", "type_desc": "tuple | None", "required": false},
-        {"name": "output_idx", "type_desc": "int", "required": true}
+        {
+          "name": "classes_by_output",
+          "type_desc": "tuple | None",
+          "required": false
+        },
+        {
+          "name": "output_idx",
+          "type_desc": "int",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "ndarray | None"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "ndarray | None"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "multioutput_partial_fit_first_call", "target": "multioutput_partial_fit_use_base_estimator", "kind": "dispatch"},
-    {"source": "multioutput_partial_fit_first_call", "target": "multioutput_partial_fit_class_vector", "kind": "call_context"}
+    {
+      "source": "multioutput_partial_fit_first_call",
+      "target": "multioutput_partial_fit_use_base_estimator",
+      "kind": "dispatch"
+    },
+    {
+      "source": "multioutput_partial_fit_first_call",
+      "target": "multioutput_partial_fit_class_vector",
+      "kind": "call_context"
+    }
   ]
 }

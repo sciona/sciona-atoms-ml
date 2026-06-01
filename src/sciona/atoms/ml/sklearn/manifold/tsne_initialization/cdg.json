@@ -23,12 +23,27 @@
       "type_signature": "(n_samples: int, early_exaggeration: float) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "n_samples", "type_desc": "int", "required": true},
-        {"name": "early_exaggeration", "type_desc": "float", "required": true}
+        {
+          "name": "n_samples",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "early_exaggeration",
+          "type_desc": "float",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "float"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "tsne_barnes_hut_neighbor_count",
@@ -39,12 +54,27 @@
       "type_signature": "(n_samples: int, perplexity: float) -> int",
       "depth": 1,
       "inputs": [
-        {"name": "n_samples", "type_desc": "int", "required": true},
-        {"name": "perplexity", "type_desc": "float", "required": true}
+        {
+          "name": "n_samples",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "perplexity",
+          "type_desc": "float",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "int"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "tsne_random_initialize_embedding",
@@ -55,13 +85,32 @@
       "type_signature": "(n_samples: int, n_components: int, random_state: int | None = None) -> NDArray[np.float32]",
       "depth": 1,
       "inputs": [
-        {"name": "n_samples", "type_desc": "int", "required": true},
-        {"name": "n_components", "type_desc": "int", "required": true},
-        {"name": "random_state", "type_desc": "int | None", "required": false}
+        {
+          "name": "n_samples",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "n_components",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float32]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float32]"
+        }
+      ],
+      "time_complexity": "O(N^2 * d)",
+      "space_complexity": "O(N^2)",
+      "complexity_reasoning": "Manifold learning, biclustering or spectral decomposition constructs similarity/projection matrices, taking quadratic time/space in samples.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "tsne_pca_rescale_embedding",
@@ -72,11 +121,22 @@
       "type_signature": "(embedding: NDArray[np.floating]) -> NDArray[np.float32]",
       "depth": 1,
       "inputs": [
-        {"name": "embedding", "type_desc": "NDArray[np.floating]", "required": true}
+        {
+          "name": "embedding",
+          "type_desc": "NDArray[np.floating]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float32]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float32]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "tsne_degrees_of_freedom",
@@ -87,17 +147,40 @@
       "type_signature": "(n_components: int) -> int",
       "depth": 1,
       "inputs": [
-        {"name": "n_components", "type_desc": "int", "required": true}
+        {
+          "name": "n_components",
+          "type_desc": "int",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "int"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "tsne_auto_learning_rate", "target": "tsne_random_initialize_embedding", "kind": "optimization_setup"},
-    {"source": "tsne_pca_rescale_embedding", "target": "tsne_degrees_of_freedom", "kind": "initialization_setup"},
-    {"source": "tsne_barnes_hut_neighbor_count", "target": "tsne_degrees_of_freedom", "kind": "fit_setup"}
+    {
+      "source": "tsne_auto_learning_rate",
+      "target": "tsne_random_initialize_embedding",
+      "kind": "optimization_setup"
+    },
+    {
+      "source": "tsne_pca_rescale_embedding",
+      "target": "tsne_degrees_of_freedom",
+      "kind": "initialization_setup"
+    },
+    {
+      "source": "tsne_barnes_hut_neighbor_count",
+      "target": "tsne_degrees_of_freedom",
+      "kind": "fit_setup"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

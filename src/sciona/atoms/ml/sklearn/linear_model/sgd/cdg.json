@@ -24,11 +24,22 @@
       "type_signature": "(l1_ratio: float | None) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "l1_ratio", "type_desc": "float | None", "required": true}
+        {
+          "name": "l1_ratio",
+          "type_desc": "float | None",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "float"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "sgd_learning_rate_value",
@@ -39,16 +50,47 @@
       "type_signature": "(learning_rate: str, eta0: float, alpha: float = 0.0001, t: float = 1.0, power_t: float = 0.5, t0: float = 0.0) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "learning_rate", "type_desc": "str", "required": true},
-        {"name": "eta0", "type_desc": "float", "required": true},
-        {"name": "alpha", "type_desc": "float", "required": false},
-        {"name": "t", "type_desc": "float", "required": false},
-        {"name": "power_t", "type_desc": "float", "required": false},
-        {"name": "t0", "type_desc": "float", "required": false}
+        {
+          "name": "learning_rate",
+          "type_desc": "str",
+          "required": true
+        },
+        {
+          "name": "eta0",
+          "type_desc": "float",
+          "required": true
+        },
+        {
+          "name": "alpha",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "t",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "power_t",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "t0",
+          "type_desc": "float",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "float"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "sgd_passive_aggressive_step_size",
@@ -59,14 +101,37 @@
       "type_signature": "(loss_value: float, squared_norm: float, eta0: float, learning_rate: str) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "loss_value", "type_desc": "float", "required": true},
-        {"name": "squared_norm", "type_desc": "float", "required": true},
-        {"name": "eta0", "type_desc": "float", "required": true},
-        {"name": "learning_rate", "type_desc": "str", "required": true}
+        {
+          "name": "loss_value",
+          "type_desc": "float",
+          "required": true
+        },
+        {
+          "name": "squared_norm",
+          "type_desc": "float",
+          "required": true
+        },
+        {
+          "name": "eta0",
+          "type_desc": "float",
+          "required": true
+        },
+        {
+          "name": "learning_rate",
+          "type_desc": "str",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "float"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "sgd_modified_huber_proba",
@@ -77,12 +142,27 @@
       "type_signature": "(scores: NDArray[np.float64], binary: bool) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "scores", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "binary", "type_desc": "bool", "required": true}
+        {
+          "name": "scores",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "binary",
+          "type_desc": "bool",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "passive_aggressive_classifier_sgd_config",
@@ -93,11 +173,22 @@
       "type_signature": "(loss: str) -> tuple[str, str, float]",
       "depth": 1,
       "inputs": [
-        {"name": "loss", "type_desc": "str", "required": true}
+        {
+          "name": "loss",
+          "type_desc": "str",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "tuple[str, str, float]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "tuple[str, str, float]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "passive_aggressive_regressor_sgd_config",
@@ -108,16 +199,35 @@
       "type_signature": "(loss: str) -> tuple[str, str, float]",
       "depth": 1,
       "inputs": [
-        {"name": "loss", "type_desc": "str", "required": true}
+        {
+          "name": "loss",
+          "type_desc": "str",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "tuple[str, str, float]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "tuple[str, str, float]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "passive_aggressive_classifier_sgd_config", "target": "sgd_passive_aggressive_step_size", "kind": "selects_pa_schedule"},
-    {"source": "passive_aggressive_regressor_sgd_config", "target": "sgd_passive_aggressive_step_size", "kind": "selects_pa_schedule"}
+    {
+      "source": "passive_aggressive_classifier_sgd_config",
+      "target": "sgd_passive_aggressive_step_size",
+      "kind": "selects_pa_schedule"
+    },
+    {
+      "source": "passive_aggressive_regressor_sgd_config",
+      "target": "sgd_passive_aggressive_step_size",
+      "kind": "selects_pa_schedule"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

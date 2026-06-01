@@ -21,10 +21,27 @@
       "type_signature": "(dict_init: NDArray[np.floating] | None, svd_dictionary: NDArray[np.floating] | None) -> NDArray[np.floating]",
       "depth": 1,
       "inputs": [
-        {"name": "dict_init", "type_desc": "NDArray[np.floating] | None", "required": true},
-        {"name": "svd_dictionary", "type_desc": "NDArray[np.floating] | None", "required": true}
+        {
+          "name": "dict_init",
+          "type_desc": "NDArray[np.floating] | None",
+          "required": true
+        },
+        {
+          "name": "svd_dictionary",
+          "type_desc": "NDArray[np.floating] | None",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.floating]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.floating]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "dictionary_learning_minibatch_resize_dictionary",
@@ -35,10 +52,27 @@
       "type_signature": "(dictionary: NDArray[np.floating], n_components: int) -> NDArray[np.floating]",
       "depth": 1,
       "inputs": [
-        {"name": "dictionary", "type_desc": "NDArray[np.floating]", "required": true},
-        {"name": "n_components", "type_desc": "int", "required": true}
+        {
+          "name": "dictionary",
+          "type_desc": "NDArray[np.floating]",
+          "required": true
+        },
+        {
+          "name": "n_components",
+          "type_desc": "int",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.floating]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.floating]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "dictionary_learning_minibatch_dictionary_buffer",
@@ -49,10 +83,27 @@
       "type_signature": "(dictionary: NDArray[np.floating], dtype_name: str) -> NDArray[np.floating]",
       "depth": 1,
       "inputs": [
-        {"name": "dictionary", "type_desc": "NDArray[np.floating]", "required": true},
-        {"name": "dtype_name", "type_desc": "str", "required": true}
+        {
+          "name": "dictionary",
+          "type_desc": "NDArray[np.floating]",
+          "required": true
+        },
+        {
+          "name": "dtype_name",
+          "type_desc": "str",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.floating]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.floating]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [],

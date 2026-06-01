@@ -11,10 +11,27 @@
       "concept_type": "parameter_guard",
       "description": "Enforce sklearn's fit-time requirement that perplexity stay below the observed sample count.",
       "inputs": [
-        {"name": "perplexity", "type_desc": "float", "required": true},
-        {"name": "n_samples", "type_desc": "int", "required": true}
+        {
+          "name": "perplexity",
+          "type_desc": "float",
+          "required": true
+        },
+        {
+          "name": "n_samples",
+          "type_desc": "int",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "bool"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(N^2 * d)",
+      "space_complexity": "O(N^2)",
+      "complexity_reasoning": "Manifold learning, biclustering or spectral decomposition constructs similarity/projection matrices, taking quadratic time/space in samples.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "tsne_fit_accept_sparse_formats",
@@ -22,8 +39,23 @@
       "status": "atomic",
       "concept_type": "validation_policy",
       "description": "Select the sparse matrix formats sklearn accepts in TSNE._fit validation for the chosen method.",
-      "inputs": [{"name": "method", "type_desc": "str", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "tuple[str, ...]"}]
+      "inputs": [
+        {
+          "name": "method",
+          "type_desc": "str",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "tuple[str, ...]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "tsne_fit_require_sparse_input_init_not_pca",
@@ -32,10 +64,27 @@
       "concept_type": "parameter_guard",
       "description": "Reject PCA initialization when the t-SNE fit input is sparse.",
       "inputs": [
-        {"name": "init", "type_desc": "object", "required": true},
-        {"name": "is_sparse_input", "type_desc": "bool", "required": true}
+        {
+          "name": "init",
+          "type_desc": "object",
+          "required": true
+        },
+        {
+          "name": "is_sparse_input",
+          "type_desc": "bool",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "bool"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(N^2 * d)",
+      "space_complexity": "O(N^2)",
+      "complexity_reasoning": "Manifold learning, biclustering or spectral decomposition constructs similarity/projection matrices, taking quadratic time/space in samples.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "tsne_fit_require_precomputed_square_matrix",
@@ -43,8 +92,23 @@
       "status": "atomic",
       "concept_type": "shape_guard",
       "description": "Require precomputed t-SNE distance inputs to be square matrices.",
-      "inputs": [{"name": "shape", "type_desc": "tuple[int, int]", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "bool"}]
+      "inputs": [
+        {
+          "name": "shape",
+          "type_desc": "tuple[int, int]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "tsne_fit_require_dense_exact_precomputed",
@@ -53,11 +117,32 @@
       "concept_type": "input_guard",
       "description": "Reject sparse precomputed distances when t-SNE runs in exact mode.",
       "inputs": [
-        {"name": "method", "type_desc": "str", "required": true},
-        {"name": "metric", "type_desc": "object", "required": true},
-        {"name": "is_sparse_input", "type_desc": "bool", "required": true}
+        {
+          "name": "method",
+          "type_desc": "str",
+          "required": true
+        },
+        {
+          "name": "metric",
+          "type_desc": "object",
+          "required": true
+        },
+        {
+          "name": "is_sparse_input",
+          "type_desc": "bool",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "bool"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(N^2 * d)",
+      "space_complexity": "O(N^2)",
+      "complexity_reasoning": "Manifold learning, biclustering or spectral decomposition constructs similarity/projection matrices, taking quadratic time/space in samples.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "tsne_fit_require_barnes_hut_components",
@@ -66,17 +151,54 @@
       "concept_type": "parameter_guard",
       "description": "Require Barnes-Hut t-SNE to run with at most three output dimensions.",
       "inputs": [
-        {"name": "method", "type_desc": "str", "required": true},
-        {"name": "n_components", "type_desc": "int", "required": true}
+        {
+          "name": "method",
+          "type_desc": "str",
+          "required": true
+        },
+        {
+          "name": "n_components",
+          "type_desc": "int",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "bool"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(N^2 * d)",
+      "space_complexity": "O(N^2)",
+      "complexity_reasoning": "Manifold learning, biclustering or spectral decomposition constructs similarity/projection matrices, taking quadratic time/space in samples.",
+      "complexity_confidence": 90
     }
   ],
   "edges": [
-    {"source": "tsne_fit_require_perplexity_below_sample_count", "target": "tsne_fit_accept_sparse_formats", "kind": "fit_entry_preflight"},
-    {"source": "tsne_fit_accept_sparse_formats", "target": "tsne_fit_require_sparse_input_init_not_pca", "kind": "validation_context"},
-    {"source": "tsne_fit_require_sparse_input_init_not_pca", "target": "tsne_fit_require_precomputed_square_matrix", "kind": "precomputed_input_sequence"},
-    {"source": "tsne_fit_require_precomputed_square_matrix", "target": "tsne_fit_require_dense_exact_precomputed", "kind": "precomputed_sparse_guard"},
-    {"source": "tsne_fit_require_dense_exact_precomputed", "target": "tsne_fit_require_barnes_hut_components", "kind": "method_specific_dimension_guard"}
+    {
+      "source": "tsne_fit_require_perplexity_below_sample_count",
+      "target": "tsne_fit_accept_sparse_formats",
+      "kind": "fit_entry_preflight"
+    },
+    {
+      "source": "tsne_fit_accept_sparse_formats",
+      "target": "tsne_fit_require_sparse_input_init_not_pca",
+      "kind": "validation_context"
+    },
+    {
+      "source": "tsne_fit_require_sparse_input_init_not_pca",
+      "target": "tsne_fit_require_precomputed_square_matrix",
+      "kind": "precomputed_input_sequence"
+    },
+    {
+      "source": "tsne_fit_require_precomputed_square_matrix",
+      "target": "tsne_fit_require_dense_exact_precomputed",
+      "kind": "precomputed_sparse_guard"
+    },
+    {
+      "source": "tsne_fit_require_dense_exact_precomputed",
+      "target": "tsne_fit_require_barnes_hut_components",
+      "kind": "method_specific_dimension_guard"
+    }
   ]
 }

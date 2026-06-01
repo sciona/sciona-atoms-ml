@@ -21,11 +21,22 @@
       "type_signature": "(class_name: str) -> tuple[str, ...]",
       "depth": 1,
       "inputs": [
-        {"name": "class_name", "type_desc": "must be LinearModelCV", "required": true}
+        {
+          "name": "class_name",
+          "type_desc": "must be LinearModelCV",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "ordered abstract method names"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "ordered abstract method names"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_base_abstract_method_roles",
@@ -36,11 +47,22 @@
       "type_signature": "(method_name: str) -> str",
       "depth": 1,
       "inputs": [
-        {"name": "method_name", "type_desc": "LinearModelCV abstract method name", "required": true}
+        {
+          "name": "method_name",
+          "type_desc": "LinearModelCV abstract method name",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "compact semantic role for the abstract method"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "compact semantic role for the abstract method"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_base_path_signature_payload",
@@ -51,18 +73,45 @@
       "type_signature": "(X: object, y: object, kwargs: Mapping[str, object]) -> dict[str, object]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "path input design data", "required": true},
-        {"name": "y", "type_desc": "path target data", "required": true},
-        {"name": "kwargs", "type_desc": "keyword arguments accepted by path", "required": true}
+        {
+          "name": "X",
+          "type_desc": "path input design data",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "path target data",
+          "required": true
+        },
+        {
+          "name": "kwargs",
+          "type_desc": "keyword arguments accepted by path",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "path signature payload with X, y, and copied kwargs"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "path signature payload with X, y, and copied kwargs"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "cd_cv_base_abstract_method_names", "target": "cd_cv_base_abstract_method_roles", "kind": "role_lookup"},
-    {"source": "cd_cv_base_abstract_method_roles", "target": "cd_cv_base_path_signature_payload", "kind": "path_contract"}
+    {
+      "source": "cd_cv_base_abstract_method_names",
+      "target": "cd_cv_base_abstract_method_roles",
+      "kind": "role_lookup"
+    },
+    {
+      "source": "cd_cv_base_abstract_method_roles",
+      "target": "cd_cv_base_path_signature_payload",
+      "kind": "path_contract"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

@@ -25,11 +25,22 @@
       "type_signature": "(alpha: numbers.Real) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "alpha", "type_desc": "ElasticNet alpha parameter", "required": true}
+        {
+          "name": "alpha",
+          "type_desc": "ElasticNet alpha parameter",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "true when alpha equals zero"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "true when alpha equals zero"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_estimator_alpha_zero_warning_message",
@@ -40,11 +51,22 @@
       "type_signature": "(alpha: numbers.Real) -> str",
       "depth": 1,
       "inputs": [
-        {"name": "alpha", "type_desc": "ElasticNet alpha parameter", "required": true}
+        {
+          "name": "alpha",
+          "type_desc": "ElasticNet alpha parameter",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "warning message string"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "warning message string"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_estimator_x_copied",
@@ -55,13 +77,32 @@
       "type_signature": "(copy_X: bool, fit_intercept: bool, check_input: bool) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "copy_X", "type_desc": "estimator copy_X setting", "required": true},
-        {"name": "fit_intercept", "type_desc": "estimator fit_intercept setting", "required": true},
-        {"name": "check_input", "type_desc": "fit-time input validation flag", "required": true}
+        {
+          "name": "copy_X",
+          "type_desc": "estimator copy_X setting",
+          "required": true
+        },
+        {
+          "name": "fit_intercept",
+          "type_desc": "estimator fit_intercept setting",
+          "required": true
+        },
+        {
+          "name": "check_input",
+          "type_desc": "fit-time input validation flag",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether validation copied X"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether validation copied X"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_estimator_validate_data_args",
@@ -72,13 +113,32 @@
       "type_signature": "(estimator: object, X: object, y: object) -> tuple[object, object, object]",
       "depth": 1,
       "inputs": [
-        {"name": "estimator", "type_desc": "ElasticNet estimator instance", "required": true},
-        {"name": "X", "type_desc": "input feature matrix", "required": true},
-        {"name": "y", "type_desc": "input target array", "required": true}
+        {
+          "name": "estimator",
+          "type_desc": "ElasticNet estimator instance",
+          "required": true
+        },
+        {
+          "name": "X",
+          "type_desc": "input feature matrix",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "input target array",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "three-tuple preserving estimator, X, and y identity"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "three-tuple preserving estimator, X, and y identity"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_estimator_validate_data_kwargs",
@@ -89,11 +149,22 @@
       "type_signature": "(x_copied: bool) -> dict[str, object]",
       "depth": 1,
       "inputs": [
-        {"name": "x_copied", "type_desc": "copy value passed into validate_data", "required": true}
+        {
+          "name": "x_copied",
+          "type_desc": "copy value passed into validate_data",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "validate_data kwargs mapping"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "validate_data kwargs mapping"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_estimator_check_array_y_kwargs",
@@ -104,11 +175,22 @@
       "type_signature": "(x_dtype_type: object) -> dict[str, object]",
       "depth": 1,
       "inputs": [
-        {"name": "x_dtype_type", "type_desc": "validated X dtype type", "required": true}
+        {
+          "name": "x_dtype_type",
+          "type_desc": "validated X dtype type",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "check_array kwargs mapping for y"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "check_array kwargs mapping for y"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_estimator_shape_counts",
@@ -119,19 +201,50 @@
       "type_signature": "(x_shape: tuple[int, int]) -> tuple[int, int]",
       "depth": 1,
       "inputs": [
-        {"name": "x_shape", "type_desc": "validated X.shape tuple", "required": true}
+        {
+          "name": "x_shape",
+          "type_desc": "validated X.shape tuple",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "n_samples and n_features"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "n_samples and n_features"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "cd_estimator_alpha_zero_warning_required", "target": "cd_estimator_alpha_zero_warning_message", "kind": "branch_context"},
-    {"source": "cd_estimator_x_copied", "target": "cd_estimator_validate_data_kwargs", "kind": "callback_context"},
-    {"source": "cd_estimator_validate_data_args", "target": "cd_estimator_shape_counts", "kind": "validation_context"},
-    {"source": "cd_estimator_validate_data_kwargs", "target": "cd_estimator_check_array_y_kwargs", "kind": "validation_context"},
-    {"source": "cd_estimator_check_array_y_kwargs", "target": "cd_estimator_shape_counts", "kind": "validation_context"}
+    {
+      "source": "cd_estimator_alpha_zero_warning_required",
+      "target": "cd_estimator_alpha_zero_warning_message",
+      "kind": "branch_context"
+    },
+    {
+      "source": "cd_estimator_x_copied",
+      "target": "cd_estimator_validate_data_kwargs",
+      "kind": "callback_context"
+    },
+    {
+      "source": "cd_estimator_validate_data_args",
+      "target": "cd_estimator_shape_counts",
+      "kind": "validation_context"
+    },
+    {
+      "source": "cd_estimator_validate_data_kwargs",
+      "target": "cd_estimator_check_array_y_kwargs",
+      "kind": "validation_context"
+    },
+    {
+      "source": "cd_estimator_check_array_y_kwargs",
+      "target": "cd_estimator_shape_counts",
+      "kind": "validation_context"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

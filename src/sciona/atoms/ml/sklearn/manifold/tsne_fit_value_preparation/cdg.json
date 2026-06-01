@@ -11,10 +11,27 @@
       "concept_type": "distance_postprocessing",
       "description": "Apply t-SNE exact-method distance validation and optional non-euclidean squaring to a supplied distance matrix.",
       "inputs": [
-        {"name": "distances", "type_desc": "ndarray", "required": true},
-        {"name": "metric", "type_desc": "str", "required": true}
+        {
+          "name": "distances",
+          "type_desc": "ndarray",
+          "required": true
+        },
+        {
+          "name": "metric",
+          "type_desc": "str",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "ndarray"
+        }
+      ],
+      "time_complexity": "O(N^2 * d)",
+      "space_complexity": "O(N^2)",
+      "complexity_reasoning": "Manifold learning, biclustering or spectral decomposition constructs similarity/projection matrices, taking quadratic time/space in samples.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "tsne_neighbor_graph_squared_data",
@@ -22,8 +39,23 @@
       "status": "atomic",
       "concept_type": "distance_postprocessing",
       "description": "Square Barnes-Hut neighbor-graph distance values to match t-SNE's exact-distance convention.",
-      "inputs": [{"name": "data", "type_desc": "ndarray", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+      "inputs": [
+        {
+          "name": "data",
+          "type_desc": "ndarray",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "ndarray"
+        }
+      ],
+      "time_complexity": "O(N^2 * d)",
+      "space_complexity": "O(N^2)",
+      "complexity_reasoning": "Manifold learning, biclustering or spectral decomposition constructs similarity/projection matrices, taking quadratic time/space in samples.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "tsne_exact_probability_vector",
@@ -31,8 +63,23 @@
       "status": "atomic",
       "concept_type": "probability_validation",
       "description": "Apply t-SNE exact-method probability sanity checks to a supplied condensed probability vector.",
-      "inputs": [{"name": "P", "type_desc": "ndarray", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+      "inputs": [
+        {
+          "name": "P",
+          "type_desc": "ndarray",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "ndarray"
+        }
+      ],
+      "time_complexity": "O(N^2 * d)",
+      "space_complexity": "O(N^2)",
+      "complexity_reasoning": "Manifold learning, biclustering or spectral decomposition constructs similarity/projection matrices, taking quadratic time/space in samples.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "tsne_provided_layout_matrix",
@@ -40,13 +87,40 @@
       "status": "atomic",
       "concept_type": "initialization_passthrough",
       "description": "Return the ndarray initialization branch for t-SNE embeddings.",
-      "inputs": [{"name": "init", "type_desc": "ndarray", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+      "inputs": [
+        {
+          "name": "init",
+          "type_desc": "ndarray",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "ndarray"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "tsne_exact_distance_matrix", "target": "tsne_exact_probability_vector", "kind": "exact_path"},
-    {"source": "tsne_neighbor_graph_squared_data", "target": "tsne_exact_probability_vector", "kind": "neighbor_path"},
-    {"source": "tsne_provided_layout_matrix", "target": "tsne_exact_probability_vector", "kind": "fit_value_context"}
+    {
+      "source": "tsne_exact_distance_matrix",
+      "target": "tsne_exact_probability_vector",
+      "kind": "exact_path"
+    },
+    {
+      "source": "tsne_neighbor_graph_squared_data",
+      "target": "tsne_exact_probability_vector",
+      "kind": "neighbor_path"
+    },
+    {
+      "source": "tsne_provided_layout_matrix",
+      "target": "tsne_exact_probability_vector",
+      "kind": "fit_value_context"
+    }
   ]
 }

@@ -96,7 +96,11 @@
         "cross_sectional_aggregation",
         "entity_aggregation",
         "user_product_aggregation"
-      ]
+      ],
+      "time_complexity": "O(N * log N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "Ranking or sorting array elements is dominated by the O(N log N) time complexity of the sorting algorithm, and takes linear space.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "aggregate_child_table",
@@ -163,7 +167,11 @@
       "parallelizable": true,
       "conceptual_summary": "Relational child-to-parent aggregate alignment.",
       "critic_notes": "",
-      "decomposition_rationale": ""
+      "decomposition_rationale": "",
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "temporal_difference",
@@ -211,7 +219,11 @@
         "difference_features",
         "temporal_difference_features",
         "time_series_difference_features"
-      ]
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "rolling_statistics",
@@ -254,7 +266,11 @@
       "status": "atomic",
       "children": [],
       "depth": 1,
-      "type_signature": "(values, window_size, agg_fns) -> NDArray[np.float64]"
+      "type_signature": "(values, window_size, agg_fns) -> NDArray[np.float64]",
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "time_decay_aggregate",
@@ -304,7 +320,11 @@
       "status": "atomic",
       "children": [],
       "depth": 1,
-      "type_signature": "(values, timestamps, groups, decay_rate) -> NDArray[np.float64]"
+      "type_signature": "(values, timestamps, groups, decay_rate) -> NDArray[np.float64]",
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "pairwise_products",
@@ -333,7 +353,11 @@
       "status": "atomic",
       "children": [],
       "depth": 1,
-      "type_signature": "(features) -> NDArray[np.float64]"
+      "type_signature": "(features) -> NDArray[np.float64]",
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "pairwise_ratios",
@@ -369,7 +393,11 @@
       "status": "atomic",
       "children": [],
       "depth": 1,
-      "type_signature": "(features, epsilon=1e-12) -> NDArray[np.float64]"
+      "type_signature": "(features, epsilon=1e-12) -> NDArray[np.float64]",
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "missing_indicator_and_impute",
@@ -405,7 +433,11 @@
       "status": "atomic",
       "children": [],
       "depth": 1,
-      "type_signature": "(values, fill_value=0.0) -> tuple[NDArray[np.float64], NDArray[np.float64]]"
+      "type_signature": "(values, fill_value=0.0) -> tuple[NDArray[np.float64], NDArray[np.float64]]",
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "rank_transform",
@@ -444,7 +476,11 @@
       "type_signature": "(values, method='average') -> NDArray[np.float64]",
       "aliases": [
         "rank_transformation"
-      ]
+      ],
+      "time_complexity": "O(N * log N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "Ranking or sorting array elements is dominated by the O(N log N) time complexity of the sorting algorithm, and takes linear space.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "frequency_encode_fit",
@@ -473,7 +509,11 @@
       "status": "atomic",
       "children": [],
       "depth": 1,
-      "type_signature": "(categories) -> dict[object, float]"
+      "type_signature": "(categories) -> dict[object, float]",
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "frequency_encode",
@@ -521,7 +561,11 @@
         "count_encode",
         "count_encoding",
         "frequency_encoding"
-      ]
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "target_encode",
@@ -576,7 +620,11 @@
         "mean_encode",
         "mean_encoding",
         "target_mean_encoding"
-      ]
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "tweedie_gradient",
@@ -619,7 +667,11 @@
       "status": "atomic",
       "children": [],
       "depth": 1,
-      "type_signature": "(predictions, targets, power) -> tuple[NDArray[np.float64], NDArray[np.float64]]"
+      "type_signature": "(predictions, targets, power) -> tuple[NDArray[np.float64], NDArray[np.float64]]",
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "log_cosh_gradient",
@@ -655,7 +707,11 @@
       "status": "atomic",
       "children": [],
       "depth": 1,
-      "type_signature": "(targets, predictions) -> tuple[NDArray[np.float64], NDArray[np.float64]]"
+      "type_signature": "(targets, predictions) -> tuple[NDArray[np.float64], NDArray[np.float64]]",
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "null_importance_p_values",
@@ -691,7 +747,11 @@
       "status": "atomic",
       "children": [],
       "depth": 1,
-      "type_signature": "(actual_importances, null_importances_matrix) -> NDArray[np.float64]"
+      "type_signature": "(actual_importances, null_importances_matrix) -> NDArray[np.float64]",
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "extract_pseudo_labels",
@@ -746,7 +806,11 @@
           "ordering": "sequential",
           "when": "Stage describes pseudo-labeling or self-training"
         }
-      ]
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [],

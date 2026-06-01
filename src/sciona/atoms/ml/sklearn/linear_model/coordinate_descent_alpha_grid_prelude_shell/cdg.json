@@ -25,11 +25,22 @@
       "type_signature": "(l1_ratio: float) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "l1_ratio", "type_desc": "finite elastic-net mixing scalar", "required": true}
+        {
+          "name": "l1_ratio",
+          "type_desc": "finite elastic-net mixing scalar",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether l1_ratio equals zero"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether l1_ratio equals zero"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_alpha_grid_l1_ratio_zero_error_message",
@@ -40,11 +51,22 @@
       "type_signature": "(l1_ratio: float) -> str",
       "depth": 1,
       "inputs": [
-        {"name": "l1_ratio", "type_desc": "finite elastic-net mixing scalar", "required": true}
+        {
+          "name": "l1_ratio",
+          "type_desc": "finite elastic-net mixing scalar",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "sklearn ValueError message for unsupported automatic alpha grids"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "sklearn ValueError message for unsupported automatic alpha grids"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_alpha_grid_precomputed_Xy",
@@ -55,11 +77,22 @@
       "type_signature": "(Xy: object) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "Xy", "type_desc": "precomputed X.T @ y payload", "required": true}
+        {
+          "name": "Xy",
+          "type_desc": "precomputed X.T @ y payload",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "same Xy object"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "same Xy object"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_alpha_grid_preprocess_kwargs",
@@ -70,13 +103,32 @@
       "type_signature": "(fit_intercept: bool, copy_X: bool, sample_weight: object) -> dict[str, object]",
       "depth": 1,
       "inputs": [
-        {"name": "fit_intercept", "type_desc": "whether preprocessing centers the data", "required": true},
-        {"name": "copy_X", "type_desc": "whether preprocessing may copy X", "required": true},
-        {"name": "sample_weight", "type_desc": "optional sample weights passed to preprocessing", "required": true}
+        {
+          "name": "fit_intercept",
+          "type_desc": "whether preprocessing centers the data",
+          "required": true
+        },
+        {
+          "name": "copy_X",
+          "type_desc": "whether preprocessing may copy X",
+          "required": true
+        },
+        {
+          "name": "sample_weight",
+          "type_desc": "optional sample weights passed to preprocessing",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "_preprocess_data keyword payload"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "_preprocess_data keyword payload"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_alpha_grid_yw",
@@ -87,12 +139,27 @@
       "type_signature": "(y: NDArray[np.floating], sample_weight: object) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "y", "type_desc": "finite mono-output or multi-output target array", "required": true},
-        {"name": "sample_weight", "type_desc": "optional finite sample-weight vector", "required": true}
+        {
+          "name": "y",
+          "type_desc": "finite mono-output or multi-output target array",
+          "required": true
+        },
+        {
+          "name": "sample_weight",
+          "type_desc": "optional finite sample-weight vector",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "y or sample-weighted y payload"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "y or sample-weighted y payload"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_alpha_grid_dense_Xyw",
@@ -103,12 +170,27 @@
       "type_signature": "(X: NDArray[np.floating], yw: NDArray[np.floating]) -> NDArray[np.generic]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "finite dense design matrix", "required": true},
-        {"name": "yw", "type_desc": "finite weighted target payload", "required": true}
+        {
+          "name": "X",
+          "type_desc": "finite dense design matrix",
+          "required": true
+        },
+        {
+          "name": "yw",
+          "type_desc": "finite weighted target payload",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "dense X.T @ yw payload"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "dense X.T @ yw payload"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "cd_alpha_grid_sparse_mono_output_centered_Xyw",
@@ -119,20 +201,55 @@
       "type_signature": "(X: sparse.spmatrix, yw: NDArray[np.floating], X_offset: NDArray[np.floating]) -> NDArray[np.generic]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "sparse design matrix", "required": true},
-        {"name": "yw", "type_desc": "finite mono-output weighted target vector", "required": true},
-        {"name": "X_offset", "type_desc": "finite feature-offset vector", "required": true}
+        {
+          "name": "X",
+          "type_desc": "sparse design matrix",
+          "required": true
+        },
+        {
+          "name": "yw",
+          "type_desc": "finite mono-output weighted target vector",
+          "required": true
+        },
+        {
+          "name": "X_offset",
+          "type_desc": "finite feature-offset vector",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "sparse safe_sparse_dot(X.T, yw) minus centering correction"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "sparse safe_sparse_dot(X.T, yw) minus centering correction"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [
-    {"source": "cd_alpha_grid_l1_ratio_zero_guard_required", "target": "cd_alpha_grid_l1_ratio_zero_error_message", "kind": "guard_message"},
-    {"source": "cd_alpha_grid_preprocess_kwargs", "target": "cd_alpha_grid_yw", "kind": "preprocessing_context"},
-    {"source": "cd_alpha_grid_yw", "target": "cd_alpha_grid_dense_Xyw", "kind": "dense_payload"},
-    {"source": "cd_alpha_grid_yw", "target": "cd_alpha_grid_sparse_mono_output_centered_Xyw", "kind": "sparse_payload"}
+    {
+      "source": "cd_alpha_grid_l1_ratio_zero_guard_required",
+      "target": "cd_alpha_grid_l1_ratio_zero_error_message",
+      "kind": "guard_message"
+    },
+    {
+      "source": "cd_alpha_grid_preprocess_kwargs",
+      "target": "cd_alpha_grid_yw",
+      "kind": "preprocessing_context"
+    },
+    {
+      "source": "cd_alpha_grid_yw",
+      "target": "cd_alpha_grid_dense_Xyw",
+      "kind": "dense_payload"
+    },
+    {
+      "source": "cd_alpha_grid_yw",
+      "target": "cd_alpha_grid_sparse_mono_output_centered_Xyw",
+      "kind": "sparse_payload"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

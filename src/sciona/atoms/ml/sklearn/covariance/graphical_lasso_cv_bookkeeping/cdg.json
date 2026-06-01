@@ -12,13 +12,32 @@
       "concept_type": "graphical_lasso_cv_bookkeeping",
       "type_signature": "(emp_cov: NDArray[np.float64], *, n_alphas: int, alpha_min_ratio: float = 1e-2) -> NDArray[np.float64]",
       "inputs": [
-        {"name": "emp_cov", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "n_alphas", "type_desc": "int", "required": true},
-        {"name": "alpha_min_ratio", "type_desc": "float", "required": false}
+        {
+          "name": "emp_cov",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "n_alphas",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "alpha_min_ratio",
+          "type_desc": "float",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "graphical_lasso_cv_mean_test_scores",
@@ -29,12 +48,27 @@
       "concept_type": "graphical_lasso_cv_bookkeeping",
       "type_signature": "(grid_scores: NDArray[np.float64], *, score_overflow_threshold: float = 0.1 / np.finfo(np.float64).eps) -> NDArray[np.float64]",
       "inputs": [
-        {"name": "grid_scores", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "score_overflow_threshold", "type_desc": "float", "required": false}
+        {
+          "name": "grid_scores",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "score_overflow_threshold",
+          "type_desc": "float",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "graphical_lasso_cv_best_index",
@@ -45,11 +79,22 @@
       "concept_type": "graphical_lasso_cv_bookkeeping",
       "type_signature": "(mean_test_scores: NDArray[np.float64]) -> int",
       "inputs": [
-        {"name": "mean_test_scores", "type_desc": "NDArray[np.float64]", "required": true}
+        {
+          "name": "mean_test_scores",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "int"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "graphical_lasso_cv_refinement_bounds",
@@ -60,12 +105,27 @@
       "concept_type": "graphical_lasso_cv_bookkeeping",
       "type_signature": "(alphas: NDArray[np.float64], mean_test_scores: NDArray[np.float64]) -> tuple[float, float]",
       "inputs": [
-        {"name": "alphas", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "mean_test_scores", "type_desc": "NDArray[np.float64]", "required": true}
+        {
+          "name": "alphas",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "mean_test_scores",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "tuple[float, float]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "tuple[float, float]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "graphical_lasso_cv_refined_alpha_grid",
@@ -76,13 +136,32 @@
       "concept_type": "graphical_lasso_cv_bookkeeping",
       "type_signature": "(alpha_upper: float, alpha_lower: float, *, n_alphas: int) -> NDArray[np.float64]",
       "inputs": [
-        {"name": "alpha_upper", "type_desc": "float", "required": true},
-        {"name": "alpha_lower", "type_desc": "float", "required": true},
-        {"name": "n_alphas", "type_desc": "int", "required": true}
+        {
+          "name": "alpha_upper",
+          "type_desc": "float",
+          "required": true
+        },
+        {
+          "name": "alpha_lower",
+          "type_desc": "float",
+          "required": true
+        },
+        {
+          "name": "n_alphas",
+          "type_desc": "int",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "graphical_lasso_cv_results",
@@ -93,19 +172,54 @@
       "concept_type": "graphical_lasso_cv_bookkeeping",
       "type_signature": "(alphas: NDArray[np.float64], grid_scores: NDArray[np.float64]) -> dict[str, NDArray[np.float64]]",
       "inputs": [
-        {"name": "alphas", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "grid_scores", "type_desc": "NDArray[np.float64]", "required": true}
+        {
+          "name": "alphas",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "grid_scores",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "dict[str, NDArray[np.float64]]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "dict[str, NDArray[np.float64]]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "graphical_lasso_cv_alpha_grid", "target": "graphical_lasso_cv_refinement_bounds", "kind": "alpha_path"},
-    {"source": "graphical_lasso_cv_mean_test_scores", "target": "graphical_lasso_cv_best_index", "kind": "score_vector"},
-    {"source": "graphical_lasso_cv_mean_test_scores", "target": "graphical_lasso_cv_refinement_bounds", "kind": "score_vector"},
-    {"source": "graphical_lasso_cv_refinement_bounds", "target": "graphical_lasso_cv_refined_alpha_grid", "kind": "alpha_interval"},
-    {"source": "graphical_lasso_cv_alpha_grid", "target": "graphical_lasso_cv_results", "kind": "alpha_path"}
+    {
+      "source": "graphical_lasso_cv_alpha_grid",
+      "target": "graphical_lasso_cv_refinement_bounds",
+      "kind": "alpha_path"
+    },
+    {
+      "source": "graphical_lasso_cv_mean_test_scores",
+      "target": "graphical_lasso_cv_best_index",
+      "kind": "score_vector"
+    },
+    {
+      "source": "graphical_lasso_cv_mean_test_scores",
+      "target": "graphical_lasso_cv_refinement_bounds",
+      "kind": "score_vector"
+    },
+    {
+      "source": "graphical_lasso_cv_refinement_bounds",
+      "target": "graphical_lasso_cv_refined_alpha_grid",
+      "kind": "alpha_interval"
+    },
+    {
+      "source": "graphical_lasso_cv_alpha_grid",
+      "target": "graphical_lasso_cv_results",
+      "kind": "alpha_path"
+    }
   ]
 }

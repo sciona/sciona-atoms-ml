@@ -22,12 +22,27 @@
       "type_signature": "(parent_constraints: Mapping[str, object], l1_ratio_constraint: object) -> dict[str, object]",
       "depth": 1,
       "inputs": [
-        {"name": "parent_constraints", "type_desc": "LinearModelCV parameter constraints", "required": true},
-        {"name": "l1_ratio_constraint", "type_desc": "MultiTaskElasticNetCV l1_ratio constraint entry", "required": true}
+        {
+          "name": "parent_constraints",
+          "type_desc": "LinearModelCV parameter constraints",
+          "required": true
+        },
+        {
+          "name": "l1_ratio_constraint",
+          "type_desc": "MultiTaskElasticNetCV l1_ratio constraint entry",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "constraints with l1_ratio added and unsupported parameters removed"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "constraints with l1_ratio added and unsupported parameters removed"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_multitask_elastic_net_cv_init_attributes",
@@ -38,23 +53,82 @@
       "type_signature": "(l1_ratio: object, eps: object, n_alphas: int, alphas: object, fit_intercept: bool, max_iter: int, tol: object, cv: object, copy_X: bool, verbose: object, n_jobs: object, random_state: object, selection: str) -> dict[str, object]",
       "depth": 1,
       "inputs": [
-        {"name": "l1_ratio", "type_desc": "l1_ratio constructor argument", "required": true},
-        {"name": "eps", "type_desc": "eps constructor argument", "required": true},
-        {"name": "n_alphas", "type_desc": "positive alpha-grid count", "required": true},
-        {"name": "alphas", "type_desc": "optional alpha grid", "required": true},
-        {"name": "fit_intercept", "type_desc": "fit_intercept setting", "required": true},
-        {"name": "max_iter", "type_desc": "positive iteration limit", "required": true},
-        {"name": "tol", "type_desc": "tolerance setting", "required": true},
-        {"name": "cv", "type_desc": "cross-validation splitter setting", "required": true},
-        {"name": "copy_X", "type_desc": "copy_X setting", "required": true},
-        {"name": "verbose", "type_desc": "verbosity setting", "required": true},
-        {"name": "n_jobs", "type_desc": "parallel job count setting", "required": true},
-        {"name": "random_state", "type_desc": "random_state setting", "required": true},
-        {"name": "selection", "type_desc": "coordinate selection setting", "required": true}
+        {
+          "name": "l1_ratio",
+          "type_desc": "l1_ratio constructor argument",
+          "required": true
+        },
+        {
+          "name": "eps",
+          "type_desc": "eps constructor argument",
+          "required": true
+        },
+        {
+          "name": "n_alphas",
+          "type_desc": "positive alpha-grid count",
+          "required": true
+        },
+        {
+          "name": "alphas",
+          "type_desc": "optional alpha grid",
+          "required": true
+        },
+        {
+          "name": "fit_intercept",
+          "type_desc": "fit_intercept setting",
+          "required": true
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "positive iteration limit",
+          "required": true
+        },
+        {
+          "name": "tol",
+          "type_desc": "tolerance setting",
+          "required": true
+        },
+        {
+          "name": "cv",
+          "type_desc": "cross-validation splitter setting",
+          "required": true
+        },
+        {
+          "name": "copy_X",
+          "type_desc": "copy_X setting",
+          "required": true
+        },
+        {
+          "name": "verbose",
+          "type_desc": "verbosity setting",
+          "required": true
+        },
+        {
+          "name": "n_jobs",
+          "type_desc": "parallel job count setting",
+          "required": true
+        },
+        {
+          "name": "random_state",
+          "type_desc": "random_state setting",
+          "required": true
+        },
+        {
+          "name": "selection",
+          "type_desc": "coordinate selection setting",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "direct constructor attribute mapping"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "direct constructor attribute mapping"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_multitask_lasso_cv_constraints_without_unsupported",
@@ -65,11 +139,22 @@
       "type_signature": "(parent_constraints: Mapping[str, object]) -> dict[str, object]",
       "depth": 1,
       "inputs": [
-        {"name": "parent_constraints", "type_desc": "LinearModelCV parameter constraints", "required": true}
+        {
+          "name": "parent_constraints",
+          "type_desc": "LinearModelCV parameter constraints",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "constraints with precompute and positive removed"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "constraints with precompute and positive removed"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_multitask_lasso_cv_super_init_kwargs",
@@ -80,27 +165,90 @@
       "type_signature": "(eps: object, n_alphas: int, alphas: object, fit_intercept: bool, max_iter: int, tol: object, copy_X: bool, cv: object, verbose: object, n_jobs: object, random_state: object, selection: str) -> dict[str, object]",
       "depth": 1,
       "inputs": [
-        {"name": "eps", "type_desc": "eps constructor argument", "required": true},
-        {"name": "n_alphas", "type_desc": "positive alpha-grid count", "required": true},
-        {"name": "alphas", "type_desc": "optional alpha grid", "required": true},
-        {"name": "fit_intercept", "type_desc": "fit_intercept setting", "required": true},
-        {"name": "max_iter", "type_desc": "positive iteration limit", "required": true},
-        {"name": "tol", "type_desc": "tolerance setting", "required": true},
-        {"name": "copy_X", "type_desc": "copy_X setting", "required": true},
-        {"name": "cv", "type_desc": "cross-validation splitter setting", "required": true},
-        {"name": "verbose", "type_desc": "verbosity setting", "required": true},
-        {"name": "n_jobs", "type_desc": "parallel job count setting", "required": true},
-        {"name": "random_state", "type_desc": "random_state setting", "required": true},
-        {"name": "selection", "type_desc": "coordinate selection setting", "required": true}
+        {
+          "name": "eps",
+          "type_desc": "eps constructor argument",
+          "required": true
+        },
+        {
+          "name": "n_alphas",
+          "type_desc": "positive alpha-grid count",
+          "required": true
+        },
+        {
+          "name": "alphas",
+          "type_desc": "optional alpha grid",
+          "required": true
+        },
+        {
+          "name": "fit_intercept",
+          "type_desc": "fit_intercept setting",
+          "required": true
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "positive iteration limit",
+          "required": true
+        },
+        {
+          "name": "tol",
+          "type_desc": "tolerance setting",
+          "required": true
+        },
+        {
+          "name": "copy_X",
+          "type_desc": "copy_X setting",
+          "required": true
+        },
+        {
+          "name": "cv",
+          "type_desc": "cross-validation splitter setting",
+          "required": true
+        },
+        {
+          "name": "verbose",
+          "type_desc": "verbosity setting",
+          "required": true
+        },
+        {
+          "name": "n_jobs",
+          "type_desc": "parallel job count setting",
+          "required": true
+        },
+        {
+          "name": "random_state",
+          "type_desc": "random_state setting",
+          "required": true
+        },
+        {
+          "name": "selection",
+          "type_desc": "coordinate selection setting",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "LinearModelCV super-init keyword payload"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "LinearModelCV super-init keyword payload"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "cd_multitask_elastic_net_cv_constraints", "target": "cd_multitask_elastic_net_cv_init_attributes", "kind": "class_api_context"},
-    {"source": "cd_multitask_lasso_cv_constraints_without_unsupported", "target": "cd_multitask_lasso_cv_super_init_kwargs", "kind": "class_api_context"}
+    {
+      "source": "cd_multitask_elastic_net_cv_constraints",
+      "target": "cd_multitask_elastic_net_cv_init_attributes",
+      "kind": "class_api_context"
+    },
+    {
+      "source": "cd_multitask_lasso_cv_constraints_without_unsupported",
+      "target": "cd_multitask_lasso_cv_super_init_kwargs",
+      "kind": "class_api_context"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

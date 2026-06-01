@@ -19,13 +19,32 @@
       "type_signature": "(router_after_add: object, splitter: object, method_mapping: Mapping[str, str]) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "router_after_add", "type_desc": "MetadataRouter.add callback output", "required": true},
-        {"name": "splitter", "type_desc": "checked CV splitter supplied to MetadataRouter.add", "required": true},
-        {"name": "method_mapping", "type_desc": "fit-to-split MethodMapping supplied to MetadataRouter.add", "required": true}
+        {
+          "name": "router_after_add",
+          "type_desc": "MetadataRouter.add callback output",
+          "required": true
+        },
+        {
+          "name": "splitter",
+          "type_desc": "checked CV splitter supplied to MetadataRouter.add",
+          "required": true
+        },
+        {
+          "name": "method_mapping",
+          "type_desc": "fit-to-split MethodMapping supplied to MetadataRouter.add",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "same MetadataRouter.add callback output"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "same MetadataRouter.add callback output"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [],

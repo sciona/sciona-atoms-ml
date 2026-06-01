@@ -28,12 +28,27 @@
       "type_signature": "(copy_X: bool, x_copied: bool) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "copy_X", "type_desc": "estimator copy_X setting", "required": true},
-        {"name": "x_copied", "type_desc": "whether validation already copied X", "required": true}
+        {
+          "name": "copy_X",
+          "type_desc": "estimator copy_X setting",
+          "required": true
+        },
+        {
+          "name": "x_copied",
+          "type_desc": "whether validation already copied X",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "copy flag passed to _pre_fit"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "copy flag passed to _pre_fit"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_estimator_pre_fit_args",
@@ -44,13 +59,32 @@
       "type_signature": "(X: object, y: object, precompute: object) -> tuple[object, object, None, object]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "validated feature matrix", "required": true},
-        {"name": "y", "type_desc": "validated target array", "required": true},
-        {"name": "precompute", "type_desc": "estimator precompute setting", "required": true}
+        {
+          "name": "X",
+          "type_desc": "validated feature matrix",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "validated target array",
+          "required": true
+        },
+        {
+          "name": "precompute",
+          "type_desc": "estimator precompute setting",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "four-tuple preserving X, y, fixed None, and precompute"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "four-tuple preserving X, y, fixed None, and precompute"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_estimator_pre_fit_kwargs",
@@ -61,14 +95,37 @@
       "type_signature": "(fit_intercept: bool, should_copy: bool, check_input: bool, sample_weight: object) -> dict[str, object]",
       "depth": 1,
       "inputs": [
-        {"name": "fit_intercept", "type_desc": "estimator fit_intercept setting", "required": true},
-        {"name": "should_copy", "type_desc": "copy flag passed to _pre_fit", "required": true},
-        {"name": "check_input", "type_desc": "fit-time input validation flag", "required": true},
-        {"name": "sample_weight", "type_desc": "sample-weight payload after validation and rescaling", "required": true}
+        {
+          "name": "fit_intercept",
+          "type_desc": "estimator fit_intercept setting",
+          "required": true
+        },
+        {
+          "name": "should_copy",
+          "type_desc": "copy flag passed to _pre_fit",
+          "required": true
+        },
+        {
+          "name": "check_input",
+          "type_desc": "fit-time input validation flag",
+          "required": true
+        },
+        {
+          "name": "sample_weight",
+          "type_desc": "sample-weight payload after validation and rescaling",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "kwargs mapping for _pre_fit"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "kwargs mapping for _pre_fit"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_estimator_set_order_required",
@@ -79,12 +136,27 @@
       "type_signature": "(check_input: bool, sample_weight: object) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "check_input", "type_desc": "fit-time input validation flag", "required": true},
-        {"name": "sample_weight", "type_desc": "sample-weight payload after _pre_fit", "required": true}
+        {
+          "name": "check_input",
+          "type_desc": "fit-time input validation flag",
+          "required": true
+        },
+        {
+          "name": "sample_weight",
+          "type_desc": "sample-weight payload after _pre_fit",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "true when ordering normalization runs"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "true when ordering normalization runs"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_estimator_set_order_args",
@@ -95,12 +167,27 @@
       "type_signature": "(X: object, y: object) -> tuple[object, object]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "post-_pre_fit feature matrix", "required": true},
-        {"name": "y", "type_desc": "post-_pre_fit target array", "required": true}
+        {
+          "name": "X",
+          "type_desc": "post-_pre_fit feature matrix",
+          "required": true
+        },
+        {
+          "name": "y",
+          "type_desc": "post-_pre_fit target array",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "two-tuple preserving X and y identity"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "two-tuple preserving X and y identity"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_estimator_y_column_vector_required",
@@ -111,11 +198,22 @@
       "type_signature": "(y_ndim: int) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "y_ndim", "type_desc": "target array ndim", "required": true}
+        {
+          "name": "y_ndim",
+          "type_desc": "target array ndim",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "true when y is one-dimensional"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "true when y is one-dimensional"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_estimator_y_column_vector",
@@ -126,11 +224,22 @@
       "type_signature": "(y: NDArray[np.floating]) -> NDArray[np.floating]",
       "depth": 1,
       "inputs": [
-        {"name": "y", "type_desc": "one-dimensional target array", "required": true}
+        {
+          "name": "y",
+          "type_desc": "one-dimensional target array",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "two-dimensional column target array"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "two-dimensional column target array"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_estimator_xy_column_vector_required",
@@ -141,11 +250,22 @@
       "type_signature": "(Xy: object) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "Xy", "type_desc": "optional precomputed Xy payload", "required": true}
+        {
+          "name": "Xy",
+          "type_desc": "optional precomputed Xy payload",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "true when Xy is present and one-dimensional"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "true when Xy is present and one-dimensional"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_estimator_xy_column_vector",
@@ -156,11 +276,22 @@
       "type_signature": "(Xy: NDArray[np.floating]) -> NDArray[np.floating]",
       "depth": 1,
       "inputs": [
-        {"name": "Xy", "type_desc": "one-dimensional precomputed Xy array", "required": true}
+        {
+          "name": "Xy",
+          "type_desc": "one-dimensional precomputed Xy array",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "two-dimensional column Xy array"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "two-dimensional column Xy array"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_estimator_n_targets",
@@ -171,21 +302,60 @@
       "type_signature": "(y_shape: tuple[int, int]) -> int",
       "depth": 1,
       "inputs": [
-        {"name": "y_shape", "type_desc": "post-normalization target shape", "required": true}
+        {
+          "name": "y_shape",
+          "type_desc": "post-normalization target shape",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "target count"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "target count"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "cd_estimator_should_copy", "target": "cd_estimator_pre_fit_kwargs", "kind": "callback_context"},
-    {"source": "cd_estimator_pre_fit_args", "target": "cd_estimator_set_order_required", "kind": "callback_context"},
-    {"source": "cd_estimator_pre_fit_kwargs", "target": "cd_estimator_set_order_required", "kind": "callback_context"},
-    {"source": "cd_estimator_set_order_required", "target": "cd_estimator_set_order_args", "kind": "branch_context"},
-    {"source": "cd_estimator_y_column_vector_required", "target": "cd_estimator_y_column_vector", "kind": "branch_context"},
-    {"source": "cd_estimator_xy_column_vector_required", "target": "cd_estimator_xy_column_vector", "kind": "branch_context"},
-    {"source": "cd_estimator_y_column_vector", "target": "cd_estimator_n_targets", "kind": "shape_context"}
+    {
+      "source": "cd_estimator_should_copy",
+      "target": "cd_estimator_pre_fit_kwargs",
+      "kind": "callback_context"
+    },
+    {
+      "source": "cd_estimator_pre_fit_args",
+      "target": "cd_estimator_set_order_required",
+      "kind": "callback_context"
+    },
+    {
+      "source": "cd_estimator_pre_fit_kwargs",
+      "target": "cd_estimator_set_order_required",
+      "kind": "callback_context"
+    },
+    {
+      "source": "cd_estimator_set_order_required",
+      "target": "cd_estimator_set_order_args",
+      "kind": "branch_context"
+    },
+    {
+      "source": "cd_estimator_y_column_vector_required",
+      "target": "cd_estimator_y_column_vector",
+      "kind": "branch_context"
+    },
+    {
+      "source": "cd_estimator_xy_column_vector_required",
+      "target": "cd_estimator_xy_column_vector",
+      "kind": "branch_context"
+    },
+    {
+      "source": "cd_estimator_y_column_vector",
+      "target": "cd_estimator_n_targets",
+      "kind": "shape_context"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

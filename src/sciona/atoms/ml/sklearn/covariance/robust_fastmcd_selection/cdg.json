@@ -23,11 +23,22 @@
       "type_signature": "(n_trials: int | tuple[NDArray[np.float64], NDArray[np.float64]]) -> tuple[bool, int]",
       "depth": 1,
       "inputs": [
-        {"name": "n_trials", "type_desc": "int | tuple[NDArray[np.float64], NDArray[np.float64]]", "required": true}
+        {
+          "name": "n_trials",
+          "type_desc": "int | tuple[NDArray[np.float64], NDArray[np.float64]]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "tuple[bool, int]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "tuple[bool, int]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "fast_mcd_best_candidate_indices",
@@ -38,12 +49,27 @@
       "type_signature": "(determinants: NDArray[np.float64], select: int = 1) -> NDArray[np.int64]",
       "depth": 1,
       "inputs": [
-        {"name": "determinants", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "select", "type_desc": "int", "required": false}
+        {
+          "name": "determinants",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "select",
+          "type_desc": "int",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.int64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.int64]"
+        }
+      ],
+      "time_complexity": "O(N * log N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "Ranking or sorting array elements is dominated by the O(N log N) time complexity of the sorting algorithm, and takes linear space.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "fast_mcd_gather_best_candidates",
@@ -54,15 +80,42 @@
       "type_signature": "(locations: NDArray[np.float64], covariances: NDArray[np.float64], supports: NDArray[np.bool_], distances: NDArray[np.float64], indices: NDArray[np.int64]) -> tuple[NDArray[np.float64], NDArray[np.float64], NDArray[np.bool_], NDArray[np.float64]]",
       "depth": 1,
       "inputs": [
-        {"name": "locations", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "covariances", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "supports", "type_desc": "NDArray[np.bool_]", "required": true},
-        {"name": "distances", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "indices", "type_desc": "NDArray[np.int64]", "required": true}
+        {
+          "name": "locations",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "covariances",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "supports",
+          "type_desc": "NDArray[np.bool_]",
+          "required": true
+        },
+        {
+          "name": "distances",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "indices",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "tuple[NDArray[np.float64], NDArray[np.float64], NDArray[np.bool_], NDArray[np.float64]]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "tuple[NDArray[np.float64], NDArray[np.float64], NDArray[np.bool_], NDArray[np.float64]]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "fast_mcd_large_sample_schedule",
@@ -73,13 +126,32 @@
       "type_signature": "(n_samples: int, n_features: int, n_support: int) -> tuple[int, int, int, int, int, int, int, int, int, int]",
       "depth": 1,
       "inputs": [
-        {"name": "n_samples", "type_desc": "int", "required": true},
-        {"name": "n_features", "type_desc": "int", "required": true},
-        {"name": "n_support", "type_desc": "int", "required": true}
+        {
+          "name": "n_samples",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "n_features",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "n_support",
+          "type_desc": "int",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "tuple[int, int, int, int, int, int, int, int, int, int]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "tuple[int, int, int, int, int, int, int, int, int, int]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "fast_mcd_place_merged_results",
@@ -90,20 +162,55 @@
       "type_signature": "(n_samples: int, selection: NDArray[np.int64], merged_support: NDArray[np.bool_], merged_distances: NDArray[np.float64]) -> tuple[NDArray[np.bool_], NDArray[np.float64]]",
       "depth": 1,
       "inputs": [
-        {"name": "n_samples", "type_desc": "int", "required": true},
-        {"name": "selection", "type_desc": "NDArray[np.int64]", "required": true},
-        {"name": "merged_support", "type_desc": "NDArray[np.bool_]", "required": true},
-        {"name": "merged_distances", "type_desc": "NDArray[np.float64]", "required": true}
+        {
+          "name": "n_samples",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "selection",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        },
+        {
+          "name": "merged_support",
+          "type_desc": "NDArray[np.bool_]",
+          "required": true
+        },
+        {
+          "name": "merged_distances",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "tuple[NDArray[np.bool_], NDArray[np.float64]]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "tuple[NDArray[np.bool_], NDArray[np.float64]]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [
-    {"source": "fast_mcd_trial_plan", "target": "fast_mcd_best_candidate_indices", "kind": "candidate_selection_mode"},
-    {"source": "fast_mcd_best_candidate_indices", "target": "fast_mcd_gather_best_candidates", "kind": "ranked_candidate_indices"},
-    {"source": "fast_mcd_large_sample_schedule", "target": "fast_mcd_place_merged_results", "kind": "merged_subset_scatter"}
+    {
+      "source": "fast_mcd_trial_plan",
+      "target": "fast_mcd_best_candidate_indices",
+      "kind": "candidate_selection_mode"
+    },
+    {
+      "source": "fast_mcd_best_candidate_indices",
+      "target": "fast_mcd_gather_best_candidates",
+      "kind": "ranked_candidate_indices"
+    },
+    {
+      "source": "fast_mcd_large_sample_schedule",
+      "target": "fast_mcd_place_merged_results",
+      "kind": "merged_subset_scatter"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

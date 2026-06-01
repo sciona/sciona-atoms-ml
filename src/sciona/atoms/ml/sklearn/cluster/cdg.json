@@ -30,19 +30,62 @@
       "type_signature": "(S: NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]], preference: float | NDArray[np.float64] | list[float] | None = None, convergence_iter: int = 15, max_iter: int = 200, damping: float = 0.5, copy: bool = True, verbose: bool = False, return_n_iter: bool = False, random_state: int | np.random.RandomState | None = None) -> tuple[NDArray[np.int_], NDArray[np.int_]] | tuple[NDArray[np.int_], NDArray[np.int_], int]",
       "depth": 1,
       "inputs": [
-        {"name": "S", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]]", "required": true},
-        {"name": "preference", "type_desc": "float | NDArray[np.float64] | list[float] | None", "required": false},
-        {"name": "convergence_iter", "type_desc": "int", "required": false},
-        {"name": "max_iter", "type_desc": "int", "required": false},
-        {"name": "damping", "type_desc": "float", "required": false},
-        {"name": "copy", "type_desc": "bool", "required": false},
-        {"name": "verbose", "type_desc": "bool", "required": false},
-        {"name": "return_n_iter", "type_desc": "bool", "required": false},
-        {"name": "random_state", "type_desc": "int | np.random.RandomState | None", "required": false}
+        {
+          "name": "S",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]]",
+          "required": true
+        },
+        {
+          "name": "preference",
+          "type_desc": "float | NDArray[np.float64] | list[float] | None",
+          "required": false
+        },
+        {
+          "name": "convergence_iter",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "damping",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "copy",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "verbose",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "return_n_iter",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int | np.random.RandomState | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "tuple[NDArray[np.int_], NDArray[np.int_]] | tuple[NDArray[np.int_], NDArray[np.int_], int]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "tuple[NDArray[np.int_], NDArray[np.int_]] | tuple[NDArray[np.int_], NDArray[np.int_], int]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "affinity_propagation_fit",
@@ -53,19 +96,62 @@
       "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]], damping: float = 0.5, max_iter: int = 200, convergence_iter: int = 15, copy: bool = True, preference: float | NDArray[np.float64] | list[float] | None = None, affinity: str = 'euclidean', verbose: bool = False, random_state: int | np.random.RandomState | None = None) -> AffinityPropagationState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]]", "required": true},
-        {"name": "damping", "type_desc": "float", "required": false},
-        {"name": "max_iter", "type_desc": "int", "required": false},
-        {"name": "convergence_iter", "type_desc": "int", "required": false},
-        {"name": "copy", "type_desc": "bool", "required": false},
-        {"name": "preference", "type_desc": "float | NDArray[np.float64] | list[float] | None", "required": false},
-        {"name": "affinity", "type_desc": "str", "required": false},
-        {"name": "verbose", "type_desc": "bool", "required": false},
-        {"name": "random_state", "type_desc": "int | np.random.RandomState | None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]]",
+          "required": true
+        },
+        {
+          "name": "damping",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "convergence_iter",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "copy",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "preference",
+          "type_desc": "float | NDArray[np.float64] | list[float] | None",
+          "required": false
+        },
+        {
+          "name": "affinity",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "verbose",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int | np.random.RandomState | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "AffinityPropagationState"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "AffinityPropagationState"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "affinity_propagation_predict",
@@ -76,12 +162,27 @@
       "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]], state: AffinityPropagationState) -> NDArray[np.int_]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]]", "required": true},
-        {"name": "state", "type_desc": "AffinityPropagationState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "AffinityPropagationState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.int_]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.int_]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "estimate_bandwidth",
@@ -92,15 +193,42 @@
       "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]], quantile: float = 0.3, n_samples: int | None = None, random_state: int | np.random.RandomState | None = 0, n_jobs: int | None = None) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]]", "required": true},
-        {"name": "quantile", "type_desc": "float", "required": false},
-        {"name": "n_samples", "type_desc": "int | None", "required": false},
-        {"name": "random_state", "type_desc": "int | np.random.RandomState | None", "required": false},
-        {"name": "n_jobs", "type_desc": "int | None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]]",
+          "required": true
+        },
+        {
+          "name": "quantile",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "n_samples",
+          "type_desc": "int | None",
+          "required": false
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int | np.random.RandomState | None",
+          "required": false
+        },
+        {
+          "name": "n_jobs",
+          "type_desc": "int | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "float"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "mean_shift",
@@ -111,18 +239,57 @@
       "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]], bandwidth: float | None = None, seeds: NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]] | None = None, bin_seeding: bool = False, min_bin_freq: int = 1, cluster_all: bool = True, max_iter: int = 300, n_jobs: int | None = None) -> tuple[NDArray[np.float64], NDArray[np.int_]]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]]", "required": true},
-        {"name": "bandwidth", "type_desc": "float | None", "required": false},
-        {"name": "seeds", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]] | None", "required": false},
-        {"name": "bin_seeding", "type_desc": "bool", "required": false},
-        {"name": "min_bin_freq", "type_desc": "int", "required": false},
-        {"name": "cluster_all", "type_desc": "bool", "required": false},
-        {"name": "max_iter", "type_desc": "int", "required": false},
-        {"name": "n_jobs", "type_desc": "int | None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]]",
+          "required": true
+        },
+        {
+          "name": "bandwidth",
+          "type_desc": "float | None",
+          "required": false
+        },
+        {
+          "name": "seeds",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]] | None",
+          "required": false
+        },
+        {
+          "name": "bin_seeding",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "min_bin_freq",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "cluster_all",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "n_jobs",
+          "type_desc": "int | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "tuple[NDArray[np.float64], NDArray[np.int_]]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "tuple[NDArray[np.float64], NDArray[np.int_]]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "mean_shift_fit",
@@ -133,18 +300,57 @@
       "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]], bandwidth: float | None = None, seeds: NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]] | None = None, bin_seeding: bool = False, min_bin_freq: int = 1, cluster_all: bool = True, max_iter: int = 300, n_jobs: int | None = None) -> MeanShiftState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]]", "required": true},
-        {"name": "bandwidth", "type_desc": "float | None", "required": false},
-        {"name": "seeds", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]] | None", "required": false},
-        {"name": "bin_seeding", "type_desc": "bool", "required": false},
-        {"name": "min_bin_freq", "type_desc": "int", "required": false},
-        {"name": "cluster_all", "type_desc": "bool", "required": false},
-        {"name": "max_iter", "type_desc": "int", "required": false},
-        {"name": "n_jobs", "type_desc": "int | None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]]",
+          "required": true
+        },
+        {
+          "name": "bandwidth",
+          "type_desc": "float | None",
+          "required": false
+        },
+        {
+          "name": "seeds",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]] | None",
+          "required": false
+        },
+        {
+          "name": "bin_seeding",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "min_bin_freq",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "cluster_all",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "n_jobs",
+          "type_desc": "int | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "MeanShiftState"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "MeanShiftState"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "mean_shift_predict",
@@ -155,12 +361,27 @@
       "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]], state: MeanShiftState) -> NDArray[np.int_]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]]", "required": true},
-        {"name": "state", "type_desc": "MeanShiftState", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]]",
+          "required": true
+        },
+        {
+          "name": "state",
+          "type_desc": "MeanShiftState",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.int_]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.int_]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "kmeans_plusplus",
@@ -171,16 +392,47 @@
       "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]], n_clusters: int, sample_weight: NDArray[np.float64] | list[float] | None = None, x_squared_norms: NDArray[np.float64] | list[float] | None = None, random_state: int | np.random.RandomState | None = None, n_local_trials: int | None = None) -> tuple[NDArray[np.float64], NDArray[np.int_]]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]]", "required": true},
-        {"name": "n_clusters", "type_desc": "int", "required": true},
-        {"name": "sample_weight", "type_desc": "NDArray[np.float64] | list[float] | None", "required": false},
-        {"name": "x_squared_norms", "type_desc": "NDArray[np.float64] | list[float] | None", "required": false},
-        {"name": "random_state", "type_desc": "int | np.random.RandomState | None", "required": false},
-        {"name": "n_local_trials", "type_desc": "int | None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]]",
+          "required": true
+        },
+        {
+          "name": "n_clusters",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "sample_weight",
+          "type_desc": "NDArray[np.float64] | list[float] | None",
+          "required": false
+        },
+        {
+          "name": "x_squared_norms",
+          "type_desc": "NDArray[np.float64] | list[float] | None",
+          "required": false
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int | np.random.RandomState | None",
+          "required": false
+        },
+        {
+          "name": "n_local_trials",
+          "type_desc": "int | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "tuple[NDArray[np.float64], NDArray[np.int_]]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "tuple[NDArray[np.float64], NDArray[np.int_]]"
+        }
+      ],
+      "time_complexity": "O(I * K * N * d)",
+      "space_complexity": "O((N + K) * d)",
+      "complexity_reasoning": "K-Means complexity is linear in number of iterations I, clusters K, samples N, and dimensions d, storing centroids and sample labels in memory.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "cluster_optics_dbscan",
@@ -191,14 +443,37 @@
       "type_signature": "(reachability: NDArray[np.float64], core_distances: NDArray[np.float64], ordering: NDArray[np.int_], eps: float) -> NDArray[np.int_]",
       "depth": 1,
       "inputs": [
-        {"name": "reachability", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "core_distances", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "ordering", "type_desc": "NDArray[np.int_]", "required": true},
-        {"name": "eps", "type_desc": "float", "required": true}
+        {
+          "name": "reachability",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "core_distances",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "ordering",
+          "type_desc": "NDArray[np.int_]",
+          "required": true
+        },
+        {
+          "name": "eps",
+          "type_desc": "float",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.int_]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.int_]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "DBSCAN state retrieval or basic property mapping takes linear time and space in the number of samples N.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "cluster_optics_xi",
@@ -209,17 +484,52 @@
       "type_signature": "(reachability: NDArray[np.float64], predecessor: NDArray[np.int_], ordering: NDArray[np.int_], min_samples: int | float, min_cluster_size: int | float | None = None, xi: float = 0.05, predecessor_correction: bool = True) -> tuple[NDArray[np.int_], NDArray[np.int_]]",
       "depth": 1,
       "inputs": [
-        {"name": "reachability", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "predecessor", "type_desc": "NDArray[np.int_]", "required": true},
-        {"name": "ordering", "type_desc": "NDArray[np.int_]", "required": true},
-        {"name": "min_samples", "type_desc": "int | float", "required": true},
-        {"name": "min_cluster_size", "type_desc": "int | float | None", "required": false},
-        {"name": "xi", "type_desc": "float", "required": false},
-        {"name": "predecessor_correction", "type_desc": "bool", "required": false}
+        {
+          "name": "reachability",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "predecessor",
+          "type_desc": "NDArray[np.int_]",
+          "required": true
+        },
+        {
+          "name": "ordering",
+          "type_desc": "NDArray[np.int_]",
+          "required": true
+        },
+        {
+          "name": "min_samples",
+          "type_desc": "int | float",
+          "required": true
+        },
+        {
+          "name": "min_cluster_size",
+          "type_desc": "int | float | None",
+          "required": false
+        },
+        {
+          "name": "xi",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "predecessor_correction",
+          "type_desc": "bool",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "tuple[NDArray[np.int_], NDArray[np.int_]]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "tuple[NDArray[np.int_], NDArray[np.int_]]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "compute_optics_graph",
@@ -230,19 +540,62 @@
       "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]], min_samples: int | float, max_eps: float, metric: str, p: float | None, metric_params: dict[str, float] | None, algorithm: str, leaf_size: int, n_jobs: int | None) -> tuple[NDArray[np.int_], NDArray[np.float64], NDArray[np.float64], NDArray[np.int_]]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]]", "required": true},
-        {"name": "min_samples", "type_desc": "int | float", "required": true},
-        {"name": "max_eps", "type_desc": "float", "required": true},
-        {"name": "metric", "type_desc": "str", "required": true},
-        {"name": "p", "type_desc": "float | None", "required": true},
-        {"name": "metric_params", "type_desc": "dict[str, float] | None", "required": true},
-        {"name": "algorithm", "type_desc": "str", "required": true},
-        {"name": "leaf_size", "type_desc": "int", "required": true},
-        {"name": "n_jobs", "type_desc": "int | None", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]]",
+          "required": true
+        },
+        {
+          "name": "min_samples",
+          "type_desc": "int | float",
+          "required": true
+        },
+        {
+          "name": "max_eps",
+          "type_desc": "float",
+          "required": true
+        },
+        {
+          "name": "metric",
+          "type_desc": "str",
+          "required": true
+        },
+        {
+          "name": "p",
+          "type_desc": "float | None",
+          "required": true
+        },
+        {
+          "name": "metric_params",
+          "type_desc": "dict[str, float] | None",
+          "required": true
+        },
+        {
+          "name": "algorithm",
+          "type_desc": "str",
+          "required": true
+        },
+        {
+          "name": "leaf_size",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "n_jobs",
+          "type_desc": "int | None",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "tuple[NDArray[np.int_], NDArray[np.float64], NDArray[np.float64], NDArray[np.int_]]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "tuple[NDArray[np.int_], NDArray[np.float64], NDArray[np.float64], NDArray[np.int_]]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "optics_fit",
@@ -253,24 +606,87 @@
       "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]], min_samples: int | float = 5, max_eps: float = np.inf, metric: str = 'minkowski', p: float | None = 2, metric_params: dict[str, float] | None = None, cluster_method: str = 'xi', eps: float | None = None, xi: float = 0.05, predecessor_correction: bool = True, min_cluster_size: int | float | None = None, algorithm: str = 'auto', leaf_size: int = 30, n_jobs: int | None = None) -> OpticsState",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]]", "required": true},
-        {"name": "min_samples", "type_desc": "int | float", "required": false},
-        {"name": "max_eps", "type_desc": "float", "required": false},
-        {"name": "metric", "type_desc": "str", "required": false},
-        {"name": "p", "type_desc": "float | None", "required": false},
-        {"name": "metric_params", "type_desc": "dict[str, float] | None", "required": false},
-        {"name": "cluster_method", "type_desc": "str", "required": false},
-        {"name": "eps", "type_desc": "float | None", "required": false},
-        {"name": "xi", "type_desc": "float", "required": false},
-        {"name": "predecessor_correction", "type_desc": "bool", "required": false},
-        {"name": "min_cluster_size", "type_desc": "int | float | None", "required": false},
-        {"name": "algorithm", "type_desc": "str", "required": false},
-        {"name": "leaf_size", "type_desc": "int", "required": false},
-        {"name": "n_jobs", "type_desc": "int | None", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]]",
+          "required": true
+        },
+        {
+          "name": "min_samples",
+          "type_desc": "int | float",
+          "required": false
+        },
+        {
+          "name": "max_eps",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "metric",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "p",
+          "type_desc": "float | None",
+          "required": false
+        },
+        {
+          "name": "metric_params",
+          "type_desc": "dict[str, float] | None",
+          "required": false
+        },
+        {
+          "name": "cluster_method",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "eps",
+          "type_desc": "float | None",
+          "required": false
+        },
+        {
+          "name": "xi",
+          "type_desc": "float",
+          "required": false
+        },
+        {
+          "name": "predecessor_correction",
+          "type_desc": "bool",
+          "required": false
+        },
+        {
+          "name": "min_cluster_size",
+          "type_desc": "int | float | None",
+          "required": false
+        },
+        {
+          "name": "algorithm",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "leaf_size",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "n_jobs",
+          "type_desc": "int | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "OpticsState"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "OpticsState"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [

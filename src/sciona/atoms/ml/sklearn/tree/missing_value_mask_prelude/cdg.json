@@ -22,12 +22,27 @@
       "type_signature": "(class_name: str, estimator_name: str | None = None) -> str",
       "depth": 1,
       "inputs": [
-        {"name": "class_name", "type_desc": "str", "required": true},
-        {"name": "estimator_name", "type_desc": "str | None", "required": false}
+        {
+          "name": "class_name",
+          "type_desc": "str",
+          "required": true
+        },
+        {
+          "name": "estimator_name",
+          "type_desc": "str | None",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "str"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "str"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "tree_missing_values_common_kwargs",
@@ -38,11 +53,22 @@
       "type_signature": "(estimator_name: str) -> dict[str, str]",
       "depth": 1,
       "inputs": [
-        {"name": "estimator_name", "type_desc": "str", "required": true}
+        {
+          "name": "estimator_name",
+          "type_desc": "str",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "dict[str, str]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "dict[str, str]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "tree_missing_values_overall_sum_requires_elementwise_check",
@@ -53,11 +79,22 @@
       "type_signature": "(overall_sum: float) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "overall_sum", "type_desc": "numeric scalar", "required": true}
+        {
+          "name": "overall_sum",
+          "type_desc": "numeric scalar",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "tree_missing_values_overall_sum_has_missing",
@@ -68,11 +105,22 @@
       "type_signature": "(overall_sum: float) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "overall_sum", "type_desc": "numeric scalar", "required": true}
+        {
+          "name": "overall_sum",
+          "type_desc": "numeric scalar",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [],
@@ -84,4 +132,3 @@
     "remediation_case": "Case 7 probabilistic and mutable-kernel workflows"
   }
 }
-

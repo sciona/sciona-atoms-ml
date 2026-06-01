@@ -20,21 +20,72 @@
       "type_signature": "(eps: float, n_alphas: int, alphas: object, precompute: object, Xy: object, copy_X: bool, coef_init: object, verbose: object, positive: bool, return_n_iter: bool, params: Mapping[str, object]) -> dict[str, object]",
       "depth": 1,
       "inputs": [
-        {"name": "eps", "type_desc": "positive path ratio", "required": true},
-        {"name": "n_alphas", "type_desc": "positive alpha count", "required": true},
-        {"name": "alphas", "type_desc": "optional alpha vector", "required": true},
-        {"name": "precompute", "type_desc": "precompute mode or Gram matrix", "required": true},
-        {"name": "Xy", "type_desc": "optional precomputed X transpose y", "required": true},
-        {"name": "copy_X", "type_desc": "copy-input flag", "required": true},
-        {"name": "coef_init", "type_desc": "optional warm-start coefficient array", "required": true},
-        {"name": "verbose", "type_desc": "verbosity flag or level", "required": true},
-        {"name": "positive", "type_desc": "positive-coefficient flag", "required": true},
-        {"name": "return_n_iter", "type_desc": "whether to include iteration counts", "required": true},
-        {"name": "params", "type_desc": "extra delegated coordinate-descent parameters", "required": true}
+        {
+          "name": "eps",
+          "type_desc": "positive path ratio",
+          "required": true
+        },
+        {
+          "name": "n_alphas",
+          "type_desc": "positive alpha count",
+          "required": true
+        },
+        {
+          "name": "alphas",
+          "type_desc": "optional alpha vector",
+          "required": true
+        },
+        {
+          "name": "precompute",
+          "type_desc": "precompute mode or Gram matrix",
+          "required": true
+        },
+        {
+          "name": "Xy",
+          "type_desc": "optional precomputed X transpose y",
+          "required": true
+        },
+        {
+          "name": "copy_X",
+          "type_desc": "copy-input flag",
+          "required": true
+        },
+        {
+          "name": "coef_init",
+          "type_desc": "optional warm-start coefficient array",
+          "required": true
+        },
+        {
+          "name": "verbose",
+          "type_desc": "verbosity flag or level",
+          "required": true
+        },
+        {
+          "name": "positive",
+          "type_desc": "positive-coefficient flag",
+          "required": true
+        },
+        {
+          "name": "return_n_iter",
+          "type_desc": "whether to include iteration counts",
+          "required": true
+        },
+        {
+          "name": "params",
+          "type_desc": "extra delegated coordinate-descent parameters",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "enet_path keyword mapping with l1_ratio fixed to 1.0"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "enet_path keyword mapping with l1_ratio fixed to 1.0"
+        }
+      ],
+      "time_complexity": "O(I * N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Coordinate descent path computation for linear models scales linearly with samples N, features d, and the number of optimization iterations I.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "cd_lasso_path_result",
@@ -45,16 +96,35 @@
       "type_signature": "(delegated_result: tuple[object, ...], return_n_iter: bool) -> tuple[object, ...]",
       "depth": 1,
       "inputs": [
-        {"name": "delegated_result", "type_desc": "three- or four-item delegated enet_path tuple", "required": true},
-        {"name": "return_n_iter", "type_desc": "whether iteration counts are expected", "required": true}
+        {
+          "name": "delegated_result",
+          "type_desc": "three- or four-item delegated enet_path tuple",
+          "required": true
+        },
+        {
+          "name": "return_n_iter",
+          "type_desc": "whether iteration counts are expected",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "final lasso_path return tuple"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "final lasso_path return tuple"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "cd_lasso_path_call_kwargs", "target": "cd_lasso_path_result", "kind": "delegated_call"}
+    {
+      "source": "cd_lasso_path_call_kwargs",
+      "target": "cd_lasso_path_result",
+      "kind": "delegated_call"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

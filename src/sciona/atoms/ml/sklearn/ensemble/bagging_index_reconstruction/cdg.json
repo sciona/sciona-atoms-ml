@@ -21,17 +21,52 @@
       "type_signature": "(seeds: tuple[int, ...], bootstrap_features: bool, bootstrap_samples: bool, n_features: int, n_samples: int, max_features: int, max_samples: int) -> tuple[tuple[NDArray[np.int64], NDArray[np.int64]], ...]",
       "depth": 1,
       "inputs": [
-        {"name": "seeds", "type_desc": "tuple[int, ...]", "required": true},
-        {"name": "bootstrap_features", "type_desc": "bool", "required": true},
-        {"name": "bootstrap_samples", "type_desc": "bool", "required": true},
-        {"name": "n_features", "type_desc": "int", "required": true},
-        {"name": "n_samples", "type_desc": "int", "required": true},
-        {"name": "max_features", "type_desc": "int", "required": true},
-        {"name": "max_samples", "type_desc": "int", "required": true}
+        {
+          "name": "seeds",
+          "type_desc": "tuple[int, ...]",
+          "required": true
+        },
+        {
+          "name": "bootstrap_features",
+          "type_desc": "bool",
+          "required": true
+        },
+        {
+          "name": "bootstrap_samples",
+          "type_desc": "bool",
+          "required": true
+        },
+        {
+          "name": "n_features",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "n_samples",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "max_features",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "max_samples",
+          "type_desc": "int",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "tuple[tuple[NDArray[np.int64], NDArray[np.int64]], ...]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "tuple[tuple[NDArray[np.int64], NDArray[np.int64]], ...]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "bagging_estimators_feature_indices",
@@ -42,17 +77,52 @@
       "type_signature": "(seeds: tuple[int, ...], bootstrap_features: bool, bootstrap_samples: bool, n_features: int, n_samples: int, max_features: int, max_samples: int) -> tuple[NDArray[np.int64], ...]",
       "depth": 1,
       "inputs": [
-        {"name": "seeds", "type_desc": "tuple[int, ...]", "required": true},
-        {"name": "bootstrap_features", "type_desc": "bool", "required": true},
-        {"name": "bootstrap_samples", "type_desc": "bool", "required": true},
-        {"name": "n_features", "type_desc": "int", "required": true},
-        {"name": "n_samples", "type_desc": "int", "required": true},
-        {"name": "max_features", "type_desc": "int", "required": true},
-        {"name": "max_samples", "type_desc": "int", "required": true}
+        {
+          "name": "seeds",
+          "type_desc": "tuple[int, ...]",
+          "required": true
+        },
+        {
+          "name": "bootstrap_features",
+          "type_desc": "bool",
+          "required": true
+        },
+        {
+          "name": "bootstrap_samples",
+          "type_desc": "bool",
+          "required": true
+        },
+        {
+          "name": "n_features",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "n_samples",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "max_features",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "max_samples",
+          "type_desc": "int",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "tuple[NDArray[np.int64], ...]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "tuple[NDArray[np.int64], ...]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "bagging_estimators_sample_indices",
@@ -63,22 +133,65 @@
       "type_signature": "(seeds: tuple[int, ...], bootstrap_features: bool, bootstrap_samples: bool, n_features: int, n_samples: int, max_features: int, max_samples: int) -> tuple[NDArray[np.int64], ...]",
       "depth": 1,
       "inputs": [
-        {"name": "seeds", "type_desc": "tuple[int, ...]", "required": true},
-        {"name": "bootstrap_features", "type_desc": "bool", "required": true},
-        {"name": "bootstrap_samples", "type_desc": "bool", "required": true},
-        {"name": "n_features", "type_desc": "int", "required": true},
-        {"name": "n_samples", "type_desc": "int", "required": true},
-        {"name": "max_features", "type_desc": "int", "required": true},
-        {"name": "max_samples", "type_desc": "int", "required": true}
+        {
+          "name": "seeds",
+          "type_desc": "tuple[int, ...]",
+          "required": true
+        },
+        {
+          "name": "bootstrap_features",
+          "type_desc": "bool",
+          "required": true
+        },
+        {
+          "name": "bootstrap_samples",
+          "type_desc": "bool",
+          "required": true
+        },
+        {
+          "name": "n_features",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "n_samples",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "max_features",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "max_samples",
+          "type_desc": "int",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "tuple[NDArray[np.int64], ...]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "tuple[NDArray[np.int64], ...]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [
-    {"source": "bagging_estimator_index_pairs", "target": "bagging_estimators_feature_indices", "kind": "feature_projection_from_index_pairs"},
-    {"source": "bagging_estimator_index_pairs", "target": "bagging_estimators_sample_indices", "kind": "sample_projection_from_index_pairs"}
+    {
+      "source": "bagging_estimator_index_pairs",
+      "target": "bagging_estimators_feature_indices",
+      "kind": "feature_projection_from_index_pairs"
+    },
+    {
+      "source": "bagging_estimator_index_pairs",
+      "target": "bagging_estimators_sample_indices",
+      "kind": "sample_projection_from_index_pairs"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

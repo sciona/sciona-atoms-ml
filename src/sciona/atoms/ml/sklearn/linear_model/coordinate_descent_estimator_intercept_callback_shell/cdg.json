@@ -20,13 +20,32 @@
       "type_signature": "(X_offset: object, y_offset: object, X_scale: object) -> tuple[object, object, object]",
       "depth": 1,
       "inputs": [
-        {"name": "X_offset", "type_desc": "feature offset payload from _pre_fit", "required": true},
-        {"name": "y_offset", "type_desc": "target offset payload from _pre_fit", "required": true},
-        {"name": "X_scale", "type_desc": "feature scale payload from _pre_fit", "required": true}
+        {
+          "name": "X_offset",
+          "type_desc": "feature offset payload from _pre_fit",
+          "required": true
+        },
+        {
+          "name": "y_offset",
+          "type_desc": "target offset payload from _pre_fit",
+          "required": true
+        },
+        {
+          "name": "X_scale",
+          "type_desc": "feature scale payload from _pre_fit",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "set-intercept positional payload"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "set-intercept positional payload"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_estimator_fit_return_self",
@@ -37,15 +56,30 @@
       "type_signature": "(estimator_identity: object) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "estimator_identity", "type_desc": "fitted estimator identity", "required": true}
+        {
+          "name": "estimator_identity",
+          "type_desc": "fitted estimator identity",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "same estimator identity"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "same estimator identity"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "cd_estimator_set_intercept_args", "target": "cd_estimator_fit_return_self", "kind": "postfit_tail_order"}
+    {
+      "source": "cd_estimator_set_intercept_args",
+      "target": "cd_estimator_fit_return_self",
+      "kind": "postfit_tail_order"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

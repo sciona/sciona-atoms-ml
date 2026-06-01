@@ -19,11 +19,21 @@
       "status": "atomic",
       "concept_type": "partial_dependence_branch",
       "inputs": [
-        {"name": "column_index", "type_desc": "object"}
+        {
+          "name": "column_index",
+          "type_desc": "object"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "partial_dependence_nonunique_column_message",
@@ -32,11 +42,21 @@
       "status": "atomic",
       "concept_type": "partial_dependence_error_message",
       "inputs": [
-        {"name": "columns", "type_desc": "tuple[object, ...]"}
+        {
+          "name": "columns",
+          "type_desc": "tuple[object, ...]"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "str"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "str"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "partial_dependence_column_indices_appended",
@@ -45,12 +65,25 @@
       "status": "atomic",
       "concept_type": "partial_dependence_bookkeeping",
       "inputs": [
-        {"name": "column_indices", "type_desc": "tuple[int, ...]"},
-        {"name": "column_index", "type_desc": "int"}
+        {
+          "name": "column_indices",
+          "type_desc": "tuple[int, ...]"
+        },
+        {
+          "name": "column_index",
+          "type_desc": "int"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "tuple[int, ...]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "tuple[int, ...]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "partial_dependence_missing_column_message",
@@ -59,16 +92,38 @@
       "status": "atomic",
       "concept_type": "partial_dependence_error_message",
       "inputs": [
-        {"name": "missing_column", "type_desc": "object"}
+        {
+          "name": "missing_column",
+          "type_desc": "object"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "str"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "str"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "partial_dependence_nonunique_column_guard_required", "target": "partial_dependence_nonunique_column_message", "kind": "guard_to_message"},
-    {"source": "partial_dependence_nonunique_column_guard_required", "target": "partial_dependence_column_indices_appended", "kind": "guard_to_append"},
-    {"source": "partial_dependence_column_indices_appended", "target": "partial_dependence_missing_column_message", "kind": "lookup_loop_to_missing_message"}
+    {
+      "source": "partial_dependence_nonunique_column_guard_required",
+      "target": "partial_dependence_nonunique_column_message",
+      "kind": "guard_to_message"
+    },
+    {
+      "source": "partial_dependence_nonunique_column_guard_required",
+      "target": "partial_dependence_column_indices_appended",
+      "kind": "guard_to_append"
+    },
+    {
+      "source": "partial_dependence_column_indices_appended",
+      "target": "partial_dependence_missing_column_message",
+      "kind": "lookup_loop_to_missing_message"
+    }
   ]
 }

@@ -11,8 +11,23 @@
       "concept_type": "state_initialization",
       "status": "atomic",
       "type_signature": "(n_features: int) -> NDArray[np.bool_]",
-      "inputs": [{"name": "n_features", "type_desc": "int", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.bool_]"}]
+      "inputs": [
+        {
+          "name": "n_features",
+          "type_desc": "int",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.bool_]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "rfe_initial_ranking",
@@ -21,8 +36,23 @@
       "concept_type": "state_initialization",
       "status": "atomic",
       "type_signature": "(n_features: int) -> NDArray[np.int64]",
-      "inputs": [{"name": "n_features", "type_desc": "int", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.int64]"}]
+      "inputs": [
+        {
+          "name": "n_features",
+          "type_desc": "int",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.int64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "rfe_initial_step_history",
@@ -32,7 +62,16 @@
       "status": "atomic",
       "type_signature": "() -> tuple[NDArray[np.int64], NDArray[np.float64]]",
       "inputs": [],
-      "outputs": [{"name": "result", "type_desc": "tuple[NDArray[np.int64], NDArray[np.float64]]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "tuple[NDArray[np.int64], NDArray[np.float64]]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "rfe_elimination_threshold",
@@ -42,11 +81,32 @@
       "status": "atomic",
       "type_signature": "(active_feature_count: int, n_features_to_select: int, step: int) -> int",
       "inputs": [
-        {"name": "active_feature_count", "type_desc": "int", "required": true},
-        {"name": "n_features_to_select", "type_desc": "int", "required": true},
-        {"name": "step", "type_desc": "int", "required": true}
+        {
+          "name": "active_feature_count",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "n_features_to_select",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "step",
+          "type_desc": "int",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "int"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "rfe_final_feature_count",
@@ -55,13 +115,40 @@
       "concept_type": "state_summary",
       "status": "atomic",
       "type_signature": "(support_mask: NDArray[np.bool_]) -> int",
-      "inputs": [{"name": "support_mask", "type_desc": "NDArray[np.bool_]", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "int"}]
+      "inputs": [
+        {
+          "name": "support_mask",
+          "type_desc": "NDArray[np.bool_]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "rfe_initial_support_mask", "target": "rfe_elimination_threshold", "kind": "active_feature_count"},
-    {"source": "rfe_initial_support_mask", "target": "rfe_final_feature_count", "kind": "support_mask"},
-    {"source": "rfe_initial_step_history", "target": "rfe_final_feature_count", "kind": "fit_loop_bookkeeping_context"}
+    {
+      "source": "rfe_initial_support_mask",
+      "target": "rfe_elimination_threshold",
+      "kind": "active_feature_count"
+    },
+    {
+      "source": "rfe_initial_support_mask",
+      "target": "rfe_final_feature_count",
+      "kind": "support_mask"
+    },
+    {
+      "source": "rfe_initial_step_history",
+      "target": "rfe_final_feature_count",
+      "kind": "fit_loop_bookkeeping_context"
+    }
   ]
 }

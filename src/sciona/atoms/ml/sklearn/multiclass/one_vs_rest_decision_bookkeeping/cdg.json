@@ -11,9 +11,22 @@
       "concept_type": "prediction_bookkeeping",
       "description": "Stack each estimator's decision vector into the output-by-sample layout consumed by sklearn's one-vs-rest decision-output shaping.",
       "inputs": [
-        {"name": "decision_blocks", "type_desc": "tuple[ndarray, ...]", "required": true}
+        {
+          "name": "decision_blocks",
+          "type_desc": "tuple[ndarray, ...]",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "ndarray"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "ndarray"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": []

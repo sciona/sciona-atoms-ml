@@ -23,9 +23,22 @@
       "type_signature": "(hidden_layer_sizes: int | Sequence[int]) -> tuple[int, ...]",
       "depth": 1,
       "inputs": [
-        {"name": "hidden_layer_sizes", "type_desc": "int | Sequence[int]", "required": true}
+        {
+          "name": "hidden_layer_sizes",
+          "type_desc": "int | Sequence[int]",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "tuple[int, ...]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "tuple[int, ...]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "mlp_first_pass_required",
@@ -36,11 +49,32 @@
       "type_signature": "(has_coefs: bool, warm_start: bool, incremental: bool) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "has_coefs", "type_desc": "bool", "required": true},
-        {"name": "warm_start", "type_desc": "bool", "required": true},
-        {"name": "incremental", "type_desc": "bool", "required": true}
+        {
+          "name": "has_coefs",
+          "type_desc": "bool",
+          "required": true
+        },
+        {
+          "name": "warm_start",
+          "type_desc": "bool",
+          "required": true
+        },
+        {
+          "name": "incremental",
+          "type_desc": "bool",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "bool"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "mlp_partial_fit_require_no_early_stopping",
@@ -51,10 +85,27 @@
       "type_signature": "(early_stopping: bool, incremental: bool) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "early_stopping", "type_desc": "bool", "required": true},
-        {"name": "incremental", "type_desc": "bool", "required": true}
+        {
+          "name": "early_stopping",
+          "type_desc": "bool",
+          "required": true
+        },
+        {
+          "name": "incremental",
+          "type_desc": "bool",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "bool"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "mlp_batch_size_warning_required",
@@ -65,10 +116,27 @@
       "type_signature": "(batch_size: int | str, n_samples: int) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "batch_size", "type_desc": "int | str", "required": true},
-        {"name": "n_samples", "type_desc": "int", "required": true}
+        {
+          "name": "batch_size",
+          "type_desc": "int | str",
+          "required": true
+        },
+        {
+          "name": "n_samples",
+          "type_desc": "int",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "bool"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "mlp_batch_size",
@@ -79,16 +147,45 @@
       "type_signature": "(batch_size: int | str, n_samples: int) -> int",
       "depth": 1,
       "inputs": [
-        {"name": "batch_size", "type_desc": "int | str", "required": true},
-        {"name": "n_samples", "type_desc": "int", "required": true}
+        {
+          "name": "batch_size",
+          "type_desc": "int | str",
+          "required": true
+        },
+        {
+          "name": "n_samples",
+          "type_desc": "int",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "int"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "mlp_hidden_layer_sizes", "target": "mlp_first_pass_required", "kind": "fit_context"},
-    {"source": "mlp_partial_fit_require_no_early_stopping", "target": "mlp_batch_size", "kind": "stochastic_fit_guard"},
-    {"source": "mlp_batch_size_warning_required", "target": "mlp_batch_size", "kind": "warning_context"}
+    {
+      "source": "mlp_hidden_layer_sizes",
+      "target": "mlp_first_pass_required",
+      "kind": "fit_context"
+    },
+    {
+      "source": "mlp_partial_fit_require_no_early_stopping",
+      "target": "mlp_batch_size",
+      "kind": "stochastic_fit_guard"
+    },
+    {
+      "source": "mlp_batch_size_warning_required",
+      "target": "mlp_batch_size",
+      "kind": "warning_context"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

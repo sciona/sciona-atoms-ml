@@ -21,11 +21,22 @@
       "type_signature": "(estimator_kind: str) -> dict[str, str]",
       "depth": 1,
       "inputs": [
-        {"name": "estimator_kind", "type_desc": "must be elastic_net", "required": true}
+        {
+          "name": "estimator_kind",
+          "type_desc": "must be elastic_net",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "fit metadata request marking check_input as UNUSED"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "fit metadata request marking check_input as UNUSED"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_elastic_net_parameter_constraint_names",
@@ -36,11 +47,22 @@
       "type_signature": "(estimator_kind: str) -> tuple[str, ...]",
       "depth": 1,
       "inputs": [
-        {"name": "estimator_kind", "type_desc": "must be elastic_net", "required": true}
+        {
+          "name": "estimator_kind",
+          "type_desc": "must be elastic_net",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "ordered ElasticNet parameter names"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "ordered ElasticNet parameter names"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_elastic_net_parameter_constraint_descriptors",
@@ -51,15 +73,30 @@
       "type_signature": "(estimator_kind: str) -> dict[str, tuple[object, ...]]",
       "depth": 1,
       "inputs": [
-        {"name": "estimator_kind", "type_desc": "must be elastic_net", "required": true}
+        {
+          "name": "estimator_kind",
+          "type_desc": "must be elastic_net",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "compact descriptor mapping for ElasticNet parameter constraints"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "compact descriptor mapping for ElasticNet parameter constraints"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "cd_elastic_net_parameter_constraint_names", "target": "cd_elastic_net_parameter_constraint_descriptors", "kind": "schema_context"}
+    {
+      "source": "cd_elastic_net_parameter_constraint_names",
+      "target": "cd_elastic_net_parameter_constraint_descriptors",
+      "kind": "schema_context"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

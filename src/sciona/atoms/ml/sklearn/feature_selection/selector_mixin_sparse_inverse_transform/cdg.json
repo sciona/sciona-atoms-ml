@@ -19,12 +19,27 @@
       "description": "Reinsert zero-filled dropped columns into a sparse selected-feature matrix and return sklearn's CSC inverse-transform result.",
       "type_signature": "(X_selected: scipy.sparse.spmatrix, support_mask: NDArray[np.bool_]) -> scipy.sparse.csc_matrix",
       "inputs": [
-        {"name": "X_selected", "type_desc": "scipy.sparse.spmatrix", "required": true},
-        {"name": "support_mask", "type_desc": "NDArray[np.bool_]", "required": true}
+        {
+          "name": "X_selected",
+          "type_desc": "scipy.sparse.spmatrix",
+          "required": true
+        },
+        {
+          "name": "support_mask",
+          "type_desc": "NDArray[np.bool_]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "scipy.sparse.csc_matrix"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "scipy.sparse.csc_matrix"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [],

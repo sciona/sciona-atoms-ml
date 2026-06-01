@@ -21,9 +21,22 @@
       "type_signature": "(parent_accept_sparse: str | tuple[str, ...] | None) -> str",
       "depth": 1,
       "inputs": [
-        {"name": "parent_accept_sparse", "type_desc": "str | tuple[str, ...] | None", "required": false}
+        {
+          "name": "parent_accept_sparse",
+          "type_desc": "str | tuple[str, ...] | None",
+          "required": false
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "str"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "str"
+        }
+      ],
+      "time_complexity": "O(N^2 * d)",
+      "space_complexity": "O(N^2)",
+      "complexity_reasoning": "Manifold learning, biclustering or spectral decomposition constructs similarity/projection matrices, taking quadratic time/space in samples.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "bicluster_fit_dtype_name",
@@ -34,9 +47,22 @@
       "type_signature": "(parent_dtype_name: str | None) -> str",
       "depth": 1,
       "inputs": [
-        {"name": "parent_dtype_name", "type_desc": "str | None", "required": false}
+        {
+          "name": "parent_dtype_name",
+          "type_desc": "str | None",
+          "required": false
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "str"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "str"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "bicluster_sparse_input_tag",
@@ -47,9 +73,22 @@
       "type_signature": "(parent_sparse: bool) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "parent_sparse", "type_desc": "bool", "required": true}
+        {
+          "name": "parent_sparse",
+          "type_desc": "bool",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "bool"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [],

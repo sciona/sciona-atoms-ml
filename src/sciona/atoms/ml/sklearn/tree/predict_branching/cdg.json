@@ -21,11 +21,22 @@
       "type_signature": "(sample_count: int) -> int",
       "depth": 1,
       "inputs": [
-        {"name": "sample_count", "type_desc": "positive int", "required": true}
+        {
+          "name": "sample_count",
+          "type_desc": "positive int",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "positive int"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "positive int"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "tree_predict_use_classifier_branch",
@@ -36,11 +47,22 @@
       "type_signature": "(is_classifier_task: bool) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "is_classifier_task", "type_desc": "bool", "required": true}
+        {
+          "name": "is_classifier_task",
+          "type_desc": "bool",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "tree_predict_use_single_output_branch",
@@ -51,11 +73,22 @@
       "type_signature": "(n_outputs: int) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "n_outputs", "type_desc": "positive int", "required": true}
+        {
+          "name": "n_outputs",
+          "type_desc": "positive int",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [],
@@ -67,4 +100,3 @@
     "remediation_case": "Case 7 probabilistic and mutable-kernel workflows"
   }
 }
-

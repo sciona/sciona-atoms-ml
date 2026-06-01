@@ -5,7 +5,9 @@
       "name": "Sklearn Linear Model Coordinate Descent CV Base Init Atoms",
       "description": "Deterministic constructor-state helper from sklearn.linear_model._coordinate_descent.LinearModelCV.__init__.",
       "status": "decomposed",
-      "children": ["cd_cv_base_init_attributes"],
+      "children": [
+        "cd_cv_base_init_attributes"
+      ],
       "depth": 0
     },
     {
@@ -17,24 +19,87 @@
       "type_signature": "(eps: object, n_alphas: int, alphas: object, fit_intercept: bool, precompute: object, max_iter: int, tol: object, copy_X: bool, cv: object, verbose: object, n_jobs: object, positive: bool, random_state: object, selection: str) -> dict[str, object]",
       "depth": 1,
       "inputs": [
-        {"name": "eps", "type_desc": "path length parameter", "required": true},
-        {"name": "n_alphas", "type_desc": "positive alpha-count parameter", "required": true},
-        {"name": "alphas", "type_desc": "optional alpha grid payload", "required": true},
-        {"name": "fit_intercept", "type_desc": "fit-intercept flag", "required": true},
-        {"name": "precompute", "type_desc": "Gram precompute setting", "required": true},
-        {"name": "max_iter", "type_desc": "positive iteration limit", "required": true},
-        {"name": "tol", "type_desc": "solver tolerance", "required": true},
-        {"name": "copy_X", "type_desc": "copy-X flag", "required": true},
-        {"name": "cv", "type_desc": "cross-validation splitter payload", "required": true},
-        {"name": "verbose", "type_desc": "verbosity payload", "required": true},
-        {"name": "n_jobs", "type_desc": "parallelism payload", "required": true},
-        {"name": "positive", "type_desc": "positive-coefficient flag", "required": true},
-        {"name": "random_state", "type_desc": "random-state payload", "required": true},
-        {"name": "selection", "type_desc": "coordinate-selection mode", "required": true}
+        {
+          "name": "eps",
+          "type_desc": "path length parameter",
+          "required": true
+        },
+        {
+          "name": "n_alphas",
+          "type_desc": "positive alpha-count parameter",
+          "required": true
+        },
+        {
+          "name": "alphas",
+          "type_desc": "optional alpha grid payload",
+          "required": true
+        },
+        {
+          "name": "fit_intercept",
+          "type_desc": "fit-intercept flag",
+          "required": true
+        },
+        {
+          "name": "precompute",
+          "type_desc": "Gram precompute setting",
+          "required": true
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "positive iteration limit",
+          "required": true
+        },
+        {
+          "name": "tol",
+          "type_desc": "solver tolerance",
+          "required": true
+        },
+        {
+          "name": "copy_X",
+          "type_desc": "copy-X flag",
+          "required": true
+        },
+        {
+          "name": "cv",
+          "type_desc": "cross-validation splitter payload",
+          "required": true
+        },
+        {
+          "name": "verbose",
+          "type_desc": "verbosity payload",
+          "required": true
+        },
+        {
+          "name": "n_jobs",
+          "type_desc": "parallelism payload",
+          "required": true
+        },
+        {
+          "name": "positive",
+          "type_desc": "positive-coefficient flag",
+          "required": true
+        },
+        {
+          "name": "random_state",
+          "type_desc": "random-state payload",
+          "required": true
+        },
+        {
+          "name": "selection",
+          "type_desc": "coordinate-selection mode",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "LinearModelCV constructor attribute mapping"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "LinearModelCV constructor attribute mapping"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [],

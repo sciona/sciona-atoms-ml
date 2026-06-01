@@ -28,14 +28,47 @@
       "type_signature": "(multi_class: str, cls: object, scores_by_class: Mapping[object, object], coefs_paths_by_class: Mapping[object, object], multinomial_scores: object, multinomial_coefs_paths: object) -> tuple[object, object]",
       "depth": 1,
       "inputs": [
-        {"name": "multi_class", "type_desc": "resolved logistic multiclass mode", "required": true},
-        {"name": "cls", "type_desc": "current class label", "required": true},
-        {"name": "scores_by_class", "type_desc": "class-keyed score paths", "required": true},
-        {"name": "coefs_paths_by_class", "type_desc": "class-keyed coefficient paths", "required": true},
-        {"name": "multinomial_scores", "type_desc": "shared multinomial score tensor", "required": true},
-        {"name": "multinomial_coefs_paths", "type_desc": "multinomial coefficient paths", "required": true}
+        {
+          "name": "multi_class",
+          "type_desc": "resolved logistic multiclass mode",
+          "required": true
+        },
+        {
+          "name": "cls",
+          "type_desc": "current class label",
+          "required": true
+        },
+        {
+          "name": "scores_by_class",
+          "type_desc": "class-keyed score paths",
+          "required": true
+        },
+        {
+          "name": "coefs_paths_by_class",
+          "type_desc": "class-keyed coefficient paths",
+          "required": true
+        },
+        {
+          "name": "multinomial_scores",
+          "type_desc": "shared multinomial score tensor",
+          "required": true
+        },
+        {
+          "name": "multinomial_coefs_paths",
+          "type_desc": "multinomial coefficient paths",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "scores and coefficient paths visible inside the loop body"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "scores and coefficient paths visible inside the loop body"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "logistic_cv_best_flat_index",
@@ -45,8 +78,23 @@
       "status": "atomic",
       "type_signature": "(scores: object) -> int",
       "depth": 1,
-      "inputs": [{"name": "scores", "type_desc": "fold-by-path scores", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "flattened best path index"}]
+      "inputs": [
+        {
+          "name": "scores",
+          "type_desc": "fold-by-path scores",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "flattened best path index"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "logistic_cv_best_C_l1_selection",
@@ -57,11 +105,32 @@
       "type_signature": "(best_index: int, Cs: object, l1_ratios: object) -> tuple[object, object]",
       "depth": 1,
       "inputs": [
-        {"name": "best_index", "type_desc": "flattened best path index", "required": true},
-        {"name": "Cs", "type_desc": "public C grid", "required": true},
-        {"name": "l1_ratios", "type_desc": "l1-ratio grid, possibly containing None for non-elastic-net penalties", "required": true}
+        {
+          "name": "best_index",
+          "type_desc": "flattened best path index",
+          "required": true
+        },
+        {
+          "name": "Cs",
+          "type_desc": "public C grid",
+          "required": true
+        },
+        {
+          "name": "l1_ratios",
+          "type_desc": "l1-ratio grid, possibly containing None for non-elastic-net penalties",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "selected C and l1-ratio"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "selected C and l1-ratio"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "logistic_cv_refit_coef_init",
@@ -72,11 +141,32 @@
       "type_signature": "(coefs_paths: object, *, multi_class: str, best_index: int) -> NDArray[np.floating]",
       "depth": 1,
       "inputs": [
-        {"name": "coefs_paths", "type_desc": "loop coefficient paths", "required": true},
-        {"name": "multi_class", "type_desc": "resolved logistic multiclass mode", "required": true},
-        {"name": "best_index", "type_desc": "flattened best path index", "required": true}
+        {
+          "name": "coefs_paths",
+          "type_desc": "loop coefficient paths",
+          "required": true
+        },
+        {
+          "name": "multi_class",
+          "type_desc": "resolved logistic multiclass mode",
+          "required": true
+        },
+        {
+          "name": "best_index",
+          "type_desc": "flattened best path index",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "coefficient initialization passed to the solver callback"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "coefficient initialization passed to the solver callback"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "logistic_cv_nonrefit_best_indices",
@@ -86,8 +176,23 @@
       "status": "atomic",
       "type_signature": "(scores: object) -> NDArray[np.integer]",
       "depth": 1,
-      "inputs": [{"name": "scores", "type_desc": "fold-by-path scores", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "best path index per fold"}]
+      "inputs": [
+        {
+          "name": "scores",
+          "type_desc": "fold-by-path scores",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "best path index per fold"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "logistic_cv_nonrefit_average_w",
@@ -98,11 +203,32 @@
       "type_signature": "(coefs_paths: object, best_indices: object, *, multi_class: str) -> NDArray[np.floating]",
       "depth": 1,
       "inputs": [
-        {"name": "coefs_paths", "type_desc": "loop coefficient paths", "required": true},
-        {"name": "best_indices", "type_desc": "best path index per fold", "required": true},
-        {"name": "multi_class", "type_desc": "resolved logistic multiclass mode", "required": true}
+        {
+          "name": "coefs_paths",
+          "type_desc": "loop coefficient paths",
+          "required": true
+        },
+        {
+          "name": "best_indices",
+          "type_desc": "best path index per fold",
+          "required": true
+        },
+        {
+          "name": "multi_class",
+          "type_desc": "resolved logistic multiclass mode",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "averaged coefficient vector or matrix"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "averaged coefficient vector or matrix"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "logistic_cv_nonrefit_average_C",
@@ -113,10 +239,27 @@
       "type_signature": "(best_indices: object, Cs: object) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "best_indices", "type_desc": "best path index per fold", "required": true},
-        {"name": "Cs", "type_desc": "public C grid", "required": true}
+        {
+          "name": "best_indices",
+          "type_desc": "best path index per fold",
+          "required": true
+        },
+        {
+          "name": "Cs",
+          "type_desc": "public C grid",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "mean selected C value"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "mean selected C value"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "logistic_cv_nonrefit_average_l1_ratio",
@@ -127,12 +270,37 @@
       "type_signature": "(best_indices: object, Cs: object, l1_ratios: object, penalty: str) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "best_indices", "type_desc": "best path index per fold", "required": true},
-        {"name": "Cs", "type_desc": "public C grid", "required": true},
-        {"name": "l1_ratios", "type_desc": "l1-ratio grid", "required": true},
-        {"name": "penalty", "type_desc": "resolved penalty name", "required": true}
+        {
+          "name": "best_indices",
+          "type_desc": "best path index per fold",
+          "required": true
+        },
+        {
+          "name": "Cs",
+          "type_desc": "public C grid",
+          "required": true
+        },
+        {
+          "name": "l1_ratios",
+          "type_desc": "l1-ratio grid",
+          "required": true
+        },
+        {
+          "name": "penalty",
+          "type_desc": "resolved penalty name",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "mean selected l1-ratio or None"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "mean selected l1-ratio or None"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "logistic_cv_multinomial_final_components",
@@ -143,14 +311,47 @@
       "type_signature": "(C_values: object, l1_ratio_values: object, w: object, *, n_classes: int, n_features: int, fit_intercept: bool) -> tuple[NDArray[object], NDArray[object], NDArray[np.floating], NDArray[np.floating] | None]",
       "depth": 1,
       "inputs": [
-        {"name": "C_values", "type_desc": "selected C list before multinomial tiling", "required": true},
-        {"name": "l1_ratio_values", "type_desc": "selected l1-ratio list before multinomial tiling", "required": true},
-        {"name": "w", "type_desc": "solver or non-refit weight matrix", "required": true},
-        {"name": "n_classes", "type_desc": "effective class count", "required": true},
-        {"name": "n_features", "type_desc": "number of input features", "required": true},
-        {"name": "fit_intercept", "type_desc": "whether trailing intercept weights are present", "required": true}
+        {
+          "name": "C_values",
+          "type_desc": "selected C list before multinomial tiling",
+          "required": true
+        },
+        {
+          "name": "l1_ratio_values",
+          "type_desc": "selected l1-ratio list before multinomial tiling",
+          "required": true
+        },
+        {
+          "name": "w",
+          "type_desc": "solver or non-refit weight matrix",
+          "required": true
+        },
+        {
+          "name": "n_classes",
+          "type_desc": "effective class count",
+          "required": true
+        },
+        {
+          "name": "n_features",
+          "type_desc": "number of input features",
+          "required": true
+        },
+        {
+          "name": "fit_intercept",
+          "type_desc": "whether trailing intercept weights are present",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "C_, l1_ratio_, coef_, and optional intercept_ components"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "C_, l1_ratio_, coef_, and optional intercept_ components"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "logistic_cv_ovr_final_row",
@@ -161,25 +362,90 @@
       "type_signature": "(w: object, *, n_features: int, fit_intercept: bool) -> tuple[NDArray[np.floating], object]",
       "depth": 1,
       "inputs": [
-        {"name": "w", "type_desc": "solver or non-refit weight vector", "required": true},
-        {"name": "n_features", "type_desc": "number of input features", "required": true},
-        {"name": "fit_intercept", "type_desc": "whether a trailing intercept weight is present", "required": true}
+        {
+          "name": "w",
+          "type_desc": "solver or non-refit weight vector",
+          "required": true
+        },
+        {
+          "name": "n_features",
+          "type_desc": "number of input features",
+          "required": true
+        },
+        {
+          "name": "fit_intercept",
+          "type_desc": "whether a trailing intercept weight is present",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "coefficient row and optional intercept"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "coefficient row and optional intercept"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [
-    {"source": "logistic_cv_loop_path_views", "target": "logistic_cv_best_flat_index", "kind": "state_selection"},
-    {"source": "logistic_cv_best_flat_index", "target": "logistic_cv_best_C_l1_selection", "kind": "state_selection"},
-    {"source": "logistic_cv_best_flat_index", "target": "logistic_cv_refit_coef_init", "kind": "state_packaging"},
-    {"source": "logistic_cv_loop_path_views", "target": "logistic_cv_nonrefit_best_indices", "kind": "state_selection"},
-    {"source": "logistic_cv_nonrefit_best_indices", "target": "logistic_cv_nonrefit_average_w", "kind": "state_aggregation"},
-    {"source": "logistic_cv_nonrefit_best_indices", "target": "logistic_cv_nonrefit_average_C", "kind": "state_aggregation"},
-    {"source": "logistic_cv_nonrefit_best_indices", "target": "logistic_cv_nonrefit_average_l1_ratio", "kind": "state_aggregation"},
-    {"source": "logistic_cv_refit_coef_init", "target": "logistic_cv_multinomial_final_components", "kind": "state_packaging"},
-    {"source": "logistic_cv_refit_coef_init", "target": "logistic_cv_ovr_final_row", "kind": "state_packaging"},
-    {"source": "logistic_cv_nonrefit_average_w", "target": "logistic_cv_multinomial_final_components", "kind": "state_packaging"},
-    {"source": "logistic_cv_nonrefit_average_w", "target": "logistic_cv_ovr_final_row", "kind": "state_packaging"}
+    {
+      "source": "logistic_cv_loop_path_views",
+      "target": "logistic_cv_best_flat_index",
+      "kind": "state_selection"
+    },
+    {
+      "source": "logistic_cv_best_flat_index",
+      "target": "logistic_cv_best_C_l1_selection",
+      "kind": "state_selection"
+    },
+    {
+      "source": "logistic_cv_best_flat_index",
+      "target": "logistic_cv_refit_coef_init",
+      "kind": "state_packaging"
+    },
+    {
+      "source": "logistic_cv_loop_path_views",
+      "target": "logistic_cv_nonrefit_best_indices",
+      "kind": "state_selection"
+    },
+    {
+      "source": "logistic_cv_nonrefit_best_indices",
+      "target": "logistic_cv_nonrefit_average_w",
+      "kind": "state_aggregation"
+    },
+    {
+      "source": "logistic_cv_nonrefit_best_indices",
+      "target": "logistic_cv_nonrefit_average_C",
+      "kind": "state_aggregation"
+    },
+    {
+      "source": "logistic_cv_nonrefit_best_indices",
+      "target": "logistic_cv_nonrefit_average_l1_ratio",
+      "kind": "state_aggregation"
+    },
+    {
+      "source": "logistic_cv_refit_coef_init",
+      "target": "logistic_cv_multinomial_final_components",
+      "kind": "state_packaging"
+    },
+    {
+      "source": "logistic_cv_refit_coef_init",
+      "target": "logistic_cv_ovr_final_row",
+      "kind": "state_packaging"
+    },
+    {
+      "source": "logistic_cv_nonrefit_average_w",
+      "target": "logistic_cv_multinomial_final_components",
+      "kind": "state_packaging"
+    },
+    {
+      "source": "logistic_cv_nonrefit_average_w",
+      "target": "logistic_cv_ovr_final_row",
+      "kind": "state_packaging"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

@@ -6,34 +6,67 @@
       "name": "birch_split_prev_neighbor_update_required",
       "status": "atomic",
       "inputs": [
-        {"name": "has_prev_leaf", "type_desc": "bool"}
+        {
+          "name": "has_prev_leaf",
+          "type_desc": "bool"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "birch_split_next_neighbor_update_required",
       "name": "birch_split_next_neighbor_update_required",
       "status": "atomic",
       "inputs": [
-        {"name": "has_next_leaf", "type_desc": "bool"}
+        {
+          "name": "has_next_leaf",
+          "type_desc": "bool"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "birch_split_leaf_link_plan",
       "name": "birch_split_leaf_link_plan",
       "status": "atomic",
       "inputs": [
-        {"name": "has_prev_leaf", "type_desc": "bool"},
-        {"name": "has_next_leaf", "type_desc": "bool"}
+        {
+          "name": "has_prev_leaf",
+          "type_desc": "bool"
+        },
+        {
+          "name": "has_next_leaf",
+          "type_desc": "bool"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "BirchLeafLinkPlan"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "BirchLeafLinkPlan"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(B * d)",
+      "complexity_reasoning": "BIRCH clustering constructs a clustering feature tree, scaling linearly with sample size N and dimensionality d given branching factor B.",
+      "complexity_confidence": 90
     }
   ]
 }

@@ -23,11 +23,22 @@
       "type_signature": "(model: object) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "model", "type_desc": "estimator returned by self._get_estimator()", "required": true}
+        {
+          "name": "model",
+          "type_desc": "estimator returned by self._get_estimator()",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "same estimator object"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "same estimator object"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_path_get_params_result",
@@ -38,11 +49,22 @@
       "type_signature": "(self_params: dict[str, object]) -> dict[str, object]",
       "depth": 1,
       "inputs": [
-        {"name": "self_params", "type_desc": "parameter mapping returned by self.get_params()", "required": true}
+        {
+          "name": "self_params",
+          "type_desc": "parameter mapping returned by self.get_params()",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "shallow copy with same keys and value objects"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "shallow copy with same keys and value objects"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_refit_get_params_result",
@@ -53,11 +75,22 @@
       "type_signature": "(self_params: dict[str, object]) -> dict[str, object]",
       "depth": 1,
       "inputs": [
-        {"name": "self_params", "type_desc": "parameter mapping returned by the refit self.get_params() call", "required": true}
+        {
+          "name": "self_params",
+          "type_desc": "parameter mapping returned by the refit self.get_params() call",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "shallow copy with same keys and value objects"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "shallow copy with same keys and value objects"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_model_get_params_result",
@@ -68,11 +101,22 @@
       "type_signature": "(model_params: dict[str, object]) -> dict[str, object]",
       "depth": 1,
       "inputs": [
-        {"name": "model_params", "type_desc": "parameter mapping returned by model.get_params()", "required": true}
+        {
+          "name": "model_params",
+          "type_desc": "parameter mapping returned by model.get_params()",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "shallow copy with same keys and value objects"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "shallow copy with same keys and value objects"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_cv_model_param_names",
@@ -83,18 +127,45 @@
       "type_signature": "(model_params: dict[str, object]) -> set[str]",
       "depth": 1,
       "inputs": [
-        {"name": "model_params", "type_desc": "parameter mapping returned by model.get_params()", "required": true}
+        {
+          "name": "model_params",
+          "type_desc": "parameter mapping returned by model.get_params()",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "set of model parameter names"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "set of model parameter names"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "cd_cv_get_estimator_result", "target": "cd_cv_model_get_params_result", "kind": "callback_context"},
-    {"source": "cd_cv_path_get_params_result", "target": "cd_cv_model_get_params_result", "kind": "fit_context"},
-    {"source": "cd_cv_refit_get_params_result", "target": "cd_cv_model_get_params_result", "kind": "refit_context"},
-    {"source": "cd_cv_model_get_params_result", "target": "cd_cv_model_param_names", "kind": "bookkeeping"}
+    {
+      "source": "cd_cv_get_estimator_result",
+      "target": "cd_cv_model_get_params_result",
+      "kind": "callback_context"
+    },
+    {
+      "source": "cd_cv_path_get_params_result",
+      "target": "cd_cv_model_get_params_result",
+      "kind": "fit_context"
+    },
+    {
+      "source": "cd_cv_refit_get_params_result",
+      "target": "cd_cv_model_get_params_result",
+      "kind": "refit_context"
+    },
+    {
+      "source": "cd_cv_model_get_params_result",
+      "target": "cd_cv_model_param_names",
+      "kind": "bookkeeping"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

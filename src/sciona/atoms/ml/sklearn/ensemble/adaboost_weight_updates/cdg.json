@@ -26,12 +26,27 @@
       "type_signature": "(incorrect: NDArray[np.bool_] | NDArray[np.int64], sample_weight: NDArray[np.float64]) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "incorrect", "type_desc": "NDArray[np.bool_] | NDArray[np.int64]", "required": true},
-        {"name": "sample_weight", "type_desc": "NDArray[np.float64]", "required": true}
+        {
+          "name": "incorrect",
+          "type_desc": "NDArray[np.bool_] | NDArray[np.int64]",
+          "required": true
+        },
+        {
+          "name": "sample_weight",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "float"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "adaboost_classifier_estimator_weight",
@@ -42,13 +57,32 @@
       "type_signature": "(estimator_error: float, learning_rate: float, n_classes: int) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "estimator_error", "type_desc": "float", "required": true},
-        {"name": "learning_rate", "type_desc": "float", "required": true},
-        {"name": "n_classes", "type_desc": "int", "required": true}
+        {
+          "name": "estimator_error",
+          "type_desc": "float",
+          "required": true
+        },
+        {
+          "name": "learning_rate",
+          "type_desc": "float",
+          "required": true
+        },
+        {
+          "name": "n_classes",
+          "type_desc": "int",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "float"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "adaboost_classifier_sample_weight_update",
@@ -59,13 +93,32 @@
       "type_signature": "(sample_weight: NDArray[np.float64], incorrect: NDArray[np.bool_] | NDArray[np.int64], estimator_weight: float) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "sample_weight", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "incorrect", "type_desc": "NDArray[np.bool_] | NDArray[np.int64]", "required": true},
-        {"name": "estimator_weight", "type_desc": "float", "required": true}
+        {
+          "name": "sample_weight",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "incorrect",
+          "type_desc": "NDArray[np.bool_] | NDArray[np.int64]",
+          "required": true
+        },
+        {
+          "name": "estimator_weight",
+          "type_desc": "float",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "adaboost_regressor_loss_vector",
@@ -76,13 +129,32 @@
       "type_signature": "(absolute_errors: NDArray[np.float64], sample_weight: NDArray[np.float64], loss: Literal['linear', 'square', 'exponential']) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "absolute_errors", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "sample_weight", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "loss", "type_desc": "Literal['linear', 'square', 'exponential']", "required": true}
+        {
+          "name": "absolute_errors",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "sample_weight",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "loss",
+          "type_desc": "Literal['linear', 'square', 'exponential']",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "adaboost_regressor_estimator_error",
@@ -93,12 +165,27 @@
       "type_signature": "(loss_vector: NDArray[np.float64], sample_weight: NDArray[np.float64]) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "loss_vector", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "sample_weight", "type_desc": "NDArray[np.float64]", "required": true}
+        {
+          "name": "loss_vector",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "sample_weight",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "float"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "adaboost_regressor_beta",
@@ -109,11 +196,22 @@
       "type_signature": "(estimator_error: float) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "estimator_error", "type_desc": "float", "required": true}
+        {
+          "name": "estimator_error",
+          "type_desc": "float",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "float"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "adaboost_regressor_estimator_weight",
@@ -124,12 +222,27 @@
       "type_signature": "(beta: float, learning_rate: float) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "beta", "type_desc": "float", "required": true},
-        {"name": "learning_rate", "type_desc": "float", "required": true}
+        {
+          "name": "beta",
+          "type_desc": "float",
+          "required": true
+        },
+        {
+          "name": "learning_rate",
+          "type_desc": "float",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "float"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "float"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "adaboost_regressor_sample_weight_update",
@@ -140,24 +253,75 @@
       "type_signature": "(sample_weight: NDArray[np.float64], loss_vector: NDArray[np.float64], beta: float, learning_rate: float) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "sample_weight", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "loss_vector", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "beta", "type_desc": "float", "required": true},
-        {"name": "learning_rate", "type_desc": "float", "required": true}
+        {
+          "name": "sample_weight",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "loss_vector",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "beta",
+          "type_desc": "float",
+          "required": true
+        },
+        {
+          "name": "learning_rate",
+          "type_desc": "float",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [
-    {"source": "adaboost_classifier_estimator_error", "target": "adaboost_classifier_estimator_weight", "kind": "classifier_weight_from_error"},
-    {"source": "adaboost_classifier_estimator_weight", "target": "adaboost_classifier_sample_weight_update", "kind": "classifier_update_uses_estimator_weight"},
-    {"source": "adaboost_regressor_loss_vector", "target": "adaboost_regressor_estimator_error", "kind": "regressor_error_from_loss_vector"},
-    {"source": "adaboost_regressor_estimator_error", "target": "adaboost_regressor_beta", "kind": "beta_from_regressor_error"},
-    {"source": "adaboost_regressor_beta", "target": "adaboost_regressor_estimator_weight", "kind": "regressor_weight_from_beta"},
-    {"source": "adaboost_regressor_beta", "target": "adaboost_regressor_sample_weight_update", "kind": "regressor_update_uses_beta"},
-    {"source": "adaboost_regressor_loss_vector", "target": "adaboost_regressor_sample_weight_update", "kind": "regressor_update_uses_loss_vector"}
+    {
+      "source": "adaboost_classifier_estimator_error",
+      "target": "adaboost_classifier_estimator_weight",
+      "kind": "classifier_weight_from_error"
+    },
+    {
+      "source": "adaboost_classifier_estimator_weight",
+      "target": "adaboost_classifier_sample_weight_update",
+      "kind": "classifier_update_uses_estimator_weight"
+    },
+    {
+      "source": "adaboost_regressor_loss_vector",
+      "target": "adaboost_regressor_estimator_error",
+      "kind": "regressor_error_from_loss_vector"
+    },
+    {
+      "source": "adaboost_regressor_estimator_error",
+      "target": "adaboost_regressor_beta",
+      "kind": "beta_from_regressor_error"
+    },
+    {
+      "source": "adaboost_regressor_beta",
+      "target": "adaboost_regressor_estimator_weight",
+      "kind": "regressor_weight_from_beta"
+    },
+    {
+      "source": "adaboost_regressor_beta",
+      "target": "adaboost_regressor_sample_weight_update",
+      "kind": "regressor_update_uses_beta"
+    },
+    {
+      "source": "adaboost_regressor_loss_vector",
+      "target": "adaboost_regressor_sample_weight_update",
+      "kind": "regressor_update_uses_loss_vector"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

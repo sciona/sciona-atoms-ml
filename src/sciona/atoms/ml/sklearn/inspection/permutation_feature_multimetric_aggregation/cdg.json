@@ -17,11 +17,21 @@
       "status": "atomic",
       "concept_type": "permutation_feature_metric_bookkeeping",
       "inputs": [
-        {"name": "score_dicts", "type_desc": "nonempty tuple of same-key finite score dictionaries"}
+        {
+          "name": "score_dicts",
+          "type_desc": "nonempty tuple of same-key finite score dictionaries"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "tuple[str, ...]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "tuple[str, ...]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "permutation_importance_feature_metric_score_dict",
@@ -30,14 +40,28 @@
       "status": "atomic",
       "concept_type": "permutation_feature_metric_bookkeeping",
       "inputs": [
-        {"name": "score_dicts", "type_desc": "nonempty tuple of same-key finite score dictionaries"}
+        {
+          "name": "score_dicts",
+          "type_desc": "nonempty tuple of same-key finite score dictionaries"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "dict[str, numpy.ndarray]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "dict[str, numpy.ndarray]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "permutation_importance_feature_metric_names", "target": "permutation_importance_feature_metric_score_dict", "kind": "shared_key_order"}
+    {
+      "source": "permutation_importance_feature_metric_names",
+      "target": "permutation_importance_feature_metric_score_dict",
+      "kind": "shared_key_order"
+    }
   ]
 }

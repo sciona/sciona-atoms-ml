@@ -21,11 +21,22 @@
       "type_signature": "(success: bool) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "success", "type_desc": "linprog result.success flag", "required": true}
+        {
+          "name": "success",
+          "type_desc": "linprog result.success flag",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether the warning branch applies"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether the warning branch applies"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "quantile_linprog_failure_reason",
@@ -36,11 +47,22 @@
       "type_signature": "(status: int) -> str",
       "depth": 1,
       "inputs": [
-        {"name": "status", "type_desc": "linprog result.status integer", "required": true}
+        {
+          "name": "status",
+          "type_desc": "linprog result.status integer",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "fixed status reason or unknown reason"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "fixed status reason or unknown reason"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "quantile_linprog_failure_message",
@@ -51,17 +73,40 @@
       "type_signature": "(status: int, result_message: str) -> str",
       "depth": 1,
       "inputs": [
-        {"name": "status", "type_desc": "linprog result.status integer", "required": true},
-        {"name": "result_message", "type_desc": "linprog result.message string", "required": true}
+        {
+          "name": "status",
+          "type_desc": "linprog result.status integer",
+          "required": true
+        },
+        {
+          "name": "result_message",
+          "type_desc": "linprog result.message string",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "ConvergenceWarning message payload"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "ConvergenceWarning message payload"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "quantile_linprog_failure_guard", "target": "quantile_linprog_failure_message", "kind": "warning_branch_context"},
-    {"source": "quantile_linprog_failure_reason", "target": "quantile_linprog_failure_message", "kind": "message_component"}
+    {
+      "source": "quantile_linprog_failure_guard",
+      "target": "quantile_linprog_failure_message",
+      "kind": "warning_branch_context"
+    },
+    {
+      "source": "quantile_linprog_failure_reason",
+      "target": "quantile_linprog_failure_message",
+      "kind": "message_component"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

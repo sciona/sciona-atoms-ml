@@ -24,8 +24,23 @@
       "status": "atomic",
       "type_signature": "(n_clusters: int) -> int",
       "depth": 1,
-      "inputs": [{"name": "n_clusters", "type_desc": "int", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "int"}]
+      "inputs": [
+        {
+          "name": "n_clusters",
+          "type_desc": "int",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cocluster_stacked_embedding",
@@ -36,12 +51,37 @@
       "type_signature": "(row_diag: NDArray[np.float64], u: NDArray[np.float64], col_diag: NDArray[np.float64], v: NDArray[np.float64]) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "row_diag", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "u", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "col_diag", "type_desc": "NDArray[np.float64]", "required": true},
-        {"name": "v", "type_desc": "NDArray[np.float64]", "required": true}
+        {
+          "name": "row_diag",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "u",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "col_diag",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "v",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.float64]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cocluster_split_labels",
@@ -52,10 +92,27 @@
       "type_signature": "(labels: NDArray[np.int64], n_rows: int) -> tuple[NDArray[np.int64], NDArray[np.int64]]",
       "depth": 1,
       "inputs": [
-        {"name": "labels", "type_desc": "NDArray[np.int64]", "required": true},
-        {"name": "n_rows", "type_desc": "int", "required": true}
+        {
+          "name": "labels",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        },
+        {
+          "name": "n_rows",
+          "type_desc": "int",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "tuple[NDArray[np.int64], NDArray[np.int64]]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "tuple[NDArray[np.int64], NDArray[np.int64]]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "cocluster_indicator_matrix",
@@ -66,10 +123,27 @@
       "type_signature": "(labels: NDArray[np.int64], n_clusters: int) -> NDArray[np.bool_]",
       "depth": 1,
       "inputs": [
-        {"name": "labels", "type_desc": "NDArray[np.int64]", "required": true},
-        {"name": "n_clusters", "type_desc": "int", "required": true}
+        {
+          "name": "labels",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        },
+        {
+          "name": "n_clusters",
+          "type_desc": "int",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "NDArray[np.bool_]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.bool_]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "bicluster_effective_svd_dims",
@@ -80,10 +154,27 @@
       "type_signature": "(method: str, n_components: int) -> tuple[int, int]",
       "depth": 1,
       "inputs": [
-        {"name": "method", "type_desc": "str", "required": true},
-        {"name": "n_components", "type_desc": "int", "required": true}
+        {
+          "name": "method",
+          "type_desc": "str",
+          "required": true
+        },
+        {
+          "name": "n_components",
+          "type_desc": "int",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "tuple[int, int]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "tuple[int, int]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "bicluster_resolve_cluster_counts",
@@ -93,8 +184,23 @@
       "status": "atomic",
       "type_signature": "(n_clusters: int | tuple[int, int]) -> tuple[int, int]",
       "depth": 1,
-      "inputs": [{"name": "n_clusters", "type_desc": "int | tuple[int, int]", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "tuple[int, int]"}]
+      "inputs": [
+        {
+          "name": "n_clusters",
+          "type_desc": "int | tuple[int, int]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "tuple[int, int]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "bicluster_indicator_grid",
@@ -105,20 +211,65 @@
       "type_signature": "(row_labels: NDArray[np.int64], column_labels: NDArray[np.int64], n_row_clusters: int, n_col_clusters: int) -> tuple[NDArray[np.bool_], NDArray[np.bool_]]",
       "depth": 1,
       "inputs": [
-        {"name": "row_labels", "type_desc": "NDArray[np.int64]", "required": true},
-        {"name": "column_labels", "type_desc": "NDArray[np.int64]", "required": true},
-        {"name": "n_row_clusters", "type_desc": "int", "required": true},
-        {"name": "n_col_clusters", "type_desc": "int", "required": true}
+        {
+          "name": "row_labels",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        },
+        {
+          "name": "column_labels",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        },
+        {
+          "name": "n_row_clusters",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "n_col_clusters",
+          "type_desc": "int",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "tuple[NDArray[np.bool_], NDArray[np.bool_]]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "tuple[NDArray[np.bool_], NDArray[np.bool_]]"
+        }
+      ],
+      "time_complexity": "O(N * d^2)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "Dimensionality reduction or sparse coding decomposes high-dimensional features, taking quadratic time in features and linear in samples.",
+      "complexity_confidence": 90
     }
   ],
   "edges": [
-    {"source": "cocluster_singular_vector_count", "target": "cocluster_stacked_embedding", "kind": "embedding_rank_request"},
-    {"source": "cocluster_stacked_embedding", "target": "cocluster_split_labels", "kind": "stacked_kmeans_input"},
-    {"source": "cocluster_split_labels", "target": "cocluster_indicator_matrix", "kind": "partition_membership"},
-    {"source": "bicluster_effective_svd_dims", "target": "bicluster_resolve_cluster_counts", "kind": "fit_shape_context"},
-    {"source": "bicluster_resolve_cluster_counts", "target": "bicluster_indicator_grid", "kind": "checkerboard_dimensions"}
+    {
+      "source": "cocluster_singular_vector_count",
+      "target": "cocluster_stacked_embedding",
+      "kind": "embedding_rank_request"
+    },
+    {
+      "source": "cocluster_stacked_embedding",
+      "target": "cocluster_split_labels",
+      "kind": "stacked_kmeans_input"
+    },
+    {
+      "source": "cocluster_split_labels",
+      "target": "cocluster_indicator_matrix",
+      "kind": "partition_membership"
+    },
+    {
+      "source": "bicluster_effective_svd_dims",
+      "target": "bicluster_resolve_cluster_counts",
+      "kind": "fit_shape_context"
+    },
+    {
+      "source": "bicluster_resolve_cluster_counts",
+      "target": "bicluster_indicator_grid",
+      "kind": "checkerboard_dimensions"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

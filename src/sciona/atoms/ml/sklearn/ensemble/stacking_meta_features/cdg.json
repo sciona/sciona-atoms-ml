@@ -24,15 +24,42 @@
         "oof_stacking"
       ],
       "inputs": [
-        {"name": "predictions", "type_desc": "tuple[PredictionEntry, ...]", "required": true},
-        {"name": "stack_method_names", "type_desc": "tuple[str, ...]", "required": true},
-        {"name": "is_binary_classification", "type_desc": "bool", "required": true},
-        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | None", "required": false},
-        {"name": "passthrough", "type_desc": "bool", "required": false}
+        {
+          "name": "predictions",
+          "type_desc": "tuple[PredictionEntry, ...]",
+          "required": true
+        },
+        {
+          "name": "stack_method_names",
+          "type_desc": "tuple[str, ...]",
+          "required": true
+        },
+        {
+          "name": "is_binary_classification",
+          "type_desc": "bool",
+          "required": true
+        },
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | None",
+          "required": false
+        },
+        {
+          "name": "passthrough",
+          "type_desc": "bool",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "stacking_meta_feature_widths",
@@ -43,13 +70,32 @@
       "type_signature": "(predictions: tuple[PredictionEntry, ...], stack_method_names: tuple[str, ...], is_binary_classification: bool) -> NDArray[np.int64]",
       "depth": 1,
       "inputs": [
-        {"name": "predictions", "type_desc": "tuple[PredictionEntry, ...]", "required": true},
-        {"name": "stack_method_names", "type_desc": "tuple[str, ...]", "required": true},
-        {"name": "is_binary_classification", "type_desc": "bool", "required": true}
+        {
+          "name": "predictions",
+          "type_desc": "tuple[PredictionEntry, ...]",
+          "required": true
+        },
+        {
+          "name": "stack_method_names",
+          "type_desc": "tuple[str, ...]",
+          "required": true
+        },
+        {
+          "name": "is_binary_classification",
+          "type_desc": "bool",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.int64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.int64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "stacking_feature_names_out",
@@ -60,20 +106,55 @@
       "type_signature": "(class_name: str, estimator_names: tuple[str, ...], feature_widths: NDArray[np.int64], input_features: Sequence[str] | NDArray[np.object_] | None = None, passthrough: bool = False) -> NDArray[np.object_]",
       "depth": 1,
       "inputs": [
-        {"name": "class_name", "type_desc": "str", "required": true},
-        {"name": "estimator_names", "type_desc": "tuple[str, ...]", "required": true},
-        {"name": "feature_widths", "type_desc": "NDArray[np.int64]", "required": true},
-        {"name": "input_features", "type_desc": "Sequence[str] | NDArray[np.object_] | None", "required": false},
-        {"name": "passthrough", "type_desc": "bool", "required": false}
+        {
+          "name": "class_name",
+          "type_desc": "str",
+          "required": true
+        },
+        {
+          "name": "estimator_names",
+          "type_desc": "tuple[str, ...]",
+          "required": true
+        },
+        {
+          "name": "feature_widths",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        },
+        {
+          "name": "input_features",
+          "type_desc": "Sequence[str] | NDArray[np.object_] | None",
+          "required": false
+        },
+        {
+          "name": "passthrough",
+          "type_desc": "bool",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.object_]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.object_]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(N * d)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [
-    {"source": "stacking_meta_feature_matrix", "target": "stacking_meta_feature_widths", "kind": "shared_prediction_normalization"},
-    {"source": "stacking_meta_feature_widths", "target": "stacking_feature_names_out", "kind": "widths_drive_name_expansion"}
+    {
+      "source": "stacking_meta_feature_matrix",
+      "target": "stacking_meta_feature_widths",
+      "kind": "shared_prediction_normalization"
+    },
+    {
+      "source": "stacking_meta_feature_widths",
+      "target": "stacking_feature_names_out",
+      "kind": "widths_drive_name_expansion"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

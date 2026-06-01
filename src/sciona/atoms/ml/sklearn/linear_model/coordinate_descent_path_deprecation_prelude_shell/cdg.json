@@ -24,11 +24,22 @@
       "type_signature": "(n_alphas: object) -> int",
       "depth": 1,
       "inputs": [
-        {"name": "n_alphas", "type_desc": "deprecated sentinel or positive integer", "required": true}
+        {
+          "name": "n_alphas",
+          "type_desc": "deprecated sentinel or positive integer",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "effective positive alpha count"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "effective positive alpha count"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_path_n_alphas_warning_required",
@@ -39,11 +50,22 @@
       "type_signature": "(n_alphas: object) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "n_alphas", "type_desc": "deprecated sentinel or positive integer", "required": true}
+        {
+          "name": "n_alphas",
+          "type_desc": "deprecated sentinel or positive integer",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether n_alphas warning is required"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether n_alphas warning is required"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_path_n_alphas_warning_message",
@@ -54,11 +76,22 @@
       "type_signature": "(function_name: str) -> str",
       "depth": 1,
       "inputs": [
-        {"name": "function_name", "type_desc": "lasso_path or enet_path", "required": true}
+        {
+          "name": "function_name",
+          "type_desc": "lasso_path or enet_path",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "FutureWarning message"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "FutureWarning message"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_path_alphas_none_warning_required",
@@ -69,11 +102,22 @@
       "type_signature": "(alphas: object) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "alphas", "type_desc": "alphas argument value", "required": true}
+        {
+          "name": "alphas",
+          "type_desc": "alphas argument value",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "whether alphas=None warning is required"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "whether alphas=None warning is required"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_path_alphas_none_warning_message",
@@ -84,11 +128,22 @@
       "type_signature": "(function_name: str) -> str",
       "depth": 1,
       "inputs": [
-        {"name": "function_name", "type_desc": "lasso_path or enet_path", "required": true}
+        {
+          "name": "function_name",
+          "type_desc": "lasso_path or enet_path",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "FutureWarning message"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "FutureWarning message"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_path_effective_alphas_resolution",
@@ -99,20 +154,55 @@
       "type_signature": "(n_alphas: object, alphas: object) -> dict[str, object]",
       "depth": 1,
       "inputs": [
-        {"name": "n_alphas", "type_desc": "deprecated sentinel or positive integer", "required": true},
-        {"name": "alphas", "type_desc": "alphas argument value", "required": true}
+        {
+          "name": "n_alphas",
+          "type_desc": "deprecated sentinel or positive integer",
+          "required": true
+        },
+        {
+          "name": "alphas",
+          "type_desc": "alphas argument value",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "effective alpha value and warning predicate mapping"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "effective alpha value and warning predicate mapping"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "cd_path_default_n_alphas_resolution", "target": "cd_path_effective_alphas_resolution", "kind": "state_context"},
-    {"source": "cd_path_n_alphas_warning_required", "target": "cd_path_n_alphas_warning_message", "kind": "branch_context"},
-    {"source": "cd_path_n_alphas_warning_required", "target": "cd_path_effective_alphas_resolution", "kind": "state_context"},
-    {"source": "cd_path_alphas_none_warning_required", "target": "cd_path_alphas_none_warning_message", "kind": "branch_context"},
-    {"source": "cd_path_alphas_none_warning_required", "target": "cd_path_effective_alphas_resolution", "kind": "state_context"}
+    {
+      "source": "cd_path_default_n_alphas_resolution",
+      "target": "cd_path_effective_alphas_resolution",
+      "kind": "state_context"
+    },
+    {
+      "source": "cd_path_n_alphas_warning_required",
+      "target": "cd_path_n_alphas_warning_message",
+      "kind": "branch_context"
+    },
+    {
+      "source": "cd_path_n_alphas_warning_required",
+      "target": "cd_path_effective_alphas_resolution",
+      "kind": "state_context"
+    },
+    {
+      "source": "cd_path_alphas_none_warning_required",
+      "target": "cd_path_alphas_none_warning_message",
+      "kind": "branch_context"
+    },
+    {
+      "source": "cd_path_alphas_none_warning_required",
+      "target": "cd_path_effective_alphas_resolution",
+      "kind": "state_context"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

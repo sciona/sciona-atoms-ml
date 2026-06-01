@@ -19,8 +19,23 @@
       "status": "atomic",
       "type_signature": "(kernel_is_none_or_requires_vector_input: bool) -> str | None",
       "depth": 1,
-      "inputs": [{"name": "kernel_is_none_or_requires_vector_input", "type_desc": "bool", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "str | None"}]
+      "inputs": [
+        {
+          "name": "kernel_is_none_or_requires_vector_input",
+          "type_desc": "bool",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "str | None"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "gpc_predict_validate_ensure_2d",
@@ -30,12 +45,31 @@
       "status": "atomic",
       "type_signature": "(kernel_is_none_or_requires_vector_input: bool) -> bool",
       "depth": 1,
-      "inputs": [{"name": "kernel_is_none_or_requires_vector_input", "type_desc": "bool", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "bool"}]
+      "inputs": [
+        {
+          "name": "kernel_is_none_or_requires_vector_input",
+          "type_desc": "bool",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "gpc_predict_dtype_name", "target": "gpc_predict_validate_ensure_2d", "kind": "validation_mode_pair"}
+    {
+      "source": "gpc_predict_dtype_name",
+      "target": "gpc_predict_validate_ensure_2d",
+      "kind": "validation_mode_pair"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

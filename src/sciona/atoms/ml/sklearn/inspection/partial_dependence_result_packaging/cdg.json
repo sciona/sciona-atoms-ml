@@ -10,8 +10,23 @@
       "status": "atomic",
       "concept_type": "shape_bookkeeping",
       "description": "Extract per-feature grid lengths from the partial_dependence grid_values tuple.",
-      "inputs": [{"name": "grid_values", "type_desc": "tuple[ndarray[float64], ...]", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "tuple[int, ...]"}]
+      "inputs": [
+        {
+          "name": "grid_values",
+          "type_desc": "tuple[ndarray[float64], ...]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "tuple[int, ...]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "partial_dependence_grid_shaped_averages",
@@ -20,10 +35,27 @@
       "concept_type": "reshape",
       "description": "Reshape flattened average partial-dependence outputs to sklearn's grid-shaped average tensor.",
       "inputs": [
-        {"name": "averaged_predictions", "type_desc": "ndarray[float64]", "required": true},
-        {"name": "grid_value_lengths", "type_desc": "tuple[int, ...]", "required": true}
+        {
+          "name": "averaged_predictions",
+          "type_desc": "ndarray[float64]",
+          "required": true
+        },
+        {
+          "name": "grid_value_lengths",
+          "type_desc": "tuple[int, ...]",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "ndarray[float64]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "ndarray[float64]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "partial_dependence_grid_shaped_individual",
@@ -32,10 +64,27 @@
       "concept_type": "reshape",
       "description": "Reshape flattened individual partial-dependence outputs to sklearn's grid-shaped individual tensor.",
       "inputs": [
-        {"name": "individual_predictions", "type_desc": "ndarray[float64]", "required": true},
-        {"name": "grid_value_lengths", "type_desc": "tuple[int, ...]", "required": true}
+        {
+          "name": "individual_predictions",
+          "type_desc": "ndarray[float64]",
+          "required": true
+        },
+        {
+          "name": "grid_value_lengths",
+          "type_desc": "tuple[int, ...]",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "ndarray[float64]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "ndarray[float64]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "partial_dependence_result_bunch",
@@ -44,18 +93,59 @@
       "concept_type": "packaging",
       "description": "Assemble sklearn's final partial_dependence Bunch from grid_values and requested average or individual outputs.",
       "inputs": [
-        {"name": "kind", "type_desc": "str", "required": true},
-        {"name": "grid_values", "type_desc": "tuple[ndarray[float64], ...]", "required": true},
-        {"name": "average", "type_desc": "ndarray[float64] | None", "required": false},
-        {"name": "individual", "type_desc": "ndarray[float64] | None", "required": false}
+        {
+          "name": "kind",
+          "type_desc": "str",
+          "required": true
+        },
+        {
+          "name": "grid_values",
+          "type_desc": "tuple[ndarray[float64], ...]",
+          "required": true
+        },
+        {
+          "name": "average",
+          "type_desc": "ndarray[float64] | None",
+          "required": false
+        },
+        {
+          "name": "individual",
+          "type_desc": "ndarray[float64] | None",
+          "required": false
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "Bunch"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "Bunch"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [
-    {"source": "partial_dependence_grid_value_lengths", "target": "partial_dependence_grid_shaped_averages", "kind": "reshape_metadata"},
-    {"source": "partial_dependence_grid_value_lengths", "target": "partial_dependence_grid_shaped_individual", "kind": "reshape_metadata"},
-    {"source": "partial_dependence_grid_shaped_averages", "target": "partial_dependence_result_bunch", "kind": "packaged_average"},
-    {"source": "partial_dependence_grid_shaped_individual", "target": "partial_dependence_result_bunch", "kind": "packaged_individual"}
+    {
+      "source": "partial_dependence_grid_value_lengths",
+      "target": "partial_dependence_grid_shaped_averages",
+      "kind": "reshape_metadata"
+    },
+    {
+      "source": "partial_dependence_grid_value_lengths",
+      "target": "partial_dependence_grid_shaped_individual",
+      "kind": "reshape_metadata"
+    },
+    {
+      "source": "partial_dependence_grid_shaped_averages",
+      "target": "partial_dependence_result_bunch",
+      "kind": "packaged_average"
+    },
+    {
+      "source": "partial_dependence_grid_shaped_individual",
+      "target": "partial_dependence_result_bunch",
+      "kind": "packaged_individual"
+    }
   ]
 }

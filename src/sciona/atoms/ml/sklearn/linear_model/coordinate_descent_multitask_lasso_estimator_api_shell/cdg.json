@@ -21,11 +21,22 @@
       "type_signature": "(parent_constraints: Mapping[str, object]) -> dict[str, object]",
       "depth": 1,
       "inputs": [
-        {"name": "parent_constraints", "type_desc": "MultiTaskElasticNet parameter-constraint mapping", "required": true}
+        {
+          "name": "parent_constraints",
+          "type_desc": "MultiTaskElasticNet parameter-constraint mapping",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "copied constraint mapping without l1_ratio"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "copied constraint mapping without l1_ratio"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_multitask_lasso_fixed_l1_ratio",
@@ -36,11 +47,22 @@
       "type_signature": "(alpha: object) -> float",
       "depth": 1,
       "inputs": [
-        {"name": "alpha", "type_desc": "MultiTaskLasso alpha parameter used to anchor init context", "required": true}
+        {
+          "name": "alpha",
+          "type_desc": "MultiTaskLasso alpha parameter used to anchor init context",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "fixed l1_ratio value 1.0"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "fixed l1_ratio value 1.0"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_multitask_lasso_init_attributes",
@@ -51,23 +73,70 @@
       "type_signature": "(alpha: object, fit_intercept: bool, copy_X: bool, max_iter: int, tol: object, warm_start: bool, random_state: object, selection: str) -> dict[str, object]",
       "depth": 1,
       "inputs": [
-        {"name": "alpha", "type_desc": "alpha parameter", "required": true},
-        {"name": "fit_intercept", "type_desc": "fit_intercept parameter", "required": true},
-        {"name": "copy_X", "type_desc": "copy_X parameter", "required": true},
-        {"name": "max_iter", "type_desc": "max_iter parameter", "required": true},
-        {"name": "tol", "type_desc": "tol parameter", "required": true},
-        {"name": "warm_start", "type_desc": "warm_start parameter", "required": true},
-        {"name": "random_state", "type_desc": "random_state parameter", "required": true},
-        {"name": "selection", "type_desc": "selection parameter", "required": true}
+        {
+          "name": "alpha",
+          "type_desc": "alpha parameter",
+          "required": true
+        },
+        {
+          "name": "fit_intercept",
+          "type_desc": "fit_intercept parameter",
+          "required": true
+        },
+        {
+          "name": "copy_X",
+          "type_desc": "copy_X parameter",
+          "required": true
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "max_iter parameter",
+          "required": true
+        },
+        {
+          "name": "tol",
+          "type_desc": "tol parameter",
+          "required": true
+        },
+        {
+          "name": "warm_start",
+          "type_desc": "warm_start parameter",
+          "required": true
+        },
+        {
+          "name": "random_state",
+          "type_desc": "random_state parameter",
+          "required": true
+        },
+        {
+          "name": "selection",
+          "type_desc": "selection parameter",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "attribute mapping including fixed l1_ratio"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "attribute mapping including fixed l1_ratio"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "cd_multitask_lasso_fixed_l1_ratio", "target": "cd_multitask_lasso_init_attributes", "kind": "init_constant"},
-    {"source": "cd_multitask_lasso_constraints_without_l1_ratio", "target": "cd_multitask_lasso_init_attributes", "kind": "class_context"}
+    {
+      "source": "cd_multitask_lasso_fixed_l1_ratio",
+      "target": "cd_multitask_lasso_init_attributes",
+      "kind": "init_constant"
+    },
+    {
+      "source": "cd_multitask_lasso_constraints_without_l1_ratio",
+      "target": "cd_multitask_lasso_init_attributes",
+      "kind": "class_context"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

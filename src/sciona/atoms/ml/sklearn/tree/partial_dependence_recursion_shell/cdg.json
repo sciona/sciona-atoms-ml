@@ -22,11 +22,22 @@
       "type_signature": "(grid: NDArray[np.floating]) -> NDArray[np.float32]",
       "depth": 1,
       "inputs": [
-        {"name": "grid", "type_desc": "nonempty finite 2D numeric array", "required": true}
+        {
+          "name": "grid",
+          "type_desc": "nonempty finite 2D numeric array",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "C-order float32 grid"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "C-order float32 grid"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "tree_partial_dependence_averaged_predictions",
@@ -37,11 +48,22 @@
       "type_signature": "(grid: NDArray[np.floating]) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "grid", "type_desc": "nonempty finite 2D numeric array", "required": true}
+        {
+          "name": "grid",
+          "type_desc": "nonempty finite 2D numeric array",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "zeroed float64 prediction vector"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "zeroed float64 prediction vector"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "The function performs linear-time element-wise array operations or copying over samples and features.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "tree_partial_dependence_target_features",
@@ -52,11 +74,22 @@
       "type_signature": "(target_features: NDArray[np.integer]) -> NDArray[np.intp]",
       "depth": 1,
       "inputs": [
-        {"name": "target_features", "type_desc": "nonempty one-dimensional integer vector", "required": true}
+        {
+          "name": "target_features",
+          "type_desc": "nonempty one-dimensional integer vector",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "C-order intp vector"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "C-order intp vector"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "tree_partial_dependence_result",
@@ -67,11 +100,22 @@
       "type_signature": "(averaged_predictions: NDArray[np.float64]) -> NDArray[np.float64]",
       "depth": 1,
       "inputs": [
-        {"name": "averaged_predictions", "type_desc": "nonempty finite 1D float vector", "required": true}
+        {
+          "name": "averaged_predictions",
+          "type_desc": "nonempty finite 1D float vector",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "finite float64 prediction vector"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "finite float64 prediction vector"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [],

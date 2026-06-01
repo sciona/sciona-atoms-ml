@@ -23,13 +23,32 @@
       "type_signature": "(bootstrap: bool, n_samples: int, max_samples: int | float | None) -> int | None",
       "depth": 1,
       "inputs": [
-        {"name": "bootstrap", "type_desc": "bool", "required": true},
-        {"name": "n_samples", "type_desc": "int", "required": true},
-        {"name": "max_samples", "type_desc": "int | float | None", "required": true}
+        {
+          "name": "bootstrap",
+          "type_desc": "bool",
+          "required": true
+        },
+        {
+          "name": "n_samples",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "max_samples",
+          "type_desc": "int | float | None",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "int | None"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "int | None"
+        }
+      ],
+      "time_complexity": "O(N * d * log N)",
+      "space_complexity": "O(N * d + nodes)",
+      "complexity_reasoning": "Fitting a decision tree or forest scales with N samples, d features, and tree depth, allocating memory for the data and tree node structures.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "forest_fit_require_bootstrap_for_oob",
@@ -40,12 +59,27 @@
       "type_signature": "(bootstrap: bool, oob_score: bool) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "bootstrap", "type_desc": "bool", "required": true},
-        {"name": "oob_score", "type_desc": "bool", "required": true}
+        {
+          "name": "bootstrap",
+          "type_desc": "bool",
+          "required": true
+        },
+        {
+          "name": "oob_score",
+          "type_desc": "bool",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(N * d * log N)",
+      "space_complexity": "O(N * d + nodes)",
+      "complexity_reasoning": "Fitting a decision tree or forest scales with N samples, d features, and tree depth, allocating memory for the data and tree node structures.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "forest_fit_additional_estimator_count",
@@ -56,12 +90,27 @@
       "type_signature": "(n_estimators: int, existing_estimators: int) -> int",
       "depth": 1,
       "inputs": [
-        {"name": "n_estimators", "type_desc": "int", "required": true},
-        {"name": "existing_estimators", "type_desc": "int", "required": true}
+        {
+          "name": "n_estimators",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "existing_estimators",
+          "type_desc": "int",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "int"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ],
+      "time_complexity": "O(N * d * log N)",
+      "space_complexity": "O(N * d + nodes)",
+      "complexity_reasoning": "Fitting a decision tree or forest scales with N samples, d features, and tree depth, allocating memory for the data and tree node structures.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "forest_fit_oob_update_required",
@@ -72,13 +121,32 @@
       "type_signature": "(oob_score: bool, n_more_estimators: int, has_oob_score_attr: bool) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "oob_score", "type_desc": "bool", "required": true},
-        {"name": "n_more_estimators", "type_desc": "int", "required": true},
-        {"name": "has_oob_score_attr", "type_desc": "bool", "required": true}
+        {
+          "name": "oob_score",
+          "type_desc": "bool",
+          "required": true
+        },
+        {
+          "name": "n_more_estimators",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "has_oob_score_attr",
+          "type_desc": "bool",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(N * d * log N)",
+      "space_complexity": "O(N * d + nodes)",
+      "complexity_reasoning": "Fitting a decision tree or forest scales with N samples, d features, and tree depth, allocating memory for the data and tree node structures.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "forest_fit_require_supported_oob_target_type",
@@ -89,19 +157,50 @@
       "type_signature": "(target_type: str, is_classifier: bool) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "target_type", "type_desc": "str", "required": true},
-        {"name": "is_classifier", "type_desc": "bool", "required": true}
+        {
+          "name": "target_type",
+          "type_desc": "str",
+          "required": true
+        },
+        {
+          "name": "is_classifier",
+          "type_desc": "bool",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(N * d * log N)",
+      "space_complexity": "O(N * d + nodes)",
+      "complexity_reasoning": "Fitting a decision tree or forest scales with N samples, d features, and tree depth, allocating memory for the data and tree node structures.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [
-    {"source": "forest_fit_bootstrap_sample_count", "target": "forest_fit_require_bootstrap_for_oob", "kind": "bootstrap_then_oob_preflight"},
-    {"source": "forest_fit_require_bootstrap_for_oob", "target": "forest_fit_additional_estimator_count", "kind": "fit_preflight_then_warm_start_bookkeeping"},
-    {"source": "forest_fit_additional_estimator_count", "target": "forest_fit_oob_update_required", "kind": "warm_start_count_then_oob_refresh_gate"},
-    {"source": "forest_fit_require_bootstrap_for_oob", "target": "forest_fit_require_supported_oob_target_type", "kind": "oob_preflight_then_target_type_preflight"}
+    {
+      "source": "forest_fit_bootstrap_sample_count",
+      "target": "forest_fit_require_bootstrap_for_oob",
+      "kind": "bootstrap_then_oob_preflight"
+    },
+    {
+      "source": "forest_fit_require_bootstrap_for_oob",
+      "target": "forest_fit_additional_estimator_count",
+      "kind": "fit_preflight_then_warm_start_bookkeeping"
+    },
+    {
+      "source": "forest_fit_additional_estimator_count",
+      "target": "forest_fit_oob_update_required",
+      "kind": "warm_start_count_then_oob_refresh_gate"
+    },
+    {
+      "source": "forest_fit_require_bootstrap_for_oob",
+      "target": "forest_fit_require_supported_oob_target_type",
+      "kind": "oob_preflight_then_target_type_preflight"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

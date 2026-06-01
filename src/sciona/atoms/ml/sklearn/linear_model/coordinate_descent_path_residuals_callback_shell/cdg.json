@@ -23,11 +23,22 @@
       "type_signature": "(dtype: object) -> str",
       "depth": 1,
       "inputs": [
-        {"name": "dtype", "type_desc": "_path_residuals dtype argument", "required": true}
+        {
+          "name": "dtype",
+          "type_desc": "_path_residuals dtype argument",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "fixed 'csc' sparse-format selector"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "fixed 'csc' sparse-format selector"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_path_residuals_check_array_dtype",
@@ -38,11 +49,22 @@
       "type_signature": "(dtype: object) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "dtype", "type_desc": "optional dtype object", "required": true}
+        {
+          "name": "dtype",
+          "type_desc": "optional dtype object",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "same dtype object"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "same dtype object"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_path_residuals_check_array_order",
@@ -53,11 +75,22 @@
       "type_signature": "(X_order: object) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "X_order", "type_desc": "optional array-order hint", "required": true}
+        {
+          "name": "X_order",
+          "type_desc": "optional array-order hint",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "same order object"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "same order object"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_path_residuals_path_result_alphas",
@@ -68,11 +101,22 @@
       "type_signature": "(path_result: Sequence[object]) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "path_result", "type_desc": "length-3 path callback result tuple", "required": true}
+        {
+          "name": "path_result",
+          "type_desc": "length-3 path callback result tuple",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "first path result component"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "first path result component"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "cd_path_residuals_path_result_coefs",
@@ -83,18 +127,45 @@
       "type_signature": "(path_result: Sequence[object]) -> object",
       "depth": 1,
       "inputs": [
-        {"name": "path_result", "type_desc": "length-3 path callback result tuple", "required": true}
+        {
+          "name": "path_result",
+          "type_desc": "length-3 path callback result tuple",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "second path result component"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "second path result component"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "cd_path_residuals_check_array_accept_sparse", "target": "cd_path_residuals_check_array_dtype", "kind": "call_context"},
-    {"source": "cd_path_residuals_check_array_dtype", "target": "cd_path_residuals_check_array_order", "kind": "call_context"},
-    {"source": "cd_path_residuals_check_array_order", "target": "cd_path_residuals_path_result_alphas", "kind": "callback_context"},
-    {"source": "cd_path_residuals_path_result_alphas", "target": "cd_path_residuals_path_result_coefs", "kind": "tuple_context"}
+    {
+      "source": "cd_path_residuals_check_array_accept_sparse",
+      "target": "cd_path_residuals_check_array_dtype",
+      "kind": "call_context"
+    },
+    {
+      "source": "cd_path_residuals_check_array_dtype",
+      "target": "cd_path_residuals_check_array_order",
+      "kind": "call_context"
+    },
+    {
+      "source": "cd_path_residuals_check_array_order",
+      "target": "cd_path_residuals_path_result_alphas",
+      "kind": "callback_context"
+    },
+    {
+      "source": "cd_path_residuals_path_result_alphas",
+      "target": "cd_path_residuals_path_result_coefs",
+      "kind": "tuple_context"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

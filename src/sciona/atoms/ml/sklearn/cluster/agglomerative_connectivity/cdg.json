@@ -20,16 +20,47 @@
       "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]], graph: scipy.sparse.spmatrix, n_connected_components: int, component_labels: NDArray[np.int64] | NDArray[np.int32] | list[int], mode: str = 'distance', metric: str = 'euclidean') -> scipy.sparse.spmatrix",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]]", "required": true},
-        {"name": "graph", "type_desc": "scipy.sparse.spmatrix", "required": true},
-        {"name": "n_connected_components", "type_desc": "int", "required": true},
-        {"name": "component_labels", "type_desc": "NDArray[np.int64] | NDArray[np.int32] | list[int]", "required": true},
-        {"name": "mode", "type_desc": "str", "required": false},
-        {"name": "metric", "type_desc": "str", "required": false}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]]",
+          "required": true
+        },
+        {
+          "name": "graph",
+          "type_desc": "scipy.sparse.spmatrix",
+          "required": true
+        },
+        {
+          "name": "n_connected_components",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "component_labels",
+          "type_desc": "NDArray[np.int64] | NDArray[np.int32] | list[int]",
+          "required": true
+        },
+        {
+          "name": "mode",
+          "type_desc": "str",
+          "required": false
+        },
+        {
+          "name": "metric",
+          "type_desc": "str",
+          "required": false
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "scipy.sparse.spmatrix"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "scipy.sparse.spmatrix"
+        }
+      ],
+      "time_complexity": "O(N^2 * log N)",
+      "space_complexity": "O(N^2)",
+      "complexity_reasoning": "Agglomerative hierarchical clustering computes a linkage tree requiring quadratic space for the distance matrix and quadratic-logarithmic time.",
+      "complexity_confidence": 95
     },
     {
       "node_id": "agglomerative_fix_connectivity",
@@ -40,17 +71,40 @@
       "type_signature": "(X: NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]], connectivity: scipy.sparse.spmatrix | NDArray[np.float64] | list[list[float]], affinity: str) -> tuple[scipy.sparse.spmatrix, int]",
       "depth": 1,
       "inputs": [
-        {"name": "X", "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]]", "required": true},
-        {"name": "connectivity", "type_desc": "scipy.sparse.spmatrix | NDArray[np.float64] | list[list[float]]", "required": true},
-        {"name": "affinity", "type_desc": "str", "required": true}
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64] | scipy.sparse.spmatrix | list[list[float]]",
+          "required": true
+        },
+        {
+          "name": "connectivity",
+          "type_desc": "scipy.sparse.spmatrix | NDArray[np.float64] | list[list[float]]",
+          "required": true
+        },
+        {
+          "name": "affinity",
+          "type_desc": "str",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "tuple[scipy.sparse.spmatrix, int]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "tuple[scipy.sparse.spmatrix, int]"
+        }
+      ],
+      "time_complexity": "O(N^2 * log N)",
+      "space_complexity": "O(N^2)",
+      "complexity_reasoning": "Agglomerative hierarchical clustering computes a linkage tree requiring quadratic space for the distance matrix and quadratic-logarithmic time.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [
-    {"source": "agglomerative_fix_connected_components", "target": "agglomerative_fix_connectivity", "kind": "disconnected_graph_completion"}
+    {
+      "source": "agglomerative_fix_connected_components",
+      "target": "agglomerative_fix_connectivity",
+      "kind": "disconnected_graph_completion"
+    }
   ],
   "metadata": {
     "source": "manual_remediation",

@@ -22,11 +22,32 @@
       "type_signature": "(n_features: int, n_components: int, dtype_name: str) -> tuple[NDArray[np.floating], NDArray[np.floating]]",
       "depth": 1,
       "inputs": [
-        {"name": "n_features", "type_desc": "int", "required": true},
-        {"name": "n_components", "type_desc": "int", "required": true},
-        {"name": "dtype_name", "type_desc": "str", "required": true}
+        {
+          "name": "n_features",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "n_components",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "dtype_name",
+          "type_desc": "str",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "tuple[NDArray[np.floating], NDArray[np.floating]]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "tuple[NDArray[np.floating], NDArray[np.floating]]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "dictionary_learning_minibatch_steps_per_iter",
@@ -37,10 +58,27 @@
       "type_signature": "(n_samples: int, batch_size: int) -> int",
       "depth": 1,
       "inputs": [
-        {"name": "n_samples", "type_desc": "int", "required": true},
-        {"name": "batch_size", "type_desc": "int", "required": true}
+        {
+          "name": "n_samples",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "batch_size",
+          "type_desc": "int",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "int"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "dictionary_learning_minibatch_total_steps",
@@ -51,10 +89,27 @@
       "type_signature": "(max_iter: int, steps_per_iter: int) -> int",
       "depth": 1,
       "inputs": [
-        {"name": "max_iter", "type_desc": "int", "required": true},
-        {"name": "steps_per_iter", "type_desc": "int", "required": true}
+        {
+          "name": "max_iter",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "steps_per_iter",
+          "type_desc": "int",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "int"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "dictionary_learning_minibatch_fit_counters",
@@ -65,10 +120,27 @@
       "type_signature": "(final_step_index: int, steps_per_iter: int) -> tuple[int, float]",
       "depth": 1,
       "inputs": [
-        {"name": "final_step_index", "type_desc": "int", "required": true},
-        {"name": "steps_per_iter", "type_desc": "int", "required": true}
+        {
+          "name": "final_step_index",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "steps_per_iter",
+          "type_desc": "int",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "tuple[int, float]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "tuple[int, float]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [],

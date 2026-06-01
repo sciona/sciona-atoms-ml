@@ -21,12 +21,27 @@
       "type_signature": "(*, mask_supported: bool, overall_sum_has_missing: bool) -> None",
       "depth": 1,
       "inputs": [
-        {"name": "mask_supported", "type_desc": "bool", "required": true},
-        {"name": "overall_sum_has_missing", "type_desc": "bool", "required": true}
+        {
+          "name": "mask_supported",
+          "type_desc": "bool",
+          "required": true
+        },
+        {
+          "name": "overall_sum_has_missing",
+          "type_desc": "bool",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "None"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "None"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "tree_missing_values_mask_required",
@@ -37,12 +52,27 @@
       "type_signature": "(*, mask_supported: bool, overall_sum_has_missing: bool) -> bool",
       "depth": 1,
       "inputs": [
-        {"name": "mask_supported", "type_desc": "bool", "required": true},
-        {"name": "overall_sum_has_missing", "type_desc": "bool", "required": true}
+        {
+          "name": "mask_supported",
+          "type_desc": "bool",
+          "required": true
+        },
+        {
+          "name": "overall_sum_has_missing",
+          "type_desc": "bool",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "tree_missing_values_mask_result",
@@ -53,11 +83,22 @@
       "type_signature": "(missing_values_in_feature_mask: tuple[bool, ...]) -> tuple[bool, ...]",
       "depth": 1,
       "inputs": [
-        {"name": "missing_values_in_feature_mask", "type_desc": "tuple[bool, ...]", "required": true}
+        {
+          "name": "missing_values_in_feature_mask",
+          "type_desc": "tuple[bool, ...]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "tuple[bool, ...]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "tuple[bool, ...]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [],
@@ -69,4 +110,3 @@
     "remediation_case": "Case 7 probabilistic and mutable-kernel workflows"
   }
 }
-

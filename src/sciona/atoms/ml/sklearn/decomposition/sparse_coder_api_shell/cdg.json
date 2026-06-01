@@ -12,11 +12,22 @@
       "concept_type": "estimator_api_shell",
       "type_signature": "(estimator_token: str) -> str",
       "inputs": [
-        {"name": "estimator_token", "type_desc": "str", "required": true}
+        {
+          "name": "estimator_token",
+          "type_desc": "str",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "str"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "str"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "sparse_coder_transform_dictionary",
@@ -27,11 +38,22 @@
       "concept_type": "estimator_api_shell",
       "type_signature": "(dictionary: NDArray[np.float64]) -> NDArray[np.float64]",
       "inputs": [
-        {"name": "dictionary", "type_desc": "NDArray[np.float64]", "required": true}
+        {
+          "name": "dictionary",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "NDArray[np.float64]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "sparse_coder_requires_fit_tag",
@@ -42,11 +64,22 @@
       "concept_type": "estimator_tags",
       "type_signature": "(parent_requires_fit: bool) -> bool",
       "inputs": [
-        {"name": "parent_requires_fit", "type_desc": "bool", "required": true}
+        {
+          "name": "parent_requires_fit",
+          "type_desc": "bool",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "sparse_coder_preserves_dtype_tags",
@@ -57,11 +90,22 @@
       "concept_type": "estimator_tags",
       "type_signature": "(parent_preserves_dtype: tuple[str, ...]) -> tuple[str, str]",
       "inputs": [
-        {"name": "parent_preserves_dtype", "type_desc": "tuple[str, ...]", "required": true}
+        {
+          "name": "parent_preserves_dtype",
+          "type_desc": "tuple[str, ...]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "tuple[str, str]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "tuple[str, str]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "sparse_coder_n_features_out",
@@ -72,16 +116,39 @@
       "concept_type": "sparse_coder_property",
       "type_signature": "(dictionary: NDArray[np.float64]) -> int",
       "inputs": [
-        {"name": "dictionary", "type_desc": "NDArray[np.float64]", "required": true}
+        {
+          "name": "dictionary",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "int"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "int"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "sparse_coder_transform_dictionary", "target": "sparse_coder_n_features_out", "kind": "dictionary_shape_context"},
-    {"source": "sparse_coder_requires_fit_tag", "target": "sparse_coder_transform_dictionary", "kind": "api_context"},
-    {"source": "sparse_coder_preserves_dtype_tags", "target": "sparse_coder_transform_dictionary", "kind": "tag_context"}
+    {
+      "source": "sparse_coder_transform_dictionary",
+      "target": "sparse_coder_n_features_out",
+      "kind": "dictionary_shape_context"
+    },
+    {
+      "source": "sparse_coder_requires_fit_tag",
+      "target": "sparse_coder_transform_dictionary",
+      "kind": "api_context"
+    },
+    {
+      "source": "sparse_coder_preserves_dtype_tags",
+      "target": "sparse_coder_transform_dictionary",
+      "kind": "tag_context"
+    }
   ]
 }

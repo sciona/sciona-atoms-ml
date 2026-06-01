@@ -20,12 +20,25 @@
       "status": "atomic",
       "concept_type": "partial_dependence_branch",
       "inputs": [
-        {"name": "has_columns", "type_desc": "bool"},
-        {"name": "columns_has_tolist", "type_desc": "bool"}
+        {
+          "name": "has_columns",
+          "type_desc": "bool"
+        },
+        {
+          "name": "columns_has_tolist",
+          "type_desc": "bool"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "partial_dependence_default_feature_names",
@@ -34,11 +47,21 @@
       "status": "atomic",
       "concept_type": "partial_dependence_bookkeeping",
       "inputs": [
-        {"name": "n_features", "type_desc": "int"}
+        {
+          "name": "n_features",
+          "type_desc": "int"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "tuple[str, ...]"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "tuple[str, ...]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "partial_dependence_use_feature_names_tolist",
@@ -47,12 +70,25 @@
       "status": "atomic",
       "concept_type": "partial_dependence_branch",
       "inputs": [
-        {"name": "feature_names_provided", "type_desc": "bool"},
-        {"name": "feature_names_has_tolist", "type_desc": "bool"}
+        {
+          "name": "feature_names_provided",
+          "type_desc": "bool"
+        },
+        {
+          "name": "feature_names_has_tolist",
+          "type_desc": "bool"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "partial_dependence_duplicate_feature_names_guard_required",
@@ -61,11 +97,21 @@
       "status": "atomic",
       "concept_type": "partial_dependence_guard_branch",
       "inputs": [
-        {"name": "feature_names", "type_desc": "tuple[str, ...]"}
+        {
+          "name": "feature_names",
+          "type_desc": "tuple[str, ...]"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "bool"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "bool"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "partial_dependence_duplicate_feature_names_message",
@@ -74,16 +120,38 @@
       "status": "atomic",
       "concept_type": "partial_dependence_guard_message",
       "inputs": [
-        {"name": "feature_names", "type_desc": "tuple[str, ...]"}
+        {
+          "name": "feature_names",
+          "type_desc": "tuple[str, ...]"
+        }
       ],
       "outputs": [
-        {"name": "result", "type_desc": "str"}
-      ]
+        {
+          "name": "result",
+          "type_desc": "str"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     }
   ],
   "edges": [
-    {"source": "partial_dependence_use_column_names_tolist", "target": "partial_dependence_default_feature_names", "kind": "default_name_branch"},
-    {"source": "partial_dependence_use_feature_names_tolist", "target": "partial_dependence_duplicate_feature_names_guard_required", "kind": "normalization_to_guard"},
-    {"source": "partial_dependence_duplicate_feature_names_guard_required", "target": "partial_dependence_duplicate_feature_names_message", "kind": "guard_to_message"}
+    {
+      "source": "partial_dependence_use_column_names_tolist",
+      "target": "partial_dependence_default_feature_names",
+      "kind": "default_name_branch"
+    },
+    {
+      "source": "partial_dependence_use_feature_names_tolist",
+      "target": "partial_dependence_duplicate_feature_names_guard_required",
+      "kind": "normalization_to_guard"
+    },
+    {
+      "source": "partial_dependence_duplicate_feature_names_guard_required",
+      "target": "partial_dependence_duplicate_feature_names_message",
+      "kind": "guard_to_message"
+    }
   ]
 }

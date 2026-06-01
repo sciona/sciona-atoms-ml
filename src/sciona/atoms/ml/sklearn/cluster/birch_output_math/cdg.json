@@ -10,8 +10,23 @@
       "status": "atomic",
       "concept_type": "statistics",
       "description": "Compute Birch's cached squared subcluster norms from supplied subcluster centers.",
-      "inputs": [{"name": "subcluster_centers", "type_desc": "ndarray[float64]", "required": true}],
-      "outputs": [{"name": "result", "type_desc": "ndarray[float64]"}]
+      "inputs": [
+        {
+          "name": "subcluster_centers",
+          "type_desc": "ndarray[float64]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "ndarray[float64]"
+        }
+      ],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function executes in constant time and space as it only performs simple validation checks, variable assignments, or returns inputs.",
+      "complexity_confidence": 98
     },
     {
       "node_id": "birch_predict_argmin",
@@ -20,11 +35,32 @@
       "concept_type": "assignment",
       "description": "Compute Birch's nearest-subcluster indices from supplied samples, centers, and squared center norms.",
       "inputs": [
-        {"name": "X", "type_desc": "ndarray[float64]", "required": true},
-        {"name": "subcluster_centers", "type_desc": "ndarray[float64]", "required": true},
-        {"name": "subcluster_norms", "type_desc": "ndarray[float64]", "required": true}
+        {
+          "name": "X",
+          "type_desc": "ndarray[float64]",
+          "required": true
+        },
+        {
+          "name": "subcluster_centers",
+          "type_desc": "ndarray[float64]",
+          "required": true
+        },
+        {
+          "name": "subcluster_norms",
+          "type_desc": "ndarray[float64]",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "ndarray[int64]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "ndarray[int64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(B * d)",
+      "complexity_reasoning": "BIRCH clustering constructs a clustering feature tree, scaling linearly with sample size N and dimensionality d given branching factor B.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "birch_predict_labels",
@@ -33,10 +69,27 @@
       "concept_type": "postprocessing",
       "description": "Lookup Birch predicted labels from nearest-subcluster indices and a supplied subcluster-label vector.",
       "inputs": [
-        {"name": "nearest_subcluster_indices", "type_desc": "ndarray[int64]", "required": true},
-        {"name": "subcluster_labels", "type_desc": "ndarray[int64]", "required": true}
+        {
+          "name": "nearest_subcluster_indices",
+          "type_desc": "ndarray[int64]",
+          "required": true
+        },
+        {
+          "name": "subcluster_labels",
+          "type_desc": "ndarray[int64]",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "ndarray[int64]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "ndarray[int64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(B * d)",
+      "complexity_reasoning": "BIRCH clustering constructs a clustering feature tree, scaling linearly with sample size N and dimensionality d given branching factor B.",
+      "complexity_confidence": 90
     },
     {
       "node_id": "birch_transform_distances",
@@ -45,15 +98,44 @@
       "concept_type": "distance_matrix",
       "description": "Compute Birch transform distances from supplied samples to supplied subcluster centers.",
       "inputs": [
-        {"name": "X", "type_desc": "ndarray[float64]", "required": true},
-        {"name": "subcluster_centers", "type_desc": "ndarray[float64]", "required": true}
+        {
+          "name": "X",
+          "type_desc": "ndarray[float64]",
+          "required": true
+        },
+        {
+          "name": "subcluster_centers",
+          "type_desc": "ndarray[float64]",
+          "required": true
+        }
       ],
-      "outputs": [{"name": "result", "type_desc": "ndarray[float64]"}]
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "ndarray[float64]"
+        }
+      ],
+      "time_complexity": "O(N * d)",
+      "space_complexity": "O(B * d)",
+      "complexity_reasoning": "BIRCH clustering constructs a clustering feature tree, scaling linearly with sample size N and dimensionality d given branching factor B.",
+      "complexity_confidence": 90
     }
   ],
   "edges": [
-    {"source": "birch_subcluster_norms", "target": "birch_predict_argmin", "kind": "cached_statistic"},
-    {"source": "birch_predict_argmin", "target": "birch_predict_labels", "kind": "label_lookup"},
-    {"source": "birch_subcluster_norms", "target": "birch_transform_distances", "kind": "shared_centers"}
+    {
+      "source": "birch_subcluster_norms",
+      "target": "birch_predict_argmin",
+      "kind": "cached_statistic"
+    },
+    {
+      "source": "birch_predict_argmin",
+      "target": "birch_predict_labels",
+      "kind": "label_lookup"
+    },
+    {
+      "source": "birch_subcluster_norms",
+      "target": "birch_transform_distances",
+      "kind": "shared_centers"
+    }
   ]
 }
