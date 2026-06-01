@@ -15,7 +15,7 @@ work safely.
     recommended moving to non-coordinate-descent callback seams with lower
     duplicate risk
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.ransac_predict_score_callback_shell`
+  - `sklearn.linear_model.ransac_metadata_routing_shell`
 
 ## Known Unrelated Local Modification
 
@@ -218,6 +218,7 @@ Already landed in this section:
 - `quantile_linprog_failure_message_shell`
 - `ransac_callback_orchestration_shell`
 - `ransac_fit_prelude_termination_shell`
+- `ransac_metadata_routing_shell`
 - `ransac_predict_score_callback_shell`
 - `sgd_classifier_fit_callback_shell`
 - `sgd_regressor_fit_callback_shell`
@@ -243,13 +244,16 @@ The next best bounded candidates should come from non-coordinate
 
 Best audited next candidate after the current wave:
 
-- `ransac_metadata_routing_shell`
-  - basis: sklearn 1.6.1 `_ransac.py` immediately after the public
-    predict/score callbacks
-  - likely scope is the deterministic `get_metadata_routing` owner and
-    method-mapping payload for estimator fit/score/predict callbacks
-  - avoid tag-only coverage unless no non-tag seam remains; keep arbitrary
-    base-estimator behavior and routing execution outside
+- Re-audit non-coordinate `sklearn.linear_model` deferred targets before
+  choosing the next seam.
+  - RANSAC now has landed packages for fit-loop callback orchestration,
+    prelude/termination guards, public predict/score callback payloads, and
+    metadata-routing payloads.
+  - Prefer a source-local non-tag callback or optimizer-boundary seam from
+    Huber, Quantile, SGD, GLM, LARS CV, or another deferred non-coordinate
+    target.
+  - Avoid broad estimator wrappers that would hide SciPy/native/Cython solver
+    execution or arbitrary user-estimator callbacks.
 
 Completed current wave:
 
@@ -285,6 +289,15 @@ Completed current wave:
   - leaves fitted checks, validation execution, `_raise_for_params`,
     metadata-routing execution, arbitrary base-estimator behavior, and
     estimator mutation outside the slice
+
+- `ransac_metadata_routing_shell`
+  - publishes deterministic `RANSACRegressor.get_metadata_routing` helpers:
+    router owner name, fixed estimator caller/callee method-mapping pairs,
+    `MethodMapping.add` kwargs, `MetadataRouter.add` estimator payload, and
+    final router return identity
+  - leaves MetadataRouter/MethodMapping construction, metadata-routing
+    execution, arbitrary base-estimator behavior, tags, and estimator mutation
+    outside the slice
 
 - `sgd_one_class_fit_shell`
   - publishes deterministic `SGDOneClassSVM._fit_one_class` / `_partial_fit`

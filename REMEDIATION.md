@@ -872,6 +872,14 @@ Potential remediation path:
   `_raise_for_params`, metadata-routing execution, arbitrary base-estimator
   behavior, and estimator mutation remain outside this slice.
 - Completed helper slice:
+  `sklearn.linear_model.ransac_metadata_routing_shell` now publishes
+  deterministic `RANSACRegressor.get_metadata_routing` helpers: router owner
+  name resolution, fixed estimator caller/callee method-mapping pairs,
+  `MethodMapping.add` kwargs, `MetadataRouter.add` estimator payload, and
+  final router return identity. MetadataRouter/MethodMapping construction,
+  metadata-routing execution, arbitrary base-estimator behavior, tags, and
+  estimator mutation remain outside this slice.
+- Completed helper slice:
   `sklearn.linear_model.ransac_fit_prelude_termination_shell` now publishes
   deterministic `RANSACRegressor.fit` prelude and termination helpers:
   `min_samples` resolution, the `min_samples > n_samples` guard payload, the

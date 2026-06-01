@@ -1,0 +1,80 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_ransac_metadata_routing_shell_root",
+      "name": "Sklearn RANSAC Metadata-routing Shell Atoms",
+      "description": "Deterministic RANSACRegressor.get_metadata_routing owner, method-mapping, add-payload, and return helpers.",
+      "status": "decomposed",
+      "children": [
+        "ransac_metadata_router_owner",
+        "ransac_metadata_method_mapping_add_kwargs",
+        "ransac_metadata_estimator_payload",
+        "ransac_metadata_router_result"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "ransac_metadata_router_owner",
+      "name": "ransac_metadata_router_owner",
+      "description": "Return the owner string passed to MetadataRouter.",
+      "concept_type": "metadata_routing",
+      "status": "atomic",
+      "type_signature": "(class_name: str) -> str",
+      "depth": 1,
+      "inputs": [{"name": "class_name", "type_desc": "self.__class__.__name__", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "MetadataRouter owner"}]
+    },
+    {
+      "node_id": "ransac_metadata_method_mapping_add_kwargs",
+      "name": "ransac_metadata_method_mapping_add_kwargs",
+      "description": "Return kwargs for one MethodMapping.add call.",
+      "concept_type": "metadata_routing",
+      "status": "atomic",
+      "type_signature": "(caller: str, callee: str) -> dict[str, str]",
+      "depth": 1,
+      "inputs": [
+        {"name": "caller", "type_desc": "caller method", "required": true},
+        {"name": "callee", "type_desc": "callee method", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "MethodMapping.add kwargs"}]
+    },
+    {
+      "node_id": "ransac_metadata_estimator_payload",
+      "name": "ransac_metadata_estimator_payload",
+      "description": "Return the named payload passed to MetadataRouter.add for the wrapped estimator.",
+      "concept_type": "metadata_routing",
+      "status": "atomic",
+      "type_signature": "(estimator: object, method_mapping: object) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator", "type_desc": "wrapped estimator", "required": true},
+        {"name": "method_mapping", "type_desc": "constructed MethodMapping", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "MetadataRouter.add named payload"}]
+    },
+    {
+      "node_id": "ransac_metadata_router_result",
+      "name": "ransac_metadata_router_result",
+      "description": "Return the constructed metadata router unchanged.",
+      "concept_type": "metadata_routing",
+      "status": "atomic",
+      "type_signature": "(router: object) -> object",
+      "depth": 1,
+      "inputs": [{"name": "router", "type_desc": "constructed MetadataRouter", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "router return value"}]
+    }
+  ],
+  "edges": [
+    {"source": "ransac_metadata_router_owner", "target": "ransac_metadata_estimator_payload", "kind": "metadata_routing"},
+    {"source": "ransac_metadata_method_mapping_add_kwargs", "target": "ransac_metadata_estimator_payload", "kind": "metadata_routing"},
+    {"source": "ransac_metadata_estimator_payload", "target": "ransac_metadata_router_result", "kind": "metadata_routing"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._ransac",
+    "source_version": "1.6.1",
+    "source_license": "BSD-3-Clause",
+    "source_lines": "693-712",
+    "remediation_case": "Case 3 meta-estimator metadata routing callback boundary"
+  }
+}
