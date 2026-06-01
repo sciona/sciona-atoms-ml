@@ -15,7 +15,7 @@ work safely.
     recommended moving to non-coordinate-descent callback seams with lower
     duplicate risk
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.sgd_classifier_partial_fit_callback_shell`
+  - `sklearn.linear_model.logistic_scoring_path_callback_shell`
 
 ## Known Unrelated Local Modification
 
@@ -226,6 +226,7 @@ Already landed in this section:
 - `ransac_predict_score_callback_shell`
 - `sgd_classifier_fit_callback_shell`
 - `sgd_classifier_partial_fit_callback_shell`
+- `logistic_scoring_path_callback_shell`
 - `sgd_regressor_fit_callback_shell`
 - `sgd_tags_super_callback_shell`
 
@@ -247,15 +248,7 @@ The next best bounded candidates should come from non-coordinate
      boundaries
    - avoid tag-only families unless they unblock a larger non-tag remediation
 
-Best audited next candidates after the current wave:
-
-- `logistic_scoring_path_callback_shell`
-  - source: sklearn 1.6.1 `_logistic.py` lines 735-804
-  - likely scope: `_log_reg_scoring_path` fold slicing, delegated path-call
-    payloads, temporary estimator state from supplied coefficients, and scorer
-    callback payloads
-  - keep scorer lookup/execution and `_logistic_regression_path` execution
-    outside the slice
+Best audited next candidate after the current wave:
 
 - `logistic_fit_path_dispatch_payload_shell`
   - source: sklearn 1.6.1 `_logistic.py` lines 1193-1373
@@ -452,6 +445,19 @@ Completed current wave:
     reshaping, solver execution, validation, scorer callbacks, CV splitter
     construction, metadata routing, joblib scheduling, and estimator mutation
     outside the slice
+
+- `logistic_scoring_path_callback_shell`
+  - publishes deterministic `_log_reg_scoring_path` callback-boundary helpers:
+    train/test fold slicing, checked sample-weight slicing, deferred
+    `_logistic_regression_path` kwargs and call payloads, temporary
+    LogisticRegression constructor/classes state, positive-class y_test
+    recoding, per-path coefficient/intercept state, checked scorer parameters,
+    scorer/default-score call payloads, and final scoring-path tuple packaging
+  - includes Big-O complexity metadata on all atomic CDG nodes per
+    `AGENT_INGESTION.md`
+  - leaves `_logistic_regression_path` execution, LogisticRegression.score
+    execution, custom scorer execution, optimization, convergence, validation
+    side effects, and estimator mutation outside the slice
 
 Pick the next seam by re-reading the immediate source region rather than
 assuming this ordering is still optimal.

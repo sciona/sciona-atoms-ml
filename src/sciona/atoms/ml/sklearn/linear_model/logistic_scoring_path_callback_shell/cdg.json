@@ -1,0 +1,267 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_logistic_scoring_path_callback_shell_root",
+      "name": "Sklearn Logistic Scoring-path Callback Shell Atoms",
+      "description": "Deterministic _log_reg_scoring_path fold slicing, solver callback payload, temporary estimator state, scoring payload, and result packaging helpers.",
+      "status": "decomposed",
+      "children": [
+        "logistic_scoring_fold_split",
+        "logistic_scoring_sample_weight_split",
+        "logistic_scoring_path_kwargs",
+        "logistic_scoring_path_call",
+        "logistic_scoring_temp_log_reg_kwargs",
+        "logistic_scoring_classes",
+        "logistic_scoring_positive_y_test",
+        "logistic_scoring_coef_intercept_state",
+        "logistic_scoring_score_params",
+        "logistic_scoring_score_call_payload",
+        "logistic_scoring_result_tuple"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "logistic_scoring_fold_split",
+      "name": "logistic_scoring_fold_split",
+      "description": "Return X_train, X_test, y_train, and y_test slices for one scoring fold.",
+      "concept_type": "cross_validation_split",
+      "status": "atomic",
+      "type_signature": "(X: object, y: object, train: object, test: object) -> tuple[object, object, object, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "indexable design matrix", "required": true},
+        {"name": "y", "type_desc": "indexable target vector", "required": true},
+        {"name": "train", "type_desc": "train indices", "required": true},
+        {"name": "test", "type_desc": "test indices", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "four fold slices"}],
+      "time_complexity": "O(n)",
+      "space_complexity": "O(n)",
+      "complexity_reasoning": "The function creates train and test slices containing n selected rows across X and y.",
+      "complexity_confidence": 96
+    },
+    {
+      "node_id": "logistic_scoring_sample_weight_split",
+      "name": "logistic_scoring_sample_weight_split",
+      "description": "Return train and test sample-weight slices, preserving the None branch.",
+      "concept_type": "cross_validation_split",
+      "status": "atomic",
+      "type_signature": "(sample_weight: object, train: object, test: object) -> tuple[object, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "sample_weight", "type_desc": "checked sample-weight vector or None", "required": true},
+        {"name": "train", "type_desc": "train indices", "required": true},
+        {"name": "test", "type_desc": "test indices", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "train and test sample-weight slices"}],
+      "time_complexity": "O(n)",
+      "space_complexity": "O(n)",
+      "complexity_reasoning": "The non-None branch slices n selected sample-weight values for train and test folds.",
+      "complexity_confidence": 96
+    },
+    {
+      "node_id": "logistic_scoring_path_kwargs",
+      "name": "logistic_scoring_path_kwargs",
+      "description": "Return the exact keyword payload passed to _logistic_regression_path for one scoring fold.",
+      "concept_type": "callback_payload",
+      "status": "atomic",
+      "type_signature": "(Cs: object, l1_ratio: object, fit_intercept: bool, solver: object, max_iter: int, class_weight: object, pos_class: object, multi_class: str, tol: object, verbose: int, dual: bool, penalty: object, intercept_scaling: object, random_state: object, max_squared_sum: object, sw_train: object) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "Cs", "type_desc": "regularization grid", "required": true},
+        {"name": "l1_ratio", "type_desc": "elastic-net mixing payload", "required": true},
+        {"name": "fit_intercept", "type_desc": "fit-intercept flag", "required": true},
+        {"name": "solver", "type_desc": "solver name", "required": true},
+        {"name": "max_iter", "type_desc": "maximum solver iterations", "required": true},
+        {"name": "class_weight", "type_desc": "class-weight payload", "required": true},
+        {"name": "pos_class", "type_desc": "OvR positive class or None", "required": true},
+        {"name": "multi_class", "type_desc": "multiclass mode", "required": true},
+        {"name": "tol", "type_desc": "solver tolerance", "required": true},
+        {"name": "verbose", "type_desc": "verbose level", "required": true},
+        {"name": "dual", "type_desc": "dual formulation flag", "required": true},
+        {"name": "penalty", "type_desc": "penalty name", "required": true},
+        {"name": "intercept_scaling", "type_desc": "intercept scaling value", "required": true},
+        {"name": "random_state", "type_desc": "random-state payload", "required": true},
+        {"name": "max_squared_sum", "type_desc": "SAG/SAGA max-squared-sum payload", "required": true},
+        {"name": "sw_train", "type_desc": "training sample-weight slice", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "_logistic_regression_path keyword payload"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function assembles a fixed-size mapping from existing payload objects.",
+      "complexity_confidence": 98
+    },
+    {
+      "node_id": "logistic_scoring_path_call",
+      "name": "logistic_scoring_path_call",
+      "description": "Return positional X/y and keyword payload for the deferred solver call.",
+      "concept_type": "callback_payload",
+      "status": "atomic",
+      "type_signature": "(X_train: object, y_train: object, kwargs: dict[str, object]) -> tuple[object, object, dict[str, object]]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X_train", "type_desc": "training design slice", "required": true},
+        {"name": "y_train", "type_desc": "training target slice", "required": true},
+        {"name": "kwargs", "type_desc": "_logistic_regression_path keyword payload", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "solver callback call payload"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function returns a fixed-size tuple of existing payload objects.",
+      "complexity_confidence": 98
+    },
+    {
+      "node_id": "logistic_scoring_temp_log_reg_kwargs",
+      "name": "logistic_scoring_temp_log_reg_kwargs",
+      "description": "Return constructor kwargs for the temporary LogisticRegression scorer object.",
+      "concept_type": "callback_payload",
+      "status": "atomic",
+      "type_signature": "(solver: object, multi_class: str) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "solver", "type_desc": "solver name", "required": true},
+        {"name": "multi_class", "type_desc": "multiclass mode", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "temporary LogisticRegression constructor kwargs"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function returns a two-entry mapping from existing values.",
+      "complexity_confidence": 98
+    },
+    {
+      "node_id": "logistic_scoring_classes",
+      "name": "logistic_scoring_classes",
+      "description": "Return classes_ assigned to the temporary LogisticRegression scorer object.",
+      "concept_type": "state_packaging",
+      "status": "atomic",
+      "type_signature": "(multi_class: str, y_train: object) -> numpy.ndarray",
+      "depth": 1,
+      "inputs": [
+        {"name": "multi_class", "type_desc": "multiclass mode", "required": true},
+        {"name": "y_train", "type_desc": "training target slice", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "temporary classes_ array"}],
+      "time_complexity": "O(n log n)",
+      "space_complexity": "O(n)",
+      "complexity_reasoning": "The OvR branch is constant, while the multinomial branch computes unique labels from n training targets.",
+      "complexity_confidence": 95
+    },
+    {
+      "node_id": "logistic_scoring_positive_y_test",
+      "name": "logistic_scoring_positive_y_test",
+      "description": "Return y_test unchanged or recoded to 1/-1 when pos_class is supplied.",
+      "concept_type": "target_encoding",
+      "status": "atomic",
+      "type_signature": "(y_test: object, pos_class: object) -> object",
+      "depth": 1,
+      "inputs": [
+        {"name": "y_test", "type_desc": "test target slice", "required": true},
+        {"name": "pos_class", "type_desc": "positive class or None", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "possibly recoded test targets"}],
+      "time_complexity": "O(n)",
+      "space_complexity": "O(n)",
+      "complexity_reasoning": "The recode branch compares and writes one output value per test target.",
+      "complexity_confidence": 97
+    },
+    {
+      "node_id": "logistic_scoring_coef_intercept_state",
+      "name": "logistic_scoring_coef_intercept_state",
+      "description": "Return coef_ and intercept_ state assigned before a scoring callback.",
+      "concept_type": "state_packaging",
+      "status": "atomic",
+      "type_signature": "(w: object, multi_class: str, fit_intercept: bool) -> tuple[numpy.ndarray, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "w", "type_desc": "coefficient row or matrix from path solver", "required": true},
+        {"name": "multi_class", "type_desc": "multiclass mode", "required": true},
+        {"name": "fit_intercept", "type_desc": "fit-intercept flag", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "coef_ and intercept_ state tuple"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The function creates array views and fixed scalar metadata without copying coefficient values.",
+      "complexity_confidence": 95
+    },
+    {
+      "node_id": "logistic_scoring_score_params",
+      "name": "logistic_scoring_score_params",
+      "description": "Return score parameters sliced to the held-out fold when applicable.",
+      "concept_type": "callback_payload",
+      "status": "atomic",
+      "type_signature": "(X: object, score_params: Mapping[object, object] | None, test: object) -> dict[object, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "full design matrix for method-parameter routing", "required": true},
+        {"name": "score_params", "type_desc": "optional scorer parameters", "required": false},
+        {"name": "test", "type_desc": "test indices", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "checked scorer parameters"}],
+      "time_complexity": "O(p)",
+      "space_complexity": "O(p)",
+      "complexity_reasoning": "The function routes p score-parameter entries through sklearn's method-parameter checker.",
+      "complexity_confidence": 92
+    },
+    {
+      "node_id": "logistic_scoring_score_call_payload",
+      "name": "logistic_scoring_score_call_payload",
+      "description": "Return the score or scorer call payload without executing it.",
+      "concept_type": "callback_payload",
+      "status": "atomic",
+      "type_signature": "(scoring: object, estimator_state: object, X_test: object, y_test: object, sw_test: object, score_params: Mapping[object, object]) -> tuple[object, ...]",
+      "depth": 1,
+      "inputs": [
+        {"name": "scoring", "type_desc": "custom scorer or None", "required": true},
+        {"name": "estimator_state", "type_desc": "temporary estimator state", "required": true},
+        {"name": "X_test", "type_desc": "test design slice", "required": true},
+        {"name": "y_test", "type_desc": "test target slice", "required": true},
+        {"name": "sw_test", "type_desc": "test sample-weight slice", "required": true},
+        {"name": "score_params", "type_desc": "checked scorer parameters", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "score callback payload"}],
+      "time_complexity": "O(p)",
+      "space_complexity": "O(p)",
+      "complexity_reasoning": "The custom-scorer branch copies p checked score-parameter entries; the default branch returns a constant-size payload.",
+      "complexity_confidence": 93
+    },
+    {
+      "node_id": "logistic_scoring_result_tuple",
+      "name": "logistic_scoring_result_tuple",
+      "description": "Return final _log_reg_scoring_path output tuple with scores converted to an ndarray.",
+      "concept_type": "state_packaging",
+      "status": "atomic",
+      "type_signature": "(coefs: object, Cs: object, scores: object, n_iter: object) -> tuple[object, object, numpy.ndarray, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "coefs", "type_desc": "path coefficients", "required": true},
+        {"name": "Cs", "type_desc": "regularization grid", "required": true},
+        {"name": "scores", "type_desc": "per-C scores", "required": true},
+        {"name": "n_iter", "type_desc": "iteration counts", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "final scoring-path tuple"}],
+      "time_complexity": "O(n)",
+      "space_complexity": "O(n)",
+      "complexity_reasoning": "The function converts n score values to an ndarray while preserving the other result objects.",
+      "complexity_confidence": 97
+    }
+  ],
+  "edges": [
+    {"source": "logistic_scoring_fold_split", "target": "logistic_scoring_sample_weight_split", "kind": "parallel_fold_slicing"},
+    {"source": "logistic_scoring_fold_split", "target": "logistic_scoring_path_kwargs", "kind": "data_dependency"},
+    {"source": "logistic_scoring_sample_weight_split", "target": "logistic_scoring_path_kwargs", "kind": "data_dependency"},
+    {"source": "logistic_scoring_path_kwargs", "target": "logistic_scoring_path_call", "kind": "data_dependency"},
+    {"source": "logistic_scoring_path_call", "target": "logistic_scoring_temp_log_reg_kwargs", "kind": "solver_boundary_precedes"},
+    {"source": "logistic_scoring_temp_log_reg_kwargs", "target": "logistic_scoring_classes", "kind": "state_dependency"},
+    {"source": "logistic_scoring_classes", "target": "logistic_scoring_positive_y_test", "kind": "data_dependency"},
+    {"source": "logistic_scoring_positive_y_test", "target": "logistic_scoring_coef_intercept_state", "kind": "data_dependency"},
+    {"source": "logistic_scoring_coef_intercept_state", "target": "logistic_scoring_score_params", "kind": "state_dependency"},
+    {"source": "logistic_scoring_score_params", "target": "logistic_scoring_score_call_payload", "kind": "data_dependency"},
+    {"source": "logistic_scoring_score_call_payload", "target": "logistic_scoring_result_tuple", "kind": "callback_boundary_precedes"}
+  ],
+  "planning_artifact": null,
+  "metadata": {
+    "source": "sklearn.linear_model._logistic._log_reg_scoring_path",
+    "source_language": "python",
+    "canonical_semantics": true
+  }
+}

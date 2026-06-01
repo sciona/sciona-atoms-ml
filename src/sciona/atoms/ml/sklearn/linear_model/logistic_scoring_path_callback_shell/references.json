@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.logistic_scoring_path_callback_shell.logistic_scoring_fold_split@sciona/atoms/ml/sklearn/linear_model/logistic_scoring_path_callback_shell/atoms.py:265": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from _log_reg_scoring_path train/test slicing of X and y in sklearn.linear_model._logistic."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegressionCV scoring-path internals."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_scoring_path_callback_shell.logistic_scoring_sample_weight_split@sciona/atoms/ml/sklearn/linear_model/logistic_scoring_path_callback_shell/atoms.py:273": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from _log_reg_scoring_path optional sample_weight train/test slicing after sample-weight validation."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegressionCV scoring-path internals."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_scoring_path_callback_shell.logistic_scoring_path_kwargs@sciona/atoms/ml/sklearn/linear_model/logistic_scoring_path_callback_shell/atoms.py:310": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the exact _logistic_regression_path keyword arguments assembled by _log_reg_scoring_path, including check_input=False."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegressionCV scoring-path internals."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_scoring_path_callback_shell.logistic_scoring_path_call@sciona/atoms/ml/sklearn/linear_model/logistic_scoring_path_callback_shell/atoms.py:353": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from _log_reg_scoring_path calling _logistic_regression_path with positional X_train and y_train plus assembled keyword payload."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegressionCV scoring-path internals."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_scoring_path_callback_shell.logistic_scoring_temp_log_reg_kwargs@sciona/atoms/ml/sklearn/linear_model/logistic_scoring_path_callback_shell/atoms.py:361": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from temporary LogisticRegression(solver=solver, multi_class=multi_class) construction inside _log_reg_scoring_path."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegressionCV scoring-path internals."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_scoring_path_callback_shell.logistic_scoring_classes@sciona/atoms/ml/sklearn/linear_model/logistic_scoring_path_callback_shell/atoms.py:369": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from _log_reg_scoring_path assignment of temporary LogisticRegression.classes_ for OvR and multinomial scoring."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegressionCV scoring-path internals."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_scoring_path_callback_shell.logistic_scoring_positive_y_test@sciona/atoms/ml/sklearn/linear_model/logistic_scoring_path_callback_shell/atoms.py:378": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from _log_reg_scoring_path recoding of y_test to 1.0 and -1.0 when pos_class is supplied."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegressionCV scoring-path internals."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_scoring_path_callback_shell.logistic_scoring_coef_intercept_state@sciona/atoms/ml/sklearn/linear_model/logistic_scoring_path_callback_shell/atoms.py:391": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from _log_reg_scoring_path temporary coef_ and intercept_ assignment for each coefficient-path row."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegressionCV scoring-path internals."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_scoring_path_callback_shell.logistic_scoring_score_params@sciona/atoms/ml/sklearn/linear_model/logistic_scoring_path_callback_shell/atoms.py:404": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from _log_reg_scoring_path score_params defaulting and _check_method_params routing by test indices before a custom scorer call."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegressionCV scoring-path internals."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_scoring_path_callback_shell.logistic_scoring_score_call_payload@sciona/atoms/ml/sklearn/linear_model/logistic_scoring_path_callback_shell/atoms.py:423": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from _log_reg_scoring_path branching between LogisticRegression.score and a custom scorer callback."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegressionCV scoring-path internals."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_scoring_path_callback_shell.logistic_scoring_result_tuple@sciona/atoms/ml/sklearn/linear_model/logistic_scoring_path_callback_shell/atoms.py:439": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from _log_reg_scoring_path final return of coefs, Cs, np.array(scores), and n_iter."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for LogisticRegressionCV scoring-path result packaging."}}
+      ]
+    }
+  }
+}

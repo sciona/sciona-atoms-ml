@@ -822,6 +822,17 @@ Potential remediation path:
   reshaping, solver execution, validation, scorer callbacks, CV splitter
   construction, metadata routing, joblib scheduling, and estimator mutation
   remain outside this slice.
+- Completed scoring-path callback shell:
+  `sklearn.linear_model.logistic_scoring_path_callback_shell` now publishes
+  deterministic `_log_reg_scoring_path` callback-boundary helpers: fold
+  train/test slicing, checked sample-weight slicing, solver kwargs and call
+  payloads, temporary LogisticRegression constructor/classes state,
+  positive-class test-target recoding, per-path coefficient/intercept state,
+  checked scorer parameters, scorer/default-score call payloads, and final
+  `(coefs, Cs, np.array(scores), n_iter)` packaging. `_logistic_regression_path`
+  execution, LogisticRegression.score execution, custom scorer execution,
+  optimization, convergence, validation side effects, and estimator mutation
+  remain outside this slice.
 - Completed helper slice: `sklearn.linear_model.huber` now publishes supplied
   residual and objective helpers:
   `huber_linear_residuals`, `huber_outlier_mask`, and
