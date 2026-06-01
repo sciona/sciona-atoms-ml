@@ -1,0 +1,76 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_quantile_sparse_lp_matrix_shell_root",
+      "name": "Sklearn Quantile Sparse LP Matrix Atoms",
+      "description": "Deterministic QuantileRegressor.fit sparse CSC equality-matrix helpers for HiGHS linprog solvers.",
+      "status": "decomposed",
+      "children": [
+        "quantile_highs_sparse_identity",
+        "quantile_highs_intercept_column",
+        "quantile_highs_sparse_a_eq"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "quantile_highs_sparse_identity",
+      "name": "quantile_highs_sparse_identity",
+      "description": "Return the CSC identity block used for HiGHS equality constraints.",
+      "concept_type": "lp_matrix_construction",
+      "status": "atomic",
+      "type_signature": "(n_rows: int, dtype: object) -> sparse.csc_matrix",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_rows", "type_desc": "filtered sample count", "required": true},
+        {"name": "dtype", "type_desc": "input matrix dtype", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "CSC identity matrix"}
+      ]
+    },
+    {
+      "node_id": "quantile_highs_intercept_column",
+      "name": "quantile_highs_intercept_column",
+      "description": "Return the CSC ones column used for an unpenalized intercept.",
+      "concept_type": "lp_matrix_construction",
+      "status": "atomic",
+      "type_signature": "(n_rows: int, dtype: object) -> sparse.csc_matrix",
+      "depth": 1,
+      "inputs": [
+        {"name": "n_rows", "type_desc": "filtered sample count", "required": true},
+        {"name": "dtype", "type_desc": "input matrix dtype", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "CSC ones column"}
+      ]
+    },
+    {
+      "node_id": "quantile_highs_sparse_a_eq",
+      "name": "quantile_highs_sparse_a_eq",
+      "description": "Return the CSC equality-constraint matrix passed toward linprog for HiGHS solvers.",
+      "concept_type": "lp_matrix_construction",
+      "status": "atomic",
+      "type_signature": "(X: object, fit_intercept: bool) -> sparse.csc_matrix",
+      "depth": 1,
+      "inputs": [
+        {"name": "X", "type_desc": "filtered dense or sparse feature matrix", "required": true},
+        {"name": "fit_intercept", "type_desc": "intercept branch selector", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "CSC equality-constraint matrix"}
+      ]
+    }
+  ],
+  "edges": [
+    {"source": "quantile_highs_sparse_identity", "target": "quantile_highs_sparse_a_eq", "kind": "matrix_block"},
+    {"source": "quantile_highs_intercept_column", "target": "quantile_highs_sparse_a_eq", "kind": "matrix_block"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._quantile",
+    "source_version": "1.6.1",
+    "source_license": "BSD-3-Clause",
+    "source_lines": "238-248",
+    "remediation_case": "Case 3 sparse linear-program matrix construction boundary"
+  }
+}

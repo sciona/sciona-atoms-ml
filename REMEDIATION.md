@@ -857,6 +857,14 @@ Potential remediation path:
   `result.x` solution extraction. LP construction, solver guards/options,
   warning behavior, solution decoding, solver execution, and estimator
   mutation remain outside this slice.
+- Completed helper slice:
+  `sklearn.linear_model.quantile_sparse_lp_matrix_shell` now publishes
+  deterministic `QuantileRegressor.fit` HiGHS sparse equality-matrix helpers:
+  CSC identity block construction, CSC intercept-column construction, and the
+  branch-specific CSC `A_eq` assembly with and without an intercept. Zero-weight
+  row filtering, objective-vector construction, solver guards/options,
+  `linprog` execution, solution decoding, warnings, and estimator mutation
+  remain outside this slice.
 - Completed helper slice: `sklearn.linear_model.ransac` now publishes
   estimator-independent consensus bookkeeping helpers:
   `ransac_default_residual_threshold`, `ransac_loss_residuals`,

@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.quantile_sparse_lp_matrix_shell.quantile_highs_sparse_identity@sciona/atoms/ml/sklearn/linear_model/quantile_sparse_lp_matrix_shell/atoms.py:54": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from `sparse.eye(n_indices, dtype=X.dtype, format=\"csc\")` in sklearn.linear_model._quantile.QuantileRegressor.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for QuantileRegressor sparse HiGHS LP construction."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.quantile_sparse_lp_matrix_shell.quantile_highs_intercept_column@sciona/atoms/ml/sklearn/linear_model/quantile_sparse_lp_matrix_shell/atoms.py:63": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from `sparse.csc_matrix(np.ones(shape=(n_indices, 1), dtype=X.dtype))` in sklearn.linear_model._quantile.QuantileRegressor.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for QuantileRegressor sparse HiGHS LP construction."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.quantile_sparse_lp_matrix_shell.quantile_highs_sparse_a_eq@sciona/atoms/ml/sklearn/linear_model/quantile_sparse_lp_matrix_shell/atoms.py:75": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the sparse.hstack equality-matrix branches for HiGHS solvers in sklearn.linear_model._quantile.QuantileRegressor.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for QuantileRegressor sparse HiGHS LP construction."
+          }
+        }
+      ]
+    }
+  }
+}
