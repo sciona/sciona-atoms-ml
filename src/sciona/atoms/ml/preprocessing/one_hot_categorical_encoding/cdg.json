@@ -1,0 +1,110 @@
+{
+  "cdg_id": "one_hot_categorical_encoding",
+  "name": "one_hot_categorical_encoding",
+  "priority": "medium",
+  "decomposition_rationale": "Isolate the category discovery step (which constructs a stable category mapping) from the projection step.",
+  "family_directory_hint": "src/sciona/atoms/ml/preprocessing/",
+  "atomic_nodes": [
+    {
+      "name": "build_category_registry",
+      "semantic_role": "Extract sorted unique categories from a column matrix.",
+      "source_targets": [
+        "numpy.unique"
+      ],
+      "inputs": [
+        {
+          "name": "categorical_matrix",
+          "type_desc": "NDArray[Any]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "registries",
+          "type_desc": "list[NDArray[Any]]"
+        }
+      ],
+      "precondition_candidates": [
+        "categorical_matrix.ndim == 2"
+      ],
+      "postcondition_candidates": [
+        "len(registries) == categorical_matrix.shape[1]"
+      ],
+      "witness_shape_semantics": "Builds lookup registry for each discrete feature column.",
+      "time_complexity": "O(n)",
+      "space_complexity": "O(n)",
+      "complexity_reasoning": "Linear scan complexity.",
+      "complexity_confidence": 90
+    },
+    {
+      "name": "encode_one_hot",
+      "semantic_role": "Project categories into sparse or dense binary dimensions using registry lists.",
+      "source_targets": [
+        "sklearn.preprocessing.OneHotEncoder"
+      ],
+      "inputs": [
+        {
+          "name": "categorical_matrix",
+          "type_desc": "NDArray[Any]",
+          "required": true
+        },
+        {
+          "name": "registries",
+          "type_desc": "list[NDArray[Any]]",
+          "required": true
+        },
+        {
+          "name": "handle_unknown",
+          "type_desc": "str",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "binary_matrix",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "precondition_candidates": [
+        "categorical_matrix.shape[1] == len(registries)"
+      ],
+      "postcondition_candidates": [
+        "binary_matrix.ndim == 2"
+      ],
+      "witness_shape_semantics": "Outputs sparse/dense binary matrix with dimensions based on aggregate category cardinalities.",
+      "time_complexity": "O(n)",
+      "space_complexity": "O(n)",
+      "complexity_reasoning": "Linear scan complexity.",
+      "complexity_confidence": 90
+    }
+  ],
+  "edges": [
+    {
+      "source": "build_category_registry",
+      "target": "encode_one_hot",
+      "output_name": "registries",
+      "input_name": "registries"
+    }
+  ],
+  "cdg_io": {
+    "inputs": [
+      {
+        "name": "categorical_matrix",
+        "type_desc": "NDArray[Any]",
+        "required": true
+      },
+      {
+        "name": "handle_unknown",
+        "type_desc": "str",
+        "required": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "binary_matrix",
+        "type_desc": "NDArray[np.float64]"
+      }
+    ]
+  },
+  "state_model_needed": true
+}

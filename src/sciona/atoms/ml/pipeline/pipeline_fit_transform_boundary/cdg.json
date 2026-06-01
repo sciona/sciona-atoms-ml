@@ -1,0 +1,128 @@
+{
+  "cdg_id": "pipeline_fit_transform_boundary",
+  "name": "pipeline_fit_transform_boundary",
+  "priority": "medium",
+  "decomposition_rationale": "Fusing state updates is a significant source of developer bugs. We explicitly separate 'fit' updates into a State-Object and keep transformation steps functional/stateless.",
+  "family_directory_hint": "src/sciona/atoms/ml/pipeline/",
+  "atomic_nodes": [
+    {
+      "name": "fit_transformer_stage",
+      "semantic_role": "Fit a single transformer state on training data and return the updated state parameters.",
+      "source_targets": [
+        "sklearn.base.TransformerMixin.fit"
+      ],
+      "inputs": [
+        {
+          "name": "data",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "targets",
+          "type_desc": "Optional[NDArray[Any]]",
+          "required": false
+        },
+        {
+          "name": "transformer_template",
+          "type_desc": "Any",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "fitted_state",
+          "type_desc": "Any"
+        },
+        {
+          "name": "transformed_data",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "precondition_candidates": [
+        "data.ndim == 2"
+      ],
+      "postcondition_candidates": [
+        "transformed_data.shape[0] == data.shape[0]"
+      ],
+      "witness_shape_semantics": "Outputs state structure and transformed matrix of same row dimension.",
+      "time_complexity": "O(n)",
+      "space_complexity": "O(n)",
+      "complexity_reasoning": "Linear scan complexity.",
+      "complexity_confidence": 90
+    },
+    {
+      "name": "transform_only_stage",
+      "semantic_role": "Apply a pre-fitted transformer state to validation or test data.",
+      "source_targets": [
+        "sklearn.base.TransformerMixin.transform"
+      ],
+      "inputs": [
+        {
+          "name": "data",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "fitted_state",
+          "type_desc": "Any",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "transformed_data",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "precondition_candidates": [
+        "data.ndim == 2"
+      ],
+      "postcondition_candidates": [
+        "transformed_data.shape[0] == data.shape[0]"
+      ],
+      "witness_shape_semantics": "Stateless projection mapping.",
+      "time_complexity": "O(n)",
+      "space_complexity": "O(n)",
+      "complexity_reasoning": "Linear scan complexity.",
+      "complexity_confidence": 90
+    }
+  ],
+  "edges": [
+    {
+      "source": "fit_transformer_stage",
+      "target": "transform_only_stage",
+      "output_name": "fitted_state",
+      "input_name": "fitted_state"
+    }
+  ],
+  "cdg_io": {
+    "inputs": [
+      {
+        "name": "train_data",
+        "type_desc": "NDArray[np.float64]",
+        "required": true
+      },
+      {
+        "name": "val_data",
+        "type_desc": "NDArray[np.float64]",
+        "required": true
+      },
+      {
+        "name": "transformer_template",
+        "type_desc": "Any",
+        "required": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "transformed_train",
+        "type_desc": "NDArray[np.float64]"
+      },
+      {
+        "name": "transformed_val",
+        "type_desc": "NDArray[np.float64]"
+      }
+    ]
+  },
+  "state_model_needed": true
+}

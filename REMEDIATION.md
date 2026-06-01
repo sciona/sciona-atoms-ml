@@ -126,6 +126,89 @@ Required treatment:
 - When ingested, the wrapper should route data to existing CDG nodes rather
   than duplicate or obscure the upstream computation.
 
+## High-level sklearn coverage audit
+
+Audit date: 2026-06-01.
+
+The remediation goal is not exhaustive private-method coverage. The practical
+goal is that the framework can select and use important sklearn algorithms at a
+high level while the atom ledger remains honest about native solver, optimizer,
+and arbitrary-estimator callback boundaries.
+
+Current conclusion:
+
+- Stop mining tiny internal methods by default. Future waves should add
+  high-level algorithm availability only when it improves selection,
+  orchestration, or user-facing execution.
+- Treat native-backed public estimators as acceptable `pass_with_limits`
+  surfaces when they expose a useful high-level algorithm choice and their
+  review bundle clearly states that core fitting/prediction is delegated to
+  sklearn/native code.
+- Prefer algorithm catalog/config, fit/predict callback payload, fitted-state
+  packaging, and capability metadata atoms over attempts to reimplement native
+  kernels or optimizer loops.
+- Do not count an estimator as missing only because its public wrapper is not
+  fully decomposed. Count it as missing when there is no clean way for the
+  framework to recommend or route to that algorithm family.
+
+Covered well enough for high-level selection/use:
+
+- Linear-model fundamentals and callback boundaries: ridge/linear baseline
+  atoms, coordinate-descent shell coverage, GLM, logistic, Huber, quantile,
+  RANSAC, SGD, and LARS-CV helper families.
+- Preprocessing and feature transforms: scalers, normalizers, binarizers,
+  kernel centering, binning, polynomial/spline-style expansion coverage, random
+  projection, kernel approximation, and several encoding-like primitives.
+- Decomposition and latent representations: PCA, IncrementalPCA, TruncatedSVD,
+  KernelPCA, FastICA, FactorAnalysis, NMF, dictionary learning, sparse coding,
+  and LDA helper/state coverage.
+- Neighbors and density: KNN classifiers/regressors/transformers,
+  NearestNeighbors, KernelDensity, LocalOutlierFactor, and NearestCentroid.
+- Probabilistic classifiers: Gaussian/Multinomial/Complement/Bernoulli/
+  Categorical naive Bayes and LDA/QDA.
+- Calibration, isotonic regression, dummy baselines, semi-supervised label
+  propagation/spreading, diagonal Gaussian mixture models, covariance helpers,
+  multiclass/multioutput orchestration, and many inspection/selection helpers.
+
+Highest-value remaining gaps:
+
+1. **SVM public algorithm surfaces**: `SVC`, `SVR`, `NuSVC`, `NuSVR`,
+   `LinearSVC`, `LinearSVR`, and `OneClassSVM` are important user-visible
+   algorithms, but current committed coverage is essentially `l1_min_c`.
+   Add limited pass-with-limits API/config and fit/predict payload/state atoms
+   rather than trying to decompose libsvm/liblinear.
+2. **Tree ensemble public algorithm surfaces**: decision-tree and forest helper
+   coverage is extensive, but the framework still benefits from explicit
+   high-level surfaces for `RandomForest*`, `ExtraTrees*`,
+   `GradientBoosting*`, `HistGradientBoosting*`, and `IsolationForest`.
+   These should be limited native-tree/boosting wrappers with honest
+   boundaries, not new attempts to model Cython tree growth.
+3. **KMeans-family public algorithm surfaces**: `KMeans`,
+   `MiniBatchKMeans`, and `BisectingKMeans` remain obvious clustering choices.
+   Existing `kmeans_plusplus` and clustering postprocessing helpers cover
+   pieces, but a selection/use layer needs limited solver-boundary surfaces.
+4. **Pipeline/composition and search orchestration**: `Pipeline`,
+   `ColumnTransformer`, `FeatureUnion`, `GridSearchCV`,
+   `RandomizedSearchCV`, and common CV splitter workflows are more useful to
+   users than additional private estimator details. Model these as
+   high-level orchestration atoms over explicit estimator/callable protocols.
+5. **Text vectorization and simple imputation**: Count/TF-IDF vectorizers,
+   HashingVectorizer, SimpleImputer, and KNNImputer are common production
+   building blocks and should be surfaced if not already landed in the current
+   branch.
+6. **Metric suites**: classification, regression, ROC/PR thresholding, and
+   confusion-matrix diagnostics are essential for algorithm selection and
+   should be prioritized over more estimator internals.
+
+Lower-value or sufficiently covered for now:
+
+- Additional coordinate-descent details: the remaining entries are native
+  solver boundaries or duplicate shell behavior.
+- Tag-only atoms: useful only when they unblock a larger API surface.
+- More private callback fragments inside already-covered logistic, RANSAC,
+  SGD, GLM, LARS-CV, NMF, dictionary-learning, tree, forest, or spectral
+  sections unless they directly support a high-level algorithm surface.
+
 ## `sklearn.linear_model` coordinate-descent solvers
 
 Deferred targets:

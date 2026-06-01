@@ -10,16 +10,18 @@ work safely.
 - Branch target: `main`
 - Current remote state: `main` synced with `origin/main` at the time of writing
 - Active remediation frontier:
-  - `sklearn.linear_model` optimizer and callback boundaries
-  - coordinate-descent has many landed shells; the latest frontier audit
-    recommended moving to non-coordinate-descent callback seams with lower
-    duplicate risk
+  - high-level sklearn algorithm availability and selection/use surfaces
+  - stop default mining of tiny private helpers unless they directly support a
+    useful public algorithm surface
 - `REMEDIATION.md` is up-to-date through:
   - `sklearn.linear_model.logistic_scoring_path_callback_shell`
+  - high-level sklearn coverage audit dated 2026-06-01
 
 ## Known Unrelated Local Modification
 
-No unrelated local modifications were observed at the time of writing.
+At the time of writing, the workspace contains unrelated local/untracked
+high-level candidate files and a modified registry. Do not assume these are
+landed. Review and stage only the files relevant to the current task.
 
 ## Hard Constraints
 
@@ -230,6 +232,50 @@ Already landed in this section:
 - `sgd_regressor_fit_callback_shell`
 - `sgd_tags_super_callback_shell`
 
+## High-Level Audit Outcome
+
+The remediation set is close enough on many low-level helper families that the
+next productive work should be high-level algorithm availability, not broader
+private-method coverage. The goal is for the framework to recommend, configure,
+and route to important sklearn algorithms while remaining explicit about native
+solver, optimizer, and arbitrary-estimator callback boundaries.
+
+Covered well enough for high-level selection/use:
+
+- linear-model fundamentals and callback boundaries
+- preprocessing and feature transforms
+- decomposition and latent representations
+- neighbors and density estimators
+- naive Bayes and discriminant analysis classifiers
+- calibration, isotonic regression, dummy baselines, semi-supervised label
+  propagation/spreading, diagonal Gaussian mixtures, covariance helpers,
+  multiclass/multioutput orchestration, and many inspection/selection helpers
+
+Highest-value remaining gaps, in priority order:
+
+1. `sklearn.svm` public estimator surfaces:
+   `SVC`, `SVR`, `NuSVC`, `NuSVR`, `LinearSVC`, `LinearSVR`, and
+   `OneClassSVM`.
+2. Tree ensemble public estimator surfaces:
+   `RandomForest*`, `ExtraTrees*`, `GradientBoosting*`,
+   `HistGradientBoosting*`, and `IsolationForest`.
+3. KMeans-family public estimator surfaces:
+   `KMeans`, `MiniBatchKMeans`, and `BisectingKMeans`.
+4. Pipeline/composition/search orchestration:
+   `Pipeline`, `ColumnTransformer`, `FeatureUnion`, `GridSearchCV`,
+   `RandomizedSearchCV`, and common CV splitters.
+5. Text vectorization and simple imputation:
+   Count/TF-IDF vectorizers, `HashingVectorizer`, `SimpleImputer`, and
+   `KNNImputer`.
+6. Metric suites:
+   classification, regression, ROC/PR thresholding, and confusion-matrix
+   diagnostics.
+
+Use `pass_with_limits` surfaces for public estimators backed by libsvm,
+liblinear, Cython tree growth, KMeans/native solvers, or arbitrary estimator
+callbacks. Prefer capability/config atoms, fit/predict callback payload atoms,
+and fitted-state packaging over attempts to reimplement these kernels.
+
 ## Next Likely Seams
 
 Coordinate-descent remediation is closed for the audited sklearn 1.6.1 source.
@@ -238,24 +284,42 @@ non-duplicative coordinate-descent seam. A tiny multitask tag-super package was
 identified as possible but intentionally skipped because tag-only seams are
 low value and tag values are already represented elsewhere.
 
-The next best bounded candidates should come from non-coordinate
-`sklearn.linear_model` optimizer and callback boundaries:
+The next wave should not default to another non-coordinate `linear_model`
+callback seam unless deliberately finishing that section. For overall framework
+utility, the best next committed wave is a limited `sklearn.svm` public API
+surface.
 
 1. Re-read the non-coordinate deferred-target ledger before choosing a seam
-   - prioritize non-tag optimizer/callback shells with clear source-local
-     behavior
-   - avoid broad estimator wrappers that hide SciPy, native, or Cython solver
-     boundaries
-   - avoid tag-only families unless they unblock a larger non-tag remediation
+   - verify current source locations before implementation
+   - use `pass_with_limits` review bundles for native-backed public estimators
+   - avoid tag-only families unless they unblock a larger public surface
 
 Best audited next candidate after the current wave:
 
-- `logistic_fit_path_dispatch_payload_shell`
-  - source: sklearn 1.6.1 `_logistic.py` lines 1193-1373
-  - likely scope: non-liblinear `LogisticRegression.fit` path dispatch payloads
-    around warm-start expansion, class iteration, `prefer`, C/penalty
-    normalization, and `n_threads`
-  - avoid absorbing the direct liblinear branch or solver execution
+- `svm_public_api_shell`
+  - source: sklearn 1.6.1 `sklearn/svm/_classes.py`
+  - likely scope: config/capability atoms for `SVC`, `SVR`, `NuSVC`, `NuSVR`,
+    `LinearSVC`, `LinearSVR`, and `OneClassSVM`; fit/predict/decision/proba
+    callback payload atoms; fitted-state packaging where source-local and
+    deterministic
+  - avoid absorbing libsvm/liblinear internals or claiming solver topology
+
+Other useful candidates after SVM:
+
+- `ensemble_public_api_shell`
+  - limited public surfaces for forest, extra-trees, gradient-boosting,
+    histogram-gradient-boosting, and isolation-forest algorithm selection
+  - avoid modeling Cython tree growth or boosting internals beyond honest
+    callback/native boundaries
+- `kmeans_public_api_shell`
+  - limited public surfaces for `KMeans`, `MiniBatchKMeans`, and
+    `BisectingKMeans`
+  - reuse existing KMeans++/postprocessing pieces where available and mark the
+    iterative solver boundary explicitly
+- `pipeline_search_public_api_shell`
+  - protocol-based orchestration surfaces for pipeline/column-transformer and
+    grid/randomized-search selection
+  - keep arbitrary estimator callbacks explicit
 
 Completed current wave:
 

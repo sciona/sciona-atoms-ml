@@ -1,0 +1,72 @@
+{
+  "cdg_id": "randomized_search_cross_validation",
+  "name": "randomized_search_cross_validation",
+  "priority": "medium",
+  "decomposition_rationale": "Decouple distribution sampling from training loop execution to allow reproducible seed tracking.",
+  "family_directory_hint": "src/sciona/atoms/ml/model_selection/",
+  "atomic_nodes": [
+    {
+      "name": "sample_parameter_distributions",
+      "semantic_role": "Draw deterministic random hyperparameter samples from target distributions.",
+      "source_targets": [
+        "sklearn.model_selection.ParameterSampler"
+      ],
+      "inputs": [
+        {
+          "name": "distributions",
+          "type_desc": "dict[str, Any]",
+          "required": true
+        },
+        {
+          "name": "n_iter",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "random_state",
+          "type_desc": "Optional[int]",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "sampled_configurations",
+          "type_desc": "list[dict[str, Any]]"
+        }
+      ],
+      "precondition_candidates": [
+        "n_iter > 0"
+      ],
+      "postcondition_candidates": [
+        "len(sampled_configurations) == n_iter"
+      ],
+      "witness_shape_semantics": "Produces parameter configurations vector of length N.",
+      "time_complexity": "O(n)",
+      "space_complexity": "O(n)",
+      "complexity_reasoning": "Linear scan complexity.",
+      "complexity_confidence": 90
+    }
+  ],
+  "edges": [],
+  "cdg_io": {
+    "inputs": [
+      {
+        "name": "distributions",
+        "type_desc": "dict[str, Any]",
+        "required": true
+      },
+      {
+        "name": "n_iter",
+        "type_desc": "int",
+        "required": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "sampled_configurations",
+        "type_desc": "list[dict[str, Any]]"
+      }
+    ]
+  },
+  "state_model_needed": false
+}

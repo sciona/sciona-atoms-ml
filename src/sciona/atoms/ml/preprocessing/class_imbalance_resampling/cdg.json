@@ -1,0 +1,116 @@
+{
+  "cdg_id": "class_imbalance_resampling",
+  "name": "class_imbalance_resampling",
+  "priority": "medium",
+  "decomposition_rationale": "Resampling must be strictly isolated to the training path. Decouple class count checking from the synthetic interpolation algorithm to ensure it is only run when required.",
+  "family_directory_hint": "src/sciona/atoms/ml/preprocessing/",
+  "atomic_nodes": [
+    {
+      "name": "compute_class_imbalance_ratios",
+      "semantic_role": "Verify class frequencies and determine resampling target counts.",
+      "source_targets": [
+        "numpy.bincount"
+      ],
+      "inputs": [
+        {
+          "name": "targets",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "imbalance_detected",
+          "type_desc": "bool"
+        },
+        {
+          "name": "target_counts",
+          "type_desc": "dict[int, int]"
+        }
+      ],
+      "precondition_candidates": [],
+      "postcondition_candidates": [],
+      "witness_shape_semantics": "Analyzes label distribution.",
+      "time_complexity": "O(n)",
+      "space_complexity": "O(n)",
+      "complexity_reasoning": "Linear scan complexity.",
+      "complexity_confidence": 90
+    },
+    {
+      "name": "generate_smote_samples",
+      "semantic_role": "Create synthetic minority samples using linear interpolation of nearest neighbors.",
+      "source_targets": [
+        "imblearn.over_sampling.SMOTE"
+      ],
+      "inputs": [
+        {
+          "name": "features",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "targets",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        },
+        {
+          "name": "k_neighbors",
+          "type_desc": "int",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "resampled_features",
+          "type_desc": "NDArray[np.float64]"
+        },
+        {
+          "name": "resampled_targets",
+          "type_desc": "NDArray[np.int64]"
+        }
+      ],
+      "precondition_candidates": [
+        "features.shape[0] == len(targets)"
+      ],
+      "postcondition_candidates": [
+        "resampled_features.shape[0] > features.shape[0]"
+      ],
+      "witness_shape_semantics": "Expands sample space by generating synthetic values.",
+      "time_complexity": "O(n)",
+      "space_complexity": "O(n)",
+      "complexity_reasoning": "Linear scan complexity.",
+      "complexity_confidence": 90
+    }
+  ],
+  "edges": [],
+  "cdg_io": {
+    "inputs": [
+      {
+        "name": "features",
+        "type_desc": "NDArray[np.float64]",
+        "required": true
+      },
+      {
+        "name": "targets",
+        "type_desc": "NDArray[np.int64]",
+        "required": true
+      },
+      {
+        "name": "k_neighbors",
+        "type_desc": "int",
+        "required": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "resampled_features",
+        "type_desc": "NDArray[np.float64]"
+      },
+      {
+        "name": "resampled_targets",
+        "type_desc": "NDArray[np.int64]"
+      }
+    ]
+  },
+  "state_model_needed": false
+}

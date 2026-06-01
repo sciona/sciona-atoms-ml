@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.model_selection.train_validation_test_split.generate_split_indices@sciona/atoms/ml/model_selection/train_validation_test_split/atoms.py:18": {
+      "references": [
+        {
+          "ref_id": "repo_scikit_learn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [
+              "sklearn.model_selection.StratifiedShuffleSplit",
+              "sklearn.model_selection.GroupKFold"
+            ],
+            "confidence": "high",
+            "notes": "Wraps standard numeric implementation in ['sklearn.model_selection.StratifiedShuffleSplit', 'sklearn.model_selection.GroupKFold']"
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.model_selection.train_validation_test_split.slice_dataset_by_indices@sciona/atoms/ml/model_selection/train_validation_test_split/atoms.py:39": {
+      "references": [
+        {
+          "ref_id": "repo_scikit_learn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [
+              "numpy.take"
+            ],
+            "confidence": "high",
+            "notes": "Wraps standard numeric implementation in ['numpy.take']"
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

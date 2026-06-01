@@ -1,0 +1,64 @@
+{
+  "cdg_id": "bayesian_hyperparameter_search",
+  "name": "bayesian_hyperparameter_search",
+  "priority": "medium",
+  "decomposition_rationale": "Bayesian optimization requires state tracking across trials. Represent the stateful database/history store as a distinct node, separate from the next-parameter sampler and evaluation nodes.",
+  "family_directory_hint": "src/sciona/atoms/ml/model_selection/",
+  "atomic_nodes": [
+    {
+      "name": "propose_next_parameters",
+      "semantic_role": "Query surrogate model (e.g., TPE Sampler) for the next hyperparameter set to evaluate.",
+      "source_targets": [
+        "optuna.samplers.TPESampler.sample_independent"
+      ],
+      "inputs": [
+        {
+          "name": "history",
+          "type_desc": "list[Any]",
+          "required": true,
+          "constraints": "list of evaluated trial records"
+        },
+        {
+          "name": "param_specs",
+          "type_desc": "dict[str, Any]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "next_params",
+          "type_desc": "dict[str, Any]"
+        }
+      ],
+      "precondition_candidates": [],
+      "postcondition_candidates": [],
+      "witness_shape_semantics": "Outputs hyperparameter set based on past objective outcomes.",
+      "time_complexity": "O(n)",
+      "space_complexity": "O(n)",
+      "complexity_reasoning": "Linear scan complexity.",
+      "complexity_confidence": 90
+    }
+  ],
+  "edges": [],
+  "cdg_io": {
+    "inputs": [
+      {
+        "name": "history",
+        "type_desc": "list[Any]",
+        "required": true
+      },
+      {
+        "name": "param_specs",
+        "type_desc": "dict[str, Any]",
+        "required": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "next_params",
+        "type_desc": "dict[str, Any]"
+      }
+    ]
+  },
+  "state_model_needed": true
+}

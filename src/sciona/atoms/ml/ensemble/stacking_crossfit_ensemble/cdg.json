@@ -1,0 +1,138 @@
+{
+  "cdg_id": "stacking_crossfit_ensemble",
+  "name": "stacking_crossfit_ensemble",
+  "priority": "medium",
+  "decomposition_rationale": "Fusing base model fitting, out-of-fold prediction gathering, and meta-model training in one block makes debugging extremely difficult. We separate OOF meta-feature compilation into its own step.",
+  "family_directory_hint": "src/sciona/atoms/ml/ensemble/",
+  "atomic_nodes": [
+    {
+      "name": "compile_oof_meta_features",
+      "semantic_role": "Generate out-of-fold prediction matrix from base estimators using cross-validation.",
+      "source_targets": [
+        "sklearn.model_selection.cross_val_predict"
+      ],
+      "inputs": [
+        {
+          "name": "base_estimators",
+          "type_desc": "list[Any]",
+          "required": true
+        },
+        {
+          "name": "features",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "targets",
+          "type_desc": "NDArray[Any]",
+          "required": true
+        },
+        {
+          "name": "cv_folds",
+          "type_desc": "list[tuple[NDArray[np.int64], NDArray[np.int64]]]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "meta_features",
+          "type_desc": "NDArray[np.float64]",
+          "constraints": "shape (n_samples, n_estimators)"
+        }
+      ],
+      "precondition_candidates": [
+        "len(base_estimators) >= 1"
+      ],
+      "postcondition_candidates": [
+        "meta_features.shape[0] == features.shape[0]",
+        "meta_features.shape[1] == len(base_estimators)"
+      ],
+      "witness_shape_semantics": "Constructs OOF predictions tensor.",
+      "time_complexity": "O(n)",
+      "space_complexity": "O(n)",
+      "complexity_reasoning": "Linear scan complexity.",
+      "complexity_confidence": 90
+    },
+    {
+      "name": "fit_meta_model",
+      "semantic_role": "Train the meta-estimator to combine the out-of-fold predictions of the base estimators.",
+      "source_targets": [
+        "sklearn.base.BaseEstimator.fit"
+      ],
+      "inputs": [
+        {
+          "name": "meta_features",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "targets",
+          "type_desc": "NDArray[Any]",
+          "required": true
+        },
+        {
+          "name": "meta_estimator_template",
+          "type_desc": "Any",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "fitted_meta_model",
+          "type_desc": "Any"
+        }
+      ],
+      "precondition_candidates": [],
+      "postcondition_candidates": [],
+      "witness_shape_semantics": "Fits one meta-model.",
+      "time_complexity": "O(n)",
+      "space_complexity": "O(n)",
+      "complexity_reasoning": "Linear scan complexity.",
+      "complexity_confidence": 90
+    }
+  ],
+  "edges": [
+    {
+      "source": "compile_oof_meta_features",
+      "target": "fit_meta_model",
+      "output_name": "meta_features",
+      "input_name": "meta_features"
+    }
+  ],
+  "cdg_io": {
+    "inputs": [
+      {
+        "name": "base_estimators",
+        "type_desc": "list[Any]",
+        "required": true
+      },
+      {
+        "name": "meta_estimator_template",
+        "type_desc": "Any",
+        "required": true
+      },
+      {
+        "name": "features",
+        "type_desc": "NDArray[np.float64]",
+        "required": true
+      },
+      {
+        "name": "targets",
+        "type_desc": "NDArray[Any]",
+        "required": true
+      },
+      {
+        "name": "cv_folds",
+        "type_desc": "list[tuple[NDArray[np.int64], NDArray[np.int64]]]",
+        "required": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "fitted_meta_model",
+        "type_desc": "Any"
+      }
+    ]
+  },
+  "state_model_needed": true
+}

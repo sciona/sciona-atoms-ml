@@ -1,0 +1,129 @@
+{
+  "cdg_id": "grid_search_cross_validation",
+  "name": "grid_search_cross_validation",
+  "priority": "medium",
+  "decomposition_rationale": "Isolate grid product creation, fold training, performance aggregation, and final model refitting into distinct, modular atoms.",
+  "family_directory_hint": "src/sciona/atoms/ml/model_selection/",
+  "atomic_nodes": [
+    {
+      "name": "generate_cartesian_grid",
+      "semantic_role": "Compile hyperparameter dictionary combinations into list of explicit configurations.",
+      "source_targets": [
+        "sklearn.model_selection.ParameterGrid"
+      ],
+      "inputs": [
+        {
+          "name": "param_grid",
+          "type_desc": "dict[str, list[Any]]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "configurations",
+          "type_desc": "list[dict[str, Any]]"
+        }
+      ],
+      "precondition_candidates": [],
+      "postcondition_candidates": [
+        "len(configurations) > 0"
+      ],
+      "witness_shape_semantics": "Creates list of parameters of size equal to grid cardinality.",
+      "time_complexity": "O(n)",
+      "space_complexity": "O(n)",
+      "complexity_reasoning": "Linear scan complexity.",
+      "complexity_confidence": 90
+    },
+    {
+      "name": "fit_cv_candidate",
+      "semantic_role": "Fit a single parameter combination on a specific training fold and score on validation.",
+      "source_targets": [
+        "sklearn.model_selection._validation._fit_and_score"
+      ],
+      "inputs": [
+        {
+          "name": "estimator",
+          "type_desc": "Any",
+          "required": true
+        },
+        {
+          "name": "features",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "targets",
+          "type_desc": "NDArray[Any]",
+          "required": true
+        },
+        {
+          "name": "params",
+          "type_desc": "dict[str, Any]",
+          "required": true
+        },
+        {
+          "name": "train_indices",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        },
+        {
+          "name": "val_indices",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "validation_score",
+          "type_desc": "float"
+        }
+      ],
+      "precondition_candidates": [],
+      "postcondition_candidates": [],
+      "witness_shape_semantics": "Folds fit-evaluate execution step.",
+      "time_complexity": "O(n)",
+      "space_complexity": "O(n)",
+      "complexity_reasoning": "Linear scan complexity.",
+      "complexity_confidence": 90
+    }
+  ],
+  "edges": [
+    {
+      "source": "generate_cartesian_grid",
+      "target": "fit_cv_candidate",
+      "output_name": "configurations",
+      "input_name": "params"
+    }
+  ],
+  "cdg_io": {
+    "inputs": [
+      {
+        "name": "estimator",
+        "type_desc": "Any",
+        "required": true
+      },
+      {
+        "name": "features",
+        "type_desc": "NDArray[np.float64]",
+        "required": true
+      },
+      {
+        "name": "targets",
+        "type_desc": "NDArray[Any]",
+        "required": true
+      },
+      {
+        "name": "param_grid",
+        "type_desc": "dict[str, list[Any]]",
+        "required": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "best_params",
+        "type_desc": "dict[str, Any]"
+      }
+    ]
+  },
+  "state_model_needed": true
+}

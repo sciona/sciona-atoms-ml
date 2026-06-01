@@ -1,0 +1,82 @@
+{
+  "cdg_id": "time_series_split_validation",
+  "name": "time_series_split_validation",
+  "priority": "medium",
+  "decomposition_rationale": "Time series split uses index geometry solely based on integer shapes. Calculating index ranges is purely logical and deterministic.",
+  "family_directory_hint": "src/sciona/atoms/ml/model_selection/",
+  "atomic_nodes": [
+    {
+      "name": "compute_time_series_split_indices",
+      "semantic_role": "Generate train/test boundary indexes for time-series expanding or rolling window validation.",
+      "source_targets": [
+        "sklearn.model_selection.TimeSeriesSplit"
+      ],
+      "inputs": [
+        {
+          "name": "n_samples",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "n_splits",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "max_train_size",
+          "type_desc": "Optional[int]",
+          "required": false
+        },
+        {
+          "name": "gap",
+          "type_desc": "int",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "folds",
+          "type_desc": "list[tuple[NDArray[np.int64], NDArray[np.int64]]]"
+        }
+      ],
+      "precondition_candidates": [
+        "n_samples > n_splits + gap"
+      ],
+      "postcondition_candidates": [
+        "len(folds) == n_splits"
+      ],
+      "witness_shape_semantics": "Outputs index lists conforming to causality constraints.",
+      "time_complexity": "O(n)",
+      "space_complexity": "O(n)",
+      "complexity_reasoning": "Linear scan complexity.",
+      "complexity_confidence": 90
+    }
+  ],
+  "edges": [],
+  "cdg_io": {
+    "inputs": [
+      {
+        "name": "n_samples",
+        "type_desc": "int",
+        "required": true
+      },
+      {
+        "name": "n_splits",
+        "type_desc": "int",
+        "required": true
+      },
+      {
+        "name": "gap",
+        "type_desc": "int",
+        "required": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "folds",
+        "type_desc": "list[tuple[NDArray[np.int64], NDArray[np.int64]]]"
+      }
+    ]
+  },
+  "state_model_needed": false
+}

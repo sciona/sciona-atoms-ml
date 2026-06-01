@@ -1,0 +1,106 @@
+{
+  "nodes": [
+    {
+      "node_id": "standard_scaler_root",
+      "name": "Standard Scaler Preprocessing",
+      "description": "Atoms computing feature-wise mean and variance, and applying standard scaling normalization using scikit-learn",
+      "status": "decomposed",
+      "children": [
+        "compute_mean_and_variance",
+        "apply_z_scaling"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "compute_mean_and_variance",
+      "name": "compute_mean_and_variance",
+      "description": "Compute mean and variance vectors for a 2D matrix along axis 0.",
+      "concept_type": "preprocessing",
+      "status": "atomic",
+      "type_signature": "(matrix: NDArray[np.float64]) -> tuple[NDArray[np.float64], NDArray[np.float64]]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "matrix",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "means",
+          "type_desc": "NDArray[np.float64]"
+        },
+        {
+          "name": "variances",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(n * d)",
+      "space_complexity": "O(d)",
+      "complexity_reasoning": "Requires a single pass over the matrix rows to compute column-wise mean and variance.",
+      "complexity_confidence": 95
+    },
+    {
+      "node_id": "apply_z_scaling",
+      "name": "apply_z_scaling",
+      "description": "Normalize input matrix using pre-computed means and variances, handling zero-variance columns safely.",
+      "concept_type": "preprocessing",
+      "status": "atomic",
+      "type_signature": "(matrix: NDArray[np.float64], means: NDArray[np.float64], variances: NDArray[np.float64], epsilon: float) -> NDArray[np.float64]",
+      "depth": 1,
+      "inputs": [
+        {
+          "name": "matrix",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "means",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "variances",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "epsilon",
+          "type_desc": "float",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "scaled_matrix",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "time_complexity": "O(n * d)",
+      "space_complexity": "O(n * d)",
+      "complexity_reasoning": "Applies shift and scaling transformations to each element of the input matrix.",
+      "complexity_confidence": 95
+    }
+  ],
+  "edges": [
+    {
+      "source": "compute_mean_and_variance",
+      "target": "apply_z_scaling",
+      "output_name": "means",
+      "input_name": "means"
+    },
+    {
+      "source": "compute_mean_and_variance",
+      "target": "apply_z_scaling",
+      "output_name": "variances",
+      "input_name": "variances"
+    }
+  ],
+  "metadata": {
+    "source": "agent_ingestion",
+    "source_module": "ml.preprocessing.standard_scaler",
+    "source_version": "1.0.0",
+    "source_license": "BSD-3-Clause"
+  }
+}

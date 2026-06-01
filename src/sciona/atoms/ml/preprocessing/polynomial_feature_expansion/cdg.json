@@ -1,0 +1,132 @@
+{
+  "cdg_id": "polynomial_feature_expansion",
+  "name": "polynomial_feature_expansion",
+  "priority": "medium",
+  "decomposition_rationale": "Separate the calculation of the output combinatorial index mappings from the numerical tensor multiplications.",
+  "family_directory_hint": "src/sciona/atoms/ml/preprocessing/",
+  "atomic_nodes": [
+    {
+      "name": "generate_combination_indices",
+      "semantic_role": "Calculate integer indices for polynomial combinations of a given size.",
+      "source_targets": [
+        "math.comb",
+        "itertools.combinations_with_replacement"
+      ],
+      "inputs": [
+        {
+          "name": "num_features",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "degree",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "interaction_only",
+          "type_desc": "bool",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "index_combinations",
+          "type_desc": "list[tuple[int, ...]]"
+        }
+      ],
+      "precondition_candidates": [
+        "num_features > 0",
+        "degree >= 1"
+      ],
+      "postcondition_candidates": [
+        "len(index_combinations) > 0"
+      ],
+      "witness_shape_semantics": "Deterministic shape builder.",
+      "time_complexity": "O(n)",
+      "space_complexity": "O(n)",
+      "complexity_reasoning": "Linear scan complexity.",
+      "complexity_confidence": 90
+    },
+    {
+      "name": "compute_polynomial_products",
+      "semantic_role": "Multiply columns according to predefined combinations.",
+      "source_targets": [
+        "numpy.prod"
+      ],
+      "inputs": [
+        {
+          "name": "matrix",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "index_combinations",
+          "type_desc": "list[tuple[int, ...]]",
+          "required": true
+        },
+        {
+          "name": "include_bias",
+          "type_desc": "bool",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "expanded_matrix",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "precondition_candidates": [
+        "matrix.ndim == 2"
+      ],
+      "postcondition_candidates": [
+        "expanded_matrix.shape[0] == matrix.shape[0]"
+      ],
+      "witness_shape_semantics": "Creates a matrix of shape (n_samples, n_combinations (+1 if bias)).",
+      "time_complexity": "O(n)",
+      "space_complexity": "O(n)",
+      "complexity_reasoning": "Linear scan complexity.",
+      "complexity_confidence": 90
+    }
+  ],
+  "edges": [
+    {
+      "source": "generate_combination_indices",
+      "target": "compute_polynomial_products",
+      "output_name": "index_combinations",
+      "input_name": "index_combinations"
+    }
+  ],
+  "cdg_io": {
+    "inputs": [
+      {
+        "name": "matrix",
+        "type_desc": "NDArray[np.float64]",
+        "required": true
+      },
+      {
+        "name": "degree",
+        "type_desc": "int",
+        "required": true
+      },
+      {
+        "name": "interaction_only",
+        "type_desc": "bool",
+        "required": true
+      },
+      {
+        "name": "include_bias",
+        "type_desc": "bool",
+        "required": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "expanded_matrix",
+        "type_desc": "NDArray[np.float64]"
+      }
+    ]
+  },
+  "state_model_needed": false
+}

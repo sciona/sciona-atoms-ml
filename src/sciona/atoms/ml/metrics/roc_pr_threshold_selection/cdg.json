@@ -1,0 +1,133 @@
+{
+  "cdg_id": "roc_pr_threshold_selection",
+  "name": "roc_pr_threshold_selection",
+  "priority": "medium",
+  "decomposition_rationale": "Decouple the calculation of curve coordinates from the threshold optimizer. This lets users visualize the complete trade-off curve while testing different cost-weighting strategies.",
+  "family_directory_hint": "src/sciona/atoms/ml/metrics/",
+  "atomic_nodes": [
+    {
+      "name": "compute_roc_coordinates",
+      "semantic_role": "Calculate FPR, TPR, and threshold sets.",
+      "source_targets": [
+        "sklearn.metrics.roc_curve"
+      ],
+      "inputs": [
+        {
+          "name": "y_true",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        },
+        {
+          "name": "y_prob",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "fpr",
+          "type_desc": "NDArray[np.float64]"
+        },
+        {
+          "name": "tpr",
+          "type_desc": "NDArray[np.float64]"
+        },
+        {
+          "name": "thresholds",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "precondition_candidates": [
+        "len(y_true) == len(y_prob)"
+      ],
+      "postcondition_candidates": [
+        "len(fpr) == len(thresholds)"
+      ],
+      "witness_shape_semantics": "Outputs coordinates sorting the probability thresholds.",
+      "time_complexity": "O(n)",
+      "space_complexity": "O(n)",
+      "complexity_reasoning": "Linear scan complexity.",
+      "complexity_confidence": 90
+    },
+    {
+      "name": "select_optimal_threshold_youden",
+      "semantic_role": "Determine the optimal classification threshold by maximizing Youden's J statistic.",
+      "source_targets": [
+        "numpy.argmax"
+      ],
+      "inputs": [
+        {
+          "name": "fpr",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "tpr",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "thresholds",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "optimal_threshold",
+          "type_desc": "float"
+        }
+      ],
+      "precondition_candidates": [],
+      "postcondition_candidates": [
+        "0.0 <= optimal_threshold <= 1.0"
+      ],
+      "witness_shape_semantics": "Finds the point on the curve furthest from the diagonal.",
+      "time_complexity": "O(n)",
+      "space_complexity": "O(n)",
+      "complexity_reasoning": "Linear scan complexity.",
+      "complexity_confidence": 90
+    }
+  ],
+  "edges": [
+    {
+      "source": "compute_roc_coordinates",
+      "target": "select_optimal_threshold_youden",
+      "output_name": "fpr",
+      "input_name": "fpr"
+    },
+    {
+      "source": "compute_roc_coordinates",
+      "target": "select_optimal_threshold_youden",
+      "output_name": "tpr",
+      "input_name": "tpr"
+    },
+    {
+      "source": "compute_roc_coordinates",
+      "target": "select_optimal_threshold_youden",
+      "output_name": "thresholds",
+      "input_name": "thresholds"
+    }
+  ],
+  "cdg_io": {
+    "inputs": [
+      {
+        "name": "y_true",
+        "type_desc": "NDArray[np.int64]",
+        "required": true
+      },
+      {
+        "name": "y_prob",
+        "type_desc": "NDArray[np.float64]",
+        "required": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "optimal_threshold",
+        "type_desc": "float"
+      }
+    ]
+  },
+  "state_model_needed": false
+}

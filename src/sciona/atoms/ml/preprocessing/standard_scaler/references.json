@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.preprocessing.standard_scaler.compute_mean_and_variance@sciona/atoms/ml/preprocessing/standard_scaler/atoms.py:40": {
+      "references": [
+        {
+          "ref_id": "repo_numpy",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": ["compute_mean_and_variance"],
+            "confidence": "high",
+            "notes": "Uses numpy.mean and numpy.var for basic column-wise calculation."
+          }
+        },
+        {
+          "ref_id": "repo_scikit_learn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": ["compute_mean_and_variance"],
+            "confidence": "high",
+            "notes": "Modeled after the fit phase of sklearn.preprocessing.StandardScaler."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": ["compute_mean_and_variance"],
+            "confidence": "high",
+            "notes": "Upstream publication for the scikit-learn preprocessing library."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.preprocessing.standard_scaler.apply_z_scaling@sciona/atoms/ml/preprocessing/standard_scaler/atoms.py:83": {
+      "references": [
+        {
+          "ref_id": "repo_scikit_learn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": ["apply_z_scaling"],
+            "confidence": "high",
+            "notes": "Wraps sklearn.preprocessing.StandardScaler to apply the standard scaling transformation."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": ["apply_z_scaling"],
+            "confidence": "high",
+            "notes": "Upstream publication for the scikit-learn preprocessing library."
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

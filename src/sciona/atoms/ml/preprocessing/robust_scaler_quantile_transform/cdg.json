@@ -1,0 +1,109 @@
+{
+  "cdg_id": "robust_scaler_quantile_transform",
+  "name": "robust_scaler_quantile_transform",
+  "priority": "medium",
+  "decomposition_rationale": "Flesh out percentiles computation and linear interpolation mapping as two decoupled operations.",
+  "family_directory_hint": "src/sciona/atoms/ml/preprocessing/",
+  "atomic_nodes": [
+    {
+      "name": "compute_column_percentiles",
+      "semantic_role": "Extract target quantiles from each column of a matrix.",
+      "source_targets": [
+        "numpy.percentile"
+      ],
+      "inputs": [
+        {
+          "name": "matrix",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "percentiles",
+          "type_desc": "NDArray[np.float64]",
+          "required": true,
+          "constraints": "values in [0.0, 100.0]"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "calculated_quantiles",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "precondition_candidates": [
+        "matrix.ndim == 2"
+      ],
+      "postcondition_candidates": [
+        "calculated_quantiles.shape == (len(percentiles), matrix.shape[1])"
+      ],
+      "witness_shape_semantics": "Outputs matrix representing mapped percentile locations.",
+      "time_complexity": "O(n)",
+      "space_complexity": "O(n)",
+      "complexity_reasoning": "Linear scan complexity.",
+      "complexity_confidence": 90
+    },
+    {
+      "name": "apply_robust_normalization",
+      "semantic_role": "Shift matrix by median and scale by IQR.",
+      "source_targets": [
+        "sklearn.preprocessing.RobustScaler"
+      ],
+      "inputs": [
+        {
+          "name": "matrix",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "medians",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "iqrs",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "precondition_candidates": [
+        "matrix.shape[1] == len(medians)"
+      ],
+      "postcondition_candidates": [
+        "result.shape == matrix.shape"
+      ],
+      "witness_shape_semantics": "Returns outlier-robust scaled matrix of identical shape.",
+      "time_complexity": "O(n)",
+      "space_complexity": "O(n)",
+      "complexity_reasoning": "Linear scan complexity.",
+      "complexity_confidence": 90
+    }
+  ],
+  "edges": [],
+  "cdg_io": {
+    "inputs": [
+      {
+        "name": "matrix",
+        "type_desc": "NDArray[np.float64]",
+        "required": true
+      },
+      {
+        "name": "percentiles",
+        "type_desc": "NDArray[np.float64]",
+        "required": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "result",
+        "type_desc": "NDArray[np.float64]"
+      }
+    ]
+  },
+  "state_model_needed": false
+}

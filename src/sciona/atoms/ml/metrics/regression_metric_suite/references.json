@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.metrics.regression_metric_suite.compute_raw_residuals@sciona/atoms/ml/metrics/regression_metric_suite/atoms.py:17": {
+      "references": [
+        {
+          "ref_id": "repo_numpy",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [
+              "numpy.subtract"
+            ],
+            "confidence": "high",
+            "notes": "Wraps standard numeric implementation in ['numpy.subtract']"
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.metrics.regression_metric_suite.compute_l2_regression_metrics@sciona/atoms/ml/metrics/regression_metric_suite/atoms.py:33": {
+      "references": [
+        {
+          "ref_id": "repo_numpy",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [
+              "sklearn.metrics.mean_squared_error",
+              "sklearn.metrics.r2_score"
+            ],
+            "confidence": "high",
+            "notes": "Wraps standard numeric implementation in ['sklearn.metrics.mean_squared_error', 'sklearn.metrics.r2_score']"
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.ensemble.bagging_ensemble_workflow.generate_bootstrap_indices@sciona/atoms/ml/ensemble/bagging_ensemble_workflow/atoms.py:17": {
+      "references": [
+        {
+          "ref_id": "repo_scikit_learn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [
+              "numpy.random.choice"
+            ],
+            "confidence": "high",
+            "notes": "Wraps standard numeric implementation in ['numpy.random.choice']"
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.ensemble.bagging_ensemble_workflow.fit_bootstrap_estimator@sciona/atoms/ml/ensemble/bagging_ensemble_workflow/atoms.py:33": {
+      "references": [
+        {
+          "ref_id": "repo_scikit_learn",
+          "match_metadata": {
+            "similarity_score": null,
+            "match_type": "manual",
+            "matched_nodes": [
+              "sklearn.base.clone",
+              "sklearn.base.BaseEstimator.fit"
+            ],
+            "confidence": "high",
+            "notes": "Wraps standard numeric implementation in ['sklearn.base.clone', 'sklearn.base.BaseEstimator.fit']"
+          }
+        }
+      ],
+      "auto_attribution_runs": []
+    }
+  }
+}

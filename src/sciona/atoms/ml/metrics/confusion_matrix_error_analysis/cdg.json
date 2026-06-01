@@ -1,0 +1,123 @@
+{
+  "cdg_id": "confusion_matrix_error_analysis",
+  "name": "confusion_matrix_error_analysis",
+  "priority": "medium",
+  "decomposition_rationale": "Decouple matrix construction from the normalization logic to allow diagnostic validation of raw sample counts before float divisions.",
+  "family_directory_hint": "src/sciona/atoms/ml/metrics/",
+  "atomic_nodes": [
+    {
+      "name": "build_raw_confusion_matrix",
+      "semantic_role": "Construct a 2D square matrix of prediction/target joint frequencies.",
+      "source_targets": [
+        "sklearn.metrics.confusion_matrix"
+      ],
+      "inputs": [
+        {
+          "name": "y_true",
+          "type_desc": "NDArray[Any]",
+          "required": true
+        },
+        {
+          "name": "y_pred",
+          "type_desc": "NDArray[Any]",
+          "required": true
+        },
+        {
+          "name": "labels",
+          "type_desc": "list[Any]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "raw_matrix",
+          "type_desc": "NDArray[np.int64]",
+          "constraints": "square matrix"
+        }
+      ],
+      "precondition_candidates": [
+        "len(y_true) == len(y_pred)"
+      ],
+      "postcondition_candidates": [
+        "raw_matrix.shape[0] == len(labels)",
+        "raw_matrix.shape[1] == len(labels)"
+      ],
+      "witness_shape_semantics": "Creates square joint occurrences mapping.",
+      "time_complexity": "O(n)",
+      "space_complexity": "O(n)",
+      "complexity_reasoning": "Linear scan complexity.",
+      "complexity_confidence": 90
+    },
+    {
+      "name": "normalize_confusion_matrix",
+      "semantic_role": "Scale joint matrix by total counts along specified axis.",
+      "source_targets": [
+        "numpy.divide"
+      ],
+      "inputs": [
+        {
+          "name": "raw_matrix",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        },
+        {
+          "name": "axis",
+          "type_desc": "str",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "normalized_matrix",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "precondition_candidates": [],
+      "postcondition_candidates": [],
+      "witness_shape_semantics": "Row or column scaling preserving matrix shape.",
+      "time_complexity": "O(n)",
+      "space_complexity": "O(n)",
+      "complexity_reasoning": "Linear scan complexity.",
+      "complexity_confidence": 90
+    }
+  ],
+  "edges": [
+    {
+      "source": "build_raw_confusion_matrix",
+      "target": "normalize_confusion_matrix",
+      "output_name": "raw_matrix",
+      "input_name": "raw_matrix"
+    }
+  ],
+  "cdg_io": {
+    "inputs": [
+      {
+        "name": "y_true",
+        "type_desc": "NDArray[Any]",
+        "required": true
+      },
+      {
+        "name": "y_pred",
+        "type_desc": "NDArray[Any]",
+        "required": true
+      },
+      {
+        "name": "labels",
+        "type_desc": "list[Any]",
+        "required": true
+      },
+      {
+        "name": "axis",
+        "type_desc": "str",
+        "required": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "normalized_matrix",
+        "type_desc": "NDArray[np.float64]"
+      }
+    ]
+  },
+  "state_model_needed": false
+}

@@ -1,0 +1,176 @@
+{
+  "cdg_id": "classification_metric_suite",
+  "name": "classification_metric_suite",
+  "priority": "medium",
+  "decomposition_rationale": "Decouple hard metrics (precision/recall/F1) from probabilistic metrics (log-loss) since they require different inputs (hard labels vs probabilities) and have different numerical stability issues.",
+  "family_directory_hint": "src/sciona/atoms/ml/metrics/",
+  "atomic_nodes": [
+    {
+      "name": "compute_binary_classification_stats",
+      "semantic_role": "Calculate true/false positive/negative counts from binary label vectors.",
+      "source_targets": [
+        "sklearn.metrics.confusion_matrix"
+      ],
+      "inputs": [
+        {
+          "name": "y_true",
+          "type_desc": "NDArray[np.int64]",
+          "required": true,
+          "constraints": "binary array"
+        },
+        {
+          "name": "y_pred",
+          "type_desc": "NDArray[np.int64]",
+          "required": true,
+          "constraints": "binary array"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "tp",
+          "type_desc": "int"
+        },
+        {
+          "name": "fp",
+          "type_desc": "int"
+        },
+        {
+          "name": "tn",
+          "type_desc": "int"
+        },
+        {
+          "name": "fn",
+          "type_desc": "int"
+        }
+      ],
+      "precondition_candidates": [
+        "len(y_true) == len(y_pred)"
+      ],
+      "postcondition_candidates": [],
+      "witness_shape_semantics": "Reduces input vectors to scalar frequency counts.",
+      "time_complexity": "O(n)",
+      "space_complexity": "O(n)",
+      "complexity_reasoning": "Linear scan complexity.",
+      "complexity_confidence": 90
+    },
+    {
+      "name": "compute_f_beta_score",
+      "semantic_role": "Calculate Precision, Recall, and F-beta metrics based on prediction counts.",
+      "source_targets": [
+        "sklearn.metrics.fbeta_score"
+      ],
+      "inputs": [
+        {
+          "name": "tp",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "fp",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "tn",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "fn",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "beta",
+          "type_desc": "float",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "precision",
+          "type_desc": "float"
+        },
+        {
+          "name": "recall",
+          "type_desc": "float"
+        },
+        {
+          "name": "f_beta",
+          "type_desc": "float"
+        }
+      ],
+      "precondition_candidates": [
+        "beta > 0.0"
+      ],
+      "postcondition_candidates": [
+        "0.0 <= precision <= 1.0"
+      ],
+      "witness_shape_semantics": "Derived scalar metrics from class frequencies.",
+      "time_complexity": "O(n)",
+      "space_complexity": "O(n)",
+      "complexity_reasoning": "Linear scan complexity.",
+      "complexity_confidence": 90
+    }
+  ],
+  "edges": [
+    {
+      "source": "compute_binary_classification_stats",
+      "target": "compute_f_beta_score",
+      "output_name": "tp",
+      "input_name": "tp"
+    },
+    {
+      "source": "compute_binary_classification_stats",
+      "target": "compute_f_beta_score",
+      "output_name": "fp",
+      "input_name": "fp"
+    },
+    {
+      "source": "compute_binary_classification_stats",
+      "target": "compute_f_beta_score",
+      "output_name": "tn",
+      "input_name": "tn"
+    },
+    {
+      "source": "compute_binary_classification_stats",
+      "target": "compute_f_beta_score",
+      "output_name": "fn",
+      "input_name": "fn"
+    }
+  ],
+  "cdg_io": {
+    "inputs": [
+      {
+        "name": "y_true",
+        "type_desc": "NDArray[np.int64]",
+        "required": true
+      },
+      {
+        "name": "y_pred",
+        "type_desc": "NDArray[np.int64]",
+        "required": true
+      },
+      {
+        "name": "beta",
+        "type_desc": "float",
+        "required": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "precision",
+        "type_desc": "float"
+      },
+      {
+        "name": "recall",
+        "type_desc": "float"
+      },
+      {
+        "name": "f_beta",
+        "type_desc": "float"
+      }
+    ]
+  },
+  "state_model_needed": false
+}

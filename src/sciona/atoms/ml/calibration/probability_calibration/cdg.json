@@ -1,0 +1,117 @@
+{
+  "cdg_id": "probability_calibration",
+  "name": "probability_calibration",
+  "priority": "medium",
+  "decomposition_rationale": "Decouple calibration curve evaluation from the training of the calibration mapping (sigmoid/isotonic) to allow pre-fit diagnostics.",
+  "family_directory_hint": "src/sciona/atoms/ml/calibration/",
+  "atomic_nodes": [
+    {
+      "name": "compute_calibration_binned_frequencies",
+      "semantic_role": "Group predictions into probability bins and calculate empirical true ratios.",
+      "source_targets": [
+        "sklearn.calibration.calibration_curve"
+      ],
+      "inputs": [
+        {
+          "name": "y_true",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        },
+        {
+          "name": "y_prob",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "n_bins",
+          "type_desc": "int",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "true_ratios",
+          "type_desc": "NDArray[np.float64]"
+        },
+        {
+          "name": "pred_probabilities",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "precondition_candidates": [
+        "n_bins >= 2"
+      ],
+      "postcondition_candidates": [
+        "len(true_ratios) == len(pred_probabilities)"
+      ],
+      "witness_shape_semantics": "Aggregates sample targets into histogram coordinates.",
+      "time_complexity": "O(n)",
+      "space_complexity": "O(n)",
+      "complexity_reasoning": "Linear scan complexity.",
+      "complexity_confidence": 90
+    },
+    {
+      "name": "fit_platt_scaling",
+      "semantic_role": "Train logistic sigmoid mapping function over raw decision outputs.",
+      "source_targets": [
+        "sklearn.calibration.CalibratedClassifierCV"
+      ],
+      "inputs": [
+        {
+          "name": "raw_scores",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y_true",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "calibrator_state",
+          "type_desc": "Any"
+        }
+      ],
+      "precondition_candidates": [],
+      "postcondition_candidates": [],
+      "witness_shape_semantics": "Fits a 1D sigmoid model.",
+      "time_complexity": "O(n)",
+      "space_complexity": "O(n)",
+      "complexity_reasoning": "Linear scan complexity.",
+      "complexity_confidence": 90
+    }
+  ],
+  "edges": [],
+  "cdg_io": {
+    "inputs": [
+      {
+        "name": "y_true",
+        "type_desc": "NDArray[np.int64]",
+        "required": true
+      },
+      {
+        "name": "y_prob",
+        "type_desc": "NDArray[np.float64]",
+        "required": true
+      },
+      {
+        "name": "n_bins",
+        "type_desc": "int",
+        "required": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "true_ratios",
+        "type_desc": "NDArray[np.float64]"
+      },
+      {
+        "name": "pred_probabilities",
+        "type_desc": "NDArray[np.float64]"
+      }
+    ]
+  },
+  "state_model_needed": true
+}

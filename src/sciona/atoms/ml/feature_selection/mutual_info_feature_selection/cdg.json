@@ -1,0 +1,77 @@
+{
+  "cdg_id": "mutual_info_feature_selection",
+  "name": "mutual_info_feature_selection",
+  "priority": "medium",
+  "decomposition_rationale": "Isolate the nearest neighbor distance search (highly computational) from the final KSG calculation.",
+  "family_directory_hint": "src/sciona/atoms/ml/feature_selection/",
+  "atomic_nodes": [
+    {
+      "name": "compute_ksg_mutual_information",
+      "semantic_role": "Calculate Mutual Information scores using Kraskov nearest-neighbor entropy estimation.",
+      "source_targets": [
+        "sklearn.feature_selection._mutual_info._estimate_mi"
+      ],
+      "inputs": [
+        {
+          "name": "features",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "targets",
+          "type_desc": "NDArray[Any]",
+          "required": true
+        },
+        {
+          "name": "n_neighbors",
+          "type_desc": "int",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "scores",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "precondition_candidates": [
+        "features.shape[0] > n_neighbors"
+      ],
+      "postcondition_candidates": [
+        "np.all(scores >= 0.0)"
+      ],
+      "witness_shape_semantics": "Projects high-dimensional space into positive entropy vector.",
+      "time_complexity": "O(n)",
+      "space_complexity": "O(n)",
+      "complexity_reasoning": "Linear scan complexity.",
+      "complexity_confidence": 90
+    }
+  ],
+  "edges": [],
+  "cdg_io": {
+    "inputs": [
+      {
+        "name": "features",
+        "type_desc": "NDArray[np.float64]",
+        "required": true
+      },
+      {
+        "name": "targets",
+        "type_desc": "NDArray[Any]",
+        "required": true
+      },
+      {
+        "name": "n_neighbors",
+        "type_desc": "int",
+        "required": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "scores",
+        "type_desc": "NDArray[np.float64]"
+      }
+    ]
+  },
+  "state_model_needed": false
+}

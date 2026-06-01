@@ -1,0 +1,170 @@
+{
+  "cdg_id": "train_validation_test_split",
+  "name": "train_validation_test_split",
+  "priority": "medium",
+  "decomposition_rationale": "Decouple index partition generation from data slicing to allow reuse of indices across multiple coordinated data matrices (e.g., features, targets, sample weights).",
+  "family_directory_hint": "src/sciona/atoms/ml/model_selection/",
+  "atomic_nodes": [
+    {
+      "name": "generate_split_indices",
+      "semantic_role": "Generate disjoint training, validation, and test indices based on stratification or grouping constraints.",
+      "source_targets": [
+        "sklearn.model_selection.StratifiedShuffleSplit",
+        "sklearn.model_selection.GroupKFold"
+      ],
+      "inputs": [
+        {
+          "name": "targets",
+          "type_desc": "NDArray[Any]",
+          "required": true,
+          "constraints": "1D target array for stratification"
+        },
+        {
+          "name": "train_ratio",
+          "type_desc": "float",
+          "required": true,
+          "constraints": "0.0 < val < 1.0"
+        },
+        {
+          "name": "val_ratio",
+          "type_desc": "float",
+          "required": true,
+          "constraints": "0.0 <= val < 1.0"
+        },
+        {
+          "name": "test_ratio",
+          "type_desc": "float",
+          "required": true,
+          "constraints": "0.0 < val < 1.0"
+        },
+        {
+          "name": "stratify",
+          "type_desc": "bool",
+          "required": true
+        },
+        {
+          "name": "groups",
+          "type_desc": "Optional[NDArray[Any]]",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "train_indices",
+          "type_desc": "NDArray[np.int64]"
+        },
+        {
+          "name": "val_indices",
+          "type_desc": "NDArray[np.int64]"
+        },
+        {
+          "name": "test_indices",
+          "type_desc": "NDArray[np.int64]"
+        }
+      ],
+      "precondition_candidates": [
+        "abs(train_ratio + val_ratio + test_ratio - 1.0) < 1e-6"
+      ],
+      "postcondition_candidates": [
+        "len(np.intersect1d(train_indices, val_indices)) == 0",
+        "len(np.intersect1d(train_indices, test_indices)) == 0"
+      ],
+      "witness_shape_semantics": "Generates three index vectors with total length matching target length.",
+      "time_complexity": "O(n)",
+      "space_complexity": "O(n)",
+      "complexity_reasoning": "Linear scan complexity.",
+      "complexity_confidence": 90
+    },
+    {
+      "name": "slice_dataset_by_indices",
+      "semantic_role": "Slice a high-dimensional feature matrix using precalculated indices.",
+      "source_targets": [
+        "numpy.take"
+      ],
+      "inputs": [
+        {
+          "name": "data",
+          "type_desc": "NDArray[np.float64]",
+          "required": true,
+          "constraints": "2D array"
+        },
+        {
+          "name": "indices",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "precondition_candidates": [
+        "data.ndim == 2",
+        "np.max(indices) < data.shape[0]"
+      ],
+      "postcondition_candidates": [
+        "result.shape[0] == len(indices)"
+      ],
+      "witness_shape_semantics": "Output shape is (len(indices), data.shape[1]).",
+      "time_complexity": "O(n)",
+      "space_complexity": "O(n)",
+      "complexity_reasoning": "Linear scan complexity.",
+      "complexity_confidence": 90
+    }
+  ],
+  "edges": [
+    {
+      "source": "generate_split_indices",
+      "target": "slice_dataset_by_indices",
+      "output_name": "train_indices",
+      "input_name": "indices"
+    }
+  ],
+  "cdg_io": {
+    "inputs": [
+      {
+        "name": "features",
+        "type_desc": "NDArray[np.float64]",
+        "required": true
+      },
+      {
+        "name": "targets",
+        "type_desc": "NDArray[Any]",
+        "required": true
+      },
+      {
+        "name": "train_ratio",
+        "type_desc": "float",
+        "required": true
+      },
+      {
+        "name": "val_ratio",
+        "type_desc": "float",
+        "required": true
+      },
+      {
+        "name": "test_ratio",
+        "type_desc": "float",
+        "required": true
+      },
+      {
+        "name": "stratify",
+        "type_desc": "bool",
+        "required": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "train_features",
+        "type_desc": "NDArray[np.float64]"
+      },
+      {
+        "name": "train_targets",
+        "type_desc": "NDArray[Any]"
+      }
+    ]
+  },
+  "state_model_needed": false
+}

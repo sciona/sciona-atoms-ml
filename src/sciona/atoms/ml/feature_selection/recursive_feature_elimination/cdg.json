@@ -1,0 +1,101 @@
+{
+  "cdg_id": "recursive_feature_elimination",
+  "name": "recursive_feature_elimination",
+  "priority": "medium",
+  "decomposition_rationale": "RFE is an iterative training process. Isolating the core loop step (train, evaluate importances, mask drop) as a step-level atom allows easier tracking of intermediate model states.",
+  "family_directory_hint": "src/sciona/atoms/ml/feature_selection/",
+  "atomic_nodes": [
+    {
+      "name": "execute_rfe_step",
+      "semantic_role": "Train estimator, compute coefficients/importances, and drop the lowest scoring features.",
+      "source_targets": [
+        "sklearn.feature_selection.RFE"
+      ],
+      "inputs": [
+        {
+          "name": "features",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "targets",
+          "type_desc": "NDArray[Any]",
+          "required": true
+        },
+        {
+          "name": "active_mask",
+          "type_desc": "NDArray[np.bool_]",
+          "required": true
+        },
+        {
+          "name": "estimator",
+          "type_desc": "Any",
+          "required": true
+        },
+        {
+          "name": "step_size",
+          "type_desc": "int",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "updated_mask",
+          "type_desc": "NDArray[np.bool_]"
+        },
+        {
+          "name": "dropped_indices",
+          "type_desc": "list[int]"
+        }
+      ],
+      "precondition_candidates": [
+        "features.shape[1] == len(active_mask)"
+      ],
+      "postcondition_candidates": [
+        "np.sum(updated_mask) < np.sum(active_mask)"
+      ],
+      "witness_shape_semantics": "Iteratively prunes active features vector.",
+      "time_complexity": "O(n)",
+      "space_complexity": "O(n)",
+      "complexity_reasoning": "Linear scan complexity.",
+      "complexity_confidence": 90
+    }
+  ],
+  "edges": [],
+  "cdg_io": {
+    "inputs": [
+      {
+        "name": "features",
+        "type_desc": "NDArray[np.float64]",
+        "required": true
+      },
+      {
+        "name": "targets",
+        "type_desc": "NDArray[Any]",
+        "required": true
+      },
+      {
+        "name": "active_mask",
+        "type_desc": "NDArray[np.bool_]",
+        "required": true
+      },
+      {
+        "name": "estimator",
+        "type_desc": "Any",
+        "required": true
+      },
+      {
+        "name": "step_size",
+        "type_desc": "int",
+        "required": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "updated_mask",
+        "type_desc": "NDArray[np.bool_]"
+      }
+    ]
+  },
+  "state_model_needed": true
+}

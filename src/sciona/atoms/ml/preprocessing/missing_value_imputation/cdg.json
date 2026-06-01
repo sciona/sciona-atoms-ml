@@ -1,0 +1,112 @@
+{
+  "cdg_id": "missing_value_imputation",
+  "name": "missing_value_imputation",
+  "priority": "medium",
+  "decomposition_rationale": "Imputation consists of two steps: calculating statistics on clean features, and merging missing elements with calculated stats.",
+  "family_directory_hint": "src/sciona/atoms/ml/preprocessing/",
+  "atomic_nodes": [
+    {
+      "name": "compute_imputation_statistics",
+      "semantic_role": "Identify non-nan values and calculate mean or median values per column.",
+      "source_targets": [
+        "numpy.nanmean",
+        "numpy.nanmedian"
+      ],
+      "inputs": [
+        {
+          "name": "matrix",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "strategy",
+          "type_desc": "str",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "statistics",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "precondition_candidates": [
+        "matrix.ndim == 2"
+      ],
+      "postcondition_candidates": [
+        "len(statistics) == matrix.shape[1]"
+      ],
+      "witness_shape_semantics": "Computes 1D statistic representation of column values.",
+      "time_complexity": "O(n)",
+      "space_complexity": "O(n)",
+      "complexity_reasoning": "Linear scan complexity.",
+      "complexity_confidence": 90
+    },
+    {
+      "name": "fill_missing_values",
+      "semantic_role": "Replace NaN occurrences inside matrix with corresponding values from the statistics vector.",
+      "source_targets": [
+        "numpy.isnan",
+        "numpy.where"
+      ],
+      "inputs": [
+        {
+          "name": "matrix",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "statistics",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "imputed_matrix",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "precondition_candidates": [
+        "matrix.shape[1] == len(statistics)"
+      ],
+      "postcondition_candidates": [
+        "np.all(np.isfinite(imputed_matrix))"
+      ],
+      "witness_shape_semantics": "Outputs fully-dense matrix of same dimensions.",
+      "time_complexity": "O(n)",
+      "space_complexity": "O(n)",
+      "complexity_reasoning": "Linear scan complexity.",
+      "complexity_confidence": 90
+    }
+  ],
+  "edges": [
+    {
+      "source": "compute_imputation_statistics",
+      "target": "fill_missing_values",
+      "output_name": "statistics",
+      "input_name": "statistics"
+    }
+  ],
+  "cdg_io": {
+    "inputs": [
+      {
+        "name": "matrix",
+        "type_desc": "NDArray[np.float64]",
+        "required": true
+      },
+      {
+        "name": "strategy",
+        "type_desc": "str",
+        "required": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "imputed_matrix",
+        "type_desc": "NDArray[np.float64]"
+      }
+    ]
+  },
+  "state_model_needed": false
+}

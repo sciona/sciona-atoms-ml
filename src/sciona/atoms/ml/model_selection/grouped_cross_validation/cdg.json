@@ -1,0 +1,68 @@
+{
+  "cdg_id": "grouped_cross_validation",
+  "name": "grouped_cross_validation",
+  "priority": "medium",
+  "decomposition_rationale": "Isolate the group partition solver (which is conceptually a bin packing optimization) from indexing actions.",
+  "family_directory_hint": "src/sciona/atoms/ml/model_selection/",
+  "atomic_nodes": [
+    {
+      "name": "partition_groups_to_folds",
+      "semantic_role": "Distribute distinct groups across folds to minimize variance in fold sizes.",
+      "source_targets": [
+        "sklearn.model_selection.GroupKFold._make_test_folds"
+      ],
+      "inputs": [
+        {
+          "name": "groups",
+          "type_desc": "NDArray[Any]",
+          "required": true
+        },
+        {
+          "name": "n_splits",
+          "type_desc": "int",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "fold_assignments",
+          "type_desc": "NDArray[np.int64]",
+          "constraints": "shape matching groups"
+        }
+      ],
+      "precondition_candidates": [
+        "len(np.unique(groups)) >= n_splits"
+      ],
+      "postcondition_candidates": [
+        "np.max(fold_assignments) < n_splits"
+      ],
+      "witness_shape_semantics": "Assigns a fold ID [0, k-1] to each sample index.",
+      "time_complexity": "O(n)",
+      "space_complexity": "O(n)",
+      "complexity_reasoning": "Linear scan complexity.",
+      "complexity_confidence": 90
+    }
+  ],
+  "edges": [],
+  "cdg_io": {
+    "inputs": [
+      {
+        "name": "groups",
+        "type_desc": "NDArray[Any]",
+        "required": true
+      },
+      {
+        "name": "n_splits",
+        "type_desc": "int",
+        "required": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "fold_assignments",
+        "type_desc": "NDArray[np.int64]"
+      }
+    ]
+  },
+  "state_model_needed": false
+}

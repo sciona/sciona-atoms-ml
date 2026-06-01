@@ -1,0 +1,140 @@
+{
+  "cdg_id": "target_encoding_crossfit",
+  "name": "target_encoding_crossfit",
+  "priority": "medium",
+  "decomposition_rationale": "Target encoding requires computing folds and priors. Splitting prior estimation from out-of-fold category calculation ensures leakage checks can be inserted in between.",
+  "family_directory_hint": "src/sciona/atoms/ml/preprocessing/",
+  "atomic_nodes": [
+    {
+      "name": "compute_global_prior",
+      "semantic_role": "Calculate global prior mean of the target variable.",
+      "source_targets": [
+        "numpy.mean"
+      ],
+      "inputs": [
+        {
+          "name": "targets",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "prior",
+          "type_desc": "float"
+        }
+      ],
+      "precondition_candidates": [
+        "len(targets) > 0"
+      ],
+      "postcondition_candidates": [
+        "np.isfinite(prior)"
+      ],
+      "witness_shape_semantics": "Reduces target vector to a single scalar prior.",
+      "time_complexity": "O(n)",
+      "space_complexity": "O(n)",
+      "complexity_reasoning": "Linear scan complexity.",
+      "complexity_confidence": 90
+    },
+    {
+      "name": "compute_oof_target_means",
+      "semantic_role": "Calculate smoothed category averages using out-of-fold indexing.",
+      "source_targets": [
+        "sklearn.preprocessing.TargetEncoder"
+      ],
+      "inputs": [
+        {
+          "name": "categorical_column",
+          "type_desc": "NDArray[Any]",
+          "required": true
+        },
+        {
+          "name": "targets",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "prior",
+          "type_desc": "float",
+          "required": true
+        },
+        {
+          "name": "smoothing",
+          "type_desc": "float",
+          "required": true
+        },
+        {
+          "name": "train_indices",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        },
+        {
+          "name": "test_indices",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "encoded_values",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "precondition_candidates": [
+        "len(categorical_column) == len(targets)"
+      ],
+      "postcondition_candidates": [
+        "len(encoded_values) == len(test_indices)"
+      ],
+      "witness_shape_semantics": "Outputs target-encoded predictions for the specified validation fold.",
+      "time_complexity": "O(n)",
+      "space_complexity": "O(n)",
+      "complexity_reasoning": "Linear scan complexity.",
+      "complexity_confidence": 90
+    }
+  ],
+  "edges": [
+    {
+      "source": "compute_global_prior",
+      "target": "compute_oof_target_means",
+      "output_name": "prior",
+      "input_name": "prior"
+    }
+  ],
+  "cdg_io": {
+    "inputs": [
+      {
+        "name": "categorical_column",
+        "type_desc": "NDArray[Any]",
+        "required": true
+      },
+      {
+        "name": "targets",
+        "type_desc": "NDArray[np.float64]",
+        "required": true
+      },
+      {
+        "name": "smoothing",
+        "type_desc": "float",
+        "required": true
+      },
+      {
+        "name": "train_indices",
+        "type_desc": "NDArray[np.int64]",
+        "required": true
+      },
+      {
+        "name": "test_indices",
+        "type_desc": "NDArray[np.int64]",
+        "required": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "encoded_values",
+        "type_desc": "NDArray[np.float64]"
+      }
+    ]
+  },
+  "state_model_needed": false
+}

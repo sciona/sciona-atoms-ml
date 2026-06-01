@@ -1,0 +1,83 @@
+{
+  "cdg_id": "stratified_kfold_cross_validation",
+  "name": "stratified_kfold_cross_validation",
+  "priority": "medium",
+  "decomposition_rationale": "Folds must be computed up front as index sets to allow external loops to execute evaluations in parallel without shared state.",
+  "family_directory_hint": "src/sciona/atoms/ml/model_selection/",
+  "atomic_nodes": [
+    {
+      "name": "compute_stratified_kfold_indices",
+      "semantic_role": "Generate list of train and test index pairs maintaining class ratios.",
+      "source_targets": [
+        "sklearn.model_selection.StratifiedKFold"
+      ],
+      "inputs": [
+        {
+          "name": "targets",
+          "type_desc": "NDArray[Any]",
+          "required": true
+        },
+        {
+          "name": "n_splits",
+          "type_desc": "int",
+          "required": true,
+          "constraints": ">= 2"
+        },
+        {
+          "name": "shuffle",
+          "type_desc": "bool",
+          "required": true
+        },
+        {
+          "name": "random_state",
+          "type_desc": "Optional[int]",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "folds",
+          "type_desc": "list[tuple[NDArray[np.int64], NDArray[np.int64]]]"
+        }
+      ],
+      "precondition_candidates": [
+        "len(targets) >= n_splits"
+      ],
+      "postcondition_candidates": [
+        "len(folds) == n_splits"
+      ],
+      "witness_shape_semantics": "Computes partition indices of size N.",
+      "time_complexity": "O(n)",
+      "space_complexity": "O(n)",
+      "complexity_reasoning": "Linear scan complexity.",
+      "complexity_confidence": 90
+    }
+  ],
+  "edges": [],
+  "cdg_io": {
+    "inputs": [
+      {
+        "name": "targets",
+        "type_desc": "NDArray[Any]",
+        "required": true
+      },
+      {
+        "name": "n_splits",
+        "type_desc": "int",
+        "required": true
+      },
+      {
+        "name": "shuffle",
+        "type_desc": "bool",
+        "required": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "folds",
+        "type_desc": "list[tuple[NDArray[np.int64], NDArray[np.int64]]]"
+      }
+    ]
+  },
+  "state_model_needed": false
+}
