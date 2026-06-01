@@ -168,6 +168,10 @@ Covered well enough for high-level selection/use:
   and OneClassSVM are now available as limited pass-with-limits
   selection/config, callback-payload, fit-return, and fitted-state shells over
   libsvm/liblinear boundaries.
+- Tree-ensemble public estimator surfaces: RandomForest, ExtraTrees,
+  GradientBoosting, HistGradientBoosting, and IsolationForest are now
+  available as limited pass-with-limits selection/use shells over native tree,
+  boosting, histogram, and isolation-tree boundaries.
 - Probabilistic classifiers: Gaussian/Multinomial/Complement/Bernoulli/
   Categorical naive Bayes and LDA/QDA.
 - Calibration, isotonic regression, dummy baselines, semi-supervised label
@@ -176,26 +180,20 @@ Covered well enough for high-level selection/use:
 
 Highest-value remaining gaps:
 
-1. **Tree ensemble public algorithm surfaces**: decision-tree and forest helper
-   coverage is extensive, but the framework still benefits from explicit
-   high-level surfaces for `RandomForest*`, `ExtraTrees*`,
-   `GradientBoosting*`, `HistGradientBoosting*`, and `IsolationForest`.
-   These should be limited native-tree/boosting wrappers with honest
-   boundaries, not new attempts to model Cython tree growth.
-2. **KMeans-family public algorithm surfaces**: `KMeans`,
+1. **KMeans-family public algorithm surfaces**: `KMeans`,
    `MiniBatchKMeans`, and `BisectingKMeans` remain obvious clustering choices.
    Existing `kmeans_plusplus` and clustering postprocessing helpers cover
    pieces, but a selection/use layer needs limited solver-boundary surfaces.
-3. **Pipeline/composition and search orchestration**: `Pipeline`,
+2. **Pipeline/composition and search orchestration**: `Pipeline`,
    `ColumnTransformer`, `FeatureUnion`, `GridSearchCV`,
    `RandomizedSearchCV`, and common CV splitter workflows are more useful to
    users than additional private estimator details. Model these as
    high-level orchestration atoms over explicit estimator/callable protocols.
-4. **Text vectorization and simple imputation**: Count/TF-IDF vectorizers,
+3. **Text vectorization and simple imputation**: Count/TF-IDF vectorizers,
    HashingVectorizer, SimpleImputer, and KNNImputer are common production
    building blocks and should be surfaced if not already landed in the current
    branch.
-5. **Metric suites**: classification, regression, ROC/PR thresholding, and
+4. **Metric suites**: classification, regression, ROC/PR thresholding, and
    confusion-matrix diagnostics are essential for algorithm selection and
    should be prioritized over more estimator internals.
 
@@ -3019,8 +3017,18 @@ Potential remediation path:
   label decoding, multilabel encoded-column decoding, and the multilabel
   probability-block conversion used after deferred final-estimator prediction
   callbacks.
-- Decide whether sklearn tree builders and histogram-gradient-boosting native
-  internals should be represented through FFI/native atoms before publishing
-  random forest, extra trees, isolation forest, and gradient boosting states.
+- Completed public-surface slice:
+  `sklearn.ensemble.public_api_shell` now publishes limited pass-with-limits
+  selection/use atoms for `RandomForestClassifier`,
+  `RandomForestRegressor`, `ExtraTreesClassifier`, `ExtraTreesRegressor`,
+  `GradientBoostingClassifier`, `GradientBoostingRegressor`,
+  `HistGradientBoostingClassifier`, `HistGradientBoostingRegressor`, and
+  `IsolationForest`: estimator catalog, family/task/backend/method
+  capabilities, prediction-method callback payloads, fit return-self, and
+  compact fitted-state summaries.
+- Remaining deferred tree-ensemble work is the actual native tree growth,
+  random split generation, boosting stage fitting, histogram grower/predictor
+  internals, and public prediction execution. Do not attempt those unless a
+  dedicated native/FFI decomposition is deliberately scoped.
 - Define a general policy for arbitrary-estimator meta-estimators before
   publishing bagging, stacking, voting, or AdaBoost wrappers.

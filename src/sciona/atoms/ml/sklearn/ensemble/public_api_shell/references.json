@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.ensemble.public_api_shell.ensemble_estimator_catalog@sciona/atoms/ml/sklearn/ensemble/public_api_shell/atoms.py:105": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the public RandomForest, ExtraTrees, GradientBoosting, HistGradientBoosting, and IsolationForest estimator classes in sklearn.ensemble."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for public estimator availability."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.ensemble.public_api_shell.ensemble_estimator_family@sciona/atoms/ml/sklearn/ensemble/public_api_shell/atoms.py:118": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Groups public ensemble estimators by sklearn source family: forest, extra-trees, gradient boosting, histogram gradient boosting, and isolation forest."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator family semantics."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.ensemble.public_api_shell.ensemble_estimator_task@sciona/atoms/ml/sklearn/ensemble/public_api_shell/atoms.py:138": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Classifies public ensemble classes by sklearn task family: classification, regression, or outlier detection."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator task semantics."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.ensemble.public_api_shell.ensemble_estimator_backend@sciona/atoms/ml/sklearn/ensemble/public_api_shell/atoms.py:153": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Identifies the execution boundary family behind public tree ensembles without decomposing Cython tree growth, boosting loops, or histogram internals."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for ensemble implementation families."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.ensemble.public_api_shell.ensemble_estimator_methods@sciona/atoms/ml/sklearn/ensemble/public_api_shell/atoms.py:170": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Summarizes public fit, prediction, scoring, path, staged-prediction, and anomaly-scoring methods exposed by covered ensemble estimators."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator API conventions."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.ensemble.public_api_shell.ensemble_prediction_method_payload@sciona/atoms/ml/sklearn/ensemble/public_api_shell/atoms.py:177": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Models public prediction-like method invocation as a callback boundary over fitted ensemble estimators."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for public estimator prediction APIs."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.ensemble.public_api_shell.ensemble_fit_return_self@sciona/atoms/ml/sklearn/ensemble/public_api_shell/atoms.py:195": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from public ensemble fit methods returning self after fitted-state assignment."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator fit return semantics."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.ensemble.public_api_shell.ensemble_fitted_state_summary@sciona/atoms/ml/sklearn/ensemble/public_api_shell/atoms.py:203": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Packages shallow documented fitted-state attributes after deferred tree, boosting, histogram, or isolation-forest work."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for fitted estimator attributes."}}
+      ]
+    }
+  }
+}

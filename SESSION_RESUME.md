@@ -233,6 +233,7 @@ Already landed in this section:
 - `sgd_regressor_fit_callback_shell`
 - `sgd_tags_super_callback_shell`
 - `svm_public_api_shell`
+- `ensemble_public_api_shell`
 
 ## High-Level Audit Outcome
 
@@ -249,6 +250,8 @@ Covered well enough for high-level selection/use:
 - decomposition and latent representations
 - neighbors and density estimators
 - SVM public estimator surfaces over libsvm/liblinear boundaries
+- tree-ensemble public estimator surfaces over native tree, boosting,
+  histogram, and isolation-tree boundaries
 - naive Bayes and discriminant analysis classifiers
 - calibration, isotonic regression, dummy baselines, semi-supervised label
   propagation/spreading, diagonal Gaussian mixtures, covariance helpers,
@@ -256,18 +259,15 @@ Covered well enough for high-level selection/use:
 
 Highest-value remaining gaps, in priority order:
 
-1. Tree ensemble public estimator surfaces:
-   `RandomForest*`, `ExtraTrees*`, `GradientBoosting*`,
-   `HistGradientBoosting*`, and `IsolationForest`.
-2. KMeans-family public estimator surfaces:
+1. KMeans-family public estimator surfaces:
    `KMeans`, `MiniBatchKMeans`, and `BisectingKMeans`.
-3. Pipeline/composition/search orchestration:
+2. Pipeline/composition/search orchestration:
    `Pipeline`, `ColumnTransformer`, `FeatureUnion`, `GridSearchCV`,
    `RandomizedSearchCV`, and common CV splitters.
-4. Text vectorization and simple imputation:
+3. Text vectorization and simple imputation:
    Count/TF-IDF vectorizers, `HashingVectorizer`, `SimpleImputer`, and
    `KNNImputer`.
-5. Metric suites:
+4. Metric suites:
    classification, regression, ROC/PR thresholding, and confusion-matrix
    diagnostics.
 
@@ -286,7 +286,7 @@ low value and tag values are already represented elsewhere.
 
 The next wave should not default to another non-coordinate `linear_model`
 callback seam unless deliberately finishing that section. For overall framework
-utility, the best next committed wave is a limited tree-ensemble public API
+utility, the best next committed wave is a limited KMeans-family public API
 surface.
 
 1. Re-read the non-coordinate deferred-target ledger before choosing a seam
@@ -303,7 +303,7 @@ Completed audit-driven SVM wave:
     payloads, fit return-self, and fitted-state packaging
   - libsvm/liblinear internals remain explicit compiled boundaries
 
-Best audited next candidate after the current wave:
+Completed audit-driven tree-ensemble wave:
 
 - `ensemble_public_api_shell`
   - limited public surfaces for forest, extra-trees, gradient-boosting,
@@ -311,13 +311,16 @@ Best audited next candidate after the current wave:
   - avoid modeling Cython tree growth or boosting internals beyond honest
     callback/native boundaries
 
-Other useful candidates after tree ensembles:
+Best audited next candidate after the current wave:
 
 - `kmeans_public_api_shell`
   - limited public surfaces for `KMeans`, `MiniBatchKMeans`, and
     `BisectingKMeans`
   - reuse existing KMeans++/postprocessing pieces where available and mark the
     iterative solver boundary explicitly
+
+Other useful candidates after KMeans:
+
 - `pipeline_search_public_api_shell`
   - protocol-based orchestration surfaces for pipeline/column-transformer and
     grid/randomized-search selection

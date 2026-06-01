@@ -1,0 +1,159 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_ensemble_public_api_shell_root",
+      "name": "Sklearn Ensemble Public API Shell",
+      "description": "High-level public sklearn.ensemble estimator-selection, callback-boundary, and fitted-state atoms above tree, boosting, histogram, and isolation-forest execution boundaries.",
+      "status": "decomposed",
+      "children": [
+        "ensemble_estimator_catalog",
+        "ensemble_estimator_family",
+        "ensemble_estimator_task",
+        "ensemble_estimator_backend",
+        "ensemble_estimator_methods",
+        "ensemble_prediction_method_payload",
+        "ensemble_fit_return_self",
+        "ensemble_fitted_state_summary"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "ensemble_estimator_catalog",
+      "name": "ensemble_estimator_catalog",
+      "description": "Expose covered public tree-ensemble estimator names for framework-level model selection.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(catalog_scope: str = 'public_estimators') -> tuple[str, ...]",
+      "depth": 1,
+      "inputs": [{"name": "catalog_scope", "type_desc": "str", "required": false}],
+      "outputs": [{"name": "result", "type_desc": "tuple[str, ...]"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom returns a fixed estimator-name tuple and does not inspect training data.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "ensemble_estimator_family",
+      "name": "ensemble_estimator_family",
+      "description": "Return the ensemble family for a public tree-ensemble estimator.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator_name: str) -> str",
+      "depth": 1,
+      "inputs": [{"name": "estimator_name", "type_desc": "str", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "str"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom performs constant-time membership checks over fixed estimator-family sets.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "ensemble_estimator_task",
+      "name": "ensemble_estimator_task",
+      "description": "Return the high-level task for a public tree-ensemble estimator.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator_name: str) -> str",
+      "depth": 1,
+      "inputs": [{"name": "estimator_name", "type_desc": "str", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "str"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom performs constant-time membership checks over fixed task sets.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "ensemble_estimator_backend",
+      "name": "ensemble_estimator_backend",
+      "description": "Return the native or solver boundary family behind a public tree ensemble.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator_name: str) -> str",
+      "depth": 1,
+      "inputs": [{"name": "estimator_name", "type_desc": "str", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "str"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom performs constant-time membership checks over fixed backend-boundary sets.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "ensemble_estimator_methods",
+      "name": "ensemble_estimator_methods",
+      "description": "Expose public methods useful for high-level tree-ensemble routing.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator_name: str) -> tuple[str, ...]",
+      "depth": 1,
+      "inputs": [{"name": "estimator_name", "type_desc": "str", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "tuple[str, ...]"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom returns one fixed method tuple selected by estimator name.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "ensemble_prediction_method_payload",
+      "name": "ensemble_prediction_method_payload",
+      "description": "Expose a public ensemble prediction-like method payload without executing the estimator method.",
+      "concept_type": "callback_boundary",
+      "status": "atomic",
+      "type_signature": "(estimator: object, method_name: str, X: object) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator", "type_desc": "object", "required": true},
+        {"name": "method_name", "type_desc": "str", "required": true},
+        {"name": "X", "type_desc": "object", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "dict[str, object]"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom validates method availability and packages references, leaving prediction execution to sklearn.",
+      "complexity_confidence": 98
+    },
+    {
+      "node_id": "ensemble_fit_return_self",
+      "name": "ensemble_fit_return_self",
+      "description": "Return the fitted ensemble estimator object from the public fit shell.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator: object) -> object",
+      "depth": 1,
+      "inputs": [{"name": "estimator", "type_desc": "object", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "object"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom checks fitted marker attributes and returns the same estimator object.",
+      "complexity_confidence": 98
+    },
+    {
+      "node_id": "ensemble_fitted_state_summary",
+      "name": "ensemble_fitted_state_summary",
+      "description": "Expose a compact fitted-state summary after deferred tree, boosting, histogram, or isolation-forest work.",
+      "concept_type": "state_packaging",
+      "status": "atomic",
+      "type_signature": "(estimator: object) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [{"name": "estimator", "type_desc": "object", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "dict[str, object]"}],
+      "time_complexity": "O(T)",
+      "space_complexity": "O(T)",
+      "complexity_reasoning": "The atom counts fitted base learners or predictor stages and packages shallow documented fitted-state attributes.",
+      "complexity_confidence": 94
+    }
+  ],
+  "edges": [
+    {"source": "ensemble_estimator_catalog", "target": "ensemble_estimator_family", "kind": "selection_metadata"},
+    {"source": "ensemble_estimator_catalog", "target": "ensemble_estimator_task", "kind": "selection_metadata"},
+    {"source": "ensemble_estimator_catalog", "target": "ensemble_estimator_backend", "kind": "selection_metadata"},
+    {"source": "ensemble_estimator_methods", "target": "ensemble_prediction_method_payload", "kind": "public_method_boundary"},
+    {"source": "ensemble_fit_return_self", "target": "ensemble_fitted_state_summary", "kind": "postfit_state"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.ensemble",
+    "source_version": "1.6.1",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 1 public tree-ensemble estimator shells over native tree, boosting, and histogram boundaries"
+  }
+}
