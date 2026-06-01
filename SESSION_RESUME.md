@@ -15,7 +15,7 @@ work safely.
     recommended moving to non-coordinate-descent callback seams with lower
     duplicate risk
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.ransac_metadata_routing_shell`
+  - `sklearn.linear_model.quantile_linprog_callback_shell`
 
 ## Known Unrelated Local Modification
 
@@ -214,6 +214,7 @@ Already landed in this section:
 - `logistic_cv_path_result_packaging_shell`
 - `logistic_cv_refit_callback_payload_shell`
 - `logistic_fit_postpath_packaging_shell`
+- `quantile_linprog_callback_shell`
 - `quantile_solver_guard_shell`
 - `quantile_linprog_failure_message_shell`
 - `ransac_callback_orchestration_shell`
@@ -242,18 +243,29 @@ The next best bounded candidates should come from non-coordinate
      boundaries
    - avoid tag-only families unless they unblock a larger non-tag remediation
 
-Best audited next candidate after the current wave:
+Best audited next candidates after the current wave:
 
-- Re-audit non-coordinate `sklearn.linear_model` deferred targets before
-  choosing the next seam.
-  - RANSAC now has landed packages for fit-loop callback orchestration,
-    prelude/termination guards, public predict/score callback payloads, and
-    metadata-routing payloads.
-  - Prefer a source-local non-tag callback or optimizer-boundary seam from
-    Huber, Quantile, SGD, GLM, LARS CV, or another deferred non-coordinate
-    target.
-  - Avoid broad estimator wrappers that would hide SciPy/native/Cython solver
-    execution or arbitrary user-estimator callbacks.
+- `quantile_sparse_lp_matrix_shell`
+  - source: sklearn 1.6.1 `_quantile.py` lines 238-248
+  - likely scope: HiGHS sparse CSC equality-matrix construction for
+    `QuantileRegressor.fit`, with and without intercept
+  - keep zero-weight filtering with the existing quantile atoms and avoid
+    `linprog` execution
+
+- `lars_cv_refit_callback_shell`
+  - source: sklearn 1.6.1 `_least_angle.py` lines 1792-1808
+  - likely scope: selected alpha/CV state payloads, final `_fit(...)` refit
+    callback kwargs/payload, and fit return identity
+  - keep path solving, interpolation, joblib scheduling, and estimator mutation
+    outside the slice
+
+- `glm_score_deviance_tail`
+  - source: sklearn 1.6.1 `_glm/glm.py` lines 405-441
+  - likely scope: scoring validation callback payloads, supplied target-range
+    failure message, constant-average/null-prediction helpers, and final D2
+    score from supplied deviances
+  - keep base-loss callbacks, link callbacks, prediction, validation execution,
+    and optimizer work outside the slice
 
 Completed current wave:
 
@@ -298,6 +310,13 @@ Completed current wave:
   - leaves MetadataRouter/MethodMapping construction, metadata-routing
     execution, arbitrary base-estimator behavior, tags, and estimator mutation
     outside the slice
+
+- `quantile_linprog_callback_shell`
+  - publishes deterministic `QuantileRegressor.fit` external solver callback
+    helpers for exact `scipy.optimize.linprog` keyword payload preservation and
+    raw `result.x` solution extraction
+  - leaves LP construction, solver guards/options, warning behavior, solution
+    decoding, solver execution, and estimator mutation outside the slice
 
 - `sgd_one_class_fit_shell`
   - publishes deterministic `SGDOneClassSVM._fit_one_class` / `_partial_fit`

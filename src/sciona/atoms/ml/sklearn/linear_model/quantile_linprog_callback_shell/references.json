@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.quantile_linprog_callback_shell.quantile_linprog_callback_payload@sciona/atoms/ml/sklearn/linear_model/quantile_linprog_callback_shell/atoms.py:54": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from the scipy.optimize.linprog keyword call in sklearn.linear_model._quantile.QuantileRegressor.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for QuantileRegressor solver behavior."
+          }
+        }
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.quantile_linprog_callback_shell.quantile_linprog_solution@sciona/atoms/ml/sklearn/linear_model/quantile_linprog_callback_shell/atoms.py:83": {
+      "references": [
+        {
+          "ref_id": "repo_sklearn",
+          "match_metadata": {
+            "match_type": "manual_source_parity",
+            "confidence": "high",
+            "notes": "Adapted from `solution = result.x` immediately after scipy.optimize.linprog in sklearn.linear_model._quantile.QuantileRegressor.fit."
+          }
+        },
+        {
+          "ref_id": "pedregosa2011sklearn",
+          "match_metadata": {
+            "match_type": "manual_project_reference",
+            "confidence": "medium",
+            "notes": "Project-level scikit-learn reference for QuantileRegressor solver behavior."
+          }
+        }
+      ]
+    }
+  }
+}

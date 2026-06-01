@@ -1,0 +1,64 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_quantile_linprog_callback_shell_root",
+      "name": "Sklearn Quantile Linprog Callback Shell Atoms",
+      "description": "Deterministic QuantileRegressor.fit scipy.optimize.linprog payload and result-solution extraction helpers.",
+      "status": "decomposed",
+      "children": [
+        "quantile_linprog_callback_payload",
+        "quantile_linprog_solution"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "quantile_linprog_callback_payload",
+      "name": "quantile_linprog_callback_payload",
+      "description": "Return the exact keyword payload passed to scipy.optimize.linprog.",
+      "concept_type": "callback_boundary",
+      "status": "atomic",
+      "type_signature": "(c: object, A_eq: object, b_eq: object, solver: str, solver_options: Mapping[str, object] | None) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "c", "type_desc": "LP objective vector", "required": true},
+        {"name": "A_eq", "type_desc": "LP equality constraint matrix", "required": true},
+        {"name": "b_eq", "type_desc": "LP equality constraint right-hand side", "required": true},
+        {"name": "solver", "type_desc": "linprog method", "required": true},
+        {"name": "solver_options", "type_desc": "linprog options payload", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "linprog keyword payload"}
+      ]
+    },
+    {
+      "node_id": "quantile_linprog_solution",
+      "name": "quantile_linprog_solution",
+      "description": "Return result.x after scipy.optimize.linprog has completed.",
+      "concept_type": "callback_boundary",
+      "status": "atomic",
+      "type_signature": "(result_obj: object) -> object",
+      "depth": 1,
+      "inputs": [
+        {"name": "result_obj", "type_desc": "linprog OptimizeResult-like object", "required": true}
+      ],
+      "outputs": [
+        {"name": "result", "type_desc": "raw linprog solution vector"}
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "quantile_linprog_callback_payload",
+      "target": "quantile_linprog_solution",
+      "kind": "solver_callback_boundary"
+    }
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._quantile",
+    "source_version": "1.6.1",
+    "source_license": "BSD-3-Clause",
+    "source_lines": "259-266",
+    "remediation_case": "Case 3 external solver callback boundary"
+  }
+}

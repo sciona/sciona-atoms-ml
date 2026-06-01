@@ -850,6 +850,13 @@ Potential remediation path:
   status-to-reason mapping, and the warning message payload. It does not emit
   warnings, own `OptimizeResult` semantics, decode solutions, or mutate
   estimator state.
+- Completed helper slice:
+  `sklearn.linear_model.quantile_linprog_callback_shell` now publishes the
+  deterministic `QuantileRegressor.fit` external solver callback boundary:
+  exact `scipy.optimize.linprog` keyword payload preservation and raw
+  `result.x` solution extraction. LP construction, solver guards/options,
+  warning behavior, solution decoding, solver execution, and estimator
+  mutation remain outside this slice.
 - Completed helper slice: `sklearn.linear_model.ransac` now publishes
   estimator-independent consensus bookkeeping helpers:
   `ransac_default_residual_threshold`, `ransac_loss_residuals`,
