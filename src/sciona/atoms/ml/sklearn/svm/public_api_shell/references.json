@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.svm.public_api_shell.svm_estimator_catalog@sciona/atoms/ml/sklearn/svm/public_api_shell/atoms.py:128": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the public SVM estimator classes defined in sklearn.svm._classes."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for public estimator availability."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.svm.public_api_shell.svm_estimator_backend@sciona/atoms/ml/sklearn/svm/public_api_shell/atoms.py:135": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Maps LinearSVC/LinearSVR to liblinear and the remaining public SVM estimators to libsvm, matching sklearn.svm._classes inheritance and fit calls."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for SVM implementations."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.svm.public_api_shell.svm_estimator_task@sciona/atoms/ml/sklearn/svm/public_api_shell/atoms.py:144": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Classifies public SVM classes by sklearn mixin/task family: classification, regression, or outlier detection."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator task semantics."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.svm.public_api_shell.svm_estimator_methods@sciona/atoms/ml/sklearn/svm/public_api_shell/atoms.py:159": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Summarizes public fit/predict/score/decision/probability methods exposed by SVM estimator classes and probability-enabled SVC/NuSVC instances."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator API conventions."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.svm.public_api_shell.svm_linear_fit_liblinear_payload@sciona/atoms/ml/sklearn/svm/public_api_shell/atoms.py:180": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from LinearSVC.fit and LinearSVR.fit payloads passed to _fit_liblinear after validation and dual resolution."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for liblinear-backed linear SVM estimators."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.svm.public_api_shell.svm_prediction_method_payload@sciona/atoms/ml/sklearn/svm/public_api_shell/atoms.py:243": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Models public prediction-like method invocation as a callback boundary over fitted SVM estimators."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for public estimator prediction APIs."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.svm.public_api_shell.svm_fit_return_self@sciona/atoms/ml/sklearn/svm/public_api_shell/atoms.py:260": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from public SVM fit methods returning self after solver-backed fitted-state assignment."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator fit return semantics."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.svm.public_api_shell.svm_libsvm_fitted_support_state@sciona/atoms/ml/sklearn/svm/public_api_shell/atoms.py:268": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Packages documented fitted libsvm support-vector attributes after the compiled libsvm solver boundary."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for SVM fitted attributes."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.svm.public_api_shell.svm_liblinear_fitted_state@sciona/atoms/ml/sklearn/svm/public_api_shell/atoms.py:291": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Packages documented fitted liblinear coefficient/intercept/n_iter attributes after the compiled liblinear solver boundary."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for linear SVM fitted attributes."}}
+      ]
+    }
+  }
+}

@@ -16,6 +16,7 @@ work safely.
 - `REMEDIATION.md` is up-to-date through:
   - `sklearn.linear_model.logistic_scoring_path_callback_shell`
   - high-level sklearn coverage audit dated 2026-06-01
+  - `sklearn.svm.public_api_shell`
 
 ## Known Unrelated Local Modification
 
@@ -231,6 +232,7 @@ Already landed in this section:
 - `logistic_scoring_path_callback_shell`
 - `sgd_regressor_fit_callback_shell`
 - `sgd_tags_super_callback_shell`
+- `svm_public_api_shell`
 
 ## High-Level Audit Outcome
 
@@ -246,6 +248,7 @@ Covered well enough for high-level selection/use:
 - preprocessing and feature transforms
 - decomposition and latent representations
 - neighbors and density estimators
+- SVM public estimator surfaces over libsvm/liblinear boundaries
 - naive Bayes and discriminant analysis classifiers
 - calibration, isotonic regression, dummy baselines, semi-supervised label
   propagation/spreading, diagonal Gaussian mixtures, covariance helpers,
@@ -253,21 +256,18 @@ Covered well enough for high-level selection/use:
 
 Highest-value remaining gaps, in priority order:
 
-1. `sklearn.svm` public estimator surfaces:
-   `SVC`, `SVR`, `NuSVC`, `NuSVR`, `LinearSVC`, `LinearSVR`, and
-   `OneClassSVM`.
-2. Tree ensemble public estimator surfaces:
+1. Tree ensemble public estimator surfaces:
    `RandomForest*`, `ExtraTrees*`, `GradientBoosting*`,
    `HistGradientBoosting*`, and `IsolationForest`.
-3. KMeans-family public estimator surfaces:
+2. KMeans-family public estimator surfaces:
    `KMeans`, `MiniBatchKMeans`, and `BisectingKMeans`.
-4. Pipeline/composition/search orchestration:
+3. Pipeline/composition/search orchestration:
    `Pipeline`, `ColumnTransformer`, `FeatureUnion`, `GridSearchCV`,
    `RandomizedSearchCV`, and common CV splitters.
-5. Text vectorization and simple imputation:
+4. Text vectorization and simple imputation:
    Count/TF-IDF vectorizers, `HashingVectorizer`, `SimpleImputer`, and
    `KNNImputer`.
-6. Metric suites:
+5. Metric suites:
    classification, regression, ROC/PR thresholding, and confusion-matrix
    diagnostics.
 
@@ -286,7 +286,7 @@ low value and tag values are already represented elsewhere.
 
 The next wave should not default to another non-coordinate `linear_model`
 callback seam unless deliberately finishing that section. For overall framework
-utility, the best next committed wave is a limited `sklearn.svm` public API
+utility, the best next committed wave is a limited tree-ensemble public API
 surface.
 
 1. Re-read the non-coordinate deferred-target ledger before choosing a seam
@@ -294,23 +294,25 @@ surface.
    - use `pass_with_limits` review bundles for native-backed public estimators
    - avoid tag-only families unless they unblock a larger public surface
 
-Best audited next candidate after the current wave:
+Completed audit-driven SVM wave:
 
 - `svm_public_api_shell`
   - source: sklearn 1.6.1 `sklearn/svm/_classes.py`
-  - likely scope: config/capability atoms for `SVC`, `SVR`, `NuSVC`, `NuSVR`,
-    `LinearSVC`, `LinearSVR`, and `OneClassSVM`; fit/predict/decision/proba
-    callback payload atoms; fitted-state packaging where source-local and
-    deterministic
-  - avoid absorbing libsvm/liblinear internals or claiming solver topology
+  - scope: estimator catalog, backend/task/method capabilities,
+    LinearSVC/LinearSVR `_fit_liblinear` payloads, prediction-method callback
+    payloads, fit return-self, and fitted-state packaging
+  - libsvm/liblinear internals remain explicit compiled boundaries
 
-Other useful candidates after SVM:
+Best audited next candidate after the current wave:
 
 - `ensemble_public_api_shell`
   - limited public surfaces for forest, extra-trees, gradient-boosting,
     histogram-gradient-boosting, and isolation-forest algorithm selection
   - avoid modeling Cython tree growth or boosting internals beyond honest
     callback/native boundaries
+
+Other useful candidates after tree ensembles:
+
 - `kmeans_public_api_shell`
   - limited public surfaces for `KMeans`, `MiniBatchKMeans`, and
     `BisectingKMeans`

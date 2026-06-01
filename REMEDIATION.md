@@ -164,6 +164,10 @@ Covered well enough for high-level selection/use:
   and LDA helper/state coverage.
 - Neighbors and density: KNN classifiers/regressors/transformers,
   NearestNeighbors, KernelDensity, LocalOutlierFactor, and NearestCentroid.
+- SVM public estimator surfaces: SVC/SVR/NuSVC/NuSVR, LinearSVC/LinearSVR,
+  and OneClassSVM are now available as limited pass-with-limits
+  selection/config, callback-payload, fit-return, and fitted-state shells over
+  libsvm/liblinear boundaries.
 - Probabilistic classifiers: Gaussian/Multinomial/Complement/Bernoulli/
   Categorical naive Bayes and LDA/QDA.
 - Calibration, isotonic regression, dummy baselines, semi-supervised label
@@ -172,31 +176,26 @@ Covered well enough for high-level selection/use:
 
 Highest-value remaining gaps:
 
-1. **SVM public algorithm surfaces**: `SVC`, `SVR`, `NuSVC`, `NuSVR`,
-   `LinearSVC`, `LinearSVR`, and `OneClassSVM` are important user-visible
-   algorithms, but current committed coverage is essentially `l1_min_c`.
-   Add limited pass-with-limits API/config and fit/predict payload/state atoms
-   rather than trying to decompose libsvm/liblinear.
-2. **Tree ensemble public algorithm surfaces**: decision-tree and forest helper
+1. **Tree ensemble public algorithm surfaces**: decision-tree and forest helper
    coverage is extensive, but the framework still benefits from explicit
    high-level surfaces for `RandomForest*`, `ExtraTrees*`,
    `GradientBoosting*`, `HistGradientBoosting*`, and `IsolationForest`.
    These should be limited native-tree/boosting wrappers with honest
    boundaries, not new attempts to model Cython tree growth.
-3. **KMeans-family public algorithm surfaces**: `KMeans`,
+2. **KMeans-family public algorithm surfaces**: `KMeans`,
    `MiniBatchKMeans`, and `BisectingKMeans` remain obvious clustering choices.
    Existing `kmeans_plusplus` and clustering postprocessing helpers cover
    pieces, but a selection/use layer needs limited solver-boundary surfaces.
-4. **Pipeline/composition and search orchestration**: `Pipeline`,
+3. **Pipeline/composition and search orchestration**: `Pipeline`,
    `ColumnTransformer`, `FeatureUnion`, `GridSearchCV`,
    `RandomizedSearchCV`, and common CV splitter workflows are more useful to
    users than additional private estimator details. Model these as
    high-level orchestration atoms over explicit estimator/callable protocols.
-5. **Text vectorization and simple imputation**: Count/TF-IDF vectorizers,
+4. **Text vectorization and simple imputation**: Count/TF-IDF vectorizers,
    HashingVectorizer, SimpleImputer, and KNNImputer are common production
    building blocks and should be surfaced if not already landed in the current
    branch.
-6. **Metric suites**: classification, regression, ROC/PR thresholding, and
+5. **Metric suites**: classification, regression, ROC/PR thresholding, and
    confusion-matrix diagnostics are essential for algorithm selection and
    should be prioritized over more estimator internals.
 
@@ -1199,11 +1198,16 @@ Potential remediation path:
   estimator-independent lower-bound helper used to determine the smallest
   useful `C` value for L1-penalized linear classifiers from supplied training
   data and labels.
-- Decide whether SVM estimators should be represented as limited
-  estimator-state wrapper atoms with explicit audit limitations.
-- Or ingest the underlying libsvm/liblinear source through a dedicated native
-  or FFI-backed decomposition, with provenance and runtime validation at the
-  solver boundary.
+- Completed public-surface slice:
+  `sklearn.svm.public_api_shell` now publishes limited pass-with-limits SVM
+  selection/use atoms for `SVC`, `SVR`, `NuSVC`, `NuSVR`, `LinearSVC`,
+  `LinearSVR`, and `OneClassSVM`: estimator catalog, backend/task/method
+  capabilities, LinearSVC/LinearSVR `_fit_liblinear` payload packaging,
+  prediction-method callback payloads, fit return-self, and fitted-state
+  packaging for libsvm support-vector state and liblinear coefficient state.
+- The remaining deferred SVM work is the actual libsvm/liblinear solver
+  topology. Do not attempt that unless a dedicated native/FFI decomposition is
+  deliberately scoped.
 
 ## `sklearn.multiclass` meta-estimator orchestration
 
