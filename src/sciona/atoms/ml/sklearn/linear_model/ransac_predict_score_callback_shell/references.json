@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.ransac_predict_score_callback_shell.ransac_public_validation_kwargs@sciona/atoms/ml/sklearn/linear_model/ransac_predict_score_callback_shell/atoms.py:62": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from RANSACRegressor.predict and score validate_data calls with ensure_all_finite=False, accept_sparse=True, and reset=False."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for the RANSAC estimator family."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.ransac_predict_score_callback_shell.ransac_public_nonrouting_params@sciona/atoms/ml/sklearn/linear_model/ransac_predict_score_callback_shell/atoms.py:71": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from RANSACRegressor.predict and score non-routing fallback params = {} branches."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for the RANSAC estimator family."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.ransac_predict_score_callback_shell.ransac_public_predict_callback_payload@sciona/atoms/ml/sklearn/linear_model/ransac_predict_score_callback_shell/atoms.py:80": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from RANSACRegressor.predict forwarding validated X and routed predict params to estimator_.predict."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for the RANSAC estimator family."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.ransac_predict_score_callback_shell.ransac_public_score_callback_payload@sciona/atoms/ml/sklearn/linear_model/ransac_predict_score_callback_shell/atoms.py:94": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from RANSACRegressor.score forwarding validated X, y, and routed score params to estimator_.score."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for the RANSAC estimator family."}}
+      ]
+    }
+  }
+}

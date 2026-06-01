@@ -864,6 +864,14 @@ Potential remediation path:
   `sklearn.linear_model.ransac` atoms remain the owners of threshold, loss,
   inlier-mask, consensus-comparison, and dynamic-trial math.
 - Completed helper slice:
+  `sklearn.linear_model.ransac_predict_score_callback_shell` now publishes
+  deterministic `RANSACRegressor.predict` and `RANSACRegressor.score` public
+  callback-boundary helpers: fixed validation kwargs, non-routing empty
+  parameter fallbacks, estimator `.predict` callback payloads, and estimator
+  `.score` callback payloads. Fitted checks, validation execution,
+  `_raise_for_params`, metadata-routing execution, arbitrary base-estimator
+  behavior, and estimator mutation remain outside this slice.
+- Completed helper slice:
   `sklearn.linear_model.ransac_fit_prelude_termination_shell` now publishes
   deterministic `RANSACRegressor.fit` prelude and termination helpers:
   `min_samples` resolution, the `min_samples > n_samples` guard payload, the

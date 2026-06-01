@@ -15,7 +15,7 @@ work safely.
     recommended moving to non-coordinate-descent callback seams with lower
     duplicate risk
 - `REMEDIATION.md` is up-to-date through:
-  - `sklearn.linear_model.logistic_cv_final_array_packaging_tail`
+  - `sklearn.linear_model.ransac_predict_score_callback_shell`
 
 ## Known Unrelated Local Modification
 
@@ -218,6 +218,7 @@ Already landed in this section:
 - `quantile_linprog_failure_message_shell`
 - `ransac_callback_orchestration_shell`
 - `ransac_fit_prelude_termination_shell`
+- `ransac_predict_score_callback_shell`
 - `sgd_classifier_fit_callback_shell`
 - `sgd_regressor_fit_callback_shell`
 - `sgd_tags_super_callback_shell`
@@ -242,16 +243,13 @@ The next best bounded candidates should come from non-coordinate
 
 Best audited next candidate after the current wave:
 
-- Re-audit non-coordinate `sklearn.linear_model` deferred targets before
-  choosing the next seam.
-  - LogisticRegressionCV now has landed packages for path-result packaging,
-    best/refit selection, refit callback payloads, final array packaging, and
-    public l1-axis reshaping.
-  - Prefer a new source-local non-tag callback or optimizer-boundary seam from
-    Huber, Quantile, RANSAC, SGD, GLM, LARS CV, or another deferred
-    non-coordinate target.
-  - Avoid broad estimator wrappers that would hide SciPy/native/Cython solver
-    execution or arbitrary user-estimator callbacks.
+- `ransac_metadata_routing_shell`
+  - basis: sklearn 1.6.1 `_ransac.py` immediately after the public
+    predict/score callbacks
+  - likely scope is the deterministic `get_metadata_routing` owner and
+    method-mapping payload for estimator fit/score/predict callbacks
+  - avoid tag-only coverage unless no non-tag seam remains; keep arbitrary
+    base-estimator behavior and routing execution outside
 
 Completed current wave:
 
@@ -278,6 +276,15 @@ Completed current wave:
     extraction, callback payloads, aggregate skip-limit guards, no-consensus
     messages, warning emission, estimator fitting, and final refit payloads
     outside this slice
+
+- `ransac_predict_score_callback_shell`
+  - publishes deterministic `RANSACRegressor.predict` and
+    `RANSACRegressor.score` public callback-boundary helpers: fixed
+    `validate_data` kwargs, non-routing empty parameter fallbacks,
+    estimator `.predict` payloads, and estimator `.score` payloads
+  - leaves fitted checks, validation execution, `_raise_for_params`,
+    metadata-routing execution, arbitrary base-estimator behavior, and
+    estimator mutation outside the slice
 
 - `sgd_one_class_fit_shell`
   - publishes deterministic `SGDOneClassSVM._fit_one_class` / `_partial_fit`

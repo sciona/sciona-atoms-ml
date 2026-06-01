@@ -1,0 +1,131 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "sciona.atoms.review_bundle.ml.sklearn_linear_model_ransac_predict_score_callback_shell.v1",
+  "provider_repo": "sciona-atoms-ml",
+  "family_batch": "ml_sklearn_linear_model_ransac_predict_score_callback_shell",
+  "review_status": "reviewed",
+  "review_semantic_verdict": "pass_with_limits",
+  "review_developer_semantic_verdict": "pass_with_limits",
+  "trust_readiness": "reviewed_with_limits",
+  "authoritative_sources": [
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/sklearn/linear_model/ransac_predict_score_callback_shell/atoms.py"
+    },
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/sklearn/linear_model/ransac_predict_score_callback_shell/witnesses.py"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/sklearn/linear_model/ransac_predict_score_callback_shell/references.json"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/sklearn/linear_model/ransac_predict_score_callback_shell/cdg.json"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_sklearn_linear_model_ransac_predict_score_callback_shell_behavior.py"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_sklearn_linear_model_ransac_predict_score_callback_shell_references_metadata.py"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_sklearn_linear_model_ransac_predict_score_callback_shell_review_bundle.py"
+    }
+  ],
+  "limitations": [
+    "This batch covers only deterministic RANSACRegressor public predict/score validation kwargs, non-routing empty parameter fallback, and estimator_.predict / estimator_.score callback payloads.",
+    "It does not execute check_is_fitted, validate_data, _raise_for_params, metadata routing, estimator_.predict, or estimator_.score.",
+    "RANSAC fit-loop callback payloads, final refit payloads, consensus math, skip guards, and no-consensus messages remain owned by existing ransac families.",
+    "Arbitrary base-estimator behavior remains a Case 3 callback boundary outside this batch."
+  ],
+  "blocking_findings": [],
+  "required_actions": [],
+  "review_record_path": "data/review_bundles/ml_sklearn_linear_model_ransac_predict_score_callback_shell.review_bundle.json",
+  "rows": [
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.ransac_predict_score_callback_shell.ransac_public_validation_kwargs",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.ransac_predict_score_callback_shell.ransac_public_validation_kwargs",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_predict_score_callback_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_predict_score_callback_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_predict_score_callback_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_predict_score_callback_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_ransac_predict_score_callback_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_ransac_predict_score_callback_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.ransac_predict_score_callback_shell.ransac_public_nonrouting_params",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.ransac_predict_score_callback_shell.ransac_public_nonrouting_params",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_predict_score_callback_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_predict_score_callback_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_predict_score_callback_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_predict_score_callback_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_ransac_predict_score_callback_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_ransac_predict_score_callback_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.ransac_predict_score_callback_shell.ransac_public_predict_callback_payload",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.ransac_predict_score_callback_shell.ransac_public_predict_callback_payload",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_predict_score_callback_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_predict_score_callback_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_predict_score_callback_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_predict_score_callback_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_ransac_predict_score_callback_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_ransac_predict_score_callback_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    },
+    {
+      "atom_key": "sciona.atoms.ml.sklearn.linear_model.ransac_predict_score_callback_shell.ransac_public_score_callback_payload",
+      "atom_name": "sciona.atoms.ml.sklearn.linear_model.ransac_predict_score_callback_shell.ransac_public_score_callback_payload",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "catalog_ready",
+      "source_paths": [
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_predict_score_callback_shell/atoms.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_predict_score_callback_shell/witnesses.py",
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_predict_score_callback_shell/references.json",
+        "src/sciona/atoms/ml/sklearn/linear_model/ransac_predict_score_callback_shell/cdg.json",
+        "tests/test_ml_sklearn_linear_model_ransac_predict_score_callback_shell_behavior.py"
+      ],
+      "review_record_path": "data/review_bundles/ml_sklearn_linear_model_ransac_predict_score_callback_shell.review_bundle.json",
+      "overall_verdict": "pass",
+      "has_references": true,
+      "references_status": "pass",
+      "parity_test_status": "pass"
+    }
+  ]
+}
