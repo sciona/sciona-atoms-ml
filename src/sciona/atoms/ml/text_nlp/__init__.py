@@ -3,6 +3,8 @@
 from .atoms import (
     beam_search,
     bio_decode,
+    bio_tagging_decoder,
+    bio_tagging_encoder,
     char_ngrams,
     char_to_token_offsets,
     clean_text,
@@ -17,6 +19,8 @@ from .atoms import (
 __all__ = [
     "beam_search",
     "bio_decode",
+    "bio_tagging_decoder",
+    "bio_tagging_encoder",
     "char_ngrams",
     "char_to_token_offsets",
     "clean_text",
@@ -27,3 +31,4 @@ __all__ = [
     "qa_span_selector",
     "word_ngrams",
 ]
+

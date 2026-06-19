@@ -110,3 +110,17 @@ def witness_qa_span_selector(
     if max_answer_length <= 0:
         raise ValueError("max_answer_length must be positive")
     return [(0, 0, 1.0)]
+
+
+def witness_bio_tagging_encoder(spans: list[tuple[str, int, int]], num_tokens: int) -> AbstractArray:
+    """Describe BIO tags sequence generated from spans."""
+    del spans
+    if num_tokens < 0:
+        raise ValueError("num_tokens must be non-negative")
+    return AbstractArray(shape=(num_tokens,), dtype="object")
+
+
+def witness_bio_tagging_decoder(tags: list[str]) -> AbstractArray:
+    """Describe decoded token-level entity spans."""
+    return AbstractArray(shape=(len(tags), 3), dtype="object")
+

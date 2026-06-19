@@ -94,3 +94,24 @@ def test_ngram_and_span_filter_atoms() -> None:
         ("ORG", 4, 5),
         ("LOC", 6, 10),
     ]
+
+
+def test_bio_tagging_encoder_decoder() -> None:
+    from sciona.atoms.ml.text_nlp import bio_tagging_decoder, bio_tagging_encoder
+
+    # Standard positive path
+    spans = [("PER", 0, 1), ("LOC", 3, 3)]
+    tags = bio_tagging_encoder(spans, 5)
+    assert tags == ["B-PER", "I-PER", "O", "B-LOC", "O"]
+
+    decoded_spans = bio_tagging_decoder(tags)
+    assert decoded_spans == [("PER", 0, 1), ("LOC", 3, 3)]
+
+    # Permissive decoding for orphan I-tags
+    assert bio_tagging_decoder(["I-PER", "O"]) == [("PER", 0, 0)]
+    assert bio_tagging_decoder(["B-PER", "I-LOC"]) == [("PER", 0, 0), ("LOC", 1, 1)]
+
+    # icontract verification
+    with pytest.raises(Exception):
+        bio_tagging_encoder([("PER", 0, 2), ("LOC", 1, 3)], 5)  # Overlapping
+

@@ -11,6 +11,8 @@
         "levenshtein",
         "jaro_winkler",
         "bio_decode",
+        "bio_tagging_encoder",
+        "bio_tagging_decoder",
         "char_to_token_offsets",
         "beam_search",
         "feature_hash",
@@ -581,6 +583,61 @@
       "space_complexity": "O(N)",
       "complexity_reasoning": "Ranking or sorting array elements is dominated by the O(N log N) time complexity of the sorting algorithm, and takes linear space.",
       "complexity_confidence": 95
+    },
+    {
+      "node_id": "bio_tagging_encoder",
+      "name": "bio_tagging_encoder",
+      "description": "Encode a list of labeled token spans into a sequence of BIO tags aligned with tokens.",
+      "concept_type": "data_assembly",
+      "status": "atomic",
+      "type_signature": "(spans: list[tuple[str, int, int]], num_tokens: int) -> list[str]",
+      "inputs": [
+        {
+          "name": "spans",
+          "type_desc": "list[tuple[str, int, int]]",
+          "required": true
+        },
+        {
+          "name": "num_tokens",
+          "type_desc": "int",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "list[str]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "Encoding spans into BIO tags scales linearly with the number of tokens N.",
+      "complexity_confidence": 95
+    },
+    {
+      "node_id": "bio_tagging_decoder",
+      "name": "bio_tagging_decoder",
+      "description": "Decode a sequence of BIO tags into a list of labeled token spans.",
+      "concept_type": "data_assembly",
+      "status": "atomic",
+      "type_signature": "(tags: list[str]) -> list[tuple[str, int, int]]",
+      "inputs": [
+        {
+          "name": "tags",
+          "type_desc": "list[str]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "type_desc": "list[tuple[str, int, int]]"
+        }
+      ],
+      "time_complexity": "O(N)",
+      "space_complexity": "O(N)",
+      "complexity_reasoning": "Decoding BIO tags into spans requires a single pass over the sequence of length N.",
+      "complexity_confidence": 95
     }
   ],
   "edges": [
@@ -631,6 +688,14 @@
     {
       "source": "ml_text_nlp_root",
       "target": "qa_span_selector"
+    },
+    {
+      "source": "ml_text_nlp_root",
+      "target": "bio_tagging_encoder"
+    },
+    {
+      "source": "ml_text_nlp_root",
+      "target": "bio_tagging_decoder"
     }
   ],
   "metadata": {

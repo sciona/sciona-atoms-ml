@@ -16,6 +16,8 @@ from sciona.ghost.registry import register_atom
 from .witnesses import (
     witness_beam_search,
     witness_bio_decode,
+    witness_bio_tagging_decoder,
+    witness_bio_tagging_encoder,
     witness_char_ngrams,
     witness_char_to_token_offsets,
     witness_clean_text,
@@ -496,3 +498,90 @@ def qa_span_selector(
                 candidates.append((int(s), int(e), float(score)))
     candidates.sort(key=lambda x: -x[2])
     return candidates[:top_k]
+
+
+def _spans_valid_for_encoding(spans: list[tuple[str, int, int]], num_tokens: int) -> bool:
+    if not isinstance(spans, list):
+        return False
+    if not isinstance(num_tokens, int) or num_tokens < 0:
+        return False
+    for item in spans:
+        if not isinstance(item, (tuple, list)) or len(item) != 3:
+            return False
+        label, start, end = item
+        if not isinstance(label, str) or not label:
+            return False
+        if not isinstance(start, int) or not isinstance(end, int):
+            return False
+        if start < 0 or end >= num_tokens or start > end:
+            return False
+    # Check overlap
+    sorted_spans = sorted(spans, key=lambda x: x[1])
+    for i in range(len(sorted_spans) - 1):
+        if sorted_spans[i][2] >= sorted_spans[i + 1][1]:
+            return False
+    return True
+
+
+def _tags_valid_for_decoding(tags: list[str]) -> bool:
+    if not isinstance(tags, list):
+        return False
+    for tag in tags:
+        if not isinstance(tag, str) or not tag:
+            return False
+        if tag == "O":
+            continue
+        if not (tag.startswith("B-") or tag.startswith("I-")):
+            return False
+        if len(tag) <= 2:
+            return False
+    return True
+
+
+@register_atom(witness_bio_tagging_encoder)
+@icontract.require(lambda spans, num_tokens: _spans_valid_for_encoding(spans, num_tokens), "spans must be valid and non-overlapping within length bounds")
+@icontract.ensure(lambda result, num_tokens: len(result) == num_tokens, "result tags must have length equal to num_tokens")
+def bio_tagging_encoder(spans: list[tuple[str, int, int]], num_tokens: int) -> list[str]:
+    """Encode entity spans into a sequence of BIO tags aligned with tokens."""
+    tags = ["O"] * num_tokens
+    for label, start, end in spans:
+        tags[start] = f"B-{label}"
+        for idx in range(start + 1, end + 1):
+            tags[idx] = f"I-{label}"
+    return tags
+
+
+@register_atom(witness_bio_tagging_decoder)
+@icontract.require(lambda tags: _tags_valid_for_decoding(tags), "tags must be valid BIO tags")
+@icontract.ensure(lambda result, tags: all(0 <= s <= e < len(tags) for _, s, e in result), "decoded spans must be within tags bounds")
+def bio_tagging_decoder(tags: list[str]) -> list[tuple[str, int, int]]:
+    """Decode a sequence of BIO tags into a list of labeled token spans."""
+    spans: list[tuple[str, int, int]] = []
+    active_label: str | None = None
+    active_start = -1
+    for idx, tag in enumerate(tags):
+        if tag == "O":
+            if active_label is not None:
+                spans.append((active_label, active_start, idx - 1))
+                active_label = None
+            continue
+        prefix, label = tag.split("-", 1)
+        if prefix == "B":
+            if active_label is not None:
+                spans.append((active_label, active_start, idx - 1))
+            active_label = label
+            active_start = idx
+        elif prefix == "I":
+            if active_label is not None and active_label == label:
+                # Continue active span
+                continue
+            else:
+                # Orphan I-tag: close current active if exists, start new span for permissive transition
+                if active_label is not None:
+                    spans.append((active_label, active_start, idx - 1))
+                active_label = label
+                active_start = idx
+    if active_label is not None:
+        spans.append((active_label, active_start, len(tags) - 1))
+    return spans
+
