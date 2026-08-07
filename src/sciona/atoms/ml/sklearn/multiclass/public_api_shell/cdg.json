@@ -1,0 +1,170 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_multiclass_public_api_shell_root",
+      "name": "Sklearn Multiclass Public API Shell",
+      "description": "High-level OneVsRestClassifier, OneVsOneClassifier, and OutputCodeClassifier selection, callback-payload, and fitted-state atoms above cloned-estimator, response-method, joblib, code-book, and metadata-routing boundaries.",
+      "status": "decomposed",
+      "children": [
+        "multiclass_estimator_catalog",
+        "multiclass_estimator_family",
+        "multiclass_estimator_boundary",
+        "multiclass_estimator_methods",
+        "multiclass_fit_method_payload",
+        "multiclass_prediction_method_payload",
+        "multiclass_fit_return_self",
+        "multiclass_fitted_state_summary"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "multiclass_estimator_catalog",
+      "name": "multiclass_estimator_catalog",
+      "description": "Expose public sklearn multiclass meta-estimator names useful for framework-level selection.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(catalog_scope: str = 'public_estimators') -> tuple[str, ...]",
+      "depth": 1,
+      "inputs": [{"name": "catalog_scope", "type_desc": "str", "required": false}],
+      "outputs": [{"name": "result", "type_desc": "tuple[str, ...]"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom returns a fixed public estimator-name tuple and does not inspect data.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "multiclass_estimator_family",
+      "name": "multiclass_estimator_family",
+      "description": "Return the multiclass family represented by a public estimator name.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator_name: str) -> str",
+      "depth": 1,
+      "inputs": [{"name": "estimator_name", "type_desc": "str", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "str"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom performs a dictionary lookup over fixed estimator names.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "multiclass_estimator_boundary",
+      "name": "multiclass_estimator_boundary",
+      "description": "Return the cloned-estimator, response-method, or code-book callback boundary represented by a public multiclass estimator.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator_name: str) -> str",
+      "depth": 1,
+      "inputs": [{"name": "estimator_name", "type_desc": "str", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "str"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom performs a constant-time branch over fixed estimator names.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "multiclass_estimator_methods",
+      "name": "multiclass_estimator_methods",
+      "description": "Expose public methods useful for high-level multiclass routing.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator_name: str) -> tuple[str, ...]",
+      "depth": 1,
+      "inputs": [{"name": "estimator_name", "type_desc": "str", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "tuple[str, ...]"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom returns a fixed public-method tuple for each covered multiclass estimator.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "multiclass_fit_method_payload",
+      "name": "multiclass_fit_method_payload",
+      "description": "Expose a public multiclass fit payload for finite dense inputs without executing cloned-estimator callbacks.",
+      "concept_type": "callback_boundary",
+      "status": "atomic",
+      "type_signature": "(estimator: object, X: object, y: object, fit_params: dict[str, object] | None = None) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator", "type_desc": "object", "required": true},
+        {"name": "X", "type_desc": "object", "required": true},
+        {"name": "y", "type_desc": "object", "required": true},
+        {"name": "fit_params", "type_desc": "dict[str, object] | None", "required": false}
+      ],
+      "outputs": [{"name": "result", "type_desc": "dict[str, object]"}],
+      "time_complexity": "O(n * d)",
+      "space_complexity": "O(n * d)",
+      "complexity_reasoning": "The atom validates dense fit inputs and packages references without fitting cloned estimators.",
+      "complexity_confidence": 93
+    },
+    {
+      "node_id": "multiclass_prediction_method_payload",
+      "name": "multiclass_prediction_method_payload",
+      "description": "Expose a public multiclass prediction-like payload without executing estimator response callbacks.",
+      "concept_type": "callback_boundary",
+      "status": "atomic",
+      "type_signature": "(estimator: object, method_name: str, X: object) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator", "type_desc": "object", "required": true},
+        {"name": "method_name", "type_desc": "str", "required": true},
+        {"name": "X", "type_desc": "object", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "dict[str, object]"}],
+      "time_complexity": "O(n * d)",
+      "space_complexity": "O(n * d)",
+      "complexity_reasoning": "The atom validates dense prediction input and packages references, leaving response methods and decoding to sklearn.",
+      "complexity_confidence": 93
+    },
+    {
+      "node_id": "multiclass_fit_return_self",
+      "name": "multiclass_fit_return_self",
+      "description": "Return the fitted public multiclass estimator object from the public fit shell.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator: object) -> object",
+      "depth": 1,
+      "inputs": [{"name": "estimator", "type_desc": "object", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "object"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom checks fitted marker attributes and returns the same estimator object.",
+      "complexity_confidence": 98
+    },
+    {
+      "node_id": "multiclass_fitted_state_summary",
+      "name": "multiclass_fitted_state_summary",
+      "description": "Expose fitted class, delegate-estimator, pairwise-index, and code-book metadata after delegated multiclass execution.",
+      "concept_type": "state_packaging",
+      "status": "atomic",
+      "type_signature": "(estimator: object) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [{"name": "estimator", "type_desc": "object", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "dict[str, object]"}],
+      "time_complexity": "O(c)",
+      "space_complexity": "O(c)",
+      "complexity_reasoning": "The atom exposes already-fitted class labels and delegate estimator counts proportional to class count.",
+      "complexity_confidence": 94
+    }
+  ],
+  "edges": [
+    {"source": "multiclass_estimator_catalog", "target": "multiclass_estimator_family", "kind": "selection_metadata"},
+    {"source": "multiclass_estimator_catalog", "target": "multiclass_estimator_boundary", "kind": "callback_boundary_metadata"},
+    {"source": "multiclass_estimator_catalog", "target": "multiclass_estimator_methods", "kind": "selection_metadata"},
+    {"source": "multiclass_estimator_boundary", "target": "multiclass_fit_method_payload", "kind": "callback_boundary"},
+    {"source": "multiclass_estimator_methods", "target": "multiclass_prediction_method_payload", "kind": "public_method_boundary"},
+    {"source": "multiclass_fit_return_self", "target": "multiclass_fitted_state_summary", "kind": "postfit_state"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.multiclass",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 3 public multiclass meta-estimator shells over cloned-estimator, response-method, metadata-routing, and code-book callback boundaries",
+    "review_semantic_verdict": "pass_with_limits",
+    "limitations": [
+      "Base estimators, response methods, metadata routing, joblib scheduling, one-vs-one pair fitting, one-vs-rest binary fitting, and output-code response decoding remain delegated behavior.",
+      "The shell models finite dense public API routing and compact fitted-state packaging, not cloned-estimator training, prediction, probability, decision-function, score, partial-fit, or metadata-routing execution."
+    ]
+  }
+}

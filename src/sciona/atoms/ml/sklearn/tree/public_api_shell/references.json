@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.tree.public_api_shell.tree_estimator_catalog@sciona/atoms/ml/sklearn/tree/public_api_shell/atoms.py:153": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the public decision-tree and extra-tree estimator classes defined in sklearn.tree._classes."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for public estimator availability."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.tree.public_api_shell.tree_estimator_family@sciona/atoms/ml/sklearn/tree/public_api_shell/atoms.py:162": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Classifies DecisionTreeClassifier/Regressor versus ExtraTreeClassifier/Regressor by public estimator family."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator families."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.tree.public_api_shell.tree_estimator_task@sciona/atoms/ml/sklearn/tree/public_api_shell/atoms.py:170": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Classifies public tree estimators by sklearn classifier or regressor API role."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator task semantics."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.tree.public_api_shell.tree_estimator_backend@sciona/atoms/ml/sklearn/tree/public_api_shell/atoms.py:178": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Maps public tree estimators to sklearn's Cython tree builder, splitter, and criterion boundary used by BaseDecisionTree._fit."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for tree estimator implementations."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.tree.public_api_shell.tree_estimator_methods@sciona/atoms/ml/sklearn/tree/public_api_shell/atoms.py:187": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Summarizes public fit, prediction, probability, path, score, pruning, and partial-dependence methods exposed by public tree estimator classes."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator API conventions."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.tree.public_api_shell.tree_fit_method_payload@sciona/atoms/ml/sklearn/tree/public_api_shell/atoms.py:198": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Models the public fit(X, y, sample_weight=None, check_input=True) callback boundary before native tree construction."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for supervised tree fit APIs."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.tree.public_api_shell.tree_prediction_method_payload@sciona/atoms/ml/sklearn/tree/public_api_shell/atoms.py:221": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Models public prediction-like method invocation as a callback boundary over fitted tree estimators."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for public estimator prediction and path APIs."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.tree.public_api_shell.tree_fit_return_self@sciona/atoms/ml/sklearn/tree/public_api_shell/atoms.py:229": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from public tree fit methods returning self after fitted-state assignment."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator fit return semantics."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.tree.public_api_shell.tree_fitted_state_summary@sciona/atoms/ml/sklearn/tree/public_api_shell/atoms.py:238": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Packages documented fitted public tree attributes and underlying tree_ size metadata after the native tree-builder boundary."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for fitted tree estimator attributes."}}
+      ]
+    }
+  }
+}
+

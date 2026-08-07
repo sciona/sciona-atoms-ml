@@ -1,0 +1,171 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_multioutput_public_api_shell_root",
+      "name": "Sklearn Multioutput Public API Shell",
+      "description": "High-level MultiOutputClassifier, MultiOutputRegressor, ClassifierChain, and RegressorChain selection, callback-payload, and fitted-state atoms above per-output estimator, chain prediction, CV, and metadata-routing boundaries.",
+      "status": "decomposed",
+      "children": [
+        "multioutput_estimator_catalog",
+        "multioutput_estimator_family",
+        "multioutput_estimator_boundary",
+        "multioutput_estimator_methods",
+        "multioutput_fit_method_payload",
+        "multioutput_prediction_method_payload",
+        "multioutput_fit_return_self",
+        "multioutput_fitted_state_summary"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "multioutput_estimator_catalog",
+      "name": "multioutput_estimator_catalog",
+      "description": "Expose public sklearn multioutput meta-estimator names useful for framework-level selection.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(catalog_scope: str = 'public_estimators') -> tuple[str, ...]",
+      "depth": 1,
+      "inputs": [{"name": "catalog_scope", "type_desc": "str", "required": false}],
+      "outputs": [{"name": "result", "type_desc": "tuple[str, ...]"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom returns a fixed public estimator-name tuple and does not inspect data.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "multioutput_estimator_family",
+      "name": "multioutput_estimator_family",
+      "description": "Return the multioutput family represented by a public estimator name.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator_name: str) -> str",
+      "depth": 1,
+      "inputs": [{"name": "estimator_name", "type_desc": "str", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "str"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom performs a dictionary lookup over fixed estimator names.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "multioutput_estimator_boundary",
+      "name": "multioutput_estimator_boundary",
+      "description": "Return the per-output estimator, chain prediction, CV, or metadata-routing boundary represented by a public multioutput estimator.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator_name: str) -> str",
+      "depth": 1,
+      "inputs": [{"name": "estimator_name", "type_desc": "str", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "str"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom performs a constant-time branch over fixed estimator names.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "multioutput_estimator_methods",
+      "name": "multioutput_estimator_methods",
+      "description": "Expose public methods useful for high-level multioutput routing.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator_name: str) -> tuple[str, ...]",
+      "depth": 1,
+      "inputs": [{"name": "estimator_name", "type_desc": "str", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "tuple[str, ...]"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom returns a fixed public-method tuple for each covered multioutput estimator.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "multioutput_fit_method_payload",
+      "name": "multioutput_fit_method_payload",
+      "description": "Expose a public multioutput fit payload for finite dense inputs without executing delegated estimator callbacks.",
+      "concept_type": "callback_boundary",
+      "status": "atomic",
+      "type_signature": "(estimator: object, X: object, y: object, sample_weight: object = None, fit_params: dict[str, object] | None = None) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator", "type_desc": "object", "required": true},
+        {"name": "X", "type_desc": "object", "required": true},
+        {"name": "y", "type_desc": "object", "required": true},
+        {"name": "sample_weight", "type_desc": "object", "required": false},
+        {"name": "fit_params", "type_desc": "dict[str, object] | None", "required": false}
+      ],
+      "outputs": [{"name": "result", "type_desc": "dict[str, object]"}],
+      "time_complexity": "O(n * d)",
+      "space_complexity": "O(n * d)",
+      "complexity_reasoning": "The atom validates dense fit inputs and packages references without fitting per-output estimators.",
+      "complexity_confidence": 93
+    },
+    {
+      "node_id": "multioutput_prediction_method_payload",
+      "name": "multioutput_prediction_method_payload",
+      "description": "Expose a public multioutput prediction-like payload without executing estimator callbacks.",
+      "concept_type": "callback_boundary",
+      "status": "atomic",
+      "type_signature": "(estimator: object, method_name: str, X: object) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator", "type_desc": "object", "required": true},
+        {"name": "method_name", "type_desc": "str", "required": true},
+        {"name": "X", "type_desc": "object", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "dict[str, object]"}],
+      "time_complexity": "O(n * d)",
+      "space_complexity": "O(n * d)",
+      "complexity_reasoning": "The atom validates dense prediction input and packages references, leaving per-output responses and chain augmentation to sklearn.",
+      "complexity_confidence": 93
+    },
+    {
+      "node_id": "multioutput_fit_return_self",
+      "name": "multioutput_fit_return_self",
+      "description": "Return the fitted public multioutput estimator object from the public fit shell.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator: object) -> object",
+      "depth": 1,
+      "inputs": [{"name": "estimator", "type_desc": "object", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "object"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom checks fitted marker attributes and returns the same estimator object.",
+      "complexity_confidence": 98
+    },
+    {
+      "node_id": "multioutput_fitted_state_summary",
+      "name": "multioutput_fitted_state_summary",
+      "description": "Expose fitted output-count, delegate-estimator, class, chain-order, and feature metadata after delegated multioutput execution.",
+      "concept_type": "state_packaging",
+      "status": "atomic",
+      "type_signature": "(estimator: object) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [{"name": "estimator", "type_desc": "object", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "dict[str, object]"}],
+      "time_complexity": "O(m)",
+      "space_complexity": "O(m)",
+      "complexity_reasoning": "The atom exposes already-fitted estimator and class metadata proportional to output count.",
+      "complexity_confidence": 94
+    }
+  ],
+  "edges": [
+    {"source": "multioutput_estimator_catalog", "target": "multioutput_estimator_family", "kind": "selection_metadata"},
+    {"source": "multioutput_estimator_catalog", "target": "multioutput_estimator_boundary", "kind": "callback_boundary_metadata"},
+    {"source": "multioutput_estimator_catalog", "target": "multioutput_estimator_methods", "kind": "selection_metadata"},
+    {"source": "multioutput_estimator_boundary", "target": "multioutput_fit_method_payload", "kind": "callback_boundary"},
+    {"source": "multioutput_estimator_methods", "target": "multioutput_prediction_method_payload", "kind": "public_method_boundary"},
+    {"source": "multioutput_fit_return_self", "target": "multioutput_fitted_state_summary", "kind": "postfit_state"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.multioutput",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 3 and Case 4 public multioutput meta-estimator shells over per-output estimator, chain prediction, CV, and metadata-routing callback boundaries",
+    "review_semantic_verdict": "pass_with_limits",
+    "limitations": [
+      "Per-output estimators, chain estimators, cross-validated previous-output features, metadata routing, partial-fit mutation, prediction, probability, and scoring remain delegated behavior.",
+      "The shell models finite dense public API routing and compact fitted-state packaging, not estimator training, chain augmentation, cross_val_predict execution, per-output prediction, probability, partial-fit, or scoring internals."
+    ]
+  }
+}

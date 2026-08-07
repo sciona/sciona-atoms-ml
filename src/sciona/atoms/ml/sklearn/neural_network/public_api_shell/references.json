@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.neural_network.public_api_shell.mlp_public_estimator_catalog@sciona/atoms/ml/sklearn/neural_network/public_api_shell/atoms.py:160": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from public MLPClassifier and MLPRegressor classes in sklearn.neural_network."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for public estimator availability."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.neural_network.public_api_shell.mlp_public_estimator_task@sciona/atoms/ml/sklearn/neural_network/public_api_shell/atoms.py:169": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Maps MLPClassifier and MLPRegressor to classification and regression task families."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator task conventions."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.neural_network.public_api_shell.mlp_public_optimizer_boundary@sciona/atoms/ml/sklearn/neural_network/public_api_shell/atoms.py:178": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Models L-BFGS, SGD, and Adam solver paths as explicit optimizer boundaries."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for MLP estimator solver workflows."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.neural_network.public_api_shell.mlp_public_estimator_methods@sciona/atoms/ml/sklearn/neural_network/public_api_shell/atoms.py:191": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Summarizes public fit, partial_fit, prediction, probability, log-probability, and score methods exposed by covered MLP estimators."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator API conventions."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.neural_network.public_api_shell.mlp_public_fit_method_payload@sciona/atoms/ml/sklearn/neural_network/public_api_shell/atoms.py:201": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Models public MLP fit payloads before validation, optimizer, backpropagation, early-stopping, and fitted-state mutation execution."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator fit APIs."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.neural_network.public_api_shell.mlp_public_prediction_method_payload@sciona/atoms/ml/sklearn/neural_network/public_api_shell/atoms.py:223": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Models public predict and probability invocation as a callback boundary over fitted MLP estimators."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for public estimator prediction APIs."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.neural_network.public_api_shell.mlp_public_fit_return_self@sciona/atoms/ml/sklearn/neural_network/public_api_shell/atoms.py:231": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from public MLP fit methods returning self after fitted-state assignment."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator fit return semantics."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.neural_network.public_api_shell.mlp_public_fitted_state_summary@sciona/atoms/ml/sklearn/neural_network/public_api_shell/atoms.py:240": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Packages documented fitted MLP layer, output, activation, coefficient, intercept, iteration, loss, validation, and class metadata after sklearn execution."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for fitted estimator attributes."}}
+      ]
+    }
+  }
+}

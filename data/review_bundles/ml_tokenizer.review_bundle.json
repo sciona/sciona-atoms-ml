@@ -8,11 +8,26 @@
   "review_developer_semantic_verdict": "pass_with_limits",
   "trust_readiness": "reviewed_with_limits",
   "authoritative_sources": [
-    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/tokenizer/atoms.py"},
-    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/tokenizer/witnesses.py"},
-    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/tokenizer/references.json"},
-    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/tokenizer/cdg.json"},
-    {"kind": "local_test", "path": "tests/test_ml_tokenizer_behavior.py"}
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/tokenizer/atoms.py"
+    },
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/tokenizer/witnesses.py"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/tokenizer/references.json"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/tokenizer/cdg.json"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_tokenizer_behavior.py"
+    }
   ],
   "limitations": [
     "Only supports Hugging Face fast tokenizer tokenizer.json artifacts",
@@ -51,7 +66,7 @@
       },
       "risk_reasons": [],
       "acceptability_score": 82,
-      "acceptability_band": "acceptable_candidate",
+      "acceptability_band": "acceptable_with_limits_candidate",
       "parity_coverage_level": "positive_path",
       "parity_test_status": "pass",
       "parity_fixture_count": 1,

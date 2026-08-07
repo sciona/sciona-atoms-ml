@@ -1,0 +1,191 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_sgd_public_api_shell_root",
+      "name": "Sklearn Linear Model SGD Public API Shell",
+      "description": "High-level SGDClassifier, SGDRegressor, SGDOneClassSVM, passive-aggressive, and Perceptron estimator-selection, callback-boundary, and fitted-state atoms above compiled _plain_sgd training boundaries.",
+      "status": "decomposed",
+      "children": [
+        "sgd_public_estimator_catalog",
+        "sgd_public_estimator_family",
+        "sgd_public_estimator_task",
+        "sgd_public_training_boundary",
+        "sgd_public_estimator_methods",
+        "sgd_public_fit_method_payload",
+        "sgd_public_prediction_method_payload",
+        "sgd_public_fit_return_self",
+        "sgd_public_fitted_state_summary"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "sgd_public_estimator_catalog",
+      "name": "sgd_public_estimator_catalog",
+      "description": "Expose public SGD-family estimator names useful for framework-level model selection.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(catalog_scope: str = 'public_estimators') -> tuple[str, ...]",
+      "depth": 1,
+      "inputs": [{"name": "catalog_scope", "type_desc": "str", "required": false}],
+      "outputs": [{"name": "result", "type_desc": "tuple[str, ...]"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom returns a fixed public estimator-name tuple and does not inspect data.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "sgd_public_estimator_family",
+      "name": "sgd_public_estimator_family",
+      "description": "Return the public SGD-family estimator family represented by an estimator name.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator_name: str) -> str",
+      "depth": 1,
+      "inputs": [{"name": "estimator_name", "type_desc": "str", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "str"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom performs a dictionary lookup over fixed estimator names.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "sgd_public_estimator_task",
+      "name": "sgd_public_estimator_task",
+      "description": "Return the learning task represented by a public SGD-family estimator.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator_name: str) -> str",
+      "depth": 1,
+      "inputs": [{"name": "estimator_name", "type_desc": "str", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "str"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom performs a constant-time branch over fixed estimator names.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "sgd_public_training_boundary",
+      "name": "sgd_public_training_boundary",
+      "description": "Return the compiled training boundary selected by a public SGD-family estimator.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator_name: str) -> str",
+      "depth": 1,
+      "inputs": [{"name": "estimator_name", "type_desc": "str", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "str"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom performs a constant-time branch over fixed estimator names.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "sgd_public_estimator_methods",
+      "name": "sgd_public_estimator_methods",
+      "description": "Expose public methods useful for high-level SGD-family routing.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator_name: str) -> tuple[str, ...]",
+      "depth": 1,
+      "inputs": [{"name": "estimator_name", "type_desc": "str", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "tuple[str, ...]"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom returns a fixed public-method tuple for each covered estimator.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "sgd_public_fit_method_payload",
+      "name": "sgd_public_fit_method_payload",
+      "description": "Expose a public SGD-family fit payload for finite dense inputs without executing compiled training.",
+      "concept_type": "callback_boundary",
+      "status": "atomic",
+      "type_signature": "(estimator: object, X: object, y: object = None, sample_weight: object = None, coef_init: object = None, intercept_init: object = None, offset_init: object = None) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator", "type_desc": "object", "required": true},
+        {"name": "X", "type_desc": "object", "required": true},
+        {"name": "y", "type_desc": "object", "required": false},
+        {"name": "sample_weight", "type_desc": "object", "required": false},
+        {"name": "coef_init", "type_desc": "object", "required": false},
+        {"name": "intercept_init", "type_desc": "object", "required": false},
+        {"name": "offset_init", "type_desc": "object", "required": false}
+      ],
+      "outputs": [{"name": "result", "type_desc": "dict[str, object]"}],
+      "time_complexity": "O(n * d)",
+      "space_complexity": "O(n * d)",
+      "complexity_reasoning": "The atom validates dense fit inputs, targets, sample weights, and optional init arrays, then packages references without fitting.",
+      "complexity_confidence": 93
+    },
+    {
+      "node_id": "sgd_public_prediction_method_payload",
+      "name": "sgd_public_prediction_method_payload",
+      "description": "Expose a public SGD-family prediction-like method payload without executing the estimator method.",
+      "concept_type": "callback_boundary",
+      "status": "atomic",
+      "type_signature": "(estimator: object, method_name: str, X: object) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator", "type_desc": "object", "required": true},
+        {"name": "method_name", "type_desc": "str", "required": true},
+        {"name": "X", "type_desc": "object", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "dict[str, object]"}],
+      "time_complexity": "O(n * d)",
+      "space_complexity": "O(n * d)",
+      "complexity_reasoning": "The atom validates dense prediction input and packages references, leaving prediction, scoring, or decision execution to sklearn.",
+      "complexity_confidence": 93
+    },
+    {
+      "node_id": "sgd_public_fit_return_self",
+      "name": "sgd_public_fit_return_self",
+      "description": "Return the fitted public SGD-family estimator object from the public fit shell.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator: object) -> object",
+      "depth": 1,
+      "inputs": [{"name": "estimator", "type_desc": "object", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "object"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom checks fitted marker attributes and returns the same estimator object.",
+      "complexity_confidence": 98
+    },
+    {
+      "node_id": "sgd_public_fitted_state_summary",
+      "name": "sgd_public_fitted_state_summary",
+      "description": "Expose fitted coefficients, intercepts or offsets, class metadata, iteration counters, and training-boundary metadata after deferred compiled SGD execution.",
+      "concept_type": "state_packaging",
+      "status": "atomic",
+      "type_signature": "(estimator: object) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [{"name": "estimator", "type_desc": "object", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "dict[str, object]"}],
+      "time_complexity": "O(c * d)",
+      "space_complexity": "O(c * d)",
+      "complexity_reasoning": "The atom exposes fitted coefficient arrays and scalar metadata already produced by sklearn fitting.",
+      "complexity_confidence": 94
+    }
+  ],
+  "edges": [
+    {"source": "sgd_public_estimator_catalog", "target": "sgd_public_estimator_family", "kind": "selection_metadata"},
+    {"source": "sgd_public_estimator_catalog", "target": "sgd_public_estimator_task", "kind": "selection_metadata"},
+    {"source": "sgd_public_estimator_catalog", "target": "sgd_public_training_boundary", "kind": "training_boundary_metadata"},
+    {"source": "sgd_public_estimator_catalog", "target": "sgd_public_estimator_methods", "kind": "selection_metadata"},
+    {"source": "sgd_public_training_boundary", "target": "sgd_public_fit_method_payload", "kind": "compiled_training_boundary"},
+    {"source": "sgd_public_estimator_methods", "target": "sgd_public_prediction_method_payload", "kind": "public_method_boundary"},
+    {"source": "sgd_public_fit_return_self", "target": "sgd_public_fitted_state_summary", "kind": "postfit_state"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._stochastic_gradient, sklearn.linear_model._passive_aggressive, sklearn.linear_model._perceptron",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 1 and Case 2 public SGD-family estimator shells over compiled _plain_sgd training boundaries",
+    "review_semantic_verdict": "pass_with_limits",
+    "limitations": [
+      "The internal update topology is obscured by compiled _plain_sgd and compiled loss/update boundaries.",
+      "The shell models finite dense public API routing and compact fitted-state packaging, not stochastic update execution, convergence, dataset construction, validation execution, partial-fit mutation, prediction, decision-function, or scoring internals.",
+      "PassiveAggressiveClassifier and PassiveAggressiveRegressor are included only as deprecated public estimator surfaces in sklearn 1.8."
+    ]
+  }
+}

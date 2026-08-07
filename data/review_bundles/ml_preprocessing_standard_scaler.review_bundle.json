@@ -6,12 +6,24 @@
   "review_status": "reviewed",
   "review_semantic_verdict": "pass",
   "review_developer_semantic_verdict": "pass",
-  "trust_readiness": "reviewed",
+  "trust_readiness": "reviewed_with_limits",
   "authoritative_sources": [
-    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/preprocessing/standard_scaler/atoms.py"},
-    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/preprocessing/standard_scaler/witnesses.py"},
-    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/preprocessing/standard_scaler/references.json"},
-    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/preprocessing/standard_scaler/cdg.json"}
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/preprocessing/standard_scaler/atoms.py"
+    },
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/preprocessing/standard_scaler/witnesses.py"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/preprocessing/standard_scaler/references.json"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/preprocessing/standard_scaler/cdg.json"
+    }
   ],
   "limitations": [],
   "blocking_findings": [],
@@ -45,7 +57,7 @@
       },
       "risk_reasons": [],
       "acceptability_score": 95,
-      "acceptability_band": "acceptable",
+      "acceptability_band": "review_ready",
       "parity_coverage_level": "positive_path",
       "parity_test_status": "pass",
       "parity_fixture_count": 1,
@@ -86,7 +98,7 @@
       },
       "risk_reasons": [],
       "acceptability_score": 95,
-      "acceptability_band": "acceptable",
+      "acceptability_band": "review_ready",
       "parity_coverage_level": "positive_path",
       "parity_test_status": "pass",
       "parity_fixture_count": 1,

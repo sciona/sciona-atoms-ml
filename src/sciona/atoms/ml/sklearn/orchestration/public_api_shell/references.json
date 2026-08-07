@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.orchestration.public_api_shell.orchestration_estimator_catalog@sciona/atoms/ml/sklearn/orchestration/public_api_shell/atoms.py:153": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from public Pipeline, ColumnTransformer, FeatureUnion, GridSearchCV, and RandomizedSearchCV classes in sklearn."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for public estimator availability."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.orchestration.public_api_shell.orchestration_estimator_family@sciona/atoms/ml/sklearn/orchestration/public_api_shell/atoms.py:162": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Maps public sklearn orchestration classes to pipeline, composition, and search families."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator family semantics."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.orchestration.public_api_shell.orchestration_boundary@sciona/atoms/ml/sklearn/orchestration/public_api_shell/atoms.py:170": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Models pipeline steps, column transformers, feature-union transformers, CV search estimators, scorers, splitters, and refit as explicit callback boundaries."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for composition and model-selection orchestration."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.orchestration.public_api_shell.orchestration_estimator_methods@sciona/atoms/ml/sklearn/orchestration/public_api_shell/atoms.py:184": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Summarizes public fit, transform, predict, score, get_params, and set_params methods exposed by covered orchestration estimators."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator API conventions."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.orchestration.public_api_shell.orchestration_fit_method_payload@sciona/atoms/ml/sklearn/orchestration/public_api_shell/atoms.py:194": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Models public fit(X, y=None, **params) callback payloads before delegated component fitting, scoring, search, and refit execution."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for public orchestration fit APIs."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.orchestration.public_api_shell.orchestration_method_payload@sciona/atoms/ml/sklearn/orchestration/public_api_shell/atoms.py:215": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Models public transform, predict, or score invocation as a callback boundary over fitted orchestration estimators."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for public estimator transform, prediction, and scoring APIs."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.orchestration.public_api_shell.orchestration_fit_return_self@sciona/atoms/ml/sklearn/orchestration/public_api_shell/atoms.py:223": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from public orchestration fit methods returning self after fitted-state assignment."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator fit return semantics."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.orchestration.public_api_shell.orchestration_fitted_state_summary@sciona/atoms/ml/sklearn/orchestration/public_api_shell/atoms.py:231": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Packages documented fitted step, transformer, best-estimator, best-index, best-score, and CV-results metadata after sklearn orchestration execution."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for fitted orchestration estimator attributes."}}
+      ]
+    }
+  }
+}

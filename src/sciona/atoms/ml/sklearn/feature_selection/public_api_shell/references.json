@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.feature_selection.public_api_shell.feature_selector_catalog@sciona/atoms/ml/sklearn/feature_selection/public_api_shell/atoms.py:122": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from public RFE, RFECV, SelectFromModel, and SequentialFeatureSelector classes in sklearn.feature_selection."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for public estimator availability."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.feature_selection.public_api_shell.feature_selector_family@sciona/atoms/ml/sklearn/feature_selection/public_api_shell/atoms.py:131": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Maps public feature-selector classes to recursive, model-threshold, and sequential selection families."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for selector family semantics."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.feature_selection.public_api_shell.feature_selector_boundary@sciona/atoms/ml/sklearn/feature_selection/public_api_shell/atoms.py:139": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Models delegated estimator fitting, importance extraction, scorer callbacks, and CV splitters as explicit boundaries for public feature selectors."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator-callback selector workflows."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.feature_selection.public_api_shell.feature_selector_methods@sciona/atoms/ml/sklearn/feature_selection/public_api_shell/atoms.py:151": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Summarizes public fit, transform, inverse-transform, get-support, predict, and score methods exposed by covered selectors."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator API conventions."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.feature_selection.public_api_shell.feature_selector_fit_method_payload@sciona/atoms/ml/sklearn/feature_selection/public_api_shell/atoms.py:161": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Models public selector fit payloads before delegated estimator fitting, importance extraction, CV splitting, and scoring execution."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for feature-selector fit APIs."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.feature_selection.public_api_shell.feature_selector_transform_method_payload@sciona/atoms/ml/sklearn/feature_selection/public_api_shell/atoms.py:182": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Models public transform, inverse-transform, get-support, predict, or score invocation as a callback boundary over fitted feature selectors."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for selector transform and post-fit APIs."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.feature_selection.public_api_shell.feature_selector_fit_return_self@sciona/atoms/ml/sklearn/feature_selection/public_api_shell/atoms.py:190": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from public feature-selector fit methods returning self after fitted-state assignment."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator fit return semantics."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.feature_selection.public_api_shell.feature_selector_fitted_state_summary@sciona/atoms/ml/sklearn/feature_selection/public_api_shell/atoms.py:199": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Packages documented fitted support mask, ranking, selected-feature count, delegate estimator, and CV-result metadata after sklearn selector execution."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for fitted feature-selector attributes."}}
+      ]
+    }
+  }
+}

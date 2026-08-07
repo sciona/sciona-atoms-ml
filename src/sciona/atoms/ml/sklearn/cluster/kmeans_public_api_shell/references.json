@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.cluster.kmeans_public_api_shell.kmeans_estimator_catalog@sciona/atoms/ml/sklearn/cluster/kmeans_public_api_shell/atoms.py:118": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from public KMeans-family estimator classes defined in sklearn.cluster._kmeans and sklearn.cluster._bisect_k_means."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for public estimator availability."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.cluster.kmeans_public_api_shell.kmeans_estimator_backend@sciona/atoms/ml/sklearn/cluster/kmeans_public_api_shell/atoms.py:132": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Maps KMeans to Lloyd/Elkan native solver paths, MiniBatchKMeans to minibatch native updates, and BisectingKMeans to recursive KMeans fitting."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for clustering estimator implementations."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.cluster.kmeans_public_api_shell.kmeans_estimator_task@sciona/atoms/ml/sklearn/cluster/kmeans_public_api_shell/atoms.py:144": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Classifies KMeans, MiniBatchKMeans, and BisectingKMeans as public clustering estimators."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator task semantics."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.cluster.kmeans_public_api_shell.kmeans_estimator_methods@sciona/atoms/ml/sklearn/cluster/kmeans_public_api_shell/atoms.py:153": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Summarizes public fit, prediction, transform, scoring, and partial-fit methods exposed by the KMeans-family estimator classes."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator API conventions."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.cluster.kmeans_public_api_shell.kmeans_fit_method_payload@sciona/atoms/ml/sklearn/cluster/kmeans_public_api_shell/atoms.py:166": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Models the public fit(X, y=None, sample_weight=None) callback boundary before native KMeans solver execution."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for clustering fit APIs."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.cluster.kmeans_public_api_shell.kmeans_prediction_method_payload@sciona/atoms/ml/sklearn/cluster/kmeans_public_api_shell/atoms.py:185": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Models public prediction-like method invocation as a callback boundary over fitted KMeans-family estimators."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for public estimator prediction and transform APIs."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.cluster.kmeans_public_api_shell.kmeans_fit_return_self@sciona/atoms/ml/sklearn/cluster/kmeans_public_api_shell/atoms.py:193": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from public KMeans-family fit methods returning self after fitted-state assignment."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator fit return semantics."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.cluster.kmeans_public_api_shell.kmeans_fitted_state@sciona/atoms/ml/sklearn/cluster/kmeans_public_api_shell/atoms.py:202": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Packages documented fitted KMeans-family center, label, inertia, and iteration attributes after the native solver boundary."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for fitted clustering estimator attributes."}}
+      ]
+    }
+  }
+}
+

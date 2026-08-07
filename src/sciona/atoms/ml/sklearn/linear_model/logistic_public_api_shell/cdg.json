@@ -1,0 +1,174 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_logistic_public_api_shell_root",
+      "name": "Sklearn Linear Model Logistic Public API Shell",
+      "description": "High-level LogisticRegression and LogisticRegressionCV estimator-selection, callback-boundary, and fitted-state atoms above liblinear, SciPy/sklearn optimizer, SAG/SAGA, CV scoring, and refit boundaries.",
+      "status": "decomposed",
+      "children": [
+        "logistic_public_estimator_catalog",
+        "logistic_public_estimator_family",
+        "logistic_public_solver_boundary",
+        "logistic_public_estimator_methods",
+        "logistic_public_fit_method_payload",
+        "logistic_public_prediction_method_payload",
+        "logistic_public_fit_return_self",
+        "logistic_public_fitted_state_summary"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "logistic_public_estimator_catalog",
+      "name": "logistic_public_estimator_catalog",
+      "description": "Expose public logistic estimator names useful for framework-level model selection.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(catalog_scope: str = 'public_estimators') -> tuple[str, ...]",
+      "depth": 1,
+      "inputs": [{"name": "catalog_scope", "type_desc": "str", "required": false}],
+      "outputs": [{"name": "result", "type_desc": "tuple[str, ...]"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom returns a fixed public estimator-name tuple and does not inspect data.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "logistic_public_estimator_family",
+      "name": "logistic_public_estimator_family",
+      "description": "Return whether a public logistic estimator is the direct or cross-validated family.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator_name: str) -> str",
+      "depth": 1,
+      "inputs": [{"name": "estimator_name", "type_desc": "str", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "str"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom performs a constant-time branch over fixed estimator names.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "logistic_public_solver_boundary",
+      "name": "logistic_public_solver_boundary",
+      "description": "Return the optimizer or native solver boundary selected by a public logistic estimator.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator_name: str, solver: str) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator_name", "type_desc": "str", "required": true},
+        {"name": "solver", "type_desc": "str", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "str"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom performs a constant-time branch over fixed solver labels.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "logistic_public_estimator_methods",
+      "name": "logistic_public_estimator_methods",
+      "description": "Expose public methods useful for high-level logistic routing.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator_name: str) -> tuple[str, ...]",
+      "depth": 1,
+      "inputs": [{"name": "estimator_name", "type_desc": "str", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "tuple[str, ...]"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom returns a fixed public-method tuple for covered logistic estimators.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "logistic_public_fit_method_payload",
+      "name": "logistic_public_fit_method_payload",
+      "description": "Expose a public logistic fit payload for finite dense inputs without executing solver, CV, or refit callbacks.",
+      "concept_type": "callback_boundary",
+      "status": "atomic",
+      "type_signature": "(estimator: object, X: object, y: object, sample_weight: object = None, params: dict[str, object] | None = None) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator", "type_desc": "object", "required": true},
+        {"name": "X", "type_desc": "object", "required": true},
+        {"name": "y", "type_desc": "object", "required": true},
+        {"name": "sample_weight", "type_desc": "object", "required": false},
+        {"name": "params", "type_desc": "dict[str, object] | None", "required": false}
+      ],
+      "outputs": [{"name": "result", "type_desc": "dict[str, object]"}],
+      "time_complexity": "O(n * d)",
+      "space_complexity": "O(n * d)",
+      "complexity_reasoning": "The atom validates dense fit inputs and sample weights, then packages references without fitting.",
+      "complexity_confidence": 93
+    },
+    {
+      "node_id": "logistic_public_prediction_method_payload",
+      "name": "logistic_public_prediction_method_payload",
+      "description": "Expose a public logistic prediction-like method payload without executing the estimator method.",
+      "concept_type": "callback_boundary",
+      "status": "atomic",
+      "type_signature": "(estimator: object, method_name: str, X: object) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator", "type_desc": "object", "required": true},
+        {"name": "method_name", "type_desc": "str", "required": true},
+        {"name": "X", "type_desc": "object", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "dict[str, object]"}],
+      "time_complexity": "O(n * d)",
+      "space_complexity": "O(n * d)",
+      "complexity_reasoning": "The atom validates dense prediction input and packages references, leaving prediction or scoring to sklearn.",
+      "complexity_confidence": 93
+    },
+    {
+      "node_id": "logistic_public_fit_return_self",
+      "name": "logistic_public_fit_return_self",
+      "description": "Return the fitted public logistic estimator object from the public fit shell.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator: object) -> object",
+      "depth": 1,
+      "inputs": [{"name": "estimator", "type_desc": "object", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "object"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom checks fitted marker attributes and returns the same estimator object.",
+      "complexity_confidence": 98
+    },
+    {
+      "node_id": "logistic_public_fitted_state_summary",
+      "name": "logistic_public_fitted_state_summary",
+      "description": "Expose fitted classes, coefficients, intercepts, iteration counts, solver metadata, and CV-selected grids after deferred logistic execution.",
+      "concept_type": "state_packaging",
+      "status": "atomic",
+      "type_signature": "(estimator: object) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [{"name": "estimator", "type_desc": "object", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "dict[str, object]"}],
+      "time_complexity": "O(c * d + g)",
+      "space_complexity": "O(c * d + g)",
+      "complexity_reasoning": "The atom exposes fitted coefficient arrays, class labels, and optional CV grid arrays already produced by sklearn fitting.",
+      "complexity_confidence": 94
+    }
+  ],
+  "edges": [
+    {"source": "logistic_public_estimator_catalog", "target": "logistic_public_estimator_family", "kind": "selection_metadata"},
+    {"source": "logistic_public_estimator_catalog", "target": "logistic_public_solver_boundary", "kind": "solver_boundary_metadata"},
+    {"source": "logistic_public_estimator_catalog", "target": "logistic_public_estimator_methods", "kind": "selection_metadata"},
+    {"source": "logistic_public_solver_boundary", "target": "logistic_public_fit_method_payload", "kind": "solver_boundary"},
+    {"source": "logistic_public_estimator_methods", "target": "logistic_public_prediction_method_payload", "kind": "public_method_boundary"},
+    {"source": "logistic_public_fit_return_self", "target": "logistic_public_fitted_state_summary", "kind": "postfit_state"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._logistic",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 2 and Case 4 public logistic estimator shells over liblinear, SciPy/sklearn optimizer, SAG/SAGA, cross-validation scoring, and refit boundaries",
+    "review_semantic_verdict": "pass_with_limits",
+    "limitations": [
+      "The internal fitted-state topology is obscured by liblinear, SciPy/sklearn optimizer, SAG/SAGA native solver, CV scoring, and refit boundaries.",
+      "The shell models finite dense public API routing and compact fitted-state packaging, not solver convergence, validation execution, class encoding internals, CV fold generation, scorer callbacks, refit calls, prediction, or scoring internals."
+    ]
+  }
+}

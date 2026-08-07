@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.multiclass.public_api_shell.multiclass_estimator_catalog@sciona/atoms/ml/sklearn/multiclass/public_api_shell/atoms.py:116": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from public OneVsRestClassifier, OneVsOneClassifier, and OutputCodeClassifier classes in sklearn.multiclass."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for public estimator availability."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.multiclass.public_api_shell.multiclass_estimator_family@sciona/atoms/ml/sklearn/multiclass/public_api_shell/atoms.py:125": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Maps public multiclass meta-estimator classes to one-vs-rest, one-vs-one, and output-code families."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for multiclass strategy semantics."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.multiclass.public_api_shell.multiclass_estimator_boundary@sciona/atoms/ml/sklearn/multiclass/public_api_shell/atoms.py:133": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Models cloned estimator training, estimator response methods, metadata routing, and output-code response decoding as explicit callback boundaries."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for multiclass meta-estimator workflows."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.multiclass.public_api_shell.multiclass_estimator_methods@sciona/atoms/ml/sklearn/multiclass/public_api_shell/atoms.py:143": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Summarizes public fit, partial_fit, predict, probability, decision, score, and metadata-routing methods exposed by covered multiclass estimators."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator API conventions."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.multiclass.public_api_shell.multiclass_fit_method_payload@sciona/atoms/ml/sklearn/multiclass/public_api_shell/atoms.py:153": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Models public multiclass fit payloads before label processing, cloned-estimator fitting, joblib scheduling, and metadata-routing execution."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for multiclass estimator fit APIs."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.multiclass.public_api_shell.multiclass_prediction_method_payload@sciona/atoms/ml/sklearn/multiclass/public_api_shell/atoms.py:173": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Models public predict, probability, decision-function, or score invocation as a callback boundary over fitted multiclass estimators."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for public estimator prediction and scoring APIs."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.multiclass.public_api_shell.multiclass_fit_return_self@sciona/atoms/ml/sklearn/multiclass/public_api_shell/atoms.py:181": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from public multiclass fit methods returning self after fitted-state assignment."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator fit return semantics."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.multiclass.public_api_shell.multiclass_fitted_state_summary@sciona/atoms/ml/sklearn/multiclass/public_api_shell/atoms.py:190": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Packages documented fitted multiclass classes, delegate estimator count, n_features_in_, pairwise indices, label-binarizer, and code-book metadata after sklearn execution."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for fitted multiclass estimator attributes."}}
+      ]
+    }
+  }
+}

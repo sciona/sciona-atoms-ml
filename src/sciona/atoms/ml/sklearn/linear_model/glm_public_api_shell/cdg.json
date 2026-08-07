@@ -1,0 +1,177 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_glm_public_api_shell_root",
+      "name": "Sklearn Linear Model GLM Public API Shell",
+      "description": "High-level Poisson/Gamma/Tweedie GLM estimator-selection, callback-boundary, and fitted-state atoms above SciPy L-BFGS-B and sklearn Newton optimizer boundaries.",
+      "status": "decomposed",
+      "children": [
+        "glm_estimator_catalog",
+        "glm_estimator_distribution",
+        "glm_estimator_optimizer",
+        "glm_estimator_methods",
+        "glm_fit_method_payload",
+        "glm_prediction_method_payload",
+        "glm_fit_return_self",
+        "glm_fitted_state_summary"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "glm_estimator_catalog",
+      "name": "glm_estimator_catalog",
+      "description": "Expose public sklearn GLM regressor names useful for framework-level model selection.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(catalog_scope: str = 'public_estimators') -> tuple[str, ...]",
+      "depth": 1,
+      "inputs": [{"name": "catalog_scope", "type_desc": "str", "required": false}],
+      "outputs": [{"name": "result", "type_desc": "tuple[str, ...]"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom returns a fixed public estimator-name tuple and does not inspect data.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "glm_estimator_distribution",
+      "name": "glm_estimator_distribution",
+      "description": "Return the response distribution family represented by a public GLM estimator.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator_name: str, power: float | None = None) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator_name", "type_desc": "str", "required": true},
+        {"name": "power", "type_desc": "float | None", "required": false}
+      ],
+      "outputs": [{"name": "result", "type_desc": "str"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom performs a constant-time branch over fixed estimator names.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "glm_estimator_optimizer",
+      "name": "glm_estimator_optimizer",
+      "description": "Return the optimizer boundary selected by a public GLM estimator.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator_name: str, solver: str) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator_name", "type_desc": "str", "required": true},
+        {"name": "solver", "type_desc": "str", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "str"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom validates the fixed solver label and returns it as boundary metadata.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "glm_estimator_methods",
+      "name": "glm_estimator_methods",
+      "description": "Expose public methods useful for high-level GLM routing.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator_name: str) -> tuple[str, ...]",
+      "depth": 1,
+      "inputs": [{"name": "estimator_name", "type_desc": "str", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "tuple[str, ...]"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom returns the fixed fit, predict, and score tuple for public GLM regressors.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "glm_fit_method_payload",
+      "name": "glm_fit_method_payload",
+      "description": "Expose a public GLM fit payload for finite dense inputs without executing optimizer callbacks.",
+      "concept_type": "callback_boundary",
+      "status": "atomic",
+      "type_signature": "(estimator: object, X: object, y: object, sample_weight: object = None) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator", "type_desc": "object", "required": true},
+        {"name": "X", "type_desc": "object", "required": true},
+        {"name": "y", "type_desc": "object", "required": true},
+        {"name": "sample_weight", "type_desc": "object", "required": false}
+      ],
+      "outputs": [{"name": "result", "type_desc": "dict[str, object]"}],
+      "time_complexity": "O(n * d)",
+      "space_complexity": "O(n * d)",
+      "complexity_reasoning": "The atom validates dense fit inputs and target range, then packages references without optimizing.",
+      "complexity_confidence": 93
+    },
+    {
+      "node_id": "glm_prediction_method_payload",
+      "name": "glm_prediction_method_payload",
+      "description": "Expose a public GLM prediction-like method payload without executing the estimator method.",
+      "concept_type": "callback_boundary",
+      "status": "atomic",
+      "type_signature": "(estimator: object, method_name: str, X: object) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator", "type_desc": "object", "required": true},
+        {"name": "method_name", "type_desc": "str", "required": true},
+        {"name": "X", "type_desc": "object", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "dict[str, object]"}],
+      "time_complexity": "O(n * d)",
+      "space_complexity": "O(n * d)",
+      "complexity_reasoning": "The atom validates dense prediction input and packages references, leaving prediction or scoring to sklearn.",
+      "complexity_confidence": 93
+    },
+    {
+      "node_id": "glm_fit_return_self",
+      "name": "glm_fit_return_self",
+      "description": "Return the fitted public GLM estimator object from the public fit shell.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator: object) -> object",
+      "depth": 1,
+      "inputs": [{"name": "estimator", "type_desc": "object", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "object"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom checks fitted marker attributes and returns the same estimator object.",
+      "complexity_confidence": 98
+    },
+    {
+      "node_id": "glm_fitted_state_summary",
+      "name": "glm_fitted_state_summary",
+      "description": "Expose fitted coefficient and optimizer metadata after deferred GLM optimizer execution.",
+      "concept_type": "state_packaging",
+      "status": "atomic",
+      "type_signature": "(estimator: object) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [{"name": "estimator", "type_desc": "object", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "dict[str, object]"}],
+      "time_complexity": "O(d)",
+      "space_complexity": "O(d)",
+      "complexity_reasoning": "The atom exposes coefficient arrays and scalar fitted metadata already produced by sklearn fitting.",
+      "complexity_confidence": 94
+    }
+  ],
+  "edges": [
+    {"source": "glm_estimator_catalog", "target": "glm_estimator_distribution", "kind": "selection_metadata"},
+    {"source": "glm_estimator_catalog", "target": "glm_estimator_optimizer", "kind": "optimizer_boundary_metadata"},
+    {"source": "glm_estimator_catalog", "target": "glm_estimator_methods", "kind": "selection_metadata"},
+    {"source": "glm_estimator_optimizer", "target": "glm_fit_method_payload", "kind": "optimizer_boundary"},
+    {"source": "glm_estimator_methods", "target": "glm_prediction_method_payload", "kind": "public_method_boundary"},
+    {"source": "glm_fit_return_self", "target": "glm_fitted_state_summary", "kind": "postfit_state"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._glm.glm",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 2 public GLM estimator shells over SciPy L-BFGS-B and sklearn Newton optimizer boundaries",
+    "review_semantic_verdict": "pass_with_limits",
+    "limitations": [
+      "The internal fitted-state topology is obscured by external optimizer and sklearn Newton solver boundaries.",
+      "The shell models finite dense public API routing and compact fitted-state packaging, not optimizer convergence, validation execution, link callbacks, loss callbacks, or prediction/scoring internals."
+    ]
+  }
+}
+

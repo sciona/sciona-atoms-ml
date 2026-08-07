@@ -3,5 +3,76 @@
   "verdict": "PASS",
   "risk_tier": "low",
   "rationale": "Automated verification passed. Numerical behavior matches upstream library expectations.",
-  "limitations": "Subject to standard machine precision and float limits."
+  "limitations": "Subject to standard machine precision and float limits.",
+  "schema_version": "1.0",
+  "bundle_id": "sciona.atoms.ml.preprocessing.one_hot_categorical_encoding.review_bundle.one_hot_categorical_encoding.legacy.v1",
+  "provider_repo": "sciona-atoms-ml",
+  "family_batch": "one_hot_categorical_encoding",
+  "review_status": "reviewed",
+  "review_semantic_verdict": "pass_with_limits",
+  "review_developer_semantic_verdict": "pass_with_limits",
+  "trust_readiness": "reviewed_with_limits",
+  "authoritative_sources": [
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/preprocessing/one_hot_categorical_encoding/atoms.py"
+    },
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/preprocessing/one_hot_categorical_encoding/witnesses.py"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/preprocessing/one_hot_categorical_encoding/references.json"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/preprocessing/one_hot_categorical_encoding/cdg.json"
+    }
+  ],
+  "review_record_path": "data/review_bundles/one_hot_categorical_encoding.review_bundle.json",
+  "rows": [
+    {
+      "atom_name": "sciona.atoms.ml.preprocessing.one_hot_categorical_encoding.build_category_registry",
+      "atom_key": "sciona.atoms.ml.preprocessing.one_hot_categorical_encoding.build_category_registry",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "needs_followup",
+      "source_paths": [
+        "src/sciona/atoms/ml/preprocessing/one_hot_categorical_encoding/atoms.py",
+        "src/sciona/atoms/ml/preprocessing/one_hot_categorical_encoding/witnesses.py",
+        "src/sciona/atoms/ml/preprocessing/one_hot_categorical_encoding/references.json",
+        "src/sciona/atoms/ml/preprocessing/one_hot_categorical_encoding/cdg.json"
+      ],
+      "review_record_path": "data/review_bundles/one_hot_categorical_encoding.review_bundle.json",
+      "limitations": [
+        "Subject to standard machine precision and float limits."
+      ],
+      "required_actions": [
+        "Automated verification passed. Numerical behavior matches upstream library expectations."
+      ]
+    },
+    {
+      "atom_name": "sciona.atoms.ml.preprocessing.one_hot_categorical_encoding.encode_one_hot",
+      "atom_key": "sciona.atoms.ml.preprocessing.one_hot_categorical_encoding.encode_one_hot",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "needs_followup",
+      "source_paths": [
+        "src/sciona/atoms/ml/preprocessing/one_hot_categorical_encoding/atoms.py",
+        "src/sciona/atoms/ml/preprocessing/one_hot_categorical_encoding/witnesses.py",
+        "src/sciona/atoms/ml/preprocessing/one_hot_categorical_encoding/references.json",
+        "src/sciona/atoms/ml/preprocessing/one_hot_categorical_encoding/cdg.json"
+      ],
+      "review_record_path": "data/review_bundles/one_hot_categorical_encoding.review_bundle.json",
+      "limitations": [
+        "Subject to standard machine precision and float limits."
+      ],
+      "required_actions": [
+        "Automated verification passed. Numerical behavior matches upstream library expectations."
+      ]
+    }
+  ]
 }

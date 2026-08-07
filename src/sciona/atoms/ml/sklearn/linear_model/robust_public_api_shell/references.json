@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.robust_public_api_shell.robust_linear_estimator_catalog@sciona/atoms/ml/sklearn/linear_model/robust_public_api_shell/atoms.py:139": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from public HuberRegressor, QuantileRegressor, and RANSACRegressor classes defined in sklearn.linear_model."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for public estimator availability."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.robust_public_api_shell.robust_linear_estimator_family@sciona/atoms/ml/sklearn/linear_model/robust_public_api_shell/atoms.py:148": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Maps public robust linear-model estimator classes to Huber, quantile, and RANSAC families."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator family semantics."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.robust_public_api_shell.robust_linear_estimator_boundary@sciona/atoms/ml/sklearn/linear_model/robust_public_api_shell/atoms.py:156": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Models HuberRegressor L-BFGS-B, QuantileRegressor linprog, and RANSACRegressor estimator-callback consensus as explicit boundaries."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for optimizer-backed and meta-estimator implementations."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.robust_public_api_shell.robust_linear_estimator_methods@sciona/atoms/ml/sklearn/linear_model/robust_public_api_shell/atoms.py:168": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Summarizes public fit, predict, score, and RANSAC metadata-routing methods exposed by covered estimators."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator API conventions."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.robust_public_api_shell.robust_linear_fit_method_payload@sciona/atoms/ml/sklearn/linear_model/robust_public_api_shell/atoms.py:179": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Models public fit(X, y, sample_weight=None) and RANSAC extra fit-params routing before optimizer or base-estimator callback execution."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for robust estimator fit APIs."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.robust_public_api_shell.robust_linear_prediction_method_payload@sciona/atoms/ml/sklearn/linear_model/robust_public_api_shell/atoms.py:204": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Models public predict or score method invocation as a callback boundary over fitted robust estimators."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for public estimator prediction and scoring APIs."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.robust_public_api_shell.robust_linear_fit_return_self@sciona/atoms/ml/sklearn/linear_model/robust_public_api_shell/atoms.py:212": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from public robust estimator fit methods returning self after fitted-state assignment."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator fit return semantics."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.robust_public_api_shell.robust_linear_fitted_state_summary@sciona/atoms/ml/sklearn/linear_model/robust_public_api_shell/atoms.py:220": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Packages documented fitted coefficient, intercept, iteration, scale, outlier, inlier, trial, and skip-count attributes after sklearn robust estimator execution."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for fitted robust estimator attributes."}}
+      ]
+    }
+  }
+}

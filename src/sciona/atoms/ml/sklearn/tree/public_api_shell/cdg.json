@@ -1,0 +1,189 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_tree_public_api_shell_root",
+      "name": "Sklearn Tree Public API Shell",
+      "description": "High-level public sklearn.tree estimator-selection, callback-boundary, and fitted-state atoms above Cython tree-builder, splitter, criterion, pruning, and prediction boundaries.",
+      "status": "decomposed",
+      "children": [
+        "tree_estimator_catalog",
+        "tree_estimator_family",
+        "tree_estimator_task",
+        "tree_estimator_backend",
+        "tree_estimator_methods",
+        "tree_fit_method_payload",
+        "tree_prediction_method_payload",
+        "tree_fit_return_self",
+        "tree_fitted_state_summary"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "tree_estimator_catalog",
+      "name": "tree_estimator_catalog",
+      "description": "Expose the public sklearn.tree estimator names useful for framework-level model selection.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(catalog_scope: str = 'public_estimators') -> tuple[str, ...]",
+      "depth": 1,
+      "inputs": [{"name": "catalog_scope", "type_desc": "str", "required": false}],
+      "outputs": [{"name": "result", "type_desc": "tuple[str, ...]"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom returns a fixed public estimator-name tuple and does not inspect data.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "tree_estimator_family",
+      "name": "tree_estimator_family",
+      "description": "Return whether a public tree estimator belongs to the decision-tree or extra-tree family.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator_name: str) -> str",
+      "depth": 1,
+      "inputs": [{"name": "estimator_name", "type_desc": "str", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "str"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom performs a constant-time membership lookup over fixed estimator sets.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "tree_estimator_task",
+      "name": "tree_estimator_task",
+      "description": "Return the high-level supervised learning task for a public tree estimator.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator_name: str) -> str",
+      "depth": 1,
+      "inputs": [{"name": "estimator_name", "type_desc": "str", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "str"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom performs a constant-time membership lookup over classifier names.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "tree_estimator_backend",
+      "name": "tree_estimator_backend",
+      "description": "Return the native tree-builder backend boundary behind a public tree estimator.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator_name: str) -> str",
+      "depth": 1,
+      "inputs": [{"name": "estimator_name", "type_desc": "str", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "str"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom validates a fixed estimator name and returns the shared native backend label.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "tree_estimator_methods",
+      "name": "tree_estimator_methods",
+      "description": "Expose public methods useful for high-level tree-estimator routing.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator_name: str) -> tuple[str, ...]",
+      "depth": 1,
+      "inputs": [{"name": "estimator_name", "type_desc": "str", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "tuple[str, ...]"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom selects one fixed method tuple by estimator name.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "tree_fit_method_payload",
+      "name": "tree_fit_method_payload",
+      "description": "Expose a public tree fit payload for finite dense inputs without executing native tree building.",
+      "concept_type": "callback_boundary",
+      "status": "atomic",
+      "type_signature": "(estimator: object, X: object, y: object, sample_weight: object = None, check_input: bool = True) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator", "type_desc": "object", "required": true},
+        {"name": "X", "type_desc": "object", "required": true},
+        {"name": "y", "type_desc": "object", "required": true},
+        {"name": "sample_weight", "type_desc": "object", "required": false},
+        {"name": "check_input", "type_desc": "bool", "required": false}
+      ],
+      "outputs": [{"name": "result", "type_desc": "dict[str, object]"}],
+      "time_complexity": "O(n * d)",
+      "space_complexity": "O(n * d)",
+      "complexity_reasoning": "The atom validates finite dense fit inputs and packages references, leaving fitting to sklearn.",
+      "complexity_confidence": 93
+    },
+    {
+      "node_id": "tree_prediction_method_payload",
+      "name": "tree_prediction_method_payload",
+      "description": "Expose a public tree prediction-like method payload without executing the estimator method.",
+      "concept_type": "callback_boundary",
+      "status": "atomic",
+      "type_signature": "(estimator: object, method_name: str, X: object) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator", "type_desc": "object", "required": true},
+        {"name": "method_name", "type_desc": "str", "required": true},
+        {"name": "X", "type_desc": "object", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "dict[str, object]"}],
+      "time_complexity": "O(n * d)",
+      "space_complexity": "O(n * d)",
+      "complexity_reasoning": "The atom validates finite dense prediction input and packages references, leaving prediction execution to sklearn.",
+      "complexity_confidence": 93
+    },
+    {
+      "node_id": "tree_fit_return_self",
+      "name": "tree_fit_return_self",
+      "description": "Return the fitted public tree estimator object from the public fit shell.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator: object) -> object",
+      "depth": 1,
+      "inputs": [{"name": "estimator", "type_desc": "object", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "object"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom checks fitted marker attributes and returns the same estimator object.",
+      "complexity_confidence": 98
+    },
+    {
+      "node_id": "tree_fitted_state_summary",
+      "name": "tree_fitted_state_summary",
+      "description": "Expose compact fitted tree metadata after the deferred native tree builder.",
+      "concept_type": "state_packaging",
+      "status": "atomic",
+      "type_signature": "(estimator: object) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [{"name": "estimator", "type_desc": "object", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "dict[str, object]"}],
+      "time_complexity": "O(c)",
+      "space_complexity": "O(c)",
+      "complexity_reasoning": "The atom exposes scalar tree metadata and optional class arrays already produced by sklearn fitting.",
+      "complexity_confidence": 94
+    }
+  ],
+  "edges": [
+    {"source": "tree_estimator_catalog", "target": "tree_estimator_family", "kind": "selection_metadata"},
+    {"source": "tree_estimator_catalog", "target": "tree_estimator_task", "kind": "selection_metadata"},
+    {"source": "tree_estimator_catalog", "target": "tree_estimator_backend", "kind": "selection_metadata"},
+    {"source": "tree_estimator_catalog", "target": "tree_estimator_methods", "kind": "selection_metadata"},
+    {"source": "tree_estimator_backend", "target": "tree_fit_method_payload", "kind": "native_tree_boundary"},
+    {"source": "tree_estimator_methods", "target": "tree_prediction_method_payload", "kind": "public_method_boundary"},
+    {"source": "tree_fit_return_self", "target": "tree_fitted_state_summary", "kind": "postfit_state"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.tree._classes",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 1 public tree estimator shells over Cython tree-builder, splitter, criterion, pruning, and prediction boundaries",
+    "review_semantic_verdict": "pass_with_limits",
+    "limitations": [
+      "The internal algorithmic topology is obscured by sklearn Cython tree-builder, splitter, and criterion boundaries.",
+      "The shell models finite dense public API routing and compact fitted-state packaging, not sparse inputs, tree growth, split search, impurity criteria, pruning execution, or prediction internals."
+    ]
+  }
+}
+

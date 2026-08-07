@@ -8,13 +8,34 @@
   "review_developer_semantic_verdict": "pass_with_limits",
   "trust_readiness": "reviewed_with_limits",
   "authoritative_sources": [
-    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/text_nlp/atoms.py"},
-    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/text_nlp/witnesses.py"},
-    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/text_nlp/references.json"},
-    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/text_nlp/cdg.json"},
-    {"kind": "local_test", "path": "tests/test_ml_text_nlp_behavior.py"},
-    {"kind": "local_test", "path": "tests/test_ml_text_nlp_references_metadata.py"},
-    {"kind": "local_test", "path": "tests/test_ml_text_nlp_review_bundle.py"}
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/text_nlp/atoms.py"
+    },
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/text_nlp/witnesses.py"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/text_nlp/references.json"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/text_nlp/cdg.json"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_text_nlp_behavior.py"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_text_nlp_references_metadata.py"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_text_nlp_review_bundle.py"
+    }
   ],
   "limitations": [
     "This batch covers deterministic classical text and decoding helpers in sciona-atoms-ml.",
@@ -34,7 +55,13 @@
       "review_semantic_verdict": "pass_with_limits",
       "review_developer_semantic_verdict": "pass_with_limits",
       "trust_readiness": "catalog_ready",
-      "source_paths": ["src/sciona/atoms/ml/text_nlp/atoms.py", "src/sciona/atoms/ml/text_nlp/witnesses.py", "src/sciona/atoms/ml/text_nlp/references.json", "src/sciona/atoms/ml/text_nlp/cdg.json", "tests/test_ml_text_nlp_behavior.py"],
+      "source_paths": [
+        "src/sciona/atoms/ml/text_nlp/atoms.py",
+        "src/sciona/atoms/ml/text_nlp/witnesses.py",
+        "src/sciona/atoms/ml/text_nlp/references.json",
+        "src/sciona/atoms/ml/text_nlp/cdg.json",
+        "tests/test_ml_text_nlp_behavior.py"
+      ],
       "review_record_path": "data/review_bundles/ml_text_nlp.review_bundle.json",
       "overall_verdict": "pass",
       "structural_status": "pass",
@@ -43,15 +70,24 @@
       "developer_semantics_status": "pass_with_limits",
       "risk_tier": "medium",
       "risk_score": 30,
-      "risk_dimensions": {"provenance": "low", "semantic_drift": "medium", "runtime": "medium", "api_surface": "medium"},
-      "risk_reasons": ["Spell correction can be expensive for long out-of-vocabulary words because it generates edit-distance-two candidates."],
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "medium",
+        "runtime": "medium",
+        "api_surface": "medium"
+      },
+      "risk_reasons": [
+        "Spell correction can be expensive for long out-of-vocabulary words because it generates edit-distance-two candidates."
+      ],
       "acceptability_score": 82,
       "acceptability_band": "acceptable_with_limits_candidate",
       "parity_coverage_level": "parity_or_usage_equivalent",
       "parity_test_status": "pass",
       "parity_fixture_count": 2,
       "parity_case_count": 4,
-      "review_limitations": ["Supported operations are html, url, unicode, lower, and spell."],
+      "review_limitations": [
+        "Supported operations are html, url, unicode, lower, and spell."
+      ],
       "review_required_actions": [],
       "trust_blockers": [],
       "has_references": true,
@@ -67,7 +103,13 @@
       "review_semantic_verdict": "pass",
       "review_developer_semantic_verdict": "pass",
       "trust_readiness": "catalog_ready",
-      "source_paths": ["src/sciona/atoms/ml/text_nlp/atoms.py", "src/sciona/atoms/ml/text_nlp/witnesses.py", "src/sciona/atoms/ml/text_nlp/references.json", "src/sciona/atoms/ml/text_nlp/cdg.json", "tests/test_ml_text_nlp_behavior.py"],
+      "source_paths": [
+        "src/sciona/atoms/ml/text_nlp/atoms.py",
+        "src/sciona/atoms/ml/text_nlp/witnesses.py",
+        "src/sciona/atoms/ml/text_nlp/references.json",
+        "src/sciona/atoms/ml/text_nlp/cdg.json",
+        "tests/test_ml_text_nlp_behavior.py"
+      ],
       "review_record_path": "data/review_bundles/ml_text_nlp.review_bundle.json",
       "overall_verdict": "pass",
       "structural_status": "pass",
@@ -76,15 +118,24 @@
       "developer_semantics_status": "pass",
       "risk_tier": "low",
       "risk_score": 18,
-      "risk_dimensions": {"provenance": "low", "semantic_drift": "low", "runtime": "medium", "api_surface": "low"},
-      "risk_reasons": ["Pure Python dynamic programming is slower than RapidFuzz for high-throughput workloads."],
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "medium",
+        "api_surface": "low"
+      },
+      "risk_reasons": [
+        "Pure Python dynamic programming is slower than RapidFuzz for high-throughput workloads."
+      ],
       "acceptability_score": 88,
       "acceptability_band": "acceptable_with_limits_candidate",
       "parity_coverage_level": "positive_path",
       "parity_test_status": "pass",
       "parity_fixture_count": 2,
       "parity_case_count": 4,
-      "review_limitations": ["Uses unit insertion, deletion, and substitution costs."],
+      "review_limitations": [
+        "Uses unit insertion, deletion, and substitution costs."
+      ],
       "review_required_actions": [],
       "trust_blockers": [],
       "has_references": true,
@@ -100,7 +151,13 @@
       "review_semantic_verdict": "pass",
       "review_developer_semantic_verdict": "pass",
       "trust_readiness": "catalog_ready",
-      "source_paths": ["src/sciona/atoms/ml/text_nlp/atoms.py", "src/sciona/atoms/ml/text_nlp/witnesses.py", "src/sciona/atoms/ml/text_nlp/references.json", "src/sciona/atoms/ml/text_nlp/cdg.json", "tests/test_ml_text_nlp_behavior.py"],
+      "source_paths": [
+        "src/sciona/atoms/ml/text_nlp/atoms.py",
+        "src/sciona/atoms/ml/text_nlp/witnesses.py",
+        "src/sciona/atoms/ml/text_nlp/references.json",
+        "src/sciona/atoms/ml/text_nlp/cdg.json",
+        "tests/test_ml_text_nlp_behavior.py"
+      ],
       "review_record_path": "data/review_bundles/ml_text_nlp.review_bundle.json",
       "overall_verdict": "pass",
       "structural_status": "pass",
@@ -109,15 +166,24 @@
       "developer_semantics_status": "pass",
       "risk_tier": "low",
       "risk_score": 20,
-      "risk_dimensions": {"provenance": "low", "semantic_drift": "low", "runtime": "medium", "api_surface": "low"},
-      "risk_reasons": ["Pure Python matching is slower than compiled libraries for large batches."],
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "medium",
+        "api_surface": "low"
+      },
+      "risk_reasons": [
+        "Pure Python matching is slower than compiled libraries for large batches."
+      ],
       "acceptability_score": 88,
       "acceptability_band": "acceptable_with_limits_candidate",
       "parity_coverage_level": "positive_path",
       "parity_test_status": "pass",
       "parity_fixture_count": 2,
       "parity_case_count": 4,
-      "review_limitations": ["Prefix weight is constrained to [0, 0.25]."],
+      "review_limitations": [
+        "Prefix weight is constrained to [0, 0.25]."
+      ],
       "review_required_actions": [],
       "trust_blockers": [],
       "has_references": true,
@@ -133,7 +199,13 @@
       "review_semantic_verdict": "pass_with_limits",
       "review_developer_semantic_verdict": "pass_with_limits",
       "trust_readiness": "catalog_ready",
-      "source_paths": ["src/sciona/atoms/ml/text_nlp/atoms.py", "src/sciona/atoms/ml/text_nlp/witnesses.py", "src/sciona/atoms/ml/text_nlp/references.json", "src/sciona/atoms/ml/text_nlp/cdg.json", "tests/test_ml_text_nlp_behavior.py"],
+      "source_paths": [
+        "src/sciona/atoms/ml/text_nlp/atoms.py",
+        "src/sciona/atoms/ml/text_nlp/witnesses.py",
+        "src/sciona/atoms/ml/text_nlp/references.json",
+        "src/sciona/atoms/ml/text_nlp/cdg.json",
+        "tests/test_ml_text_nlp_behavior.py"
+      ],
       "review_record_path": "data/review_bundles/ml_text_nlp.review_bundle.json",
       "overall_verdict": "pass",
       "structural_status": "pass",
@@ -142,15 +214,24 @@
       "developer_semantics_status": "pass_with_limits",
       "risk_tier": "low",
       "risk_score": 22,
-      "risk_dimensions": {"provenance": "low", "semantic_drift": "medium", "runtime": "low", "api_surface": "medium"},
-      "risk_reasons": ["Ill-formed I-tags are decoded permissively to preserve spans."],
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "medium",
+        "runtime": "low",
+        "api_surface": "medium"
+      },
+      "risk_reasons": [
+        "Ill-formed I-tags are decoded permissively to preserve spans."
+      ],
       "acceptability_score": 86,
       "acceptability_band": "acceptable_with_limits_candidate",
       "parity_coverage_level": "parity_or_usage_equivalent",
       "parity_test_status": "pass",
       "parity_fixture_count": 3,
       "parity_case_count": 6,
-      "review_limitations": ["Returns inclusive token end indices."],
+      "review_limitations": [
+        "Returns inclusive token end indices."
+      ],
       "review_required_actions": [],
       "trust_blockers": [],
       "has_references": true,
@@ -166,7 +247,13 @@
       "review_semantic_verdict": "pass",
       "review_developer_semantic_verdict": "pass",
       "trust_readiness": "catalog_ready",
-      "source_paths": ["src/sciona/atoms/ml/text_nlp/atoms.py", "src/sciona/atoms/ml/text_nlp/witnesses.py", "src/sciona/atoms/ml/text_nlp/references.json", "src/sciona/atoms/ml/text_nlp/cdg.json", "tests/test_ml_text_nlp_behavior.py"],
+      "source_paths": [
+        "src/sciona/atoms/ml/text_nlp/atoms.py",
+        "src/sciona/atoms/ml/text_nlp/witnesses.py",
+        "src/sciona/atoms/ml/text_nlp/references.json",
+        "src/sciona/atoms/ml/text_nlp/cdg.json",
+        "tests/test_ml_text_nlp_behavior.py"
+      ],
       "review_record_path": "data/review_bundles/ml_text_nlp.review_bundle.json",
       "overall_verdict": "pass",
       "structural_status": "pass",
@@ -175,10 +262,15 @@
       "developer_semantics_status": "pass",
       "risk_tier": "low",
       "risk_score": 10,
-      "risk_dimensions": {"provenance": "low", "semantic_drift": "low", "runtime": "low", "api_surface": "low"},
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
       "risk_reasons": [],
       "acceptability_score": 95,
-      "acceptability_band": "acceptable_candidate",
+      "acceptability_band": "acceptable_with_limits_candidate",
       "parity_coverage_level": "positive_path",
       "parity_test_status": "pass",
       "parity_fixture_count": 3,
@@ -199,7 +291,13 @@
       "review_semantic_verdict": "pass",
       "review_developer_semantic_verdict": "pass",
       "trust_readiness": "catalog_ready",
-      "source_paths": ["src/sciona/atoms/ml/text_nlp/atoms.py", "src/sciona/atoms/ml/text_nlp/witnesses.py", "src/sciona/atoms/ml/text_nlp/references.json", "src/sciona/atoms/ml/text_nlp/cdg.json", "tests/test_ml_text_nlp_behavior.py"],
+      "source_paths": [
+        "src/sciona/atoms/ml/text_nlp/atoms.py",
+        "src/sciona/atoms/ml/text_nlp/witnesses.py",
+        "src/sciona/atoms/ml/text_nlp/references.json",
+        "src/sciona/atoms/ml/text_nlp/cdg.json",
+        "tests/test_ml_text_nlp_behavior.py"
+      ],
       "review_record_path": "data/review_bundles/ml_text_nlp.review_bundle.json",
       "overall_verdict": "pass",
       "structural_status": "pass",
@@ -208,10 +306,15 @@
       "developer_semantics_status": "pass",
       "risk_tier": "low",
       "risk_score": 10,
-      "risk_dimensions": {"provenance": "low", "semantic_drift": "low", "runtime": "low", "api_surface": "low"},
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
       "risk_reasons": [],
       "acceptability_score": 95,
-      "acceptability_band": "acceptable_candidate",
+      "acceptability_band": "acceptable_with_limits_candidate",
       "parity_coverage_level": "positive_path",
       "parity_test_status": "pass",
       "parity_fixture_count": 3,
@@ -232,7 +335,13 @@
       "review_semantic_verdict": "pass_with_limits",
       "review_developer_semantic_verdict": "pass_with_limits",
       "trust_readiness": "catalog_ready",
-      "source_paths": ["src/sciona/atoms/ml/text_nlp/atoms.py", "src/sciona/atoms/ml/text_nlp/witnesses.py", "src/sciona/atoms/ml/text_nlp/references.json", "src/sciona/atoms/ml/text_nlp/cdg.json", "tests/test_ml_text_nlp_behavior.py"],
+      "source_paths": [
+        "src/sciona/atoms/ml/text_nlp/atoms.py",
+        "src/sciona/atoms/ml/text_nlp/witnesses.py",
+        "src/sciona/atoms/ml/text_nlp/references.json",
+        "src/sciona/atoms/ml/text_nlp/cdg.json",
+        "tests/test_ml_text_nlp_behavior.py"
+      ],
       "review_record_path": "data/review_bundles/ml_text_nlp.review_bundle.json",
       "overall_verdict": "pass",
       "structural_status": "pass",
@@ -241,15 +350,24 @@
       "developer_semantics_status": "pass_with_limits",
       "risk_tier": "low",
       "risk_score": 20,
-      "risk_dimensions": {"provenance": "low", "semantic_drift": "medium", "runtime": "low", "api_surface": "medium"},
-      "risk_reasons": ["Requires monotone offsets; special-token offset filtering must happen before calling this atom."],
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "medium",
+        "runtime": "low",
+        "api_surface": "medium"
+      },
+      "risk_reasons": [
+        "Requires monotone offsets; special-token offset filtering must happen before calling this atom."
+      ],
       "acceptability_score": 86,
       "acceptability_band": "acceptable_with_limits_candidate",
       "parity_coverage_level": "positive_path",
       "parity_test_status": "pass",
       "parity_fixture_count": 2,
       "parity_case_count": 4,
-      "review_limitations": ["Input character spans are half-open; returned token spans are inclusive."],
+      "review_limitations": [
+        "Input character spans are half-open; returned token spans are inclusive."
+      ],
       "review_required_actions": [],
       "trust_blockers": [],
       "has_references": true,
@@ -265,7 +383,13 @@
       "review_semantic_verdict": "pass_with_limits",
       "review_developer_semantic_verdict": "pass_with_limits",
       "trust_readiness": "catalog_ready",
-      "source_paths": ["src/sciona/atoms/ml/text_nlp/atoms.py", "src/sciona/atoms/ml/text_nlp/witnesses.py", "src/sciona/atoms/ml/text_nlp/references.json", "src/sciona/atoms/ml/text_nlp/cdg.json", "tests/test_ml_text_nlp_behavior.py"],
+      "source_paths": [
+        "src/sciona/atoms/ml/text_nlp/atoms.py",
+        "src/sciona/atoms/ml/text_nlp/witnesses.py",
+        "src/sciona/atoms/ml/text_nlp/references.json",
+        "src/sciona/atoms/ml/text_nlp/cdg.json",
+        "tests/test_ml_text_nlp_behavior.py"
+      ],
       "review_record_path": "data/review_bundles/ml_text_nlp.review_bundle.json",
       "overall_verdict": "pass",
       "structural_status": "pass",
@@ -274,15 +398,24 @@
       "developer_semantics_status": "pass_with_limits",
       "risk_tier": "medium",
       "risk_score": 34,
-      "risk_dimensions": {"provenance": "medium", "semantic_drift": "medium", "runtime": "medium", "api_surface": "medium"},
-      "risk_reasons": ["The log-probability callable is explicitly outside this atom's provenance and determinism checks."],
+      "risk_dimensions": {
+        "provenance": "medium",
+        "semantic_drift": "medium",
+        "runtime": "medium",
+        "api_surface": "medium"
+      },
+      "risk_reasons": [
+        "The log-probability callable is explicitly outside this atom's provenance and determinism checks."
+      ],
       "acceptability_score": 80,
       "acceptability_band": "acceptable_with_limits_candidate",
       "parity_coverage_level": "parity_or_usage_equivalent",
       "parity_test_status": "pass",
       "parity_fixture_count": 1,
       "parity_case_count": 3,
-      "review_limitations": ["No model cache or framework state is managed by this atom."],
+      "review_limitations": [
+        "No model cache or framework state is managed by this atom."
+      ],
       "review_required_actions": [],
       "trust_blockers": [],
       "has_references": true,
@@ -298,7 +431,13 @@
       "review_semantic_verdict": "pass",
       "review_developer_semantic_verdict": "pass",
       "trust_readiness": "catalog_ready",
-      "source_paths": ["src/sciona/atoms/ml/text_nlp/atoms.py", "src/sciona/atoms/ml/text_nlp/witnesses.py", "src/sciona/atoms/ml/text_nlp/references.json", "src/sciona/atoms/ml/text_nlp/cdg.json", "tests/test_ml_text_nlp_behavior.py"],
+      "source_paths": [
+        "src/sciona/atoms/ml/text_nlp/atoms.py",
+        "src/sciona/atoms/ml/text_nlp/witnesses.py",
+        "src/sciona/atoms/ml/text_nlp/references.json",
+        "src/sciona/atoms/ml/text_nlp/cdg.json",
+        "tests/test_ml_text_nlp_behavior.py"
+      ],
       "review_record_path": "data/review_bundles/ml_text_nlp.review_bundle.json",
       "overall_verdict": "pass",
       "structural_status": "pass",
@@ -307,7 +446,12 @@
       "developer_semantics_status": "pass",
       "risk_tier": "low",
       "risk_score": 18,
-      "risk_dimensions": {"provenance": "low", "semantic_drift": "low", "runtime": "low", "api_surface": "low"},
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
       "risk_reasons": [],
       "acceptability_score": 90,
       "acceptability_band": "acceptable_with_limits_candidate",
@@ -315,7 +459,9 @@
       "parity_test_status": "pass",
       "parity_fixture_count": 1,
       "parity_case_count": 3,
-      "review_limitations": ["Uses unsigned count accumulation for sparse per-document output."],
+      "review_limitations": [
+        "Uses unsigned count accumulation for sparse per-document output."
+      ],
       "review_required_actions": [],
       "trust_blockers": [],
       "has_references": true,
@@ -331,7 +477,13 @@
       "review_semantic_verdict": "pass",
       "review_developer_semantic_verdict": "pass",
       "trust_readiness": "catalog_ready",
-      "source_paths": ["src/sciona/atoms/ml/text_nlp/atoms.py", "src/sciona/atoms/ml/text_nlp/witnesses.py", "src/sciona/atoms/ml/text_nlp/references.json", "src/sciona/atoms/ml/text_nlp/cdg.json", "tests/test_ml_text_nlp_behavior.py"],
+      "source_paths": [
+        "src/sciona/atoms/ml/text_nlp/atoms.py",
+        "src/sciona/atoms/ml/text_nlp/witnesses.py",
+        "src/sciona/atoms/ml/text_nlp/references.json",
+        "src/sciona/atoms/ml/text_nlp/cdg.json",
+        "tests/test_ml_text_nlp_behavior.py"
+      ],
       "review_record_path": "data/review_bundles/ml_text_nlp.review_bundle.json",
       "overall_verdict": "pass",
       "structural_status": "pass",
@@ -340,7 +492,12 @@
       "developer_semantics_status": "pass",
       "risk_tier": "low",
       "risk_score": 10,
-      "risk_dimensions": {"provenance": "low", "semantic_drift": "low", "runtime": "low", "api_surface": "low"},
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
       "risk_reasons": [],
       "acceptability_score": 94,
       "acceptability_band": "acceptable_with_limits_candidate",
@@ -364,7 +521,13 @@
       "review_semantic_verdict": "pass",
       "review_developer_semantic_verdict": "pass",
       "trust_readiness": "catalog_ready",
-      "source_paths": ["src/sciona/atoms/ml/text_nlp/atoms.py", "src/sciona/atoms/ml/text_nlp/witnesses.py", "src/sciona/atoms/ml/text_nlp/references.json", "src/sciona/atoms/ml/text_nlp/cdg.json", "tests/test_ml_text_nlp_behavior.py"],
+      "source_paths": [
+        "src/sciona/atoms/ml/text_nlp/atoms.py",
+        "src/sciona/atoms/ml/text_nlp/witnesses.py",
+        "src/sciona/atoms/ml/text_nlp/references.json",
+        "src/sciona/atoms/ml/text_nlp/cdg.json",
+        "tests/test_ml_text_nlp_behavior.py"
+      ],
       "review_record_path": "data/review_bundles/ml_text_nlp.review_bundle.json",
       "overall_verdict": "pass",
       "structural_status": "pass",
@@ -373,7 +536,12 @@
       "developer_semantics_status": "pass",
       "risk_tier": "low",
       "risk_score": 10,
-      "risk_dimensions": {"provenance": "low", "semantic_drift": "low", "runtime": "low", "api_surface": "low"},
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
       "risk_reasons": [],
       "acceptability_score": 94,
       "acceptability_band": "acceptable_with_limits_candidate",
@@ -397,7 +565,13 @@
       "review_semantic_verdict": "pass_with_limits",
       "review_developer_semantic_verdict": "pass_with_limits",
       "trust_readiness": "catalog_ready",
-      "source_paths": ["src/sciona/atoms/ml/text_nlp/atoms.py", "src/sciona/atoms/ml/text_nlp/witnesses.py", "src/sciona/atoms/ml/text_nlp/references.json", "src/sciona/atoms/ml/text_nlp/cdg.json", "tests/test_ml_text_nlp_behavior.py"],
+      "source_paths": [
+        "src/sciona/atoms/ml/text_nlp/atoms.py",
+        "src/sciona/atoms/ml/text_nlp/witnesses.py",
+        "src/sciona/atoms/ml/text_nlp/references.json",
+        "src/sciona/atoms/ml/text_nlp/cdg.json",
+        "tests/test_ml_text_nlp_behavior.py"
+      ],
       "review_record_path": "data/review_bundles/ml_text_nlp.review_bundle.json",
       "overall_verdict": "pass",
       "structural_status": "pass",
@@ -406,15 +580,24 @@
       "developer_semantics_status": "pass_with_limits",
       "risk_tier": "low",
       "risk_score": 16,
-      "risk_dimensions": {"provenance": "low", "semantic_drift": "medium", "runtime": "low", "api_surface": "medium"},
-      "risk_reasons": ["Length is interpreted as end minus start, matching half-open span conventions."],
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "medium",
+        "runtime": "low",
+        "api_surface": "medium"
+      },
+      "risk_reasons": [
+        "Length is interpreted as end minus start, matching half-open span conventions."
+      ],
       "acceptability_score": 88,
       "acceptability_band": "acceptable_with_limits_candidate",
       "parity_coverage_level": "positive_path",
       "parity_test_status": "pass",
       "parity_fixture_count": 1,
       "parity_case_count": 3,
-      "review_limitations": ["Inclusive token spans should be converted before applying token-count thresholds."],
+      "review_limitations": [
+        "Inclusive token spans should be converted before applying token-count thresholds."
+      ],
       "review_required_actions": [],
       "trust_blockers": [],
       "has_references": true,
@@ -430,7 +613,13 @@
       "review_semantic_verdict": "pass",
       "review_developer_semantic_verdict": "pass",
       "trust_readiness": "catalog_ready",
-      "source_paths": ["src/sciona/atoms/ml/text_nlp/atoms.py", "src/sciona/atoms/ml/text_nlp/witnesses.py", "src/sciona/atoms/ml/text_nlp/references.json", "src/sciona/atoms/ml/text_nlp/cdg.json", "tests/test_ml_text_nlp_behavior.py"],
+      "source_paths": [
+        "src/sciona/atoms/ml/text_nlp/atoms.py",
+        "src/sciona/atoms/ml/text_nlp/witnesses.py",
+        "src/sciona/atoms/ml/text_nlp/references.json",
+        "src/sciona/atoms/ml/text_nlp/cdg.json",
+        "tests/test_ml_text_nlp_behavior.py"
+      ],
       "review_record_path": "data/review_bundles/ml_text_nlp.review_bundle.json",
       "overall_verdict": "pass",
       "structural_status": "pass",
@@ -439,10 +628,15 @@
       "developer_semantics_status": "pass",
       "risk_tier": "low",
       "risk_score": 10,
-      "risk_dimensions": {"provenance": "low", "semantic_drift": "low", "runtime": "low", "api_surface": "low"},
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
       "risk_reasons": [],
       "acceptability_score": 95,
-      "acceptability_band": "acceptable_candidate",
+      "acceptability_band": "acceptable_with_limits_candidate",
       "parity_coverage_level": "positive_path",
       "parity_test_status": "pass",
       "parity_fixture_count": 1,
@@ -463,7 +657,13 @@
       "review_semantic_verdict": "pass",
       "review_developer_semantic_verdict": "pass",
       "trust_readiness": "catalog_ready",
-      "source_paths": ["src/sciona/atoms/ml/text_nlp/atoms.py", "src/sciona/atoms/ml/text_nlp/witnesses.py", "src/sciona/atoms/ml/text_nlp/references.json", "src/sciona/atoms/ml/text_nlp/cdg.json", "tests/test_ml_text_nlp_behavior.py"],
+      "source_paths": [
+        "src/sciona/atoms/ml/text_nlp/atoms.py",
+        "src/sciona/atoms/ml/text_nlp/witnesses.py",
+        "src/sciona/atoms/ml/text_nlp/references.json",
+        "src/sciona/atoms/ml/text_nlp/cdg.json",
+        "tests/test_ml_text_nlp_behavior.py"
+      ],
       "review_record_path": "data/review_bundles/ml_text_nlp.review_bundle.json",
       "overall_verdict": "pass",
       "structural_status": "pass",
@@ -472,10 +672,15 @@
       "developer_semantics_status": "pass",
       "risk_tier": "low",
       "risk_score": 10,
-      "risk_dimensions": {"provenance": "low", "semantic_drift": "low", "runtime": "low", "api_surface": "low"},
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
       "risk_reasons": [],
       "acceptability_score": 95,
-      "acceptability_band": "acceptable_candidate",
+      "acceptability_band": "acceptable_with_limits_candidate",
       "parity_coverage_level": "positive_path",
       "parity_test_status": "pass",
       "parity_fixture_count": 1,

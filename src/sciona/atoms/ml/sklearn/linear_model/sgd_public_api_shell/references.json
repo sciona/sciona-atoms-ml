@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.sgd_public_api_shell.sgd_public_estimator_catalog@sciona/atoms/ml/sklearn/linear_model/sgd_public_api_shell/atoms.py:216": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from public SGDClassifier, SGDRegressor, SGDOneClassSVM, PassiveAggressiveClassifier, PassiveAggressiveRegressor, and Perceptron classes in sklearn.linear_model."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for public estimator availability."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.sgd_public_api_shell.sgd_public_estimator_family@sciona/atoms/ml/sklearn/linear_model/sgd_public_api_shell/atoms.py:225": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Maps public SGD-family estimator classes to SGD, one-class, passive-aggressive, and Perceptron family labels."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator family semantics."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.sgd_public_api_shell.sgd_public_estimator_task@sciona/atoms/ml/sklearn/linear_model/sgd_public_api_shell/atoms.py:233": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Maps SGD-family public estimator classes to classification, regression, and one-class anomaly-detection tasks."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator task conventions."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.sgd_public_api_shell.sgd_public_training_boundary@sciona/atoms/ml/sklearn/linear_model/sgd_public_api_shell/atoms.py:245": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Models SGD-family training as delegated to compiled _plain_sgd and one-class compiled SGD boundaries."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for SGD estimator implementations."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.sgd_public_api_shell.sgd_public_estimator_methods@sciona/atoms/ml/sklearn/linear_model/sgd_public_api_shell/atoms.py:255": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Summarizes public fit, partial_fit, predict, decision-function, and score methods exposed by covered SGD-family estimators."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator API conventions."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.sgd_public_api_shell.sgd_public_fit_method_payload@sciona/atoms/ml/sklearn/linear_model/sgd_public_api_shell/atoms.py:268": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Models public fit payloads with supported sample_weight, coef_init, intercept_init, and offset_init kwargs before compiled SGD execution."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for SGD-family fit APIs."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.sgd_public_api_shell.sgd_public_prediction_method_payload@sciona/atoms/ml/sklearn/linear_model/sgd_public_api_shell/atoms.py:300": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Models public predict, decision-function, or score invocation as a callback boundary over fitted SGD-family estimators."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for public estimator prediction and scoring APIs."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.sgd_public_api_shell.sgd_public_fit_return_self@sciona/atoms/ml/sklearn/linear_model/sgd_public_api_shell/atoms.py:308": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from public SGD-family fit methods returning self after fitted-state assignment."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator fit return semantics."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.sgd_public_api_shell.sgd_public_fitted_state_summary@sciona/atoms/ml/sklearn/linear_model/sgd_public_api_shell/atoms.py:317": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Packages documented fitted SGD-family coefficient, intercept, offset, class, iteration, and counter attributes after sklearn compiled training."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for fitted SGD-family estimator attributes."}}
+      ]
+    }
+  }
+}

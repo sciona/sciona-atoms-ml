@@ -3,5 +3,76 @@
   "verdict": "PASS",
   "risk_tier": "low",
   "rationale": "Automated verification passed. Numerical behavior matches upstream library expectations.",
-  "limitations": "Subject to standard machine precision and float limits."
+  "limitations": "Subject to standard machine precision and float limits.",
+  "schema_version": "1.0",
+  "bundle_id": "sciona.atoms.ml.metrics.regression_metric_suite.review_bundle.regression_metric_suite.legacy.v1",
+  "provider_repo": "sciona-atoms-ml",
+  "family_batch": "regression_metric_suite",
+  "review_status": "reviewed",
+  "review_semantic_verdict": "pass_with_limits",
+  "review_developer_semantic_verdict": "pass_with_limits",
+  "trust_readiness": "reviewed_with_limits",
+  "authoritative_sources": [
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/metrics/regression_metric_suite/atoms.py"
+    },
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/metrics/regression_metric_suite/witnesses.py"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/metrics/regression_metric_suite/references.json"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/metrics/regression_metric_suite/cdg.json"
+    }
+  ],
+  "review_record_path": "data/review_bundles/regression_metric_suite.review_bundle.json",
+  "rows": [
+    {
+      "atom_name": "sciona.atoms.ml.metrics.regression_metric_suite.compute_raw_residuals",
+      "atom_key": "sciona.atoms.ml.metrics.regression_metric_suite.compute_raw_residuals",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "needs_followup",
+      "source_paths": [
+        "src/sciona/atoms/ml/metrics/regression_metric_suite/atoms.py",
+        "src/sciona/atoms/ml/metrics/regression_metric_suite/witnesses.py",
+        "src/sciona/atoms/ml/metrics/regression_metric_suite/references.json",
+        "src/sciona/atoms/ml/metrics/regression_metric_suite/cdg.json"
+      ],
+      "review_record_path": "data/review_bundles/regression_metric_suite.review_bundle.json",
+      "limitations": [
+        "Subject to standard machine precision and float limits."
+      ],
+      "required_actions": [
+        "Automated verification passed. Numerical behavior matches upstream library expectations."
+      ]
+    },
+    {
+      "atom_name": "sciona.atoms.ml.metrics.regression_metric_suite.compute_l2_regression_metrics",
+      "atom_key": "sciona.atoms.ml.metrics.regression_metric_suite.compute_l2_regression_metrics",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "needs_followup",
+      "source_paths": [
+        "src/sciona/atoms/ml/metrics/regression_metric_suite/atoms.py",
+        "src/sciona/atoms/ml/metrics/regression_metric_suite/witnesses.py",
+        "src/sciona/atoms/ml/metrics/regression_metric_suite/references.json",
+        "src/sciona/atoms/ml/metrics/regression_metric_suite/cdg.json"
+      ],
+      "review_record_path": "data/review_bundles/regression_metric_suite.review_bundle.json",
+      "limitations": [
+        "Subject to standard machine precision and float limits."
+      ],
+      "required_actions": [
+        "Automated verification passed. Numerical behavior matches upstream library expectations."
+      ]
+    }
+  ]
 }

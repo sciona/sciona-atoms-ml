@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.multioutput.public_api_shell.multioutput_estimator_catalog@sciona/atoms/ml/sklearn/multioutput/public_api_shell/atoms.py:125": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from public MultiOutputClassifier, MultiOutputRegressor, ClassifierChain, and RegressorChain classes in sklearn.multioutput."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for public estimator availability."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.multioutput.public_api_shell.multioutput_estimator_family@sciona/atoms/ml/sklearn/multioutput/public_api_shell/atoms.py:134": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Maps public multioutput meta-estimator classes to per-output and chain families."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for multioutput strategy semantics."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.multioutput.public_api_shell.multioutput_estimator_boundary@sciona/atoms/ml/sklearn/multioutput/public_api_shell/atoms.py:142": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Models per-output estimator fitting, chain estimator fitting, CV prediction features, prediction responses, and metadata routing as explicit callback boundaries."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for multioutput meta-estimator workflows."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.multioutput.public_api_shell.multioutput_estimator_methods@sciona/atoms/ml/sklearn/multioutput/public_api_shell/atoms.py:152": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Summarizes public fit, partial_fit, predict, probability, score, and metadata-routing methods exposed by covered multioutput estimators."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator API conventions."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.multioutput.public_api_shell.multioutput_fit_method_payload@sciona/atoms/ml/sklearn/multioutput/public_api_shell/atoms.py:163": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Models public multioutput fit payloads before per-output estimator fitting, chain augmentation, CV prediction, and metadata-routing execution."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for multioutput estimator fit APIs."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.multioutput.public_api_shell.multioutput_prediction_method_payload@sciona/atoms/ml/sklearn/multioutput/public_api_shell/atoms.py:188": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Models public predict, probability, or score invocation as a callback boundary over fitted multioutput estimators."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for public estimator prediction and scoring APIs."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.multioutput.public_api_shell.multioutput_fit_return_self@sciona/atoms/ml/sklearn/multioutput/public_api_shell/atoms.py:196": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from public multioutput fit methods returning self after fitted-state assignment."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator fit return semantics."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.multioutput.public_api_shell.multioutput_fitted_state_summary@sciona/atoms/ml/sklearn/multioutput/public_api_shell/atoms.py:205": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Packages documented fitted multioutput delegate estimator counts, classes, chain order, output counts, and n_features_in_ metadata after sklearn execution."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for fitted multioutput estimator attributes."}}
+      ]
+    }
+  }
+}

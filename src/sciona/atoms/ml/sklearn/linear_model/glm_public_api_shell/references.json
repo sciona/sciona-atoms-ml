@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.glm_public_api_shell.glm_estimator_catalog@sciona/atoms/ml/sklearn/linear_model/glm_public_api_shell/atoms.py:133": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from public PoissonRegressor, GammaRegressor, and TweedieRegressor classes defined in sklearn.linear_model._glm.glm."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for public estimator availability."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.glm_public_api_shell.glm_estimator_distribution@sciona/atoms/ml/sklearn/linear_model/glm_public_api_shell/atoms.py:142": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Maps GLM public estimator classes to their response distribution families."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for GLM estimator semantics."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.glm_public_api_shell.glm_estimator_optimizer@sciona/atoms/ml/sklearn/linear_model/glm_public_api_shell/atoms.py:156": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Models public GLM solver selection as either SciPy L-BFGS-B or sklearn Newton-Cholesky boundary metadata."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for GLM optimizer implementations."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.glm_public_api_shell.glm_estimator_methods@sciona/atoms/ml/sklearn/linear_model/glm_public_api_shell/atoms.py:165": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Summarizes public fit, predict, and score methods exposed by sklearn GLM regressors."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator API conventions."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.glm_public_api_shell.glm_fit_method_payload@sciona/atoms/ml/sklearn/linear_model/glm_public_api_shell/atoms.py:176": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Models the public fit(X, y, sample_weight=None) callback boundary before optimizer execution."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for GLM fit APIs."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.glm_public_api_shell.glm_prediction_method_payload@sciona/atoms/ml/sklearn/linear_model/glm_public_api_shell/atoms.py:196": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Models public predict or score method invocation as a callback boundary over fitted GLM regressors."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for public estimator prediction and scoring APIs."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.glm_public_api_shell.glm_fit_return_self@sciona/atoms/ml/sklearn/linear_model/glm_public_api_shell/atoms.py:204": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from public GLM fit methods returning self after fitted-state assignment."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator fit return semantics."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.glm_public_api_shell.glm_fitted_state_summary@sciona/atoms/ml/sklearn/linear_model/glm_public_api_shell/atoms.py:213": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Packages documented fitted GLM coefficient, intercept, iteration, solver, and configuration attributes after the optimizer boundary."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for fitted GLM estimator attributes."}}
+      ]
+    }
+  }
+}
+

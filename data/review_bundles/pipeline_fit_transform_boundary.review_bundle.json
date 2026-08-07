@@ -3,5 +3,76 @@
   "verdict": "PASS",
   "risk_tier": "low",
   "rationale": "Automated verification passed. Numerical behavior matches upstream library expectations.",
-  "limitations": "Subject to standard machine precision and float limits."
+  "limitations": "Subject to standard machine precision and float limits.",
+  "schema_version": "1.0",
+  "bundle_id": "sciona.atoms.ml.pipeline.pipeline_fit_transform_boundary.review_bundle.pipeline_fit_transform_boundary.legacy.v1",
+  "provider_repo": "sciona-atoms-ml",
+  "family_batch": "pipeline_fit_transform_boundary",
+  "review_status": "reviewed",
+  "review_semantic_verdict": "pass_with_limits",
+  "review_developer_semantic_verdict": "pass_with_limits",
+  "trust_readiness": "reviewed_with_limits",
+  "authoritative_sources": [
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/pipeline/pipeline_fit_transform_boundary/atoms.py"
+    },
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/pipeline/pipeline_fit_transform_boundary/witnesses.py"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/pipeline/pipeline_fit_transform_boundary/references.json"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/pipeline/pipeline_fit_transform_boundary/cdg.json"
+    }
+  ],
+  "review_record_path": "data/review_bundles/pipeline_fit_transform_boundary.review_bundle.json",
+  "rows": [
+    {
+      "atom_name": "sciona.atoms.ml.pipeline.pipeline_fit_transform_boundary.fit_transformer_stage",
+      "atom_key": "sciona.atoms.ml.pipeline.pipeline_fit_transform_boundary.fit_transformer_stage",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "needs_followup",
+      "source_paths": [
+        "src/sciona/atoms/ml/pipeline/pipeline_fit_transform_boundary/atoms.py",
+        "src/sciona/atoms/ml/pipeline/pipeline_fit_transform_boundary/witnesses.py",
+        "src/sciona/atoms/ml/pipeline/pipeline_fit_transform_boundary/references.json",
+        "src/sciona/atoms/ml/pipeline/pipeline_fit_transform_boundary/cdg.json"
+      ],
+      "review_record_path": "data/review_bundles/pipeline_fit_transform_boundary.review_bundle.json",
+      "limitations": [
+        "Subject to standard machine precision and float limits."
+      ],
+      "required_actions": [
+        "Automated verification passed. Numerical behavior matches upstream library expectations."
+      ]
+    },
+    {
+      "atom_name": "sciona.atoms.ml.pipeline.pipeline_fit_transform_boundary.transform_only_stage",
+      "atom_key": "sciona.atoms.ml.pipeline.pipeline_fit_transform_boundary.transform_only_stage",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "needs_followup",
+      "source_paths": [
+        "src/sciona/atoms/ml/pipeline/pipeline_fit_transform_boundary/atoms.py",
+        "src/sciona/atoms/ml/pipeline/pipeline_fit_transform_boundary/witnesses.py",
+        "src/sciona/atoms/ml/pipeline/pipeline_fit_transform_boundary/references.json",
+        "src/sciona/atoms/ml/pipeline/pipeline_fit_transform_boundary/cdg.json"
+      ],
+      "review_record_path": "data/review_bundles/pipeline_fit_transform_boundary.review_bundle.json",
+      "limitations": [
+        "Subject to standard machine precision and float limits."
+      ],
+      "required_actions": [
+        "Automated verification passed. Numerical behavior matches upstream library expectations."
+      ]
+    }
+  ]
 }

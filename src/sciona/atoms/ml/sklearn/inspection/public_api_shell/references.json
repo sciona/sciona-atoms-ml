@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.inspection.public_api_shell.inspection_public_function_catalog@sciona/atoms/ml/sklearn/inspection/public_api_shell/atoms.py:200": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from public partial_dependence and permutation_importance functions in sklearn.inspection."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for public inspection function availability."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.inspection.public_api_shell.inspection_public_function_boundary@sciona/atoms/ml/sklearn/inspection/public_api_shell/atoms.py:209": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Models partial_dependence estimator response and permutation_importance scorer/shuffle workflows as explicit callback boundaries."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for inspection workflows."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.inspection.public_api_shell.partial_dependence_call_payload@sciona/atoms/ml/sklearn/inspection/public_api_shell/atoms.py:226": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Packages public partial_dependence inputs before estimator response, grid, recursion, or brute-force execution."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for public inspection APIs."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.inspection.public_api_shell.permutation_importance_call_payload@sciona/atoms/ml/sklearn/inspection/public_api_shell/atoms.py:268": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Packages public permutation_importance inputs before scorer, feature shuffle, subsampling, or joblib execution."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for public inspection APIs."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.inspection.public_api_shell.partial_dependence_result_summary@sciona/atoms/ml/sklearn/inspection/public_api_shell/atoms.py:296": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Summarizes public partial_dependence Bunch grid and prediction-array metadata after sklearn execution."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for inspection result objects."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.inspection.public_api_shell.permutation_importance_result_summary@sciona/atoms/ml/sklearn/inspection/public_api_shell/atoms.py:315": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Summarizes public permutation_importance Bunch or multimetric dict metadata after sklearn execution."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for inspection result objects."}}
+      ]
+    }
+  }
+}

@@ -3,5 +3,76 @@
   "verdict": "PASS",
   "risk_tier": "low",
   "rationale": "Automated verification passed. Numerical behavior matches upstream library expectations.",
-  "limitations": "Subject to standard machine precision and float limits."
+  "limitations": "Subject to standard machine precision and float limits.",
+  "schema_version": "1.0",
+  "bundle_id": "sciona.atoms.ml.preprocessing.polynomial_feature_expansion.review_bundle.polynomial_feature_expansion.legacy.v1",
+  "provider_repo": "sciona-atoms-ml",
+  "family_batch": "polynomial_feature_expansion",
+  "review_status": "reviewed",
+  "review_semantic_verdict": "pass_with_limits",
+  "review_developer_semantic_verdict": "pass_with_limits",
+  "trust_readiness": "reviewed_with_limits",
+  "authoritative_sources": [
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/preprocessing/polynomial_feature_expansion/atoms.py"
+    },
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/preprocessing/polynomial_feature_expansion/witnesses.py"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/preprocessing/polynomial_feature_expansion/references.json"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/preprocessing/polynomial_feature_expansion/cdg.json"
+    }
+  ],
+  "review_record_path": "data/review_bundles/polynomial_feature_expansion.review_bundle.json",
+  "rows": [
+    {
+      "atom_name": "sciona.atoms.ml.preprocessing.polynomial_feature_expansion.generate_combination_indices",
+      "atom_key": "sciona.atoms.ml.preprocessing.polynomial_feature_expansion.generate_combination_indices",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "needs_followup",
+      "source_paths": [
+        "src/sciona/atoms/ml/preprocessing/polynomial_feature_expansion/atoms.py",
+        "src/sciona/atoms/ml/preprocessing/polynomial_feature_expansion/witnesses.py",
+        "src/sciona/atoms/ml/preprocessing/polynomial_feature_expansion/references.json",
+        "src/sciona/atoms/ml/preprocessing/polynomial_feature_expansion/cdg.json"
+      ],
+      "review_record_path": "data/review_bundles/polynomial_feature_expansion.review_bundle.json",
+      "limitations": [
+        "Subject to standard machine precision and float limits."
+      ],
+      "required_actions": [
+        "Automated verification passed. Numerical behavior matches upstream library expectations."
+      ]
+    },
+    {
+      "atom_name": "sciona.atoms.ml.preprocessing.polynomial_feature_expansion.compute_polynomial_products",
+      "atom_key": "sciona.atoms.ml.preprocessing.polynomial_feature_expansion.compute_polynomial_products",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "needs_followup",
+      "source_paths": [
+        "src/sciona/atoms/ml/preprocessing/polynomial_feature_expansion/atoms.py",
+        "src/sciona/atoms/ml/preprocessing/polynomial_feature_expansion/witnesses.py",
+        "src/sciona/atoms/ml/preprocessing/polynomial_feature_expansion/references.json",
+        "src/sciona/atoms/ml/preprocessing/polynomial_feature_expansion/cdg.json"
+      ],
+      "review_record_path": "data/review_bundles/polynomial_feature_expansion.review_bundle.json",
+      "limitations": [
+        "Subject to standard machine precision and float limits."
+      ],
+      "required_actions": [
+        "Automated verification passed. Numerical behavior matches upstream library expectations."
+      ]
+    }
+  ]
 }

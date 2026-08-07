@@ -156,6 +156,22 @@ Covered well enough for high-level selection/use:
 - Linear-model fundamentals and callback boundaries: ridge/linear baseline
   atoms, coordinate-descent shell coverage, GLM, logistic, Huber, quantile,
   RANSAC, SGD, and LARS-CV helper families.
+- GLM public estimator surfaces: PoissonRegressor, GammaRegressor, and
+  TweedieRegressor are now available as limited pass-with-limits
+  selection/use shells over SciPy L-BFGS-B and sklearn Newton optimizer
+  boundaries.
+- Robust/LP/meta-estimator linear-model public surfaces: HuberRegressor,
+  QuantileRegressor, and RANSACRegressor are now available as limited
+  pass-with-limits selection/use shells over SciPy L-BFGS-B, SciPy linprog,
+  and estimator-callback consensus boundaries.
+- Logistic public estimator surfaces: LogisticRegression and
+  LogisticRegressionCV are now available as limited pass-with-limits
+  selection/use shells over liblinear, SciPy/sklearn optimizer, SAG/SAGA,
+  CV scoring, and refit boundaries.
+- SGD-family public estimator surfaces: SGDClassifier, SGDRegressor,
+  SGDOneClassSVM, PassiveAggressiveClassifier, PassiveAggressiveRegressor,
+  and Perceptron are now available as limited pass-with-limits selection/use
+  shells over compiled `_plain_sgd` training boundaries.
 - Preprocessing and feature transforms: scalers, normalizers, binarizers,
   kernel centering, binning, polynomial/spline-style expansion coverage, random
   projection, kernel approximation, and several encoding-like primitives.
@@ -164,6 +180,10 @@ Covered well enough for high-level selection/use:
   and LDA helper/state coverage.
 - Neighbors and density: KNN classifiers/regressors/transformers,
   NearestNeighbors, KernelDensity, LocalOutlierFactor, and NearestCentroid.
+- KMeans-family public estimator surfaces: KMeans, MiniBatchKMeans, and
+  BisectingKMeans are now available as limited pass-with-limits
+  selection/use shells over Lloyd, Elkan, minibatch, and recursive KMeans
+  native solver boundaries.
 - SVM public estimator surfaces: SVC/SVR/NuSVC/NuSVR, LinearSVC/LinearSVR,
   and OneClassSVM are now available as limited pass-with-limits
   selection/config, callback-payload, fit-return, and fitted-state shells over
@@ -172,33 +192,89 @@ Covered well enough for high-level selection/use:
   GradientBoosting, HistGradientBoosting, and IsolationForest are now
   available as limited pass-with-limits selection/use shells over native tree,
   boosting, histogram, and isolation-tree boundaries.
+- Public decision-tree estimator surfaces: DecisionTreeClassifier,
+  DecisionTreeRegressor, ExtraTreeClassifier, and ExtraTreeRegressor are now
+  available as limited pass-with-limits selection/use shells over Cython tree
+  builder, splitter, criterion, pruning, and prediction boundaries.
+- Pipeline/composition/search public surfaces: Pipeline, ColumnTransformer,
+  FeatureUnion, GridSearchCV, and RandomizedSearchCV are now available as
+  limited pass-with-limits selection/use shells over estimator, transformer,
+  scorer, splitter, search, and refit callback boundaries.
+- Feature-selection public selector surfaces: RFE, RFECV, SelectFromModel, and
+  SequentialFeatureSelector are now available as limited pass-with-limits
+  selection/use shells over estimator, importance, scorer, and CV callback
+  boundaries.
+- Multiclass public meta-estimator surfaces: OneVsRestClassifier,
+  OneVsOneClassifier, and OutputCodeClassifier are now available as limited
+  pass-with-limits selection/use shells over cloned-estimator,
+  response-method, metadata-routing, joblib, and code-book callback
+  boundaries.
+- Multioutput public meta-estimator surfaces: MultiOutputClassifier,
+  MultiOutputRegressor, ClassifierChain, and RegressorChain are now available
+  as limited pass-with-limits selection/use shells over per-output estimator,
+  chain prediction, CV, metadata-routing, and response callback boundaries.
+- Neural-network public estimator surfaces: MLPClassifier and MLPRegressor are
+  now available as limited pass-with-limits selection/use shells over L-BFGS,
+  SGD, Adam, backpropagation, early-stopping, prediction, probability, and
+  scoring callback boundaries.
+- Inspection public function surfaces: partial_dependence and
+  permutation_importance are now available as limited pass-with-limits
+  selection/use shells over estimator-response, scorer, feature-shuffle,
+  recursion, grid, and joblib callback boundaries.
+- Text vectorization and imputation: CountVectorizer, TfidfVectorizer,
+  HashingVectorizer, DictVectorizer, SimpleImputer, KNNImputer, and
+  IterativeImputer helper/state surfaces are already represented by reviewed
+  vectorization and imputation batches.
+- Metric suites: classification, regression, ROC/PR thresholding, and
+  confusion-matrix diagnostics are already represented by reviewed metric
+  batches.
+- Gaussian-process public estimator surfaces: GaussianProcessRegressor and
+  GaussianProcessClassifier are now available as limited pass-with-limits
+  selection/use shells over kernel optimization, Cholesky/posterior algebra,
+  Laplace posterior-mode, multiclass, prediction, probability, sampling,
+  scoring, and log-marginal-likelihood callback boundaries.
+- IterativeImputer public state surface: the experimental IterativeImputer is
+  now available as a limited pass-with-limits selection/use shell over
+  per-feature estimator fit/predict callbacks, posterior sampling, convergence,
+  and mutable imputation-loop boundaries.
+- Agglomerative hierarchy public surfaces: AgglomerativeClustering and
+  FeatureAgglomeration are now available as limited pass-with-limits
+  selection/use shells over Ward/linkage tree construction, SciPy hierarchy,
+  compiled hierarchical helpers, early-cut labeling, and feature-pooling
+  boundaries.
+- Spectral clustering public surfaces: SpectralClustering,
+  spectral_clustering, SpectralBiclustering, and SpectralCoclustering are now
+  available as limited pass-with-limits selection/use shells over eigensolver,
+  SVD/randomized-SVD, KMeans/MiniBatchKMeans, discretize, cluster_qr, and
+  bicluster projection callback boundaries.
 - Probabilistic classifiers: Gaussian/Multinomial/Complement/Bernoulli/
   Categorical naive Bayes and LDA/QDA.
 - Calibration, isotonic regression, dummy baselines, semi-supervised label
   propagation/spreading, diagonal Gaussian mixture models, covariance helpers,
   multiclass/multioutput orchestration, and many inspection/selection helpers.
 
-Highest-value remaining gaps:
+Future lower-priority gaps:
 
-1. **KMeans-family public algorithm surfaces**: `KMeans`,
-   `MiniBatchKMeans`, and `BisectingKMeans` remain obvious clustering choices.
-   Existing `kmeans_plusplus` and clustering postprocessing helpers cover
-   pieces, but a selection/use layer needs limited solver-boundary surfaces.
-2. **Pipeline/composition and search orchestration**: `Pipeline`,
-   `ColumnTransformer`, `FeatureUnion`, `GridSearchCV`,
-   `RandomizedSearchCV`, and common CV splitter workflows are more useful to
-   users than additional private estimator details. Model these as
-   high-level orchestration atoms over explicit estimator/callable protocols.
-3. **Text vectorization and simple imputation**: Count/TF-IDF vectorizers,
-   HashingVectorizer, SimpleImputer, and KNNImputer are common production
-   building blocks and should be surfaced if not already landed in the current
-   branch.
-4. **Metric suites**: classification, regression, ROC/PR thresholding, and
-   confusion-matrix diagnostics are essential for algorithm selection and
-   should be prioritized over more estimator internals.
+1. **Remaining composition/search internals and specialized splitters**:
+   public routing surfaces now exist for `Pipeline`, `ColumnTransformer`,
+   `FeatureUnion`, `GridSearchCV`, and `RandomizedSearchCV`; future work
+   should add only specialized splitter workflows or deeper deterministic
+   bookkeeping that materially improves routing or diagnostics.
+2. **Remaining non-native public shells over existing helper coverage**:
+   public Gaussian-process state is now covered; future shells should be
+   limited to surfaces where selection/use metadata improves framework
+   routing without hiding estimator callback loops.
+3. **Remaining public shells over existing helper coverage**: only add
+   selection/use shells where they close a framework-level routing gap without
+   hiding native solvers, eigensolvers, or estimator callback loops.
 
 Lower-value or sufficiently covered for now:
 
+- Spectral clustering public surfaces: `SpectralClustering`,
+  `spectral_clustering`, `SpectralBiclustering`, and
+  `SpectralCoclustering` now have limited public API shells over explicit
+  eigensolver, SVD/randomized-SVD, KMeans/MiniBatchKMeans, `discretize`,
+  `cluster_qr`, and bicluster projection callback boundaries.
 - Additional coordinate-descent details: the remaining entries are native
   solver boundaries or duplicate shell behavior.
 - Tag-only atoms: useful only when they unblock a larger API surface.
@@ -827,6 +903,13 @@ Potential remediation path:
   from a supplied linked mean, and final D2 from supplied model/null deviances.
   `_linear_predictor`, validation execution, base-loss callbacks, link
   callbacks, optimizer work, and estimator mutation remain outside this slice.
+- Completed public-surface slice:
+  `sklearn.linear_model.glm_public_api_shell` now publishes limited
+  pass-with-limits selection/use atoms for `PoissonRegressor`,
+  `GammaRegressor`, and `TweedieRegressor`: estimator catalog, distribution
+  metadata, optimizer-boundary metadata, public method capabilities, fit and
+  prediction callback payloads, fit return-self, and compact fitted
+  coefficient/intercept state packaging after the deferred optimizer boundary.
 - Completed helper slice: `sklearn.linear_model.logistic` now publishes binary
   logistic helpers for supplied raw scores, parameters, and dense design
   matrices:
@@ -913,6 +996,14 @@ Potential remediation path:
   execution, LogisticRegression.score execution, custom scorer execution,
   optimization, convergence, validation side effects, and estimator mutation
   remain outside this slice.
+- Completed public-surface slice:
+  `sklearn.linear_model.logistic_public_api_shell` now publishes limited
+  pass-with-limits selection/use atoms for `LogisticRegression` and
+  `LogisticRegressionCV`: estimator catalog, direct-versus-CV family metadata,
+  solver-boundary metadata, public method capabilities, fit and prediction
+  callback payloads, fit return-self, and compact fitted state packaging after
+  the deferred liblinear, SciPy/sklearn optimizer, SAG/SAGA, CV scoring, and
+  refit boundaries.
 - Completed helper slice: `sklearn.linear_model.huber` now publishes supplied
   residual and objective helpers:
   `huber_linear_residuals`, `huber_outlier_mask`, and
@@ -1003,6 +1094,14 @@ Potential remediation path:
   owners of residual/loss/inlier/consensus math, dynamic-trial math, subset
   extraction, callback payloads, aggregate skip-limit guards, no-consensus
   messages, and final refit payloads.
+- Completed public-surface slice:
+  `sklearn.linear_model.robust_public_api_shell` now publishes limited
+  pass-with-limits selection/use atoms for `HuberRegressor`,
+  `QuantileRegressor`, and `RANSACRegressor`: estimator catalog, robust
+  family metadata, optimizer/callback-boundary metadata, public method
+  capabilities, fit and prediction callback payloads, fit return-self, and
+  compact fitted state packaging after the deferred SciPy optimizer,
+  SciPy linprog, and estimator-callback consensus boundaries.
 - Completed helper slice: `sklearn.linear_model.sgd` now publishes SGD and
   passive-aggressive helper atoms for learning-rate resolution,
   passive-aggressive step-size/config selection, optional `l1_ratio`
@@ -1046,12 +1145,23 @@ Potential remediation path:
   and `BaseSGDRegressor.__sklearn_tags__`: super-tags identity, fixed
   sparse-input tag value, and returned-tags identity. The combined family
   intentionally avoids separate duplicate classifier and regressor tag shells.
+- Completed public-surface slice:
+  `sklearn.linear_model.sgd_public_api_shell` now publishes limited
+  pass-with-limits selection/use atoms for `SGDClassifier`, `SGDRegressor`,
+  `SGDOneClassSVM`, `PassiveAggressiveClassifier`,
+  `PassiveAggressiveRegressor`, and `Perceptron`: estimator catalog, family
+  and task metadata, compiled-training-boundary metadata, public method
+  capabilities, fit and prediction callback payloads, fit return-self, and
+  compact fitted state packaging after the deferred compiled `_plain_sgd`
+  training boundary. Passive-aggressive estimators are retained as deprecated
+  sklearn 1.8 public surfaces for compatibility-aware routing only.
 - Decompose reusable, deterministic helper atoms first, such as GLM link/loss
   validation, RANSAC consensus bookkeeping from supplied residuals, or
   prediction from already-fitted coefficients.
-- Decide whether optimizer-backed estimator surfaces should be represented as
-  limited state wrappers, or ingest the underlying SciPy/sklearn/native solver
-  boundaries with explicit provenance and parity tests.
+- Remaining optimizer-backed work is actual native/solver topology and any
+  future public shells that add useful framework selection or routing; continue
+  ingesting underlying SciPy/sklearn/native solver boundaries with explicit
+  provenance and parity tests.
 
 ## `sklearn.linear_model` LARS cross-validation orchestration
 
@@ -1170,11 +1280,19 @@ Potential remediation path:
   estimator type, fitted class labels from the final estimator, and support-
   mask exposure through `_get_support_mask` after the deferred elimination and
   final-estimator fit boundaries.
+- Completed public-surface slice:
+  `sklearn.feature_selection.public_api_shell` now publishes limited
+  pass-with-limits selection/use atoms for `RFE`, `RFECV`,
+  `SelectFromModel`, and `SequentialFeatureSelector`: selector catalog,
+  family metadata, estimator/importance/scorer/CV callback-boundary metadata,
+  public method capabilities, fit and transform-like callback payloads, fit
+  return-self, and compact support-mask/ranking/CV state packaging after the
+  deferred selector and delegate-estimator callback boundaries.
 - Ingest estimator-independent helper atoms first, such as threshold parsing,
   support-mask updates from supplied importance vectors, and candidate subset
   bookkeeping.
-- Decide how fitted estimator callbacks, scorer callbacks, and CV splitters
-  should be represented before publishing full selector workflows.
+- Remaining selector work is deeper loop/callback topology only when it adds
+  useful diagnostics beyond the now-available public routing surface.
 
 ## `sklearn.svm`
 
@@ -1313,11 +1431,20 @@ Potential remediation path:
   first-call estimator allocation count, the class vector used to fit the
   sparse label binarizer, and fitted `n_features_in_` pass-through after the
   worker partial-fit loop.
+- Completed public-surface slice:
+  `sklearn.multiclass.public_api_shell` now publishes limited
+  pass-with-limits selection/use atoms for `OneVsRestClassifier`,
+  `OneVsOneClassifier`, and `OutputCodeClassifier`: estimator catalog, family
+  metadata, cloned-estimator/response-method/code-book callback-boundary
+  metadata, public method capabilities, fit and prediction callback payloads,
+  fit return-self, and compact fitted class/delegate/code-book state packaging
+  after the deferred estimator and metadata-routing callback boundaries.
 - Ingest estimator-independent helpers first, such as one-vs-one class-pair
   index generation, one-vs-rest score aggregation, output-code book creation,
   and code-distance decoding from supplied response matrices.
-- Decide how cloned fitted estimators and metadata routing should be
-  represented before publishing the full meta-estimator workflows.
+- Remaining multiclass work is deeper cloned-estimator callback topology only
+  when it adds useful diagnostics beyond the now-available public routing
+  surface.
 
 ## `sklearn.multioutput` estimator-callback orchestration
 
@@ -1390,11 +1517,20 @@ Potential remediation path:
   deterministic chain fit-order bookkeeping for tuple-to-ndarray coercion,
   explicit permutation validation that raises `ValueError("invalid order")`,
   and optional verbose log-message formatting before estimator callbacks run.
+- Completed public-surface slice:
+  `sklearn.multioutput.public_api_shell` now publishes limited
+  pass-with-limits selection/use atoms for `MultiOutputClassifier`,
+  `MultiOutputRegressor`, `ClassifierChain`, and `RegressorChain`: estimator
+  catalog, family metadata, per-output/chain/CV callback-boundary metadata,
+  public method capabilities, fit and prediction callback payloads, fit
+  return-self, and compact fitted output/delegate/chain state packaging after
+  the deferred per-output estimator and CV prediction callback boundaries.
 - Ingest estimator-independent chain-order validation, feature augmentation
   from supplied previous predictions, independent-output stacking, and
   multioutput score aggregation.
-- Decide how configured estimator clones and CV prediction callbacks should be
-  represented before publishing full multioutput workflows.
+- Remaining multioutput work is deeper per-output estimator and CV prediction
+  callback topology only when it adds useful diagnostics beyond the
+  now-available public routing surface.
 
 ## `sklearn.neighbors` native tree and optimizer boundaries
 
@@ -1514,8 +1650,19 @@ Potential remediation path:
   deterministic post-validation fit shell for target reshaping to 2D,
   layer-width construction, and coefficient/intercept gradient-buffer
   allocation before the deferred stochastic or L-BFGS solver execution.
-- Decide whether SGD/Adam/L-BFGS optimizer state should be represented as
-  separate atom families before publishing full MLP training surfaces.
+- Completed public-surface slice:
+  `sklearn.neural_network.public_api_shell` now publishes limited
+  pass-with-limits public estimator shells for `MLPClassifier` and
+  `MLPRegressor`: estimator catalog, task mapping, L-BFGS/SGD/Adam optimizer
+  boundary metadata, public method routing, fit and prediction payload
+  packaging, fit return-self semantics, and compact fitted-state summaries.
+  Optimizer convergence, backpropagation gradients, parameter mutation,
+  early-stopping validation callbacks, prediction, probability formatting, and
+  scoring remain delegated to sklearn.
+- Remaining MLP work is deeper optimizer/backpropagation topology only:
+  publish full training surfaces only after SGD/Adam/L-BFGS optimizer state,
+  gradient flow, parameter mutation, validation callbacks, and stopping
+  semantics are represented as separate atom families.
 
 ## `sklearn.tree`
 
@@ -1610,11 +1757,17 @@ Potential remediation path:
   deterministic single-output classifier tail in `BaseDecisionTree._fit`
   after deferred native build and pruning: the branch predicate and the
   scalar/vector collapse of `n_classes_` and `classes_`.
-- Decide whether tree estimators should be represented as limited
-  estimator-state wrapper atoms with explicit audit limitations.
-- Or ingest the Cython/native tree builder, splitter, and criterion internals
-  through a dedicated native or FFI-backed decomposition with solver-boundary
-  provenance and parity tests.
+- Completed public-surface slice:
+  `sklearn.tree.public_api_shell` now publishes limited pass-with-limits
+  selection/use atoms for `DecisionTreeClassifier`, `DecisionTreeRegressor`,
+  `ExtraTreeClassifier`, and `ExtraTreeRegressor`: estimator catalog, family,
+  task, native backend-boundary metadata, public method capabilities, fit and
+  prediction callback payloads, fit return-self, and compact fitted tree-size
+  and class metadata after the deferred native build boundary.
+- Remaining tree work is the actual Cython/native tree builder, splitter,
+  criterion, pruning, and prediction topology. Do not attempt that unless a
+  dedicated native/FFI decomposition is deliberately scoped with
+  solver-boundary provenance and parity tests.
 
 ## `sklearn.gaussian_process.kernels` pairwise wrapper
 
@@ -1681,8 +1834,20 @@ Potential remediation path:
 - Decompose the deterministic helper boundaries first, including feature order,
   correlation-based neighbor selection, limit validation, one-feature
   prediction postprocessing, and any remaining initial-imputation bookkeeping.
-- Decide how fitted per-feature estimators should be represented before
-  publishing the full fit/transform state surface.
+- Completed public-surface slice:
+  `sklearn.impute.iterative_public_api_shell` now publishes a limited
+  pass-with-limits public shell for experimental `IterativeImputer`: estimator
+  catalog, per-feature estimator callback-boundary metadata, public method
+  routing, fit and transform payload packaging, fit return-self semantics, and
+  compact fitted imputation-sequence summaries. Per-feature estimator
+  fitting, per-feature prediction, posterior sampling, neighbor selection,
+  convergence evaluation, feature assignment, transform replay, indicator
+  concatenation, and mutable imputation-loop execution remain delegated to
+  sklearn.
+- Remaining IterativeImputer work is deeper mutable-loop topology only:
+  publish full fit/transform state surfaces only after per-feature estimator
+  callbacks, posterior sampling, convergence, assignment mutation, and
+  transform replay are represented as separate atom families.
 
 ## `sklearn.feature_extraction` native hashing boundary
 
@@ -1879,8 +2044,18 @@ Potential remediation path:
   response-method object passed into estimator callbacks.
 - Ingest small helper atoms only where the boundary is explicit, such as
   permutation score aggregation from baseline and permuted score arrays.
-- Decide how estimator callback boundaries should be represented before
-  publishing full inspection workflows.
+- Completed public-surface slice:
+  `sklearn.inspection.public_api_shell` now publishes limited
+  pass-with-limits public shells for `partial_dependence` and
+  `permutation_importance`: function catalog, estimator/scorer callback
+  boundary metadata, public call payloads, and compact result summaries.
+  Estimator responses, scorer callbacks, feature shuffling, subsampling,
+  grid construction, recursion, brute-force loops, and joblib scheduling
+  remain delegated to sklearn.
+- Remaining inspection work is deeper workflow topology only: publish full
+  inspection workflows only after estimator response calls, scorer execution,
+  shuffle/subsampling, recursive tree traversal, brute-force grid evaluation,
+  and joblib scheduling are represented as separate atom families.
 
 ## `sklearn.gaussian_process` estimator optimizer boundaries
 
@@ -2089,8 +2264,21 @@ Potential remediation path:
   remaining work should target kernel-state transitions, full optimizer
   execution, validate-data and default-kernel handling, and classifier
   multiclass or estimator-state boundaries.
-- Decide how optimizer and Laplace posterior-mode loops should be represented
-  before publishing full estimator state atoms.
+- Completed public-surface slice:
+  `sklearn.gaussian_process.public_api_shell` now publishes limited
+  pass-with-limits public estimator shells for `GaussianProcessRegressor` and
+  `GaussianProcessClassifier`: estimator catalog, task mapping,
+  no-optimizer/L-BFGS-B/callable-optimizer boundary metadata, public method
+  routing, fit and prediction payload packaging, fit return-self semantics,
+  and compact fitted-state summaries. Kernel construction and mutation,
+  optimizer execution, Cholesky/posterior algebra, Laplace posterior-mode
+  loops, multiclass orchestration, prediction, probability, sampling, scoring,
+  and log-marginal-likelihood evaluation remain delegated to sklearn.
+- Remaining Gaussian-process work is deeper optimizer/posterior topology only:
+  publish full estimator state surfaces only after optimizer execution,
+  mutable kernel state transitions, Laplace posterior-mode iteration,
+  Cholesky/posterior matrix algebra, multiclass orchestration, and prediction
+  callbacks are represented as separate atom families.
 
 ## `sklearn.manifold` t-SNE optimization boundaries
 
@@ -2186,11 +2374,20 @@ Potential remediation path:
 - Tree construction, Ward distances, linkage builders, SciPy hierarchy calls,
   compiled `_hierarchical` helpers, estimator state, and
   `FeatureAgglomeration` transform behavior remain deferred.
-- Decide whether these targets should be represented as limited hierarchy-state
-  wrapper atoms with explicit audit limitations.
-- Or ingest the compiled hierarchical helpers and SciPy linkage boundary
-  through a dedicated native or FFI-backed decomposition with parity tests for
-  structured and unstructured trees.
+- Completed public-surface slice:
+  `sklearn.cluster.agglomerative_public_api_shell` now publishes limited
+  pass-with-limits public shells for `AgglomerativeClustering` and
+  `FeatureAgglomeration`: estimator catalog, clustered-axis mapping,
+  Ward/linkage tree-construction boundary metadata, public method routing,
+  fit and transform payload packaging, fit return-self semantics, and compact
+  fitted hierarchy-state summaries. Ward distances, linkage builders, SciPy
+  hierarchy calls, compiled `_hierarchical` helpers, early-cut labeling,
+  feature pooling, inverse transform, and estimator method execution remain
+  delegated to sklearn.
+- Remaining agglomerative work is native/tree-builder topology only: ingest
+  the compiled hierarchical helpers and SciPy linkage boundary through a
+  dedicated native or FFI-backed decomposition with parity tests for structured
+  and unstructured trees before publishing full hierarchy-construction atoms.
 
 ## `sklearn.cluster` density and KMeans native cores
 
@@ -2226,13 +2423,21 @@ Potential remediation path:
   weighted sampling, greedy candidate-id sampling, candidate-potential
   evaluation, and full dense center initialization before the deferred KMeans
   optimization loop.
+- Completed public-surface slice:
+  `sklearn.cluster.kmeans_public_api_shell` now publishes limited
+  pass-with-limits selection/use atoms for `KMeans`, `MiniBatchKMeans`, and
+  `BisectingKMeans`: estimator catalog, native solver-boundary family,
+  clustering task metadata, public method capabilities, fit and prediction
+  callback payloads, fit return-self, and compact fitted center/label/inertia
+  state packaging after the deferred compiled solver boundary.
 - Nearest-neighbor search, sparse precomputed graph handling, callable metrics,
   and compiled `_dbscan_inner.dbscan_inner` connected expansion remain
   explicit native/FFI boundaries.
 - Keep `kmeans_plusplus` separate because its seeding logic can be considered
   for Python-level ingestion without claiming to ingest KMeans optimization.
-- Decide whether DBSCAN and KMeans families should be ingested through native
-  or FFI-backed kernels with explicit solver-boundary provenance and parity
+- Remaining KMeans work is the actual compiled centroid-update solver
+  topology. Do not attempt that unless a dedicated native/FFI decomposition is
+  deliberately scoped with explicit solver-boundary provenance and parity
   tests.
 
 ## `sklearn.cluster` HDBSCAN native hierarchy
@@ -2506,12 +2711,18 @@ Potential remediation path:
   deterministic `BaseSpectral._svd` finite-output guard for `u` and `vt`
   through `assert_all_finite` before the already-landed kept-vector slicing
   tail.
-- Sparse log-normalization rejection, SVD/randomized-SVD projection,
-  piecewise-vector selection, projection-and-cluster helpers, KMeans and
-  MiniBatchKMeans label assignment, and full estimator state surfaces remain
-  deferred.
-- Decide how to represent eigensolver/SVD boundaries and KMeans assignment
-  before publishing the full spectral clustering and biclustering estimators.
+- Completed public-shell slice:
+  `sklearn.cluster.spectral_public_api_shell` now publishes the limited
+  public surface catalog, family mapping, solver-boundary metadata,
+  fit/function payload packaging, fit return-self semantics, and compact
+  fitted-state summaries for `SpectralClustering`, `spectral_clustering`,
+  `SpectralBiclustering`, and `SpectralCoclustering` without executing
+  eigensolver, SVD, KMeans/MiniBatchKMeans, `discretize`, `cluster_qr`, or
+  bicluster projection callbacks.
+- Deeper native eigensolver behavior, SVD/randomized-SVD projection
+  internals, sparse log-normalization execution, piecewise-vector selection
+  internals, projection-and-cluster loops, and KMeans/MiniBatchKMeans label
+  assignment solvers remain delegated.
 
 ## `sklearn.covariance` sparse precision and robust covariance solvers
 
@@ -2866,9 +3077,10 @@ Potential remediation path:
   parallel sparse encoding, dictionary-learning callbacks, mini-batch
   scheduling, sklearn's random unused-atom resampling branch, and non-threshold
   sparse-code solvers remain deferred.
-- Decide whether sparse-code solvers, compiled NMF coordinate descent, and
-  online-LDA Cython helpers should be represented through native/FFI-backed
-  atoms or through limited solver-boundary atoms with direct parity tests.
+- Sparse-code solvers, compiled NMF coordinate descent, and online-LDA Cython
+  helpers are Case 1/Case 5 FFI boundaries; publish them only as dedicated
+  native/FFI-backed solver atoms with direct provenance and parity tests, not
+  as thin public wrappers.
 - Publish dictionary learning, SparsePCA, NMF, and LDA estimator states only
   after their inner solver boundaries have first-class provenance and tests.
 

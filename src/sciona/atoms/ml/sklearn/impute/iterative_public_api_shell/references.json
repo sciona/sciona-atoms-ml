@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.impute.iterative_public_api_shell.iterative_public_estimator_catalog@sciona/atoms/ml/sklearn/impute/iterative_public_api_shell/atoms.py:109": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from the public experimental IterativeImputer class in sklearn.impute."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for public estimator availability."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.impute.iterative_public_api_shell.iterative_public_callback_boundary@sciona/atoms/ml/sklearn/impute/iterative_public_api_shell/atoms.py:118": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Models IterativeImputer's per-feature estimator fit/predict sequence as an explicit callback boundary."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for iterative imputation workflows."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.impute.iterative_public_api_shell.iterative_public_estimator_methods@sciona/atoms/ml/sklearn/impute/iterative_public_api_shell/atoms.py:127": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Summarizes public fit, fit_transform, transform, and feature-name methods exposed by IterativeImputer."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator API conventions."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.impute.iterative_public_api_shell.iterative_public_fit_method_payload@sciona/atoms/ml/sklearn/impute/iterative_public_api_shell/atoms.py:139": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Packages public IterativeImputer fit inputs before per-feature estimator callbacks, posterior sampling, and convergence execution."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator fit APIs."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.impute.iterative_public_api_shell.iterative_public_transform_method_payload@sciona/atoms/ml/sklearn/impute/iterative_public_api_shell/atoms.py:157": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Packages public IterativeImputer transform inputs before replaying stored imputation triplets."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator transform APIs."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.impute.iterative_public_api_shell.iterative_public_fit_return_self@sciona/atoms/ml/sklearn/impute/iterative_public_api_shell/atoms.py:165": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from public IterativeImputer fit returning self after fitted-state assignment."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator fit return semantics."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.impute.iterative_public_api_shell.iterative_public_fitted_state_summary@sciona/atoms/ml/sklearn/impute/iterative_public_api_shell/atoms.py:175": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Packages documented fitted IterativeImputer imputation_sequence_, n_iter_, n_features_in_, n_features_with_missing_, initial_imputer_, and limit metadata after sklearn execution."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for fitted estimator attributes."}}
+      ]
+    }
+  }
+}

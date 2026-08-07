@@ -3,5 +3,76 @@
   "verdict": "PASS",
   "risk_tier": "low",
   "rationale": "Automated verification passed. Numerical behavior matches upstream library expectations.",
-  "limitations": "Subject to standard machine precision and float limits."
+  "limitations": "Subject to standard machine precision and float limits.",
+  "schema_version": "1.0",
+  "bundle_id": "sciona.atoms.ml.preprocessing.missing_value_imputation.review_bundle.missing_value_imputation.legacy.v1",
+  "provider_repo": "sciona-atoms-ml",
+  "family_batch": "missing_value_imputation",
+  "review_status": "reviewed",
+  "review_semantic_verdict": "pass_with_limits",
+  "review_developer_semantic_verdict": "pass_with_limits",
+  "trust_readiness": "reviewed_with_limits",
+  "authoritative_sources": [
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/preprocessing/missing_value_imputation/atoms.py"
+    },
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/preprocessing/missing_value_imputation/witnesses.py"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/preprocessing/missing_value_imputation/references.json"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/preprocessing/missing_value_imputation/cdg.json"
+    }
+  ],
+  "review_record_path": "data/review_bundles/missing_value_imputation.review_bundle.json",
+  "rows": [
+    {
+      "atom_name": "sciona.atoms.ml.preprocessing.missing_value_imputation.compute_imputation_statistics",
+      "atom_key": "sciona.atoms.ml.preprocessing.missing_value_imputation.compute_imputation_statistics",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "needs_followup",
+      "source_paths": [
+        "src/sciona/atoms/ml/preprocessing/missing_value_imputation/atoms.py",
+        "src/sciona/atoms/ml/preprocessing/missing_value_imputation/witnesses.py",
+        "src/sciona/atoms/ml/preprocessing/missing_value_imputation/references.json",
+        "src/sciona/atoms/ml/preprocessing/missing_value_imputation/cdg.json"
+      ],
+      "review_record_path": "data/review_bundles/missing_value_imputation.review_bundle.json",
+      "limitations": [
+        "Subject to standard machine precision and float limits."
+      ],
+      "required_actions": [
+        "Automated verification passed. Numerical behavior matches upstream library expectations."
+      ]
+    },
+    {
+      "atom_name": "sciona.atoms.ml.preprocessing.missing_value_imputation.fill_missing_values",
+      "atom_key": "sciona.atoms.ml.preprocessing.missing_value_imputation.fill_missing_values",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "needs_followup",
+      "source_paths": [
+        "src/sciona/atoms/ml/preprocessing/missing_value_imputation/atoms.py",
+        "src/sciona/atoms/ml/preprocessing/missing_value_imputation/witnesses.py",
+        "src/sciona/atoms/ml/preprocessing/missing_value_imputation/references.json",
+        "src/sciona/atoms/ml/preprocessing/missing_value_imputation/cdg.json"
+      ],
+      "review_record_path": "data/review_bundles/missing_value_imputation.review_bundle.json",
+      "limitations": [
+        "Subject to standard machine precision and float limits."
+      ],
+      "required_actions": [
+        "Automated verification passed. Numerical behavior matches upstream library expectations."
+      ]
+    }
+  ]
 }

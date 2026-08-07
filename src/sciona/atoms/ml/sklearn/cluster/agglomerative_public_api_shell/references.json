@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.cluster.agglomerative_public_api_shell.agglomerative_public_estimator_catalog@sciona/atoms/ml/sklearn/cluster/agglomerative_public_api_shell/atoms.py:119": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from public AgglomerativeClustering and FeatureAgglomeration classes in sklearn.cluster."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for public estimator availability."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.cluster.agglomerative_public_api_shell.agglomerative_public_estimator_axis@sciona/atoms/ml/sklearn/cluster/agglomerative_public_api_shell/atoms.py:128": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Maps AgglomerativeClustering to sample clustering and FeatureAgglomeration to feature clustering."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator task conventions."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.cluster.agglomerative_public_api_shell.agglomerative_public_linkage_boundary@sciona/atoms/ml/sklearn/cluster/agglomerative_public_api_shell/atoms.py:137": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Models Ward and non-Ward linkage tree construction as explicit hierarchy-builder boundaries."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for agglomerative clustering workflows."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.cluster.agglomerative_public_api_shell.agglomerative_public_estimator_methods@sciona/atoms/ml/sklearn/cluster/agglomerative_public_api_shell/atoms.py:148": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Summarizes public fit, fit_predict, fit_transform, transform, and inverse_transform methods exposed by covered agglomerative estimators."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator API conventions."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.cluster.agglomerative_public_api_shell.agglomerative_public_fit_method_payload@sciona/atoms/ml/sklearn/cluster/agglomerative_public_api_shell/atoms.py:158": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Packages public agglomerative fit inputs before Ward/linkage tree construction and early-cut labeling."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator fit APIs."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.cluster.agglomerative_public_api_shell.feature_agglomeration_transform_payload@sciona/atoms/ml/sklearn/cluster/agglomerative_public_api_shell/atoms.py:168": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Packages public FeatureAgglomeration transform inputs before feature-group pooling."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for transformer APIs."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.cluster.agglomerative_public_api_shell.agglomerative_public_fit_return_self@sciona/atoms/ml/sklearn/cluster/agglomerative_public_api_shell/atoms.py:176": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from public agglomerative fit methods returning self after fitted-state assignment."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator fit return semantics."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.cluster.agglomerative_public_api_shell.agglomerative_public_fitted_state_summary@sciona/atoms/ml/sklearn/cluster/agglomerative_public_api_shell/atoms.py:186": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Packages documented fitted agglomerative children_, labels_, n_clusters_, n_leaves_, n_connected_components_, distances_, and n_features_in_ metadata after sklearn execution."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for fitted estimator attributes."}}
+      ]
+    }
+  }
+}

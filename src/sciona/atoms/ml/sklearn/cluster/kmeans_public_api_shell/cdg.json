@@ -1,0 +1,170 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_cluster_kmeans_public_api_shell_root",
+      "name": "Sklearn Cluster KMeans Public API Shell",
+      "description": "High-level public KMeans-family estimator-selection, callback-boundary, and fitted-state atoms above compiled Lloyd, Elkan, minibatch, and recursive KMeans solver boundaries.",
+      "status": "decomposed",
+      "children": [
+        "kmeans_estimator_catalog",
+        "kmeans_estimator_backend",
+        "kmeans_estimator_task",
+        "kmeans_estimator_methods",
+        "kmeans_fit_method_payload",
+        "kmeans_prediction_method_payload",
+        "kmeans_fit_return_self",
+        "kmeans_fitted_state"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "kmeans_estimator_catalog",
+      "name": "kmeans_estimator_catalog",
+      "description": "Expose the public sklearn.cluster KMeans-family estimator names useful for framework-level model selection.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(catalog_scope: str = 'public_estimators') -> tuple[str, ...]",
+      "depth": 1,
+      "inputs": [{"name": "catalog_scope", "type_desc": "str", "required": false}],
+      "outputs": [{"name": "result", "type_desc": "tuple[str, ...]"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom returns a fixed public estimator-name tuple and does not inspect data.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "kmeans_estimator_backend",
+      "name": "kmeans_estimator_backend",
+      "description": "Return the native solver boundary family behind a public KMeans estimator.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator_name: str) -> str",
+      "depth": 1,
+      "inputs": [{"name": "estimator_name", "type_desc": "str", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "str"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom performs a constant-time branch over three public estimator names.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "kmeans_estimator_task",
+      "name": "kmeans_estimator_task",
+      "description": "Return the high-level learning task for a public KMeans-family estimator.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator_name: str) -> str",
+      "depth": 1,
+      "inputs": [{"name": "estimator_name", "type_desc": "str", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "str"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom validates a fixed estimator name and returns the common clustering task label.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "kmeans_estimator_methods",
+      "name": "kmeans_estimator_methods",
+      "description": "Expose public methods useful for high-level KMeans-family routing.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator_name: str) -> tuple[str, ...]",
+      "depth": 1,
+      "inputs": [{"name": "estimator_name", "type_desc": "str", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "tuple[str, ...]"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom selects one fixed method tuple by estimator name.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "kmeans_fit_method_payload",
+      "name": "kmeans_fit_method_payload",
+      "description": "Expose a public KMeans fit payload for finite dense inputs without executing the native solver.",
+      "concept_type": "callback_boundary",
+      "status": "atomic",
+      "type_signature": "(estimator: object, X: object, sample_weight: object = None) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator", "type_desc": "object", "required": true},
+        {"name": "X", "type_desc": "object", "required": true},
+        {"name": "sample_weight", "type_desc": "object", "required": false}
+      ],
+      "outputs": [{"name": "result", "type_desc": "dict[str, object]"}],
+      "time_complexity": "O(n * d)",
+      "space_complexity": "O(n * d)",
+      "complexity_reasoning": "The atom validates finite dense input shape and packages references, leaving optimization to sklearn.",
+      "complexity_confidence": 93
+    },
+    {
+      "node_id": "kmeans_prediction_method_payload",
+      "name": "kmeans_prediction_method_payload",
+      "description": "Expose a public KMeans prediction-like method payload without executing the estimator method.",
+      "concept_type": "callback_boundary",
+      "status": "atomic",
+      "type_signature": "(estimator: object, method_name: str, X: object) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator", "type_desc": "object", "required": true},
+        {"name": "method_name", "type_desc": "str", "required": true},
+        {"name": "X", "type_desc": "object", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "dict[str, object]"}],
+      "time_complexity": "O(n * d)",
+      "space_complexity": "O(n * d)",
+      "complexity_reasoning": "The atom validates finite dense prediction input and packages references, leaving prediction execution to sklearn.",
+      "complexity_confidence": 93
+    },
+    {
+      "node_id": "kmeans_fit_return_self",
+      "name": "kmeans_fit_return_self",
+      "description": "Return the fitted KMeans-family estimator object from the public fit shell.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator: object) -> object",
+      "depth": 1,
+      "inputs": [{"name": "estimator", "type_desc": "object", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "object"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom checks fitted marker attributes and returns the same estimator object.",
+      "complexity_confidence": 98
+    },
+    {
+      "node_id": "kmeans_fitted_state",
+      "name": "kmeans_fitted_state",
+      "description": "Expose fitted centers, labels, inertia, and iteration metadata after the deferred native KMeans solver.",
+      "concept_type": "state_packaging",
+      "status": "atomic",
+      "type_signature": "(estimator: object) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [{"name": "estimator", "type_desc": "object", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "dict[str, object]"}],
+      "time_complexity": "O(n + k * d)",
+      "space_complexity": "O(n + k * d)",
+      "complexity_reasoning": "The atom exposes labels and center arrays already produced by sklearn fitting.",
+      "complexity_confidence": 94
+    }
+  ],
+  "edges": [
+    {"source": "kmeans_estimator_catalog", "target": "kmeans_estimator_backend", "kind": "selection_metadata"},
+    {"source": "kmeans_estimator_catalog", "target": "kmeans_estimator_task", "kind": "selection_metadata"},
+    {"source": "kmeans_estimator_catalog", "target": "kmeans_estimator_methods", "kind": "selection_metadata"},
+    {"source": "kmeans_estimator_backend", "target": "kmeans_fit_method_payload", "kind": "compiled_solver_boundary"},
+    {"source": "kmeans_estimator_methods", "target": "kmeans_prediction_method_payload", "kind": "public_method_boundary"},
+    {"source": "kmeans_fit_return_self", "target": "kmeans_fitted_state", "kind": "postfit_state"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.cluster._kmeans and sklearn.cluster._bisect_k_means",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 1 public KMeans-family estimator shells over compiled Lloyd, Elkan, minibatch, and recursive KMeans solver boundaries",
+    "review_semantic_verdict": "pass_with_limits",
+    "limitations": [
+      "The internal algorithmic topology is obscured by compiled sklearn KMeans solver boundaries.",
+      "The shell models finite dense public API routing and fitted-state packaging, not sparse inputs, custom distance behavior, convergence, or centroid-update internals."
+    ]
+  }
+}
+

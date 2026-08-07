@@ -1,0 +1,171 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_linear_model_robust_public_api_shell_root",
+      "name": "Sklearn Linear Model Robust Public API Shell",
+      "description": "High-level Huber, Quantile, and RANSAC estimator-selection, callback-boundary, and fitted-state atoms above SciPy optimizer, SciPy linear-programming, and estimator-callback boundaries.",
+      "status": "decomposed",
+      "children": [
+        "robust_linear_estimator_catalog",
+        "robust_linear_estimator_family",
+        "robust_linear_estimator_boundary",
+        "robust_linear_estimator_methods",
+        "robust_linear_fit_method_payload",
+        "robust_linear_prediction_method_payload",
+        "robust_linear_fit_return_self",
+        "robust_linear_fitted_state_summary"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "robust_linear_estimator_catalog",
+      "name": "robust_linear_estimator_catalog",
+      "description": "Expose public robust linear-model estimator names useful for framework-level model selection.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(catalog_scope: str = 'public_estimators') -> tuple[str, ...]",
+      "depth": 1,
+      "inputs": [{"name": "catalog_scope", "type_desc": "str", "required": false}],
+      "outputs": [{"name": "result", "type_desc": "tuple[str, ...]"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom returns a fixed public estimator-name tuple and does not inspect data.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "robust_linear_estimator_family",
+      "name": "robust_linear_estimator_family",
+      "description": "Return the robust estimator family represented by a public estimator name.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator_name: str) -> str",
+      "depth": 1,
+      "inputs": [{"name": "estimator_name", "type_desc": "str", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "str"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom performs a dictionary lookup over fixed estimator names.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "robust_linear_estimator_boundary",
+      "name": "robust_linear_estimator_boundary",
+      "description": "Return the optimizer or callback boundary selected by a public robust estimator.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator_name: str) -> str",
+      "depth": 1,
+      "inputs": [{"name": "estimator_name", "type_desc": "str", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "str"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom performs a constant-time branch over fixed estimator names.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "robust_linear_estimator_methods",
+      "name": "robust_linear_estimator_methods",
+      "description": "Expose public methods useful for high-level robust estimator routing.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator_name: str) -> tuple[str, ...]",
+      "depth": 1,
+      "inputs": [{"name": "estimator_name", "type_desc": "str", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "tuple[str, ...]"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom returns a fixed public-method tuple for each covered estimator.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "robust_linear_fit_method_payload",
+      "name": "robust_linear_fit_method_payload",
+      "description": "Expose a public robust estimator fit payload for finite dense inputs without executing optimizer or estimator callbacks.",
+      "concept_type": "callback_boundary",
+      "status": "atomic",
+      "type_signature": "(estimator: object, X: object, y: object, sample_weight: object = None, fit_params: dict[str, object] | None = None) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator", "type_desc": "object", "required": true},
+        {"name": "X", "type_desc": "object", "required": true},
+        {"name": "y", "type_desc": "object", "required": true},
+        {"name": "sample_weight", "type_desc": "object", "required": false},
+        {"name": "fit_params", "type_desc": "dict[str, object] | None", "required": false}
+      ],
+      "outputs": [{"name": "result", "type_desc": "dict[str, object]"}],
+      "time_complexity": "O(n * d)",
+      "space_complexity": "O(n * d)",
+      "complexity_reasoning": "The atom validates dense fit inputs and sample weights, then packages references without fitting.",
+      "complexity_confidence": 93
+    },
+    {
+      "node_id": "robust_linear_prediction_method_payload",
+      "name": "robust_linear_prediction_method_payload",
+      "description": "Expose a public robust estimator prediction-like method payload without executing the estimator method.",
+      "concept_type": "callback_boundary",
+      "status": "atomic",
+      "type_signature": "(estimator: object, method_name: str, X: object) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator", "type_desc": "object", "required": true},
+        {"name": "method_name", "type_desc": "str", "required": true},
+        {"name": "X", "type_desc": "object", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "dict[str, object]"}],
+      "time_complexity": "O(n * d)",
+      "space_complexity": "O(n * d)",
+      "complexity_reasoning": "The atom validates dense prediction input and packages references, leaving prediction or scoring to sklearn.",
+      "complexity_confidence": 93
+    },
+    {
+      "node_id": "robust_linear_fit_return_self",
+      "name": "robust_linear_fit_return_self",
+      "description": "Return the fitted public robust estimator object from the public fit shell.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator: object) -> object",
+      "depth": 1,
+      "inputs": [{"name": "estimator", "type_desc": "object", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "object"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom checks fitted marker attributes and returns the same estimator object.",
+      "complexity_confidence": 98
+    },
+    {
+      "node_id": "robust_linear_fitted_state_summary",
+      "name": "robust_linear_fitted_state_summary",
+      "description": "Expose fitted coefficient, inlier, skip-count, and boundary metadata after deferred robust-estimator execution.",
+      "concept_type": "state_packaging",
+      "status": "atomic",
+      "type_signature": "(estimator: object) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [{"name": "estimator", "type_desc": "object", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "dict[str, object]"}],
+      "time_complexity": "O(n + d)",
+      "space_complexity": "O(d)",
+      "complexity_reasoning": "The atom exposes fitted arrays and scalar metadata already produced by sklearn fitting, counting outlier or inlier masks when present.",
+      "complexity_confidence": 94
+    }
+  ],
+  "edges": [
+    {"source": "robust_linear_estimator_catalog", "target": "robust_linear_estimator_family", "kind": "selection_metadata"},
+    {"source": "robust_linear_estimator_catalog", "target": "robust_linear_estimator_boundary", "kind": "boundary_metadata"},
+    {"source": "robust_linear_estimator_catalog", "target": "robust_linear_estimator_methods", "kind": "selection_metadata"},
+    {"source": "robust_linear_estimator_boundary", "target": "robust_linear_fit_method_payload", "kind": "optimizer_or_callback_boundary"},
+    {"source": "robust_linear_estimator_methods", "target": "robust_linear_prediction_method_payload", "kind": "public_method_boundary"},
+    {"source": "robust_linear_fit_return_self", "target": "robust_linear_fitted_state_summary", "kind": "postfit_state"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.linear_model._huber, sklearn.linear_model._quantile, sklearn.linear_model._ransac",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 2 and Case 3 public robust/LP/meta-estimator shells over SciPy optimizer and estimator-callback boundaries",
+    "review_semantic_verdict": "pass_with_limits",
+    "limitations": [
+      "The internal fitted-state topology is obscured by SciPy L-BFGS-B, SciPy linprog, and arbitrary estimator-callback boundaries.",
+      "The shell models finite dense public API routing and compact fitted-state packaging, not optimizer convergence, LP solve behavior, RANSAC sampling, consensus-loop execution, validation execution, prediction, or scoring internals."
+    ]
+  }
+}

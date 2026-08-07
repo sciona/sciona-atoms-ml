@@ -1,0 +1,153 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_cluster_spectral_public_api_shell_root",
+      "name": "Sklearn Cluster Spectral Public API Shell",
+      "description": "High-level SpectralClustering, spectral_clustering, SpectralBiclustering, and SpectralCoclustering selection, solver-boundary, fit/function-payload, and fitted-state atoms above spectral embedding eigensolvers, SVD callbacks, KMeans assignment, discretize, cluster_qr, and bicluster projection callbacks.",
+      "status": "decomposed",
+      "children": [
+        "spectral_public_surface_catalog",
+        "spectral_public_surface_family",
+        "spectral_public_solver_boundary",
+        "spectral_public_fit_payload",
+        "spectral_clustering_function_payload",
+        "spectral_public_fit_return_self",
+        "spectral_public_fitted_state_summary"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "spectral_public_surface_catalog",
+      "name": "spectral_public_surface_catalog",
+      "description": "Expose public spectral clustering surface names useful for framework-level selection.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(catalog_scope: str = 'public_surfaces') -> tuple[str, ...]",
+      "depth": 1,
+      "inputs": [{"name": "catalog_scope", "type_desc": "str", "required": false}],
+      "outputs": [{"name": "result", "type_desc": "tuple[str, ...]"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom returns a fixed public surface-name tuple and does not inspect data.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "spectral_public_surface_family",
+      "name": "spectral_public_surface_family",
+      "description": "Return the public spectral clustering family represented by a surface name.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(surface_name: str) -> str",
+      "depth": 1,
+      "inputs": [{"name": "surface_name", "type_desc": "str", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "str"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom performs a constant-time branch over fixed surface names.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "spectral_public_solver_boundary",
+      "name": "spectral_public_solver_boundary",
+      "description": "Return the eigensolver, SVD, or KMeans/label-assignment callback boundary represented by a public spectral option.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(surface_name: str, solver_name: object) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "surface_name", "type_desc": "str", "required": true},
+        {"name": "solver_name", "type_desc": "object", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "str"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom maps fixed public solver and assignment labels to callback-boundary categories.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "spectral_public_fit_payload",
+      "name": "spectral_public_fit_payload",
+      "description": "Expose a public spectral estimator fit payload for finite dense inputs without executing eigensolver, SVD, or label-assignment callbacks.",
+      "concept_type": "callback_boundary",
+      "status": "atomic",
+      "type_signature": "(estimator: object, X: object) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator", "type_desc": "object", "required": true},
+        {"name": "X", "type_desc": "object", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "dict[str, object]"}],
+      "time_complexity": "O(n * d)",
+      "space_complexity": "O(n * d)",
+      "complexity_reasoning": "The atom validates dense fit input and packages references without running spectral solvers.",
+      "complexity_confidence": 92
+    },
+    {
+      "node_id": "spectral_clustering_function_payload",
+      "name": "spectral_clustering_function_payload",
+      "description": "Expose a public spectral_clustering function payload before constructing and fitting the estimator wrapper.",
+      "concept_type": "callback_boundary",
+      "status": "atomic",
+      "type_signature": "(affinity: object, n_clusters: int = 8) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "affinity", "type_desc": "object", "required": true},
+        {"name": "n_clusters", "type_desc": "int", "required": false}
+      ],
+      "outputs": [{"name": "result", "type_desc": "dict[str, object]"}],
+      "time_complexity": "O(n^2)",
+      "space_complexity": "O(n^2)",
+      "complexity_reasoning": "The atom validates a dense square affinity matrix and packages references without clustering.",
+      "complexity_confidence": 92
+    },
+    {
+      "node_id": "spectral_public_fit_return_self",
+      "name": "spectral_public_fit_return_self",
+      "description": "Return the fitted public spectral estimator object from the public fit shell.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator: object) -> object",
+      "depth": 1,
+      "inputs": [{"name": "estimator", "type_desc": "object", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "object"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom checks fitted marker attributes and returns the same estimator object.",
+      "complexity_confidence": 98
+    },
+    {
+      "node_id": "spectral_public_fitted_state_summary",
+      "name": "spectral_public_fitted_state_summary",
+      "description": "Expose fitted labels, affinity, row/column labels, indicator shapes, and solver-boundary metadata after deferred spectral execution.",
+      "concept_type": "state_packaging",
+      "status": "atomic",
+      "type_signature": "(estimator: object) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [{"name": "estimator", "type_desc": "object", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "dict[str, object]"}],
+      "time_complexity": "O(n + d)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom reads shapes and unique label counts from already-fitted arrays without recomputing spectral embeddings or assignments.",
+      "complexity_confidence": 94
+    }
+  ],
+  "edges": [
+    {"source": "spectral_public_surface_catalog", "target": "spectral_public_surface_family", "kind": "selection_metadata"},
+    {"source": "spectral_public_surface_catalog", "target": "spectral_public_solver_boundary", "kind": "solver_boundary_metadata"},
+    {"source": "spectral_public_solver_boundary", "target": "spectral_public_fit_payload", "kind": "callback_boundary"},
+    {"source": "spectral_public_solver_boundary", "target": "spectral_clustering_function_payload", "kind": "callback_boundary"},
+    {"source": "spectral_public_fit_return_self", "target": "spectral_public_fitted_state_summary", "kind": "postfit_state"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.cluster._spectral and sklearn.cluster._bicluster",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 5 and Case 6 public spectral clustering shells over eigensolver, SVD, KMeans, discretize, cluster_qr, and bicluster projection callback boundaries",
+    "review_semantic_verdict": "pass_with_limits",
+    "limitations": [
+      "Spectral embedding eigensolvers, ARPACK/LOBPCG/AMG behavior, SVD/randomized-SVD callbacks, KMeans or MiniBatchKMeans assignment, discretize, cluster_qr, bicluster projection, sparse log normalization, and estimator method execution remain delegated behavior.",
+      "The shell models finite dense public API routing and compact fitted-state packaging, not spectral clustering, biclustering, or coclustering execution."
+    ]
+  }
+}

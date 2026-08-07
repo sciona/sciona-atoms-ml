@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.gaussian_process.public_api_shell.gp_public_estimator_catalog@sciona/atoms/ml/sklearn/gaussian_process/public_api_shell/atoms.py:158": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from public GaussianProcessRegressor and GaussianProcessClassifier classes in sklearn.gaussian_process."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for public estimator availability."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.public_api_shell.gp_public_estimator_task@sciona/atoms/ml/sklearn/gaussian_process/public_api_shell/atoms.py:167": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Maps GaussianProcessRegressor and GaussianProcessClassifier to regression and classification task families."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator task conventions."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.public_api_shell.gp_public_optimizer_boundary@sciona/atoms/ml/sklearn/gaussian_process/public_api_shell/atoms.py:176": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Models no-optimizer, built-in L-BFGS-B, and callable optimizer paths as explicit Gaussian-process optimizer boundaries."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for Gaussian-process estimator optimization workflows."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.public_api_shell.gp_public_estimator_methods@sciona/atoms/ml/sklearn/gaussian_process/public_api_shell/atoms.py:189": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Summarizes public fit, predict, probability, sample_y, log_marginal_likelihood, and score methods exposed by covered Gaussian-process estimators."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator API conventions."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.public_api_shell.gp_public_fit_method_payload@sciona/atoms/ml/sklearn/gaussian_process/public_api_shell/atoms.py:198": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Packages public Gaussian-process fit inputs before kernel optimization, Cholesky/posterior algebra, Laplace posterior-mode, and multiclass callbacks."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator fit APIs."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.public_api_shell.gp_public_prediction_method_payload@sciona/atoms/ml/sklearn/gaussian_process/public_api_shell/atoms.py:212": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Packages public Gaussian-process predict, predict_proba, and sample_y calls before posterior prediction or sampling execution."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for public estimator prediction APIs."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.public_api_shell.gp_public_fit_return_self@sciona/atoms/ml/sklearn/gaussian_process/public_api_shell/atoms.py:236": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from public Gaussian-process fit methods returning self after fitted-state assignment."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator fit return semantics."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.gaussian_process.public_api_shell.gp_public_fitted_state_summary@sciona/atoms/ml/sklearn/gaussian_process/public_api_shell/atoms.py:245": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Packages documented fitted Gaussian-process kernel, marginal-likelihood, posterior-shape, class, and multiclass metadata after sklearn execution."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for fitted estimator attributes."}}
+      ]
+    }
+  }
+}

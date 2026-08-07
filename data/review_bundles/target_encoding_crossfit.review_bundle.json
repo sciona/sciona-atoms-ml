@@ -3,5 +3,76 @@
   "verdict": "PASS",
   "risk_tier": "low",
   "rationale": "Automated verification passed. Numerical behavior matches upstream library expectations.",
-  "limitations": "Subject to standard machine precision and float limits."
+  "limitations": "Subject to standard machine precision and float limits.",
+  "schema_version": "1.0",
+  "bundle_id": "sciona.atoms.ml.preprocessing.target_encoding_crossfit.review_bundle.target_encoding_crossfit.legacy.v1",
+  "provider_repo": "sciona-atoms-ml",
+  "family_batch": "target_encoding_crossfit",
+  "review_status": "reviewed",
+  "review_semantic_verdict": "pass_with_limits",
+  "review_developer_semantic_verdict": "pass_with_limits",
+  "trust_readiness": "reviewed_with_limits",
+  "authoritative_sources": [
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/preprocessing/target_encoding_crossfit/atoms.py"
+    },
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/preprocessing/target_encoding_crossfit/witnesses.py"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/preprocessing/target_encoding_crossfit/references.json"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/preprocessing/target_encoding_crossfit/cdg.json"
+    }
+  ],
+  "review_record_path": "data/review_bundles/target_encoding_crossfit.review_bundle.json",
+  "rows": [
+    {
+      "atom_name": "sciona.atoms.ml.preprocessing.target_encoding_crossfit.compute_global_prior",
+      "atom_key": "sciona.atoms.ml.preprocessing.target_encoding_crossfit.compute_global_prior",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "needs_followup",
+      "source_paths": [
+        "src/sciona/atoms/ml/preprocessing/target_encoding_crossfit/atoms.py",
+        "src/sciona/atoms/ml/preprocessing/target_encoding_crossfit/witnesses.py",
+        "src/sciona/atoms/ml/preprocessing/target_encoding_crossfit/references.json",
+        "src/sciona/atoms/ml/preprocessing/target_encoding_crossfit/cdg.json"
+      ],
+      "review_record_path": "data/review_bundles/target_encoding_crossfit.review_bundle.json",
+      "limitations": [
+        "Subject to standard machine precision and float limits."
+      ],
+      "required_actions": [
+        "Automated verification passed. Numerical behavior matches upstream library expectations."
+      ]
+    },
+    {
+      "atom_name": "sciona.atoms.ml.preprocessing.target_encoding_crossfit.compute_oof_target_means",
+      "atom_key": "sciona.atoms.ml.preprocessing.target_encoding_crossfit.compute_oof_target_means",
+      "review_status": "reviewed",
+      "review_semantic_verdict": "pass_with_limits",
+      "review_developer_semantic_verdict": "pass_with_limits",
+      "trust_readiness": "needs_followup",
+      "source_paths": [
+        "src/sciona/atoms/ml/preprocessing/target_encoding_crossfit/atoms.py",
+        "src/sciona/atoms/ml/preprocessing/target_encoding_crossfit/witnesses.py",
+        "src/sciona/atoms/ml/preprocessing/target_encoding_crossfit/references.json",
+        "src/sciona/atoms/ml/preprocessing/target_encoding_crossfit/cdg.json"
+      ],
+      "review_record_path": "data/review_bundles/target_encoding_crossfit.review_bundle.json",
+      "limitations": [
+        "Subject to standard machine precision and float limits."
+      ],
+      "required_actions": [
+        "Automated verification passed. Numerical behavior matches upstream library expectations."
+      ]
+    }
+  ]
 }

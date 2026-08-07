@@ -1,0 +1,173 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_neural_network_public_api_shell_root",
+      "name": "Sklearn Neural Network Public API Shell",
+      "description": "High-level MLPClassifier and MLPRegressor estimator-selection, optimizer-boundary, callback-payload, and fitted-state atoms above L-BFGS, SGD, Adam, backpropagation, early-stopping, prediction, and scoring execution.",
+      "status": "decomposed",
+      "children": [
+        "mlp_public_estimator_catalog",
+        "mlp_public_estimator_task",
+        "mlp_public_optimizer_boundary",
+        "mlp_public_estimator_methods",
+        "mlp_public_fit_method_payload",
+        "mlp_public_prediction_method_payload",
+        "mlp_public_fit_return_self",
+        "mlp_public_fitted_state_summary"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "mlp_public_estimator_catalog",
+      "name": "mlp_public_estimator_catalog",
+      "description": "Expose public MLP estimator names useful for framework-level model selection.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(catalog_scope: str = 'public_estimators') -> tuple[str, ...]",
+      "depth": 1,
+      "inputs": [{"name": "catalog_scope", "type_desc": "str", "required": false}],
+      "outputs": [{"name": "result", "type_desc": "tuple[str, ...]"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom returns a fixed public estimator-name tuple and does not inspect data.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "mlp_public_estimator_task",
+      "name": "mlp_public_estimator_task",
+      "description": "Return whether a public MLP estimator is a classifier or regressor.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator_name: str) -> str",
+      "depth": 1,
+      "inputs": [{"name": "estimator_name", "type_desc": "str", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "str"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom performs a constant-time branch over fixed estimator names.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "mlp_public_optimizer_boundary",
+      "name": "mlp_public_optimizer_boundary",
+      "description": "Return the optimizer boundary selected by a public MLP estimator solver.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator_name: str, solver: str) -> str",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator_name", "type_desc": "str", "required": true},
+        {"name": "solver", "type_desc": "str", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "str"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom performs a constant-time branch over fixed solver labels.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "mlp_public_estimator_methods",
+      "name": "mlp_public_estimator_methods",
+      "description": "Expose public methods useful for high-level MLP routing.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator_name: str) -> tuple[str, ...]",
+      "depth": 1,
+      "inputs": [{"name": "estimator_name", "type_desc": "str", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "tuple[str, ...]"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom returns a fixed public-method tuple for each covered MLP estimator.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "mlp_public_fit_method_payload",
+      "name": "mlp_public_fit_method_payload",
+      "description": "Expose a public MLP fit payload for finite dense inputs without executing optimizer, backpropagation, or early-stopping callbacks.",
+      "concept_type": "callback_boundary",
+      "status": "atomic",
+      "type_signature": "(estimator: object, X: object, y: object, sample_weight: object = None) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator", "type_desc": "object", "required": true},
+        {"name": "X", "type_desc": "object", "required": true},
+        {"name": "y", "type_desc": "object", "required": true},
+        {"name": "sample_weight", "type_desc": "object", "required": false}
+      ],
+      "outputs": [{"name": "result", "type_desc": "dict[str, object]"}],
+      "time_complexity": "O(n * d)",
+      "space_complexity": "O(n * d)",
+      "complexity_reasoning": "The atom validates dense fit inputs and packages references without fitting the network.",
+      "complexity_confidence": 93
+    },
+    {
+      "node_id": "mlp_public_prediction_method_payload",
+      "name": "mlp_public_prediction_method_payload",
+      "description": "Expose a public MLP prediction-like method payload without executing prediction callbacks.",
+      "concept_type": "callback_boundary",
+      "status": "atomic",
+      "type_signature": "(estimator: object, method_name: str, X: object) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator", "type_desc": "object", "required": true},
+        {"name": "method_name", "type_desc": "str", "required": true},
+        {"name": "X", "type_desc": "object", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "dict[str, object]"}],
+      "time_complexity": "O(n * d)",
+      "space_complexity": "O(n * d)",
+      "complexity_reasoning": "The atom validates dense prediction input and packages references, leaving prediction responses to sklearn.",
+      "complexity_confidence": 93
+    },
+    {
+      "node_id": "mlp_public_fit_return_self",
+      "name": "mlp_public_fit_return_self",
+      "description": "Return the fitted public MLP estimator object from the public fit shell.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator: object) -> object",
+      "depth": 1,
+      "inputs": [{"name": "estimator", "type_desc": "object", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "object"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom checks fitted marker attributes and returns the same estimator object.",
+      "complexity_confidence": 98
+    },
+    {
+      "node_id": "mlp_public_fitted_state_summary",
+      "name": "mlp_public_fitted_state_summary",
+      "description": "Expose fitted layer counts, output activation, coefficient and intercept shapes, iteration counts, optimizer metadata, and optional monitoring metadata after deferred sklearn MLP execution.",
+      "concept_type": "state_packaging",
+      "status": "atomic",
+      "type_signature": "(estimator: object) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [{"name": "estimator", "type_desc": "object", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "dict[str, object]"}],
+      "time_complexity": "O(l)",
+      "space_complexity": "O(l)",
+      "complexity_reasoning": "The atom exposes already-fitted layer-shape metadata proportional to the number of network layers.",
+      "complexity_confidence": 94
+    }
+  ],
+  "edges": [
+    {"source": "mlp_public_estimator_catalog", "target": "mlp_public_estimator_task", "kind": "selection_metadata"},
+    {"source": "mlp_public_estimator_catalog", "target": "mlp_public_optimizer_boundary", "kind": "optimizer_boundary_metadata"},
+    {"source": "mlp_public_estimator_catalog", "target": "mlp_public_estimator_methods", "kind": "selection_metadata"},
+    {"source": "mlp_public_optimizer_boundary", "target": "mlp_public_fit_method_payload", "kind": "optimizer_boundary"},
+    {"source": "mlp_public_estimator_methods", "target": "mlp_public_prediction_method_payload", "kind": "public_method_boundary"},
+    {"source": "mlp_public_fit_return_self", "target": "mlp_public_fitted_state_summary", "kind": "postfit_state"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.neural_network._multilayer_perceptron",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 2 and Case 4 public MLP estimator shells over L-BFGS, SGD, Adam, backpropagation, early-stopping, prediction, and scoring boundaries",
+    "review_semantic_verdict": "pass_with_limits",
+    "limitations": [
+      "The shell models finite dense public API routing and compact fitted-state packaging, not optimizer convergence, backpropagation gradients, parameter mutation, early-stopping validation, prediction, probability, or scoring internals.",
+      "Full training topology remains delegated to sklearn's L-BFGS, SGD, Adam, and MLP backpropagation implementation."
+    ]
+  }
+}

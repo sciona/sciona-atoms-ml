@@ -1,0 +1,170 @@
+{
+  "nodes": [
+    {
+      "node_id": "sklearn_feature_selection_public_api_shell_root",
+      "name": "Sklearn Feature Selection Public API Shell",
+      "description": "High-level RFE, RFECV, SelectFromModel, and SequentialFeatureSelector selection, callback-payload, and fitted-state atoms above estimator, importance, scorer, and CV callback boundaries.",
+      "status": "decomposed",
+      "children": [
+        "feature_selector_catalog",
+        "feature_selector_family",
+        "feature_selector_boundary",
+        "feature_selector_methods",
+        "feature_selector_fit_method_payload",
+        "feature_selector_transform_method_payload",
+        "feature_selector_fit_return_self",
+        "feature_selector_fitted_state_summary"
+      ],
+      "depth": 0
+    },
+    {
+      "node_id": "feature_selector_catalog",
+      "name": "feature_selector_catalog",
+      "description": "Expose public sklearn feature-selector names useful for framework-level selection.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(catalog_scope: str = 'public_estimators') -> tuple[str, ...]",
+      "depth": 1,
+      "inputs": [{"name": "catalog_scope", "type_desc": "str", "required": false}],
+      "outputs": [{"name": "result", "type_desc": "tuple[str, ...]"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom returns a fixed public selector-name tuple and does not inspect data.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "feature_selector_family",
+      "name": "feature_selector_family",
+      "description": "Return the selector family represented by a public estimator name.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator_name: str) -> str",
+      "depth": 1,
+      "inputs": [{"name": "estimator_name", "type_desc": "str", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "str"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom performs a dictionary lookup over fixed selector names.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "feature_selector_boundary",
+      "name": "feature_selector_boundary",
+      "description": "Return the estimator, importance, scorer, or CV callback boundary represented by a public feature selector.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator_name: str) -> str",
+      "depth": 1,
+      "inputs": [{"name": "estimator_name", "type_desc": "str", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "str"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom performs a constant-time branch over fixed selector names.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "feature_selector_methods",
+      "name": "feature_selector_methods",
+      "description": "Expose public methods useful for high-level feature-selector routing.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator_name: str) -> tuple[str, ...]",
+      "depth": 1,
+      "inputs": [{"name": "estimator_name", "type_desc": "str", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "tuple[str, ...]"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom returns a fixed public-method tuple for each covered selector.",
+      "complexity_confidence": 99
+    },
+    {
+      "node_id": "feature_selector_fit_method_payload",
+      "name": "feature_selector_fit_method_payload",
+      "description": "Expose a public feature-selector fit payload for finite dense inputs without executing delegated callbacks.",
+      "concept_type": "callback_boundary",
+      "status": "atomic",
+      "type_signature": "(estimator: object, X: object, y: object = None, params: dict[str, object] | None = None) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator", "type_desc": "object", "required": true},
+        {"name": "X", "type_desc": "object", "required": true},
+        {"name": "y", "type_desc": "object", "required": false},
+        {"name": "params", "type_desc": "dict[str, object] | None", "required": false}
+      ],
+      "outputs": [{"name": "result", "type_desc": "dict[str, object]"}],
+      "time_complexity": "O(n * d)",
+      "space_complexity": "O(n * d)",
+      "complexity_reasoning": "The atom validates dense fit inputs and packages references without fitting selectors or delegate estimators.",
+      "complexity_confidence": 93
+    },
+    {
+      "node_id": "feature_selector_transform_method_payload",
+      "name": "feature_selector_transform_method_payload",
+      "description": "Expose a public feature-selector transform-like payload without executing the method.",
+      "concept_type": "callback_boundary",
+      "status": "atomic",
+      "type_signature": "(estimator: object, method_name: str, X: object) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [
+        {"name": "estimator", "type_desc": "object", "required": true},
+        {"name": "method_name", "type_desc": "str", "required": true},
+        {"name": "X", "type_desc": "object", "required": true}
+      ],
+      "outputs": [{"name": "result", "type_desc": "dict[str, object]"}],
+      "time_complexity": "O(n * d)",
+      "space_complexity": "O(n * d)",
+      "complexity_reasoning": "The atom validates dense method input and packages references, leaving transform, inverse-transform, prediction, or scoring to sklearn.",
+      "complexity_confidence": 93
+    },
+    {
+      "node_id": "feature_selector_fit_return_self",
+      "name": "feature_selector_fit_return_self",
+      "description": "Return the fitted public feature selector object from the public fit shell.",
+      "concept_type": "api_shell",
+      "status": "atomic",
+      "type_signature": "(estimator: object) -> object",
+      "depth": 1,
+      "inputs": [{"name": "estimator", "type_desc": "object", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "object"}],
+      "time_complexity": "O(1)",
+      "space_complexity": "O(1)",
+      "complexity_reasoning": "The atom checks fitted marker attributes and returns the same selector object.",
+      "complexity_confidence": 98
+    },
+    {
+      "node_id": "feature_selector_fitted_state_summary",
+      "name": "feature_selector_fitted_state_summary",
+      "description": "Expose fitted support-mask, ranking, selected-feature, delegate-estimator, and CV-result metadata after delegated selector execution.",
+      "concept_type": "state_packaging",
+      "status": "atomic",
+      "type_signature": "(estimator: object) -> dict[str, object]",
+      "depth": 1,
+      "inputs": [{"name": "estimator", "type_desc": "object", "required": true}],
+      "outputs": [{"name": "result", "type_desc": "dict[str, object]"}],
+      "time_complexity": "O(d)",
+      "space_complexity": "O(d)",
+      "complexity_reasoning": "The atom exposes already-fitted feature support and optional ranking arrays proportional to feature count.",
+      "complexity_confidence": 94
+    }
+  ],
+  "edges": [
+    {"source": "feature_selector_catalog", "target": "feature_selector_family", "kind": "selection_metadata"},
+    {"source": "feature_selector_catalog", "target": "feature_selector_boundary", "kind": "callback_boundary_metadata"},
+    {"source": "feature_selector_catalog", "target": "feature_selector_methods", "kind": "selection_metadata"},
+    {"source": "feature_selector_boundary", "target": "feature_selector_fit_method_payload", "kind": "callback_boundary"},
+    {"source": "feature_selector_methods", "target": "feature_selector_transform_method_payload", "kind": "public_method_boundary"},
+    {"source": "feature_selector_fit_return_self", "target": "feature_selector_fitted_state_summary", "kind": "postfit_state"}
+  ],
+  "metadata": {
+    "source": "manual_remediation",
+    "source_module": "sklearn.feature_selection._rfe, sklearn.feature_selection._from_model, sklearn.feature_selection._sequential",
+    "source_version": "1.8.0",
+    "source_license": "BSD-3-Clause",
+    "remediation_case": "Case 3 and Case 4 public feature-selector shells over estimator, importance, scorer, and CV callback boundaries",
+    "review_semantic_verdict": "pass_with_limits",
+    "limitations": [
+      "Delegate estimators, importance extraction, scorer callbacks, CV splitters, greedy subset scoring, recursive elimination loops, and final estimator fitting are arbitrary delegated behavior.",
+      "The shell models finite dense public API routing and compact fitted-state packaging, not selector loop execution, estimator training, importance computation, CV scoring, prediction, transform, inverse-transform, or scoring internals."
+    ]
+  }
+}

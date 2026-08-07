@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.sklearn.linear_model.logistic_public_api_shell.logistic_public_estimator_catalog@sciona/atoms/ml/sklearn/linear_model/logistic_public_api_shell/atoms.py:137": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from public LogisticRegression and LogisticRegressionCV classes defined in sklearn.linear_model._logistic."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for public estimator availability."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_public_api_shell.logistic_public_estimator_family@sciona/atoms/ml/sklearn/linear_model/logistic_public_api_shell/atoms.py:146": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Maps direct and cross-validated logistic estimator classes to their public estimator families."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator family semantics."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_public_api_shell.logistic_public_solver_boundary@sciona/atoms/ml/sklearn/linear_model/logistic_public_api_shell/atoms.py:155": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Models logistic solver dispatch across liblinear, L-BFGS/Newton-style optimizers, SAG, and SAGA as explicit boundary metadata."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for logistic solver implementations."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_public_api_shell.logistic_public_estimator_methods@sciona/atoms/ml/sklearn/linear_model/logistic_public_api_shell/atoms.py:168": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Summarizes public fit, predict, probability, decision-function, and score methods exposed by logistic estimators."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator API conventions."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_public_api_shell.logistic_public_fit_method_payload@sciona/atoms/ml/sklearn/linear_model/logistic_public_api_shell/atoms.py:180": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Models public fit(X, y, sample_weight=None) and LogisticRegressionCV metadata params routing before solver, CV, and refit execution."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for logistic fit APIs."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_public_api_shell.logistic_public_prediction_method_payload@sciona/atoms/ml/sklearn/linear_model/logistic_public_api_shell/atoms.py:205": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Models public predict, probability, decision-function, or score invocation as a callback boundary over fitted logistic estimators."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for public estimator prediction and scoring APIs."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_public_api_shell.logistic_public_fit_return_self@sciona/atoms/ml/sklearn/linear_model/logistic_public_api_shell/atoms.py:213": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Adapted from public logistic fit methods returning self after fitted-state assignment."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for estimator fit return semantics."}}
+      ]
+    },
+    "sciona.atoms.ml.sklearn.linear_model.logistic_public_api_shell.logistic_public_fitted_state_summary@sciona/atoms/ml/sklearn/linear_model/logistic_public_api_shell/atoms.py:222": {
+      "references": [
+        {"ref_id": "repo_sklearn", "match_metadata": {"match_type": "manual_source_parity", "confidence": "high", "notes": "Packages documented fitted logistic classes, coefficients, intercepts, iteration counts, solver metadata, and CV-selected grid attributes after sklearn execution."}},
+        {"ref_id": "pedregosa2011sklearn", "match_metadata": {"match_type": "manual_project_reference", "confidence": "medium", "notes": "Project-level scikit-learn reference for fitted logistic estimator attributes."}}
+      ]
+    }
+  }
+}

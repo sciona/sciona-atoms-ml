@@ -8,13 +8,34 @@
   "review_developer_semantic_verdict": "pass_with_limits",
   "trust_readiness": "reviewed_with_limits",
   "authoritative_sources": [
-    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/tabular/gradient_boosting/atoms.py"},
-    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/tabular/gradient_boosting/witnesses.py"},
-    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/tabular/gradient_boosting/references.json"},
-    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/tabular/gradient_boosting/cdg.json"},
-    {"kind": "local_test", "path": "tests/test_ml_tabular_gradient_boosting_behavior.py"},
-    {"kind": "local_test", "path": "tests/test_ml_tabular_gradient_boosting_references_metadata.py"},
-    {"kind": "local_test", "path": "tests/test_ml_tabular_gradient_boosting_review_bundle.py"}
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/tabular/gradient_boosting/atoms.py"
+    },
+    {
+      "kind": "local_wrapper",
+      "path": "src/sciona/atoms/ml/tabular/gradient_boosting/witnesses.py"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/tabular/gradient_boosting/references.json"
+    },
+    {
+      "kind": "local_metadata",
+      "path": "src/sciona/atoms/ml/tabular/gradient_boosting/cdg.json"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_tabular_gradient_boosting_behavior.py"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_tabular_gradient_boosting_references_metadata.py"
+    },
+    {
+      "kind": "local_test",
+      "path": "tests/test_ml_tabular_gradient_boosting_review_bundle.py"
+    }
   ],
   "limitations": [
     "This family covers deterministic preprocessing and postprocessing around tabular GBDT pipelines; it does not wrap LightGBM, XGBoost, CatBoost, or tree-building internals.",
@@ -31,7 +52,13 @@
       "review_semantic_verdict": "pass_with_limits",
       "review_developer_semantic_verdict": "pass_with_limits",
       "trust_readiness": "catalog_ready",
-      "source_paths": ["src/sciona/atoms/ml/tabular/gradient_boosting/atoms.py", "src/sciona/atoms/ml/tabular/gradient_boosting/witnesses.py", "src/sciona/atoms/ml/tabular/gradient_boosting/references.json", "src/sciona/atoms/ml/tabular/gradient_boosting/cdg.json", "tests/test_ml_tabular_gradient_boosting_behavior.py"],
+      "source_paths": [
+        "src/sciona/atoms/ml/tabular/gradient_boosting/atoms.py",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/witnesses.py",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/references.json",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/cdg.json",
+        "tests/test_ml_tabular_gradient_boosting_behavior.py"
+      ],
       "review_record_path": "data/review_bundles/ml_tabular_gradient_boosting.review_bundle.json",
       "overall_verdict": "pass",
       "structural_status": "pass",
@@ -40,15 +67,22 @@
       "developer_semantics_status": "pass_with_limits",
       "risk_tier": "low",
       "risk_score": 15,
-      "risk_dimensions": {"provenance": "low", "semantic_drift": "low", "runtime": "low", "api_surface": "low"},
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
       "risk_reasons": [],
       "acceptability_score": 90,
       "acceptability_band": "acceptable_with_limits_candidate",
-      "parity_coverage_level": "usage_equivalent",
+      "parity_coverage_level": "parity_or_usage_equivalent",
       "parity_test_status": "pass",
       "parity_fixture_count": 1,
       "parity_case_count": 2,
-      "review_limitations": ["Returns aggregates in NumPy unique-key order rather than preserving first-seen key order."],
+      "review_limitations": [
+        "Returns aggregates in NumPy unique-key order rather than preserving first-seen key order."
+      ],
       "review_required_actions": [],
       "trust_blockers": [],
       "has_references": true,
@@ -64,7 +98,13 @@
       "review_semantic_verdict": "pass_with_limits",
       "review_developer_semantic_verdict": "pass_with_limits",
       "trust_readiness": "catalog_ready",
-      "source_paths": ["src/sciona/atoms/ml/tabular/gradient_boosting/atoms.py", "src/sciona/atoms/ml/tabular/gradient_boosting/witnesses.py", "src/sciona/atoms/ml/tabular/gradient_boosting/references.json", "src/sciona/atoms/ml/tabular/gradient_boosting/cdg.json", "tests/test_ml_tabular_gradient_boosting_behavior.py"],
+      "source_paths": [
+        "src/sciona/atoms/ml/tabular/gradient_boosting/atoms.py",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/witnesses.py",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/references.json",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/cdg.json",
+        "tests/test_ml_tabular_gradient_boosting_behavior.py"
+      ],
       "review_record_path": "data/review_bundles/ml_tabular_gradient_boosting.review_bundle.json",
       "overall_verdict": "pass",
       "structural_status": "pass",
@@ -73,15 +113,22 @@
       "developer_semantics_status": "pass_with_limits",
       "risk_tier": "low",
       "risk_score": 15,
-      "risk_dimensions": {"provenance": "low", "semantic_drift": "low", "runtime": "low", "api_surface": "low"},
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
       "risk_reasons": [],
       "acceptability_score": 90,
       "acceptability_band": "acceptable_with_limits_candidate",
-      "parity_coverage_level": "usage_equivalent",
+      "parity_coverage_level": "parity_or_usage_equivalent",
       "parity_test_status": "pass",
       "parity_fixture_count": 1,
       "parity_case_count": 1,
-      "review_limitations": ["Requires unique parent keys and a single numeric child-value column per call."],
+      "review_limitations": [
+        "Requires unique parent keys and a single numeric child-value column per call."
+      ],
       "review_required_actions": [],
       "trust_blockers": [],
       "has_references": true,
@@ -97,7 +144,13 @@
       "review_semantic_verdict": "pass_with_limits",
       "review_developer_semantic_verdict": "pass_with_limits",
       "trust_readiness": "catalog_ready",
-      "source_paths": ["src/sciona/atoms/ml/tabular/gradient_boosting/atoms.py", "src/sciona/atoms/ml/tabular/gradient_boosting/witnesses.py", "src/sciona/atoms/ml/tabular/gradient_boosting/references.json", "src/sciona/atoms/ml/tabular/gradient_boosting/cdg.json", "tests/test_ml_tabular_gradient_boosting_behavior.py"],
+      "source_paths": [
+        "src/sciona/atoms/ml/tabular/gradient_boosting/atoms.py",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/witnesses.py",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/references.json",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/cdg.json",
+        "tests/test_ml_tabular_gradient_boosting_behavior.py"
+      ],
       "review_record_path": "data/review_bundles/ml_tabular_gradient_boosting.review_bundle.json",
       "overall_verdict": "pass",
       "structural_status": "pass",
@@ -106,15 +159,22 @@
       "developer_semantics_status": "pass_with_limits",
       "risk_tier": "low",
       "risk_score": 12,
-      "risk_dimensions": {"provenance": "low", "semantic_drift": "low", "runtime": "low", "api_surface": "low"},
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
       "risk_reasons": [],
       "acceptability_score": 92,
       "acceptability_band": "acceptable_with_limits_candidate",
-      "parity_coverage_level": "usage_equivalent",
+      "parity_coverage_level": "parity_or_usage_equivalent",
       "parity_test_status": "pass",
       "parity_fixture_count": 1,
       "parity_case_count": 1,
-      "review_limitations": ["Computes adjacent sorted deltas only; lag selection beyond one step is outside this atom."],
+      "review_limitations": [
+        "Computes adjacent sorted deltas only; lag selection beyond one step is outside this atom."
+      ],
       "review_required_actions": [],
       "trust_blockers": [],
       "has_references": true,
@@ -130,7 +190,13 @@
       "review_semantic_verdict": "pass_with_limits",
       "review_developer_semantic_verdict": "pass_with_limits",
       "trust_readiness": "catalog_ready",
-      "source_paths": ["src/sciona/atoms/ml/tabular/gradient_boosting/atoms.py", "src/sciona/atoms/ml/tabular/gradient_boosting/witnesses.py", "src/sciona/atoms/ml/tabular/gradient_boosting/references.json", "src/sciona/atoms/ml/tabular/gradient_boosting/cdg.json", "tests/test_ml_tabular_gradient_boosting_behavior.py"],
+      "source_paths": [
+        "src/sciona/atoms/ml/tabular/gradient_boosting/atoms.py",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/witnesses.py",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/references.json",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/cdg.json",
+        "tests/test_ml_tabular_gradient_boosting_behavior.py"
+      ],
       "review_record_path": "data/review_bundles/ml_tabular_gradient_boosting.review_bundle.json",
       "overall_verdict": "pass",
       "structural_status": "pass",
@@ -139,15 +205,22 @@
       "developer_semantics_status": "pass_with_limits",
       "risk_tier": "low",
       "risk_score": 12,
-      "risk_dimensions": {"provenance": "low", "semantic_drift": "low", "runtime": "low", "api_surface": "low"},
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
       "risk_reasons": [],
       "acceptability_score": 92,
       "acceptability_band": "acceptable_with_limits_candidate",
-      "parity_coverage_level": "usage_equivalent",
+      "parity_coverage_level": "parity_or_usage_equivalent",
       "parity_test_status": "pass",
       "parity_fixture_count": 1,
       "parity_case_count": 1,
-      "review_limitations": ["Assumes input has already been ordered chronologically and uses trailing windows."],
+      "review_limitations": [
+        "Assumes input has already been ordered chronologically and uses trailing windows."
+      ],
       "review_required_actions": [],
       "trust_blockers": [],
       "has_references": true,
@@ -163,7 +236,13 @@
       "review_semantic_verdict": "pass_with_limits",
       "review_developer_semantic_verdict": "pass_with_limits",
       "trust_readiness": "catalog_ready",
-      "source_paths": ["src/sciona/atoms/ml/tabular/gradient_boosting/atoms.py", "src/sciona/atoms/ml/tabular/gradient_boosting/witnesses.py", "src/sciona/atoms/ml/tabular/gradient_boosting/references.json", "src/sciona/atoms/ml/tabular/gradient_boosting/cdg.json", "tests/test_ml_tabular_gradient_boosting_behavior.py"],
+      "source_paths": [
+        "src/sciona/atoms/ml/tabular/gradient_boosting/atoms.py",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/witnesses.py",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/references.json",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/cdg.json",
+        "tests/test_ml_tabular_gradient_boosting_behavior.py"
+      ],
       "review_record_path": "data/review_bundles/ml_tabular_gradient_boosting.review_bundle.json",
       "overall_verdict": "pass",
       "structural_status": "pass",
@@ -172,15 +251,22 @@
       "developer_semantics_status": "pass_with_limits",
       "risk_tier": "low",
       "risk_score": 15,
-      "risk_dimensions": {"provenance": "low", "semantic_drift": "low", "runtime": "low", "api_surface": "low"},
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
       "risk_reasons": [],
       "acceptability_score": 90,
       "acceptability_band": "acceptable_with_limits_candidate",
-      "parity_coverage_level": "usage_equivalent",
+      "parity_coverage_level": "parity_or_usage_equivalent",
       "parity_test_status": "pass",
       "parity_fixture_count": 1,
       "parity_case_count": 1,
-      "review_limitations": ["Implements decayed sums relative to latest group timestamp, not normalized exponential moving averages."],
+      "review_limitations": [
+        "Implements decayed sums relative to latest group timestamp, not normalized exponential moving averages."
+      ],
       "review_required_actions": [],
       "trust_blockers": [],
       "has_references": true,
@@ -196,7 +282,13 @@
       "review_semantic_verdict": "pass",
       "review_developer_semantic_verdict": "pass",
       "trust_readiness": "catalog_ready",
-      "source_paths": ["src/sciona/atoms/ml/tabular/gradient_boosting/atoms.py", "src/sciona/atoms/ml/tabular/gradient_boosting/witnesses.py", "src/sciona/atoms/ml/tabular/gradient_boosting/references.json", "src/sciona/atoms/ml/tabular/gradient_boosting/cdg.json", "tests/test_ml_tabular_gradient_boosting_behavior.py"],
+      "source_paths": [
+        "src/sciona/atoms/ml/tabular/gradient_boosting/atoms.py",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/witnesses.py",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/references.json",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/cdg.json",
+        "tests/test_ml_tabular_gradient_boosting_behavior.py"
+      ],
       "review_record_path": "data/review_bundles/ml_tabular_gradient_boosting.review_bundle.json",
       "overall_verdict": "pass",
       "structural_status": "pass",
@@ -205,11 +297,16 @@
       "developer_semantics_status": "pass",
       "risk_tier": "low",
       "risk_score": 8,
-      "risk_dimensions": {"provenance": "low", "semantic_drift": "low", "runtime": "low", "api_surface": "low"},
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
       "risk_reasons": [],
       "acceptability_score": 95,
-      "acceptability_band": "acceptable",
-      "parity_coverage_level": "exact_formula",
+      "acceptability_band": "review_ready",
+      "parity_coverage_level": "positive_path",
       "parity_test_status": "pass",
       "parity_fixture_count": 1,
       "parity_case_count": 1,
@@ -229,7 +326,13 @@
       "review_semantic_verdict": "pass_with_limits",
       "review_developer_semantic_verdict": "pass_with_limits",
       "trust_readiness": "catalog_ready",
-      "source_paths": ["src/sciona/atoms/ml/tabular/gradient_boosting/atoms.py", "src/sciona/atoms/ml/tabular/gradient_boosting/witnesses.py", "src/sciona/atoms/ml/tabular/gradient_boosting/references.json", "src/sciona/atoms/ml/tabular/gradient_boosting/cdg.json", "tests/test_ml_tabular_gradient_boosting_behavior.py"],
+      "source_paths": [
+        "src/sciona/atoms/ml/tabular/gradient_boosting/atoms.py",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/witnesses.py",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/references.json",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/cdg.json",
+        "tests/test_ml_tabular_gradient_boosting_behavior.py"
+      ],
       "review_record_path": "data/review_bundles/ml_tabular_gradient_boosting.review_bundle.json",
       "overall_verdict": "pass",
       "structural_status": "pass",
@@ -238,15 +341,22 @@
       "developer_semantics_status": "pass_with_limits",
       "risk_tier": "low",
       "risk_score": 10,
-      "risk_dimensions": {"provenance": "low", "semantic_drift": "low", "runtime": "low", "api_surface": "low"},
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
       "risk_reasons": [],
       "acceptability_score": 93,
       "acceptability_band": "acceptable_with_limits_candidate",
-      "parity_coverage_level": "exact_formula",
+      "parity_coverage_level": "positive_path",
       "parity_test_status": "pass",
       "parity_fixture_count": 1,
       "parity_case_count": 1,
-      "review_limitations": ["Near-zero denominators are replaced with a positive epsilon guard."],
+      "review_limitations": [
+        "Near-zero denominators are replaced with a positive epsilon guard."
+      ],
       "review_required_actions": [],
       "trust_blockers": [],
       "has_references": true,
@@ -262,7 +372,13 @@
       "review_semantic_verdict": "pass",
       "review_developer_semantic_verdict": "pass",
       "trust_readiness": "catalog_ready",
-      "source_paths": ["src/sciona/atoms/ml/tabular/gradient_boosting/atoms.py", "src/sciona/atoms/ml/tabular/gradient_boosting/witnesses.py", "src/sciona/atoms/ml/tabular/gradient_boosting/references.json", "src/sciona/atoms/ml/tabular/gradient_boosting/cdg.json", "tests/test_ml_tabular_gradient_boosting_behavior.py"],
+      "source_paths": [
+        "src/sciona/atoms/ml/tabular/gradient_boosting/atoms.py",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/witnesses.py",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/references.json",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/cdg.json",
+        "tests/test_ml_tabular_gradient_boosting_behavior.py"
+      ],
       "review_record_path": "data/review_bundles/ml_tabular_gradient_boosting.review_bundle.json",
       "overall_verdict": "pass",
       "structural_status": "pass",
@@ -271,11 +387,16 @@
       "developer_semantics_status": "pass",
       "risk_tier": "low",
       "risk_score": 8,
-      "risk_dimensions": {"provenance": "low", "semantic_drift": "low", "runtime": "low", "api_surface": "low"},
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
       "risk_reasons": [],
       "acceptability_score": 95,
-      "acceptability_band": "acceptable",
-      "parity_coverage_level": "exact_formula",
+      "acceptability_band": "review_ready",
+      "parity_coverage_level": "positive_path",
       "parity_test_status": "pass",
       "parity_fixture_count": 1,
       "parity_case_count": 1,
@@ -295,7 +416,13 @@
       "review_semantic_verdict": "pass",
       "review_developer_semantic_verdict": "pass",
       "trust_readiness": "catalog_ready",
-      "source_paths": ["src/sciona/atoms/ml/tabular/gradient_boosting/atoms.py", "src/sciona/atoms/ml/tabular/gradient_boosting/witnesses.py", "src/sciona/atoms/ml/tabular/gradient_boosting/references.json", "src/sciona/atoms/ml/tabular/gradient_boosting/cdg.json", "tests/test_ml_tabular_gradient_boosting_behavior.py"],
+      "source_paths": [
+        "src/sciona/atoms/ml/tabular/gradient_boosting/atoms.py",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/witnesses.py",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/references.json",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/cdg.json",
+        "tests/test_ml_tabular_gradient_boosting_behavior.py"
+      ],
       "review_record_path": "data/review_bundles/ml_tabular_gradient_boosting.review_bundle.json",
       "overall_verdict": "pass",
       "structural_status": "pass",
@@ -304,10 +431,15 @@
       "developer_semantics_status": "pass",
       "risk_tier": "low",
       "risk_score": 8,
-      "risk_dimensions": {"provenance": "low", "semantic_drift": "low", "runtime": "low", "api_surface": "low"},
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
       "risk_reasons": [],
       "acceptability_score": 95,
-      "acceptability_band": "acceptable",
+      "acceptability_band": "review_ready",
       "parity_coverage_level": "parity_or_usage_equivalent",
       "parity_test_status": "pass",
       "parity_fixture_count": 1,
@@ -328,7 +460,13 @@
       "review_semantic_verdict": "pass",
       "review_developer_semantic_verdict": "pass",
       "trust_readiness": "catalog_ready",
-      "source_paths": ["src/sciona/atoms/ml/tabular/gradient_boosting/atoms.py", "src/sciona/atoms/ml/tabular/gradient_boosting/witnesses.py", "src/sciona/atoms/ml/tabular/gradient_boosting/references.json", "src/sciona/atoms/ml/tabular/gradient_boosting/cdg.json", "tests/test_ml_tabular_gradient_boosting_behavior.py"],
+      "source_paths": [
+        "src/sciona/atoms/ml/tabular/gradient_boosting/atoms.py",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/witnesses.py",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/references.json",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/cdg.json",
+        "tests/test_ml_tabular_gradient_boosting_behavior.py"
+      ],
       "review_record_path": "data/review_bundles/ml_tabular_gradient_boosting.review_bundle.json",
       "overall_verdict": "pass",
       "structural_status": "pass",
@@ -337,11 +475,16 @@
       "developer_semantics_status": "pass",
       "risk_tier": "low",
       "risk_score": 8,
-      "risk_dimensions": {"provenance": "low", "semantic_drift": "low", "runtime": "low", "api_surface": "low"},
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
       "risk_reasons": [],
       "acceptability_score": 95,
-      "acceptability_band": "acceptable",
-      "parity_coverage_level": "exact_formula",
+      "acceptability_band": "review_ready",
+      "parity_coverage_level": "positive_path",
       "parity_test_status": "pass",
       "parity_fixture_count": 1,
       "parity_case_count": 1,
@@ -361,7 +504,13 @@
       "review_semantic_verdict": "pass",
       "review_developer_semantic_verdict": "pass",
       "trust_readiness": "catalog_ready",
-      "source_paths": ["src/sciona/atoms/ml/tabular/gradient_boosting/atoms.py", "src/sciona/atoms/ml/tabular/gradient_boosting/witnesses.py", "src/sciona/atoms/ml/tabular/gradient_boosting/references.json", "src/sciona/atoms/ml/tabular/gradient_boosting/cdg.json", "tests/test_ml_tabular_gradient_boosting_behavior.py"],
+      "source_paths": [
+        "src/sciona/atoms/ml/tabular/gradient_boosting/atoms.py",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/witnesses.py",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/references.json",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/cdg.json",
+        "tests/test_ml_tabular_gradient_boosting_behavior.py"
+      ],
       "review_record_path": "data/review_bundles/ml_tabular_gradient_boosting.review_bundle.json",
       "overall_verdict": "pass",
       "structural_status": "pass",
@@ -370,11 +519,16 @@
       "developer_semantics_status": "pass",
       "risk_tier": "low",
       "risk_score": 8,
-      "risk_dimensions": {"provenance": "low", "semantic_drift": "low", "runtime": "low", "api_surface": "low"},
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
       "risk_reasons": [],
       "acceptability_score": 95,
-      "acceptability_band": "acceptable",
-      "parity_coverage_level": "exact_formula",
+      "acceptability_band": "review_ready",
+      "parity_coverage_level": "positive_path",
       "parity_test_status": "pass",
       "parity_fixture_count": 1,
       "parity_case_count": 1,
@@ -394,7 +548,13 @@
       "review_semantic_verdict": "pass_with_limits",
       "review_developer_semantic_verdict": "pass_with_limits",
       "trust_readiness": "catalog_ready",
-      "source_paths": ["src/sciona/atoms/ml/tabular/gradient_boosting/atoms.py", "src/sciona/atoms/ml/tabular/gradient_boosting/witnesses.py", "src/sciona/atoms/ml/tabular/gradient_boosting/references.json", "src/sciona/atoms/ml/tabular/gradient_boosting/cdg.json", "tests/test_ml_tabular_gradient_boosting_behavior.py"],
+      "source_paths": [
+        "src/sciona/atoms/ml/tabular/gradient_boosting/atoms.py",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/witnesses.py",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/references.json",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/cdg.json",
+        "tests/test_ml_tabular_gradient_boosting_behavior.py"
+      ],
       "review_record_path": "data/review_bundles/ml_tabular_gradient_boosting.review_bundle.json",
       "overall_verdict": "pass",
       "structural_status": "pass",
@@ -403,15 +563,22 @@
       "developer_semantics_status": "pass_with_limits",
       "risk_tier": "low",
       "risk_score": 15,
-      "risk_dimensions": {"provenance": "low", "semantic_drift": "low", "runtime": "low", "api_surface": "low"},
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
       "risk_reasons": [],
       "acceptability_score": 90,
       "acceptability_band": "acceptable_with_limits_candidate",
-      "parity_coverage_level": "usage_equivalent",
+      "parity_coverage_level": "parity_or_usage_equivalent",
       "parity_test_status": "pass",
       "parity_fixture_count": 1,
       "parity_case_count": 1,
-      "review_limitations": ["Returns fitted category means only; leakage-safe cross-fold application is a separate pipeline concern."],
+      "review_limitations": [
+        "Returns fitted category means only; leakage-safe cross-fold application is a separate pipeline concern."
+      ],
       "review_required_actions": [],
       "trust_blockers": [],
       "has_references": true,
@@ -427,7 +594,13 @@
       "review_semantic_verdict": "pass_with_limits",
       "review_developer_semantic_verdict": "pass_with_limits",
       "trust_readiness": "catalog_ready",
-      "source_paths": ["src/sciona/atoms/ml/tabular/gradient_boosting/atoms.py", "src/sciona/atoms/ml/tabular/gradient_boosting/witnesses.py", "src/sciona/atoms/ml/tabular/gradient_boosting/references.json", "src/sciona/atoms/ml/tabular/gradient_boosting/cdg.json", "tests/test_ml_tabular_gradient_boosting_behavior.py"],
+      "source_paths": [
+        "src/sciona/atoms/ml/tabular/gradient_boosting/atoms.py",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/witnesses.py",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/references.json",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/cdg.json",
+        "tests/test_ml_tabular_gradient_boosting_behavior.py"
+      ],
       "review_record_path": "data/review_bundles/ml_tabular_gradient_boosting.review_bundle.json",
       "overall_verdict": "pass",
       "structural_status": "pass",
@@ -436,15 +609,22 @@
       "developer_semantics_status": "pass_with_limits",
       "risk_tier": "low",
       "risk_score": 15,
-      "risk_dimensions": {"provenance": "low", "semantic_drift": "low", "runtime": "low", "api_surface": "low"},
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
       "risk_reasons": [],
       "acceptability_score": 90,
       "acceptability_band": "acceptable_with_limits_candidate",
-      "parity_coverage_level": "exact_formula",
+      "parity_coverage_level": "positive_path",
       "parity_test_status": "pass",
       "parity_fixture_count": 1,
       "parity_case_count": 1,
-      "review_limitations": ["Assumes log-link raw predictions and Tweedie variance power in (1, 2)."],
+      "review_limitations": [
+        "Assumes log-link raw predictions and Tweedie variance power in (1, 2)."
+      ],
       "review_required_actions": [],
       "trust_blockers": [],
       "has_references": true,
@@ -460,7 +640,13 @@
       "review_semantic_verdict": "pass_with_limits",
       "review_developer_semantic_verdict": "pass_with_limits",
       "trust_readiness": "catalog_ready",
-      "source_paths": ["src/sciona/atoms/ml/tabular/gradient_boosting/atoms.py", "src/sciona/atoms/ml/tabular/gradient_boosting/witnesses.py", "src/sciona/atoms/ml/tabular/gradient_boosting/references.json", "src/sciona/atoms/ml/tabular/gradient_boosting/cdg.json", "tests/test_ml_tabular_gradient_boosting_behavior.py"],
+      "source_paths": [
+        "src/sciona/atoms/ml/tabular/gradient_boosting/atoms.py",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/witnesses.py",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/references.json",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/cdg.json",
+        "tests/test_ml_tabular_gradient_boosting_behavior.py"
+      ],
       "review_record_path": "data/review_bundles/ml_tabular_gradient_boosting.review_bundle.json",
       "overall_verdict": "pass",
       "structural_status": "pass",
@@ -469,15 +655,22 @@
       "developer_semantics_status": "pass_with_limits",
       "risk_tier": "low",
       "risk_score": 12,
-      "risk_dimensions": {"provenance": "low", "semantic_drift": "low", "runtime": "low", "api_surface": "low"},
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
       "risk_reasons": [],
       "acceptability_score": 92,
       "acceptability_band": "acceptable_with_limits_candidate",
-      "parity_coverage_level": "exact_formula",
+      "parity_coverage_level": "positive_path",
       "parity_test_status": "pass",
       "parity_fixture_count": 1,
       "parity_case_count": 1,
-      "review_limitations": ["Residuals are clipped before derivative evaluation to preserve finite floating-point hessians."],
+      "review_limitations": [
+        "Residuals are clipped before derivative evaluation to preserve finite floating-point hessians."
+      ],
       "review_required_actions": [],
       "trust_blockers": [],
       "has_references": true,
@@ -493,7 +686,13 @@
       "review_semantic_verdict": "pass",
       "review_developer_semantic_verdict": "pass",
       "trust_readiness": "catalog_ready",
-      "source_paths": ["src/sciona/atoms/ml/tabular/gradient_boosting/atoms.py", "src/sciona/atoms/ml/tabular/gradient_boosting/witnesses.py", "src/sciona/atoms/ml/tabular/gradient_boosting/references.json", "src/sciona/atoms/ml/tabular/gradient_boosting/cdg.json", "tests/test_ml_tabular_gradient_boosting_behavior.py"],
+      "source_paths": [
+        "src/sciona/atoms/ml/tabular/gradient_boosting/atoms.py",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/witnesses.py",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/references.json",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/cdg.json",
+        "tests/test_ml_tabular_gradient_boosting_behavior.py"
+      ],
       "review_record_path": "data/review_bundles/ml_tabular_gradient_boosting.review_bundle.json",
       "overall_verdict": "pass",
       "structural_status": "pass",
@@ -502,11 +701,16 @@
       "developer_semantics_status": "pass",
       "risk_tier": "low",
       "risk_score": 8,
-      "risk_dimensions": {"provenance": "low", "semantic_drift": "low", "runtime": "low", "api_surface": "low"},
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
       "risk_reasons": [],
       "acceptability_score": 95,
-      "acceptability_band": "acceptable",
-      "parity_coverage_level": "exact_formula",
+      "acceptability_band": "review_ready",
+      "parity_coverage_level": "positive_path",
       "parity_test_status": "pass",
       "parity_fixture_count": 1,
       "parity_case_count": 1,
@@ -526,7 +730,13 @@
       "review_semantic_verdict": "pass",
       "review_developer_semantic_verdict": "pass",
       "trust_readiness": "catalog_ready",
-      "source_paths": ["src/sciona/atoms/ml/tabular/gradient_boosting/atoms.py", "src/sciona/atoms/ml/tabular/gradient_boosting/witnesses.py", "src/sciona/atoms/ml/tabular/gradient_boosting/references.json", "src/sciona/atoms/ml/tabular/gradient_boosting/cdg.json", "tests/test_ml_tabular_gradient_boosting_behavior.py"],
+      "source_paths": [
+        "src/sciona/atoms/ml/tabular/gradient_boosting/atoms.py",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/witnesses.py",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/references.json",
+        "src/sciona/atoms/ml/tabular/gradient_boosting/cdg.json",
+        "tests/test_ml_tabular_gradient_boosting_behavior.py"
+      ],
       "review_record_path": "data/review_bundles/ml_tabular_gradient_boosting.review_bundle.json",
       "overall_verdict": "pass",
       "structural_status": "pass",
@@ -535,11 +745,16 @@
       "developer_semantics_status": "pass",
       "risk_tier": "low",
       "risk_score": 8,
-      "risk_dimensions": {"provenance": "low", "semantic_drift": "low", "runtime": "low", "api_surface": "low"},
+      "risk_dimensions": {
+        "provenance": "low",
+        "semantic_drift": "low",
+        "runtime": "low",
+        "api_surface": "low"
+      },
       "risk_reasons": [],
       "acceptability_score": 95,
-      "acceptability_band": "acceptable",
-      "parity_coverage_level": "exact_formula",
+      "acceptability_band": "review_ready",
+      "parity_coverage_level": "positive_path",
       "parity_test_status": "pass",
       "parity_fixture_count": 1,
       "parity_case_count": 1,
