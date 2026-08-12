@@ -1,0 +1,93 @@
+{
+  "nodes": [
+    {
+      "node_id": "supervised_tabular_root",
+      "parent_id": null,
+      "name": "supervised_tabular_classification",
+      "description": "Deterministic baseline, preprocessing, fitting, and held-out probability operations for mixed-type binary tables.",
+      "concept_type": "ml_model_selection",
+      "inputs": [],
+      "outputs": [],
+      "status": "decomposed",
+      "children": ["stratified_tabular_split", "fit_prior_probability", "predict_prior_probabilities", "fit_one_hot_logistic", "fit_cross_validated_logistic", "predict_binary_probabilities"],
+      "depth": 0,
+      "matched_primitive": null,
+      "conceptual_summary": "Split once, establish a prior baseline, then compare feature-dependent classifiers on the same held-out rows.",
+      "decomposition_rationale": "Data partitioning, model fitting, and probability emission are separate reusable operations with explicit leakage boundaries."
+    },
+    {
+      "node_id": "stratified_tabular_split",
+      "parent_id": "supervised_tabular_root",
+      "name": "stratified_tabular_split",
+      "description": "Create a reproducible stratified train/test partition from a labeled mixed-type table whose final column is the binary target.",
+      "concept_type": "data_assembly",
+      "status": "atomic",
+      "depth": 1,
+      "matched_primitive": "sciona.atoms.ml.tabular.supervised_classification.stratified_tabular_split",
+      "inputs": [{"name": "dataset", "type_desc": "DataFrame", "constraints": "at least one feature plus a binary final target", "required": true}],
+      "outputs": [{"name": "X_train", "type_desc": "DataFrame", "required": true}, {"name": "X_test", "type_desc": "DataFrame", "required": true}, {"name": "y_train", "type_desc": "NDArray[np.int64]", "required": true}, {"name": "y_test", "type_desc": "NDArray[np.int64]", "required": true}]
+    },
+    {
+      "node_id": "fit_prior_probability",
+      "parent_id": "supervised_tabular_root",
+      "name": "fit_prior_probability",
+      "description": "Fit an empirical positive-class probability as a deterministic baseline.",
+      "concept_type": "ml_model_selection",
+      "status": "atomic",
+      "depth": 1,
+      "matched_primitive": "sciona.atoms.ml.tabular.supervised_classification.fit_prior_probability",
+      "inputs": [{"name": "y_train", "type_desc": "NDArray[np.int64]", "constraints": "aligned binary labels", "required": true}],
+      "outputs": [{"name": "class_probability", "type_desc": "float", "constraints": "strictly between zero and one", "required": true}]
+    },
+    {
+      "node_id": "predict_prior_probabilities",
+      "parent_id": "supervised_tabular_root",
+      "name": "predict_prior_probabilities",
+      "description": "Emit constant prior probabilities and aligned held-out targets.",
+      "concept_type": "prediction",
+      "status": "atomic",
+      "depth": 1,
+      "matched_primitive": "sciona.atoms.ml.tabular.supervised_classification.predict_prior_probabilities",
+      "inputs": [{"name": "class_probability", "type_desc": "float", "required": true}, {"name": "X_test", "type_desc": "DataFrame", "required": true}, {"name": "y_test", "type_desc": "NDArray[np.int64]", "required": true}],
+      "outputs": [{"name": "probabilities", "type_desc": "NDArray[np.float64]", "required": true}, {"name": "targets", "type_desc": "NDArray[np.int64]", "required": true}]
+    },
+    {
+      "node_id": "fit_one_hot_logistic",
+      "parent_id": "supervised_tabular_root",
+      "name": "fit_one_hot_logistic",
+      "description": "Fit a mixed-type logistic classifier with numeric imputation and scaling plus categorical imputation and one-hot encoding.",
+      "concept_type": "ml_model_selection",
+      "status": "atomic",
+      "depth": 1,
+      "matched_primitive": "sciona.atoms.ml.tabular.supervised_classification.fit_one_hot_logistic",
+      "inputs": [{"name": "X_train", "type_desc": "DataFrame", "required": true}, {"name": "y_train", "type_desc": "NDArray[np.int64]", "required": true}],
+      "outputs": [{"name": "model", "type_desc": "estimator", "required": true}]
+    },
+    {
+      "node_id": "fit_cross_validated_logistic",
+      "parent_id": "supervised_tabular_root",
+      "name": "fit_cross_validated_logistic",
+      "description": "Select logistic regularization with stratified cross-validation scored by held-in log loss.",
+      "concept_type": "ml_model_selection",
+      "status": "atomic",
+      "depth": 1,
+      "matched_primitive": "sciona.atoms.ml.tabular.supervised_classification.fit_cross_validated_logistic",
+      "inputs": [{"name": "X_train", "type_desc": "DataFrame", "required": true}, {"name": "y_train", "type_desc": "NDArray[np.int64]", "required": true}],
+      "outputs": [{"name": "model", "type_desc": "estimator", "required": true}]
+    },
+    {
+      "node_id": "predict_binary_probabilities",
+      "parent_id": "supervised_tabular_root",
+      "name": "predict_binary_probabilities",
+      "description": "Emit positive-class probabilities and aligned held-out binary targets from a fitted classifier.",
+      "concept_type": "prediction",
+      "status": "atomic",
+      "depth": 1,
+      "matched_primitive": "sciona.atoms.ml.tabular.supervised_classification.predict_binary_probabilities",
+      "inputs": [{"name": "model", "type_desc": "estimator", "required": true}, {"name": "X_test", "type_desc": "DataFrame", "required": true}, {"name": "y_test", "type_desc": "NDArray[np.int64]", "required": true}],
+      "outputs": [{"name": "probabilities", "type_desc": "NDArray[np.float64]", "required": true}, {"name": "targets", "type_desc": "NDArray[np.int64]", "required": true}]
+    }
+  ],
+  "edges": [],
+  "metadata": {"source": "scikit-learn public estimator APIs", "class_name": "SupervisedTabularClassification"}
+}

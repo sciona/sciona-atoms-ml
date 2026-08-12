@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.1",
+  "atoms": {
+    "sciona.atoms.ml.tabular.supervised_classification.stratified_tabular_split@sciona/atoms/ml/tabular/supervised_classification/atoms.py:80": {
+      "references": [{"ref_id": "repo_sklearn", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Uses scikit-learn stratified train_test_split with a fixed random state."}}],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.tabular.supervised_classification.fit_prior_probability@sciona/atoms/ml/tabular/supervised_classification/atoms.py:107": {
+      "references": [{"ref_id": "repo_sklearn", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Implements the empirical class-prior baseline used by dummy probabilistic classifiers."}}],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.tabular.supervised_classification.predict_prior_probabilities@sciona/atoms/ml/tabular/supervised_classification/atoms.py:117": {
+      "references": [{"ref_id": "repo_sklearn", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Emits class-prior probabilities aligned to held-out rows."}}],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.tabular.supervised_classification.fit_one_hot_logistic@sciona/atoms/ml/tabular/supervised_classification/atoms.py:175": {
+      "references": [{"ref_id": "repo_sklearn", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Composes ColumnTransformer, imputation, scaling, one-hot encoding, and LogisticRegression using public scikit-learn APIs."}}],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.tabular.supervised_classification.fit_cross_validated_logistic@sciona/atoms/ml/tabular/supervised_classification/atoms.py:187": {
+      "references": [{"ref_id": "repo_sklearn", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Uses LogisticRegressionCV with stratified folds and negative log-loss scoring."}}],
+      "auto_attribution_runs": []
+    },
+    "sciona.atoms.ml.tabular.supervised_classification.predict_binary_probabilities@sciona/atoms/ml/tabular/supervised_classification/atoms.py:199": {
+      "references": [{"ref_id": "repo_sklearn", "match_metadata": {"similarity_score": null, "match_type": "manual", "matched_nodes": [], "confidence": "high", "notes": "Uses the fitted classifier predict_proba contract and selects the positive-class column."}}],
+      "auto_attribution_runs": []
+    }
+  }
+}

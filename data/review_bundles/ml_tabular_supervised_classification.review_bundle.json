@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "ml_tabular_supervised_classification",
+  "provider_repo": "sciona-atoms-ml",
+  "family_batch": "ml_tabular_supervised_classification",
+  "review_status": "reviewed",
+  "review_semantic_verdict": "pass_with_limits",
+  "review_developer_semantic_verdict": "pass_with_limits",
+  "trust_readiness": "reviewed_with_limits",
+  "authoritative_sources": [
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/tabular/supervised_classification/atoms.py"},
+    {"kind": "local_wrapper", "path": "src/sciona/atoms/ml/tabular/supervised_classification/witnesses.py"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/tabular/supervised_classification/references.json"},
+    {"kind": "local_metadata", "path": "src/sciona/atoms/ml/tabular/supervised_classification/cdg.json"},
+    {"kind": "local_test", "path": "tests/test_ml_tabular_supervised_classification_behavior.py"}
+  ],
+  "limitations": [
+    "The workflow currently supports binary classification and treats the final table column as the target.",
+    "Cross-validation selects regularization for logistic regression; estimator-family search remains a separate Principal operation."
+  ],
+  "blocking_findings": [],
+  "required_actions": [],
+  "review_record_path": "data/review_bundles/ml_tabular_supervised_classification.review_bundle.json",
+  "rows": [
+    {"atom_key": "sciona.atoms.ml.tabular.supervised_classification.stratified_tabular_split", "atom_name": "sciona.atoms.ml.tabular.supervised_classification.stratified_tabular_split", "trust_readiness": "catalog_ready", "has_references": true, "references_status": "pass", "review_limitations": ["The final column is interpreted as the target."], "parity_case_count": 2},
+    {"atom_key": "sciona.atoms.ml.tabular.supervised_classification.fit_prior_probability", "atom_name": "sciona.atoms.ml.tabular.supervised_classification.fit_prior_probability", "trust_readiness": "catalog_ready", "has_references": true, "references_status": "pass", "review_limitations": ["Requires both classes in the training partition."], "parity_case_count": 1},
+    {"atom_key": "sciona.atoms.ml.tabular.supervised_classification.predict_prior_probabilities", "atom_name": "sciona.atoms.ml.tabular.supervised_classification.predict_prior_probabilities", "trust_readiness": "catalog_ready", "has_references": true, "references_status": "pass", "review_limitations": ["This is a baseline and intentionally ignores features."], "parity_case_count": 1},
+    {"atom_key": "sciona.atoms.ml.tabular.supervised_classification.fit_one_hot_logistic", "atom_name": "sciona.atoms.ml.tabular.supervised_classification.fit_one_hot_logistic", "trust_readiness": "catalog_ready", "has_references": true, "references_status": "pass", "review_limitations": ["High-cardinality categorical features can produce wide sparse matrices."], "parity_case_count": 2},
+    {"atom_key": "sciona.atoms.ml.tabular.supervised_classification.fit_cross_validated_logistic", "atom_name": "sciona.atoms.ml.tabular.supervised_classification.fit_cross_validated_logistic", "trust_readiness": "catalog_ready", "has_references": true, "references_status": "pass", "review_limitations": ["Five-fold selection costs more than a single fixed-regularization fit."], "parity_case_count": 2},
+    {"atom_key": "sciona.atoms.ml.tabular.supervised_classification.predict_binary_probabilities", "atom_name": "sciona.atoms.ml.tabular.supervised_classification.predict_binary_probabilities", "trust_readiness": "catalog_ready", "has_references": true, "references_status": "pass", "review_limitations": ["Requires a fitted binary classifier exposing predict_proba."], "parity_case_count": 2}
+  ]
+}
