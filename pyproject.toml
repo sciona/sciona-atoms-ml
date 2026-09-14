@@ -17,6 +17,9 @@ dependencies = [
   "tokenizers",
 ]
 
+[project.optional-dependencies]
+xgboost = ["xgboost>=3.4,<3.5"]
+
 [tool.setuptools]
 package-dir = {"" = "src"}
 

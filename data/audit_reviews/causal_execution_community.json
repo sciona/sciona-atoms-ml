@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0",
+  "provider_repo": "sciona-atoms-ml",
+  "bundle_name": "causal-execution-community",
+  "atoms": [
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.ensemble.gradient_boosting.causal_predictions.causal_classifier_predictions",
+      "audit": {
+        "review_status": "approved",
+        "review_source": "automated",
+        "publication_tier": 3,
+        "structural_status": "pass",
+        "runtime_status": "pass",
+        "semantic_status": "pass",
+        "developer_semantics_status": "pass",
+        "trust_readiness": "ready",
+        "review_required_actions": [],
+        "review_limitations": [
+          "Community review covers the exact tested local implementation and its declared typed, finite input domain.",
+          "Full pipeline matches pinned upstream code under the recorded modern scientific libraries; historical-library reproduction and real competition performance are not claimed.",
+          "No Tier 1 human certification or Tier 2 usage threshold is claimed.",
+          "Model objects are runtime state. Training labels and features must meet paired orientation and class-role contracts; meaningful causal training data remains a caller responsibility."
+        ],
+        "authoritative_sources": [
+          "https://github.com/jarfo/cause-effect/tree/f4d0f0d8cd160ce0d39a88c0bdc81c1723024acd"
+        ],
+        "version_id": "b11c6b8d-7a21-5104-bc77-765c0272548f",
+        "source_sha256": "65e33ea858e55dd6d43d45830e6d09de7eace62ce593b2ddb24035338abc163d",
+        "runtime_fqdn": "sciona.atoms.ml.sklearn.ensemble.gradient_boosting.causal_predictions.causal_classifier_predictions",
+        "source_execution_evidence_id": "fee9ccb5-a489-5e43-b94d-914a84a154d8",
+        "source_execution_evidence_sha256": "010919f8d5083d7225987ff5c5d099a244d71f929a0b1a4be78560d003b6c228"
+      }
+    },
+    {
+      "atom_name": "sciona.atoms.ml.sklearn.ensemble.gradient_boosting.causal_training.train_causal_classifiers",
+      "audit": {
+        "review_status": "approved",
+        "review_source": "automated",
+        "publication_tier": 3,
+        "structural_status": "pass",
+        "runtime_status": "pass",
+        "semantic_status": "pass",
+        "developer_semantics_status": "pass",
+        "trust_readiness": "ready",
+        "review_required_actions": [],
+        "review_limitations": [
+          "Community review covers the exact tested local implementation and its declared typed, finite input domain.",
+          "Full pipeline matches pinned upstream code under the recorded modern scientific libraries; historical-library reproduction and real competition performance are not claimed.",
+          "No Tier 1 human certification or Tier 2 usage threshold is claimed.",
+          "Model objects are runtime state. Training labels and features must meet paired orientation and class-role contracts; meaningful causal training data remains a caller responsibility."
+        ],
+        "authoritative_sources": [
+          "https://github.com/jarfo/cause-effect/tree/f4d0f0d8cd160ce0d39a88c0bdc81c1723024acd"
+        ],
+        "version_id": "4d59b0b4-f6de-57a7-81e6-7bf6e8d8aa60",
+        "source_sha256": "98dc6da5c75909eb6fd784b5894a376b7a3f36195797352dc4c0a05f27343d69",
+        "runtime_fqdn": "sciona.atoms.ml.sklearn.ensemble.gradient_boosting.causal_training.train_causal_classifiers",
+        "source_execution_evidence_id": "fee9ccb5-a489-5e43-b94d-914a84a154d8",
+        "source_execution_evidence_sha256": "010919f8d5083d7225987ff5c5d099a244d71f929a0b1a4be78560d003b6c228"
+      }
+    }
+  ]
+}
