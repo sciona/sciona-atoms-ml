@@ -91,7 +91,7 @@ def witness_enrich_corrected_mass_views(prepared: dict,corrected_mass: AbstractA
         if prepared[key].shape!=(rows,width) or prepared[key].dtype!='float64':raise ValueError('Prepared views must align')
     if prepared['mass_proxy'].shape!=(rows,) or prepared['mass_proxy'].dtype!='float64':raise ValueError('Aligned mass proxy required')
     _unit(prepared['mass_proxy'],DimensionalSignature(M=1))
-    return {key:prepared[key] for key in ('base','restricted','proxy')} | {'corrected':AbstractArray(shape=(rows,51),dtype='float64')}
+    return {key:prepared[key] for key in ('base','restricted','proxy')} | {'corrected':AbstractArray(shape=(rows,50),dtype='float64')}
 
 
 @register_atom(witness_enrich_corrected_mass_views)
