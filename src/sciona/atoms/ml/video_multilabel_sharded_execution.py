@@ -10,6 +10,7 @@ def concrete_only(*args, **kwargs):
 def execute(training: object, calibration: object, query: object, controls: dict,
             pool_function: object, gate_function: object, mean_function: object,
             vocabulary_fit_function: object, vocabulary_transform_function: object,
+            logistic_fit_function: object, logistic_predict_function: object,
             threshold_fit_function: object, threshold_apply_function: object) -> dict:
     """Train full configured populations, fit held-out thresholds and predict.
 
@@ -23,4 +24,5 @@ def execute(training: object, calibration: object, query: object, controls: dict
     return run(training, calibration, query, controls, pool_function=pool_function,
         gate_function=gate_function, mean_function=mean_function, threshold_fit_function=threshold_fit_function,
         vocabulary_fit_function=vocabulary_fit_function, vocabulary_transform_function=vocabulary_transform_function,
+        logistic_fit_function=logistic_fit_function, logistic_predict_function=logistic_predict_function,
         threshold_apply_function=threshold_apply_function)
