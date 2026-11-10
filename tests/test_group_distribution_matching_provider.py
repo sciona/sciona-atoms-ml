@@ -54,3 +54,12 @@ def test_witness_shape_and_distance_bounds():
     arrays = [AbstractArray(shape=x.shape, dtype=str(x.dtype)) for x in inputs()]
     out = witness_group_subset_ks(*arrays, [7, 9], ['a', 'b'], 'u')
     assert out.shape == (4, 2) and out.min_val == 0 and out.max_val == 1
+
+
+def test_large_unsigned_group_identifiers_remain_distinct():
+    X, R, _, masks = inputs()
+    labels = [2**63-1, 2**63+1]
+    groups = np.array([labels[0], labels[0], labels[0], labels[1]], dtype=np.uint64)
+    actual = group_subset_ks(X, R, groups, masks, labels, ['a', 'b'], 'u')
+    baseline = group_subset_ks(*inputs(), [7, 9], ['a', 'b'], 'u')
+    np.testing.assert_array_equal(actual, baseline)
