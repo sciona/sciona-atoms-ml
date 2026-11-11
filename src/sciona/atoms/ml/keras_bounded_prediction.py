@@ -27,5 +27,5 @@ def predict_bounded(model, inputs, batch_size):
     execution is supported. Caller limits model-compute threads and reserves
     one additional private dataset worker; dataset autotuning is disabled.
     """
-    from sciona.keras_bounded_prediction import make_predictor
+    from sciona._runtime.ml.keras_bounded_prediction import make_predictor
     return make_predictor(model, batch_size=batch_size)(inputs)

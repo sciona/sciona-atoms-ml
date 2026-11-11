@@ -21,7 +21,7 @@ def build_image_model():
     No pretrained weights, optimizer or normalization are supplied. Construction
     consumes caller RNG state; caller owns seeding, units and feature policy.
     """
-    from sciona.osic_image_model import build_model
+    from sciona._runtime.ml.osic_image_model import build_model
     return build_model()
 
 
@@ -38,7 +38,7 @@ def export_image_prediction_state(model, directory, image_coordinate,
     so the result supports inference only. Writes are not an atomic transaction;
     failed I/O may leave a partial directory. Caller controls paths and provenance.
     """
-    from sciona.osic_image_state import export_prediction_state
+    from sciona._runtime.ml.osic_image_state import export_prediction_state
     return export_prediction_state(model, directory,
         image_coordinate=image_coordinate, metadata_coordinate=metadata_coordinate,
         response_coordinate=response_coordinate)
@@ -56,7 +56,7 @@ def restore_image_prediction_state(directory, image_coordinate,
     state. Construction consumes RNG state. Caller establishes authenticity,
     trusted directory access and stable files; hashes alone are not provenance.
     """
-    from sciona.osic_image_state import restore_prediction_state
+    from sciona._runtime.ml.osic_image_state import restore_prediction_state
     return restore_prediction_state(directory,
         image_coordinate=image_coordinate, metadata_coordinate=metadata_coordinate,
         response_coordinate=response_coordinate)

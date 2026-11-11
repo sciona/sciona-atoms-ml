@@ -25,6 +25,6 @@ def route_and_predict(baselines, queries, planes, model, batch_size,
     performed by this dispatcher. Caller owns units, mappings and availability.
     Bound compute threads and reserve the prediction callback's dataset worker.
     """
-    from sciona.osic_image_routing import route_and_predict as execute
+    from sciona._runtime.ml.osic_image_routing import route_and_predict as execute
     return execute(baselines,queries,planes,model,batch_size,
                    prepare_function,select_function,predict_function)
