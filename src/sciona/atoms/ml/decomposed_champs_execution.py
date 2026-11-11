@@ -22,7 +22,7 @@ def train_models(prepared: object) -> dict:
     state reload, prediction unscaling and six-decimal per-model boundaries.
     Forward every model prediction before the separate ensemble reduction.
     """
-    from sciona.decomposed_champs_runtime import train_models as implementation
+    from sciona._runtime.ml.decomposed_champs_runtime import train_models as implementation
     return implementation(prepared)
 
 
@@ -34,7 +34,7 @@ def ensemble_inputs(training_result: dict) -> tuple[tuple, np.ndarray, int]:
     by selection. Return opaque record keys, selected values and retained count.
     Molecular categories, model masks and central-five policy stay here.
     """
-    from sciona.decomposed_champs_ensemble import ensemble_inputs as implementation
+    from sciona._runtime.ml.decomposed_champs_ensemble import ensemble_inputs as implementation
     check_training(training_result)
     return implementation(training_result['model_predictions'], training_result['coupling_types'])
 
@@ -46,7 +46,7 @@ def result(training_result: dict, keys: tuple, values: np.ndarray) -> dict:
     Inputs must belong to the same graph invocation; shape and key checks do
     not authenticate training provenance. Private evidence fields are retained.
     """
-    from sciona.decomposed_champs_ensemble import result as implementation
+    from sciona._runtime.ml.decomposed_champs_ensemble import result as implementation
     check_training(training_result)
     if keys != tuple(training_result['coupling_types']):
         raise ValueError('Result identities differ from training invocation')

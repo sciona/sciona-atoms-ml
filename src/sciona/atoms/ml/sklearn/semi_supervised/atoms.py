@@ -461,9 +461,9 @@ def self_training_fit(
     max_iter: int | None = 10,
     verbose: bool = False,
 ) -> SelfTrainingClassifierState:
+    """Fit a self-training classifier and record pseudo-label history."""
     from sklearn.base import clone
     from sklearn.utils import check_array, check_consistent_length, safe_mask
-    """Fit a self-training classifier and record pseudo-label history."""
     estimator_ = clone(estimator)
     checked_x = check_array(X, accept_sparse=["csr", "csc", "lil", "dok"], ensure_all_finite=False)
     checked_y = np.asarray(y)
@@ -534,8 +534,8 @@ def self_training_predict(
     X: MatrixLike,
     state: SelfTrainingClassifierState,
 ) -> NDArray[np.object_]:
-    from sklearn.utils import check_array, check_consistent_length, safe_mask
     """Predict labels by delegating to the fitted self-training estimator."""
+    from sklearn.utils import check_array, check_consistent_length, safe_mask
     checked_x = check_array(X, accept_sparse=True, ensure_all_finite=False)
     if checked_x.shape[1] != state.n_features_in:
         raise ValueError("X feature count must match fitted state")
@@ -550,8 +550,8 @@ def self_training_predict_proba(
     X: MatrixLike,
     state: SelfTrainingClassifierState,
 ) -> NDArray[np.float64]:
-    from sklearn.utils import check_array, check_consistent_length, safe_mask
     """Predict probabilities by delegating to the fitted self-training estimator."""
+    from sklearn.utils import check_array, check_consistent_length, safe_mask
     checked_x = check_array(X, accept_sparse=True, ensure_all_finite=False)
     if checked_x.shape[1] != state.n_features_in:
         raise ValueError("X feature count must match fitted state")

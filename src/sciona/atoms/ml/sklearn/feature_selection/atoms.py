@@ -313,8 +313,8 @@ def mutual_info_continuous_continuous(
     *,
     n_neighbors: int = 3,
 ) -> float:
-    from sklearn.neighbors import KDTree, NearestNeighbors
     """Estimate mutual information between two continuous variables."""
+    from sklearn.neighbors import KDTree, NearestNeighbors
     x_values = np.asarray(x, dtype=np.float64).reshape((-1, 1))
     y_values = np.asarray(y, dtype=np.float64).reshape((-1, 1))
     xy_values = np.hstack((x_values, y_values))
@@ -349,8 +349,8 @@ def mutual_info_continuous_discrete(
     *,
     n_neighbors: int = 3,
 ) -> float:
-    from sklearn.neighbors import KDTree, NearestNeighbors
     """Estimate mutual information between continuous and discrete variables."""
+    from sklearn.neighbors import KDTree, NearestNeighbors
     continuous_values = np.asarray(continuous, dtype=np.float64).reshape((-1, 1))
     discrete_values = np.asarray(discrete)
     n_samples = continuous_values.shape[0]
@@ -402,8 +402,8 @@ def mutual_info_pair(
     y_discrete: bool,
     n_neighbors: int = 3,
 ) -> float:
-    from sklearn.metrics.cluster import mutual_info_score
     """Estimate mutual information for one feature-target pair."""
+    from sklearn.metrics.cluster import mutual_info_score
     if x_discrete and y_discrete:
         return float(max(0.0, mutual_info_score(x, y)))
     if x_discrete and not y_discrete:
@@ -456,8 +456,8 @@ def mutual_info_classif(
     random_state: int | None = None,
     n_jobs: int | None = None,
 ) -> NDArray[np.float64]:
-    from sklearn.utils.multiclass import check_classification_targets
     """Estimate mutual information between each feature and a discrete target."""
+    from sklearn.utils.multiclass import check_classification_targets
     del n_jobs
     check_classification_targets(y)
     x_values, y_values, discrete_mask = _prepare_mi_inputs(
@@ -483,8 +483,8 @@ def mutual_info_classif(
 @icontract.ensure(lambda result, X: result[1].shape == (X.shape[1],), "p-values must match feature count")
 @icontract.ensure(lambda result: _finite_p_values(result), "finite p-values must be probabilities")
 def f_classif(X: NDArray[np.float64], y: NDArray[np.float64]) -> ScoreResult:
-    from sklearn.utils import as_float_array, check_array, check_random_state, check_X_y, safe_mask, safe_sqr
     """Compute one-way ANOVA F statistics for each feature by class label."""
+    from sklearn.utils import as_float_array, check_array, check_random_state, check_X_y, safe_mask, safe_sqr
     checked_x, checked_y = check_X_y(X, y, accept_sparse=["csr", "csc", "coo"])
     class_arrays = [checked_x[safe_mask(checked_x, checked_y == label)] for label in np.unique(checked_y)]
     return _f_oneway(*class_arrays)
@@ -498,10 +498,10 @@ def f_classif(X: NDArray[np.float64], y: NDArray[np.float64]) -> ScoreResult:
 @icontract.ensure(lambda result, X: result[1].shape == (X.shape[1],), "p-values must match feature count")
 @icontract.ensure(lambda result: _finite_p_values(result), "finite p-values must be probabilities")
 def chi2(X: NDArray[np.float64], y: NDArray[np.float64]) -> ScoreResult:
+    """Compute chi-square dependence statistics between features and classes."""
     from sklearn.preprocessing import LabelBinarizer
     from sklearn.utils import as_float_array, check_array, check_random_state, check_X_y, safe_mask, safe_sqr
     from sklearn.utils.extmath import row_norms, safe_sparse_dot
-    """Compute chi-square dependence statistics between features and classes."""
     checked_x = check_X_y(X, y, accept_sparse="csr", dtype=(np.float64, np.float32))[0]
     if np.any((checked_x.data if issparse(checked_x) else checked_x) < 0):
         raise ValueError("Input X must be non-negative.")
@@ -532,9 +532,9 @@ def r_regression(
     center: bool = True,
     force_finite: bool = True,
 ) -> NDArray[np.float64]:
+    """Compute Pearson correlation between each feature and a numeric target."""
     from sklearn.utils import as_float_array, check_array, check_random_state, check_X_y, safe_mask, safe_sqr
     from sklearn.utils.extmath import row_norms, safe_sparse_dot
-    """Compute Pearson correlation between each feature and a numeric target."""
     checked_x, checked_y = check_X_y(X, y, accept_sparse=["csr", "csc", "coo"], dtype=np.float64)
     n_samples = checked_x.shape[0]
 
@@ -610,8 +610,8 @@ def select_k_best_fit(
     score_func: SupportedScoreFunc = "f_classif",
     k: int | str = 10,
 ) -> UnivariateSelectionState:
-    from sklearn.utils import as_float_array, check_array, check_random_state, check_X_y, safe_mask, safe_sqr
     """Fit a selector that keeps the k highest univariate feature scores."""
+    from sklearn.utils import as_float_array, check_array, check_random_state, check_X_y, safe_mask, safe_sqr
     checked_x, checked_y = check_X_y(X, y, accept_sparse=False, dtype=np.float64)
     scores, pvalues = _selector_scores(checked_x, checked_y, score_func)
     support_mask = _support_k_best(scores, k)
@@ -638,8 +638,8 @@ def select_percentile_fit(
     score_func: SupportedScoreFunc = "f_classif",
     percentile: float = 10.0,
 ) -> UnivariateSelectionState:
-    from sklearn.utils import as_float_array, check_array, check_random_state, check_X_y, safe_mask, safe_sqr
     """Fit a selector that keeps a percentile of the highest feature scores."""
+    from sklearn.utils import as_float_array, check_array, check_random_state, check_X_y, safe_mask, safe_sqr
     checked_x, checked_y = check_X_y(X, y, accept_sparse=False, dtype=np.float64)
     scores, pvalues = _selector_scores(checked_x, checked_y, score_func)
     support_mask = _support_percentile(scores, float(percentile))
@@ -666,8 +666,8 @@ def select_fpr_fit(
     score_func: SupportedScoreFunc = "f_classif",
     alpha: float = 0.05,
 ) -> UnivariateSelectionState:
-    from sklearn.utils import as_float_array, check_array, check_random_state, check_X_y, safe_mask, safe_sqr
     """Fit a selector that keeps features whose p-values are below alpha."""
+    from sklearn.utils import as_float_array, check_array, check_random_state, check_X_y, safe_mask, safe_sqr
     checked_x, checked_y = check_X_y(X, y, accept_sparse=False, dtype=np.float64)
     scores, pvalues = _selector_scores(checked_x, checked_y, score_func)
     support_mask = _support_fpr(pvalues, alpha)
@@ -694,8 +694,8 @@ def select_fdr_fit(
     score_func: SupportedScoreFunc = "f_classif",
     alpha: float = 0.05,
 ) -> UnivariateSelectionState:
-    from sklearn.utils import as_float_array, check_array, check_random_state, check_X_y, safe_mask, safe_sqr
     """Fit a Benjamini-Hochberg false-discovery-rate selector."""
+    from sklearn.utils import as_float_array, check_array, check_random_state, check_X_y, safe_mask, safe_sqr
     checked_x, checked_y = check_X_y(X, y, accept_sparse=False, dtype=np.float64)
     scores, pvalues = _selector_scores(checked_x, checked_y, score_func)
     support_mask = _support_fdr(pvalues, alpha)
@@ -722,8 +722,8 @@ def select_fwe_fit(
     score_func: SupportedScoreFunc = "f_classif",
     alpha: float = 0.05,
 ) -> UnivariateSelectionState:
-    from sklearn.utils import as_float_array, check_array, check_random_state, check_X_y, safe_mask, safe_sqr
     """Fit a family-wise-error selector using Bonferroni correction."""
+    from sklearn.utils import as_float_array, check_array, check_random_state, check_X_y, safe_mask, safe_sqr
     checked_x, checked_y = check_X_y(X, y, accept_sparse=False, dtype=np.float64)
     scores, pvalues = _selector_scores(checked_x, checked_y, score_func)
     support_mask = _support_fwe(pvalues, alpha)
@@ -752,8 +752,8 @@ def generic_univariate_select_fit(
     mode: str = "percentile",
     param: SelectorParam = 1e-5,
 ) -> UnivariateSelectionState:
-    from sklearn.utils import as_float_array, check_array, check_random_state, check_X_y, safe_mask, safe_sqr
     """Fit a univariate selector using a runtime-selected selection strategy."""
+    from sklearn.utils import as_float_array, check_array, check_random_state, check_X_y, safe_mask, safe_sqr
     checked_x, checked_y = check_X_y(X, y, accept_sparse=False, dtype=np.float64)
     scores, pvalues = _selector_scores(checked_x, checked_y, score_func)
     if mode == "k_best":
@@ -785,8 +785,8 @@ def univariate_selection_transform(
     X: NDArray[np.float64],
     state: UnivariateSelectionState,
 ) -> NDArray[np.float64]:
-    from sklearn.utils import as_float_array, check_array, check_random_state, check_X_y, safe_mask, safe_sqr
     """Retain the columns selected by a fitted univariate selector state."""
+    from sklearn.utils import as_float_array, check_array, check_random_state, check_X_y, safe_mask, safe_sqr
     checked_x = check_array(X, accept_sparse=False, dtype=np.float64)
     if not state.support_mask.any():
         return np.empty(0, dtype=checked_x.dtype).reshape((checked_x.shape[0], 0))

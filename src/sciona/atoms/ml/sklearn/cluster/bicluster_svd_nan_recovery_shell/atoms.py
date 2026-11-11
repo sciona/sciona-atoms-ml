@@ -110,8 +110,8 @@ def bicluster_svd_u_nan_recovery_required(u: NDArray[np.float64]) -> bool:
     "result must be a square Gram matrix on the feature axis",
 )
 def bicluster_svd_right_gram_matrix(array: object) -> object:
-    from sklearn.utils.extmath import safe_sparse_dot
     """Build the right-side Gram matrix used for vt NaN recovery."""
+    from sklearn.utils.extmath import safe_sparse_dot
     if sp.issparse(array):
         return safe_sparse_dot(array.T, array)
     values = np.asarray(array, dtype=np.float64)
@@ -124,8 +124,8 @@ def bicluster_svd_right_gram_matrix(array: object) -> object:
     "result must be a square Gram matrix on the sample axis",
 )
 def bicluster_svd_left_gram_matrix(array: object) -> object:
-    from sklearn.utils.extmath import safe_sparse_dot
     """Build the left-side Gram matrix used for u NaN recovery."""
+    from sklearn.utils.extmath import safe_sparse_dot
     if sp.issparse(array):
         return safe_sparse_dot(array, array.T)
     values = np.asarray(array, dtype=np.float64)
@@ -142,8 +142,8 @@ def bicluster_svd_arpack_init_vector(
     random_state: object,
     width: int,
 ) -> NDArray[np.float64]:
-    from sklearn.utils import check_random_state
     """Build the ARPACK-style initialization vector used for eigsh fallback."""
+    from sklearn.utils import check_random_state
     rng = check_random_state(random_state)
     return np.asarray(rng.uniform(-1, 1, int(width)), dtype=np.float64)
 

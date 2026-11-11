@@ -48,8 +48,8 @@ def _pruning_path_mapping(values: object) -> bool:
     "pruning-path estimator must be a cloned estimator with ccp_alpha reset to 0.0",
 )
 def tree_pruning_path_estimator(estimator: object) -> object:
-    from sklearn.base import clone
     """Return the cloned zero-alpha estimator used by cost_complexity_pruning_path."""
+    from sklearn.base import clone
     return clone(estimator).set_params(ccp_alpha=0.0)
 
 @register_atom(witness_tree_pruning_path_result)
@@ -68,6 +68,6 @@ def tree_pruning_path_estimator(estimator: object) -> object:
 def tree_pruning_path_result(
     pruning_path: Mapping[str, NDArray[np.float64]],
 ) -> Bunch:
-    from sklearn.utils import Bunch
     """Return the Bunch packaging used by cost_complexity_pruning_path."""
+    from sklearn.utils import Bunch
     return Bunch(**pruning_path)

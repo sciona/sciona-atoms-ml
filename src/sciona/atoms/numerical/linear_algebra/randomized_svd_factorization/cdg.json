@@ -4,9 +4,67 @@
   "priority": "medium",
   "decomposition_rationale": "Separates the random subspace projection stage (QR basis extraction) from the dense singular value decomposition stage, allowing customizable projection templates.",
   "family_directory_hint": "src/sciona/atoms/numerical/linear_algebra/",
-  "atomic_nodes": [
+  "nodes": [
     {
+      "node_id": "randomized_svd_factorization_root",
+      "parent_id": null,
+      "name": "randomized_svd_factorization",
+      "description": "Separates the random subspace projection stage (QR basis extraction) from the dense singular value decomposition stage, allowing customizable projection templates.",
+      "concept_type": "custom",
+      "inputs": [
+        {
+          "name": "A",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "k",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "p",
+          "type_desc": "int",
+          "required": false
+        },
+        {
+          "name": "n_iter",
+          "type_desc": "int",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "U",
+          "type_desc": "NDArray[np.float64]"
+        },
+        {
+          "name": "s",
+          "type_desc": "NDArray[np.float64]"
+        },
+        {
+          "name": "Vh",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "status": "decomposed",
+      "children": [
+        "extract_random_subspace_basis",
+        "factorize_subspace_projection"
+      ],
+      "depth": 0,
+      "decomposition_rationale": "Separates the random subspace projection stage (QR basis extraction) from the dense singular value decomposition stage, allowing customizable projection templates."
+    },
+    {
+      "node_id": "extract_random_subspace_basis",
+      "parent_id": "randomized_svd_factorization_root",
       "name": "extract_random_subspace_basis",
+      "description": "Form random projection basis Q for A.",
+      "concept_type": "custom",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(A: NDArray[np.float64], k: int, p: int, n_iter: int) -> NDArray[np.float64]",
+      "matched_primitive": "extract_random_subspace_basis",
       "semantic_role": "Form random projection basis Q for A.",
       "source_targets": [
         "sklearn.utils.extmath.randomized_svd"
@@ -53,7 +111,15 @@
       "complexity_confidence": 90
     },
     {
+      "node_id": "factorize_subspace_projection",
+      "parent_id": "randomized_svd_factorization_root",
       "name": "factorize_subspace_projection",
+      "description": "Project A onto Q and perform core dense SVD.",
+      "concept_type": "custom",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(A: NDArray[np.float64], Q: NDArray[np.float64], k: int) -> tuple[NDArray[np.float64], NDArray[np.float64], NDArray[np.float64]]",
+      "matched_primitive": "factorize_subspace_projection",
       "semantic_role": "Project A onto Q and perform core dense SVD.",
       "source_targets": [
         "scipy.linalg.svd"
@@ -104,10 +170,15 @@
   ],
   "edges": [
     {
-      "source": "extract_random_subspace_basis",
-      "target": "factorize_subspace_projection",
+      "source_id": "extract_random_subspace_basis",
+      "target_id": "factorize_subspace_projection",
       "output_name": "Q",
-      "input_name": "Q"
+      "input_name": "Q",
+      "source_type": "NDArray[np.float64]",
+      "target_type": "NDArray[np.float64]",
+      "requires_glue": false,
+      "source": "extract_random_subspace_basis",
+      "target": "factorize_subspace_projection"
     }
   ],
   "cdg_io": {

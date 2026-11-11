@@ -15,7 +15,7 @@ def project_nonnegative_fixed_sum(values: np.ndarray, totals: np.ndarray) -> np.
     nonempty. Return fresh float64 values; reject unrepresentable arithmetic.
     No physical units, probability normalization or target meaning are inferred.
     """
-    from sciona.constrained_array_ops import project_nonnegative_fixed_sum as run
+    from sciona._runtime.ml.constrained_array_ops import project_nonnegative_fixed_sum as run
     return run(values, totals)
 
 
@@ -27,5 +27,5 @@ def smooth_periodic_rows(values: np.ndarray, weight: float) -> np.ndarray:
     are allowed. Preserve row sums to floating-point tolerance. Periodicity is
     a caller choice, not an inferred boundary condition or PDE solver claim.
     """
-    from sciona.constrained_array_ops import smooth_periodic_rows as run
+    from sciona._runtime.ml.constrained_array_ops import smooth_periodic_rows as run
     return run(values, weight)

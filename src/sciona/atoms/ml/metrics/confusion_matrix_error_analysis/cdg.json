@@ -4,9 +4,59 @@
   "priority": "medium",
   "decomposition_rationale": "Decouple matrix construction from the normalization logic to allow diagnostic validation of raw sample counts before float divisions.",
   "family_directory_hint": "src/sciona/atoms/ml/metrics/",
-  "atomic_nodes": [
+  "nodes": [
     {
+      "node_id": "confusion_matrix_error_analysis_root",
+      "parent_id": null,
+      "name": "confusion_matrix_error_analysis",
+      "description": "Decouple matrix construction from the normalization logic to allow diagnostic validation of raw sample counts before float divisions.",
+      "concept_type": "observability",
+      "inputs": [
+        {
+          "name": "y_true",
+          "type_desc": "NDArray[Any]",
+          "required": true
+        },
+        {
+          "name": "y_pred",
+          "type_desc": "NDArray[Any]",
+          "required": true
+        },
+        {
+          "name": "labels",
+          "type_desc": "list[Any]",
+          "required": true
+        },
+        {
+          "name": "axis",
+          "type_desc": "str",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "normalized_matrix",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "status": "decomposed",
+      "children": [
+        "build_raw_confusion_matrix",
+        "normalize_confusion_matrix"
+      ],
+      "depth": 0,
+      "decomposition_rationale": "Decouple matrix construction from the normalization logic to allow diagnostic validation of raw sample counts before float divisions."
+    },
+    {
+      "node_id": "build_raw_confusion_matrix",
+      "parent_id": "confusion_matrix_error_analysis_root",
       "name": "build_raw_confusion_matrix",
+      "description": "Construct a 2D square matrix of prediction/target joint frequencies.",
+      "concept_type": "custom",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(y_true: NDArray[Any], y_pred: NDArray[Any], labels: list[Any]) -> NDArray[np.int64]",
+      "matched_primitive": "build_raw_confusion_matrix",
       "semantic_role": "Construct a 2D square matrix of prediction/target joint frequencies.",
       "source_targets": [
         "sklearn.metrics.confusion_matrix"
@@ -49,7 +99,15 @@
       "complexity_confidence": 90
     },
     {
+      "node_id": "normalize_confusion_matrix",
+      "parent_id": "confusion_matrix_error_analysis_root",
       "name": "normalize_confusion_matrix",
+      "description": "Scale joint matrix by total counts along specified axis.",
+      "concept_type": "custom",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(raw_matrix: NDArray[np.int64], axis: str) -> NDArray[np.float64]",
+      "matched_primitive": "normalize_confusion_matrix",
       "semantic_role": "Scale joint matrix by total counts along specified axis.",
       "source_targets": [
         "numpy.divide"
@@ -83,10 +141,15 @@
   ],
   "edges": [
     {
-      "source": "build_raw_confusion_matrix",
-      "target": "normalize_confusion_matrix",
+      "source_id": "build_raw_confusion_matrix",
+      "target_id": "normalize_confusion_matrix",
       "output_name": "raw_matrix",
-      "input_name": "raw_matrix"
+      "input_name": "raw_matrix",
+      "source_type": "NDArray[np.int64]",
+      "target_type": "NDArray[np.int64]",
+      "requires_glue": false,
+      "source": "build_raw_confusion_matrix",
+      "target": "normalize_confusion_matrix"
     }
   ],
   "cdg_io": {

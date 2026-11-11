@@ -29,7 +29,7 @@ def _metadata(predictions, columns, coordinate):
 
 
 def _policy(bounds, controls):
-    from sciona.positive_log_blend import PositiveLogBlend
+    from sciona._runtime.ml.positive_log_blend import PositiveLogBlend
     PositiveLogBlend((0.,), 0., tuple(bounds))
     if not isinstance(controls, dict) or set(controls) != {'alpha', 'max_iter', 'tolerance', 'seed'}:
         raise ValueError('Explicit complete Lasso solver policy required')
@@ -64,7 +64,7 @@ def fit_positive_log_blend(predictions: NDArray[np.float64], targets: NDArray[np
     model outputs, not data rows. Bounds and solver controls are explicit.
     Returns portable numeric state; coefficients need not sum to one.
     """
-    from sciona.positive_log_blend import fit_positive_log_blend as fit
+    from sciona._runtime.ml.positive_log_blend import fit_positive_log_blend as fit
     x, y = np.asarray(predictions), np.asarray(targets)
     if x.ndim != 2 or x.dtype != np.float64 or y.dtype != np.float64:
         raise ValueError('Float64 prediction matrix and target vector required')
@@ -96,7 +96,7 @@ def apply_positive_log_blend(predictions: NDArray[np.float64], model_columns: li
     yield negative outputs; this atom does not silently add a final clamp.
     Empty query matrices are supported. No executable deserialization occurs.
     """
-    from sciona.positive_log_blend import PositiveLogBlend
+    from sciona._runtime.ml.positive_log_blend import PositiveLogBlend
     x = np.asarray(predictions)
     if x.ndim != 2 or x.dtype != np.float64:
         raise ValueError('Float64 prediction matrix required')

@@ -101,8 +101,8 @@ def fast_mcd_candidate_pool_from_random_starts(
     n_iter: int = 30,
     random_state: RandomStateLike = None,
 ) -> CandidatePool:
-    from sklearn.utils import check_random_state
     """Run FastMCD c-step from random starts to build a candidate pool."""
+    from sklearn.utils import check_random_state
     rng = check_random_state(random_state)
     estimates = [
         fast_mcd_c_step(

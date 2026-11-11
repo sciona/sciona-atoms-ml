@@ -4,9 +4,54 @@
   "priority": "medium",
   "decomposition_rationale": "Splits mean-centering preprocessing, SVD factorization, variance ratio calculation, and projection so that centering and projecting can be applied as distinct Pipeline steps.",
   "family_directory_hint": "src/sciona/atoms/numerical/linear_algebra/",
-  "atomic_nodes": [
+  "nodes": [
     {
+      "node_id": "pca_from_svd_root",
+      "parent_id": null,
+      "name": "pca_from_svd",
+      "description": "Splits mean-centering preprocessing, SVD factorization, variance ratio calculation, and projection so that centering and projecting can be applied as distinct Pipeline steps.",
+      "concept_type": "custom",
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "n_components",
+          "type_desc": "int",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "components",
+          "type_desc": "NDArray[np.float64]"
+        },
+        {
+          "name": "explained_variance",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "status": "decomposed",
+      "children": [
+        "center_data",
+        "pca_svd_decompose",
+        "calculate_pca_variance"
+      ],
+      "depth": 0,
+      "decomposition_rationale": "Splits mean-centering preprocessing, SVD factorization, variance ratio calculation, and projection so that centering and projecting can be applied as distinct Pipeline steps."
+    },
+    {
+      "node_id": "center_data",
+      "parent_id": "pca_from_svd_root",
       "name": "center_data",
+      "description": "Compute mean and center the input matrix.",
+      "concept_type": "custom",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(X: NDArray[np.float64]) -> tuple[NDArray[np.float64], NDArray[np.float64]]",
+      "matched_primitive": "center_data",
       "semantic_role": "Compute mean and center the input matrix.",
       "source_targets": [
         "numpy.mean"
@@ -41,7 +86,15 @@
       "complexity_confidence": 90
     },
     {
+      "node_id": "pca_svd_decompose",
+      "parent_id": "pca_from_svd_root",
       "name": "pca_svd_decompose",
+      "description": "Perform SVD decomposition on centered data and compute loadings.",
+      "concept_type": "custom",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(X_centered: NDArray[np.float64], n_components: int) -> tuple[NDArray[np.float64], NDArray[np.float64]]",
+      "matched_primitive": "pca_svd_decompose",
       "semantic_role": "Perform SVD decomposition on centered data and compute loadings.",
       "source_targets": [
         "scipy.linalg.svd"
@@ -79,7 +132,15 @@
       "complexity_confidence": 90
     },
     {
+      "node_id": "calculate_pca_variance",
+      "parent_id": "pca_from_svd_root",
       "name": "calculate_pca_variance",
+      "description": "Calculate explained variance metrics.",
+      "concept_type": "custom",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(singular_values: NDArray[np.float64], n_samples: int) -> NDArray[np.float64]",
+      "matched_primitive": "calculate_pca_variance",
       "semantic_role": "Calculate explained variance metrics.",
       "source_targets": [
         "sklearn.decomposition.PCA"
@@ -115,16 +176,26 @@
   ],
   "edges": [
     {
-      "source": "center_data",
-      "target": "pca_svd_decompose",
+      "source_id": "center_data",
+      "target_id": "pca_svd_decompose",
       "output_name": "X_centered",
-      "input_name": "X_centered"
+      "input_name": "X_centered",
+      "source_type": "NDArray[np.float64]",
+      "target_type": "NDArray[np.float64]",
+      "requires_glue": false,
+      "source": "center_data",
+      "target": "pca_svd_decompose"
     },
     {
-      "source": "pca_svd_decompose",
-      "target": "calculate_pca_variance",
+      "source_id": "pca_svd_decompose",
+      "target_id": "calculate_pca_variance",
       "output_name": "singular_values",
-      "input_name": "singular_values"
+      "input_name": "singular_values",
+      "source_type": "NDArray[np.float64]",
+      "target_type": "NDArray[np.float64]",
+      "requires_glue": false,
+      "source": "pca_svd_decompose",
+      "target": "calculate_pca_variance"
     }
   ],
   "cdg_io": {

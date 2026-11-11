@@ -4,9 +4,49 @@
   "priority": "medium",
   "decomposition_rationale": "Imputation consists of two steps: calculating statistics on clean features, and merging missing elements with calculated stats.",
   "family_directory_hint": "src/sciona/atoms/ml/preprocessing/",
-  "atomic_nodes": [
+  "nodes": [
     {
+      "node_id": "missing_value_imputation_root",
+      "parent_id": null,
+      "name": "missing_value_imputation",
+      "description": "Imputation consists of two steps: calculating statistics on clean features, and merging missing elements with calculated stats.",
+      "concept_type": "custom",
+      "inputs": [
+        {
+          "name": "matrix",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "strategy",
+          "type_desc": "str",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "imputed_matrix",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "status": "decomposed",
+      "children": [
+        "compute_imputation_statistics",
+        "fill_missing_values"
+      ],
+      "depth": 0,
+      "decomposition_rationale": "Imputation consists of two steps: calculating statistics on clean features, and merging missing elements with calculated stats."
+    },
+    {
+      "node_id": "compute_imputation_statistics",
+      "parent_id": "missing_value_imputation_root",
       "name": "compute_imputation_statistics",
+      "description": "Identify non-nan values and calculate mean or median values per column.",
+      "concept_type": "custom",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(matrix: NDArray[np.float64], strategy: str) -> NDArray[np.float64]",
+      "matched_primitive": "compute_imputation_statistics",
       "semantic_role": "Identify non-nan values and calculate mean or median values per column.",
       "source_targets": [
         "numpy.nanmean",
@@ -43,7 +83,15 @@
       "complexity_confidence": 90
     },
     {
+      "node_id": "fill_missing_values",
+      "parent_id": "missing_value_imputation_root",
       "name": "fill_missing_values",
+      "description": "Replace NaN occurrences inside matrix with corresponding values from the statistics vector.",
+      "concept_type": "custom",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(matrix: NDArray[np.float64], statistics: NDArray[np.float64]) -> NDArray[np.float64]",
+      "matched_primitive": "fill_missing_values",
       "semantic_role": "Replace NaN occurrences inside matrix with corresponding values from the statistics vector.",
       "source_targets": [
         "numpy.isnan",
@@ -82,10 +130,15 @@
   ],
   "edges": [
     {
-      "source": "compute_imputation_statistics",
-      "target": "fill_missing_values",
+      "source_id": "compute_imputation_statistics",
+      "target_id": "fill_missing_values",
       "output_name": "statistics",
-      "input_name": "statistics"
+      "input_name": "statistics",
+      "source_type": "NDArray[np.float64]",
+      "target_type": "NDArray[np.float64]",
+      "requires_glue": false,
+      "source": "compute_imputation_statistics",
+      "target": "fill_missing_values"
     }
   ],
   "cdg_io": {

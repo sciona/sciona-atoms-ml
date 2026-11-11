@@ -4,9 +4,54 @@
   "priority": "medium",
   "decomposition_rationale": "UMAP is typically installed via the external 'umap-learn' package. We provide a full conceptual blueprint but recommend human review before committing external dependencies to standard Sciona packages.",
   "family_directory_hint": "src/sciona/atoms/numerical/manifold/",
-  "atomic_nodes": [
+  "nodes": [
     {
+      "node_id": "umap_neighbor_graph_embedding_root",
+      "parent_id": null,
+      "name": "umap_neighbor_graph_embedding",
+      "description": "UMAP is typically installed via the external 'umap-learn' package. We provide a full conceptual blueprint but recommend human review before committing external dependencies to standard Sciona packages.",
+      "concept_type": "graph_traversal",
+      "inputs": [
+        {
+          "name": "X",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "n_neighbors",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "min_dist",
+          "type_desc": "float",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "embedding",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "status": "decomposed",
+      "children": [
+        "build_fuzzy_simplicial_set",
+        "optimize_umap_layout"
+      ],
+      "depth": 0,
+      "decomposition_rationale": "UMAP is typically installed via the external 'umap-learn' package. We provide a full conceptual blueprint but recommend human review before committing external dependencies to standard Sciona packages."
+    },
+    {
+      "node_id": "build_fuzzy_simplicial_set",
+      "parent_id": "umap_neighbor_graph_embedding_root",
       "name": "build_fuzzy_simplicial_set",
+      "description": "Construct high-dimensional symmetric fuzzy neighborhood matrices matching metric geometry.",
+      "concept_type": "graph_traversal",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(X: NDArray[np.float64], n_neighbors: int, metric: str = ...) -> scipy.sparse.coo_matrix",
+      "matched_primitive": "build_fuzzy_simplicial_set",
       "semantic_role": "Construct high-dimensional symmetric fuzzy neighborhood matrices matching metric geometry.",
       "source_targets": [
         "umap.umap_.fuzzy_simplicial_set"
@@ -48,7 +93,15 @@
       "complexity_confidence": 90
     },
     {
+      "node_id": "optimize_umap_layout",
+      "parent_id": "umap_neighbor_graph_embedding_root",
       "name": "optimize_umap_layout",
+      "description": "Optimize coordinates via stochastic gradient descent minimizing fuzzy set cross-entropy.",
+      "concept_type": "graph_traversal",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(fuzzy_graph: scipy.sparse.coo_matrix, n_epochs: int, min_dist: float) -> NDArray[np.float64]",
+      "matched_primitive": "optimize_umap_layout",
       "semantic_role": "Optimize coordinates via stochastic gradient descent minimizing fuzzy set cross-entropy.",
       "source_targets": [
         "umap.umap_.simplicial_set_embedding"
@@ -91,10 +144,15 @@
   ],
   "edges": [
     {
-      "source": "build_fuzzy_simplicial_set",
-      "target": "optimize_umap_layout",
+      "source_id": "build_fuzzy_simplicial_set",
+      "target_id": "optimize_umap_layout",
       "output_name": "fuzzy_graph",
-      "input_name": "fuzzy_graph"
+      "input_name": "fuzzy_graph",
+      "source_type": "scipy.sparse.coo_matrix",
+      "target_type": "scipy.sparse.coo_matrix",
+      "requires_glue": false,
+      "source": "build_fuzzy_simplicial_set",
+      "target": "optimize_umap_layout"
     }
   ],
   "cdg_io": {

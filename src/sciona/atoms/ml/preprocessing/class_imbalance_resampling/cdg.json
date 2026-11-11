@@ -4,9 +4,58 @@
   "priority": "medium",
   "decomposition_rationale": "Resampling must be strictly isolated to the training path. Decouple class count checking from the synthetic interpolation algorithm to ensure it is only run when required.",
   "family_directory_hint": "src/sciona/atoms/ml/preprocessing/",
-  "atomic_nodes": [
+  "nodes": [
     {
+      "node_id": "class_imbalance_resampling_root",
+      "parent_id": null,
+      "name": "class_imbalance_resampling",
+      "description": "Resampling must be strictly isolated to the training path. Decouple class count checking from the synthetic interpolation algorithm to ensure it is only run when required.",
+      "concept_type": "custom",
+      "inputs": [
+        {
+          "name": "features",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "targets",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        },
+        {
+          "name": "k_neighbors",
+          "type_desc": "int",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "resampled_features",
+          "type_desc": "NDArray[np.float64]"
+        },
+        {
+          "name": "resampled_targets",
+          "type_desc": "NDArray[np.int64]"
+        }
+      ],
+      "status": "decomposed",
+      "children": [
+        "compute_class_imbalance_ratios",
+        "generate_smote_samples"
+      ],
+      "depth": 0,
+      "decomposition_rationale": "Resampling must be strictly isolated to the training path. Decouple class count checking from the synthetic interpolation algorithm to ensure it is only run when required."
+    },
+    {
+      "node_id": "compute_class_imbalance_ratios",
+      "parent_id": "class_imbalance_resampling_root",
       "name": "compute_class_imbalance_ratios",
+      "description": "Verify class frequencies and determine resampling target counts.",
+      "concept_type": "custom",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(targets: NDArray[np.int64]) -> tuple[bool, dict[int, int]]",
+      "matched_primitive": "compute_class_imbalance_ratios",
       "semantic_role": "Verify class frequencies and determine resampling target counts.",
       "source_targets": [
         "numpy.bincount"
@@ -37,7 +86,15 @@
       "complexity_confidence": 90
     },
     {
+      "node_id": "generate_smote_samples",
+      "parent_id": "class_imbalance_resampling_root",
       "name": "generate_smote_samples",
+      "description": "Create synthetic minority samples using linear interpolation of nearest neighbors.",
+      "concept_type": "custom",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(features: NDArray[np.float64], targets: NDArray[np.int64], k_neighbors: int) -> tuple[NDArray[np.float64], NDArray[np.int64]]",
+      "matched_primitive": "generate_smote_samples",
       "semantic_role": "Create synthetic minority samples using linear interpolation of nearest neighbors.",
       "source_targets": [
         "imblearn.over_sampling.SMOTE"

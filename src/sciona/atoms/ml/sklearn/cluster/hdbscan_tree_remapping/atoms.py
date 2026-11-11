@@ -112,8 +112,8 @@ def hdbscan_remapped_tree_rows(
     internal_to_raw: dict[int, int],
     outlier_count: int,
 ) -> NDArray[np.void]:
-    from sklearn.cluster._hdbscan.hdbscan import HIERARCHY_dtype
     """Remap HDBSCAN linkage-tree endpoint ids before appending outlier rows."""
+    from sklearn.cluster._hdbscan.hdbscan import HIERARCHY_dtype
     values = np.asarray(tree, dtype=HIERARCHY_dtype).copy()
     finite_count = len(internal_to_raw)
     for i in range(values.shape[0]):
@@ -141,8 +141,8 @@ def hdbscan_outlier_linkage_rows(
     last_cluster_size: int,
     nonfinite_raw_indices: NDArray[np.int64],
 ) -> NDArray[np.void]:
-    from sklearn.cluster._hdbscan.hdbscan import HIERARCHY_dtype
     """Build HDBSCAN's appended outlier linkage rows at infinite distance."""
+    from sklearn.cluster._hdbscan.hdbscan import HIERARCHY_dtype
     outliers = np.asarray(nonfinite_raw_indices, dtype=np.int64)
     outlier_tree = np.zeros(outliers.shape[0], dtype=HIERARCHY_dtype)
     cluster_id = int(last_cluster_id)
@@ -161,8 +161,8 @@ def hdbscan_remapped_single_linkage_tree(
     internal_to_raw: dict[int, int],
     nonfinite_raw_indices: NDArray[np.int64],
 ) -> NDArray[np.void]:
-    from sklearn.cluster._hdbscan.hdbscan import HIERARCHY_dtype
     """Restore non-finite raw samples into HDBSCAN's single-linkage tree."""
+    from sklearn.cluster._hdbscan.hdbscan import HIERARCHY_dtype
     values = hdbscan_remapped_tree_rows(
         np.asarray(tree, dtype=HIERARCHY_dtype),
         internal_to_raw,

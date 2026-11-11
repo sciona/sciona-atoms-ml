@@ -81,8 +81,8 @@ def gradient_boosting_huber_delta(
     *,
     quantile: float = 0.9,
 ) -> float:
-    from sklearn.utils.stats import _weighted_percentile
     """Compute the weighted Huber delta that sklearn gradient boosting stores for a regression stage."""
+    from sklearn.utils.stats import _weighted_percentile
     target = np.asarray(y_true, dtype=np.float64)
     raw = np.asarray(raw_prediction, dtype=np.float64).reshape(-1)
     weights = np.asarray(sample_weight, dtype=np.float64)

@@ -118,8 +118,8 @@ def bagging_classifier_oob_accuracy(
     y_encoded: NDArray[np.int64],
     prediction_totals: NDArray[np.float64],
 ) -> float:
-    from sklearn.metrics import accuracy_score, r2_score
     """Return the fraction of rows whose largest class total matches the encoded label."""
+    from sklearn.metrics import accuracy_score, r2_score
     encoded = np.asarray(y_encoded, dtype=np.int64)
     totals = np.asarray(prediction_totals, dtype=np.float64)
     return float(accuracy_score(encoded, np.argmax(totals, axis=1)))
@@ -137,6 +137,6 @@ def bagging_regressor_oob_r2(
     y_true: NDArray[np.float64],
     predictions: NDArray[np.float64],
 ) -> float:
-    from sklearn.metrics import accuracy_score, r2_score
     """Return how much of the target variation the averaged predictions explain."""
+    from sklearn.metrics import accuracy_score, r2_score
     return float(r2_score(np.asarray(y_true, dtype=np.float64), np.asarray(predictions, dtype=np.float64)))

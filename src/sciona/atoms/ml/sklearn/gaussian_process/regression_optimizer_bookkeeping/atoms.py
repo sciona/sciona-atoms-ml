@@ -143,8 +143,8 @@ def gp_regression_restart_thetas(
     n_restarts_optimizer: int,
     random_state: RandomStateLike = 0,
 ) -> NDArray[np.float64]:
-    from sklearn.utils import check_random_state
     """Draw GaussianProcessRegressor optimizer restart thetas from finite bounds."""
+    from sklearn.utils import check_random_state
     values = np.asarray(bounds, dtype=np.float64)
     restart_count = int(n_restarts_optimizer)
     if restart_count == 0:

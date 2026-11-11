@@ -4,9 +4,59 @@
   "priority": "medium",
   "decomposition_rationale": "Isolate grid product creation, fold training, performance aggregation, and final model refitting into distinct, modular atoms.",
   "family_directory_hint": "src/sciona/atoms/ml/model_selection/",
-  "atomic_nodes": [
+  "nodes": [
     {
+      "node_id": "grid_search_cross_validation_root",
+      "parent_id": null,
+      "name": "grid_search_cross_validation",
+      "description": "Isolate grid product creation, fold training, performance aggregation, and final model refitting into distinct, modular atoms.",
+      "concept_type": "searching",
+      "inputs": [
+        {
+          "name": "estimator",
+          "type_desc": "Any",
+          "required": true
+        },
+        {
+          "name": "features",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "targets",
+          "type_desc": "NDArray[Any]",
+          "required": true
+        },
+        {
+          "name": "param_grid",
+          "type_desc": "dict[str, list[Any]]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "best_params",
+          "type_desc": "dict[str, Any]"
+        }
+      ],
+      "status": "decomposed",
+      "children": [
+        "generate_cartesian_grid",
+        "fit_cv_candidate"
+      ],
+      "depth": 0,
+      "decomposition_rationale": "Isolate grid product creation, fold training, performance aggregation, and final model refitting into distinct, modular atoms."
+    },
+    {
+      "node_id": "generate_cartesian_grid",
+      "parent_id": "grid_search_cross_validation_root",
       "name": "generate_cartesian_grid",
+      "description": "Compile hyperparameter dictionary combinations into list of explicit configurations.",
+      "concept_type": "searching",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(param_grid: dict[str, list[Any]]) -> list[dict[str, Any]]",
+      "matched_primitive": "generate_cartesian_grid",
       "semantic_role": "Compile hyperparameter dictionary combinations into list of explicit configurations.",
       "source_targets": [
         "sklearn.model_selection.ParameterGrid"
@@ -35,7 +85,15 @@
       "complexity_confidence": 90
     },
     {
+      "node_id": "fit_cv_candidate",
+      "parent_id": "grid_search_cross_validation_root",
       "name": "fit_cv_candidate",
+      "description": "Fit a single parameter combination on a specific training fold and score on validation.",
+      "concept_type": "searching",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(estimator: Any, features: NDArray[np.float64], targets: NDArray[Any], params: dict[str, Any], train_indices: NDArray[np.int64], val_indices: NDArray[np.int64]) -> float",
+      "matched_primitive": "fit_cv_candidate",
       "semantic_role": "Fit a single parameter combination on a specific training fold and score on validation.",
       "source_targets": [
         "sklearn.model_selection._validation._fit_and_score"
@@ -89,10 +147,15 @@
   ],
   "edges": [
     {
-      "source": "generate_cartesian_grid",
-      "target": "fit_cv_candidate",
+      "source_id": "generate_cartesian_grid",
+      "target_id": "fit_cv_candidate",
       "output_name": "configurations",
-      "input_name": "params"
+      "input_name": "params",
+      "source_type": "list[dict[str, Any]]",
+      "target_type": "dict[str, Any]",
+      "requires_glue": false,
+      "source": "generate_cartesian_grid",
+      "target": "fit_cv_candidate"
     }
   ],
   "cdg_io": {

@@ -117,9 +117,9 @@ def calibration_curve(
     n_bins: int = 5,
     strategy: str = "uniform",
 ) -> CurveResult:
+    """Compute positive rate and mean predicted probability by calibration bin."""
     from sklearn.utils import check_consistent_length, column_or_1d
     from sklearn.utils.validation import _check_pos_label_consistency
-    """Compute positive rate and mean predicted probability by calibration bin."""
     checked_y_true = column_or_1d(y_true)
     checked_y_prob = column_or_1d(y_prob)
     check_consistent_length(checked_y_true, checked_y_prob)
@@ -162,8 +162,8 @@ def sigmoid_calibration_fit(
     *,
     sample_weight: NDArray[np.float64] | None = None,
 ) -> SigmoidCalibrationState:
-    from sklearn.calibration import CalibratedClassifierCV, _sigmoid_calibration
     """Fit Platt sigmoid calibration slope and intercept."""
+    from sklearn.calibration import CalibratedClassifierCV, _sigmoid_calibration
     a, b = _sigmoid_calibration(predictions, y, sample_weight=sample_weight)
     return SigmoidCalibrationState(a=float(a), b=float(b))
 
@@ -176,8 +176,8 @@ def sigmoid_calibration_predict(
     predictions: NDArray[np.float64],
     state: SigmoidCalibrationState,
 ) -> NDArray[np.float64]:
-    from sklearn.utils import check_consistent_length, column_or_1d
     """Apply fitted Platt sigmoid calibration to raw predictions."""
+    from sklearn.utils import check_consistent_length, column_or_1d
     checked = column_or_1d(predictions)
     return np.asarray(expit(-(state.a * checked + state.b)), dtype=np.float64)
 
@@ -192,8 +192,8 @@ def temperature_scaling_fit(
     *,
     sample_weight: NDArray[np.float64] | None = None,
 ) -> TemperatureScalingState:
-    from sklearn.calibration import _TemperatureScaling as SklearnTemperatureScaling
     """Fit the inverse temperature for softmax probability calibration."""
+    from sklearn.calibration import _TemperatureScaling as SklearnTemperatureScaling
     calibrator = SklearnTemperatureScaling().fit(X, y, sample_weight=sample_weight)
     return TemperatureScalingState(beta=float(calibrator.beta_))
 
@@ -228,8 +228,8 @@ def calibrated_classifier_cv_fit(
     n_jobs: int | None = None,
     ensemble: bool | str = "auto",
 ) -> CalibratedClassifierCVState:
-    from sklearn.calibration import CalibratedClassifierCV, _sigmoid_calibration
     """Fit a calibrated classifier CV meta-estimator and return immutable state."""
+    from sklearn.calibration import CalibratedClassifierCV, _sigmoid_calibration
     fitted = CalibratedClassifierCV(estimator=estimator, method=method, cv=cv, n_jobs=n_jobs, ensemble=ensemble).fit(X, y)
     n_features = getattr(fitted, "n_features_in_", None)
     return CalibratedClassifierCVState(

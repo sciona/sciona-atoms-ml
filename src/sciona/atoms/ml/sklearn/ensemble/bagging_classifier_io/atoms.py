@@ -83,9 +83,9 @@ def _labels_valid(result: object, probabilities: object, classes: object) -> boo
 def bagging_classifier_fit_targets(
     y: NDArray[np.object_] | NDArray[np.int64] | NDArray[np.float64] | NDArray[np.bool_],
 ) -> FitTargetsResult:
+    """Resolve sklearn bagging classifier classes and encoded targets during fit."""
     from sklearn.utils import column_or_1d
     from sklearn.utils.multiclass import check_classification_targets
-    """Resolve sklearn bagging classifier classes and encoded targets during fit."""
     checked = column_or_1d(y, warn=True)
     check_classification_targets(checked)
     classes, encoded = np.unique(checked, return_inverse=True)

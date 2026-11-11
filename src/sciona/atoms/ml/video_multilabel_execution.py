@@ -8,7 +8,7 @@ def witness_video_multilabel_prepare(payload: dict) -> dict:return {'kind':'Vide
 @register_atom(witness_video_multilabel_prepare)
 def video_multilabel_prepare(payload: dict) -> object:
     """Validate disjoint video feature populations and training controls."""
-    from sciona.video_multilabel_contract import prepare
+    from sciona._runtime.ml.video_multilabel_contract import prepare
     return prepare(payload)
 
 
@@ -20,5 +20,5 @@ def witness_video_multilabel_execute(prepared: object) -> dict:
 @register_atom(witness_video_multilabel_execute)
 def video_multilabel_execute(prepared: object) -> dict:
     """Train attention/sparse ensemble, calibrate label thresholds and predict."""
-    from sciona.video_multilabel_contract import execute
+    from sciona._runtime.ml.video_multilabel_contract import execute
     return execute(prepared)

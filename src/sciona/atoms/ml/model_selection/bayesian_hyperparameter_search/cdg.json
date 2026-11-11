@@ -4,9 +4,48 @@
   "priority": "medium",
   "decomposition_rationale": "Bayesian optimization requires state tracking across trials. Represent the stateful database/history store as a distinct node, separate from the next-parameter sampler and evaluation nodes.",
   "family_directory_hint": "src/sciona/atoms/ml/model_selection/",
-  "atomic_nodes": [
+  "nodes": [
     {
+      "node_id": "bayesian_hyperparameter_search_root",
+      "parent_id": null,
+      "name": "bayesian_hyperparameter_search",
+      "description": "Bayesian optimization requires state tracking across trials. Represent the stateful database/history store as a distinct node, separate from the next-parameter sampler and evaluation nodes.",
+      "concept_type": "searching",
+      "inputs": [
+        {
+          "name": "history",
+          "type_desc": "list[Any]",
+          "required": true
+        },
+        {
+          "name": "param_specs",
+          "type_desc": "dict[str, Any]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "next_params",
+          "type_desc": "dict[str, Any]"
+        }
+      ],
+      "status": "decomposed",
+      "children": [
+        "propose_next_parameters"
+      ],
+      "depth": 0,
+      "decomposition_rationale": "Bayesian optimization requires state tracking across trials. Represent the stateful database/history store as a distinct node, separate from the next-parameter sampler and evaluation nodes."
+    },
+    {
+      "node_id": "propose_next_parameters",
+      "parent_id": "bayesian_hyperparameter_search_root",
       "name": "propose_next_parameters",
+      "description": "Query surrogate model (e.g., TPE Sampler) for the next hyperparameter set to evaluate.",
+      "concept_type": "searching",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(history: list[Any], param_specs: dict[str, Any]) -> dict[str, Any]",
+      "matched_primitive": "propose_next_parameters",
       "semantic_role": "Query surrogate model (e.g., TPE Sampler) for the next hyperparameter set to evaluate.",
       "source_targets": [
         "optuna.samplers.TPESampler.sample_independent"

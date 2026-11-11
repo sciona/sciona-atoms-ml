@@ -97,8 +97,8 @@ def sparse_encode_sample_bounds(
     n_samples: int,
     effective_job_count: int,
 ) -> NDArray[np.int64]:
-    from sklearn.utils import gen_even_slices
     """Build sklearn's even sample slices for parallel sparse_encode blocks."""
+    from sklearn.utils import gen_even_slices
     bounds = [(sl.start or 0, sl.stop or 0) for sl in gen_even_slices(int(n_samples), int(effective_job_count))]
     return np.asarray(bounds, dtype=np.int64)
 

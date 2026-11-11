@@ -1,6 +1,6 @@
 """Training/inference feature-policy binding for portable native state."""
 from sciona.ghost.registry import register_atom
-from sciona.nasa_first_policy_state import capture_bank_policy,bound_prediction_inputs
+from sciona._runtime.ml.nasa_first_policy_state import capture_bank_policy,bound_prediction_inputs
 from sciona.atoms.ml.model_selection.named_regression import witness_materialized
 
 

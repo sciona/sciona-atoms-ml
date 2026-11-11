@@ -43,8 +43,8 @@ def _tokenize_result_valid(result: dict[str, list[int]]) -> bool:
     "tokenizer output must contain aligned integer ID, mask, and type-ID lists",
 )
 def tokenize(text: str, tokenizer_path: Path) -> dict[str, list[int]]:
-    from tokenizers import Tokenizer
     """Tokenize text with a local Hugging Face fast tokenizer JSON artifact."""
+    from tokenizers import Tokenizer
     tokenizer = Tokenizer.from_file(str(tokenizer_path))
     encoding = tokenizer.encode(text)
     return {

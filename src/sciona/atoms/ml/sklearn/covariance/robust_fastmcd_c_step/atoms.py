@@ -117,8 +117,8 @@ def fast_mcd_initial_random_support_indices(
     *,
     random_state: RandomStateLike = None,
 ) -> NDArray[np.int64]:
-    from sklearn.utils import check_random_state
     """Draw sklearn's initial random FastMCD support indices."""
+    from sklearn.utils import check_random_state
     rng = check_random_state(random_state)
     return np.asarray(rng.permutation(int(n_samples))[: int(n_support)], dtype=np.int64)
 
@@ -149,8 +149,8 @@ def fast_mcd_support_statistics(
     X: NDArray[np.float64],
     support_indices: NDArray[np.int64],
 ) -> SupportStats:
-    from sklearn.utils.extmath import fast_logdet
     """Compute FastMCD location, covariance, and log-determinant from a support set."""
+    from sklearn.utils.extmath import fast_logdet
     X_values = np.asarray(X, dtype=np.float64)
     indices = np.asarray(support_indices, dtype=np.int64)
     X_support = X_values[indices]

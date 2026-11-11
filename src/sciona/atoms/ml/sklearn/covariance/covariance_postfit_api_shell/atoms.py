@@ -98,8 +98,8 @@ def covariance_score_test_covariance(
     X_test: Matrix,
     location: Vector,
 ) -> Matrix:
-    from sklearn.utils import check_array
     """Compute sklearn's centered test covariance before covariance-estimator scoring."""
+    from sklearn.utils import check_array
     checked_x = np.asarray(check_array(X_test), dtype=np.float64)
     centered = checked_x - np.asarray(location, dtype=np.float64)
     return np.asarray(empirical_covariance(centered, assume_centered=True), dtype=np.float64)

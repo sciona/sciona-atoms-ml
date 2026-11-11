@@ -71,8 +71,8 @@ def _resize_result_valid(result: FactorPair, code: NDArray[np.float64], dictiona
 @icontract.require(lambda X: _finite_matrix(X), "X must be a nonempty finite matrix")
 @icontract.ensure(lambda result, X: _svd_result_valid(result, X), "SVD initialization must return finite code and dictionary factors with rank-compatible shapes")
 def dictionary_learning_svd_initialize(X: NDArray[np.float64]) -> FactorPair:
-    from sklearn.utils.extmath import svd_flip
     """Initialize dictionary-learning factors from a deterministic SVD."""
+    from sklearn.utils.extmath import svd_flip
     values = np.asarray(X, dtype=np.float64)
     code, singular_values, dictionary = linalg.svd(values, full_matrices=False)
     code, dictionary = svd_flip(code, dictionary)

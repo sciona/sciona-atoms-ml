@@ -478,10 +478,10 @@ def classical_mds_dissimilarity_matrix(
     metric: str = "euclidean",
     metric_params: None = None,
 ) -> NDArray[np.float64]:
+    """Compute the dense dissimilarity matrix used by classical MDS."""
     from sklearn.metrics import pairwise_distances
     from sklearn.utils import check_symmetric
     from sklearn.utils.validation import _check_psd_eigenvalues, check_array
-    """Compute the dense dissimilarity matrix used by classical MDS."""
     del metric_params
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     if metric == "precomputed":
@@ -493,8 +493,8 @@ def classical_mds_dissimilarity_matrix(
 @icontract.require(lambda dissimilarity_matrix: _finite_matrix(dissimilarity_matrix), "dissimilarity_matrix must contain only finite values")
 @icontract.ensure(lambda result, dissimilarity_matrix: _centered_matrix_valid(result, dissimilarity_matrix), "double-centered matrix must be finite and mean centered")
 def classical_mds_double_center(dissimilarity_matrix: NDArray[np.float64]) -> NDArray[np.float64]:
-    from sklearn.utils.validation import _check_psd_eigenvalues, check_array
     """Center squared distances so each row and column has mean zero."""
+    from sklearn.utils.validation import _check_psd_eigenvalues, check_array
     checked = check_array(dissimilarity_matrix, dtype=np.float64, ensure_2d=True)
     B = checked**2
     B = B.astype(np.float64)
@@ -518,8 +518,8 @@ def classical_mds_fit(
     metric: str = "euclidean",
     metric_params: None = None,
 ) -> ClassicalMDSState:
-    from sklearn.utils.extmath import _deterministic_vector_sign_flip, svd_flip
     """Fit low-dimensional coordinates from centered pairwise distances."""
+    from sklearn.utils.extmath import _deterministic_vector_sign_flip, svd_flip
     dissimilarity_matrix = classical_mds_dissimilarity_matrix(X, metric=metric, metric_params=metric_params)
     centered = classical_mds_double_center(dissimilarity_matrix)
 
@@ -621,9 +621,9 @@ def smacof(
     return_n_iter: bool = False,
     normalized_stress: bool | str = "auto",
 ) -> SMACOFState:
+    """Fit a dense metric SMACOF embedding from dissimilarities."""
     from sklearn.utils import check_symmetric
     from sklearn.utils.validation import _check_psd_eigenvalues, check_array
-    """Fit a dense metric SMACOF embedding from dissimilarities."""
     del metric, n_init, n_jobs, verbose, return_n_iter
     checked = check_array(dissimilarities, dtype=np.float64, ensure_2d=True)
     checked = np.asarray(check_symmetric(checked, raise_exception=True), dtype=np.float64)
@@ -722,11 +722,11 @@ def spectral_embedding(
     norm_laplacian: bool = True,
     drop_first: bool = True,
 ) -> NDArray[np.float64]:
+    """Project a dense affinity graph onto Laplacian eigenvectors."""
     from sklearn.utils import check_symmetric
     from sklearn.utils._arpack import _init_arpack_v0
     from sklearn.utils.extmath import _deterministic_vector_sign_flip, svd_flip
     from sklearn.utils.validation import _check_psd_eigenvalues, check_array
-    """Project a dense affinity graph onto Laplacian eigenvectors."""
     del eigen_solver
     checked = check_array(adjacency, dtype=np.float64, ensure_2d=True)
     checked = np.asarray(check_symmetric(checked, raise_exception=True), dtype=np.float64)
@@ -771,10 +771,10 @@ def spectral_embedding_fit(
     n_neighbors: None = None,
     n_jobs: None = None,
 ) -> SpectralEmbeddingState:
+    """Fit dense spectral embedding coordinates from rbf or precomputed affinity."""
     from sklearn.metrics.pairwise import rbf_kernel
     from sklearn.utils import check_symmetric
     from sklearn.utils.validation import _check_psd_eigenvalues, check_array
-    """Fit dense spectral embedding coordinates from rbf or precomputed affinity."""
     del n_neighbors, n_jobs
     checked = check_array(X, dtype=np.float64, ensure_2d=True)
     if affinity == "precomputed":
@@ -864,9 +864,9 @@ def isomap_neighbors_graph(
     metric_params: None = None,
     n_jobs: None = None,
 ) -> NDArray[np.float64]:
+    """Build the dense distance graph used by the n-neighbor Isomap path."""
     from sklearn.neighbors import NearestNeighbors, kneighbors_graph
     from sklearn.utils.validation import _check_psd_eigenvalues, check_array
-    """Build the dense distance graph used by the n-neighbor Isomap path."""
     del radius
     checked = check_array(X, dtype=np.float64, ensure_2d=True, ensure_min_samples=2)
     nbrs = NearestNeighbors(
@@ -899,8 +899,8 @@ def isomap_geodesic_distances(
     *,
     path_method: str = "auto",
 ) -> NDArray[np.float64]:
-    from sklearn.utils.validation import _check_psd_eigenvalues, check_array
     """Compute all-pairs geodesic distances from an Isomap neighbor graph."""
+    from sklearn.utils.validation import _check_psd_eigenvalues, check_array
     graph = check_array(neighbors_graph, dtype=np.float64, ensure_2d=True)
     n_components, _ = connected_components(graph)
     if n_components != 1:
@@ -944,8 +944,8 @@ def isomap_fit(
     p: float = 2.0,
     metric_params: None = None,
 ) -> IsomapState:
-    from sklearn.utils.validation import _check_psd_eigenvalues, check_array
     """Fit dense n-neighbor Isomap coordinates and reusable transform state."""
+    from sklearn.utils.validation import _check_psd_eigenvalues, check_array
     del radius, eigen_solver, tol, max_iter
     checked = check_array(X, dtype=np.float64, ensure_2d=True, ensure_min_samples=2)
     graph = isomap_neighbors_graph(
@@ -987,9 +987,9 @@ def isomap_fit(
 @icontract.require(lambda X, state: _isomap_feature_count_matches(X, state), "X feature count must match fitted Isomap state")
 @icontract.ensure(lambda result, X, state: _isomap_transform_valid(result, X, state), "Isomap transform must contain finite coordinates")
 def isomap_transform(X: NDArray[np.float64], state: IsomapState) -> NDArray[np.float64]:
+    """Project query samples through a fitted dense Isomap state."""
     from sklearn.neighbors import NearestNeighbors, kneighbors_graph
     from sklearn.utils.validation import _check_psd_eigenvalues, check_array
-    """Project query samples through a fitted dense Isomap state."""
     checked = check_array(X, dtype=np.float64, ensure_2d=True)
     nbrs = NearestNeighbors(
         n_neighbors=state.n_neighbors,
@@ -1045,8 +1045,8 @@ def lle_barycenter_weights(
     *,
     reg: float = 1e-3,
 ) -> NDArray[np.float64]:
-    from sklearn.utils.validation import _check_psd_eigenvalues, check_array
     """Compute row-normalized local reconstruction weights for LLE."""
+    from sklearn.utils.validation import _check_psd_eigenvalues, check_array
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     checked_y = check_array(Y, dtype=np.float64, ensure_2d=True)
     checked_indices = check_array(indices, dtype=np.int64, ensure_2d=True)
@@ -1077,9 +1077,9 @@ def lle_barycenter_graph(
     reg: float = 1e-3,
     n_jobs: None = None,
 ) -> NDArray[np.float64]:
+    """Build the dense barycenter-weight matrix for standard LLE."""
     from sklearn.neighbors import NearestNeighbors, kneighbors_graph
     from sklearn.utils.validation import _check_psd_eigenvalues, check_array
-    """Build the dense barycenter-weight matrix for standard LLE."""
     checked = check_array(X, dtype=np.float64, ensure_2d=True, ensure_min_samples=2)
     nbrs = NearestNeighbors(n_neighbors=n_neighbors + 1, n_jobs=n_jobs)
     nbrs.fit(checked)
@@ -1095,8 +1095,8 @@ def lle_barycenter_graph(
 @icontract.require(lambda weights: _finite_matrix(weights), "weights must contain only finite values")
 @icontract.ensure(lambda result, weights: _lle_matrix_valid(result, weights), "reconstruction matrix must be finite and symmetric")
 def lle_standard_reconstruction_matrix(weights: NDArray[np.float64]) -> NDArray[np.float64]:
-    from sklearn.utils.validation import _check_psd_eigenvalues, check_array
     """Compute the dense standard LLE matrix (I - W)'(I - W)."""
+    from sklearn.utils.validation import _check_psd_eigenvalues, check_array
     checked = check_array(weights, dtype=np.float64, ensure_2d=True)
     matrix = np.asarray(checked.T @ checked - checked.T - checked, dtype=np.float64)
     matrix.flat[:: matrix.shape[0] + 1] += 1.0
@@ -1137,8 +1137,8 @@ def locally_linear_embedding(
     random_state: int | None = None,
     n_jobs: None = None,
 ) -> LocallyLinearEmbeddingState:
-    from sklearn.utils.validation import _check_psd_eigenvalues, check_array
     """Fit standard dense locally linear embedding coordinates."""
+    from sklearn.utils.validation import _check_psd_eigenvalues, check_array
     del eigen_solver, tol, max_iter, method, hessian_tol, modified_tol, random_state
     checked = check_array(X, dtype=np.float64, ensure_2d=True, ensure_min_samples=2)
     weights = lle_barycenter_graph(checked, n_neighbors=n_neighbors, reg=reg, n_jobs=n_jobs)
@@ -1229,9 +1229,9 @@ def locally_linear_embedding_transform(
     X: NDArray[np.float64],
     state: LocallyLinearEmbeddingState,
 ) -> NDArray[np.float64]:
+    """Transform samples with a fitted standard dense LLE state."""
     from sklearn.neighbors import NearestNeighbors, kneighbors_graph
     from sklearn.utils.validation import _check_psd_eigenvalues, check_array
-    """Transform samples with a fitted standard dense LLE state."""
     checked = check_array(X, dtype=np.float64, ensure_2d=True)
     nbrs = NearestNeighbors(n_neighbors=state.n_neighbors)
     nbrs.fit(state.training_data)

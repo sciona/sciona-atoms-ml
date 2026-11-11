@@ -113,8 +113,8 @@ def _expanded_class_weight_valid(result: object, y_original: object) -> bool:
 def forest_classifier_fit_targets(
     y: NDArray[np.object_] | NDArray[np.int64] | NDArray[np.float64] | NDArray[np.bool_],
 ) -> FitTargetsResult:
-    from sklearn.utils.multiclass import check_classification_targets
     """Resolve forest classifier classes, class counts, and encoded targets."""
+    from sklearn.utils.multiclass import check_classification_targets
     matrix = np.asarray(y).copy()
     check_classification_targets(matrix)
 
@@ -188,8 +188,8 @@ def forest_classifier_expanded_class_weight(
     *,
     bootstrap: bool,
 ) -> NDArray[np.float64] | None:
-    from sklearn.utils.class_weight import compute_sample_weight
     """Resolve forest classifier expanded sample weights from original targets."""
+    from sklearn.utils.class_weight import compute_sample_weight
     matrix = np.asarray(y_original).copy()
     preset = class_weight if isinstance(class_weight, str) else None
     if preset is not None:

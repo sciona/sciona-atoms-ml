@@ -9,7 +9,7 @@ def witness_connectomics_prepare(payload: dict) -> dict:
 @register_atom(witness_connectomics_prepare)
 def connectomics_prepare(payload: dict) -> object:
     """Validate and copy private nonnegative time-by-node signals."""
-    from sciona.connectomics_runtime import prepare
+    from sciona._runtime.ml.connectomics_runtime import prepare
     return prepare(payload)
 
 
@@ -22,5 +22,5 @@ def witness_connectomics_execute(prepared: object) -> dict:
 @register_atom(witness_connectomics_execute)
 def connectomics_execute(prepared: object) -> dict:
     """Run all corrected grid fits and optional source precedence blend."""
-    from sciona.connectomics_runtime import execute
+    from sciona._runtime.ml.connectomics_runtime import execute
     return execute(prepared)

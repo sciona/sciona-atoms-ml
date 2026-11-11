@@ -9,7 +9,7 @@ def witness_cornell_prepare(payload: dict) -> dict:
 @register_atom(witness_cornell_prepare)
 def cornell_prepare(payload: dict) -> object:
     """Validate private audio, fold populations and complete lifecycle settings."""
-    from sciona.cornell_contract import prepare
+    from sciona._runtime.ml.cornell_contract import prepare
     return prepare(payload)
 
 
@@ -22,5 +22,5 @@ def witness_cornell_execute(prepared: object) -> dict:
 @register_atom(witness_cornell_execute)
 def cornell_execute(prepared: object) -> dict:
     """Train all source members, reload selected checkpoints and vote on predictions."""
-    from sciona.cornell_contract import execute
+    from sciona._runtime.ml.cornell_contract import execute
     return execute(prepared)

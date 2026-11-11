@@ -2,7 +2,7 @@
 import numpy as np
 import pandas as pd
 from sciona.ghost.registry import register_atom
-from sciona.materialized_prediction import predict_named_frame, average_prediction_vectors
+from sciona._runtime.ml.materialized_prediction import predict_named_frame, average_prediction_vectors
 
 
 def witness_materialized(*args: object, **kwargs: object) -> object:

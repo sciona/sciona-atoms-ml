@@ -31,8 +31,8 @@ def _fitted_regressor(estimator: object) -> bool:
 def tree_classifier_fit_return_self(
     estimator: DecisionTreeClassifier,
 ) -> DecisionTreeClassifier:
-    from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
     """Return the fitted DecisionTreeClassifier from the public fit shell."""
+    from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
     return estimator
 
 @register_atom(witness_tree_regressor_fit_return_self)
@@ -47,6 +47,6 @@ def tree_classifier_fit_return_self(
 def tree_regressor_fit_return_self(
     estimator: DecisionTreeRegressor,
 ) -> DecisionTreeRegressor:
-    from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
     """Return the fitted DecisionTreeRegressor from the public fit shell."""
+    from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
     return estimator

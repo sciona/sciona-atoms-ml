@@ -4,9 +4,58 @@
   "priority": "medium",
   "decomposition_rationale": "Decouples Laplacian matrix formulation (symmetric/unnormalized) from the sparse Lanczos solver module.",
   "family_directory_hint": "src/sciona/atoms/numerical/linear_algebra/",
-  "atomic_nodes": [
+  "nodes": [
     {
+      "node_id": "graph_laplacian_spectral_embedding_root",
+      "parent_id": null,
+      "name": "graph_laplacian_spectral_embedding",
+      "description": "Decouples Laplacian matrix formulation (symmetric/unnormalized) from the sparse Lanczos solver module.",
+      "concept_type": "graph_traversal",
+      "inputs": [
+        {
+          "name": "adj_matrix",
+          "type_desc": "scipy.sparse.csr_array",
+          "required": true
+        },
+        {
+          "name": "n_components",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "normalized",
+          "type_desc": "bool",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "embedding",
+          "type_desc": "NDArray[np.float64]"
+        },
+        {
+          "name": "eigenvalues",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "status": "decomposed",
+      "children": [
+        "compute_laplacian_matrix",
+        "solve_smallest_eigen"
+      ],
+      "depth": 0,
+      "decomposition_rationale": "Decouples Laplacian matrix formulation (symmetric/unnormalized) from the sparse Lanczos solver module."
+    },
+    {
+      "node_id": "compute_laplacian_matrix",
+      "parent_id": "graph_laplacian_spectral_embedding_root",
       "name": "compute_laplacian_matrix",
+      "description": "Build graph Laplacian L = D - A.",
+      "concept_type": "graph_traversal",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(adj_matrix: scipy.sparse.csr_array, normalized: bool) -> scipy.sparse.csr_array",
+      "matched_primitive": "compute_laplacian_matrix",
       "semantic_role": "Build graph Laplacian L = D - A.",
       "source_targets": [
         "scipy.sparse.csgraph.laplacian"
@@ -40,7 +89,15 @@
       "complexity_confidence": 90
     },
     {
+      "node_id": "solve_smallest_eigen",
+      "parent_id": "graph_laplacian_spectral_embedding_root",
       "name": "solve_smallest_eigen",
+      "description": "Extract d+1 smallest eigenvalues/eigenvectors using sparse solvers.",
+      "concept_type": "graph_traversal",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(laplacian: scipy.sparse.csr_array, k: int) -> tuple[NDArray[np.float64], NDArray[np.float64]]",
+      "matched_primitive": "solve_smallest_eigen",
       "semantic_role": "Extract d+1 smallest eigenvalues/eigenvectors using sparse solvers.",
       "source_targets": [
         "scipy.sparse.linalg.eigsh"
@@ -83,10 +140,15 @@
   ],
   "edges": [
     {
-      "source": "compute_laplacian_matrix",
-      "target": "solve_smallest_eigen",
+      "source_id": "compute_laplacian_matrix",
+      "target_id": "solve_smallest_eigen",
       "output_name": "laplacian",
-      "input_name": "laplacian"
+      "input_name": "laplacian",
+      "source_type": "scipy.sparse.csr_array",
+      "target_type": "scipy.sparse.csr_array",
+      "requires_glue": false,
+      "source": "compute_laplacian_matrix",
+      "target": "solve_smallest_eigen"
     }
   ],
   "cdg_io": {

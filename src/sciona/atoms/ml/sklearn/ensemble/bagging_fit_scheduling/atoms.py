@@ -60,8 +60,8 @@ def bagging_partition_estimators(
     n_estimators: int,
     n_jobs: int | None,
 ) -> PartitionResult:
-    from joblib import effective_n_jobs
     """Partition sklearn bagging's estimator count across effective parallel jobs."""
+    from joblib import effective_n_jobs
     resolved_n_jobs = min(effective_n_jobs(n_jobs), n_estimators)
     n_estimators_per_job = np.full(resolved_n_jobs, n_estimators // resolved_n_jobs, dtype=np.int64)
     n_estimators_per_job[: n_estimators % resolved_n_jobs] += 1
@@ -88,8 +88,8 @@ def bagging_fit_seeds(
     *,
     random_state: RandomStateLike = None,
 ) -> NDArray[np.int64]:
-    from sklearn.utils import check_random_state
     """Generate sklearn bagging's per-estimator seeds after warm-start advancement."""
+    from sklearn.utils import check_random_state
     rng = check_random_state(random_state)
     if previous_estimators > 0:
         rng.randint(MAX_INT, size=previous_estimators)

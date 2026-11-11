@@ -61,8 +61,8 @@ def _prepared_connectivity_valid(result: object, X: MatrixLike) -> bool:
 def agglomerative_fit_select_tree_builder(
     linkage: str,
 ) -> Callable[..., object]:
-    from sklearn.cluster import _agglomerative as sklearn_agglomerative
     """Select sklearn's agglomerative tree builder for the given linkage."""
+    from sklearn.cluster import _agglomerative as sklearn_agglomerative
     return sklearn_agglomerative._TREE_BUILDERS[linkage]
 
 @register_atom(witness_agglomerative_fit_prepare_connectivity)
@@ -72,8 +72,8 @@ def agglomerative_fit_prepare_connectivity(
     X: MatrixLike,
     connectivity: ConnectivityInput,
 ) -> MatrixLike | None:
-    from sklearn.utils.validation import check_array
     """Resolve optional agglomerative connectivity input through callable execution and check_array normalization."""
+    from sklearn.utils.validation import check_array
     if connectivity is None:
         return None
     resolved = connectivity(X) if callable(connectivity) else connectivity

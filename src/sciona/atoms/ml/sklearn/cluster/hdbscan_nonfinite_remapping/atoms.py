@@ -130,8 +130,8 @@ def hdbscan_infinite_indices(
 def hdbscan_finite_row_indices(
     X: object,
 ) -> NDArray[np.intp]:
-    from sklearn.cluster._hdbscan.hdbscan import _get_finite_row_indices
     """Return HDBSCAN's purely finite row indices for dense or sparse input."""
+    from sklearn.cluster._hdbscan.hdbscan import _get_finite_row_indices
     return np.asarray(_get_finite_row_indices(X), dtype=np.intp)
 
 @register_atom(witness_hdbscan_internal_to_raw_map)

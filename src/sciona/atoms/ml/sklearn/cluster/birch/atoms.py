@@ -92,9 +92,9 @@ def birch_fit_no_global(
     branching_factor: int = 50,
     compute_labels: bool = True,
 ) -> BirchNoGlobalState:
+    """Fit BIRCH with n_clusters=None and return immutable CF-tree summaries."""
     from sklearn.cluster import Birch as SklearnBirch
     from sklearn.utils.validation import check_array
-    """Fit BIRCH with n_clusters=None and return immutable CF-tree summaries."""
     checked_x = np.asarray(check_array(X, dtype=np.float64, ensure_2d=True), dtype=np.float64)
     model = SklearnBirch(
         threshold=float(threshold),
@@ -122,9 +122,9 @@ def birch_predict_no_global(
     X: MatrixLike,
     state: BirchNoGlobalState,
 ) -> NDArray[np.int_]:
+    """Predict labels by nearest BIRCH subcluster center without global clustering."""
     from sklearn.metrics import pairwise_distances_argmin
     from sklearn.utils.validation import check_array
-    """Predict labels by nearest BIRCH subcluster center without global clustering."""
     checked_x = np.asarray(check_array(X, dtype=np.float64, ensure_2d=True), dtype=np.float64)
     argmin = pairwise_distances_argmin(checked_x, state.subcluster_centers)
     return np.asarray(state.subcluster_labels[argmin], dtype=np.int_)
@@ -137,8 +137,8 @@ def birch_transform_no_global(
     X: MatrixLike,
     state: BirchNoGlobalState,
 ) -> NDArray[np.float64]:
+    """Return distances from samples to BIRCH no-global subcluster centers."""
     from sklearn.metrics.pairwise import euclidean_distances
     from sklearn.utils.validation import check_array
-    """Return distances from samples to BIRCH no-global subcluster centers."""
     checked_x = np.asarray(check_array(X, dtype=np.float64, ensure_2d=True), dtype=np.float64)
     return np.asarray(euclidean_distances(checked_x, state.subcluster_centers), dtype=np.float64)

@@ -86,9 +86,9 @@ def plssvd_fit(
     scale: bool = True,
     copy: bool = True,
 ) -> PLSSVDState:
+    """Fit PLS-SVD weights from the cross-covariance of X and y."""
     from sklearn.utils import check_array, check_consistent_length
     from sklearn.utils.extmath import svd_flip
-    """Fit PLS-SVD weights from the cross-covariance of X and y."""
     del copy
     check_consistent_length(X, y)
     checked_x = check_array(X, dtype=np.float64, ensure_min_samples=2)

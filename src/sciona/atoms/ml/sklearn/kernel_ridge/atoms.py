@@ -147,8 +147,8 @@ def kernel_ridge_fit(
     kernel_params: dict[str, float] | None = None,
     sample_weight: float | tuple[float, ...] | NDArray[np.float64] | None = None,
 ) -> KernelRidgeState:
-    from sklearn.utils import check_array
     """Fit dense kernel ridge dual coefficients for built-in pairwise kernels."""
+    from sklearn.utils import check_array
     del kernel_params
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     checked_y = check_array(y, dtype=np.float64, ensure_2d=False, input_name="y")
@@ -181,8 +181,8 @@ def kernel_ridge_fit(
 @icontract.require(lambda state: _state_valid(state), "state must be a fitted kernel ridge state")
 @icontract.ensure(lambda result, X, state: _prediction_valid(result, X, state), "predictions must match fitted output width")
 def kernel_ridge_predict(X: NDArray[np.float64], state: KernelRidgeState) -> NDArray[np.float64]:
-    from sklearn.utils import check_array
     """Predict dense outputs from fitted kernel ridge dual coefficients."""
+    from sklearn.utils import check_array
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     kernel_matrix = pairwise_kernels(
         checked_x,

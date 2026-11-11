@@ -15,7 +15,7 @@ def witness_prepare(layout: dict, labels: object, folds: object, identities: lis
 @register_atom(witness_prepare)
 def prepare_meta(layout: dict, labels: object, folds: object, identities: list,
                  seed: int, candidates: dict) -> object:
-    from sciona.stacking_meta_operations import prepare_meta_inputs
+    from sciona._runtime.ml.stacking_meta_operations import prepare_meta_inputs
     return prepare_meta_inputs(layout, labels, folds, identities, seed, candidates)
 
 
@@ -27,19 +27,19 @@ def witness_select(inputs: dict) -> dict:
 
 @register_atom(witness_select)
 def select_xgboost(inputs: object) -> object:
-    from sciona.stacking_meta_operations import select_family
+    from sciona._runtime.ml.stacking_meta_operations import select_family
     return select_family(inputs, 'xgboost')
 
 
 @register_atom(witness_select)
 def select_neural(inputs: object) -> object:
-    from sciona.stacking_meta_operations import select_family
+    from sciona._runtime.ml.stacking_meta_operations import select_family
     return select_family(inputs, 'lasagne_neural')
 
 
 @register_atom(witness_select)
 def select_extratrees(inputs: object) -> object:
-    from sciona.stacking_meta_operations import select_family
+    from sciona._runtime.ml.stacking_meta_operations import select_family
     return select_family(inputs, 'adaboost_extratrees')
 
 
@@ -51,7 +51,7 @@ def witness_refit(inputs: dict, selection: dict) -> dict:
 
 @register_atom(witness_refit)
 def refit_meta(inputs: object, selection: object) -> object:
-    from sciona.stacking_meta_operations import refit_family
+    from sciona._runtime.ml.stacking_meta_operations import refit_family
     return refit_family(inputs, selection)
 
 
@@ -64,7 +64,7 @@ def witness_mean(values: dict) -> dict:
 @register_atom(witness_mean)
 def mean_probability_bag(values: object) -> object:
     """Average runs for any aligned categorical class count of at least two."""
-    from sciona.probability_ensemble import mean_probability_bag as mean
+    from sciona._runtime.ml.probability_ensemble import mean_probability_bag as mean
     return mean(values)
 
 
@@ -78,7 +78,7 @@ def witness_blend(xgboost: dict, neural: dict, extratrees: dict) -> dict:
 def blend_meta(xgboost: object, neural: object, extratrees: object) -> dict:
     """Apply the fixed source mixture after per-family means, then normalize."""
     import numpy as np
-    from sciona.probability_ensemble import geometric_arithmetic_probability_blend
+    from sciona._runtime.ml.probability_ensemble import geometric_arithmetic_probability_blend
     if any(np.asarray(x).ndim != 2 or np.asarray(x).shape[1] != 9
            for x in (xgboost, neural, extratrees)):
         raise ValueError('Source blend requires nine classes')
@@ -94,7 +94,7 @@ def witness_result(blend: dict, xgboost: dict, neural: dict, extratrees: dict) -
 
 @register_atom(witness_result)
 def meta_result(blend: dict, xgboost: object, neural: object, extratrees: object) -> dict:
-    from sciona.stacking_meta_operations import FAMILIES, SelectedControls, selection_summary
+    from sciona._runtime.ml.stacking_meta_operations import FAMILIES, SelectedControls, selection_summary
     selections = (xgboost, neural, extratrees)
     if any(type(s) is not SelectedControls or s.family != family
            for family, s in zip(FAMILIES, selections)):

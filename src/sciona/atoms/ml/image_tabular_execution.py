@@ -8,7 +8,7 @@ def witness_image_tabular_prepare(payload: dict) -> dict:return {'kind':'ImageTa
 @register_atom(witness_image_tabular_prepare)
 def image_tabular_prepare(payload: dict) -> object:
     """Validate disjoint image/metadata populations and grouped folds."""
-    from sciona.image_tabular_contract import prepare
+    from sciona._runtime.ml.image_tabular_contract import prepare
     return prepare(payload)
 
 
@@ -20,5 +20,5 @@ def witness_image_tabular_execute(prepared: object) -> dict:
 @register_atom(witness_image_tabular_execute)
 def image_tabular_execute(prepared: object) -> dict:
     """Fit fold-local fusion MLPs, calibrate threshold and predict."""
-    from sciona.image_tabular_contract import execute
+    from sciona._runtime.ml.image_tabular_contract import execute
     return execute(prepared)

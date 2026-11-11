@@ -4,9 +4,64 @@
   "priority": "medium",
   "decomposition_rationale": "Target encoding requires computing folds and priors. Splitting prior estimation from out-of-fold category calculation ensures leakage checks can be inserted in between.",
   "family_directory_hint": "src/sciona/atoms/ml/preprocessing/",
-  "atomic_nodes": [
+  "nodes": [
     {
+      "node_id": "target_encoding_crossfit_root",
+      "parent_id": null,
+      "name": "target_encoding_crossfit",
+      "description": "Target encoding requires computing folds and priors. Splitting prior estimation from out-of-fold category calculation ensures leakage checks can be inserted in between.",
+      "concept_type": "sampler",
+      "inputs": [
+        {
+          "name": "categorical_column",
+          "type_desc": "NDArray[Any]",
+          "required": true
+        },
+        {
+          "name": "targets",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "smoothing",
+          "type_desc": "float",
+          "required": true
+        },
+        {
+          "name": "train_indices",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        },
+        {
+          "name": "test_indices",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "encoded_values",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "status": "decomposed",
+      "children": [
+        "compute_global_prior",
+        "compute_oof_target_means"
+      ],
+      "depth": 0,
+      "decomposition_rationale": "Target encoding requires computing folds and priors. Splitting prior estimation from out-of-fold category calculation ensures leakage checks can be inserted in between."
+    },
+    {
+      "node_id": "compute_global_prior",
+      "parent_id": "target_encoding_crossfit_root",
       "name": "compute_global_prior",
+      "description": "Calculate global prior mean of the target variable.",
+      "concept_type": "sampler",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(targets: NDArray[np.float64]) -> float",
+      "matched_primitive": "compute_global_prior",
       "semantic_role": "Calculate global prior mean of the target variable.",
       "source_targets": [
         "numpy.mean"
@@ -37,7 +92,15 @@
       "complexity_confidence": 90
     },
     {
+      "node_id": "compute_oof_target_means",
+      "parent_id": "target_encoding_crossfit_root",
       "name": "compute_oof_target_means",
+      "description": "Calculate smoothed category averages using out-of-fold indexing.",
+      "concept_type": "custom",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(categorical_column: NDArray[Any], targets: NDArray[np.float64], prior: float, smoothing: float, train_indices: NDArray[np.int64], test_indices: NDArray[np.int64]) -> NDArray[np.float64]",
+      "matched_primitive": "compute_oof_target_means",
       "semantic_role": "Calculate smoothed category averages using out-of-fold indexing.",
       "source_targets": [
         "sklearn.preprocessing.TargetEncoder"
@@ -95,10 +158,15 @@
   ],
   "edges": [
     {
-      "source": "compute_global_prior",
-      "target": "compute_oof_target_means",
+      "source_id": "compute_global_prior",
+      "target_id": "compute_oof_target_means",
       "output_name": "prior",
-      "input_name": "prior"
+      "input_name": "prior",
+      "source_type": "float",
+      "target_type": "float",
+      "requires_glue": false,
+      "source": "compute_global_prior",
+      "target": "compute_oof_target_means"
     }
   ],
   "cdg_io": {

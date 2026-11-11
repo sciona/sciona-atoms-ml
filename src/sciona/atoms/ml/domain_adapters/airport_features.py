@@ -8,14 +8,14 @@ import numpy as np
 import pandas as pd
 
 from sciona.ghost.registry import register_atom
-from sciona.nasa_feature_adapters import (
+from sciona._runtime.ml.nasa_feature_adapters import (
     _check, estimated_departure_features, fit_airline_vocabulary,
     airline_features, arrival_history_features,
 )
-from sciona.nasa_workflow_inputs import _join, ETD_FEATURES, HISTORY_FEATURES, attach_predictions
-from sciona.tabular_contracts import stable_feature_order, ordered_feature_matrix
+from sciona._runtime.ml.nasa_workflow_inputs import _join, ETD_FEATURES, HISTORY_FEATURES, attach_predictions
+from sciona._runtime.ml.tabular_contracts import stable_feature_order, ordered_feature_matrix
 from sciona.ghost.dimensions import DimensionalSignature
-from sciona.residual_metadata_preflight import KEYS, propagate_metadata, validate_materialized_inputs
+from sciona._runtime.ml.residual_metadata_preflight import KEYS, propagate_metadata, validate_materialized_inputs
 
 
 def witness_unmaterialized(*args: object, **kwargs: object) -> object:

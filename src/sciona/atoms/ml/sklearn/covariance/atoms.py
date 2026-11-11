@@ -25,8 +25,8 @@ def empirical_covariance(
     *,
     assume_centered: bool = False,
 ) -> NDArray[np.float64]:
-    from sklearn.utils import check_array
     """Compute the maximum-likelihood empirical covariance matrix."""
+    from sklearn.utils import check_array
     checked_x = check_array(X, ensure_2d=False, ensure_all_finite=False)
     if checked_x.ndim == 1:
         checked_x = np.reshape(checked_x, (1, -1))
@@ -54,8 +54,8 @@ def shrunk_covariance(
     emp_cov: NDArray[np.float64],
     shrinkage: float = 0.1,
 ) -> NDArray[np.float64]:
-    from sklearn.utils import check_array
     """Shrink covariance matrices toward their average diagonal variance."""
+    from sklearn.utils import check_array
     checked_cov = check_array(emp_cov, allow_nd=True)
     n_features = checked_cov.shape[-1]
     shrunk_cov = (1.0 - shrinkage) * checked_cov
@@ -76,8 +76,8 @@ def ledoit_wolf_shrinkage(
     assume_centered: bool = False,
     block_size: int = 1000,
 ) -> float:
-    from sklearn.utils import check_array
     """Estimate the Ledoit-Wolf shrinkage coefficient from samples."""
+    from sklearn.utils import check_array
     checked_x = check_array(X)
     if len(checked_x.shape) == 2 and checked_x.shape[1] == 1:
         return 0.0
@@ -141,8 +141,8 @@ def ledoit_wolf(
     assume_centered: bool = False,
     block_size: int = 1000,
 ) -> tuple[NDArray[np.float64], float]:
-    from sklearn.utils import check_array
     """Estimate a covariance matrix with the Ledoit-Wolf shrinkage rule."""
+    from sklearn.utils import check_array
     checked_x = check_array(X)
     if len(checked_x.shape) == 2 and checked_x.shape[1] == 1:
         if not assume_centered:
@@ -168,8 +168,8 @@ def oas(
     *,
     assume_centered: bool = False,
 ) -> tuple[NDArray[np.float64], float]:
-    from sklearn.utils import check_array
     """Estimate covariance with the Oracle Approximating Shrinkage formula."""
+    from sklearn.utils import check_array
     checked_x = check_array(X)
     if len(checked_x.shape) == 2 and checked_x.shape[1] == 1:
         if not assume_centered:
@@ -243,8 +243,8 @@ def empirical_covariance_fit(
     store_precision: bool = True,
     assume_centered: bool = False,
 ) -> CovarianceState:
-    from sklearn.utils import check_array
     """Fit maximum-likelihood empirical covariance and return immutable state."""
+    from sklearn.utils import check_array
     checked_x = check_array(X)
     covariance = empirical_covariance(checked_x, assume_centered=assume_centered)
     return _covariance_state(
@@ -268,8 +268,8 @@ def shrunk_covariance_fit(
     assume_centered: bool = False,
     shrinkage: float = 0.1,
 ) -> CovarianceState:
-    from sklearn.utils import check_array
     """Fit fixed-shrinkage covariance and return immutable state."""
+    from sklearn.utils import check_array
     checked_x = check_array(X)
     emp_cov = empirical_covariance(checked_x, assume_centered=assume_centered)
     covariance = shrunk_covariance(emp_cov, shrinkage=shrinkage)
@@ -294,8 +294,8 @@ def ledoit_wolf_fit(
     assume_centered: bool = False,
     block_size: int = 1000,
 ) -> CovarianceState:
-    from sklearn.utils import check_array
     """Fit Ledoit-Wolf covariance and return immutable state."""
+    from sklearn.utils import check_array
     checked_x = check_array(X)
     covariance, shrinkage = ledoit_wolf(
         checked_x,
@@ -321,8 +321,8 @@ def oas_fit(
     store_precision: bool = True,
     assume_centered: bool = False,
 ) -> CovarianceState:
-    from sklearn.utils import check_array
     """Fit Oracle Approximating Shrinkage covariance and return immutable state."""
+    from sklearn.utils import check_array
     checked_x = check_array(X)
     covariance, shrinkage = oas(checked_x, assume_centered=assume_centered)
     return _covariance_state(

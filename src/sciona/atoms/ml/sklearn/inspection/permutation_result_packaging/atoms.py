@@ -122,8 +122,8 @@ def _multi_metric_bunches_valid(result: object, baseline_scores: Mapping[str, fl
 @icontract.require(lambda random_state=None: _random_state_valid(random_state), "random_state must be None or an integer seed")
 @icontract.ensure(lambda result: _int32_seed_valid(result), "derived random seed must be an int32-range integer")
 def permutation_importance_random_seed(random_state: int | None = None) -> int:
-    from sklearn.utils import Bunch, check_random_state
     """Derive sklearn's per-call permutation random seed from a public random_state."""
+    from sklearn.utils import Bunch, check_random_state
     rng = check_random_state(random_state)
     return int(rng.randint(np.iinfo(np.int32).max + 1))
 
@@ -146,8 +146,8 @@ def permutation_importance_summary_bunch(
     baseline_score: float,
     permuted_scores: NDArray[np.float64],
 ) -> Bunch:
-    from sklearn.utils import Bunch, check_random_state
     """Build sklearn's importances Bunch from one baseline score and one score matrix."""
+    from sklearn.utils import Bunch, check_random_state
     scores = np.asarray(permuted_scores, dtype=np.float64)
     importances = permutation_importance_values(float(baseline_score), scores)
     return Bunch(
@@ -163,8 +163,8 @@ def permutation_importance_multi_metric_bunches(
     baseline_scores: dict[str, float],
     score_dicts_by_feature: ScoreDictTuple,
 ) -> dict[str, Bunch]:
-    from sklearn.utils import Bunch, check_random_state
     """Build sklearn's multimetric permutation-importance dict from scorer outputs."""
+    from sklearn.utils import Bunch, check_random_state
     return {
         metric_name: permutation_importance_summary_bunch(
             float(baseline_scores[metric_name]),

@@ -57,8 +57,8 @@ def _target_columns_valid(result: NDArray[np.float64], indicator: sp.csc_matrix)
 @icontract.require(lambda y: _nonempty_targets(y), "y must be a nonempty 1D or 2D target array")
 @icontract.ensure(lambda result: _class_vector_valid(result), "classes must be a finite unique class vector")
 def one_vs_rest_fit_classes(y: NDArray[np.float64]) -> NDArray[np.float64]:
-    from sklearn.preprocessing import LabelBinarizer
     """Fit sklearn's sparse LabelBinarizer and return the discovered class vector."""
+    from sklearn.preprocessing import LabelBinarizer
     label_binarizer = LabelBinarizer(sparse_output=True)
     label_binarizer.fit(np.asarray(y))
     return np.asarray(label_binarizer.classes_, dtype=np.float64)
@@ -67,8 +67,8 @@ def one_vs_rest_fit_classes(y: NDArray[np.float64]) -> NDArray[np.float64]:
 @icontract.require(lambda y: _nonempty_targets(y), "y must be a nonempty 1D or 2D target array")
 @icontract.ensure(lambda result, y: _indicator_matrix_valid(result, y), "indicator must be a CSC target matrix with one row per sample")
 def one_vs_rest_fit_target_indicator_csc(y: NDArray[np.float64]) -> sp.csc_matrix:
-    from sklearn.preprocessing import LabelBinarizer
     """Fit sklearn's sparse LabelBinarizer and return the CSC target indicator matrix."""
+    from sklearn.preprocessing import LabelBinarizer
     label_binarizer = LabelBinarizer(sparse_output=True)
     return label_binarizer.fit_transform(np.asarray(y)).tocsc()
 
@@ -94,8 +94,8 @@ def one_vs_rest_partial_fit_target_indicator_csc(
     y: NDArray[np.float64],
     classes: NDArray[np.float64],
 ) -> sp.csc_matrix:
-    from sklearn.preprocessing import LabelBinarizer
     """Fit sklearn's sparse LabelBinarizer on the known classes and transform partial-fit targets to CSC."""
+    from sklearn.preprocessing import LabelBinarizer
     label_binarizer = LabelBinarizer(sparse_output=True)
     label_binarizer.fit(np.asarray(classes, dtype=np.float64))
     return label_binarizer.transform(np.asarray(y)).tocsc()

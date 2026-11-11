@@ -21,7 +21,7 @@ def assemble_quantile_populations(training, baseline, queries):
     Each queried entity requires one supplied baseline. Encounter order matters.
     This performs joins and population tagging only, not feature fitting.
     """
-    from sciona.osic_quantile_features import assemble_populations
+    from sciona._runtime.ml.osic_quantile_features import assemble_populations
     return assemble_populations(training, baseline, queries)
 
 
@@ -33,7 +33,7 @@ def fit_joint_quantile_features(population, allow_transductive):
     ordered fitted feature metadata. A changed query population can change
     training features; this is not a train-only reusable scaler.
     """
-    from sciona.osic_quantile_features import joint_population_features
+    from sciona._runtime.ml.osic_quantile_features import joint_population_features
     return joint_population_features(population, allow_transductive=allow_transductive)
 
 
@@ -47,7 +47,7 @@ def train_prepared_quantile_folds(features, targets, query_features, columns,
     Returns raw fold predictions, out-of-fold values, private prediction states
     and training records. No feature fitting or known-baseline overrides.
     """
-    from sciona.osic_quantile_training import train_prepared_quantile_folds as train
+    from sciona._runtime.ml.osic_quantile_training import train_prepared_quantile_folds as train
     return train(features, targets, query_features, columns,
                  feature_coordinate=feature_coordinate, response_coordinate=response_coordinate, seeds=seeds)
 
@@ -60,7 +60,7 @@ def replay_prepared_quantile_folds(states, features, columns, feature_coordinate
     coordinates. No fitting, reduction or baseline override. Caller verifies
     state provenance; serialized state supports inference, not training resume.
     """
-    from sciona.osic_quantile_training import replay_prepared_quantile_folds as replay
+    from sciona._runtime.ml.osic_quantile_training import replay_prepared_quantile_folds as replay
     return replay(states, features, columns, feature_coordinate, response_coordinate)
 
 
@@ -74,5 +74,5 @@ def reduce_quantile_predictions(folds, observed_mask, observed_values):
     selected rows receive those values and uncertainty 0.1 before branch blend.
     This domain policy does not establish interval calibration.
     """
-    from sciona.osic_predictions import quantile_predictions
+    from sciona._runtime.ml.osic_predictions import quantile_predictions
     return quantile_predictions(folds, observed_mask, observed_values)

@@ -4,9 +4,58 @@
   "priority": "medium",
   "decomposition_rationale": "Fusing state updates is a significant source of developer bugs. We explicitly separate 'fit' updates into a State-Object and keep transformation steps functional/stateless.",
   "family_directory_hint": "src/sciona/atoms/ml/pipeline/",
-  "atomic_nodes": [
+  "nodes": [
     {
+      "node_id": "pipeline_fit_transform_boundary_root",
+      "parent_id": null,
+      "name": "pipeline_fit_transform_boundary",
+      "description": "Fusing state updates is a significant source of developer bugs. We explicitly separate 'fit' updates into a State-Object and keep transformation steps functional/stateless.",
+      "concept_type": "state_init",
+      "inputs": [
+        {
+          "name": "train_data",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "val_data",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "transformer_template",
+          "type_desc": "Any",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "transformed_train",
+          "type_desc": "NDArray[np.float64]"
+        },
+        {
+          "name": "transformed_val",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "status": "decomposed",
+      "children": [
+        "fit_transformer_stage",
+        "transform_only_stage"
+      ],
+      "depth": 0,
+      "decomposition_rationale": "Fusing state updates is a significant source of developer bugs. We explicitly separate 'fit' updates into a State-Object and keep transformation steps functional/stateless."
+    },
+    {
+      "node_id": "fit_transformer_stage",
+      "parent_id": "pipeline_fit_transform_boundary_root",
       "name": "fit_transformer_stage",
+      "description": "Fit a single transformer state on training data and return the updated state parameters.",
+      "concept_type": "state_init",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(data: NDArray[np.float64], targets: Optional[NDArray[Any]] = ..., transformer_template: Any) -> tuple[Any, NDArray[np.float64]]",
+      "matched_primitive": "fit_transformer_stage",
       "semantic_role": "Fit a single transformer state on training data and return the updated state parameters.",
       "source_targets": [
         "sklearn.base.TransformerMixin.fit"
@@ -51,7 +100,15 @@
       "complexity_confidence": 90
     },
     {
+      "node_id": "transform_only_stage",
+      "parent_id": "pipeline_fit_transform_boundary_root",
       "name": "transform_only_stage",
+      "description": "Apply a pre-fitted transformer state to validation or test data.",
+      "concept_type": "state_init",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(data: NDArray[np.float64], fitted_state: Any) -> NDArray[np.float64]",
+      "matched_primitive": "transform_only_stage",
       "semantic_role": "Apply a pre-fitted transformer state to validation or test data.",
       "source_targets": [
         "sklearn.base.TransformerMixin.transform"
@@ -89,10 +146,15 @@
   ],
   "edges": [
     {
-      "source": "fit_transformer_stage",
-      "target": "transform_only_stage",
+      "source_id": "fit_transformer_stage",
+      "target_id": "transform_only_stage",
       "output_name": "fitted_state",
-      "input_name": "fitted_state"
+      "input_name": "fitted_state",
+      "source_type": "Any",
+      "target_type": "Any",
+      "requires_glue": false,
+      "source": "fit_transformer_stage",
+      "target": "transform_only_stage"
     }
   ],
   "cdg_io": {

@@ -91,9 +91,9 @@ def _clean_text_result_valid(result: str) -> bool:
 @icontract.require(lambda operations, vocab_freq: "spell" not in operations or vocab_freq is not None, "spell correction requires vocab_freq")
 @icontract.ensure(lambda result: _clean_text_result_valid(result), "cleaned text must remain printable")
 def clean_text(text: str, operations: list[str], vocab_freq: dict[str, int] | None = None) -> str:
+    """Normalize one text string with explicit cleaning operations."""
     import html
     import unicodedata
-    """Normalize one text string with explicit cleaning operations."""
     cleaned = text
     if "html" in operations:
         cleaned = html.unescape(_HTML_RE.sub(" ", cleaned))
@@ -273,8 +273,8 @@ def _char_spans_valid(char_spans: list[tuple[int, int]], offset_mapping: list[tu
 @icontract.ensure(lambda result, char_spans: len(result) == len(char_spans), "one token span is returned for each character span")
 @icontract.ensure(lambda result, offset_mapping: all(0 <= start <= end < len(offset_mapping) for start, end in result), "token spans must be valid indices")
 def char_to_token_offsets(char_spans: list[tuple[int, int]], offset_mapping: list[tuple[int, int]]) -> list[tuple[int, int]]:
-    import bisect
     """Map half-open character spans to inclusive token-index spans."""
+    import bisect
     starts = [start for start, _ in offset_mapping]
     ends = [end for _, end in offset_mapping]
     mapped: list[tuple[int, int]] = []

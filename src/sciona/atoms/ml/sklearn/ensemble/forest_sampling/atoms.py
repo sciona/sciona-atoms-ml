@@ -106,8 +106,8 @@ def forest_generate_sample_indices(
     *,
     random_state: RandomStateLike = None,
 ) -> NDArray[np.int64]:
-    from sklearn.utils import check_random_state
     """Draw bootstrap sample indices for one sklearn forest tree."""
+    from sklearn.utils import check_random_state
     rng = check_random_state(random_state)
     return np.asarray(
         rng.randint(0, n_samples, n_samples_bootstrap, dtype=np.int32),

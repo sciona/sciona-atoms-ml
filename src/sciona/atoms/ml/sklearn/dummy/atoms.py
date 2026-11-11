@@ -110,8 +110,8 @@ def dummy_regressor_fit(
     constant: float | tuple[float, ...] | None = None,
     quantile: float | None = None,
 ) -> DummyRegressorState:
-    from sklearn.utils import check_array
     """Fit the constant target value used by sklearn's dummy regressor."""
+    from sklearn.utils import check_array
     checked_y = check_array(y, dtype=np.float64, ensure_2d=False, input_name="y")
     if checked_y.ndim == 1:
         checked_y = np.reshape(checked_y, (-1, 1))
@@ -150,8 +150,8 @@ def dummy_regressor_predict(
     X: NDArray[np.float64],
     state: DummyRegressorState,
 ) -> NDArray[np.float64]:
-    from sklearn.utils import check_array
     """Predict by repeating the fitted dummy-regressor constant for each row."""
+    from sklearn.utils import check_array
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     predictions = np.full(
         (checked_x.shape[0], state.n_outputs),
@@ -175,8 +175,8 @@ def dummy_classifier_fit(
     strategy: str = "prior",
     constant: float | tuple[float, ...] | None = None,
 ) -> DummyClassifierState:
-    from sklearn.utils import check_array
     """Fit deterministic class priors used by sklearn's dummy classifier."""
+    from sklearn.utils import check_array
     checked_y = check_array(y, dtype=np.float64, ensure_2d=False, input_name="y")
     if checked_y.ndim == 1:
         checked_y = np.reshape(checked_y, (-1, 1))
@@ -219,8 +219,8 @@ def dummy_classifier_predict(
     X: NDArray[np.float64],
     state: DummyClassifierState,
 ) -> NDArray[np.float64]:
-    from sklearn.utils import check_array
     """Predict deterministic dummy-classifier labels for each row."""
+    from sklearn.utils import check_array
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     per_output: list[float] = []
     for output_index in range(state.n_outputs):
@@ -244,8 +244,8 @@ def dummy_classifier_predict_proba(
     X: NDArray[np.float64],
     state: DummyClassifierState,
 ) -> NDArray[np.float64] | tuple[NDArray[np.float64], ...]:
-    from sklearn.utils import check_array
     """Predict deterministic dummy-classifier class probabilities for each row."""
+    from sklearn.utils import check_array
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     outputs: list[NDArray[np.float64]] = []
     for output_index in range(state.n_outputs):

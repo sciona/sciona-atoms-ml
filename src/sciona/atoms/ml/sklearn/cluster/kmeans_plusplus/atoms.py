@@ -198,8 +198,8 @@ def kmeans_plusplus_first_center_index(
     *,
     random_state: int | None = None,
 ) -> int:
-    from sklearn.utils import check_random_state
     """Choose the first k-means++ center index by weighted random sampling."""
+    from sklearn.utils import check_random_state
     weights = np.asarray(sample_weight, dtype=np.float64)
     rng = check_random_state(random_state)
     return int(rng.choice(weights.shape[0], p=weights / weights.sum()))
@@ -219,8 +219,8 @@ def kmeans_plusplus_candidate_ids(
     n_local_trials: int,
     random_state: int | None = None,
 ) -> NDArray[np.int64]:
-    from sklearn.utils import check_random_state
     """Sample candidate center indices for one greedy k-means++ expansion step."""
+    from sklearn.utils import check_random_state
     distances = np.asarray(closest_dist_sq, dtype=np.float64)
     weights = np.asarray(sample_weight, dtype=np.float64)
     rng = check_random_state(random_state)
@@ -258,8 +258,8 @@ def kmeans_plusplus_initialize_dense(
     random_state: int | None = None,
     n_local_trials: int | None = None,
 ) -> KMeansPlusPlusInit:
-    from sklearn.utils import check_random_state
     """Initialize dense k-means++ centers and source indices with sklearn's greedy seeding rule."""
+    from sklearn.utils import check_random_state
     values = np.asarray(X, dtype=np.float64)
     n_samples, n_features = values.shape
     weights = (

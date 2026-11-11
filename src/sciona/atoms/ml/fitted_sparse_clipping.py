@@ -54,7 +54,7 @@ def fit_sparse_clip(training: csr_matrix, feature_columns: list,
     Empty/all-NaN stored populations, infinities and negative maxima fail.
     Returns JSON numeric state without retaining training rows.
     """
-    from sciona.fitted_sparse_clip import fit_sparse_clip as fit
+    from sciona._runtime.ml.fitted_sparse_clip import fit_sparse_clip as fit
     _matrix(training, feature_columns, feature_coordinate)
     state = fit(training)
     return dict(format='sciona.fitted_sparse_clip.v1', feature_columns=list(feature_columns),
@@ -80,7 +80,7 @@ def apply_sparse_clip(values: csr_matrix, feature_columns: list,
     infinity clips to the bound. Empty query matrices are supported. No refit,
     densification or executable deserialization occurs.
     """
-    from sciona.fitted_sparse_clip import FittedSparseClip
+    from sciona._runtime.ml.fitted_sparse_clip import FittedSparseClip
     _matrix(values, feature_columns, feature_coordinate)
     if (type(state) is not dict or set(state) != {'format', 'feature_columns', 'feature_coordinate', 'upper'}
             or state['format'] != 'sciona.fitted_sparse_clip.v1'

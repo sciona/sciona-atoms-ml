@@ -1,7 +1,7 @@
 """Explicit reusable labeled population concatenation."""
 import pandas as pd
 from sciona.ghost.registry import register_atom
-from sciona.population_tables import concatenate_labeled_populations
+from sciona._runtime.ml.population_tables import concatenate_labeled_populations
 from sciona.atoms.ml.model_selection.named_regression import witness_materialized
 
 

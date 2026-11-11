@@ -40,8 +40,8 @@ def _same_shape_and_values(result: object, expected: object) -> bool:
 def bicluster_svd_checked_u(
     u: NDArray[np.float64],
 ) -> NDArray[np.float64]:
-    from sklearn.utils.validation import assert_all_finite
     """Validate and expose the finite left singular-vector matrix in BaseSpectral._svd."""
+    from sklearn.utils.validation import assert_all_finite
     values = np.asarray(u, dtype=np.float64)
     assert_all_finite(values)
     return values
@@ -55,8 +55,8 @@ def bicluster_svd_checked_u(
 def bicluster_svd_checked_vt(
     vt: NDArray[np.float64],
 ) -> NDArray[np.float64]:
-    from sklearn.utils.validation import assert_all_finite
     """Validate and expose the finite right singular-vector matrix in BaseSpectral._svd."""
+    from sklearn.utils.validation import assert_all_finite
     values = np.asarray(vt, dtype=np.float64)
     assert_all_finite(values)
     return values

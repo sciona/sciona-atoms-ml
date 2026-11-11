@@ -133,8 +133,8 @@ def dictionary_learning_minibatch_dictionary_buffer(
     dictionary: Matrix,
     dtype_name: str,
 ) -> Matrix:
-    from sklearn.utils.validation import check_array
     """Normalize dictionary storage like sklearn's check_array(..., order='F') plus np.require(..., 'W')."""
+    from sklearn.utils.validation import check_array
     checked = check_array(
         dictionary,
         order="F",

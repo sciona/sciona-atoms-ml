@@ -4,9 +4,48 @@
   "priority": "medium",
   "decomposition_rationale": "Decouple distribution sampling from training loop execution to allow reproducible seed tracking.",
   "family_directory_hint": "src/sciona/atoms/ml/model_selection/",
-  "atomic_nodes": [
+  "nodes": [
     {
+      "node_id": "randomized_search_cross_validation_root",
+      "parent_id": null,
+      "name": "randomized_search_cross_validation",
+      "description": "Decouple distribution sampling from training loop execution to allow reproducible seed tracking.",
+      "concept_type": "searching",
+      "inputs": [
+        {
+          "name": "distributions",
+          "type_desc": "dict[str, Any]",
+          "required": true
+        },
+        {
+          "name": "n_iter",
+          "type_desc": "int",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "sampled_configurations",
+          "type_desc": "list[dict[str, Any]]"
+        }
+      ],
+      "status": "decomposed",
+      "children": [
+        "sample_parameter_distributions"
+      ],
+      "depth": 0,
+      "decomposition_rationale": "Decouple distribution sampling from training loop execution to allow reproducible seed tracking."
+    },
+    {
+      "node_id": "sample_parameter_distributions",
+      "parent_id": "randomized_search_cross_validation_root",
       "name": "sample_parameter_distributions",
+      "description": "Draw deterministic random hyperparameter samples from target distributions.",
+      "concept_type": "searching",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(distributions: dict[str, Any], n_iter: int, random_state: Optional[int] = ...) -> list[dict[str, Any]]",
+      "matched_primitive": "sample_parameter_distributions",
       "semantic_role": "Draw deterministic random hyperparameter samples from target distributions.",
       "source_targets": [
         "sklearn.model_selection.ParameterSampler"

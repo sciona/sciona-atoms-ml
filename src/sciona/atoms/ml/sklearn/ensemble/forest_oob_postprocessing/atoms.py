@@ -141,8 +141,8 @@ def forest_classifier_oob_accuracy(
     y_true: NDArray[np.int64],
     decision_function: NDArray[np.float64],
 ) -> float:
-    from sklearn.metrics import accuracy_score, r2_score
     """Score classifier OOB predictions the way sklearn does after public-shape conversion."""
+    from sklearn.metrics import accuracy_score, r2_score
     targets = np.asarray(y_true, dtype=np.int64)
     decision = np.asarray(decision_function, dtype=np.float64)
     return float(accuracy_score(targets, np.argmax(decision, axis=1)))
@@ -178,6 +178,6 @@ def forest_regressor_oob_r2(
     y_true: NDArray[np.float64],
     prediction: NDArray[np.float64],
 ) -> float:
-    from sklearn.metrics import accuracy_score, r2_score
     """Score regressor OOB predictions the way sklearn does after public-shape conversion."""
+    from sklearn.metrics import accuracy_score, r2_score
     return float(r2_score(np.asarray(y_true, dtype=np.float64), np.asarray(prediction, dtype=np.float64)))

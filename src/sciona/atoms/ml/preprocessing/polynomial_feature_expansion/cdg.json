@@ -4,9 +4,59 @@
   "priority": "medium",
   "decomposition_rationale": "Separate the calculation of the output combinatorial index mappings from the numerical tensor multiplications.",
   "family_directory_hint": "src/sciona/atoms/ml/preprocessing/",
-  "atomic_nodes": [
+  "nodes": [
     {
+      "node_id": "polynomial_feature_expansion_root",
+      "parent_id": null,
+      "name": "polynomial_feature_expansion",
+      "description": "Separate the calculation of the output combinatorial index mappings from the numerical tensor multiplications.",
+      "concept_type": "custom",
+      "inputs": [
+        {
+          "name": "matrix",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "degree",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "interaction_only",
+          "type_desc": "bool",
+          "required": true
+        },
+        {
+          "name": "include_bias",
+          "type_desc": "bool",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "expanded_matrix",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "status": "decomposed",
+      "children": [
+        "generate_combination_indices",
+        "compute_polynomial_products"
+      ],
+      "depth": 0,
+      "decomposition_rationale": "Separate the calculation of the output combinatorial index mappings from the numerical tensor multiplications."
+    },
+    {
+      "node_id": "generate_combination_indices",
+      "parent_id": "polynomial_feature_expansion_root",
       "name": "generate_combination_indices",
+      "description": "Calculate integer indices for polynomial combinations of a given size.",
+      "concept_type": "custom",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(num_features: int, degree: int, interaction_only: bool) -> list[tuple[int, ...]]",
+      "matched_primitive": "generate_combination_indices",
       "semantic_role": "Calculate integer indices for polynomial combinations of a given size.",
       "source_targets": [
         "math.comb",
@@ -49,7 +99,15 @@
       "complexity_confidence": 90
     },
     {
+      "node_id": "compute_polynomial_products",
+      "parent_id": "polynomial_feature_expansion_root",
       "name": "compute_polynomial_products",
+      "description": "Multiply columns according to predefined combinations.",
+      "concept_type": "custom",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(matrix: NDArray[np.float64], index_combinations: list[tuple[int, ...]], include_bias: bool) -> NDArray[np.float64]",
+      "matched_primitive": "compute_polynomial_products",
       "semantic_role": "Multiply columns according to predefined combinations.",
       "source_targets": [
         "numpy.prod"
@@ -92,10 +150,15 @@
   ],
   "edges": [
     {
-      "source": "generate_combination_indices",
-      "target": "compute_polynomial_products",
+      "source_id": "generate_combination_indices",
+      "target_id": "compute_polynomial_products",
       "output_name": "index_combinations",
-      "input_name": "index_combinations"
+      "input_name": "index_combinations",
+      "source_type": "list[tuple[int, ...]]",
+      "target_type": "list[tuple[int, ...]]",
+      "requires_glue": false,
+      "source": "generate_combination_indices",
+      "target": "compute_polynomial_products"
     }
   ],
   "cdg_io": {

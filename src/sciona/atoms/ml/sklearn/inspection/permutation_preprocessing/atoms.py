@@ -122,8 +122,8 @@ def permutation_importance_shuffle_indices(
     *,
     random_state: int = 0,
 ) -> NDArray[np.int64]:
-    from sklearn.utils import check_random_state
     """Generate sklearn's repeated in-place shuffle index states for one feature."""
+    from sklearn.utils import check_random_state
     rng = check_random_state(int(random_state))
     shuffling_idx = np.arange(int(n_samples), dtype=np.int64)
     permutations: list[NDArray[np.int64]] = []

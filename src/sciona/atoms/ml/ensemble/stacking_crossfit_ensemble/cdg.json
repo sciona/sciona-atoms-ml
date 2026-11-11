@@ -4,9 +4,64 @@
   "priority": "medium",
   "decomposition_rationale": "Fusing base model fitting, out-of-fold prediction gathering, and meta-model training in one block makes debugging extremely difficult. We separate OOF meta-feature compilation into its own step.",
   "family_directory_hint": "src/sciona/atoms/ml/ensemble/",
-  "atomic_nodes": [
+  "nodes": [
     {
+      "node_id": "stacking_crossfit_ensemble_root",
+      "parent_id": null,
+      "name": "stacking_crossfit_ensemble",
+      "description": "Fusing base model fitting, out-of-fold prediction gathering, and meta-model training in one block makes debugging extremely difficult. We separate OOF meta-feature compilation into its own step.",
+      "concept_type": "custom",
+      "inputs": [
+        {
+          "name": "base_estimators",
+          "type_desc": "list[Any]",
+          "required": true
+        },
+        {
+          "name": "meta_estimator_template",
+          "type_desc": "Any",
+          "required": true
+        },
+        {
+          "name": "features",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "targets",
+          "type_desc": "NDArray[Any]",
+          "required": true
+        },
+        {
+          "name": "cv_folds",
+          "type_desc": "list[tuple[NDArray[np.int64], NDArray[np.int64]]]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "fitted_meta_model",
+          "type_desc": "Any"
+        }
+      ],
+      "status": "decomposed",
+      "children": [
+        "compile_oof_meta_features",
+        "fit_meta_model"
+      ],
+      "depth": 0,
+      "decomposition_rationale": "Fusing base model fitting, out-of-fold prediction gathering, and meta-model training in one block makes debugging extremely difficult. We separate OOF meta-feature compilation into its own step."
+    },
+    {
+      "node_id": "compile_oof_meta_features",
+      "parent_id": "stacking_crossfit_ensemble_root",
       "name": "compile_oof_meta_features",
+      "description": "Generate out-of-fold prediction matrix from base estimators using cross-validation.",
+      "concept_type": "custom",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(base_estimators: list[Any], features: NDArray[np.float64], targets: NDArray[Any], cv_folds: list[tuple[NDArray[np.int64], NDArray[np.int64]]]) -> NDArray[np.float64]",
+      "matched_primitive": "compile_oof_meta_features",
       "semantic_role": "Generate out-of-fold prediction matrix from base estimators using cross-validation.",
       "source_targets": [
         "sklearn.model_selection.cross_val_predict"
@@ -54,7 +109,15 @@
       "complexity_confidence": 90
     },
     {
+      "node_id": "fit_meta_model",
+      "parent_id": "stacking_crossfit_ensemble_root",
       "name": "fit_meta_model",
+      "description": "Train the meta-estimator to combine the out-of-fold predictions of the base estimators.",
+      "concept_type": "custom",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(meta_features: NDArray[np.float64], targets: NDArray[Any], meta_estimator_template: Any) -> Any",
+      "matched_primitive": "fit_meta_model",
       "semantic_role": "Train the meta-estimator to combine the out-of-fold predictions of the base estimators.",
       "source_targets": [
         "sklearn.base.BaseEstimator.fit"
@@ -93,10 +156,15 @@
   ],
   "edges": [
     {
-      "source": "compile_oof_meta_features",
-      "target": "fit_meta_model",
+      "source_id": "compile_oof_meta_features",
+      "target_id": "fit_meta_model",
       "output_name": "meta_features",
-      "input_name": "meta_features"
+      "input_name": "meta_features",
+      "source_type": "NDArray[np.float64]",
+      "target_type": "NDArray[np.float64]",
+      "requires_glue": false,
+      "source": "compile_oof_meta_features",
+      "target": "fit_meta_model"
     }
   ],
   "cdg_io": {

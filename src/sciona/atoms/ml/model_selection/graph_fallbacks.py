@@ -1,6 +1,6 @@
 """Lazy, hash-bound prediction graph control operations."""
 from sciona.ghost.registry import register_atom
-from sciona.guarded_prediction_graphs import guarded_prediction
+from sciona._runtime.ml.guarded_prediction_graphs import guarded_prediction
 
 
 def witness_materialized(*args: object, **kwargs: object) -> object:

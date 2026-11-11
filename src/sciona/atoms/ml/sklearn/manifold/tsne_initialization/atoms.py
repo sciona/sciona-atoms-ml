@@ -82,8 +82,8 @@ def tsne_random_initialize_embedding(
     *,
     random_state: int | None = None,
 ) -> NDArray[np.float32]:
-    from sklearn.utils import check_random_state
     """Draw a t-SNE start matrix from iid Gaussian samples scaled by 1e-4."""
+    from sklearn.utils import check_random_state
     rng = check_random_state(random_state)
     return np.asarray(
         1e-4 * rng.standard_normal(size=(n_samples, n_components)).astype(np.float32),

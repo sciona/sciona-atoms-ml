@@ -4,9 +4,63 @@
   "priority": "medium",
   "decomposition_rationale": "Decouple token counting (CountVectorizer) from numerical TF-IDF transformation (TfidfTransformer) so that counts can be inspected and verified independently.",
   "family_directory_hint": "src/sciona/atoms/ml/preprocessing/",
-  "atomic_nodes": [
+  "nodes": [
     {
+      "node_id": "text_tfidf_vectorization_root",
+      "parent_id": null,
+      "name": "text_tfidf_vectorization",
+      "description": "Decouple token counting (CountVectorizer) from numerical TF-IDF transformation (TfidfTransformer) so that counts can be inspected and verified independently.",
+      "concept_type": "custom",
+      "inputs": [
+        {
+          "name": "corpus",
+          "type_desc": "list[str]",
+          "required": true
+        },
+        {
+          "name": "ngram_range",
+          "type_desc": "tuple[int, int]",
+          "required": true
+        },
+        {
+          "name": "min_df",
+          "type_desc": "float",
+          "required": true
+        },
+        {
+          "name": "norm",
+          "type_desc": "str",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "tfidf_matrix",
+          "type_desc": "Any"
+        },
+        {
+          "name": "vocabulary",
+          "type_desc": "dict[str, int]"
+        }
+      ],
+      "status": "decomposed",
+      "children": [
+        "tokenize_and_count_words",
+        "apply_tfidf_weighting"
+      ],
+      "depth": 0,
+      "decomposition_rationale": "Decouple token counting (CountVectorizer) from numerical TF-IDF transformation (TfidfTransformer) so that counts can be inspected and verified independently."
+    },
+    {
+      "node_id": "tokenize_and_count_words",
+      "parent_id": "text_tfidf_vectorization_root",
       "name": "tokenize_and_count_words",
+      "description": "Construct occurrences dictionary and count frequencies across documents.",
+      "concept_type": "custom",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(corpus: list[str], ngram_range: tuple[int, int], min_df: float) -> tuple[Any, dict[str, int]]",
+      "matched_primitive": "tokenize_and_count_words",
       "semantic_role": "Construct occurrences dictionary and count frequencies across documents.",
       "source_targets": [
         "sklearn.feature_extraction.text.CountVectorizer"
@@ -52,7 +106,15 @@
       "complexity_confidence": 90
     },
     {
+      "node_id": "apply_tfidf_weighting",
+      "parent_id": "text_tfidf_vectorization_root",
       "name": "apply_tfidf_weighting",
+      "description": "Transform raw occurrences into relative importance weights using IDF logarithmic scaling.",
+      "concept_type": "custom",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(raw_counts: Any, norm: str) -> Any",
+      "matched_primitive": "apply_tfidf_weighting",
       "semantic_role": "Transform raw occurrences into relative importance weights using IDF logarithmic scaling.",
       "source_targets": [
         "sklearn.feature_extraction.text.TfidfTransformer"
@@ -86,10 +148,15 @@
   ],
   "edges": [
     {
-      "source": "tokenize_and_count_words",
-      "target": "apply_tfidf_weighting",
+      "source_id": "tokenize_and_count_words",
+      "target_id": "apply_tfidf_weighting",
       "output_name": "raw_counts",
-      "input_name": "raw_counts"
+      "input_name": "raw_counts",
+      "source_type": "Any",
+      "target_type": "Any",
+      "requires_glue": false,
+      "source": "tokenize_and_count_words",
+      "target": "apply_tfidf_weighting"
     }
   ],
   "cdg_io": {

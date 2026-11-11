@@ -74,10 +74,10 @@ def _binary_codes_valid(result: object, y: object) -> bool:
 def gpc_binary_fit_kernel(
     kernel: Kernel | None,
 ) -> Kernel:
+    """Resolve _BinaryGaussianProcessClassifierLaplace.fit's default-or-cloned kernel."""
     from sklearn.base import clone
     from sklearn.gaussian_process.kernels import ConstantKernel as C
     from sklearn.gaussian_process.kernels import Kernel, RBF
-    """Resolve _BinaryGaussianProcessClassifierLaplace.fit's default-or-cloned kernel."""
     if kernel is None:
         return C(1.0, constant_value_bounds="fixed") * RBF(
             1.0, length_scale_bounds="fixed"

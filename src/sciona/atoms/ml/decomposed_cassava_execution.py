@@ -18,7 +18,7 @@ def train_families(plan: object, source_rows: list, efficientnet_rows: list,
     artifacts are mandatory. Runtime identities, predictions and checkpoints
     remain private. This stage forwards family predictions before final sums.
     """
-    from sciona.decomposed_cassava_pipeline import train_families as implementation
+    from sciona._runtime.ml.decomposed_cassava_pipeline import train_families as implementation
     return implementation(plan, source_rows=source_rows, efficientnet_rows=efficientnet_rows,
         query_rows=query_rows, references=references, torch_batch_size=torch_batch_size,
         torch_workers=torch_workers, efficientnet_batch_size=efficientnet_batch_size,
@@ -39,7 +39,7 @@ def pair_inputs(training_result: dict) -> tuple[dict, np.ndarray, np.ndarray]:
     matrices. Source alignment and class count remain recipe policy. The
     returned context, pair values and coefficients belong to this invocation.
     """
-    from sciona.decomposed_cassava_assembly import pair_inputs as implementation
+    from sciona._runtime.ml.decomposed_cassava_assembly import pair_inputs as implementation
     check_result(training_result)
     return implementation(training_result['query_keys'], **training_result['family_outputs'])
 
@@ -51,7 +51,7 @@ def final_inputs(context: dict, paired: np.ndarray) -> tuple[np.ndarray, np.ndar
     The pair must already be summed: distributing .5 into both original
     vectors can change subnormal rounding. No normalization is applied.
     """
-    from sciona.decomposed_cassava_assembly import final_inputs as implementation
+    from sciona._runtime.ml.decomposed_cassava_assembly import final_inputs as implementation
     return implementation(context, paired)
 
 
@@ -62,7 +62,7 @@ def result(training_result: dict, context: dict, scores: np.ndarray) -> dict:
     Inputs must originate from the same graph invocation. This encoder checks
     representation and bounds; it does not authenticate training provenance.
     """
-    from sciona.decomposed_cassava_assembly import result as implementation
+    from sciona._runtime.ml.decomposed_cassava_assembly import result as implementation
     check_result(training_result)
     predictions = implementation(context, scores)
     if predictions['scores'].shape[0] != len(training_result['query_keys']):

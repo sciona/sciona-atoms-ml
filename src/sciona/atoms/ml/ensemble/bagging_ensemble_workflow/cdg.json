@@ -4,9 +4,64 @@
   "priority": "medium",
   "decomposition_rationale": "Bootstrap sampling and individual model training should be decoupled so that training tasks can be distributed across multi-core systems without serialization issues.",
   "family_directory_hint": "src/sciona/atoms/ml/ensemble/",
-  "atomic_nodes": [
+  "nodes": [
     {
+      "node_id": "bagging_ensemble_workflow_root",
+      "parent_id": null,
+      "name": "bagging_ensemble_workflow",
+      "description": "Bootstrap sampling and individual model training should be decoupled so that training tasks can be distributed across multi-core systems without serialization issues.",
+      "concept_type": "state_init",
+      "inputs": [
+        {
+          "name": "estimator_template",
+          "type_desc": "Any",
+          "required": true
+        },
+        {
+          "name": "features",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "targets",
+          "type_desc": "NDArray[Any]",
+          "required": true
+        },
+        {
+          "name": "n_samples",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "random_state",
+          "type_desc": "int",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "fitted_estimator",
+          "type_desc": "Any"
+        }
+      ],
+      "status": "decomposed",
+      "children": [
+        "generate_bootstrap_indices",
+        "fit_bootstrap_estimator"
+      ],
+      "depth": 0,
+      "decomposition_rationale": "Bootstrap sampling and individual model training should be decoupled so that training tasks can be distributed across multi-core systems without serialization issues."
+    },
+    {
+      "node_id": "generate_bootstrap_indices",
+      "parent_id": "bagging_ensemble_workflow_root",
       "name": "generate_bootstrap_indices",
+      "description": "Draw bootstrap samples with replacement and compile OOB exclusions.",
+      "concept_type": "state_init",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(n_samples: int, random_state: int) -> tuple[NDArray[np.int64], NDArray[np.int64]]",
+      "matched_primitive": "generate_bootstrap_indices",
       "semantic_role": "Draw bootstrap samples with replacement and compile OOB exclusions.",
       "source_targets": [
         "numpy.random.choice"
@@ -46,7 +101,15 @@
       "complexity_confidence": 90
     },
     {
+      "node_id": "fit_bootstrap_estimator",
+      "parent_id": "bagging_ensemble_workflow_root",
       "name": "fit_bootstrap_estimator",
+      "description": "Train base estimator on bootstrap data.",
+      "concept_type": "state_init",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(estimator_template: Any, features: NDArray[np.float64], targets: NDArray[Any], bootstrap_indices: NDArray[np.int64]) -> Any",
+      "matched_primitive": "fit_bootstrap_estimator",
       "semantic_role": "Train base estimator on bootstrap data.",
       "source_targets": [
         "sklearn.base.clone",
@@ -91,10 +154,15 @@
   ],
   "edges": [
     {
-      "source": "generate_bootstrap_indices",
-      "target": "fit_bootstrap_estimator",
+      "source_id": "generate_bootstrap_indices",
+      "target_id": "fit_bootstrap_estimator",
       "output_name": "bootstrap_indices",
-      "input_name": "bootstrap_indices"
+      "input_name": "bootstrap_indices",
+      "source_type": "NDArray[np.int64]",
+      "target_type": "NDArray[np.int64]",
+      "requires_glue": false,
+      "source": "generate_bootstrap_indices",
+      "target": "fit_bootstrap_estimator"
     }
   ],
   "cdg_io": {

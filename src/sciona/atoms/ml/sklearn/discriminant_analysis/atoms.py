@@ -222,8 +222,8 @@ def lda_fit(
     store_covariance: bool = False,
     tol: float = 1e-4,
 ) -> LDAState:
-    from sklearn.utils.validation import check_X_y
     """Fit dense SVD-based linear discriminant state."""
+    from sklearn.utils.validation import check_X_y
     checked_x, checked_y = check_X_y(X, y, dtype=np.float64)
     classes = np.unique(checked_y)
     n_samples, n_features = checked_x.shape
@@ -294,8 +294,8 @@ def lda_decision_function(
     X: NDArray[np.float64],
     state: LDAState,
 ) -> NDArray[np.float64]:
-    from sklearn.utils import check_array
     """Compute linear discriminant confidence scores."""
+    from sklearn.utils import check_array
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     scores = np.dot(checked_x, state.coef.T) + state.intercept
     if scores.ndim > 1 and scores.shape[1] == 1:
@@ -358,8 +358,8 @@ def lda_transform(
     X: NDArray[np.float64],
     state: LDAState,
 ) -> NDArray[np.float64]:
-    from sklearn.utils import check_array
     """Project samples onto fitted class-separation axes."""
+    from sklearn.utils import check_array
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     projected = np.dot(checked_x - state.xbar, state.scalings)
     return np.asarray(projected[:, : state.n_components], dtype=np.float64)
@@ -384,8 +384,8 @@ def qda_fit(
     store_covariance: bool = False,
     tol: float = 1e-4,
 ) -> QDAState:
-    from sklearn.utils.validation import check_X_y
     """Fit dense SVD-based Quadratic Discriminant Analysis state."""
+    from sklearn.utils.validation import check_X_y
     checked_x, checked_y = check_X_y(X, y, dtype=np.float64)
     classes = np.unique(checked_y)
     n_samples, n_features = checked_x.shape
@@ -437,8 +437,8 @@ def qda_decision_function(
     X: NDArray[np.float64],
     state: QDAState,
 ) -> NDArray[np.float64]:
-    from sklearn.utils import check_array
     """Compute QDA log posterior scores before probability normalization."""
+    from sklearn.utils import check_array
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     norm2 = []
     for class_index in range(state.classes.shape[0]):

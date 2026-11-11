@@ -165,9 +165,9 @@ def add_dummy_feature(
     X: MatrixLike,
     value: float = 1.0,
 ) -> MatrixLike:
+    """Add a leading constant feature column to a dense or sparse matrix."""
     from sklearn.utils import check_array, check_random_state, resample
     from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
-    """Add a leading constant feature column to a dense or sparse matrix."""
     checked_x = check_array(X, accept_sparse=["csc", "csr", "coo"], dtype=FLOAT_DTYPES)
     n_samples, n_features = checked_x.shape
     shape = (n_samples, n_features + 1)
@@ -196,8 +196,8 @@ def binarize(
     threshold: float = 0.0,
     copy: bool = True,
 ) -> MatrixLike:
-    from sklearn.utils import check_array, check_random_state, resample
     """Threshold each matrix entry to 0 or 1."""
+    from sklearn.utils import check_array, check_random_state, resample
     checked_x = check_array(X, accept_sparse=["csr", "csc"], force_writeable=True, copy=copy)
     if sp.issparse(checked_x):
         if threshold < 0:
@@ -222,8 +222,8 @@ def binarizer_transform(
     threshold: float = 0.0,
     copy: bool = True,
 ) -> MatrixLike:
-    from sklearn.utils import check_array, check_random_state, resample
     """Apply stateless Binarizer.transform semantics to a matrix."""
+    from sklearn.utils import check_array, check_random_state, resample
     checked_x = check_array(X, accept_sparse=["csr", "csc"], force_writeable=True, copy=copy)
     return binarize(checked_x, threshold=threshold, copy=False)
 
@@ -240,13 +240,13 @@ def normalize(
     copy: bool = True,
     return_norm: bool = False,
 ) -> NormalizeResult:
+    """Scale rows or columns of a matrix to unit l1, l2, or max norm."""
     from sklearn.preprocessing._data import BOUNDS_THRESHOLD, _handle_zeros_in_scale, _is_constant_feature
     from sklearn.utils import check_array, check_random_state, resample
     from sklearn.utils.extmath import _incremental_mean_and_var, row_norms
     from sklearn.utils.sparsefuncs import incr_mean_variance_axis, inplace_column_scale, mean_variance_axis, min_max_axis
     from sklearn.utils.sparsefuncs_fast import inplace_csr_row_normalize_l1, inplace_csr_row_normalize_l2
     from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
-    """Scale rows or columns of a matrix to unit l1, l2, or max norm."""
     sparse_format = "csc" if axis == 0 else "csr"
     checked_x = check_array(
         X,
@@ -301,8 +301,8 @@ def normalizer_transform(
     *,
     copy: bool = True,
 ) -> MatrixLike:
-    from sklearn.utils import check_array, check_random_state, resample
     """Apply stateless Normalizer.transform semantics row-wise."""
+    from sklearn.utils import check_array, check_random_state, resample
     checked_x = check_array(X, accept_sparse="csr", force_writeable=True, copy=copy)
     result = normalize(checked_x, norm=norm, axis=1, copy=False, return_norm=False)
     if isinstance(result, tuple):
@@ -318,9 +318,9 @@ def normalizer_transform(
 def kernel_centerer_fit(
     K: NDArray[np.float64],
 ) -> KernelCentererState:
+    """Learn column and global means from a square training kernel matrix."""
     from sklearn.utils import check_array, check_random_state, resample
     from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
-    """Learn column and global means from a square training kernel matrix."""
     checked_k = check_array(K, dtype=FLOAT_DTYPES)
     if checked_k.shape[0] != checked_k.shape[1]:
         raise ValueError(
@@ -348,9 +348,9 @@ def kernel_centerer_transform(
     state: KernelCentererState,
     copy: bool = True,
 ) -> NDArray[np.float64]:
+    """Center a kernel matrix block using fitted training-kernel means."""
     from sklearn.utils import check_array, check_random_state, resample
     from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
-    """Center a kernel matrix block using fitted training-kernel means."""
     checked_k = check_array(K, copy=copy, force_writeable=True, dtype=FLOAT_DTYPES)
     if checked_k.shape[1] != state.n_features_in:
         raise ValueError("K columns must match fitted training samples")
@@ -504,10 +504,10 @@ def kbins_discretizer_fit(
     random_state: RandomStateLike = None,
     sample_weight: NDArray[np.float64] | None = None,
 ) -> KBinsDiscretizerState:
+    """Learn per-feature bin edges for continuous-feature discretization."""
     from sklearn.utils import check_array, check_random_state, resample
     from sklearn.utils.stats import _weighted_percentile
     from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
-    """Learn per-feature bin edges for continuous-feature discretization."""
     checked_x = check_array(X, dtype="numeric")
     output_dtype = _kbins_output_dtype(dtype, checked_x)
     checked_x = checked_x.astype(output_dtype, copy=False)
@@ -611,8 +611,8 @@ def kbins_discretizer_transform(
     X: MatrixLike,
     state: KBinsDiscretizerState,
 ) -> MatrixLike:
-    from sklearn.utils import check_array, check_random_state, resample
     """Discretize continuous features into fitted ordinal or one-hot bins."""
+    from sklearn.utils import check_array, check_random_state, resample
     dtype = (np.float64, np.float32) if state.dtype is None else state.dtype
     checked_x = check_array(X, copy=True, dtype=dtype)
     if checked_x.shape[1] != state.n_features_in:
@@ -631,8 +631,8 @@ def kbins_discretizer_inverse_transform(
     X: MatrixLike,
     state: KBinsDiscretizerState,
 ) -> NDArray[np.float64]:
-    from sklearn.utils import check_array, check_random_state, resample
     """Map ordinal or one-hot bin indicators back to fitted bin centers."""
+    from sklearn.utils import check_array, check_random_state, resample
     ordinal = _kbins_decode_onehot(X, state) if "onehot" in state.encode else check_array(X, copy=True, dtype=(np.float64, np.float32))
     if ordinal.shape[1] != state.n_features_in:
         raise ValueError("Incorrect number of features. Expecting {0}, received {1}.".format(state.n_features_in, ordinal.shape[1]))
@@ -692,11 +692,11 @@ def scale(
     with_std: bool = True,
     copy: bool = True,
 ) -> MatrixLike:
+    """Center and scale a dense or sparse dataset along an axis."""
     from sklearn.preprocessing._data import BOUNDS_THRESHOLD, _handle_zeros_in_scale, _is_constant_feature
     from sklearn.utils import check_array, check_random_state, resample
     from sklearn.utils.sparsefuncs import incr_mean_variance_axis, inplace_column_scale, mean_variance_axis, min_max_axis
     from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
-    """Center and scale a dense or sparse dataset along an axis."""
     checked_x = check_array(
         X,
         accept_sparse="csc",
@@ -766,12 +766,12 @@ def standard_scaler_partial_fit(
     with_std: bool = True,
     sample_weight: NDArray[np.float64] | None = None,
 ) -> StandardScalerState:
+    """Update StandardScaler mean and variance state from one batch."""
     from sklearn.preprocessing._data import BOUNDS_THRESHOLD, _handle_zeros_in_scale, _is_constant_feature
     from sklearn.utils import check_array, check_random_state, resample
     from sklearn.utils.extmath import _incremental_mean_and_var, row_norms
     from sklearn.utils.sparsefuncs import incr_mean_variance_axis, inplace_column_scale, mean_variance_axis, min_max_axis
     from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
-    """Update StandardScaler mean and variance state from one batch."""
     checked_x = check_array(
         X,
         accept_sparse=("csr", "csc"),
@@ -904,10 +904,10 @@ def standard_scaler_transform(
     state: StandardScalerState,
     copy: bool = True,
 ) -> MatrixLike:
+    """Center and scale data with fitted standard mean and variance statistics."""
     from sklearn.utils import check_array, check_random_state, resample
     from sklearn.utils.sparsefuncs import incr_mean_variance_axis, inplace_column_scale, mean_variance_axis, min_max_axis
     from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
-    """Center and scale data with fitted standard mean and variance statistics."""
     checked_x = check_array(
         X,
         accept_sparse="csr",
@@ -942,10 +942,10 @@ def standard_scaler_inverse_transform(
     state: StandardScalerState,
     copy: bool = True,
 ) -> MatrixLike:
+    """Undo fitted standard centering and variance scaling."""
     from sklearn.utils import check_array, check_random_state, resample
     from sklearn.utils.sparsefuncs import incr_mean_variance_axis, inplace_column_scale, mean_variance_axis, min_max_axis
     from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
-    """Undo fitted standard centering and variance scaling."""
     checked_x = check_array(
         X,
         accept_sparse="csr",
@@ -993,11 +993,11 @@ def maxabs_scaler_partial_fit(
     X: MatrixLike,
     state: MaxAbsScalerState | None = None,
 ) -> MaxAbsScalerState:
+    """Update MaxAbsScaler state from one batch of training samples."""
     from sklearn.preprocessing._data import BOUNDS_THRESHOLD, _handle_zeros_in_scale, _is_constant_feature
     from sklearn.utils import check_array, check_random_state, resample
     from sklearn.utils.sparsefuncs import incr_mean_variance_axis, inplace_column_scale, mean_variance_axis, min_max_axis
     from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
-    """Update MaxAbsScaler state from one batch of training samples."""
     checked_x = check_array(
         X,
         accept_sparse=("csr", "csc"),
@@ -1049,10 +1049,10 @@ def maxabs_scaler_transform(
     copy: bool = True,
     clip: bool = False,
 ) -> MatrixLike:
+    """Scale features by fitted maximum absolute values."""
     from sklearn.utils import check_array, check_random_state, resample
     from sklearn.utils.sparsefuncs import incr_mean_variance_axis, inplace_column_scale, mean_variance_axis, min_max_axis
     from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
-    """Scale features by fitted maximum absolute values."""
     checked_x = check_array(
         X,
         accept_sparse=("csr", "csc"),
@@ -1083,10 +1083,10 @@ def maxabs_scaler_inverse_transform(
     state: MaxAbsScalerState,
     copy: bool = True,
 ) -> MatrixLike:
+    """Undo scaling by fitted maximum absolute values."""
     from sklearn.utils import check_array, check_random_state, resample
     from sklearn.utils.sparsefuncs import incr_mean_variance_axis, inplace_column_scale, mean_variance_axis, min_max_axis
     from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
-    """Undo scaling by fitted maximum absolute values."""
     checked_x = check_array(
         X,
         accept_sparse=("csr", "csc"),
@@ -1113,9 +1113,9 @@ def maxabs_scale(
     axis: int = 0,
     copy: bool = True,
 ) -> MatrixLike:
+    """Scale rows or columns by their maximum absolute values."""
     from sklearn.utils import check_array, check_random_state, resample
     from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
-    """Scale rows or columns by their maximum absolute values."""
     checked_x = check_array(
         X,
         accept_sparse=("csr", "csc"),
@@ -1151,10 +1151,10 @@ def minmax_scaler_partial_fit(
     feature_range: tuple[float, float] = (0, 1),
     state: MinMaxScalerState | None = None,
 ) -> MinMaxScalerState:
+    """Update MinMaxScaler state from one dense training batch."""
     from sklearn.preprocessing._data import BOUNDS_THRESHOLD, _handle_zeros_in_scale, _is_constant_feature
     from sklearn.utils import check_array, check_random_state, resample
     from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
-    """Update MinMaxScaler state from one dense training batch."""
     if sp.issparse(X):
         raise TypeError("MinMaxScaler does not support sparse input. Consider using MaxAbsScaler instead.")
     checked_x = check_array(X, dtype=FLOAT_DTYPES, ensure_all_finite="allow-nan")
@@ -1209,9 +1209,9 @@ def minmax_scaler_transform(
     copy: bool = True,
     clip: bool = False,
 ) -> NDArray[np.float64]:
+    """Scale dense features into the fitted MinMaxScaler feature range."""
     from sklearn.utils import check_array, check_random_state, resample
     from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
-    """Scale dense features into the fitted MinMaxScaler feature range."""
     checked_x = check_array(
         X,
         copy=copy,
@@ -1237,9 +1237,9 @@ def minmax_scaler_inverse_transform(
     state: MinMaxScalerState,
     copy: bool = True,
 ) -> NDArray[np.float64]:
+    """Undo fitted MinMaxScaler feature-range scaling."""
     from sklearn.utils import check_array, check_random_state, resample
     from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
-    """Undo fitted MinMaxScaler feature-range scaling."""
     checked_x = check_array(
         X,
         copy=copy,
@@ -1265,10 +1265,10 @@ def minmax_scale(
     axis: int = 0,
     copy: bool = True,
 ) -> NDArray[np.float64]:
+    """Scale rows or columns into a fixed feature range."""
     from sklearn.preprocessing._data import BOUNDS_THRESHOLD, _handle_zeros_in_scale, _is_constant_feature
     from sklearn.utils import check_array, check_random_state, resample
     from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
-    """Scale rows or columns into a fixed feature range."""
     checked_x = check_array(
         X,
         copy=False,
@@ -1356,10 +1356,10 @@ def robust_scaler_fit(
     quantile_range: tuple[float, float] = (25.0, 75.0),
     unit_variance: bool = False,
 ) -> RobustScalerState:
+    """Fit robust per-feature medians and quantile-range scales."""
     from sklearn.preprocessing._data import BOUNDS_THRESHOLD, _handle_zeros_in_scale, _is_constant_feature
     from sklearn.utils import check_array, check_random_state, resample
     from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
-    """Fit robust per-feature medians and quantile-range scales."""
     checked_x = check_array(
         X,
         accept_sparse="csc",
@@ -1419,10 +1419,10 @@ def robust_scaler_transform(
     state: RobustScalerState,
     copy: bool = True,
 ) -> MatrixLike:
+    """Center and scale data with fitted robust per-feature statistics."""
     from sklearn.utils import check_array, check_random_state, resample
     from sklearn.utils.sparsefuncs import incr_mean_variance_axis, inplace_column_scale, mean_variance_axis, min_max_axis
     from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
-    """Center and scale data with fitted robust per-feature statistics."""
     checked_x = check_array(
         X,
         accept_sparse=("csr", "csc"),
@@ -1453,10 +1453,10 @@ def robust_scaler_inverse_transform(
     state: RobustScalerState,
     copy: bool = True,
 ) -> MatrixLike:
+    """Undo fitted robust per-feature centering and scaling."""
     from sklearn.utils import check_array, check_random_state, resample
     from sklearn.utils.sparsefuncs import incr_mean_variance_axis, inplace_column_scale, mean_variance_axis, min_max_axis
     from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
-    """Undo fitted robust per-feature centering and scaling."""
     checked_x = check_array(
         X,
         accept_sparse=("csr", "csc"),
@@ -1492,9 +1492,9 @@ def robust_scale(
     copy: bool = True,
     unit_variance: bool = False,
 ) -> MatrixLike:
+    """Center by median and scale by a quantile range along rows or columns."""
     from sklearn.utils import check_array, check_random_state, resample
     from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
-    """Center by median and scale by a quantile range along rows or columns."""
     checked_x = check_array(
         X,
         accept_sparse=("csr", "csc"),
@@ -1679,9 +1679,9 @@ def label_binarize(
     pos_label: int = 1,
     sparse_output: bool = False,
 ) -> LabelBinarizeResult:
+    """Encode labels as one-vs-all indicator columns for fixed classes."""
     from sklearn.utils import check_array, check_random_state, resample
     from sklearn.utils.multiclass import type_of_target
-    """Encode labels as one-vs-all indicator columns for fixed classes."""
     from sklearn.utils import check_array, column_or_1d
     from sklearn.utils.multiclass import type_of_target, unique_labels
 
@@ -1828,8 +1828,8 @@ def label_binarizer_fit(
     pos_label: int = 1,
     sparse_output: bool = False,
 ) -> LabelBinarizerState:
-    from sklearn.utils.multiclass import type_of_target
     """Learn classes, target type, and sparse-input mode for label binarization."""
+    from sklearn.utils.multiclass import type_of_target
     from sklearn.utils.multiclass import type_of_target, unique_labels
     from sklearn.utils.validation import _num_samples
 
@@ -1880,8 +1880,8 @@ def label_binarizer_fit_transform(
 @icontract.require(lambda state: _label_binarizer_state_valid(state), "state must contain fitted classes and valid labels")
 @icontract.ensure(lambda result, y, state: _label_binarize_shape_matches(result, y, state.classes), "transformed labels must have fitted class shape")
 def label_binarizer_transform(y: LabelBinarizeInput, state: LabelBinarizerState) -> LabelBinarizeResult:
-    from sklearn.utils.multiclass import type_of_target
     """Transform labels to one-vs-all columns with fitted binarizer state."""
+    from sklearn.utils.multiclass import type_of_target
     from sklearn.utils.multiclass import type_of_target
 
     y_is_multilabel = type_of_target(y).startswith("multilabel")
@@ -2158,8 +2158,8 @@ def ordinal_encoder_fit(
     unknown_value: int | float | None = None,
     encoded_missing_value: int | float = np.nan,
 ) -> OrdinalEncoderState:
-    from sklearn.utils import check_array, check_random_state, resample
     """Learn per-feature categories for sklearn-style ordinal encoding."""
+    from sklearn.utils import check_array, check_random_state, resample
     checked_x = check_array(X, dtype=None, ensure_all_finite="allow-nan")
     if checked_x.ndim != 2:
         raise ValueError("X must be a 2D categorical matrix")
@@ -2239,8 +2239,8 @@ def ordinal_encoder_transform(
     X: OrdinalInput,
     state: OrdinalEncoderState,
 ) -> NDArray[np.float64]:
-    from sklearn.utils import check_array, check_random_state, resample
     """Map categorical feature values to fitted ordinal codes."""
+    from sklearn.utils import check_array, check_random_state, resample
     checked_x = check_array(X, dtype=None, ensure_all_finite="allow-nan")
     if checked_x.shape[1] != state.n_features_in:
         raise ValueError("Input data has a different number of features than fitting data.")
@@ -2275,8 +2275,8 @@ def ordinal_encoder_inverse_transform(
     X: MatrixLike,
     state: OrdinalEncoderState,
 ) -> NDArray[np.object_]:
-    from sklearn.utils import check_array, check_random_state, resample
     """Map fitted ordinal codes back to categorical feature values."""
+    from sklearn.utils import check_array, check_random_state, resample
     checked_x = check_array(X, ensure_all_finite="allow-nan")
     if checked_x.shape[1] != state.n_features_in:
         raise ValueError("Shape of the passed X data is not correct. Expected {0} columns, got {1}.".format(state.n_features_in, checked_x.shape[1]))
@@ -2413,8 +2413,8 @@ def onehot_encoder_fit(
     dtype: type = np.float64,
     handle_unknown: str = "error",
 ) -> OneHotEncoderState:
-    from sklearn.utils import check_array, check_random_state, resample
     """Learn per-feature categories and output layout for one-hot encoding."""
+    from sklearn.utils import check_array, check_random_state, resample
     checked_x = check_array(X, dtype=None, ensure_all_finite="allow-nan")
     n_features = int(checked_x.shape[1])
     if not _ordinal_categories_valid(categories, n_features):
@@ -2465,8 +2465,8 @@ def onehot_encoder_transform(
     X: OrdinalInput,
     state: OneHotEncoderState,
 ) -> MatrixLike:
-    from sklearn.utils import check_array, check_random_state, resample
     """Map categorical feature values to fitted one-hot indicator columns."""
+    from sklearn.utils import check_array, check_random_state, resample
     checked_x = check_array(X, dtype=None, ensure_all_finite="allow-nan")
     n_samples = checked_x.shape[0]
     if checked_x.shape[1] != state.n_features_in:
@@ -2525,8 +2525,8 @@ def onehot_encoder_inverse_transform(
     X: MatrixLike,
     state: OneHotEncoderState,
 ) -> NDArray[np.object_]:
-    from sklearn.utils import check_array, check_random_state, resample
     """Map fitted one-hot indicator columns back to categorical values."""
+    from sklearn.utils import check_array, check_random_state, resample
     checked_x = check_array(X, accept_sparse="csr")
     if checked_x.shape[1] != _onehot_output_width(state):
         raise ValueError("Shape of the passed X data is not correct. Expected {0} columns, got {1}.".format(_onehot_output_width(state), checked_x.shape[1]))
@@ -3005,9 +3005,9 @@ def polynomial_features_fit(
     include_bias: bool = True,
     order: str = "C",
 ) -> PolynomialFeaturesState:
+    """Learn polynomial expansion powers for a fitted feature count."""
     from sklearn.utils import check_array, check_random_state, resample
     from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
-    """Learn polynomial expansion powers for a fitted feature count."""
     checked_x = check_array(X, accept_sparse=True, dtype=FLOAT_DTYPES)
     n_features = int(checked_x.shape[1])
     min_degree, max_degree = _polynomial_degree_bounds(degree, include_bias)
@@ -3047,9 +3047,9 @@ def polynomial_features_transform(
     X: MatrixLike,
     state: PolynomialFeaturesState,
 ) -> PolynomialFeaturesResult:
+    """Expand rows to polynomial and interaction feature columns."""
     from sklearn.utils import check_array, check_random_state, resample
     from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
-    """Expand rows to polynomial and interaction feature columns."""
     checked_x = check_array(X, accept_sparse=("csr", "csc"), dtype=FLOAT_DTYPES)
     if checked_x.shape[1] != state.n_features_in:
         raise ValueError("X feature count does not match fitted state")
@@ -3214,9 +3214,9 @@ def spline_transformer_fit(
     sparse_output: bool = False,
     sample_weight: NDArray[np.float64] | None = None,
 ) -> SplineTransformerState:
+    """Learn per-feature B-spline knots for basis expansion."""
     from sklearn.utils import check_array, check_random_state, resample
     from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
-    """Learn per-feature B-spline knots for basis expansion."""
     try:
         checked_x = check_array(
             X,
@@ -3286,9 +3286,9 @@ def spline_transformer_transform(
     X: MatrixLike,
     state: SplineTransformerState,
 ) -> MatrixLike:
+    """Expand each feature into fitted univariate B-spline basis values."""
     from sklearn.utils import check_array, check_random_state, resample
     from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
-    """Expand each feature into fitted univariate B-spline basis values."""
     checked_x = check_array(
         X,
         accept_sparse=False,
@@ -3546,10 +3546,10 @@ def power_transformer_fit(
     *,
     standardize: bool = True,
 ) -> PowerTransformerState:
+    """Estimate per-feature power-transform lambdas and optional scaling state."""
     from sklearn.preprocessing._data import BOUNDS_THRESHOLD, _handle_zeros_in_scale, _is_constant_feature
     from sklearn.utils import check_array, check_random_state, resample
     from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
-    """Estimate per-feature power-transform lambdas and optional scaling state."""
     checked_x = check_array(
         X,
         dtype=FLOAT_DTYPES,
@@ -3612,9 +3612,9 @@ def power_transformer_transform(
     state: PowerTransformerState,
     copy: bool = True,
 ) -> NDArray[np.float64]:
+    """Apply fitted power-transform lambdas and optional standardization."""
     from sklearn.utils import check_array, check_random_state, resample
     from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
-    """Apply fitted power-transform lambdas and optional standardization."""
     checked_x = check_array(
         X,
         dtype=FLOAT_DTYPES,
@@ -3647,9 +3647,9 @@ def power_transformer_inverse_transform(
     state: PowerTransformerState,
     copy: bool = True,
 ) -> NDArray[np.float64]:
+    """Undo fitted power transformation and optional standardization."""
     from sklearn.utils import check_array, check_random_state, resample
     from sklearn.utils.validation import FLOAT_DTYPES, _check_sample_weight, _check_y, check_consistent_length
-    """Undo fitted power transformation and optional standardization."""
     checked_x = check_array(
         X,
         dtype=FLOAT_DTYPES,
@@ -3921,8 +3921,8 @@ def quantile_transformer_fit(
     subsample: int | None = 10_000,
     random_state: RandomStateLike = None,
 ) -> QuantileTransformerState:
-    from sklearn.utils import check_array, check_random_state, resample
     """Estimate empirical per-feature quantiles for distribution mapping."""
+    from sklearn.utils import check_array, check_random_state, resample
     if subsample is not None and n_quantiles > subsample:
         raise ValueError(
             "The number of quantiles cannot be greater than the number of samples used. "

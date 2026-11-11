@@ -218,8 +218,8 @@ def nmf_beta_divergence(
     *,
     square_root: bool = False,
 ) -> float:
-    from sklearn.utils.extmath import squared_norm
     """Compute sklearn's beta-divergence between X and the product W H."""
+    from sklearn.utils.extmath import squared_norm
     beta_value = nmf_beta_loss_to_float(beta)
     w_values = np.asarray(W, dtype=np.float64)
     h_values = np.asarray(H, dtype=np.float64)
@@ -290,8 +290,8 @@ def nmf_random_initialize(
     *,
     random_state: RandomStateLike = None,
 ) -> NmfFactors:
-    from sklearn.utils.validation import check_array, check_non_negative, check_random_state
     """Initialize dense nonnegative NMF factors with sklearn's random scaling rule."""
+    from sklearn.utils.validation import check_array, check_non_negative, check_random_state
     checked_x = np.asarray(check_array(X, dtype=np.float64, ensure_2d=True), dtype=np.float64)
     check_non_negative(checked_x, "NMF initialization")
 
@@ -322,8 +322,8 @@ def nmf_nndsvd_from_svd(
     eps: float = 1e-6,
     random_state: RandomStateLike = None,
 ) -> NmfFactors:
-    from sklearn.utils.validation import check_array, check_non_negative, check_random_state
     """Build sklearn's NNDSVD-style initial factors from a supplied dense SVD triplet."""
+    from sklearn.utils.validation import check_array, check_non_negative, check_random_state
     left, singular_values, right = _nndsvd_checked_inputs(U, S, V)
     W = np.zeros_like(left)
     H = np.zeros_like(right)
@@ -387,8 +387,8 @@ def nmf_check_init_matrix(
     shape: ShapeSpec,
     whom: str,
 ) -> NDArray[np.float64]:
-    from sklearn.utils.validation import check_array, check_non_negative, check_random_state
     """Validate and return a dense nonnegative matrix used to initialize nonnegative matrix factorization."""
+    from sklearn.utils.validation import check_array, check_non_negative, check_random_state
     checked = np.asarray(check_array(A, dtype=np.float64, ensure_2d=True), dtype=np.float64)
 
     if shape[0] != "auto" and checked.shape[0] != shape[0]:

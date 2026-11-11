@@ -49,6 +49,6 @@ def partial_dependence_use_object_check_array(
 def partial_dependence_checked_object_array(
     X: object,
 ) -> ObjectMatrix:
-    from sklearn.utils import check_array
     """Apply sklearn's object-dtype check_array branch for non-array-like partial_dependence input."""
+    from sklearn.utils import check_array
     return np.asarray(check_array(X, ensure_all_finite="allow-nan", dtype=object), dtype=object)

@@ -150,13 +150,13 @@ def gpc_fit_binary_base_estimator(
     copy_X_train: bool,
     random_state: RandomStateLike,
 ) -> _BinaryGaussianProcessClassifierLaplace:
+    """Construct the binary base estimator template used by GaussianProcessClassifier.fit."""
     from sklearn.base import clone
     from sklearn.gaussian_process.kernels import Kernel
     from sklearn.gaussian_process._gpc import (
     GaussianProcessClassifier,
     _BinaryGaussianProcessClassifierLaplace,
     )
-    """Construct the binary base estimator template used by GaussianProcessClassifier.fit."""
     return _BinaryGaussianProcessClassifierLaplace(
         kernel=clone(kernel) if kernel is not None else None,
         optimizer=optimizer,
@@ -181,12 +181,12 @@ def gpc_fit_one_vs_rest_estimator(
     base_estimator: _BinaryGaussianProcessClassifierLaplace,
     n_jobs: int | None = None,
 ) -> OneVsRestClassifier:
+    """Wrap GaussianProcessClassifier's binary base estimator in OneVsRestClassifier."""
     from sklearn.gaussian_process._gpc import (
     GaussianProcessClassifier,
     _BinaryGaussianProcessClassifierLaplace,
     )
     from sklearn.multiclass import OneVsOneClassifier, OneVsRestClassifier
-    """Wrap GaussianProcessClassifier's binary base estimator in OneVsRestClassifier."""
     return OneVsRestClassifier(base_estimator, n_jobs=n_jobs)
 
 @register_atom(witness_gpc_fit_one_vs_one_estimator)
@@ -203,12 +203,12 @@ def gpc_fit_one_vs_one_estimator(
     base_estimator: _BinaryGaussianProcessClassifierLaplace,
     n_jobs: int | None = None,
 ) -> OneVsOneClassifier:
+    """Wrap GaussianProcessClassifier's binary base estimator in OneVsOneClassifier."""
     from sklearn.gaussian_process._gpc import (
     GaussianProcessClassifier,
     _BinaryGaussianProcessClassifierLaplace,
     )
     from sklearn.multiclass import OneVsOneClassifier, OneVsRestClassifier
-    """Wrap GaussianProcessClassifier's binary base estimator in OneVsOneClassifier."""
     return OneVsOneClassifier(base_estimator, n_jobs=n_jobs)
 
 @register_atom(witness_gpc_fit_binary_log_marginal_likelihood_value)

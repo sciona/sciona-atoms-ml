@@ -105,8 +105,8 @@ def gp_log_marginal_likelihood_kernel(
     theta: NDArray[np.float64],
     clone_kernel: bool,
 ) -> Kernel:
-    from sklearn.gaussian_process.kernels import Kernel
     """Resolve the kernel object used for log-marginal-likelihood evaluation."""
+    from sklearn.gaussian_process.kernels import Kernel
     theta_values = np.asarray(theta, dtype=np.float64)
     if clone_kernel:
         return kernel.clone_with_theta(theta_values)

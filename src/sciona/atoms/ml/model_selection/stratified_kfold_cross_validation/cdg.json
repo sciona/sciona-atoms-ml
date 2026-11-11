@@ -4,9 +4,53 @@
   "priority": "medium",
   "decomposition_rationale": "Folds must be computed up front as index sets to allow external loops to execute evaluations in parallel without shared state.",
   "family_directory_hint": "src/sciona/atoms/ml/model_selection/",
-  "atomic_nodes": [
+  "nodes": [
     {
+      "node_id": "stratified_kfold_cross_validation_root",
+      "parent_id": null,
+      "name": "stratified_kfold_cross_validation",
+      "description": "Folds must be computed up front as index sets to allow external loops to execute evaluations in parallel without shared state.",
+      "concept_type": "state_init",
+      "inputs": [
+        {
+          "name": "targets",
+          "type_desc": "NDArray[Any]",
+          "required": true
+        },
+        {
+          "name": "n_splits",
+          "type_desc": "int",
+          "required": true
+        },
+        {
+          "name": "shuffle",
+          "type_desc": "bool",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "folds",
+          "type_desc": "list[tuple[NDArray[np.int64], NDArray[np.int64]]]"
+        }
+      ],
+      "status": "decomposed",
+      "children": [
+        "compute_stratified_kfold_indices"
+      ],
+      "depth": 0,
+      "decomposition_rationale": "Folds must be computed up front as index sets to allow external loops to execute evaluations in parallel without shared state."
+    },
+    {
+      "node_id": "compute_stratified_kfold_indices",
+      "parent_id": "stratified_kfold_cross_validation_root",
       "name": "compute_stratified_kfold_indices",
+      "description": "Generate list of train and test index pairs maintaining class ratios.",
+      "concept_type": "custom",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(targets: NDArray[Any], n_splits: int, shuffle: bool, random_state: Optional[int] = ...) -> list[tuple[NDArray[np.int64], NDArray[np.int64]]]",
+      "matched_primitive": "compute_stratified_kfold_indices",
       "semantic_role": "Generate list of train and test index pairs maintaining class ratios.",
       "source_targets": [
         "sklearn.model_selection.StratifiedKFold"

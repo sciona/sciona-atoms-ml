@@ -61,6 +61,6 @@ def cd_path_residuals_project_test_coefs(
     X_test: NDArray[np.floating] | sparse.spmatrix,
     coefs: NDArray[np.floating],
 ) -> NDArray[np.floating]:
-    from sklearn.utils.extmath import safe_sparse_dot
     """Return sklearn's held-out coefficient-path projection in _path_residuals."""
+    from sklearn.utils.extmath import safe_sparse_dot
     return safe_sparse_dot(X_test, coefs)

@@ -18,7 +18,7 @@ def aptos_population(base: list, average: list, grouped: list, pseudo_keys: list
     five ordinals 0..4; group-bounded labels use four ordinals 0..3. Pseudo
     identities have no supplied labels. Source-role provenance is caller-owned.
     """
-    from sciona.aptos_population import prepare_population
+    from sciona._runtime.ml.aptos_population import prepare_population
     return prepare_population(base=base, average=average, grouped=grouped, pseudo_keys=pseudo_keys)
 
 
@@ -46,8 +46,8 @@ def aptos_train_ensemble(plan: object, query_keys: list, images: dict,
     predictions, soft targets and aggregate fit histories. Temporary trained
     checkpoints are verified by replay and removed, never published here.
     """
-    from sciona.aptos_population import Population
-    from sciona.aptos_pipeline import run_reference
+    from sciona._runtime.ml.aptos_population import Population
+    from sciona._runtime.ml.aptos_pipeline import run_reference
     if not isinstance(plan, Population):
         raise ValueError('APTOS population plan required')
     return run_reference(base=(plan.base_keys, plan.base_labels),

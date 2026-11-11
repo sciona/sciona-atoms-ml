@@ -9,7 +9,7 @@ def concrete_only(*args, **kwargs):
 @register_atom(concrete_only)
 def prepare(payload: dict) -> object:
     """Inspect bounded streams and validate temporal boundaries and selection controls."""
-    from sciona.temporal_sparse_selected_execution import prepare as run
+    from sciona._runtime.ml.temporal_sparse_selected_execution import prepare as run
     return run(payload)
 
 
@@ -21,5 +21,5 @@ def execute(prepared: object) -> dict:
     and deterministic snapshot lifetime. Validation scores select epochs and do
     not establish independent accuracy. Source descriptors remain private.
     """
-    from sciona.temporal_sparse_selected_execution import execute as run
+    from sciona._runtime.ml.temporal_sparse_selected_execution import execute as run
     return run(prepared)

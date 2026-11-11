@@ -24,6 +24,6 @@ def transform_frozen_queries(state, queries, feature_coordinate, response_coordi
     state checks do not authenticate state or establish empirical transfer.
     Saved observations and query scope must remain private runtime material.
     """
-    from sciona.osic_feature_state import transform_queries
+    from sciona._runtime.ml.osic_feature_state import transform_queries
     return transform_queries(state, queries, feature_coordinate=feature_coordinate,
                              response_coordinate=response_coordinate)

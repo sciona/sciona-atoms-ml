@@ -77,8 +77,8 @@ def _embedding_kwargs_valid(
 @icontract.ensure(lambda result: _random_state_result_valid(result), "result must be a numpy RandomState")
 @icontract.ensure(lambda result, random_state=None: _same_rng_sequence(result, random_state), "result must match sklearn's normalized random state")
 def spectral_fit_embedding_random_state(random_state: int | None = None) -> np.random.RandomState:
-    from sklearn.utils import check_random_state
     """Normalize SpectralClustering.fit's random_state for the _spectral_embedding call."""
+    from sklearn.utils import check_random_state
     return check_random_state(random_state)
 
 @register_atom(witness_spectral_fit_embedding_drop_first)

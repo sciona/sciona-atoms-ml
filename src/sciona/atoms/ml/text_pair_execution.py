@@ -8,7 +8,7 @@ def witness_text_pair_prepare(payload: dict) -> dict:return {'kind':'TextPair.Pr
 @register_atom(witness_text_pair_prepare)
 def text_pair_prepare(payload: dict) -> object:
     """Validate disjoint text-pair populations and explicit training controls."""
-    from sciona.text_pair_contract import prepare
+    from sciona._runtime.ml.text_pair_contract import prepare
     return prepare(payload)
 
 
@@ -20,5 +20,5 @@ def witness_text_pair_execute(prepared: object) -> dict:
 @register_atom(witness_text_pair_execute)
 def text_pair_execute(prepared: object) -> dict:
     """Fit lexical/LSA/context ensemble, select held-out F1 threshold and predict."""
-    from sciona.text_pair_contract import execute
+    from sciona._runtime.ml.text_pair_contract import execute
     return execute(prepared)

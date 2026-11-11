@@ -91,9 +91,9 @@ def bagging_generate_indices(
     *,
     random_state: RandomStateLike = None,
 ) -> NDArray[np.int64]:
+    """Draw sample or feature indices the way sklearn bagging does for one axis."""
     from sklearn.utils import check_random_state
     from sklearn.utils.random import sample_without_replacement
-    """Draw sample or feature indices the way sklearn bagging does for one axis."""
     rng = check_random_state(random_state)
     if bootstrap:
         return np.asarray(rng.randint(0, n_population, n_draws), dtype=np.int64)
@@ -135,8 +135,8 @@ def bagging_generate_bagging_indices(
     random_state: RandomStateLike = None,
     sample_weight: SampleWeightLike = None,
 ) -> IndexPair:
-    from sklearn.utils import check_random_state
     """Draw feature and sample indices for one sklearn bagging estimator."""
+    from sklearn.utils import check_random_state
     rng = check_random_state(random_state)
     feature_indices = bagging_generate_indices(
         bootstrap_features,

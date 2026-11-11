@@ -49,7 +49,7 @@ def test_abstract_controls_and_state_identity():
 
 
 def test_invalid_inputs_rejected_before_worker_launch(monkeypatch):
-    from sciona import sparse_neural_process
+    from sciona._runtime.ml import sparse_neural_process
     def forbidden(*args, **kwargs):
         raise AssertionError('Invalid inputs reached the worker')
     monkeypatch.setattr(sparse_neural_process, 'run_sparse_neural', forbidden)

@@ -4,9 +4,62 @@
   "priority": "medium",
   "decomposition_rationale": "Decouple hard metrics (precision/recall/F1) from probabilistic metrics (log-loss) since they require different inputs (hard labels vs probabilities) and have different numerical stability issues.",
   "family_directory_hint": "src/sciona/atoms/ml/metrics/",
-  "atomic_nodes": [
+  "nodes": [
     {
+      "node_id": "classification_metric_suite_root",
+      "parent_id": null,
+      "name": "classification_metric_suite",
+      "description": "Decouple hard metrics (precision/recall/F1) from probabilistic metrics (log-loss) since they require different inputs (hard labels vs probabilities) and have different numerical stability issues.",
+      "concept_type": "custom",
+      "inputs": [
+        {
+          "name": "y_true",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        },
+        {
+          "name": "y_pred",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        },
+        {
+          "name": "beta",
+          "type_desc": "float",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "precision",
+          "type_desc": "float"
+        },
+        {
+          "name": "recall",
+          "type_desc": "float"
+        },
+        {
+          "name": "f_beta",
+          "type_desc": "float"
+        }
+      ],
+      "status": "decomposed",
+      "children": [
+        "compute_binary_classification_stats",
+        "compute_f_beta_score"
+      ],
+      "depth": 0,
+      "decomposition_rationale": "Decouple hard metrics (precision/recall/F1) from probabilistic metrics (log-loss) since they require different inputs (hard labels vs probabilities) and have different numerical stability issues."
+    },
+    {
+      "node_id": "compute_binary_classification_stats",
+      "parent_id": "classification_metric_suite_root",
       "name": "compute_binary_classification_stats",
+      "description": "Calculate true/false positive/negative counts from binary label vectors.",
+      "concept_type": "custom",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(y_true: NDArray[np.int64], y_pred: NDArray[np.int64]) -> tuple[int, int, int, int]",
+      "matched_primitive": "compute_binary_classification_stats",
       "semantic_role": "Calculate true/false positive/negative counts from binary label vectors.",
       "source_targets": [
         "sklearn.metrics.confusion_matrix"
@@ -54,7 +107,15 @@
       "complexity_confidence": 90
     },
     {
+      "node_id": "compute_f_beta_score",
+      "parent_id": "classification_metric_suite_root",
       "name": "compute_f_beta_score",
+      "description": "Calculate Precision, Recall, and F-beta metrics based on prediction counts.",
+      "concept_type": "custom",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(tp: int, fp: int, tn: int, fn: int, beta: float) -> tuple[float, float, float]",
+      "matched_primitive": "compute_f_beta_score",
       "semantic_role": "Calculate Precision, Recall, and F-beta metrics based on prediction counts.",
       "source_targets": [
         "sklearn.metrics.fbeta_score"
@@ -115,28 +176,48 @@
   ],
   "edges": [
     {
-      "source": "compute_binary_classification_stats",
-      "target": "compute_f_beta_score",
+      "source_id": "compute_binary_classification_stats",
+      "target_id": "compute_f_beta_score",
       "output_name": "tp",
-      "input_name": "tp"
+      "input_name": "tp",
+      "source_type": "int",
+      "target_type": "int",
+      "requires_glue": false,
+      "source": "compute_binary_classification_stats",
+      "target": "compute_f_beta_score"
     },
     {
-      "source": "compute_binary_classification_stats",
-      "target": "compute_f_beta_score",
+      "source_id": "compute_binary_classification_stats",
+      "target_id": "compute_f_beta_score",
       "output_name": "fp",
-      "input_name": "fp"
+      "input_name": "fp",
+      "source_type": "int",
+      "target_type": "int",
+      "requires_glue": false,
+      "source": "compute_binary_classification_stats",
+      "target": "compute_f_beta_score"
     },
     {
-      "source": "compute_binary_classification_stats",
-      "target": "compute_f_beta_score",
+      "source_id": "compute_binary_classification_stats",
+      "target_id": "compute_f_beta_score",
       "output_name": "tn",
-      "input_name": "tn"
+      "input_name": "tn",
+      "source_type": "int",
+      "target_type": "int",
+      "requires_glue": false,
+      "source": "compute_binary_classification_stats",
+      "target": "compute_f_beta_score"
     },
     {
-      "source": "compute_binary_classification_stats",
-      "target": "compute_f_beta_score",
+      "source_id": "compute_binary_classification_stats",
+      "target_id": "compute_f_beta_score",
       "output_name": "fn",
-      "input_name": "fn"
+      "input_name": "fn",
+      "source_type": "int",
+      "target_type": "int",
+      "requires_glue": false,
+      "source": "compute_binary_classification_stats",
+      "target": "compute_f_beta_score"
     }
   ],
   "cdg_io": {

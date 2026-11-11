@@ -673,8 +673,8 @@ def affinity_propagation(
     return_n_iter: bool = False,
     random_state: RandomStateLike = None,
 ) -> AffinityPropagationOutput:
-    from sklearn.utils import check_array, check_random_state, gen_batches
     """Run affinity propagation on a square similarity matrix."""
+    from sklearn.utils import check_array, check_random_state, gen_batches
     affinity_matrix = np.asarray(
         check_array(S, dtype=[np.float64, np.float32], copy=copy, force_writeable=True),
         dtype=np.float64,
@@ -715,9 +715,9 @@ def affinity_propagation_fit(
     verbose: bool = False,
     random_state: RandomStateLike = None,
 ) -> AffinityPropagationState:
+    """Fit affinity propagation and return immutable clustering state."""
     from sklearn.metrics import euclidean_distances, pairwise_distances, pairwise_distances_argmin
     from sklearn.utils import check_array, check_random_state, gen_batches
-    """Fit affinity propagation and return immutable clustering state."""
     if affinity == "precomputed":
         affinity_matrix = np.asarray(
             check_array(X, dtype=[np.float64, np.float32], copy=copy, force_writeable=True),
@@ -772,10 +772,10 @@ def affinity_propagation_predict(
     X: MatrixLike,
     state: AffinityPropagationState,
 ) -> NDArray[np.int_]:
+    """Assign samples to the nearest fitted affinity-propagation center."""
     from sklearn.exceptions import ConvergenceWarning
     from sklearn.metrics import euclidean_distances, pairwise_distances, pairwise_distances_argmin
     from sklearn.utils import check_array, check_random_state, gen_batches
-    """Assign samples to the nearest fitted affinity-propagation center."""
     if state.affinity == "precomputed":
         raise ValueError("Predict method is not supported when affinity='precomputed'.")
     checked_x = check_array(X, accept_sparse="csr", dtype=[np.float64, np.float32])
@@ -803,9 +803,9 @@ def estimate_bandwidth(
     random_state: RandomStateLike = 0,
     n_jobs: int | None = None,
 ) -> float:
+    """Estimate the flat-kernel bandwidth used by mean-shift clustering."""
     from sklearn.neighbors import NearestNeighbors
     from sklearn.utils import check_array, check_random_state, gen_batches
-    """Estimate the flat-kernel bandwidth used by mean-shift clustering."""
     checked_x = np.asarray(check_array(X, dtype=[np.float64, np.float32]), dtype=np.float64)
     rng = check_random_state(random_state)
     if n_samples is not None:
@@ -897,9 +897,9 @@ def mean_shift_predict(
     X: MatrixLike,
     state: MeanShiftState,
 ) -> NDArray[np.int_]:
+    """Assign samples to the nearest fitted mean-shift center."""
     from sklearn.metrics import euclidean_distances, pairwise_distances, pairwise_distances_argmin
     from sklearn.utils import check_array, check_random_state, gen_batches
-    """Assign samples to the nearest fitted mean-shift center."""
     checked_x = np.asarray(check_array(X, dtype=[np.float64, np.float32]), dtype=np.float64)
     return np.asarray(pairwise_distances_argmin(checked_x, state.cluster_centers), dtype=np.int_)
 
@@ -1226,9 +1226,9 @@ def compute_optics_graph(
     leaf_size: int,
     n_jobs: int | None,
 ) -> OpticsGraphResult:
+    """Compute ordered reachability arrays for density clustering."""
     from sklearn.neighbors import NearestNeighbors
     from sklearn.utils import check_array, check_random_state, gen_batches
-    """Compute ordered reachability arrays for density clustering."""
     checked_x = check_array(X, accept_sparse="csr", dtype=np.float64)
     n_samples = checked_x.shape[0]
     resolved_min_samples = _resolve_optics_size(min_samples, n_samples, "min_samples")

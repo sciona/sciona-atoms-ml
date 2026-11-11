@@ -3,8 +3,8 @@ import math
 import pandas as pd
 
 from sciona.ghost.registry import register_atom
-from sciona.airport_model_state import validate_adapter_state
-from sciona.nasa_population_dispatch import partition_records, assemble_predictions
+from sciona._runtime.ml.airport_model_state import validate_adapter_state
+from sciona._runtime.ml.nasa_population_dispatch import partition_records, assemble_predictions
 from sciona.atoms.ml.domain_adapters.airport_features import witness_unmaterialized
 
 

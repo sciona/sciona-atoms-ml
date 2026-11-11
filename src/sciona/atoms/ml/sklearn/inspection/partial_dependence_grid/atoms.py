@@ -124,8 +124,8 @@ def partial_dependence_grid(
     is_categorical: tuple[bool, ...],
     grid_resolution: int = 100,
 ) -> GridResult:
-    from sklearn.utils.extmath import cartesian
     """Build the dense partial-dependence grid for supplied numeric feature columns."""
+    from sklearn.utils.extmath import cartesian
     validated_percentiles = partial_dependence_grid_parameters(percentiles, grid_resolution=grid_resolution)
     values = np.asarray(X, dtype=np.float64)
     axes = tuple(

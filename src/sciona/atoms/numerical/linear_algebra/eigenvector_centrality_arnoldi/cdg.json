@@ -4,9 +4,49 @@
   "priority": "medium",
   "decomposition_rationale": "Orchestrates dominant eigenvalue extraction with sign correction filters to enforce Perron-Frobenius physical constraints.",
   "family_directory_hint": "src/sciona/atoms/numerical/linear_algebra/",
-  "atomic_nodes": [
+  "nodes": [
     {
+      "node_id": "eigenvector_centrality_arnoldi_root",
+      "parent_id": null,
+      "name": "eigenvector_centrality_arnoldi",
+      "description": "Orchestrates dominant eigenvalue extraction with sign correction filters to enforce Perron-Frobenius physical constraints.",
+      "concept_type": "signal_filter",
+      "inputs": [
+        {
+          "name": "adj_matrix",
+          "type_desc": "scipy.sparse.csr_array",
+          "required": true
+        },
+        {
+          "name": "max_iter",
+          "type_desc": "int",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "centralities",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "status": "decomposed",
+      "children": [
+        "solve_dominant_eigenvector",
+        "perron_frobenius_correct"
+      ],
+      "depth": 0,
+      "decomposition_rationale": "Orchestrates dominant eigenvalue extraction with sign correction filters to enforce Perron-Frobenius physical constraints."
+    },
+    {
+      "node_id": "solve_dominant_eigenvector",
+      "parent_id": "eigenvector_centrality_arnoldi_root",
       "name": "solve_dominant_eigenvector",
+      "description": "Call ARPACK to extract the largest eigenvalue/vector.",
+      "concept_type": "custom",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(adj_matrix: scipy.sparse.csr_array, max_iter: int) -> tuple[complex, NDArray[np.complex128]]",
+      "matched_primitive": "solve_dominant_eigenvector",
       "semantic_role": "Call ARPACK to extract the largest eigenvalue/vector.",
       "source_targets": [
         "scipy.sparse.linalg.eigs"
@@ -44,7 +84,15 @@
       "complexity_confidence": 90
     },
     {
+      "node_id": "perron_frobenius_correct",
+      "parent_id": "eigenvector_centrality_arnoldi_root",
       "name": "perron_frobenius_correct",
+      "description": "Cast complex values, verify positiveness, and normalize vector.",
+      "concept_type": "custom",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(eigenvector: NDArray[np.complex128]) -> NDArray[np.float64]",
+      "matched_primitive": "perron_frobenius_correct",
       "semantic_role": "Cast complex values, verify positiveness, and normalize vector.",
       "source_targets": [
         "numpy.real",
@@ -74,10 +122,15 @@
   ],
   "edges": [
     {
-      "source": "solve_dominant_eigenvector",
-      "target": "perron_frobenius_correct",
+      "source_id": "solve_dominant_eigenvector",
+      "target_id": "perron_frobenius_correct",
       "output_name": "eigenvector",
-      "input_name": "eigenvector"
+      "input_name": "eigenvector",
+      "source_type": "NDArray[np.complex128]",
+      "target_type": "NDArray[np.complex128]",
+      "requires_glue": false,
+      "source": "solve_dominant_eigenvector",
+      "target": "perron_frobenius_correct"
     }
   ],
   "cdg_io": {

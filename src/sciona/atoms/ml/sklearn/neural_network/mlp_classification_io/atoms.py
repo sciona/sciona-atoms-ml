@@ -113,8 +113,8 @@ def mlp_classifier_fit_target_state(
     warm_start: bool = False,
     incremental: bool = False,
 ) -> LabelBinarizerState:
-    from sklearn.utils.multiclass import type_of_target, unique_labels
     """Resolve the fitted label-binarizer state sklearn's MLPClassifier uses during fit."""
+    from sklearn.utils.multiclass import type_of_target, unique_labels
     if existing_state is None or (not warm_start and not incremental):
         return label_binarizer_fit(y)
 
@@ -140,8 +140,8 @@ def mlp_classifier_partial_fit_target_state(
     y: LabelArray,
     classes: LabelArray,
 ) -> LabelBinarizerState:
-    from sklearn.utils.multiclass import type_of_target, unique_labels
     """Build the first-call label-binarizer state sklearn's MLPClassifier.partial_fit uses."""
+    from sklearn.utils.multiclass import type_of_target, unique_labels
     if type_of_target(y).startswith("multilabel"):
         return label_binarizer_fit(y)
     return label_binarizer_fit(classes)

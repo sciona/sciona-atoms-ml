@@ -114,8 +114,8 @@ def agglomerative_fix_connected_components(
     mode: str = "distance",
     metric: str = "euclidean",
 ) -> sp.spmatrix:
-    from sklearn.metrics import pairwise_distances
     """Connect disjoint graph components using sklearn's nearest cross-component rule."""
+    from sklearn.metrics import pairwise_distances
     if metric == "precomputed" and sp.issparse(X):
         raise RuntimeError(
             "_fix_connected_components with metric='precomputed' requires the "

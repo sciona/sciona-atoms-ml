@@ -24,6 +24,6 @@ def score_bm25(term_frequencies: list[int], document_frequencies: list[int],
     weighting or task-specific policy. Positive IDF, exact lengths and (k1+1)
     scale are explicit; no bitwise Lucene-equivalence claim.
     """
-    from sciona.bm25_scoring import bm25_score
+    from sciona._runtime.ml.bm25_scoring import bm25_score
     return bm25_score(term_frequencies, document_frequencies, document_length,
                       document_count, average_length, k1, b)

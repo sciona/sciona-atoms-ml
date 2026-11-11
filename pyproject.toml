@@ -29,5 +29,8 @@ where = ["src"]
 namespaces = true
 exclude = ["sciona.atoms.numerical*"]
 
+[tool.setuptools.package-data]
+"sciona._runtime.ml" = ["*.json", "*.R"]
+
 [tool.sciona.provider]
 excluded-import-prefixes = ["sciona.atoms.numerical"]

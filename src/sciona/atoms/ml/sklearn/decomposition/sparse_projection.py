@@ -25,7 +25,7 @@ def fit_sparse_projection(matrix: object, rank: int, iterations: int,
     input does not guarantee freedom from intermediate overflow; nonfinite
     factors reject. No text, label, vocabulary, centering or scaling policy.
     """
-    from sciona.sparse_randomized_projection import fit_projection
+    from sciona._runtime.ml.sparse_randomized_projection import fit_projection
     return fit_projection(matrix, rank, iterations, oversamples, seed)
 
 
@@ -41,5 +41,5 @@ def transform_sparse_projection(matrix: object, components: np.ndarray) -> np.nd
     Caller supplies fitted components and feature ordering; no refit, labels,
     split checks, text policy or authentication of component provenance.
     """
-    from sciona.sparse_randomized_projection import transform_projection
+    from sciona._runtime.ml.sparse_randomized_projection import transform_projection
     return transform_projection(matrix, components)

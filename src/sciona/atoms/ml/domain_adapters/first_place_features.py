@@ -2,7 +2,7 @@
 import numpy as np
 import pandas as pd
 from sciona.ghost.registry import register_atom
-from sciona.nasa_first_graph_adapters import prepare_arguments, project_tables
+from sciona._runtime.ml.nasa_first_graph_adapters import prepare_arguments, project_tables
 
 
 def witness_materialized(*args: object, **kwargs: object) -> object:

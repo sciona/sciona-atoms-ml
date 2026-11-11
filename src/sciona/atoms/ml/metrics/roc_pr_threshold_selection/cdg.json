@@ -4,9 +4,49 @@
   "priority": "medium",
   "decomposition_rationale": "Decouple the calculation of curve coordinates from the threshold optimizer. This lets users visualize the complete trade-off curve while testing different cost-weighting strategies.",
   "family_directory_hint": "src/sciona/atoms/ml/metrics/",
-  "atomic_nodes": [
+  "nodes": [
     {
+      "node_id": "roc_pr_threshold_selection_root",
+      "parent_id": null,
+      "name": "roc_pr_threshold_selection",
+      "description": "Decouple the calculation of curve coordinates from the threshold optimizer. This lets users visualize the complete trade-off curve while testing different cost-weighting strategies.",
+      "concept_type": "observability",
+      "inputs": [
+        {
+          "name": "y_true",
+          "type_desc": "NDArray[np.int64]",
+          "required": true
+        },
+        {
+          "name": "y_prob",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "optimal_threshold",
+          "type_desc": "float"
+        }
+      ],
+      "status": "decomposed",
+      "children": [
+        "compute_roc_coordinates",
+        "select_optimal_threshold_youden"
+      ],
+      "depth": 0,
+      "decomposition_rationale": "Decouple the calculation of curve coordinates from the threshold optimizer. This lets users visualize the complete trade-off curve while testing different cost-weighting strategies."
+    },
+    {
+      "node_id": "compute_roc_coordinates",
+      "parent_id": "roc_pr_threshold_selection_root",
       "name": "compute_roc_coordinates",
+      "description": "Calculate FPR, TPR, and threshold sets.",
+      "concept_type": "custom",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(y_true: NDArray[np.int64], y_prob: NDArray[np.float64]) -> tuple[NDArray[np.float64], NDArray[np.float64], NDArray[np.float64]]",
+      "matched_primitive": "compute_roc_coordinates",
       "semantic_role": "Calculate FPR, TPR, and threshold sets.",
       "source_targets": [
         "sklearn.metrics.roc_curve"
@@ -50,7 +90,15 @@
       "complexity_confidence": 90
     },
     {
+      "node_id": "select_optimal_threshold_youden",
+      "parent_id": "roc_pr_threshold_selection_root",
       "name": "select_optimal_threshold_youden",
+      "description": "Determine the optimal classification threshold by maximizing Youden's J statistic.",
+      "concept_type": "custom",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(fpr: NDArray[np.float64], tpr: NDArray[np.float64], thresholds: NDArray[np.float64]) -> float",
+      "matched_primitive": "select_optimal_threshold_youden",
       "semantic_role": "Determine the optimal classification threshold by maximizing Youden's J statistic.",
       "source_targets": [
         "numpy.argmax"
@@ -91,22 +139,37 @@
   ],
   "edges": [
     {
-      "source": "compute_roc_coordinates",
-      "target": "select_optimal_threshold_youden",
+      "source_id": "compute_roc_coordinates",
+      "target_id": "select_optimal_threshold_youden",
       "output_name": "fpr",
-      "input_name": "fpr"
+      "input_name": "fpr",
+      "source_type": "NDArray[np.float64]",
+      "target_type": "NDArray[np.float64]",
+      "requires_glue": false,
+      "source": "compute_roc_coordinates",
+      "target": "select_optimal_threshold_youden"
     },
     {
-      "source": "compute_roc_coordinates",
-      "target": "select_optimal_threshold_youden",
+      "source_id": "compute_roc_coordinates",
+      "target_id": "select_optimal_threshold_youden",
       "output_name": "tpr",
-      "input_name": "tpr"
+      "input_name": "tpr",
+      "source_type": "NDArray[np.float64]",
+      "target_type": "NDArray[np.float64]",
+      "requires_glue": false,
+      "source": "compute_roc_coordinates",
+      "target": "select_optimal_threshold_youden"
     },
     {
-      "source": "compute_roc_coordinates",
-      "target": "select_optimal_threshold_youden",
+      "source_id": "compute_roc_coordinates",
+      "target_id": "select_optimal_threshold_youden",
       "output_name": "thresholds",
-      "input_name": "thresholds"
+      "input_name": "thresholds",
+      "source_type": "NDArray[np.float64]",
+      "target_type": "NDArray[np.float64]",
+      "requires_glue": false,
+      "source": "compute_roc_coordinates",
+      "target": "select_optimal_threshold_youden"
     }
   ],
   "cdg_io": {

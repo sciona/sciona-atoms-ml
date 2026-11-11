@@ -79,8 +79,8 @@ def spectral_discretize_labels(
     n_iter_max: int = 20,
     random_state: int | None = None,
 ) -> NDArray[np.int64]:
-    from sklearn.utils import check_random_state
     """Assign spectral-clustering labels with sklearn's Yu-Shi discretization."""
+    from sklearn.utils import check_random_state
     rng = check_random_state(random_state)
     values = np.asarray(vectors, dtype=np.float64).copy()
     eps = np.finfo(float).eps

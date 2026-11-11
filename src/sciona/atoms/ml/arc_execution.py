@@ -9,7 +9,7 @@ def witness_arc_prepare(payload: dict) -> dict:
 @register_atom(witness_arc_prepare)
 def arc_prepare(payload: dict) -> object:
     """Validate private versioned grid tasks and explicit search budgets."""
-    from sciona.arc_runtime import prepare
+    from sciona._runtime.ml.arc_runtime import prepare
     return prepare(payload)
 
 
@@ -22,5 +22,5 @@ def witness_arc_execute(prepared: object) -> dict:
 @register_atom(witness_arc_execute)
 def arc_execute(prepared: object) -> dict:
     """Run four adaptive source phases and return ranked predictions/statuses."""
-    from sciona.arc_runtime import execute
+    from sciona._runtime.ml.arc_runtime import execute
     return execute(prepared)

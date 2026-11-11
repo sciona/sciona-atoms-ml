@@ -14,14 +14,14 @@ def initialize(patience: int, min_delta: float, mode: str) -> object:
     retain the earlier checkpoint. No metric, checkpoint storage or training
     behavior is inferred.
     """
-    from sciona.validation_stopping import ValidationStopping
+    from sciona._runtime.ml.validation_stopping import ValidationStopping
     return ValidationStopping(patience, min_delta, mode)
 
 
 @register_atom(concrete_only)
 def observe(state: object, value: float) -> object:
     """Return fresh state after one finite metric; reject observations after stop."""
-    from sciona.validation_stopping import ValidationStopping
+    from sciona._runtime.ml.validation_stopping import ValidationStopping
     if type(state) is not ValidationStopping:
         raise ValueError('Concrete validation stopping state required')
     return state.observe(value)

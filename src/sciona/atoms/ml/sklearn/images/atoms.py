@@ -241,8 +241,8 @@ def extract_patches_2d(
     max_patches: int | float | None = None,
     random_state: RandomStateArg = None,
 ) -> NDArray[np.float64]:
-    from sklearn.utils import check_array, check_random_state
     """Return all sliding 2D image patches, or a random subset of them."""
+    from sklearn.utils import check_array, check_random_state
     image_height, image_width = image.shape[:2]
     patch_height, patch_width = patch_size
 
@@ -374,8 +374,8 @@ def patch_extractor_transform(
     max_patches: int | float | None = None,
     random_state: RandomStateArg = None,
 ) -> NDArray[np.float64]:
-    from sklearn.utils import check_array, check_random_state
     """Extract patch tensors from a batch of grayscale or multichannel images."""
+    from sklearn.utils import check_array, check_random_state
     checked_x = check_array(
         X,
         ensure_2d=False,

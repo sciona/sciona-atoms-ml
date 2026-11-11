@@ -3,7 +3,7 @@ from sciona.ghost.registry import register_atom
 
 
 def _policy(word_characters, whitespace_characters):
-    from sciona.character_run_tokenizer import CharacterRunTokenizer
+    from sciona._runtime.ml.character_run_tokenizer import CharacterRunTokenizer
     return CharacterRunTokenizer(word_characters, whitespace_characters)
 
 

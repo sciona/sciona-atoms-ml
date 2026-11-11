@@ -60,8 +60,8 @@ def permutation_importance_use_dataframe_passthrough(
 def permutation_importance_checked_array(
     X: object,
 ) -> Matrix:
-    from sklearn.utils import check_array
     """Apply sklearn's dense check_array branch for non-dataframe permutation input."""
+    from sklearn.utils import check_array
     return np.asarray(check_array(X, ensure_all_finite="allow-nan", dtype=None), dtype=np.float64)
 
 @register_atom(witness_permutation_importance_max_samples_guard_required)

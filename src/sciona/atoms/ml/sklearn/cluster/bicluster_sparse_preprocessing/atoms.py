@@ -92,8 +92,8 @@ def _normalized_sparse_valid(result: object, X: object) -> bool:
 def bicluster_sparse_scale_normalize(
     X: sp.spmatrix,
 ) -> SparseScaleNormalization:
-    from sklearn.utils.extmath import make_nonnegative
     """Scale sparse rows and columns for spectral biclustering preprocessing."""
+    from sklearn.utils.extmath import make_nonnegative
     values = make_nonnegative(X.copy())
     row_diag = np.asarray(1.0 / np.sqrt(values.sum(axis=1))).squeeze()
     col_diag = np.asarray(1.0 / np.sqrt(values.sum(axis=0))).squeeze()
@@ -128,8 +128,8 @@ def bicluster_sparse_bistochastic_normalize(
     max_iter: int = 1000,
     tol: float = 1e-5,
 ) -> sp.spmatrix:
-    from sklearn.utils.extmath import make_nonnegative
     """Iteratively normalize sparse biclustering data toward balanced margins."""
+    from sklearn.utils.extmath import make_nonnegative
     original = make_nonnegative(X.copy())
     scaled = original
     for _ in range(int(max_iter)):

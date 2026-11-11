@@ -74,8 +74,8 @@ def covariance_fit_location(
 def covariance_set_covariance_matrix(
     covariance: Matrix,
 ) -> Matrix:
-    from sklearn.utils import check_array
     """Model sklearn's validated covariance_ assignment inside `_set_covariance`."""
+    from sklearn.utils import check_array
     return np.asarray(check_array(covariance), dtype=np.float64)
 
 @register_atom(witness_covariance_set_precision_required)

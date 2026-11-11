@@ -4,9 +4,57 @@
   "priority": "medium",
   "decomposition_rationale": "Decouple squared calculations from absolute value operations. The resulting residual vectors are distinct mathematical objects that can feed into downstream diagnostic tests.",
   "family_directory_hint": "src/sciona/atoms/ml/metrics/",
-  "atomic_nodes": [
+  "nodes": [
     {
+      "node_id": "regression_metric_suite_root",
+      "parent_id": null,
+      "name": "regression_metric_suite",
+      "description": "Decouple squared calculations from absolute value operations. The resulting residual vectors are distinct mathematical objects that can feed into downstream diagnostic tests.",
+      "concept_type": "observability",
+      "inputs": [
+        {
+          "name": "y_true",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "y_pred",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "mse",
+          "type_desc": "float"
+        },
+        {
+          "name": "rmse",
+          "type_desc": "float"
+        },
+        {
+          "name": "r2_score",
+          "type_desc": "float"
+        }
+      ],
+      "status": "decomposed",
+      "children": [
+        "compute_raw_residuals",
+        "compute_l2_regression_metrics"
+      ],
+      "depth": 0,
+      "decomposition_rationale": "Decouple squared calculations from absolute value operations. The resulting residual vectors are distinct mathematical objects that can feed into downstream diagnostic tests."
+    },
+    {
+      "node_id": "compute_raw_residuals",
+      "parent_id": "regression_metric_suite_root",
       "name": "compute_raw_residuals",
+      "description": "Calculate element-wise residual errors.",
+      "concept_type": "custom",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(y_true: NDArray[np.float64], y_pred: NDArray[np.float64]) -> NDArray[np.float64]",
+      "matched_primitive": "compute_raw_residuals",
       "semantic_role": "Calculate element-wise residual errors.",
       "source_targets": [
         "numpy.subtract"
@@ -42,7 +90,15 @@
       "complexity_confidence": 90
     },
     {
+      "node_id": "compute_l2_regression_metrics",
+      "parent_id": "regression_metric_suite_root",
       "name": "compute_l2_regression_metrics",
+      "description": "Compute MSE, RMSE, and R2 coefficients from residuals.",
+      "concept_type": "custom",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(y_true: NDArray[np.float64], residuals: NDArray[np.float64]) -> tuple[float, float, float]",
+      "matched_primitive": "compute_l2_regression_metrics",
       "semantic_role": "Compute MSE, RMSE, and R2 coefficients from residuals.",
       "source_targets": [
         "sklearn.metrics.mean_squared_error",
@@ -85,10 +141,15 @@
   ],
   "edges": [
     {
-      "source": "compute_raw_residuals",
-      "target": "compute_l2_regression_metrics",
+      "source_id": "compute_raw_residuals",
+      "target_id": "compute_l2_regression_metrics",
       "output_name": "residuals",
-      "input_name": "residuals"
+      "input_name": "residuals",
+      "source_type": "NDArray[np.float64]",
+      "target_type": "NDArray[np.float64]",
+      "requires_glue": false,
+      "source": "compute_raw_residuals",
+      "target": "compute_l2_regression_metrics"
     }
   ],
   "cdg_io": {

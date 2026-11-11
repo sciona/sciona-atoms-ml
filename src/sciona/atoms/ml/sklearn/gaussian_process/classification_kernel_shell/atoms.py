@@ -40,8 +40,8 @@ def gpc_kernel_result(
     binary_kernel: Kernel | None = None,
     estimator_kernels: tuple[Kernel, ...] = (),
 ) -> Kernel:
-    from sklearn.gaussian_process.kernels import CompoundKernel, Kernel
     """Resolve GaussianProcessClassifier.kernel_ from the fitted binary or multiclass estimator kernels."""
+    from sklearn.gaussian_process.kernels import CompoundKernel, Kernel
     if gpc_kernel_use_binary_branch(n_classes):
         if binary_kernel is None:
             raise ValueError("binary_kernel must be provided when n_classes == 2")

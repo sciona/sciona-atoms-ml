@@ -4,9 +4,49 @@
   "priority": "medium",
   "decomposition_rationale": "Isolate the category discovery step (which constructs a stable category mapping) from the projection step.",
   "family_directory_hint": "src/sciona/atoms/ml/preprocessing/",
-  "atomic_nodes": [
+  "nodes": [
     {
+      "node_id": "one_hot_categorical_encoding_root",
+      "parent_id": null,
+      "name": "one_hot_categorical_encoding",
+      "description": "Isolate the category discovery step (which constructs a stable category mapping) from the projection step.",
+      "concept_type": "custom",
+      "inputs": [
+        {
+          "name": "categorical_matrix",
+          "type_desc": "NDArray[Any]",
+          "required": true
+        },
+        {
+          "name": "handle_unknown",
+          "type_desc": "str",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "binary_matrix",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "status": "decomposed",
+      "children": [
+        "build_category_registry",
+        "encode_one_hot"
+      ],
+      "depth": 0,
+      "decomposition_rationale": "Isolate the category discovery step (which constructs a stable category mapping) from the projection step."
+    },
+    {
+      "node_id": "build_category_registry",
+      "parent_id": "one_hot_categorical_encoding_root",
       "name": "build_category_registry",
+      "description": "Extract sorted unique categories from a column matrix.",
+      "concept_type": "sorting",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(categorical_matrix: NDArray[Any]) -> list[NDArray[Any]]",
+      "matched_primitive": "build_category_registry",
       "semantic_role": "Extract sorted unique categories from a column matrix.",
       "source_targets": [
         "numpy.unique"
@@ -37,7 +77,15 @@
       "complexity_confidence": 90
     },
     {
+      "node_id": "encode_one_hot",
+      "parent_id": "one_hot_categorical_encoding_root",
       "name": "encode_one_hot",
+      "description": "Project categories into sparse or dense binary dimensions using registry lists.",
+      "concept_type": "custom",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(categorical_matrix: NDArray[Any], registries: list[NDArray[Any]], handle_unknown: str) -> NDArray[np.float64]",
+      "matched_primitive": "encode_one_hot",
       "semantic_role": "Project categories into sparse or dense binary dimensions using registry lists.",
       "source_targets": [
         "sklearn.preprocessing.OneHotEncoder"
@@ -80,10 +128,15 @@
   ],
   "edges": [
     {
-      "source": "build_category_registry",
-      "target": "encode_one_hot",
+      "source_id": "build_category_registry",
+      "target_id": "encode_one_hot",
       "output_name": "registries",
-      "input_name": "registries"
+      "input_name": "registries",
+      "source_type": "list[NDArray[Any]]",
+      "target_type": "list[NDArray[Any]]",
+      "requires_glue": false,
+      "source": "build_category_registry",
+      "target": "encode_one_hot"
     }
   ],
   "cdg_io": {

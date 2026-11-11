@@ -2,7 +2,7 @@
 import numpy as np
 import pandas as pd
 from sciona.ghost.registry import register_atom
-from sciona.nasa_first_feature_adapter import _times, MINUTE
+from sciona._runtime.ml.nasa_first_feature_adapter import _times, MINUTE
 from sciona.atoms.ml.model_selection.graph_fallbacks import witness_materialized
 
 
@@ -26,7 +26,7 @@ def prediction_values(predictions: pd.DataFrame) -> np.ndarray:
 def execution_inputs(queries: pd.DataFrame, models: dict, population: str, raw_options: dict,
         feature_columns: list, numeric_fills: dict, categorical_fills: dict) -> tuple:
     """Expose fixed branch definitions and caller inputs for generic lazy routing."""
-    from sciona.nasa_first_guarded_graph import branch_descriptors
+    from sciona._runtime.ml.nasa_first_guarded_graph import branch_descriptors
     primary, baseline = branch_descriptors()
     inputs = dict(queries=queries,models=models,population=population,raw_options=raw_options,
         feature_columns=feature_columns,numeric_fills=numeric_fills,categorical_fills=categorical_fills,integer_dtype='int16')

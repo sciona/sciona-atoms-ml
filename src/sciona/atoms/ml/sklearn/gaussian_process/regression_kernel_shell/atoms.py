@@ -57,13 +57,13 @@ def _default_kernel() -> Kernel:
     "fit kernel must be the default kernel when kernel is None, or a clone of the supplied kernel otherwise",
 )
 def gp_fit_kernel(kernel: Kernel | None = None) -> Kernel:
+    """Resolve GaussianProcessRegressor.fit's kernel object before optimization."""
     from sklearn.base import clone
     from sklearn.gaussian_process.kernels import (
     ConstantKernel as C,
     Kernel,
     RBF,
     )
-    """Resolve GaussianProcessRegressor.fit's kernel object before optimization."""
     if kernel is None:
         return _default_kernel()
     return clone(kernel)
@@ -76,12 +76,12 @@ def gp_fit_kernel(kernel: Kernel | None = None) -> Kernel:
     "prior-predict kernel must be the default kernel when kernel is None, or the supplied kernel object otherwise",
 )
 def gp_predict_prior_kernel(kernel: Kernel | None = None) -> Kernel:
+    """Resolve GaussianProcessRegressor.predict's unfitted prior kernel object."""
     from sklearn.gaussian_process.kernels import (
     ConstantKernel as C,
     Kernel,
     RBF,
     )
-    """Resolve GaussianProcessRegressor.predict's unfitted prior kernel object."""
     if kernel is None:
         return _default_kernel()
     return kernel

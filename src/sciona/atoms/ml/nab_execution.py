@@ -8,7 +8,7 @@ def witness_nab_prepare(payload: dict) -> dict:return {'kind':'NAB.Prepared'}
 @register_atom(witness_nab_prepare)
 def nab_prepare(payload: dict) -> object:
     """Validate explicit private observations, detector controls and scoring windows."""
-    from sciona.nab_contract import prepare
+    from sciona._runtime.ml.nab_contract import prepare
     return prepare(payload)
 
 
@@ -20,5 +20,5 @@ def witness_nab_execute(prepared: object) -> dict:
 @register_atom(witness_nab_execute)
 def nab_execute(prepared: object) -> dict:
     """Run the causal forest, rolling threshold and corrected benchmark scoring."""
-    from sciona.nab_contract import execute
+    from sciona._runtime.ml.nab_contract import execute
     return execute(prepared)

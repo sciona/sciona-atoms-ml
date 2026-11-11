@@ -38,8 +38,8 @@ def _has_splitter_split(value: object) -> bool:
     "non-routing split params must be an empty Bunch",
 )
 def cd_cv_nonrouting_empty_split_params(default_routed_params_required: bool) -> Bunch:
-    from sklearn.utils import Bunch
     """Return sklearn's empty split-params Bunch for the non-routing branch."""
+    from sklearn.utils import Bunch
     del default_routed_params_required
     return Bunch()
 
@@ -51,8 +51,8 @@ def cd_cv_nonrouting_empty_split_params(default_routed_params_required: bool) ->
     "splitter fallback must expose the split Bunch by identity",
 )
 def cd_cv_nonrouting_splitter_payload(split_params: Bunch) -> Bunch:
-    from sklearn.utils import Bunch
     """Return sklearn's Bunch(split=Bunch()) splitter fallback payload."""
+    from sklearn.utils import Bunch
     return Bunch(split=split_params)
 
 @register_atom(witness_cd_cv_nonrouting_routed_params)
@@ -73,8 +73,8 @@ def cd_cv_nonrouting_splitter_payload(split_params: Bunch) -> Bunch:
 def cd_cv_nonrouting_routed_params(
     default_routed_params_required: bool, splitter_payload: Bunch
 ) -> Bunch:
-    from sklearn.utils import Bunch
     """Return sklearn's non-routing routed_params Bunch payload."""
+    from sklearn.utils import Bunch
     del default_routed_params_required
     routed_params = Bunch()
     routed_params.splitter = splitter_payload

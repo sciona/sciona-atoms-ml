@@ -2,7 +2,7 @@
 import numpy as np
 import pandas as pd
 from sciona.ghost.registry import register_atom
-from sciona.named_regression_training import temporal_regression_split, fit_catboost_regression
+from sciona._runtime.ml.named_regression_training import temporal_regression_split, fit_catboost_regression
 
 
 def witness_materialized(*args: object, **kwargs: object) -> object:

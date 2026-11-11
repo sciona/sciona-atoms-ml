@@ -22,8 +22,8 @@ def train_scores(plan: object, query_keys: list, images: dict,
     predictions, soft targets and aggregate fit histories. Temporary trained
     checkpoints are verified by replay and removed, never published here.
     """
-    from sciona.aptos_population import Population
-    from sciona.decomposed_aptos_pipeline import train_scores as run_reference
+    from sciona._runtime.ml.aptos_population import Population
+    from sciona._runtime.ml.decomposed_aptos_pipeline import train_scores as run_reference
     if not isinstance(plan, Population):
         raise ValueError('APTOS population plan required')
     return run_reference(base=(plan.base_keys, plan.base_labels),
@@ -37,12 +37,12 @@ def train_scores(plan: object, query_keys: list, images: dict,
 @register_atom(concrete_only)
 def cut_inputs(training_result: dict) -> tuple[np.ndarray, np.ndarray, str]:
     """Expose scores and source cut policy without applying numeric indexing."""
-    from sciona.decomposed_aptos_pipeline import cut_inputs as implementation
+    from sciona._runtime.ml.decomposed_aptos_pipeline import cut_inputs as implementation
     return implementation(training_result)
 
 
 @register_atom(concrete_only)
 def result(training_result: dict, ordinals: np.ndarray) -> dict:
     """Attach generic class indices to the complete same-invocation training result."""
-    from sciona.decomposed_aptos_pipeline import result as implementation
+    from sciona._runtime.ml.decomposed_aptos_pipeline import result as implementation
     return implementation(training_result, ordinals)

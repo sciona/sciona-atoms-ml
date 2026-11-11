@@ -17,7 +17,7 @@ def cassava_fold_plan(sample_keys: list, labels: list, assignments: list) -> obj
     All five validation folds must exist and every training complement must
     contain all five classes. The caller resolves aliases of physical images.
     """
-    from sciona.cassava_fold_contract import build_plan
+    from sciona._runtime.ml.cassava_fold_contract import build_plan
     return build_plan(sample_keys, labels, assignments)
 
 
@@ -46,7 +46,7 @@ def cassava_train_ensemble(plan: object, source_rows: list,
     CPU batch sizes and worker count are explicit. Source corrections and
     qualified reference-artifact limits are documented in the CDG metadata.
     """
-    from sciona.cassava_pipeline import execute
+    from sciona._runtime.ml.cassava_pipeline import execute
     result, outputs, histories, evaluations, artifacts = execute(plan,
         source_rows=source_rows, efficientnet_rows=efficientnet_rows,
         query_rows=query_rows, references=references,

@@ -950,8 +950,8 @@ def kneighbors_graph(
     include_self: bool | str = False,
     n_jobs: None = None,
 ) -> NDArray[np.float64]:
-    from sklearn.utils.validation import check_X_y, check_array
     """Compute a dense k-neighbor connectivity or distance graph."""
+    from sklearn.utils.validation import check_X_y, check_array
     checked = check_array(X, dtype=np.float64, ensure_2d=True)
     include = _resolve_include_self(include_self, mode)
     if not include and n_neighbors >= checked.shape[0]:
@@ -978,8 +978,8 @@ def radius_neighbors_graph(
     include_self: bool | str = False,
     n_jobs: None = None,
 ) -> NDArray[np.float64]:
-    from sklearn.utils.validation import check_X_y, check_array
     """Compute a dense radius-neighbor connectivity or distance graph."""
+    from sklearn.utils.validation import check_X_y, check_array
     checked = check_array(X, dtype=np.float64, ensure_2d=True)
     include = _resolve_include_self(include_self, mode)
     distances = _pairwise_minkowski(checked, checked, float(p))
@@ -1005,8 +1005,8 @@ def kneighbors_transformer_fit(
     metric_params: None = None,
     n_jobs: None = None,
 ) -> NeighborsGraphTransformerState:
-    from sklearn.utils.validation import check_X_y, check_array
     """Fit a dense k-neighbor graph transformer state."""
+    from sklearn.utils.validation import check_X_y, check_array
     del algorithm, leaf_size, metric_params, n_jobs
     checked = check_array(X, dtype=np.float64, ensure_2d=True)
     return NeighborsGraphTransformerState(
@@ -1028,8 +1028,8 @@ def kneighbors_transformer_fit(
 @icontract.require(lambda X, state: _feature_count_matches(X, state), "X feature count must match fitted state")
 @icontract.ensure(lambda result, X, state: _graph_valid(result, np.asarray(X).shape[0], state.training_data.shape[0]), "graph must be finite and nonnegative")
 def kneighbors_transform(X: NDArray[np.float64], state: NeighborsGraphTransformerState) -> NDArray[np.float64]:
-    from sklearn.utils.validation import check_X_y, check_array
     """Transform samples into a dense k-neighbor graph against fitted data."""
+    from sklearn.utils.validation import check_X_y, check_array
     checked = check_array(X, dtype=np.float64, ensure_2d=True)
     distances = _pairwise_minkowski(checked, state.training_data, state.p)
     add_one = 1 if state.mode == "distance" else 0
@@ -1058,8 +1058,8 @@ def radius_neighbors_transformer_fit(
     metric_params: None = None,
     n_jobs: None = None,
 ) -> NeighborsGraphTransformerState:
-    from sklearn.utils.validation import check_X_y, check_array
     """Fit a dense radius-neighbor graph transformer state."""
+    from sklearn.utils.validation import check_X_y, check_array
     del algorithm, leaf_size, metric_params, n_jobs
     checked = check_array(X, dtype=np.float64, ensure_2d=True)
     return NeighborsGraphTransformerState(
@@ -1081,8 +1081,8 @@ def radius_neighbors_transformer_fit(
 @icontract.require(lambda X, state: _feature_count_matches(X, state), "X feature count must match fitted state")
 @icontract.ensure(lambda result, X, state: _graph_valid(result, np.asarray(X).shape[0], state.training_data.shape[0]), "graph must be finite and nonnegative")
 def radius_neighbors_transform(X: NDArray[np.float64], state: NeighborsGraphTransformerState) -> NDArray[np.float64]:
-    from sklearn.utils.validation import check_X_y, check_array
     """Transform samples into a dense radius-neighbor graph against fitted data."""
+    from sklearn.utils.validation import check_X_y, check_array
     checked = check_array(X, dtype=np.float64, ensure_2d=True)
     distances = _pairwise_minkowski(checked, state.training_data, state.p)
     return _fill_radius_graph(distances, float(state.radius), state.mode, exclude_diagonal=False)
@@ -1134,8 +1134,8 @@ def kneighbors_regressor_fit(
 @icontract.require(lambda X, state: _regressor_feature_count_matches(X, state), "X feature count must match fitted state")
 @icontract.ensure(lambda result, X, state: _regressor_prediction_valid(result, X, state), "predictions must be finite numeric targets")
 def kneighbors_regressor_predict(X: NDArray[np.float64], state: NeighborsRegressorState) -> NDArray[np.float64]:
-    from sklearn.utils.validation import check_X_y, check_array
     """Predict finite numeric targets with dense k-neighbor interpolation."""
+    from sklearn.utils.validation import check_X_y, check_array
     checked = check_array(X, dtype=np.float64, ensure_2d=True)
     neighbor_indices, neighbor_distances = _kneighbor_indices_and_distances(checked, state)
     if state.weights == "uniform":
@@ -1194,8 +1194,8 @@ def radius_neighbors_regressor_fit(
 @icontract.require(lambda X, state: _radius_regressor_queries_have_neighbors(X, state), "each query must have a neighbor inside radius")
 @icontract.ensure(lambda result, X, state: _regressor_prediction_valid(result, X, state), "predictions must be finite numeric targets")
 def radius_neighbors_regressor_predict(X: NDArray[np.float64], state: NeighborsRegressorState) -> NDArray[np.float64]:
-    from sklearn.utils.validation import check_X_y, check_array
     """Predict finite numeric targets from all fitted samples inside a radius."""
+    from sklearn.utils.validation import check_X_y, check_array
     checked = check_array(X, dtype=np.float64, ensure_2d=True)
     distances = _pairwise_minkowski(checked, state.training_data, state.p)
     rows: list[NDArray[np.float64]] = []
@@ -1260,8 +1260,8 @@ def kneighbors_classifier_fit(
 @icontract.require(lambda X, state: _classifier_feature_count_matches(X, state), "X feature count must match fitted state")
 @icontract.ensure(lambda result, X, state: _classifier_proba_valid(result, X, state), "probabilities must normalize")
 def kneighbors_classifier_predict_proba(X: NDArray[np.float64], state: NeighborsClassifierState) -> NDArray[np.float64]:
-    from sklearn.utils.validation import check_X_y, check_array
     """Compute dense k-neighbor class probabilities for numeric labels."""
+    from sklearn.utils.validation import check_X_y, check_array
     checked = check_array(X, dtype=np.float64, ensure_2d=True)
     neighbor_indices, neighbor_distances = _kneighbor_indices_and_distances(checked, state)
     if state.weights == "uniform":
@@ -1333,8 +1333,8 @@ def radius_neighbors_classifier_fit(
 @icontract.require(lambda X, state: _radius_classifier_queries_have_neighbors(X, state), "each query must have a neighbor inside radius")
 @icontract.ensure(lambda result, X, state: _classifier_proba_valid(result, X, state), "probabilities must normalize")
 def radius_neighbors_classifier_predict_proba(X: NDArray[np.float64], state: NeighborsClassifierState) -> NDArray[np.float64]:
-    from sklearn.utils.validation import check_X_y, check_array
     """Compute dense radius-neighbor class probabilities for numeric labels."""
+    from sklearn.utils.validation import check_X_y, check_array
     checked = check_array(X, dtype=np.float64, ensure_2d=True)
     distances = _pairwise_minkowski(checked, state.training_data, state.p)
     return _radius_class_probabilities(state.labels, state.classes, distances, float(state.radius), state.weights)
@@ -1372,8 +1372,8 @@ def nearest_neighbors_fit(
     metric_params: None = None,
     n_jobs: None = None,
 ) -> NearestNeighborsState:
-    from sklearn.utils.validation import check_X_y, check_array
     """Fit dense nearest-neighbor search state for finite numeric samples."""
+    from sklearn.utils.validation import check_X_y, check_array
     del algorithm, leaf_size, metric_params, n_jobs
     checked = check_array(X, dtype=np.float64, ensure_2d=True)
     return NearestNeighborsState(
@@ -1397,8 +1397,8 @@ def nearest_neighbors_kneighbors(
     state: NearestNeighborsState,
     n_neighbors: int | None = None,
 ) -> tuple[NDArray[np.float64], NDArray[np.int64]]:
-    from sklearn.utils.validation import check_X_y, check_array
     """Return dense k-neighbor distances and fitted-row indices for queries."""
+    from sklearn.utils.validation import check_X_y, check_array
     checked = check_array(X, dtype=np.float64, ensure_2d=True)
     indices, distances = _kneighbor_indices_and_distances(checked, state, n_neighbors)
     return distances, indices
@@ -1417,8 +1417,8 @@ def nearest_neighbors_radius_neighbors(
     *,
     sort_results: bool = False,
 ) -> tuple[NDArray[np.object_], NDArray[np.object_]]:
-    from sklearn.utils.validation import check_X_y, check_array
     """Return ragged radius-neighbor distances and fitted-row indices."""
+    from sklearn.utils.validation import check_X_y, check_array
     checked = check_array(X, dtype=np.float64, ensure_2d=True)
     radius_value = state.radius if radius is None else float(radius)
     distances = _pairwise_minkowski(checked, state.training_data, state.p)
@@ -1508,8 +1508,8 @@ def kernel_density_fit(
     metric_params: None = None,
     sample_weight: NDArray[np.float64] | None = None,
 ) -> KernelDensityState:
-    from sklearn.utils.validation import check_X_y, check_array
     """Fit dense Euclidean kernel-density state for finite numeric samples."""
+    from sklearn.utils.validation import check_X_y, check_array
     del algorithm, leaf_size, metric_params
     checked = check_array(X, dtype=np.float64, ensure_2d=True)
     weights = None if sample_weight is None else np.asarray(sample_weight, dtype=np.float64).copy()
@@ -1532,8 +1532,8 @@ def kernel_density_fit(
 @icontract.require(lambda X, state: _kernel_density_feature_count_matches(X, state), "X feature count must match fitted state")
 @icontract.ensure(lambda result, X: _log_density_valid(result, X), "log densities must be shaped and non-NaN")
 def kernel_density_score_samples(X: NDArray[np.float64], state: KernelDensityState) -> NDArray[np.float64]:
-    from sklearn.utils.validation import check_X_y, check_array
     """Compute per-sample Euclidean kernel log densities."""
+    from sklearn.utils.validation import check_X_y, check_array
     checked = check_array(X, dtype=np.float64, ensure_2d=True)
     distances = _pairwise_minkowski(checked, state.training_data, 2.0)
     log_terms = _kernel_log_values(distances, state.bandwidth, state.kernel)
@@ -1565,8 +1565,8 @@ def kernel_density_sample(
     n_samples: int = 1,
     random_state: int | None = None,
 ) -> NDArray[np.float64]:
-    from sklearn.utils import check_random_state
     """Generate samples from fitted gaussian or tophat kernel density."""
+    from sklearn.utils import check_random_state
     rng = check_random_state(random_state)
     u = rng.uniform(0.0, 1.0, size=n_samples)
     if state.sample_weight is None:
@@ -1609,8 +1609,8 @@ def local_outlier_factor_fit(
     novelty: bool = False,
     n_jobs: None = None,
 ) -> LocalOutlierFactorState:
-    from sklearn.utils.validation import check_X_y, check_array
     """Fit dense local reachability statistics for LOF scoring."""
+    from sklearn.utils.validation import check_X_y, check_array
     del algorithm, leaf_size, metric_params, n_jobs
     checked = check_array(X, dtype=np.float64, ensure_2d=True)
     k = max(1, min(int(n_neighbors), checked.shape[0] - 1))
@@ -1679,8 +1679,8 @@ def local_outlier_factor_fit_predict(
 @icontract.require(lambda X, state: _lof_feature_count_matches(X, state), "X feature count must match fitted state")
 @icontract.ensure(lambda result, X: _lof_score_valid(result, X), "scores must be finite per query")
 def local_outlier_factor_score_samples(X: NDArray[np.float64], state: LocalOutlierFactorState) -> NDArray[np.float64]:
-    from sklearn.utils.validation import check_X_y, check_array
     """Compute novelty-mode opposite LOF scores for query samples."""
+    from sklearn.utils.validation import check_X_y, check_array
     checked = check_array(X, dtype=np.float64, ensure_2d=True)
     neighbor_indices, neighbor_distances = _kneighbor_indices_and_distances(checked, state, state.n_neighbors)
     query_lrd = _local_reachability_density(neighbor_distances, neighbor_indices, state.distances_fit, state.n_neighbors)
@@ -1730,8 +1730,8 @@ def nearest_centroid_fit(
     shrink_threshold: float | None = None,
     priors: str | tuple[float, ...] = "uniform",
 ) -> NearestCentroidState:
-    from sklearn.utils.validation import check_X_y, check_array
     """Fit dense nearest-centroid class centroids and discriminant statistics."""
+    from sklearn.utils.validation import check_X_y, check_array
     checked_x, checked_y = check_X_y(X, y, dtype=np.float64)
     classes = np.unique(checked_y)
     n_samples, n_features = checked_x.shape
@@ -1776,8 +1776,8 @@ def nearest_centroid_fit(
 @icontract.require(lambda X, state: _nearest_centroid_feature_count_matches(X, state), "X feature count must match fitted state")
 @icontract.ensure(lambda result, X: _nearest_centroid_prediction_valid(result, X), "predictions must be finite class labels")
 def nearest_centroid_predict(X: NDArray[np.float64], state: NearestCentroidState) -> NDArray[np.float64]:
-    from sklearn.utils.validation import check_X_y, check_array
     """Predict dense nearest-centroid class labels."""
+    from sklearn.utils.validation import check_X_y, check_array
     checked = check_array(X, dtype=np.float64, ensure_2d=True)
     if np.isclose(state.class_prior, 1.0 / state.classes.shape[0]).all():
         distances = _nearest_centroid_distances(checked, state.centroids, state.metric)
@@ -1793,8 +1793,8 @@ def nearest_centroid_predict(X: NDArray[np.float64], state: NearestCentroidState
 @icontract.require(lambda X, state: _nearest_centroid_feature_count_matches(X, state), "X feature count must match fitted state")
 @icontract.ensure(lambda result, X, state: _nearest_centroid_scores_valid(result, X, state), "decision scores must be finite")
 def nearest_centroid_decision_function(X: NDArray[np.float64], state: NearestCentroidState) -> NDArray[np.float64]:
-    from sklearn.utils.validation import check_X_y, check_array
     """Compute Euclidean nearest-centroid discriminant scores."""
+    from sklearn.utils.validation import check_X_y, check_array
     checked = check_array(X, dtype=np.float64, ensure_2d=True)
     scores = _nearest_centroid_raw_scores(checked, state)
     if state.classes.shape[0] == 2:
@@ -1809,8 +1809,8 @@ def nearest_centroid_decision_function(X: NDArray[np.float64], state: NearestCen
 @icontract.require(lambda X, state: _nearest_centroid_feature_count_matches(X, state), "X feature count must match fitted state")
 @icontract.ensure(lambda result, X, state: _nearest_centroid_log_proba_valid(result, X, state), "log probabilities must normalize")
 def nearest_centroid_predict_log_proba(X: NDArray[np.float64], state: NearestCentroidState) -> NDArray[np.float64]:
-    from sklearn.utils.validation import check_X_y, check_array
     """Compute Euclidean nearest-centroid log class probabilities."""
+    from sklearn.utils.validation import check_X_y, check_array
     checked = check_array(X, dtype=np.float64, ensure_2d=True)
     scores = _nearest_centroid_raw_scores(checked, state)
     shifted = scores - scores.max(axis=1)[:, np.newaxis]
@@ -1824,6 +1824,6 @@ def nearest_centroid_predict_log_proba(X: NDArray[np.float64], state: NearestCen
 @icontract.require(lambda X, state: _nearest_centroid_feature_count_matches(X, state), "X feature count must match fitted state")
 @icontract.ensure(lambda result, X, state: _nearest_centroid_proba_valid(result, X, state), "probabilities must normalize")
 def nearest_centroid_predict_proba(X: NDArray[np.float64], state: NearestCentroidState) -> NDArray[np.float64]:
-    from sklearn.utils.validation import check_X_y, check_array
     """Compute Euclidean nearest-centroid class probabilities."""
+    from sklearn.utils.validation import check_X_y, check_array
     return _softmax(_nearest_centroid_raw_scores(check_array(X, dtype=np.float64, ensure_2d=True), state))

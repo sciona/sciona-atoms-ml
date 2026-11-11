@@ -27,7 +27,7 @@ def _policy(soft, precision):
 
 
 def _state(state, coordinate):
-    from sciona.quantile_target_encoding import quantile_midpoints
+    from sciona._runtime.ml.quantile_target_encoding import quantile_midpoints
     _coordinate(coordinate)
     if (type(state) is not dict or set(state) != {'format', 'response_coordinate', 'boundaries'}
             or state['format'] != 'sciona.quantile_response.v1'
@@ -78,7 +78,7 @@ def fit_quantile_response(targets: np.ndarray, response_coordinate: str, n_bins:
     boundaries are retained. Caller owns training-only fitting and response
     normalization. Returns portable JSON containing the fitted boundaries.
     """
-    from sciona.quantile_target_encoding import quantile_boundaries
+    from sciona._runtime.ml.quantile_target_encoding import quantile_boundaries
     _coordinate(response_coordinate)
     edges = quantile_boundaries(_values(targets, 1), n_bins)
     state = dict(format='sciona.quantile_response.v1', response_coordinate=response_coordinate,
@@ -108,7 +108,7 @@ def encode_quantile_response(targets: np.ndarray, response_coordinate: str,
     out-of-range targets can yield all-zero rows. Positive precision is required
     in both modes but used only in soft mode. Empty populations are rejected.
     """
-    from sciona.quantile_target_encoding import encode_quantile_targets
+    from sciona._runtime.ml.quantile_target_encoding import encode_quantile_targets
     _policy(soft, precision)
     return encode_quantile_targets(_values(targets, 1), _state(state, response_coordinate),
                                    soft=soft, precision=precision)
@@ -131,7 +131,7 @@ def decode_quantile_response(probabilities: np.ndarray, response_coordinate: str
     the declared coordinate; no inverse response transform or calibration is
     inferred. Hard encoding's all-zero rows cannot be decoded as probabilities.
     """
-    from sciona.quantile_target_encoding import decode_quantile_probabilities
+    from sciona._runtime.ml.quantile_target_encoding import decode_quantile_probabilities
     with np.errstate(over='ignore', invalid='ignore'):
         result = decode_quantile_probabilities(_values(probabilities, 2), _state(state, response_coordinate))
     if not np.isfinite(result).all():

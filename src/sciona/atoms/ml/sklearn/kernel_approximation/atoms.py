@@ -226,8 +226,8 @@ def rbf_sampler_fit(
     n_components: int = 100,
     random_state: int | None = None,
 ) -> RBFSamplerState:
-    from sklearn.utils import check_array, check_random_state
     """Fit random Fourier weights for a dense RBF kernel approximation."""
+    from sklearn.utils import check_array, check_random_state
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     rng = check_random_state(random_state)
     n_features = checked_x.shape[1]
@@ -256,9 +256,9 @@ def rbf_sampler_transform(
     X: NDArray[np.float64],
     state: RBFSamplerState,
 ) -> NDArray[np.float64]:
+    """Project samples into fitted RBF random Fourier features."""
     from sklearn.utils import check_array, check_random_state
     from sklearn.utils.extmath import safe_sparse_dot
-    """Project samples into fitted RBF random Fourier features."""
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     projection = safe_sparse_dot(checked_x, state.random_weights)
     projection += state.random_offset
@@ -279,8 +279,8 @@ def skewed_chi2_sampler_fit(
     n_components: int = 100,
     random_state: int | None = None,
 ) -> SkewedChi2SamplerState:
-    from sklearn.utils import check_array, check_random_state
     """Fit random Fourier weights for a dense skewed chi-square approximation."""
+    from sklearn.utils import check_array, check_random_state
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     rng = check_random_state(random_state)
     n_features = checked_x.shape[1]
@@ -306,9 +306,9 @@ def skewed_chi2_sampler_transform(
     X: NDArray[np.float64],
     state: SkewedChi2SamplerState,
 ) -> NDArray[np.float64]:
+    """Project samples into fitted skewed chi-square random Fourier features."""
     from sklearn.utils import check_array, check_random_state
     from sklearn.utils.extmath import safe_sparse_dot
-    """Project samples into fitted skewed chi-square random Fourier features."""
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True, copy=True)
     checked_x += state.skewedness
     np.log(checked_x, checked_x)
@@ -330,8 +330,8 @@ def additive_chi2_sampler_transform(
     sample_steps: int = 2,
     sample_interval: float | None = None,
 ) -> NDArray[np.float64]:
-    from sklearn.utils import check_array, check_random_state
     """Compute dense explicit additive chi-square kernel features."""
+    from sklearn.utils import check_array, check_random_state
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     interval = _resolve_sample_interval(sample_steps, sample_interval)
     non_zero = checked_x != 0.0
@@ -372,8 +372,8 @@ def polynomial_count_sketch_fit(
     n_components: int = 100,
     random_state: int | None = None,
 ) -> PolynomialCountSketchState:
-    from sklearn.utils import check_array, check_random_state
     """Fit Tensor Sketch hash tables for dense polynomial kernel features."""
+    from sklearn.utils import check_array, check_random_state
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     rng = check_random_state(random_state)
     hashed_features = checked_x.shape[1] + (1 if coef0 != 0.0 else 0)
@@ -399,8 +399,8 @@ def polynomial_count_sketch_transform(
     X: NDArray[np.float64],
     state: PolynomialCountSketchState,
 ) -> NDArray[np.float64]:
-    from sklearn.utils import check_array, check_random_state
     """Project samples into fitted polynomial Tensor Sketch features."""
+    from sklearn.utils import check_array, check_random_state
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     scaled_x = np.sqrt(state.gamma) * checked_x
     if state.coef0 != 0.0:
@@ -442,8 +442,8 @@ def nystroem_fit(
     random_state: int | None = None,
     n_jobs: int | None = None,
 ) -> NystroemState:
-    from sklearn.utils import check_array, check_random_state
     """Fit dense Nystroem basis components and normalization matrix."""
+    from sklearn.utils import check_array, check_random_state
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     rng = check_random_state(random_state)
     actual_components = min(checked_x.shape[0], int(n_components))
@@ -482,8 +482,8 @@ def nystroem_transform(
     X: NDArray[np.float64],
     state: NystroemState,
 ) -> NDArray[np.float64]:
-    from sklearn.utils import check_array, check_random_state
     """Project samples with a fitted dense Nystroem kernel map."""
+    from sklearn.utils import check_array, check_random_state
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     embedded = pairwise_kernels(
         checked_x,

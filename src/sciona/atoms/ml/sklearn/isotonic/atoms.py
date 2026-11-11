@@ -95,8 +95,8 @@ def isotonic_regression(
     y_max: float | None = None,
     increasing: bool = True,
 ) -> NDArray[np.float64]:
-    from sklearn.utils import check_array, check_consistent_length
     """Solve one-dimensional isotonic regression for a response vector."""
+    from sklearn.utils import check_array, check_consistent_length
     checked_y = check_array(y, ensure_2d=False, input_name="y", dtype=[np.float64, np.float32])
     result = optimize.isotonic_regression(y=checked_y, weights=sample_weight, increasing=increasing)
     fitted = np.asarray(result.x, dtype=checked_y.dtype)
@@ -123,9 +123,9 @@ def isotonic_regression_fit(
     increasing: bool | str = True,
     out_of_bounds: str = "nan",
 ) -> IsotonicRegressionState:
+    """Fit isotonic regression thresholds for later interpolation."""
     from sklearn.utils import check_array, check_consistent_length
     from sklearn.utils.validation import _check_sample_weight
-    """Fit isotonic regression thresholds for later interpolation."""
     checked_x = check_array(X, input_name="X", dtype=[np.float64, np.float32], accept_sparse=False, ensure_2d=False)
     checked_y = check_array(y, input_name="y", dtype=checked_x.dtype, accept_sparse=False, ensure_2d=False)
     check_consistent_length(checked_x, checked_y, sample_weight)
@@ -177,8 +177,8 @@ def isotonic_regression_transform(
     T: NDArray[np.float64],
     state: IsotonicRegressionState,
 ) -> NDArray[np.float64]:
-    from sklearn.utils import check_array, check_consistent_length
     """Interpolate new samples with fitted isotonic regression thresholds."""
+    from sklearn.utils import check_array, check_consistent_length
     checked_t = check_array(T, dtype=state.x_thresholds.dtype, ensure_2d=False)
     if not _valid_x_shape(checked_t):
         raise ValueError("Isotonic regression input X should be a 1d array or 2d array with 1 feature")

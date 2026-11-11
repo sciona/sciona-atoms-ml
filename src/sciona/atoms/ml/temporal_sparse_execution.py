@@ -8,7 +8,7 @@ def witness_temporal_sparse_prepare(payload: dict) -> dict:return {'kind':'Tempo
 @register_atom(witness_temporal_sparse_prepare)
 def temporal_sparse_prepare(payload: dict) -> object:
     """Inspect bounded private streams and chronological split boundaries."""
-    from sciona.temporal_sparse_execution import prepare
+    from sciona._runtime.ml.temporal_sparse_execution import prepare
     return prepare(payload)
 
 
@@ -20,5 +20,5 @@ def witness_temporal_sparse_execute(prepared: object) -> dict:
 @register_atom(witness_temporal_sparse_execute)
 def temporal_sparse_execute(prepared: object) -> dict:
     """Fit sparse online ensemble, evaluate frozen future stream and predict."""
-    from sciona.temporal_sparse_execution import execute
+    from sciona._runtime.ml.temporal_sparse_execution import execute
     return execute(prepared)

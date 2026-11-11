@@ -25,7 +25,7 @@ def prepare_image_training_population(table, encoded_planes, excluded_entities,
     No model construction, training or sampling occurs. Disable OpenCV workers
     before execution; the provisioned decoder supports only qualified formats.
     """
-    from sciona.osic_image_population import prepare_training_population
+    from sciona._runtime.ml.osic_image_population import prepare_training_population
     return prepare_training_population(table, encoded_planes,
         excluded_entities=excluded_entities, time_coordinate=time_coordinate,
         response_coordinate=response_coordinate)
@@ -42,8 +42,8 @@ def prepare_image_slice_inputs(encoded_planes, numeric, category, status):
     (S,512,512,1), metadata (S,4) and selected int64 positions. Unselected payloads
     are not decoded. Disable OpenCV workers; caller owns order and availability.
     """
-    from sciona.dicom_planes import decode_plane
-    from sciona.osic_image_inference import prepare_slice_inputs
+    from sciona._runtime.ml.dicom_planes import decode_plane
+    from sciona._runtime.ml.osic_image_inference import prepare_slice_inputs
     return prepare_slice_inputs(encoded_planes, numeric, category, status,
         decode_selected=lambda payload: decode_plane(payload, read_rescale=False)['pixels'])
 
@@ -59,7 +59,7 @@ def reduce_image_predictions(slice_slopes, baseline_time, baseline_value,
     slope units must agree. The uncertainty heuristic can be negative and is
     not calibrated. No model execution, entity joining or availability inference.
     """
-    from sciona.osic_predictions import image_trajectories
+    from sciona._runtime.ml.osic_predictions import image_trajectories
     return image_trajectories(slice_slopes, baseline_time, baseline_value,
         baseline_uncertainty, query_subject, query_time)
 
@@ -73,5 +73,5 @@ def blend_keyed_predictions(image_keys, image_values, quantile_keys, quantile_va
     using the generic ordered weighted-sum provider. Caller establishes shared
     units and applicability; this source weighting is not a learned ensemble.
     """
-    from sciona.osic_predictions import blend_predictions
+    from sciona._runtime.ml.osic_predictions import blend_predictions
     return blend_predictions(image_keys, image_values, quantile_keys, quantile_values)

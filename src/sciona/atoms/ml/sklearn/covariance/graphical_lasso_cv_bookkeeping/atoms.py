@@ -124,8 +124,8 @@ def graphical_lasso_cv_alpha_grid(
     n_alphas: int,
     alpha_min_ratio: float = 1e-2,
 ) -> NDArray[np.float64]:
-    from sklearn.covariance._graph_lasso import alpha_max
     """Build GraphicalLassoCV's initial descending logarithmic alpha grid."""
+    from sklearn.covariance._graph_lasso import alpha_max
     emp_cov_values = np.asarray(emp_cov, dtype=np.float64)
     alpha_upper = float(alpha_max(emp_cov_values))
     alpha_lower = float(alpha_min_ratio) * alpha_upper

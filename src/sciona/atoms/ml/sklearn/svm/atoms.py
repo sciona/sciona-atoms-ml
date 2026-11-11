@@ -40,10 +40,10 @@ def l1_min_c(
     fit_intercept: bool = True,
     intercept_scaling: float = 1.0,
 ) -> float:
+    """Compute the minimum useful C value for l1-penalized classifiers."""
     from sklearn.preprocessing import LabelBinarizer
     from sklearn.utils import check_array, check_consistent_length
     from sklearn.utils.extmath import safe_sparse_dot
-    """Compute the minimum useful C value for l1-penalized classifiers."""
     checked_x = check_array(X, accept_sparse="csc")
     checked_y = np.asarray(y)
     check_consistent_length(checked_x, checked_y)

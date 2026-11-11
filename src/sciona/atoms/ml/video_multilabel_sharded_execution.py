@@ -20,7 +20,7 @@ def execute(training: object, calibration: object, query: object, controls: dict
     fitted state and scores remain resident. Numeric callables are explicit;
     model construction, optimization and population policy belong to this recipe.
     """
-    from sciona.video_multilabel_sharded_training import execute as run
+    from sciona._runtime.ml.video_multilabel_sharded_training import execute as run
     return run(training, calibration, query, controls, pool_function=pool_function,
         gate_function=gate_function, mean_function=mean_function, threshold_fit_function=threshold_fit_function,
         vocabulary_fit_function=vocabulary_fit_function, vocabulary_transform_function=vocabulary_transform_function,

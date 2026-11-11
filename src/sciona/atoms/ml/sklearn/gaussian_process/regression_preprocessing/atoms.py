@@ -132,8 +132,8 @@ def gp_regression_target_statistics(
     *,
     normalize_y: bool = False,
 ) -> tuple[TargetStats, TargetStats]:
-    from sklearn.preprocessing._data import _handle_zeros_in_scale
     """Compute the target mean and scale used by GaussianProcessRegressor.fit."""
+    from sklearn.preprocessing._data import _handle_zeros_in_scale
     values = np.asarray(y, dtype=np.float64)
     if normalize_y:
         mean = np.mean(values, axis=0)

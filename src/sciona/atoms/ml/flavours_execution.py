@@ -19,5 +19,5 @@ def flavours_execute(training_inputs: list, labels: list, mass: list,
     diagnostics are runtime outputs, not publication evidence. No claim of
     historical runtime parity or Tier1 human review is made.
     """
-    from sciona.flavours_evaluated_execution import execute_evaluated
+    from sciona._runtime.ml.flavours_evaluated_execution import execute_evaluated
     return execute_evaluated(training_inputs, labels, mass, query_inputs, controls, excluded_column)

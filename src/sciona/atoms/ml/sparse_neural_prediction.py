@@ -89,7 +89,7 @@ def fit_sparse_neural(features: csr_matrix, targets: np.ndarray, feature_columns
     inverse transform is implied. The prediction state excludes optimizer state.
     One single-core worker runs synchronously and releases its session on exit.
     """
-    from sciona.sparse_neural_process import run_sparse_neural
+    from sciona._runtime.ml.sparse_neural_process import run_sparse_neural
     _matrix(features, feature_columns, feature_coordinate, response_coordinate)
     _controls(mode, controls)
     y = np.asarray(targets)
@@ -125,7 +125,7 @@ def predict_sparse_neural(features: csr_matrix, feature_columns: list,
     after each call. Learned weights and fitted decoder state remain private
     runtime inputs, not public benchmark evidence.
     """
-    from sciona.sparse_neural_process import run_sparse_neural
+    from sciona._runtime.ml.sparse_neural_process import run_sparse_neural
     _matrix(features, feature_columns, feature_coordinate, response_coordinate)
     return run_sparse_neural(dict(operation='predict', feature_columns=feature_columns,
         feature_coordinate=feature_coordinate, response_coordinate=response_coordinate, state=state), features)

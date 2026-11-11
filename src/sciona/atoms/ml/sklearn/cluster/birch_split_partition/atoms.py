@@ -99,8 +99,8 @@ def birch_split_distance_matrix(
     centroids: NDArray[np.float64],
     squared_norm: NDArray[np.float64],
 ) -> NDArray[np.float64]:
-    from sklearn.metrics.pairwise import euclidean_distances
     """Compute sklearn's squared centroid-distance matrix for BIRCH node splitting."""
+    from sklearn.metrics.pairwise import euclidean_distances
     return np.asarray(
         euclidean_distances(
             np.asarray(centroids, dtype=np.float64),

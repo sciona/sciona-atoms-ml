@@ -1,7 +1,7 @@
 """Portable native regression/model-bank state with explicit integrity checks."""
 from sciona.ghost.registry import register_atom
-from sciona.catboost_model_state import pack_catboost_model,unpack_catboost_model
-from sciona.catboost_bank_state import pack_model_bank,unpack_model_bank
+from sciona._runtime.ml.catboost_model_state import pack_catboost_model,unpack_catboost_model
+from sciona._runtime.ml.catboost_bank_state import pack_model_bank,unpack_model_bank
 from sciona.atoms.ml.model_selection.named_regression import witness_materialized
 
 

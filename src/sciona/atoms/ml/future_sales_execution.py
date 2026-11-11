@@ -8,7 +8,7 @@ def witness_future_sales_prepare(payload: dict) -> dict:return {'kind':'FutureSa
 @register_atom(witness_future_sales_prepare)
 def future_sales_prepare(payload: dict) -> object:
     """Validate private entity/period populations and serialized controls."""
-    from sciona.future_sales_contract import prepare
+    from sciona._runtime.ml.future_sales_contract import prepare
     return prepare(payload)
 
 
@@ -20,5 +20,5 @@ def witness_future_sales_execute(prepared: object) -> dict:
 @register_atom(witness_future_sales_execute)
 def future_sales_execute(prepared: object) -> dict:
     """Aggregate, build causal features, search, refit and forecast one period."""
-    from sciona.future_sales_contract import execute
+    from sciona._runtime.ml.future_sales_contract import execute
     return execute(prepared)

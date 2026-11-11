@@ -2,8 +2,8 @@
 import numpy as np
 
 from sciona.ghost.registry import register_atom
-from sciona.airport_model_state import validate_adapter_state
-from sciona.residual_model_state import pack_state
+from sciona._runtime.ml.airport_model_state import validate_adapter_state
+from sciona._runtime.ml.residual_model_state import pack_state
 from sciona.atoms.ml.domain_adapters.airport_features import (
     numerical_handoff,witness_numerical_handoff,witness_unmaterialized,
 )

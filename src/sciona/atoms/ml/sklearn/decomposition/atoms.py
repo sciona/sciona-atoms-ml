@@ -571,8 +571,8 @@ def fastica_fit(
     whiten_solver: str = "svd",
     random_state: int | None = None,
 ) -> FastICAState:
-    from sklearn.utils import check_array, check_random_state
     """Fit dense FastICA state with sklearn-compatible fixed-point updates."""
+    from sklearn.utils import check_array, check_random_state
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True, ensure_min_samples=2, copy=bool(whiten))
     XT = checked_x.T
     alpha = 1.0 if fun_args is None else float(fun_args.get("alpha", 1.0))
@@ -659,8 +659,8 @@ def fastica_fit(
 @icontract.require(lambda state: _fastica_state_valid(state), "state must be a fitted FastICA state")
 @icontract.ensure(lambda result, X, state: _fastica_transform_valid(result, X, state), "sources must be a finite component matrix")
 def fastica_transform(X: NDArray[np.float64], state: FastICAState) -> NDArray[np.float64]:
-    from sklearn.utils import check_array, check_random_state
     """Recover independent source coordinates from samples."""
+    from sklearn.utils import check_array, check_random_state
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True, copy=bool(state.whiten))
     if state.mean is not None:
         checked_x = checked_x - state.mean
@@ -672,8 +672,8 @@ def fastica_transform(X: NDArray[np.float64], state: FastICAState) -> NDArray[np
 @icontract.require(lambda state: _fastica_state_valid(state), "state must be a fitted FastICA state")
 @icontract.ensure(lambda result, X, state: _fastica_inverse_valid(result, X, state), "reconstruction must be a finite feature matrix")
 def fastica_inverse_transform(X: NDArray[np.float64], state: FastICAState) -> NDArray[np.float64]:
-    from sklearn.utils import check_array, check_random_state
     """Map FastICA source coordinates back to the original feature space."""
+    from sklearn.utils import check_array, check_random_state
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True, copy=bool(state.whiten))
     reconstructed = np.dot(checked_x, state.mixing.T)
     if state.mean is not None:
@@ -695,9 +695,9 @@ def pca_fit(
     copy: bool = True,
     svd_solver: str = "full",
 ) -> PCAState:
+    """Fit dense full-SVD PCA state from a sample-by-feature matrix."""
     from sklearn.utils import check_array, check_random_state
     from sklearn.utils.extmath import _incremental_mean_and_var, fast_logdet, randomized_svd, squared_norm, svd_flip
-    """Fit dense full-SVD PCA state from a sample-by-feature matrix."""
     del copy
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True, ensure_min_samples=2)
     n_samples, n_features = checked_x.shape
@@ -751,9 +751,9 @@ def incremental_pca_partial_fit(
     copy: bool = True,
     batch_size: int | None = None,
 ) -> IncrementalPCAState:
+    """Update dense incremental PCA state from one sample batch."""
     from sklearn.utils import check_array, check_random_state
     from sklearn.utils.extmath import _incremental_mean_and_var, fast_logdet, randomized_svd, squared_norm, svd_flip
-    """Update dense incremental PCA state from one sample batch."""
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True, copy=copy)
     n_samples, n_features = checked_x.shape
     if state is None:
@@ -825,8 +825,8 @@ def incremental_pca_transform(
     X: NDArray[np.float64],
     state: IncrementalPCAState,
 ) -> NDArray[np.float64]:
-    from sklearn.utils import check_array, check_random_state
     """Project samples onto fitted incremental PCA components."""
+    from sklearn.utils import check_array, check_random_state
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     transformed = np.dot(checked_x, state.components.T)
     transformed -= np.reshape(state.mean, (1, -1)) @ state.components.T
@@ -846,8 +846,8 @@ def incremental_pca_inverse_transform(
     X: NDArray[np.float64],
     state: IncrementalPCAState,
 ) -> NDArray[np.float64]:
-    from sklearn.utils import check_array, check_random_state
     """Map incremental PCA coordinates back to feature space."""
+    from sklearn.utils import check_array, check_random_state
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     if state.whiten:
         scaled_components = np.sqrt(state.explained_variance[:, np.newaxis]) * state.components
@@ -883,9 +883,9 @@ def truncated_svd_fit(
     random_state: int | None = None,
     tol: float = 0.0,
 ) -> TruncatedSVDState:
+    """Fit dense randomized truncated SVD state without centering inputs."""
     from sklearn.utils import check_array, check_random_state
     from sklearn.utils.extmath import _incremental_mean_and_var, fast_logdet, randomized_svd, squared_norm, svd_flip
-    """Fit dense randomized truncated SVD state without centering inputs."""
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True, ensure_min_samples=2, ensure_min_features=2)
     # sklearn's TruncatedSVD accepts the legacy "OR" token and passes it through
     # to randomized_svd; map it to the public extmath spelling here.
@@ -929,8 +929,8 @@ def truncated_svd_transform(
     X: NDArray[np.float64],
     state: TruncatedSVDState,
 ) -> NDArray[np.float64]:
-    from sklearn.utils import check_array, check_random_state
     """Project samples onto fitted truncated SVD components."""
+    from sklearn.utils import check_array, check_random_state
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     return np.asarray(np.dot(checked_x, state.components.T), dtype=np.float64)
 
@@ -943,8 +943,8 @@ def truncated_svd_inverse_transform(
     X: NDArray[np.float64],
     state: TruncatedSVDState,
 ) -> NDArray[np.float64]:
-    from sklearn.utils import check_array, check_random_state
     """Map truncated SVD component coordinates back to feature space."""
+    from sklearn.utils import check_array, check_random_state
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     return np.asarray(np.dot(checked_x, state.components), dtype=np.float64)
 
@@ -992,10 +992,10 @@ def kernel_pca_fit(
     copy_X: bool = True,
     n_jobs: int | None = None,
 ) -> KernelPCAState:
+    """Fit dense linear KernelPCA state from a sample-by-feature matrix."""
     from sklearn.utils import check_array, check_random_state
     from sklearn.utils.extmath import _incremental_mean_and_var, fast_logdet, randomized_svd, squared_norm, svd_flip
     from sklearn.utils.validation import _check_psd_eigenvalues
-    """Fit dense linear KernelPCA state from a sample-by-feature matrix."""
     del degree, coef0, alpha, fit_inverse_transform, tol, max_iter, iterated_power, random_state, n_jobs
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True, ensure_min_samples=2, copy=copy_X)
     n_samples, n_features = checked_x.shape
@@ -1043,8 +1043,8 @@ def kernel_pca_transform(
     X: NDArray[np.float64],
     state: KernelPCAState,
 ) -> NDArray[np.float64]:
-    from sklearn.utils import check_array, check_random_state
     """Project samples with a fitted dense linear KernelPCA state."""
+    from sklearn.utils import check_array, check_random_state
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     kernel_matrix = np.asarray(np.dot(checked_x, state.X_fit.T), dtype=np.float64)
     predicted_column_means = (np.sum(kernel_matrix, axis=1) / state.X_fit.shape[0])[:, np.newaxis]
@@ -1091,9 +1091,9 @@ def factor_analysis_fit(
     rotation: None = None,
     random_state: int | None = 0,
 ) -> FactorAnalysisState:
+    """Fit dense Lapack factor analysis loading and noise state."""
     from sklearn.utils import check_array, check_random_state
     from sklearn.utils.extmath import _incremental_mean_and_var, fast_logdet, randomized_svd, squared_norm, svd_flip
-    """Fit dense Lapack factor analysis loading and noise state."""
     del copy, iterated_power, random_state
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True, ensure_min_samples=2, copy=True)
     n_samples, n_features = checked_x.shape
@@ -1157,8 +1157,8 @@ def factor_analysis_transform(
     X: NDArray[np.float64],
     state: FactorAnalysisState,
 ) -> NDArray[np.float64]:
-    from sklearn.utils import check_array, check_random_state
     """Compute expected latent factor means for samples."""
+    from sklearn.utils import check_array, check_random_state
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     identity = np.eye(state.n_components)
     centered_x = checked_x - state.mean
@@ -1204,9 +1204,9 @@ def factor_analysis_score_samples(
     X: NDArray[np.float64],
     state: FactorAnalysisState,
 ) -> NDArray[np.float64]:
+    """Compute per-sample log likelihood under fitted factor state."""
     from sklearn.utils import check_array, check_random_state
     from sklearn.utils.extmath import _incremental_mean_and_var, fast_logdet, randomized_svd, squared_norm, svd_flip
-    """Compute per-sample log likelihood under fitted factor state."""
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     centered_x = checked_x - state.mean
     precision = factor_analysis_precision(state)

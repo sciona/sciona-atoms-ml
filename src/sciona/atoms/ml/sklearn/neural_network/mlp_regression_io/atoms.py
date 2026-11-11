@@ -105,8 +105,8 @@ def mlp_regressor_r2_score(
     *,
     sample_weight: NDArray[np.float64] | None = None,
 ) -> float:
-    from sklearn.metrics import r2_score
     """Compute MLPRegressor's score helper with the NaN/Inf prediction short-circuit."""
+    from sklearn.metrics import r2_score
     true_values = np.asarray(y_true, dtype=np.float64)
     pred_values = np.asarray(y_pred, dtype=np.float64)
     if np.isnan(pred_values).any() or np.isinf(pred_values).any():

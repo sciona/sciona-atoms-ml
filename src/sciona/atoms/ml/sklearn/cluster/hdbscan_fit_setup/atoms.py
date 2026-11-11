@@ -98,8 +98,8 @@ def hdbscan_tree_metric_compatibility_guard(
     algorithm: str,
     metric: str,
 ) -> bool:
-    from sklearn.neighbors import BallTree, KDTree
     """Apply HDBSCAN's explicit KDTree and BallTree metric compatibility guard."""
+    from sklearn.neighbors import BallTree, KDTree
     if algorithm == "kd_tree" and metric not in KDTree.valid_metrics:
         raise ValueError(
             f"{metric} is not a valid metric for a KDTree-based algorithm. Please select a different metric."
@@ -135,9 +135,9 @@ def hdbscan_backend_name(
     is_sparse: bool,
     algorithm: str,
 ) -> str:
+    """Resolve HDBSCAN's MST backend name before native execution."""
     from sklearn.cluster._hdbscan.hdbscan import FAST_METRICS
     from sklearn.neighbors import BallTree, KDTree
-    """Resolve HDBSCAN's MST backend name before native execution."""
     if algorithm != "auto":
         if algorithm == "brute":
             return "brute"

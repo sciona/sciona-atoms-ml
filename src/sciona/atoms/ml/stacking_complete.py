@@ -19,7 +19,7 @@ def witness_unpack(payload: dict) -> tuple:
 
 @register_atom(witness_unpack)
 def unpack_payload(payload: dict) -> tuple:
-    from sciona.otto_execution import prepare, _first_controls
+    from sciona._runtime.ml.otto_execution import prepare, _first_controls
     data=json.loads(prepare(payload).configuration)
     t,q,c=data['training'],data['query'],data['controls'];s=c['supplemental']
     return (t['values'],t['labels'],t['first_folds'],t['meta_folds'],t['identities'],
@@ -36,7 +36,7 @@ def witness_embedding(training: object, query: object, training_ids: list, query
 @register_atom(witness_embedding)
 def fit_population_embedding(training: object, query: object, training_ids: list, query_ids: list,
                              seed: int, embedding_controls: dict) -> object:
-    from sciona.otto_tsne import fit_population
+    from sciona._runtime.ml.otto_tsne import fit_population
     return fit_population(np.vstack((training,query)),training_ids+query_ids,seed=seed,**embedding_controls)
 
 
@@ -48,7 +48,7 @@ def witness_layout(first_level: dict, supplemental: dict, raw_neural: object,
 @register_atom(witness_layout)
 def assemble_layout(first_level: dict, supplemental: dict, raw_neural: object,
                     training_ids: list, query_ids: list, folds: object, tsne_interpretation: str) -> dict:
-    from sciona.otto_meta_layout import assemble
+    from sciona._runtime.ml.otto_meta_layout import assemble
     return assemble(first_level,supplemental,raw_neural,training_ids,query_ids,folds,
                     tsne_interpretation=tsne_interpretation)
 

@@ -149,8 +149,8 @@ def gaussian_random_projection_fit(
     compute_inverse_components: bool = False,
     random_state: object | None = None,
 ) -> RandomProjectionState:
-    from sklearn.utils import check_array, check_random_state
     """Fit Gaussian random projection state from a training matrix shape."""
+    from sklearn.utils import check_array, check_random_state
     checked_x = check_array(X, accept_sparse=("csr", "csc"), dtype=[np.float64, np.float32])
     n_samples, n_features = checked_x.shape
     resolved_components = _resolve_n_components(n_components, eps, n_samples, n_features)
@@ -177,8 +177,8 @@ def gaussian_random_projection_transform(
     X: MatrixLike,
     state: RandomProjectionState,
 ) -> NDArray[np.float64]:
-    from sklearn.utils import check_array, check_random_state
     """Project data with a fitted Gaussian random projection state."""
+    from sklearn.utils import check_array, check_random_state
     checked_x = check_array(X, accept_sparse=("csr", "csc"), dtype=[np.float64, np.float32])
     if checked_x.shape[1] != state.n_features_in:
         raise ValueError("X feature count does not match fitted state")
@@ -203,8 +203,8 @@ def sparse_random_projection_fit(
     compute_inverse_components: bool = False,
     random_state: object | None = None,
 ) -> RandomProjectionState:
-    from sklearn.utils import check_array, check_random_state
     """Fit sparse random projection state from a training matrix shape."""
+    from sklearn.utils import check_array, check_random_state
     checked_x = check_array(X, accept_sparse=("csr", "csc"), dtype=[np.float64, np.float32])
     n_samples, n_features = checked_x.shape
     resolved_components = _resolve_n_components(n_components, eps, n_samples, n_features)
@@ -236,9 +236,9 @@ def sparse_random_projection_transform(
     X: MatrixLike,
     state: RandomProjectionState,
 ) -> MatrixLike:
+    """Project data with a fitted sparse random projection state."""
     from sklearn.utils import check_array, check_random_state
     from sklearn.utils.extmath import safe_sparse_dot
-    """Project data with a fitted sparse random projection state."""
     checked_x = check_array(X, accept_sparse=("csr", "csc"), dtype=[np.float64, np.float32])
     if checked_x.shape[1] != state.n_features_in:
         raise ValueError("X feature count does not match fitted state")
@@ -253,8 +253,8 @@ def random_projection_inverse_transform(
     X: MatrixLike,
     state: RandomProjectionState,
 ) -> NDArray[np.float64]:
-    from sklearn.utils import check_array, check_random_state
     """Project coordinates from random projection space back to input space."""
+    from sklearn.utils import check_array, check_random_state
     checked_x = check_array(X, accept_sparse=("csr", "csc"), dtype=[np.float64, np.float32])
     if checked_x.shape[1] != state.n_components:
         raise ValueError("X feature count does not match fitted projection components")

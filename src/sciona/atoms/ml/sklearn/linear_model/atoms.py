@@ -562,8 +562,8 @@ def bayesian_ridge_fit(
     copy_X: bool = True,
     sample_weight: float | tuple[float, ...] | NDArray[np.float64] | None = None,
 ) -> BayesianRidgeState:
-    from sklearn.utils import check_array
     """Fit dense Bayesian ridge posterior parameters."""
+    from sklearn.utils import check_array
     del copy_X
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     checked_y = check_array(y, dtype=np.float64, ensure_2d=False, input_name="y")
@@ -674,8 +674,8 @@ def bayesian_ridge_predict(
     *,
     return_std: bool = False,
 ) -> NDArray[np.float64]:
-    from sklearn.utils import check_array
     """Predict posterior mean values from fitted Bayesian ridge state."""
+    from sklearn.utils import check_array
     del return_std
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     return np.asarray(np.dot(checked_x, state.coef) + state.intercept, dtype=np.float64)
@@ -686,8 +686,8 @@ def bayesian_ridge_predict(
 @icontract.require(lambda state: _bayesian_ridge_state_valid(state), "state must be a fitted Bayesian ridge state")
 @icontract.ensure(lambda result, X: _bayesian_ridge_prediction_valid(result, X), "standard deviations must be finite per-row values")
 def bayesian_ridge_predict_std(X: NDArray[np.float64], state: BayesianRidgeState) -> NDArray[np.float64]:
-    from sklearn.utils import check_array
     """Predict posterior standard deviations from fitted Bayesian ridge state."""
+    from sklearn.utils import check_array
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     sigmas_squared = (np.dot(checked_x, state.sigma) * checked_x).sum(axis=1)
     return np.asarray(np.sqrt(sigmas_squared + (1.0 / state.alpha)), dtype=np.float64)
@@ -936,8 +936,8 @@ def linear_regression_fit(
     positive: bool = False,
     sample_weight: float | tuple[float, ...] | NDArray[np.float64] | None = None,
 ) -> LinearRegressionState:
-    from sklearn.utils import check_array
     """Fit dense ordinary least-squares coefficients."""
+    from sklearn.utils import check_array
     del copy_X, tol, n_jobs, positive
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     checked_y = check_array(y, dtype=np.float64, ensure_2d=False, input_name="y")
@@ -971,8 +971,8 @@ def linear_regression_fit(
 @icontract.require(lambda state: _state_valid(state), "state must be a fitted linear regression state")
 @icontract.ensure(lambda result, X, state: _prediction_valid(result, X, state), "predictions must match fitted output width")
 def linear_regression_predict(X: NDArray[np.float64], state: LinearRegressionState) -> NDArray[np.float64]:
-    from sklearn.utils import check_array
     """Predict dense outputs from fitted ordinary least-squares coefficients."""
+    from sklearn.utils import check_array
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     if state.n_outputs == 1:
         return np.asarray(checked_x @ state.coef + state.intercept[0], dtype=np.float64)
@@ -1002,8 +1002,8 @@ def ridge_regression(
     positive: bool = False,
     random_state: int | None = None,
 ) -> NDArray[np.float64]:
-    from sklearn.utils import check_array
     """Solve dense ridge-regression coefficients with a closed-form solver."""
+    from sklearn.utils import check_array
     del solver, max_iter, tol, positive, random_state
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     checked_y = check_array(y, dtype=np.float64, ensure_2d=False, input_name="y")
@@ -1045,8 +1045,8 @@ def ridge_fit(
     random_state: int | None = None,
     sample_weight: float | tuple[float, ...] | NDArray[np.float64] | None = None,
 ) -> RidgeState:
-    from sklearn.utils import check_array
     """Fit dense ridge-regression coefficients and intercept."""
+    from sklearn.utils import check_array
     del copy_X, max_iter, tol, positive, random_state
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     checked_y = check_array(y, dtype=np.float64, ensure_2d=False, input_name="y")
@@ -1076,8 +1076,8 @@ def ridge_fit(
 @icontract.require(lambda state: _ridge_state_valid(state), "state must be a fitted ridge state")
 @icontract.ensure(lambda result, X, state: _ridge_prediction_valid(result, X, state), "predictions must match fitted output width")
 def ridge_predict(X: NDArray[np.float64], state: RidgeState) -> NDArray[np.float64]:
-    from sklearn.utils import check_array
     """Predict dense outputs from fitted ridge-regression coefficients."""
+    from sklearn.utils import check_array
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     if state.n_outputs == 1:
         return np.asarray(checked_x @ state.coef + state.intercept[0], dtype=np.float64)
@@ -1106,8 +1106,8 @@ def orthogonal_mp(
     return_path: bool = False,
     return_n_iter: bool = False,
 ) -> NDArray[np.float64]:
-    from sklearn.utils import check_array
     """Solve dense orthogonal matching pursuit coefficients from samples."""
+    from sklearn.utils import check_array
     del copy_X, return_path, return_n_iter
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     checked_y = check_array(y, dtype=np.float64, ensure_2d=False, input_name="y")
@@ -1153,8 +1153,8 @@ def orthogonal_mp_gram(
     return_path: bool = False,
     return_n_iter: bool = False,
 ) -> NDArray[np.float64]:
-    from sklearn.utils import check_array
     """Solve dense orthogonal matching pursuit coefficients from Gram inputs."""
+    from sklearn.utils import check_array
     del copy_Gram, copy_Xy, return_path, return_n_iter
     checked_gram = check_array(Gram, dtype=np.float64, ensure_2d=True)
     checked_xy = np.asarray(Xy, dtype=np.float64)
@@ -1189,8 +1189,8 @@ def orthogonal_matching_pursuit_fit(
     fit_intercept: bool = True,
     precompute: bool | str = "auto",
 ) -> OrthogonalMatchingPursuitState:
-    from sklearn.utils import check_array
     """Fit dense orthogonal matching pursuit coefficients and intercept."""
+    from sklearn.utils import check_array
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     checked_y = check_array(y, dtype=np.float64, ensure_2d=False, input_name="y")
     y_was_1d = checked_y.ndim == 1
@@ -1226,8 +1226,8 @@ def orthogonal_matching_pursuit_fit(
 @icontract.require(lambda state: _omp_state_valid(state), "state must be a fitted OMP state")
 @icontract.ensure(lambda result, X, state: _omp_prediction_valid(result, X, state), "predictions must match fitted output width")
 def orthogonal_matching_pursuit_predict(X: NDArray[np.float64], state: OrthogonalMatchingPursuitState) -> NDArray[np.float64]:
-    from sklearn.utils import check_array
     """Predict dense outputs from fitted orthogonal matching pursuit coefficients."""
+    from sklearn.utils import check_array
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     if state.n_outputs == 1:
         return np.asarray(checked_x @ state.coef + state.intercept[0], dtype=np.float64)
@@ -1257,8 +1257,8 @@ def omp_path_residues(
     fit_intercept: bool = True,
     max_iter: int = 100,
 ) -> NDArray[np.float64]:
-    from sklearn.utils import check_array
     """Compute held-out residuals along a dense OMP coefficient path."""
+    from sklearn.utils import check_array
     del copy
     train_x = check_array(X_train, dtype=np.float64, ensure_2d=True)
     test_x = check_array(X_test, dtype=np.float64, ensure_2d=True)
@@ -1303,9 +1303,9 @@ def orthogonal_matching_pursuit_cv_fit(
     n_jobs: None = None,
     verbose: bool = False,
 ) -> OrthogonalMatchingPursuitCVState:
+    """Fit dense OMP after KFold selection of the active feature count."""
     from sklearn.model_selection import KFold
     from sklearn.utils import check_array
-    """Fit dense OMP after KFold selection of the active feature count."""
     del n_jobs, verbose
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     checked_y = check_array(y, dtype=np.float64, ensure_2d=False, input_name="y")
@@ -1353,8 +1353,8 @@ def orthogonal_matching_pursuit_cv_fit(
 @icontract.require(lambda state: _omp_cv_state_valid(state), "state must be a fitted OMP CV state")
 @icontract.ensure(lambda result, X: _omp_cv_prediction_valid(result, X), "predictions must match sample count")
 def orthogonal_matching_pursuit_cv_predict(X: NDArray[np.float64], state: OrthogonalMatchingPursuitCVState) -> NDArray[np.float64]:
-    from sklearn.utils import check_array
     """Predict dense outputs from fitted cross-validated OMP coefficients."""
+    from sklearn.utils import check_array
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     return np.asarray(checked_x @ state.coef + state.intercept[0], dtype=np.float64)
 
@@ -1380,8 +1380,8 @@ def ridge_cv_scores(
     cv: None = None,
     sample_weight: None = None,
 ) -> NDArray[np.float64]:
-    from sklearn.utils import check_array
     """Compute dense leave-one-out RidgeCV scores for each alpha."""
+    from sklearn.utils import check_array
     del scoring, cv, sample_weight
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     checked_y = check_array(y, dtype=np.float64, ensure_2d=False, input_name="y")
@@ -1458,8 +1458,8 @@ def ridge_cv_fit(
 @icontract.require(lambda state: _ridge_cv_state_valid(state), "state must be a fitted RidgeCV state")
 @icontract.ensure(lambda result, X, state: _ridge_cv_prediction_valid(result, X, state), "predictions must match fitted output width")
 def ridge_cv_predict(X: NDArray[np.float64], state: RidgeCVState) -> NDArray[np.float64]:
-    from sklearn.utils import check_array
     """Predict dense outputs from fitted RidgeCV coefficients."""
+    from sklearn.utils import check_array
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     if state.n_outputs == 1:
         return np.asarray(checked_x @ state.coef + state.intercept[0], dtype=np.float64)
@@ -1495,8 +1495,8 @@ def ridge_classifier_fit(
     random_state: int | None = None,
     sample_weight: float | tuple[float, ...] | NDArray[np.float64] | None = None,
 ) -> RidgeClassifierState:
-    from sklearn.utils import check_array
     """Fit dense ridge-classifier coefficients with numeric class labels."""
+    from sklearn.utils import check_array
     del copy_X, max_iter, tol, positive, random_state
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     checked_y = check_array(y, dtype=np.float64, ensure_2d=False, input_name="y")
@@ -1525,8 +1525,8 @@ def ridge_classifier_fit(
 @icontract.require(lambda state: _ridge_classifier_state_valid(state), "state must be a fitted ridge classifier state")
 @icontract.ensure(lambda result, X, state: _ridge_classifier_scores_valid(result, X, state), "decision scores must match fitted class width")
 def ridge_classifier_decision_function(X: NDArray[np.float64], state: RidgeClassifierState) -> NDArray[np.float64]:
-    from sklearn.utils import check_array
     """Compute dense ridge-classifier confidence scores."""
+    from sklearn.utils import check_array
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     scores = checked_x @ state.coef.T + state.intercept
     if state.classes.shape[0] == 2:
@@ -1572,8 +1572,8 @@ def ridge_classifier_cv_scores(
     class_weight: None = None,
     sample_weight: None = None,
 ) -> NDArray[np.float64]:
-    from sklearn.utils import check_array
     """Compute dense leave-one-out RidgeClassifierCV scores for each alpha."""
+    from sklearn.utils import check_array
     del scoring, cv, class_weight, sample_weight
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     checked_y = check_array(y, dtype=np.float64, ensure_2d=False, input_name="y")
@@ -1649,8 +1649,8 @@ def ridge_classifier_cv_fit(
 @icontract.require(lambda state: _ridge_classifier_cv_state_valid(state), "state must be a fitted RidgeClassifierCV state")
 @icontract.ensure(lambda result, X, state: _ridge_classifier_cv_scores_output_valid(result, X, state), "decision scores must match fitted class width")
 def ridge_classifier_cv_decision_function(X: NDArray[np.float64], state: RidgeClassifierCVState) -> NDArray[np.float64]:
-    from sklearn.utils import check_array
     """Compute dense RidgeClassifierCV confidence scores."""
+    from sklearn.utils import check_array
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     scores = checked_x @ state.coef.T + state.intercept
     if state.classes.shape[0] == 2:
@@ -1779,8 +1779,8 @@ def ard_regression_fit(
     copy_X: bool = True,
     verbose: bool = False,
 ) -> ARDRegressionState:
-    from sklearn.utils import check_array
     """Fit dense automatic relevance determination posterior parameters."""
+    from sklearn.utils import check_array
     del copy_X, verbose
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     checked_y = check_array(y, dtype=np.float64, ensure_2d=False, input_name="y")
@@ -1865,8 +1865,8 @@ def ard_regression_predict(
     *,
     return_std: bool = False,
 ) -> NDArray[np.float64]:
-    from sklearn.utils import check_array
     """Predict posterior mean values from fitted ARD state."""
+    from sklearn.utils import check_array
     del return_std
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     return np.asarray(np.dot(checked_x, state.coef) + state.intercept, dtype=np.float64)
@@ -1877,8 +1877,8 @@ def ard_regression_predict(
 @icontract.require(lambda state: _ard_regression_state_valid(state), "state must be a fitted ARD state")
 @icontract.ensure(lambda result, X: _ard_regression_prediction_valid(result, X), "standard deviations must be finite per-row values")
 def ard_regression_predict_std(X: NDArray[np.float64], state: ARDRegressionState) -> NDArray[np.float64]:
-    from sklearn.utils import check_array
     """Predict posterior standard deviations from fitted ARD state."""
+    from sklearn.utils import check_array
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     keep = _ard_keep_mask(state)
     checked_x = checked_x[:, keep]
@@ -2022,8 +2022,8 @@ def theil_sen_regressor_fit(
     n_jobs: int | None = None,
     verbose: bool = False,
 ) -> TheilSenRegressorState:
-    from sklearn.utils import check_array
     """Fit dense single-output Theil-Sen regression coefficients."""
+    from sklearn.utils import check_array
     del n_jobs, verbose
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     checked_y = check_array(y, dtype=np.float64, ensure_2d=False, input_name="y")
@@ -2071,8 +2071,8 @@ def theil_sen_regressor_fit(
 @icontract.require(lambda state: _theil_sen_state_valid(state), "state must be a fitted Theil-Sen state")
 @icontract.ensure(lambda result, X: _theil_sen_prediction_valid(result, X), "predictions must be finite per-row values")
 def theil_sen_regressor_predict(X: NDArray[np.float64], state: TheilSenRegressorState) -> NDArray[np.float64]:
-    from sklearn.utils import check_array
     """Predict dense Theil-Sen regression outputs."""
+    from sklearn.utils import check_array
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     return np.asarray(np.dot(checked_x, state.coef) + state.intercept, dtype=np.float64)
 
@@ -2303,8 +2303,8 @@ def lars_path(
     return_n_iter: bool = False,
     positive: bool = False,
 ) -> LarsPathState:
-    from sklearn.utils import check_array
     """Compute a dense unconstrained LARS coefficient path."""
+    from sklearn.utils import check_array
     del copy_X, eps, copy_Gram, verbose, return_path, return_n_iter, positive
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     checked_y = check_array(y, dtype=np.float64, ensure_2d=False, input_name="y")
@@ -2350,8 +2350,8 @@ def lars_path_gram(
     return_n_iter: bool = False,
     positive: bool = False,
 ) -> LarsPathState:
-    from sklearn.utils import check_array
     """Compute an unconstrained LARS path from sufficient statistics."""
+    from sklearn.utils import check_array
     del copy_X, eps, copy_Gram, verbose, return_path, return_n_iter, positive
     checked_xy = np.asarray(Xy, dtype=np.float64)
     checked_gram = check_array(Gram, dtype=np.float64, ensure_2d=True)
@@ -2388,8 +2388,8 @@ def lars_fit(
     jitter: None = None,
     random_state: None = None,
 ) -> LarsState:
-    from sklearn.utils import check_array
     """Fit dense single-output least-angle-regression coefficients."""
+    from sklearn.utils import check_array
     del verbose, eps, copy_X, fit_path, jitter, random_state
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     checked_y = check_array(y, dtype=np.float64, ensure_2d=False, input_name="y")
@@ -2423,8 +2423,8 @@ def lars_fit(
 @icontract.require(lambda state: _lars_state_valid(state), "state must be a fitted LARS state")
 @icontract.ensure(lambda result, X: _lars_prediction_valid(result, X), "predictions must be finite per-row values")
 def lars_predict(X: NDArray[np.float64], state: LarsState) -> NDArray[np.float64]:
-    from sklearn.utils import check_array
     """Predict dense LARS regression outputs."""
+    from sklearn.utils import check_array
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     return np.asarray(np.dot(checked_x, state.coef) + state.intercept, dtype=np.float64)
 
@@ -2570,8 +2570,8 @@ def lasso_lars_path(
     return_n_iter: bool = False,
     positive: bool = False,
 ) -> LarsPathState:
-    from sklearn.utils import check_array
     """Compute a dense unconstrained Lasso-LARS coefficient path."""
+    from sklearn.utils import check_array
     del copy_X, eps, copy_Gram, verbose, return_path, return_n_iter, positive
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     checked_y = check_array(y, dtype=np.float64, ensure_2d=False, input_name="y")
@@ -2619,8 +2619,8 @@ def lasso_lars_fit(
     jitter: None = None,
     random_state: None = None,
 ) -> LassoLarsState:
-    from sklearn.utils import check_array
     """Fit dense single-output Lasso-LARS coefficients."""
+    from sklearn.utils import check_array
     del verbose, eps, copy_X, fit_path, positive, jitter, random_state
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     checked_y = check_array(y, dtype=np.float64, ensure_2d=False, input_name="y")
@@ -2655,8 +2655,8 @@ def lasso_lars_fit(
 @icontract.require(lambda state: _lasso_lars_state_valid(state), "state must be a fitted Lasso-LARS state")
 @icontract.ensure(lambda result, X: _lars_prediction_valid(result, X), "predictions must be finite per-row values")
 def lasso_lars_predict(X: NDArray[np.float64], state: LassoLarsState) -> NDArray[np.float64]:
-    from sklearn.utils import check_array
     """Predict dense Lasso-LARS regression outputs."""
+    from sklearn.utils import check_array
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     return np.asarray(np.dot(checked_x, state.coef) + state.intercept, dtype=np.float64)
 
@@ -2689,8 +2689,8 @@ def lasso_lars_ic_fit(
     positive: bool = False,
     noise_variance: float | None = None,
 ) -> LassoLarsICState:
-    from sklearn.utils import check_array
     """Fit dense Lasso-LARS coefficients selected by AIC or BIC."""
+    from sklearn.utils import check_array
     del verbose, eps, copy_X, positive
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     checked_y = check_array(y, dtype=np.float64, ensure_2d=False, input_name="y")
@@ -2742,7 +2742,7 @@ def lasso_lars_ic_fit(
 @icontract.require(lambda state: _lasso_lars_ic_state_valid(state), "state must be a fitted Lasso-LARS IC state")
 @icontract.ensure(lambda result, X: _lars_prediction_valid(result, X), "predictions must be finite per-row values")
 def lasso_lars_ic_predict(X: NDArray[np.float64], state: LassoLarsICState) -> NDArray[np.float64]:
-    from sklearn.utils import check_array
     """Predict dense Lasso-LARS IC regression outputs."""
+    from sklearn.utils import check_array
     checked_x = check_array(X, dtype=np.float64, ensure_2d=True)
     return np.asarray(np.dot(checked_x, state.coef) + state.intercept, dtype=np.float64)

@@ -9,7 +9,7 @@ def witness_champs_prepare(payload: dict) -> dict:
 @register_atom(witness_champs_prepare)
 def champs_prepare(payload: dict) -> object:
     """Validate private raw geometry, coupling labels and all model schedules."""
-    from sciona.champs_contract import prepare
+    from sciona._runtime.ml.champs_contract import prepare
     return prepare(payload)
 
 
@@ -22,5 +22,5 @@ def witness_champs_execute(prepared: object) -> dict:
 @register_atom(witness_champs_execute)
 def champs_execute(prepared: object) -> dict:
     """Train all full graph transformers, reload complete states and blend predictions."""
-    from sciona.champs_runtime import execute
+    from sciona._runtime.ml.champs_runtime import execute
     return execute(prepared)

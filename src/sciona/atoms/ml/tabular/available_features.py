@@ -8,19 +8,19 @@ import numpy as np
 import pandas as pd
 
 from sciona.ghost.registry import register_atom
-from sciona.asof_indices import latest_available_indices as _asof
-from sciona.configuration_state_features import configuration_state_features as _configuration
-from sciona.estimate_history_features import estimate_history_features as _estimates
-from sciona.forecast_history_features import forecast_history_features as _forecasts
-from sciona.event_count_windows import event_count_windows as _counts
-from sciona.event_delay_windows import event_delay_windows as _delays
-from sciona.calendar_time_features import calendar_time_features as _calendar
-from sciona.unique_entity_features import unique_entity_features as _entities
-from sciona.structured_identity_features import structured_identity_features as _identifiers
-from sciona.feature_table_assembly import assemble_feature_tables as _assemble
-from sciona.model_feature_policy import prepare_model_features as _prepare
-from sciona.asof_estimate_fallback import asof_estimate_fallback as _fallback
-from sciona.prediction_postprocessing import clip_truncate_prediction as _clip
+from sciona._runtime.ml.asof_indices import latest_available_indices as _asof
+from sciona._runtime.ml.configuration_state_features import configuration_state_features as _configuration
+from sciona._runtime.ml.estimate_history_features import estimate_history_features as _estimates
+from sciona._runtime.ml.forecast_history_features import forecast_history_features as _forecasts
+from sciona._runtime.ml.event_count_windows import event_count_windows as _counts
+from sciona._runtime.ml.event_delay_windows import event_delay_windows as _delays
+from sciona._runtime.ml.calendar_time_features import calendar_time_features as _calendar
+from sciona._runtime.ml.unique_entity_features import unique_entity_features as _entities
+from sciona._runtime.ml.structured_identity_features import structured_identity_features as _identifiers
+from sciona._runtime.ml.feature_table_assembly import assemble_feature_tables as _assemble
+from sciona._runtime.ml.model_feature_policy import prepare_model_features as _prepare
+from sciona._runtime.ml.asof_estimate_fallback import asof_estimate_fallback as _fallback
+from sciona._runtime.ml.prediction_postprocessing import clip_truncate_prediction as _clip
 
 
 def witness_materialized(*args: object, **kwargs: object) -> object:

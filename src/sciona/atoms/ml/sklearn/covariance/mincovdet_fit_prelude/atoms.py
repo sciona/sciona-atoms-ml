@@ -64,8 +64,8 @@ def _bool_value(value: object) -> bool:
 def mincovdet_fit_validated_data(
     X: object,
 ) -> Matrix:
-    from sklearn.utils.validation import check_array
     """Validate MinCovDet.fit input with sklearn's dense array checks."""
+    from sklearn.utils.validation import check_array
     return np.asarray(check_array(X, ensure_min_samples=2, dtype=np.float64), dtype=np.float64)
 
 @register_atom(witness_mincovdet_fit_random_state)
@@ -74,8 +74,8 @@ def mincovdet_fit_validated_data(
 def mincovdet_fit_random_state(
     random_state: object,
 ) -> np.random.RandomState:
-    from sklearn.utils import check_random_state
     """Normalize MinCovDet.fit's random_state with sklearn's check_random_state."""
+    from sklearn.utils import check_random_state
     return check_random_state(random_state)
 
 @register_atom(witness_mincovdet_fit_shape)

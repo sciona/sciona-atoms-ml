@@ -94,8 +94,8 @@ def gp_sample_y_single_output(
     n_samples: int = 1,
     random_state: RandomStateLike = 0,
 ) -> NDArray[np.float64]:
-    from sklearn.utils import check_random_state
     """Draw single-output Gaussian-process samples from a supplied predictive mean and covariance."""
+    from sklearn.utils import check_random_state
     rng = check_random_state(random_state)
     return np.asarray(
         rng.multivariate_normal(
@@ -116,8 +116,8 @@ def gp_sample_y_multi_output(
     n_samples: int = 1,
     random_state: RandomStateLike = 0,
 ) -> NDArray[np.float64]:
-    from sklearn.utils import check_random_state
     """Draw multi-output Gaussian-process samples from supplied per-target predictive means and covariances."""
+    from sklearn.utils import check_random_state
     rng = check_random_state(random_state)
     mean = np.asarray(y_mean, dtype=np.float64)
     cov = np.asarray(y_cov, dtype=np.float64)

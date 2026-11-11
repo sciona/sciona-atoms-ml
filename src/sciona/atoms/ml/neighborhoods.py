@@ -15,5 +15,5 @@ def blend_neighbor_means(values: np.ndarray, neighbors: np.ndarray, strength: fl
     selected self-neighbors are allowed. Return a fresh float64 vector. No
     clipping, units, spatial/temporal adjacency or sum conservation is implied.
     """
-    from sciona.neighborhood_ops import blend_neighbor_means as run
+    from sciona._runtime.ml.neighborhood_ops import blend_neighbor_means as run
     return run(values, neighbors, strength)

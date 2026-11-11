@@ -167,8 +167,8 @@ def partial_dependence_result_bunch(
     average: NDArray[np.float64] | None = None,
     individual: NDArray[np.float64] | None = None,
 ) -> Bunch:
-    from sklearn.utils import Bunch
     """Build sklearn's final partial_dependence Bunch from packaged outputs."""
+    from sklearn.utils import Bunch
     result = Bunch(grid_values=grid_values)
     if kind in {"average", "both"}:
         result["average"] = np.asarray(average, dtype=np.float64)

@@ -2,7 +2,7 @@
 import numpy as np
 import pandas as pd
 from sciona.ghost.registry import register_atom
-from sciona.regression_fit_review import mean_absolute_error, accept_model_below, native_feature_importance, normalize_ranked_importance
+from sciona._runtime.ml.regression_fit_review import mean_absolute_error, accept_model_below, native_feature_importance, normalize_ranked_importance
 from sciona.atoms.ml.model_selection.named_regression import witness_materialized
 
 

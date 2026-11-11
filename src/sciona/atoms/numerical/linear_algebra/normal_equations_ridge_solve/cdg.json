@@ -4,9 +4,54 @@
   "priority": "medium",
   "decomposition_rationale": "Separates Gram matrix assembly and eigenvalue shifts from solving, which allows highly efficient regularization sweeps (evaluating multiple lambda penalties without recomputing the Gram matrix).",
   "family_directory_hint": "src/sciona/atoms/numerical/linear_algebra/",
-  "atomic_nodes": [
+  "nodes": [
     {
+      "node_id": "normal_equations_ridge_solve_root",
+      "parent_id": null,
+      "name": "normal_equations_ridge_solve",
+      "description": "Separates Gram matrix assembly and eigenvalue shifts from solving, which allows highly efficient regularization sweeps (evaluating multiple lambda penalties without recomputing the Gram matrix).",
+      "concept_type": "custom",
+      "inputs": [
+        {
+          "name": "A",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "b",
+          "type_desc": "NDArray[np.float64]",
+          "required": true
+        },
+        {
+          "name": "alpha",
+          "type_desc": "float",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "x",
+          "type_desc": "NDArray[np.float64]"
+        }
+      ],
+      "status": "decomposed",
+      "children": [
+        "compute_gram_matrix",
+        "apply_tikhonov_shift_and_solve"
+      ],
+      "depth": 0,
+      "decomposition_rationale": "Separates Gram matrix assembly and eigenvalue shifts from solving, which allows highly efficient regularization sweeps (evaluating multiple lambda penalties without recomputing the Gram matrix)."
+    },
+    {
+      "node_id": "compute_gram_matrix",
+      "parent_id": "normal_equations_ridge_solve_root",
       "name": "compute_gram_matrix",
+      "description": "Assemble Gram matrix and projected RHS.",
+      "concept_type": "data_assembly",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(A: NDArray[np.float64], b: NDArray[np.float64]) -> tuple[NDArray[np.float64], NDArray[np.float64]]",
+      "matched_primitive": "compute_gram_matrix",
       "semantic_role": "Assemble Gram matrix and projected RHS.",
       "source_targets": [
         "numpy.dot"
@@ -47,7 +92,15 @@
       "complexity_confidence": 90
     },
     {
+      "node_id": "apply_tikhonov_shift_and_solve",
+      "parent_id": "normal_equations_ridge_solve_root",
       "name": "apply_tikhonov_shift_and_solve",
+      "description": "Apply diagonal regularization shift and solve via Cholesky.",
+      "concept_type": "custom",
+      "status": "atomic",
+      "depth": 1,
+      "type_signature": "(Gram: NDArray[np.float64], Ab: NDArray[np.float64], alpha: float) -> NDArray[np.float64]",
+      "matched_primitive": "apply_tikhonov_shift_and_solve",
       "semantic_role": "Apply diagonal regularization shift and solve via Cholesky.",
       "source_targets": [
         "scipy.linalg.cho_factor",
@@ -92,16 +145,26 @@
   ],
   "edges": [
     {
-      "source": "compute_gram_matrix",
-      "target": "apply_tikhonov_shift_and_solve",
+      "source_id": "compute_gram_matrix",
+      "target_id": "apply_tikhonov_shift_and_solve",
       "output_name": "Gram",
-      "input_name": "Gram"
+      "input_name": "Gram",
+      "source_type": "NDArray[np.float64]",
+      "target_type": "NDArray[np.float64]",
+      "requires_glue": false,
+      "source": "compute_gram_matrix",
+      "target": "apply_tikhonov_shift_and_solve"
     },
     {
-      "source": "compute_gram_matrix",
-      "target": "apply_tikhonov_shift_and_solve",
+      "source_id": "compute_gram_matrix",
+      "target_id": "apply_tikhonov_shift_and_solve",
       "output_name": "Ab",
-      "input_name": "Ab"
+      "input_name": "Ab",
+      "source_type": "NDArray[np.float64]",
+      "target_type": "NDArray[np.float64]",
+      "requires_glue": false,
+      "source": "compute_gram_matrix",
+      "target": "apply_tikhonov_shift_and_solve"
     }
   ],
   "cdg_io": {

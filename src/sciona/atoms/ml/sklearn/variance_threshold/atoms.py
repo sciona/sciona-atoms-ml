@@ -38,9 +38,9 @@ def variance_threshold_fit(
     X: MatrixLike,
     threshold: float = 0.0,
 ) -> VarianceThresholdState:
+    """Learn per-feature variances for a VarianceThreshold selector."""
     from sklearn.utils import check_array
     from sklearn.utils.sparsefuncs import mean_variance_axis, min_max_axis
-    """Learn per-feature variances for a VarianceThreshold selector."""
     checked_x = check_array(
         X,
         accept_sparse=("csr", "csc"),
@@ -93,8 +93,8 @@ def variance_threshold_transform(
     X: MatrixLike,
     state: VarianceThresholdState,
 ) -> MatrixLike:
-    from sklearn.utils import check_array
     """Select columns whose fitted variances exceed the threshold."""
+    from sklearn.utils import check_array
     checked_x = check_array(
         X,
         accept_sparse=("csr", "csc"),

@@ -1,6 +1,6 @@
 """Materialized domain-neutral model-slot composition and selection."""
 from sciona.ghost.registry import register_atom
-from sciona.model_slot_bank import assemble_model_slot_bank, select_model_slots
+from sciona._runtime.ml.model_slot_bank import assemble_model_slot_bank, select_model_slots
 
 
 def witness_materialized(*args: object, **kwargs: object) -> object:

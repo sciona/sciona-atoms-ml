@@ -87,8 +87,8 @@ def _distance_matrix_valid(result: object, X: object, subcluster_centers: object
 @icontract.require(lambda subcluster_centers: _finite_2d_matrix(subcluster_centers), "subcluster_centers must be a finite nonempty 2D matrix")
 @icontract.ensure(lambda result, subcluster_centers: _subcluster_norms_valid(result, subcluster_centers), "squared norms must match the number of centers")
 def birch_subcluster_norms(subcluster_centers: MatrixLike) -> NDArray[np.float64]:
-    from sklearn.utils.extmath import row_norms
     """Return Birch's cached squared subcluster norms from subcluster centers."""
+    from sklearn.utils.extmath import row_norms
     centers = np.asarray(subcluster_centers, dtype=np.float64)
     return np.asarray(row_norms(centers, squared=True), dtype=np.float64)
 
@@ -103,8 +103,8 @@ def birch_predict_argmin(
     subcluster_centers: MatrixLike,
     subcluster_norms: VectorLike,
 ) -> NDArray[np.int64]:
-    from sklearn.metrics import pairwise_distances_argmin
     """Return Birch's nearest-subcluster indices from supplied centers and squared norms."""
+    from sklearn.metrics import pairwise_distances_argmin
     X_array = np.asarray(X, dtype=np.float64)
     centers = np.asarray(subcluster_centers, dtype=np.float64)
     norms = np.asarray(subcluster_norms, dtype=np.float64)
@@ -135,8 +135,8 @@ def birch_transform_distances(
     X: MatrixLike,
     subcluster_centers: MatrixLike,
 ) -> NDArray[np.float64]:
-    from sklearn.metrics.pairwise import euclidean_distances
     """Return Birch's transform distance matrix from samples to subcluster centers."""
+    from sklearn.metrics.pairwise import euclidean_distances
     X_array = np.asarray(X, dtype=np.float64)
     centers = np.asarray(subcluster_centers, dtype=np.float64)
     return np.asarray(euclidean_distances(X_array, centers), dtype=np.float64)

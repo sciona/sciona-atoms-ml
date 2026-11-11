@@ -211,9 +211,9 @@ def dbscan_core_labels(
     sample_weight: VectorLike | None = None,
     n_jobs: int | None = None,
 ) -> tuple[NDArray[np.int_], NDArray[np.int_]]:
+    """Return sklearn DBSCAN public-helper core sample indices and labels."""
     from sklearn.cluster import dbscan as sklearn_dbscan
     from sklearn.utils.validation import check_array
-    """Return sklearn DBSCAN public-helper core sample indices and labels."""
     checked_x = np.asarray(check_array(X, dtype=np.float64), dtype=np.float64)
     weights = None if sample_weight is None else np.asarray(sample_weight, dtype=np.float64)
     core_indices, labels = sklearn_dbscan(

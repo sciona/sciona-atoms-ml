@@ -99,8 +99,8 @@ def sparse_encode_writable_init(
 def sparse_encode_omp_norms_squared(
     X: NDArray[np.floating],
 ) -> NDArray[np.float64]:
-    from sklearn.utils.extmath import row_norms
     """Compute sklearn's squared sample norms for the OMP branch."""
+    from sklearn.utils.extmath import row_norms
     return np.asarray(row_norms(X, squared=True), dtype=np.float64)
 
 @register_atom(witness_sparse_encode_precomputed_output)
