@@ -37,7 +37,10 @@ def encode_feature_descriptors(descriptors):
     """Encode ordered structured feature labels as compact JSON strings.
 
     Require a nonempty plain list of nonempty plain lists of nonblank Python
-    strings, with unique complete descriptors. Preserve descriptor/component
+    Unicode scalar-value strings, with unique complete descriptors. Reject
+    surrogate code points, including explicit UTF-16 surrogate pairs: standard
+    JSON decoding can merge pairs and would change the original Python string.
+    Preserve descriptor/component
     order and exact spelling, including surrounding whitespace. Use standard
     JSON ASCII escaping and compact separators; do not join with a delimiter
     that could collide with label content. Return a new list of unique strings.
@@ -50,6 +53,9 @@ def encode_feature_descriptors(descriptors):
            any(type(part) is not str or not part.strip() for part in item)
            for item in descriptors):
         raise ValueError('Nonempty lists of nonblank strings required')
+    if any(0xD800 <= ord(character) <= 0xDFFF
+           for item in descriptors for part in item for character in part):
+        raise ValueError('Unicode scalar-value strings without surrogate code points required')
     encoded=[json.dumps(item,separators=(',',':'),ensure_ascii=True) for item in descriptors]
     if len(set(encoded))!=len(encoded):raise ValueError('Unique feature descriptors required')
     return encoded
